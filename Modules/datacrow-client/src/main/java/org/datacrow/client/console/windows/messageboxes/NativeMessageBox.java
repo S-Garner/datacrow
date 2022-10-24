@@ -43,11 +43,10 @@ import javax.swing.ScrollPaneConstants;
 
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
-import org.datacrow.client.console.windows.IDialog;
 import org.datacrow.client.console.windows.NativeDialog;
 import org.datacrow.client.util.Utilities;
 
-public class NativeMessageBox extends NativeDialog implements ActionListener, IDialog {
+public class NativeMessageBox extends NativeDialog implements ActionListener {
 
     private JTextArea textMessage;
     private JButton buttonOk;

@@ -25,9 +25,7 @@
 
 package org.datacrow.server.db;
 
-import java.io.Serializable;
-
-public class DatabaseVersionException extends Exception implements Serializable {
+public class DatabaseVersionException extends Exception {
 
     private static final long serialVersionUID = 1L;
 

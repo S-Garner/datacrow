@@ -33,7 +33,7 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.server.Connector;
 
-public class DcObjectComboBox extends DcComboBox implements IComponent {
+public class DcObjectComboBox extends DcComboBox {
 
     private final int module;
     
