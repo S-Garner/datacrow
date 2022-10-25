@@ -27,8 +27,6 @@ package org.datacrow.client.console.windows.datepicker;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
@@ -37,7 +35,7 @@ import javax.swing.event.MouseInputListener;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcLabel;
 
-public class DayLabel extends DcLabel implements MouseInputListener, MouseMotionListener {
+public class DayLabel extends DcLabel implements MouseInputListener {
     
     private DatePickerDialog parent;
     private Border oldBorder;

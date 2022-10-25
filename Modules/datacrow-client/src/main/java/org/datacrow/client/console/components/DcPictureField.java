@@ -45,7 +45,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorConvertOp;
 import java.awt.image.ConvolveOp;
-import java.awt.image.ImageObserver;
 import java.awt.image.Kernel;
 import java.io.File;
 import java.net.URL;
@@ -208,7 +207,7 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
                (imageWidth > size.width || imageHeight > size.height));
     }
 
-    private class PicturePane extends JComponent implements ImageObserver {
+    private class PicturePane extends JComponent {
         
         private PicturePane() {}
         

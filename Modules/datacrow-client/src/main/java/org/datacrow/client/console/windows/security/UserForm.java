@@ -27,13 +27,12 @@ package org.datacrow.client.console.windows.security;
 
 import org.datacrow.client.console.windows.itemforms.ItemForm;
 import org.datacrow.core.IconLibrary;
-import org.datacrow.core.clients.IClient;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Permission;
 import org.datacrow.core.objects.helpers.User;
 import org.datacrow.core.resources.DcResources;
 
-public class UserForm extends ItemForm implements IClient {
+public class UserForm extends ItemForm {
     
 	private PluginPermissionPanel pluginPermissionPanel;
     private ModulePermissionPanel modulePermissionPanel;

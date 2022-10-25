@@ -35,14 +35,13 @@ import javax.swing.ListSelectionModel;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.windows.onlinesearch.OnlineSearchForm;
-import org.datacrow.client.console.wizards.IWizardPanel;
 import org.datacrow.client.console.wizards.WizardException;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.Servers;
 
-public class InternetWizardPanel extends ItemWizardPanel implements IWizardPanel, MouseListener {
+public class InternetWizardPanel extends ItemWizardPanel implements MouseListener {
 
     private OnlineSearchForm internetSearchForm = null;
     private ItemWizard wizard;
