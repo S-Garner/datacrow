@@ -37,7 +37,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.utilities.Directory;
@@ -100,7 +99,6 @@ public class ServiceClassLoader extends ClassLoader {
         return cache.values();
     }
 
-    /** This version of the constructor is used when ImageJ is launched using Java WebStart. */
     public ServiceClassLoader(String path, boolean callSuper) {
         super(Thread.currentThread().getContextClassLoader());
         init(path);
@@ -108,8 +106,9 @@ public class ServiceClassLoader extends ClassLoader {
 
     private void init(String path) {
         Directory dir = new Directory(DcConfig.getInstance().getServicesDir(), true, new String[] {"jar"});
-        for (String filename :  dir.read())
+        for (String filename :  dir.read()) {
             jarFiles.add(new File(filename));
+        }
     }
 
     /**
@@ -132,7 +131,6 @@ public class ServiceClassLoader extends ClassLoader {
         // try the local cache of classes
         Class<?> result = cache.get(className);
         if (result != null) return result;
-
         
         // try the system class loader
         try {

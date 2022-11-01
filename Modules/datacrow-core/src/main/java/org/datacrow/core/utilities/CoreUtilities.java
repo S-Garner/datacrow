@@ -43,7 +43,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -177,7 +179,7 @@ public class CoreUtilities {
         return fsv.getSystemDisplayName(f);
     }
     
-public static String getDatabaseTableName() {
+    public static String getDatabaseTableName() {
         return "tbl_" + CoreUtilities.getUniqueID().replaceAll("-", "");
     }
     
@@ -819,4 +821,32 @@ public static String getDatabaseTableName() {
 
         return result.toString(StandardCharsets.UTF_8);
     }
+    
+    public static void downloadFile(String fromUrl, String localFileName) throws IOException {
+        File localFile = new File(localFileName);
+        if (localFile.exists()) {
+            localFile.delete();
+        }
+        
+        localFile.createNewFile();
+        URL url = new URL(fromUrl);
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(localFileName));
+        URLConnection conn = url.openConnection();
+        
+        InputStream in = conn.getInputStream();
+        byte[] buffer = new byte[1024];
+
+        int numRead;
+        while ((numRead = in.read(buffer)) != -1) {
+            out.write(buffer, 0, numRead);
+        }
+
+        if (in != null) {
+            in.close();
+        }
+        
+        if (out != null) {
+            out.close();
+        }
+    }    
 }

@@ -25,15 +25,27 @@
 
 package org.datacrow.core.services;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.Version;
+import org.datacrow.core.http.HttpConnection;
+import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.services.plugin.ServiceClassLoader;
+import org.datacrow.core.utilities.CoreUtilities;
 
 /**
  * This class is used to register all the found servers in the services folder.
@@ -76,6 +88,118 @@ public class Servers {
         return registered.get(Integer.valueOf(moduleIdx));
     }
     
+    public Properties getOnlineVersionInformation() {
+        
+        Properties properties = new Properties();
+        
+        String file = "https://www.datacrow.org/services.properties";
+        URL address;
+        
+        try {
+            address = new URL(file);
+        } catch (Exception e) {
+            logger.debug(e, e);
+            return null;
+        }
+        
+        try {
+            HttpConnection conn =  HttpConnectionUtil.getConnection(address);
+            InputStream is = conn.getInputStream();
+            properties.load(is);
+
+            try {
+                is.close();
+            } catch (Exception e) {
+                logger.debug("Failed to close input stream when checking for online services package version", e);
+            }
+            
+            return properties;
+        } catch (Exception e) {
+            logger.warn("Failed to check whether a new online services package was released", e);
+        }
+        
+        return null;
+    }
+    
+    private Version getCurrentVersion() throws IOException {
+        String[] existingFiles = new File(DcConfig.getInstance().getServicesDir()).list();
+        
+        String version = "0.0.0";
+        
+        // delete existing jar files
+        for (String existingFile : existingFiles) {
+            if (existingFile.endsWith(".jar")) {
+                ZipFile zf = new ZipFile(DcConfig.getInstance().getServicesDir() + existingFile);
+                Properties p = new Properties();
+                try {
+                    ZipEntry entry;
+                    String name;
+                    Enumeration<? extends ZipEntry> entries = zf.entries();
+                    while (entries.hasMoreElements()) {
+                        entry = entries.nextElement();
+                        name = entry.getName();
+                        
+                        if (name.endsWith("services.properties")) {
+                            try {
+                                InputStream is = zf.getInputStream(entry);
+                                p.load(is);
+                                version = p.getProperty("version");
+                                is.close();
+                            } catch (IOException ie) {  
+                                logger.error("Could not read version.properties from online services jar file", ie); 
+                            }                        
+                            break;
+                        }
+                    }
+                } finally {
+                    zf.close();       
+                }
+            }
+        }
+        
+        return new Version(version);
+    }
+    
+    public boolean upgrade() throws IOException {
+        
+        boolean updated = false;
+        
+        Version currentVersion = getCurrentVersion();
+        Properties onlineVersionInfo = getOnlineVersionInformation();
+
+        String onlineVersion = onlineVersionInfo != null ? onlineVersionInfo.getProperty("version") : null;
+        if (!CoreUtilities.isEmpty(onlineVersion)) {
+            if (currentVersion.isOlder(new Version(onlineVersion))) {
+                String url = onlineVersionInfo.getProperty("downloadUrl");
+                String filename =  url.substring(url.lastIndexOf("/") + 1);
+                try {
+                    CoreUtilities.downloadFile(url, DcConfig.getInstance().getServicesDir() + "_new" + filename);
+                    
+                    // download was successful - delete existing version and overwrite with the new one
+                    String[] existingFiles = new File(DcConfig.getInstance().getServicesDir()).list();
+                    
+                    // delete existing jar files
+                    for (String existingFile : existingFiles) {
+                        if (!existingFile.startsWith("_new"))
+                            new File(DcConfig.getInstance().getServicesDir() + existingFile).delete();
+                    }
+                    
+                    // rename the downloaded jar file to the correct name
+                    CoreUtilities.rename(
+                            new File(DcConfig.getInstance().getServicesDir() + "_new" + filename), 
+                            new File(DcConfig.getInstance().getServicesDir() + filename), 
+                            true);
+                    
+                    updated = true;
+                } catch (Exception e) {
+                    logger.error("Could not download the new services jar file", e);
+                }
+            }
+        }
+        
+        return updated;
+    }
+    
     /**
      * Starts the search for the servers using the {@link ServiceClassLoader}. 
      * The services folder is scanned for both jar and class files. Any class implementing
@@ -85,6 +209,12 @@ public class Servers {
     	
     	initialized = true;
     	
+    	try {
+    	    upgrade();
+    	} catch (Exception e) {
+    	    logger.error("Could not upgrade the online service jar file", e);
+    	}
+
         ServiceClassLoader scl = new ServiceClassLoader(DcConfig.getInstance().getServicesDir());
         registered.clear();
         
