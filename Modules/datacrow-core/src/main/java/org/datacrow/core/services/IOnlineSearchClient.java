@@ -59,6 +59,12 @@ public interface IOnlineSearchClient {
     public void addMessage(String message);
     
     /**
+     * Passes a message to this client.
+     * @param message
+     */
+    public void notifyUser(String message);
+    
+    /**
      * Passes an error to this client.
      * @param t 
      */

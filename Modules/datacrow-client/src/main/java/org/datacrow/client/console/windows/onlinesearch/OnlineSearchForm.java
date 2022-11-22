@@ -541,6 +541,11 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
     public void addError(Throwable t) {
         GUI.getInstance().displayErrorMessage(t.toString());
     }
+    
+    @Override
+    public void notifyUser(String message) {
+        GUI.getInstance().displayMessage(message);
+    }
 
     @Override
     public void addError(String message) {
@@ -831,4 +836,5 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
     public void mousePressed(MouseEvent e) {}
     @Override
     public void mouseClicked(MouseEvent e) {}
+
 }

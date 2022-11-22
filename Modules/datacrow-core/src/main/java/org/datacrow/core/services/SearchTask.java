@@ -311,7 +311,7 @@ public abstract class SearchTask extends Thread {
      * get to the detailed item information. 
      * @return The item keys or an empty collection.
      */
-    protected abstract Collection<Object> getItemKeys() throws Exception ;
+    protected abstract Collection<Object> getItemKeys() throws OnlineSearchUserError, OnlineServiceError;
     
     protected void preSearchCheck() {}
     
@@ -330,9 +330,12 @@ public abstract class SearchTask extends Thread {
 
         try {
             keys.addAll(getItemKeys());
-        } catch (Exception e) {
-            listener.addError(e);
-            logger.error(e, e);
+        } catch (OnlineSearchUserError osue) {
+            listener.notifyUser(osue.getMessage());
+            logger.error(osue, osue);
+        } catch (OnlineServiceError ose) {
+            listener.addError(ose);
+            logger.error(ose, ose);
         }
         
         listener.processingTotal(keys.size());

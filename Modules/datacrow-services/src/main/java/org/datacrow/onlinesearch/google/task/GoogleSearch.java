@@ -39,6 +39,8 @@ import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Book;
 import org.datacrow.core.services.IOnlineSearchClient;
+import org.datacrow.core.services.OnlineSearchUserError;
+import org.datacrow.core.services.OnlineServiceError;
 import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.SearchTaskUtilities;
@@ -175,46 +177,51 @@ public class GoogleSearch extends SearchTask {
     }
     
     @Override
-    protected Collection<Object> getItemKeys() throws Exception {
+    protected Collection<Object> getItemKeys() throws OnlineSearchUserError, OnlineServiceError {
         Collection<Object> keys = new ArrayList<Object>();
 
-        URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + getQuery());
-
-        waitBetweenRequest();
-        
-        HttpConnection connection = HttpConnectionUtil.getConnection(url);
-        String result = connection.getString(StandardCharsets.UTF_8);
-        Collection<String> googleBooks = StringUtils.getValuesBetween("\"books#volume\"", "\"books#volume\"", result);
-
-        int count = 0;
-        Book book;
-        for (String googleBook : googleBooks) {
-            book = new Book();
+        try {
+            URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + getQuery());
+    
+            waitBetweenRequest();
             
-            String googleID = getValue("id", googleBook);
-            
-            book.addExternalReference(DcRepository.ExternalReferences._GOOGLE, googleID);
-            book.setValue(DcObject._SYS_SERVICEURL, getValue("selfLink", googleBook));
-            book.setValue(Book._A_TITLE, getValue("title", googleBook));
-            book.setValue(Book._H_WEBPAGE, "http://books.google.com/books?id=" + googleID);
-            
-            book.createReference(Book._F_PUBLISHER, getValue("publisher", googleBook));
-            
-            setDescription(googleBook, book);
-            setYear(googleBook, book);
-            setRating(googleBook, book);
-            setIsbn(googleBook, book);
-            setAuthors(googleBook, book);
-            setCategories(googleBook, book);
-            setPages(googleBook, book);
-            setImages(googleBook, book);
-            
-            keys.add(book);
-            
-            count++;
-            
-            if (count == getMaximum()) break;
+            HttpConnection connection = HttpConnectionUtil.getConnection(url);
+            String result = connection.getString(StandardCharsets.UTF_8);
+            Collection<String> googleBooks = StringUtils.getValuesBetween("\"books#volume\"", "\"books#volume\"", result);
+    
+            int count = 0;
+            Book book;
+            for (String googleBook : googleBooks) {
+                book = new Book();
+                
+                String googleID = getValue("id", googleBook);
+                
+                book.addExternalReference(DcRepository.ExternalReferences._GOOGLE, googleID);
+                book.setValue(DcObject._SYS_SERVICEURL, getValue("selfLink", googleBook));
+                book.setValue(Book._A_TITLE, getValue("title", googleBook));
+                book.setValue(Book._H_WEBPAGE, "http://books.google.com/books?id=" + googleID);
+                
+                book.createReference(Book._F_PUBLISHER, getValue("publisher", googleBook));
+                
+                setDescription(googleBook, book);
+                setYear(googleBook, book);
+                setRating(googleBook, book);
+                setIsbn(googleBook, book);
+                setAuthors(googleBook, book);
+                setCategories(googleBook, book);
+                setPages(googleBook, book);
+                setImages(googleBook, book);
+                
+                keys.add(book);
+                
+                count++;
+                
+                if (count == getMaximum()) break;
+            }
+        } catch (Exception e) {
+            throw new OnlineServiceError(e);
         }
+            
         return keys;
     }
     

@@ -30,11 +30,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.logging.log4j.Logger;
-import org.jaudiotagger.audio.AudioFile;
-import org.jaudiotagger.audio.AudioFileIO;
-import org.jaudiotagger.tag.FieldKey;
-import org.jaudiotagger.tag.Tag;
-import org.jaudiotagger.tag.images.Artwork;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.modules.DcModule;
@@ -43,6 +38,11 @@ import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.utilities.StringUtils;
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.tag.FieldKey;
+import org.jaudiotagger.tag.Tag;
+import org.jaudiotagger.tag.images.Artwork;
 
 /**
  * Representation of a physical music file.
@@ -171,6 +171,9 @@ public class MusicFile implements IOnlineSearchClient {
     @Override
     public void addMessage(String message) {}
 
+    @Override
+    public void notifyUser(String message) {}
+    
     @Override
     public void addObject(DcObject dco) {
         albums.add(dco);

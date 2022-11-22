@@ -17,13 +17,14 @@ import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Software;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.IOnlineSearchClient;
+import org.datacrow.core.services.OnlineSearchUserError;
+import org.datacrow.core.services.OnlineServiceError;
 import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.SearchTaskUtilities;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
-import org.datacrow.onlinesearch.exception.ApiKeyException;
 import org.datacrow.onlinesearch.mobygames.helpers.MobyGamesPlatform;
 import org.datacrow.onlinesearch.mobygames.helpers.MobyGamesResult;
 import org.jsoup.Jsoup;
@@ -106,18 +107,20 @@ public class MobyGamesSearch extends SearchTask {
         SearchTaskUtilities.checkForIsbn(this);
     }
     
-    private String getBaseUrl() throws Exception {
+    private String getBaseUrl() throws OnlineSearchUserError {
         String apiKey = DcSettings.getString(DcRepository.Settings.stMobyGamesApiKey);
         if (CoreUtilities.isEmpty(apiKey)) {
             String msg = DcResources.getText("msgMobyGamesNoApiKeyDefined");
-            throw new ApiKeyException(msg);
+            msg = "<html>" + msg + "<br><u><a href=\"https://www.mobygames.com/info/api\">https://www.mobygames.com/info/api</a></u></html>";
+            
+            throw new OnlineSearchUserError(msg);
         } else {
             return "https://api.mobygames.com/v1/games?api_key=" + apiKey;
         }
     }
     
     @Override
-    protected Collection<Object> getItemKeys() throws Exception {
+    protected Collection<Object> getItemKeys() throws OnlineServiceError, OnlineSearchUserError {
         Collection<Object> keys = new ArrayList<Object>();
         
         String sUrl = getBaseUrl();
@@ -134,46 +137,49 @@ public class MobyGamesSearch extends SearchTask {
         }
             
         waitBetweenRequest(); // prevent button smashing
-        
-        URL url = new URL(sUrl);
-        
-        HttpConnection connection = HttpConnectionUtil.getConnection(url);
-        String result = connection.getString(StandardCharsets.UTF_8);
-        
-        Gson gson = new Gson();
-        
-        Map<?, ?> map = gson.fromJson(result, Map.class);
-        
-        @SuppressWarnings({"unchecked"})
-        List<LinkedTreeMap> games = (List<LinkedTreeMap>) map.get("games");
-        
-        Software item;
-        int mobygamesId;
-        int count = 0;
-
-        for (LinkedTreeMap game : games) {
-            item = new Software();
+        try {
+            URL url = new URL(sUrl);
             
-            mobygamesId = ((Double) game.get("game_id")).intValue();
+            HttpConnection connection = HttpConnectionUtil.getConnection(url);
+            String result = connection.getString(StandardCharsets.UTF_8);
             
-            item.addExternalReference(DcRepository.ExternalReferences._MOBYGAMES, String.valueOf(mobygamesId));
+            Gson gson = new Gson();
             
-            setTitle(game, item);
-            setUrl(game, item);
-            setDescription(game, item);
-            setRating(game, item);
-            setCategories(game, item);
-            setPlatformDetails(game, item, mobygamesId);
-            setPictureFront(game, item);
+            Map<?, ?> map = gson.fromJson(result, Map.class);
             
-            MobyGamesResult mgr = new MobyGamesResult(item);
-            setScreenshots(game, mgr);
+            @SuppressWarnings({"unchecked"})
+            List<LinkedTreeMap> games = (List<LinkedTreeMap>) map.get("games");
             
-            keys.add(mgr);
-            
-            count++;
-            
-            if (count == getMaximum()) break;
+            Software item;
+            int mobygamesId;
+            int count = 0;
+    
+            for (LinkedTreeMap game : games) {
+                item = new Software();
+                
+                mobygamesId = ((Double) game.get("game_id")).intValue();
+                
+                item.addExternalReference(DcRepository.ExternalReferences._MOBYGAMES, String.valueOf(mobygamesId));
+                
+                setTitle(game, item);
+                setUrl(game, item);
+                setDescription(game, item);
+                setRating(game, item);
+                setCategories(game, item);
+                setPlatformDetails(game, item, mobygamesId);
+                setPictureFront(game, item);
+                
+                MobyGamesResult mgr = new MobyGamesResult(item);
+                setScreenshots(game, mgr);
+                
+                keys.add(mgr);
+                
+                count++;
+                
+                if (count == getMaximum()) break;
+            }
+        } catch (Exception e) {
+            throw new OnlineServiceError(e);
         }
         
         return keys;

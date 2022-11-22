@@ -288,6 +288,11 @@ public class OnlineSearchHelper implements IOnlineSearchClient {
     }
 
     @Override
+    public void notifyUser(String message) {
+        logger.error(message);
+    }    
+    
+    @Override
     public void addMessage(String message) {}
 
     @Override

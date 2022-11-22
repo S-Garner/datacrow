@@ -43,6 +43,8 @@ import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Movie;
 import org.datacrow.core.services.IOnlineSearchClient;
+import org.datacrow.core.services.OnlineSearchUserError;
+import org.datacrow.core.services.OnlineServiceError;
 import org.datacrow.core.services.Region;
 import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
@@ -212,50 +214,56 @@ public class TmdbMovieSearch extends SearchTask {
     }
     
     @Override
-    protected Collection<Object> getItemKeys() throws Exception {
+    protected Collection<Object> getItemKeys() throws OnlineSearchUserError, OnlineServiceError {
         Collection<Object> keys = new ArrayList<>();
-
-        int pg = 0;
-        String language = "";
-        int year = 0;
-        boolean adult = true;
-        int primeRelYr = 0;
-        SearchType searchType = SearchType.PHRASE;
         
-        waitBetweenRequest();
-        
-        ResultList<MovieInfo> movieList =
-                tmdb.searchMovie(getQuery(), pg, language, adult, year, primeRelYr, searchType);
+        try {
 
-        String date;
-        Movie movie;
-        int count = 0;
-
-        for (MovieInfo movieInfo : movieList.getResults()) {
-            movieInfo = tmdb.getMovieInfo(movieInfo.getId(), getRegion().getCode());
-
-            movie = new Movie();
-            movie.setValue(DcMediaObject._A_TITLE, movieInfo.getTitle());
-            movie.setValue(Movie._G_WEBPAGE, movieInfo.getHomepage());
-            movie.setValue(Movie._F_TITLE_LOCAL, movieInfo.getOriginalTitle());
-            movie.setValue(DcMediaObject._B_DESCRIPTION, movieInfo.getOverview());
+            int pg = 0;
+            String language = "";
+            int year = 0;
+            boolean adult = true;
+            int primeRelYr = 0;
+            SearchType searchType = SearchType.PHRASE;
             
-            setServiceInfo(movie);
+            waitBetweenRequest();
             
-            date = movieInfo.getReleaseDate();
-            if (!CoreUtilities.isEmpty(date) && date.length() > 4) {
-                movie.setValue(DcMediaObject._C_YEAR, date.substring(0, 4));
-            }
+            ResultList<MovieInfo> movieList =
+                    tmdb.searchMovie(getQuery(), pg, language, adult, year, primeRelYr, searchType);
+    
+            String date;
+            Movie movie;
+            int count = 0;
+    
+            for (MovieInfo movieInfo : movieList.getResults()) {
+                movieInfo = tmdb.getMovieInfo(movieInfo.getId(), getRegion().getCode());
+    
+                movie = new Movie();
+                movie.setValue(DcMediaObject._A_TITLE, movieInfo.getTitle());
+                movie.setValue(Movie._G_WEBPAGE, movieInfo.getHomepage());
+                movie.setValue(Movie._F_TITLE_LOCAL, movieInfo.getOriginalTitle());
+                movie.setValue(DcMediaObject._B_DESCRIPTION, movieInfo.getOverview());
                 
-            if (movieInfo.getRuntime() > 0)
-                movie.setValue(Movie._L_PLAYLENGTH, (movieInfo.getRuntime() * 60));
-            
-            movie.addExternalReference(ExternalReferences._TMDB, String.valueOf(movieInfo.getId()));
-            keys.add(movie);
-            
-            count++;
-            if (count == getMaximum()) break;
+                setServiceInfo(movie);
+                
+                date = movieInfo.getReleaseDate();
+                if (!CoreUtilities.isEmpty(date) && date.length() > 4) {
+                    movie.setValue(DcMediaObject._C_YEAR, date.substring(0, 4));
+                }
+                    
+                if (movieInfo.getRuntime() > 0)
+                    movie.setValue(Movie._L_PLAYLENGTH, (movieInfo.getRuntime() * 60));
+                
+                movie.addExternalReference(ExternalReferences._TMDB, String.valueOf(movieInfo.getId()));
+                keys.add(movie);
+                
+                count++;
+                if (count == getMaximum()) break;
+            }
+        } catch (Exception e) {
+            throw new OnlineServiceError(e);
         }
+        
         return keys;
     }
 }
