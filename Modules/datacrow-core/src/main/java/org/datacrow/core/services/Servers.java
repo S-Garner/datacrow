@@ -26,7 +26,6 @@
 package org.datacrow.core.services;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -53,6 +52,8 @@ import org.datacrow.core.utilities.CoreUtilities;
  * @author Robert Jan van der Waals
  */
 public class Servers {
+    
+    private static final String baseUrl = "https://www.datacrow.org/online-services/";
     
     private static Logger logger = DcLogManager.getLogger(Servers.class.getName());
     private static Servers instance;
@@ -92,7 +93,7 @@ public class Servers {
         
         Properties properties = new Properties();
         
-        String file = "https://www.datacrow.org/services.properties";
+        String file = baseUrl + "services.properties";
         URL address;
         
         try {
@@ -173,7 +174,14 @@ public class Servers {
                 String url = onlineVersionInfo.getProperty("downloadUrl");
                 String filename =  url.substring(url.lastIndexOf("/") + 1);
                 try {
-                    CoreUtilities.downloadFile(url, DcConfig.getInstance().getServicesDir() + "_new" + filename);
+                    
+                    File targetFile = new File(DcConfig.getInstance().getServicesDir() + "_new" + filename);
+                    
+                    // check if the file does not yet exist; else, delete
+                    if (targetFile.exists())
+                        targetFile.delete();
+                    
+                    CoreUtilities.downloadFile(url, targetFile.toString());
                     
                     // download was successful - delete existing version and overwrite with the new one
                     String[] existingFiles = new File(DcConfig.getInstance().getServicesDir()).list();
@@ -200,6 +208,25 @@ public class Servers {
         return updated;
     }
     
+    private void initializeServicesDir() {
+        File targetDir = new File(DcConfig.getInstance().getServicesDir());
+        File sourceDir = new File(DcConfig.getInstance().getInstallationDir(), "services/");
+        
+        if (!targetDir.exists())
+            targetDir.mkdirs();
+        
+        if (targetDir.list().length == 0) {
+            String[] sourceFiles = sourceDir.list();
+            for (String sourceFile : sourceFiles) {
+                try {
+                    CoreUtilities.copy(new File(sourceDir, sourceFile), new File(targetDir, sourceFile), false);
+                } catch (Exception e) {
+                    logger.error("Could not copy the online service pack to the user folder", e);
+                }
+            }
+        }
+    }
+    
     /**
      * Starts the search for the servers using the {@link ServiceClassLoader}. 
      * The services folder is scanned for both jar and class files. Any class implementing
@@ -208,13 +235,18 @@ public class Servers {
     public synchronized void initialize() {
     	
     	initialized = true;
+
+    	// initialize the services dir
+    	initializeServicesDir();
     	
+    	// check for a new version online
     	try {
     	    upgrade();
     	} catch (Exception e) {
     	    logger.error("Could not upgrade the online service jar file", e);
     	}
 
+    	// load the service pack
         ServiceClassLoader scl = new ServiceClassLoader(DcConfig.getInstance().getServicesDir());
         registered.clear();
         

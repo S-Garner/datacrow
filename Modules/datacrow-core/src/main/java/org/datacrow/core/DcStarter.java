@@ -95,13 +95,13 @@ public class DcStarter {
             
             printConfiguration();
             
-            if (DcConfig.getInstance().getOperatingMode() != DcConfig._OPERATING_MODE_SERVER) {
-            	Servers servers = Servers.getInstance();
-            	servers.initialize();
-            }
-            
             new DcResources().initialize();
             org.datacrow.core.settings.DcSettings.initialize();
+
+            if (DcConfig.getInstance().getOperatingMode() != DcConfig._OPERATING_MODE_SERVER) {
+                Servers servers = Servers.getInstance();
+                servers.initialize();
+            }
             
             checkPlatform();
             
@@ -292,7 +292,7 @@ public class DcStarter {
         dcc.setModuleSettingsDir(userDir + "settings/modules/");
         dcc.setApplicationSettingsDir(userDir + "settings/application/");
         dcc.setUpgradeDir(userDir + "upgrade/");
-        dcc.setServicesDir(installDir + "services/");
+        dcc.setServicesDir(userDir + "services/");
         
         createDirectory(new File(dcc.getModuleDir()), "modules");
         createDirectory(new File(dcc.getDatabaseDir()), "database");
@@ -321,7 +321,7 @@ public class DcStarter {
         dcc.setModuleSettingsDir(userDir + "settings/modules/");
         dcc.setApplicationSettingsDir(userDir + "settings/application/");
         dcc.setPluginsDir(installDir + "plugins/");
-        dcc.setServicesDir(installDir + "services/");
+        dcc.setServicesDir(userDir + "services/");
         dcc.setIconsDir(userDir + "images/icons/");
         
         createDirectory(new File(dcc.getIconsDir()), "icons");
