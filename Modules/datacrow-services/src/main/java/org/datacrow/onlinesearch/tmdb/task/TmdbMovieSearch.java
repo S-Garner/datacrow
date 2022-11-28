@@ -49,6 +49,7 @@ import org.datacrow.core.services.Region;
 import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.SearchTaskUtilities;
+import org.datacrow.core.services.Servers;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.utilities.CoreUtilities;
 
@@ -82,11 +83,10 @@ public class TmdbMovieSearch extends SearchTask {
             String query,
             Map<String, Object> additionalFilters) {
         
-        super(listener, server, null, mode, query, additionalFilters);
+        super(listener, server, region, mode, query, additionalFilters);
         
         try {
-            //TODO: users should request for their own API key, or, the Data Crow server should sign the requests without disclosing the API key.
-            String apiKey = "20cdab5da434fda12000fc1bbcbf2afe";
+            String apiKey = Servers.getInstance().getApiKey("tmdb");
             tmdb = new TheMovieDbApi(apiKey);
         } catch (MovieDbException e) {
             logger.error(e, e);
