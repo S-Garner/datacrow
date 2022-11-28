@@ -19,6 +19,7 @@ Data Crow version 4.4                                              Released on 2
 - None of the online services were set up to take the maximum number of search results
   into account.
 - URL field launcher did not work for HTTPS hyper links.
+- Scrolling in the card view was sometimes reversed.
 
 [ToDO]
 - Add a timestamp button

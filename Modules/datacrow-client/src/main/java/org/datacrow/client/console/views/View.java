@@ -104,6 +104,8 @@ public class View extends DcPanel implements ListSelectionListener, IView {
 
     protected JPanel panelResult = new JPanel();
     
+    private ViewScrollPane spMain;
+    
     private ViewScrollPane spChildView;
     private IView childView;
     private IView parentView;
@@ -329,6 +331,21 @@ public class View extends DcPanel implements ListSelectionListener, IView {
         if (task != null && task.isRunning())
             task.endTask();
     }
+
+    private void reinstallView() {
+        if (spMain != null) {
+            panelResult.remove(spMain);
+            spMain.removeAll();
+        }
+        
+        spMain = new ViewScrollPane(this);
+        spMain.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        spMain.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        panelResult.add(spMain,  Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
+                       ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                        new Insets(5, 5, 5, 5), 0, 0));
+    }
+    
     
     /**
      * Adds the items to the view. 
@@ -338,7 +355,11 @@ public class View extends DcPanel implements ListSelectionListener, IView {
      */
     @Override
     public void add(Map<String, Integer> keys) {
-        setActionsAllowed(false);
+
+        setActionsAllowed(false);        
+
+        if (parentView == null)
+            reinstallView();
 
         vc.deselect();
         vc.add(keys);
@@ -358,6 +379,10 @@ public class View extends DcPanel implements ListSelectionListener, IView {
      */
     @Override
     public void add(List<DcObject> items) {
+        
+        if (parentView == null)
+            reinstallView();
+        
         setActionsAllowed(false);
 
         for (DcObject item : items) {
@@ -896,12 +921,7 @@ public class View extends DcPanel implements ListSelectionListener, IView {
         panelResult.setLayout(Layout.getGBL());
         panelResult.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        ViewScrollPane scroller1 = new ViewScrollPane(this);
-        scroller1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scroller1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        panelResult.add(scroller1,  Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
-                       ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-                        new Insets(5, 5, 5, 5), 0, 0));
+        reinstallView();
         
         if (isParent()) {
             spChildView = new ViewScrollPane((View) childView);
