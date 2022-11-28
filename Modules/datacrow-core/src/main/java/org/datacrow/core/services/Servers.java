@@ -38,12 +38,14 @@ import java.util.zip.ZipFile;
 
 import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.Version;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.services.plugin.ServiceClassLoader;
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
 /**
@@ -62,6 +64,12 @@ public class Servers {
     
     private final Map<Integer, OnlineServices> registered;
     
+    private boolean upgraded = false;
+    private String upgradeInformation = "";
+    private Version version;
+    
+    private Properties apiKeys = new Properties();
+    
     static {
     	 instance = new Servers();
     }
@@ -71,6 +79,106 @@ public class Servers {
      */
     private Servers() {
     	registered = new HashMap<Integer, OnlineServices>();
+    }
+    
+    /**
+     * Starts the search for the servers using the {@link ServiceClassLoader}. 
+     * The services folder is scanned for both jar and class files. Any class implementing
+     * the {@link IServer} class is registered.
+     */
+    public synchronized void initialize() {
+        
+        initialized = true;
+
+        // initialize the services directory in the user folder
+        initializeServicesDir();
+        
+        // download API keys for online services
+        downloadApiKeys();
+        
+        
+        if (DcSettings.getBoolean(DcRepository.Settings.stAutoUpdateOnlineServices)) {
+            // check for a new version online
+            try {
+                upgrade();
+            } catch (Exception e) {
+                logger.error("Could not upgrade the online service jar file", e);
+            }
+        }
+
+        // load the service pack
+        ServiceClassLoader scl = new ServiceClassLoader(DcConfig.getInstance().getServicesDir());
+        registered.clear();
+        
+        for (Class<?> clazz : scl.getClasses()) {
+            
+            IServer server = null;
+            try {
+                server = (IServer) clazz.getDeclaredConstructors()[0].newInstance();
+            } catch (Exception ignore) {}    
+            
+            if (server != null && server.isEnabled()) {
+                try {
+                    OnlineServices servers = registered.get(Integer.valueOf(server.getModule()));
+                    servers = servers == null ? new OnlineServices(server.getModule()) : servers;
+                    servers.addServer(server);
+                    
+                    registered.put(Integer.valueOf(server.getModule()), servers);
+                    
+                    String name = server.getClass().getName();
+                    name = name.substring(name.lastIndexOf(".") + 1);
+                    logger.info("Registered online server " + name);
+                } catch (Exception e) {
+                    logger.error(e, e);
+                }
+            }
+        }
+    }
+    
+    public String getApiKey(String key) {
+        return apiKeys.getProperty(key);
+    }
+    
+    private void downloadApiKeys() {
+        
+        
+        String file = baseUrl + "services-keys.properties";
+        URL address = null;
+        
+        try {
+            address = new URL(file);
+        } catch (Exception e) {
+            logger.error("Could not download the required information for services. Some services might not function.", e);
+        }
+        
+        if (address == null) return;
+        
+        try {
+            HttpConnection conn =  HttpConnectionUtil.getConnection(address);
+            InputStream is = conn.getInputStream();
+            apiKeys.load(is);
+            
+            try {
+                is.close();
+            } catch (Exception e) {
+                logger.debug("Failed to close input stream when checking for online services required information", e);
+            }
+            
+        } catch (Exception e) {
+            logger.error("Could not download the required information for services. Some services might not function.", e);
+        }
+    }
+    
+    public Version getVersionInformation() {
+        return version;
+    }    
+    
+    public boolean isUpgraded() {
+        return upgraded;
+    }
+    
+    public String getUpgradeInformation() {
+        return upgradeInformation;
     }
     
     public boolean isInitialized() {
@@ -125,7 +233,7 @@ public class Servers {
     private Version getCurrentVersion() throws IOException {
         String[] existingFiles = new File(DcConfig.getInstance().getServicesDir()).list();
         
-        String version = "0.0.0";
+        String s = "0.0.0";
         
         // delete existing jar files
         for (String existingFile : existingFiles) {
@@ -144,9 +252,9 @@ public class Servers {
                             try {
                                 InputStream is = zf.getInputStream(entry);
                                 p.load(is);
-                                version = p.getProperty("version");
+                                s = p.getProperty("version");
                                 is.close();
-                            } catch (IOException ie) {  
+                            } catch (IOException ie) {
                                 logger.error("Could not read version.properties from online services jar file", ie); 
                             }                        
                             break;
@@ -158,12 +266,12 @@ public class Servers {
             }
         }
         
-        return new Version(version);
+        version = new Version(s);
+        
+        return version;
     }
     
     public boolean upgrade() throws IOException {
-        
-        boolean updated = false;
         
         Version currentVersion = getCurrentVersion();
         Properties onlineVersionInfo = getOnlineVersionInformation();
@@ -171,6 +279,9 @@ public class Servers {
         String onlineVersion = onlineVersionInfo != null ? onlineVersionInfo.getProperty("version") : null;
         if (!CoreUtilities.isEmpty(onlineVersion)) {
             if (currentVersion.isOlder(new Version(onlineVersion))) {
+                
+                logger.info("New version found for the online services. Current version = " + currentVersion + ". New version = " + onlineVersion + ".");
+                
                 String url = onlineVersionInfo.getProperty("downloadUrl");
                 String filename =  url.substring(url.lastIndexOf("/") + 1);
                 try {
@@ -198,14 +309,17 @@ public class Servers {
                             new File(DcConfig.getInstance().getServicesDir() + filename), 
                             true);
                     
-                    updated = true;
+                    logger.info("Updated the online services to version " + onlineVersion);
+                    
+                    upgradeInformation = onlineVersionInfo.getProperty("information");
+                    upgraded = true;
                 } catch (Exception e) {
                     logger.error("Could not download the new services jar file", e);
                 }
             }
         }
         
-        return updated;
+        return upgraded;
     }
     
     private void initializeServicesDir() {
@@ -227,54 +341,6 @@ public class Servers {
         }
     }
     
-    /**
-     * Starts the search for the servers using the {@link ServiceClassLoader}. 
-     * The services folder is scanned for both jar and class files. Any class implementing
-     * the {@link IServer} class is registered.
-     */
-    public synchronized void initialize() {
-    	
-    	initialized = true;
-
-    	// initialize the services dir
-    	initializeServicesDir();
-    	
-    	// check for a new version online
-    	try {
-    	    upgrade();
-    	} catch (Exception e) {
-    	    logger.error("Could not upgrade the online service jar file", e);
-    	}
-
-    	// load the service pack
-        ServiceClassLoader scl = new ServiceClassLoader(DcConfig.getInstance().getServicesDir());
-        registered.clear();
-        
-        for (Class<?> clazz : scl.getClasses()) {
-            
-            IServer server = null;
-            try {
-                server = (IServer) clazz.getDeclaredConstructors()[0].newInstance();
-            } catch (Exception ignore) {}    
-            
-            if (server != null && server.isEnabled()) {
-                try {
-                    OnlineServices servers = registered.get(Integer.valueOf(server.getModule()));
-                    servers = servers == null ? new OnlineServices(server.getModule()) : servers;
-                    servers.addServer(server);
-                    
-                    registered.put(Integer.valueOf(server.getModule()), servers);
-                    
-                    String name = server.getClass().getName();
-                    name = name.substring(name.lastIndexOf(".") + 1);
-                    logger.info("Registered online server " + name);
-                } catch (Exception e) {
-                    logger.error(e, e);
-                }
-            }
-        }
-    }
-
     /**
      * Returns an instance of this class.
      */

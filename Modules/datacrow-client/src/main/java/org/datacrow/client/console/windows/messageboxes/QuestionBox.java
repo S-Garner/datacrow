@@ -36,19 +36,19 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
+import org.datacrow.client.console.components.DcHtmlEditorPane;
 import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.resources.DcResources;
 
 public class QuestionBox extends DcDialog implements ActionListener {
 
-    private JTextArea textMessage;
+    private DcHtmlEditorPane textMessage;
     private JButton buttonYes;
     private JButton buttonNo;
     private boolean affirmative = false;
@@ -94,7 +94,7 @@ public class QuestionBox extends DcDialog implements ActionListener {
         this.setResizable(false);
         this.getContentPane().setLayout(Layout.getGBL());
 
-        textMessage = ComponentFactory.getTextArea();
+        textMessage = ComponentFactory.getHtmlEditorPane();
         textMessage.setEditable(false);
                 
         JScrollPane scrollIn = new JScrollPane(textMessage);

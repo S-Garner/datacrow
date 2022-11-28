@@ -263,7 +263,7 @@ public class DataCrow implements IStarterClient {
                         
             GUI.getInstance().closeSplashScreen();
 
-            checkVersion();
+            checkForUpdates();
 
             DcSettings.set(DcRepository.Settings.stGracefulShutdown, Boolean.FALSE);
             DcSettings.save();
@@ -287,7 +287,7 @@ public class DataCrow implements IStarterClient {
         }
     }
 
-    private void checkVersion() {
+    private void checkForUpdates() {
         if (DcSettings.getBoolean(DcRepository.Settings.stCheckForNewVersion))
             new VersionChecker().start();
     }

@@ -32,21 +32,23 @@ import java.util.Properties;
 import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.Logger;
-
+import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.VersionCheckerDialog;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.Version;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.services.Servers;
+import org.datacrow.core.settings.DcSettings;
 
 public class VersionChecker extends Thread {
 
     private static Logger logger = DcLogManager.getLogger(VersionChecker.class.getName());
 
-    // TODO: upload version.properties to the site
     private static final String file = "https://www.datacrow.org/version.properties"; 
     
     public static final String _VERSION = "version";
@@ -77,6 +79,10 @@ public class VersionChecker extends Thread {
             return;
         }
         
+        showServicesUpgradeMessage();
+        
+        askAutoUpdateConfirmation();
+        
         boolean checked = false;
         while (!checked) {
             try {
@@ -98,7 +104,7 @@ public class VersionChecker extends Thread {
                         "<html><body " + Utilities.getHtmlStyle() + ">\n" +
                         DcResources.getText("msgNewVersion", 
                                 new String[] {version, 
-                                              "<a href=\"" + downloadUrl + "\">http://www.datacrow.net</a>", 
+                                              "<a href=\"" + downloadUrl + "\">http://www.datacrow.org</a>", 
                                               "<a href=\"" + infoUrl + "\">" + DcResources.getText("lblHere") +  "</a>"}) +
                         "</body> </html>";
 
@@ -125,4 +131,31 @@ public class VersionChecker extends Thread {
             }
         }
     }
+    
+    private void showServicesUpgradeMessage() {
+        Servers servers = Servers.getInstance();
+        if (Servers.getInstance().isUpgraded()) {
+            GUI.getInstance().displayMessage(
+                    DcResources.getText("msgOnlineServicesWereUpraded",
+                    new String[] {servers.getVersionInformation().toString(), servers.getUpgradeInformation()}));
+        }        
+    }
+    
+    private void askAutoUpdateConfirmation() {
+        if (!DcSettings.getBoolean(DcRepository.Settings.stAutoUpdateOnlineServicesAsked)) {
+            try {
+                SwingUtilities.invokeAndWait(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (GUI.getInstance().displayQuestion("msgAutoUpdateOnlineServices"))
+                            DcSettings.set(DcRepository.Settings.stAutoUpdateOnlineServices, Boolean.TRUE);
+    
+                        DcSettings.set(DcRepository.Settings.stAutoUpdateOnlineServicesAsked, Boolean.TRUE);
+                    }
+                });
+            } catch (Exception e) {
+                logger.warn("Error when trying to ask user to check for new online services pack on startup", e);
+            }
+        }        
+    }    
 }

@@ -135,6 +135,8 @@ public abstract class DcRepository {
         public static final String stModuleImportWizardFormSize = "module_import_wizard_form_size";
         public static final String stServerSettingsDialogSize = "server_settings_dialog_size";
         public static final String stCheckForNewVersion = "check_for_new_version_on_startup";
+        public static final String stAutoUpdateOnlineServices = "auto_update_online_services";
+        public static final String stAutoUpdateOnlineServicesAsked = "auto_update_online_services_asked";
         public static final String stItemExporterWizardFormSize = "item_exporter_wizard_form_size";
         public static final String stItemImporterWizardFormSize = "item_importer_wizard_form_size";
         public static final String stDriveMappings = "drive_mappings";

@@ -987,7 +987,25 @@ public class DcApplicationSettings extends Settings {
                             "",
                             "msgVersionCheckOnStartup",
                             false,
-                            true, -1));         
+                            true, -1));
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._BOOLEAN,
+                            DcRepository.Settings.stAutoUpdateOnlineServices,
+                            Boolean.FALSE,
+                            UIComponents._CHECKBOX,
+                            "",
+                            "lblAutoUpdateOnlineServices",
+                            false,
+                            true, -1));
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._BOOLEAN,
+                            DcRepository.Settings.stAutoUpdateOnlineServicesAsked,
+                            Boolean.FALSE,
+                            UIComponents._CHECKBOX,
+                            "",
+                            "",
+                            false,
+                            false, -1));  
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._LONG,
                             DcRepository.Settings.stQuickViewDividerLocation,
