@@ -99,6 +99,9 @@ public class MaintainTabsDialog extends DcDialog implements ActionListener {
     @Override
     public void close() {
         DcSettings.set(DcRepository.Settings.stMaintainTabsDialogSize, getSize());
+
+        Tabs.getInstance().save();        
+
         super.close();
     }
     

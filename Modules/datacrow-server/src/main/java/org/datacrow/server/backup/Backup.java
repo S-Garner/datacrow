@@ -40,7 +40,10 @@ import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.clients.IBackupRestoreClient;
+import org.datacrow.core.data.DataFilters;
+import org.datacrow.core.filerenamer.FilePatterns;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.Directory;
@@ -108,6 +111,13 @@ public class Backup extends Thread {
         return zipFile;
     }    
     
+    private void saveChanges() {
+        DataFilters.save();
+        FilePatterns.save();
+        DcSettings.save();
+        DcModules.save();
+    }    
+    
     /**
      * Performs the actual back up and informs the clients on the progress.
      */
@@ -120,6 +130,7 @@ public class Backup extends Thread {
         client.notify(DcResources.getText("msgStartBackup"));
         client.notify(DcResources.getText("msgClosingDb"));
         
+        saveChanges();
         DatabaseManager.getInstance().closeDatabases(true);
 
         File[] files = getFiles();

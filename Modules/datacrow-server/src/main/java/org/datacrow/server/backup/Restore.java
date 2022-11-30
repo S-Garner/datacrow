@@ -164,7 +164,7 @@ public class Restore extends Thread {
         }
    
         return restore ? new File(DcConfig.getInstance().getDataDir(), filename).toString() : null;
-    }  
+    }
     
     private boolean restore() throws Exception {
         
