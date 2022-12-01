@@ -311,6 +311,8 @@ public class Servers {
                     
                     logger.info("Updated the online services to version " + onlineVersion);
                     
+                    this.version = new Version(onlineVersion);
+                    
                     upgradeInformation = onlineVersionInfo.getProperty("information");
                     upgraded = true;
                 } catch (Exception e) {

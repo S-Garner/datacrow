@@ -33,6 +33,8 @@ Data Crow version 4.4                                              Released on 2
   created.
 - Fixed an issue where a picture or file is selected even if the file choose action
   was cancelled.
+- There was an issue with the Item Form Settings; it did a reset of the fields on opening
+  of the dialog.  
 
 [ToDO]
 - Translate new text to Dutch

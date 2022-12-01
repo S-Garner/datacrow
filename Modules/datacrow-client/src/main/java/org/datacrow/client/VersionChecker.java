@@ -137,7 +137,8 @@ public class VersionChecker extends Thread {
         if (Servers.getInstance().isUpgraded()) {
             GUI.getInstance().displayMessage(
                     DcResources.getText("msgOnlineServicesWereUpraded",
-                    new String[] {servers.getVersionInformation().toString(), servers.getUpgradeInformation()}));
+                    new String[] {servers.getVersionInformation().toString(), ""}) +
+                    "<br>" + servers.getUpgradeInformation());
         }        
     }
     
