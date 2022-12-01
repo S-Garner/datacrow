@@ -57,6 +57,7 @@ public class MaintainTabsDialog extends DcDialog implements ActionListener {
     
     public MaintainTabsDialog(ItemFormSettingsDialog dlg) {
         super(dlg);
+        setTitle(DcResources.getText("lblEditTabs"));
         
         this.dlg = dlg;
         this.tabList = new DcTabList();
@@ -97,6 +98,7 @@ public class MaintainTabsDialog extends DcDialog implements ActionListener {
         
         Tabs.getInstance().setTabs(dlg.getModule(), tabs);        
         dlg.refresh();
+        close();
     }
     
     @Override

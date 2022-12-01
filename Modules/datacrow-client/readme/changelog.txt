@@ -16,6 +16,8 @@ Data Crow version 4.4                                              Released on 2
 - Added wait time between requests for all online services.
 - Long text fields (like description) opened a text view on double click. This has been
   changed to CTRL + mouse click as double click is also used to select a single word.
+- Small dialog changes to the item form tabs; saving will now close the dialog and added
+  a title to the dialog. 
 
 [Fixed]
 - Fixed a NullPointerException when performing a mass update using previous online search
