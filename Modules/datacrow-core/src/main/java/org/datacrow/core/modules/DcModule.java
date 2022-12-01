@@ -1033,11 +1033,11 @@ public class DcModule implements Comparable<DcModule>, Serializable {
                                  "ID"));
             addField(new DcField(DcObject._SYS_CREATED, getIndex(), "Created",
                                  false, true, true, true, 
-                                 10, UIComponents._DATEFIELD, getIndex(), DcRepository.ValueTypes._DATETIME,
+                                 10, UIComponents._DATEFIELD, getIndex(), DcRepository.ValueTypes._DATE,
                                  "Created"));
             addField(new DcField(DcObject._SYS_MODIFIED, getIndex(), "Modified",
                                  false, true, true, true, 
-                                 10, UIComponents._DATEFIELD, getIndex(), DcRepository.ValueTypes._DATETIME,
+                                 10, UIComponents._DATEFIELD, getIndex(), DcRepository.ValueTypes._DATE,
                                  "Modified"));
             
             if ((isTopModule() || isChildModule()) && isCustomFieldsAllowed()) {

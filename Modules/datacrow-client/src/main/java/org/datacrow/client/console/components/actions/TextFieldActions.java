@@ -23,9 +23,14 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.client.console.components;
+package org.datacrow.client.console.components.actions;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -38,17 +43,25 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.utilities.CoreUtilities;
 
-public class DcUndoListenerer {
+public class TextFieldActions {
 
     private final UndoManager undo = new UndoManager();
     
     private final UndoAction undoAction;
     private final RedoAction redoAction;
+    private final InsertTimeStampAction insertTimeStampAction;
     
-    public DcUndoListenerer(JTextComponent component) {
+    private JTextComponent c;
+    
+    public TextFieldActions(JTextComponent component) {
+        
+        this.c = component;
+        
         this.undoAction = new UndoAction();
         this.redoAction = new RedoAction();
+        this.insertTimeStampAction = new InsertTimeStampAction();
         
         component.getDocument().addUndoableEditListener(new UndoEditListener());
         
@@ -56,6 +69,27 @@ public class DcUndoListenerer {
         component.getInputMap().put(KeyStroke.getKeyStroke("control Z"), DcResources.isInitialized() ? DcResources.getText("lblUndo") : "Undo");
         component.getActionMap().put("Redo", redoAction);
         component.getInputMap().put(KeyStroke.getKeyStroke("control Y"), DcResources.isInitialized() ? DcResources.getText("lblRedo") : "Redo");
+        component.getActionMap().put("Timestamp", redoAction);
+        component.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0), DcResources.isInitialized() ? DcResources.getText("lblInsertTimeStamp") : "Insert Timestamp");
+        
+        
+        KeyListener kl = new KeyListener() {
+            public void keyPressed(KeyEvent ke) {
+                if (ke.getKeyCode() == KeyEvent.VK_F5)
+                    insertTimeStamp();
+            }
+
+            public void keyReleased(KeyEvent keyEvent) {}
+
+            public void keyTyped(KeyEvent keyEvent) {}
+        };
+        
+        component.addKeyListener(kl);
+        
+    }
+    
+    public InsertTimeStampAction getInsertTimestampAction() {
+        return insertTimeStampAction;
     }
     
     public UndoAction getUndoAction() {
@@ -108,6 +142,27 @@ public class DcUndoListenerer {
         } else {
             undoAction.setEnabled(false);
             undoAction.putValue(Action.NAME, DcResources.isInitialized() ? DcResources.getText("lblUndo") : "Undo");
+        }
+    }
+    
+    public void insertTimeStamp() {
+        String timestamp = CoreUtilities.getLocalTimestamp();
+        StringSelection ss = new StringSelection(timestamp);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(ss, null);
+        c.paste();
+    }
+    
+    public class InsertTimeStampAction extends AbstractAction {
+        
+        public InsertTimeStampAction() {
+            super(DcResources.isInitialized() ? DcResources.getText("lblInsertTimeStamp") : "Insert Timestamp");
+            setEnabled(false);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            insertTimeStamp();
         }
     }    
     

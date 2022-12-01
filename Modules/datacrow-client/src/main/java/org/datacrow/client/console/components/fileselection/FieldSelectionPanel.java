@@ -23,7 +23,7 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.client.console.components.panels;
+package org.datacrow.client.console.components.fileselection;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -47,6 +47,7 @@ import org.datacrow.client.console.components.DcShortTextField;
 import org.datacrow.client.console.components.lists.DcFieldList;
 import org.datacrow.client.console.components.lists.elements.DcFieldListElement;
 import org.datacrow.client.console.components.lists.elements.DcListElement;
+import org.datacrow.client.console.components.panels.NavigationPanel;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcField;

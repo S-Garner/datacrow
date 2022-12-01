@@ -23,7 +23,7 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.client.console.components.panels;
+package org.datacrow.client.console.components.fileselection;
 
 import org.datacrow.core.objects.DcField;
 

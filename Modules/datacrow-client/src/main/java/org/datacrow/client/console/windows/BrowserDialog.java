@@ -31,12 +31,11 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.filechooser.FileFilter;
 
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.DcFileChooser;
-import org.datacrow.client.console.components.panels.BackupFilePreviewPanel;
+import org.datacrow.client.console.components.fileselection.FileSelectPreviewPanel;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.settings.DcSettings;
 
@@ -58,8 +57,7 @@ public class BrowserDialog extends JFrame {
             browser.setFileFilter(filter);
     }
     
-    public void setPreview(JPanel panel) {
-        BackupFilePreviewPanel preview = new BackupFilePreviewPanel();
+    public void setPreview(FileSelectPreviewPanel preview) {
         browser.setAccessory(preview);
         browser.addPropertyChangeListener(preview);
     }
@@ -74,45 +72,60 @@ public class BrowserDialog extends JFrame {
         setCurrentDirectory(file);
         browser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         
+        int result = 0;
         if (c != null) { 
-        	browser.showOpenDialog(c);
+            result = browser.showOpenDialog(c);
         } else {
-        	browser.showOpenDialog(GUI.getInstance().getRootFrame());
+            result = browser.showOpenDialog(GUI.getInstance().getRootFrame());
         }        
         
-        File f = browser.getSelectedFile(); 
-        rememberUsedDirectory(f);
-        return f;
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File f = browser.getSelectedFile(); 
+            rememberUsedDirectory(f);
+            return f;
+        } else {
+            return null;
+        }
     }
     
     public File showCreateFileDialog(Component c, File file) {
         setCurrentDirectory(file);
         browser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         
+        int result = 0;
         if (c != null) { 
-        	browser.showSaveDialog(c);
+            result = browser.showSaveDialog(c);
         } else {
-        	browser.showSaveDialog(GUI.getInstance().getRootFrame());
+            result = browser.showSaveDialog(GUI.getInstance().getRootFrame());
         }
 
-        File f = browser.getSelectedFile(); 
-        rememberUsedDirectory(f);
-        return f;
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File f = browser.getSelectedFile(); 
+            rememberUsedDirectory(f);
+            return f;
+        } else {
+            return null;
+        }
     }
     
     public File showOpenFileDialog(Component c, File file) {
         setCurrentDirectory(file);
         browser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         
+        int result = 0;
         if (c != null) { 
-        	browser.showOpenDialog(c);
+            result = browser.showOpenDialog(c);
         } else {
-        	browser.showOpenDialog(GUI.getInstance().getRootFrame());
+        	result = browser.showOpenDialog(GUI.getInstance().getRootFrame());
         }
 
-        File f = browser.getSelectedFile(); 
-        rememberUsedDirectory(f);
-        return f;
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File f = browser.getSelectedFile();
+            rememberUsedDirectory(f);
+            return f;
+        } else {
+            return null;
+        }
     }
     
     private void setCurrentDirectory(File file) {

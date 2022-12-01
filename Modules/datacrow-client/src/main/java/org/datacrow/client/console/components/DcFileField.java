@@ -34,16 +34,15 @@ import java.io.RandomAccessFile;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolTip;
 import javax.swing.filechooser.FileFilter;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
+import org.datacrow.client.console.components.fileselection.FileSelectPreviewPanel;
 import org.datacrow.client.console.windows.BrowserDialog;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
@@ -60,7 +59,7 @@ public class DcFileField extends JComponent implements IComponent, ActionListene
     private ActionListener al;
     private FileFilter filter;
     
-    private JPanel previewPanel;
+    private FileSelectPreviewPanel previewPanel;
 
     private String title = DcResources.isInitialized() ? DcResources.getText("lblFileBrowser") : "File browser";
     private File file = null;
@@ -99,7 +98,7 @@ public class DcFileField extends JComponent implements IComponent, ActionListene
         }
     }
 
-    public void setPreview(JPanel previewPanel) {
+    public void setPreview(FileSelectPreviewPanel previewPanel) {
         this.previewPanel = previewPanel;
     }
     

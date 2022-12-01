@@ -38,6 +38,7 @@ import org.datacrow.core.DcRepository;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.Converter;
 import org.datacrow.core.utilities.CoreUtilities;
@@ -340,6 +341,13 @@ public class DcValue implements Serializable {
                 } else if (field.getFieldType() == UIComponents._FILEFIELD ||
                            field.getFieldType() == UIComponents._FILELAUNCHFIELD) {
                     text = CoreUtilities.getValidPath((String) o);
+                } else if (field.getValueType() == DcRepository.ValueTypes._DATE) {
+                    text = new SimpleDateFormat(
+                            DcSettings.getString(DcRepository.Settings.stDateFormat)).format((Date) o);
+                } else if (field.getValueType() == DcRepository.ValueTypes._DATETIME) {
+                    text = new SimpleDateFormat(
+                            DcSettings.getString(DcRepository.Settings.stDateFormat)  + " HH:mm:ss").format((Date) o);
+
                 } else {
                 	text = o == null ? "" : o instanceof String ? (String) o : o.toString();
                 }

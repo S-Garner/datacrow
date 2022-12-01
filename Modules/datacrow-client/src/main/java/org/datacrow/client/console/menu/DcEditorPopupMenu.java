@@ -38,10 +38,9 @@ import javax.swing.KeyStroke;
 import javax.swing.text.JTextComponent;
 
 import org.datacrow.client.console.ComponentFactory;
-import org.datacrow.client.console.components.DcLongTextField;
 import org.datacrow.client.console.components.DcMenuItem;
 import org.datacrow.client.console.components.DcPopupMenu;
-import org.datacrow.client.console.components.DcShortTextField;
+import org.datacrow.client.console.components.ITextComponent;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.resources.DcResources;
 
@@ -70,7 +69,7 @@ public class DcEditorPopupMenu extends DcPopupMenu implements ActionListener  {
         menuSelectAll.setActionCommand("selectAll");
         menuPaste.setActionCommand("paste");
         menuCopy.setActionCommand("copy");        
-        menuCut.setActionCommand("cut");        
+        menuCut.setActionCommand("cut");
         
         if (isEditable && isTextSelected)
             menuCut.addActionListener(this);
@@ -101,22 +100,23 @@ public class DcEditorPopupMenu extends DcPopupMenu implements ActionListener  {
         this.add(menuCopy);
         this.add(menuPaste);
         
-        if (c instanceof DcShortTextField || c instanceof DcLongTextField) {
+        if (c instanceof ITextComponent) {
             this.addSeparator();
 
             DcMenuItem menuUndo;
             DcMenuItem menuRedo;
+            
+            DcMenuItem menuInsertTimeStamp = ComponentFactory.getMenuItem(IconLibrary._icoCalendar, DcResources.getText("lblInsertTimeStamp"));
+            menuInsertTimeStamp.setActionCommand("timestamp");
 
-            if (c instanceof DcShortTextField) {
-                menuUndo = ComponentFactory.getMenuItem(((DcShortTextField) c).getUndoListener().getUndoAction());
-                menuRedo = ComponentFactory.getMenuItem(((DcShortTextField) c).getUndoListener().getRedoAction());
-            } else {
-                menuUndo = ComponentFactory.getMenuItem(((DcLongTextField) c).getUndoListener().getUndoAction());
-                menuRedo = ComponentFactory.getMenuItem(((DcLongTextField) c).getUndoListener().getRedoAction());
-            }
+            menuUndo = ComponentFactory.getMenuItem(((ITextComponent) c).getTextFieldActions().getUndoAction());
+            menuRedo = ComponentFactory.getMenuItem(((ITextComponent) c).getTextFieldActions().getRedoAction());
+            menuInsertTimeStamp = ComponentFactory.getMenuItem(((ITextComponent) c).getTextFieldActions().getInsertTimestampAction());
 
             menuUndo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK));
             menuRedo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_DOWN_MASK));
+            menuInsertTimeStamp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
+            menuInsertTimeStamp.setEnabled(true);
 
             this.add(menuUndo);
             this.add(menuRedo);
@@ -124,7 +124,11 @@ public class DcEditorPopupMenu extends DcPopupMenu implements ActionListener  {
             if (!isEditable) {
                 menuUndo.setEnabled(false);
                 menuRedo.setEnabled(false);
+                menuInsertTimeStamp.setEnabled(false);
             }
+            
+            this.addSeparator();
+            this.add(menuInsertTimeStamp);
         }
         
         this.addSeparator();
@@ -140,6 +144,6 @@ public class DcEditorPopupMenu extends DcPopupMenu implements ActionListener  {
         else if (ae.getActionCommand().equals("paste"))
            c.paste(); 
         else if (ae.getActionCommand().equals("selectAll"))
-           c.selectAll(); 
+           c.selectAll();
     }
 }

@@ -48,7 +48,7 @@ import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcFileField;
 import org.datacrow.client.console.components.DcMultiLineToolTip;
-import org.datacrow.client.console.components.panels.BackupFilePreviewPanel;
+import org.datacrow.client.console.components.fileselection.BackupFilePreviewPanel;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.clients.IBackupRestoreClient;

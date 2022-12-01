@@ -811,6 +811,14 @@ public class CoreUtilities {
         return timestamp;
     }
     
+    public static String getLocalTimestamp() {
+        String timestamp = null;
+        Calendar cal = Calendar.getInstance();
+        DateFormat dfm = new SimpleDateFormat(DcSettings.getString(DcRepository.Settings.stDateFormat) + " HH:mm:ss");
+        timestamp = dfm.format(cal.getTime());
+        return timestamp;
+    }    
+    
     public static String readInputStream(InputStream is) throws IOException {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         byte[] buffer = new byte[8192];

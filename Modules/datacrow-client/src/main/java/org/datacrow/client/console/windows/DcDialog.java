@@ -158,37 +158,4 @@ public class DcDialog extends JDialog implements IDialog {
         rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(keyStroke, name);
         rootPane.getActionMap().put(name, action);
     }
-
-//    @Override
-//    public void notifyTaskSize(int size) {}
-//
-//    @Override
-//    public void notify(String msg) {
-//    	GUI.getInstance().displayMessage(msg);
-//    }
-//
-//    @Override
-//    public void notifyError(Throwable t) {
-//    	GUI.getInstance().displayErrorMessage(t.getMessage());
-//    	logger.error(t, t);
-//    }
-//
-//    @Override
-//    public void notifyWarning(String msg) {
-//    	GUI.getInstance().displayWarningMessage(msg);
-//    }
-//
-//    @Override
-//    public void notifyTaskFinished(boolean success, String taskID) {}
-//
-//    @Override
-//    public void notifyTaskStarted() {}
-//
-//    @Override
-//    public void notifyProcessed() {}
-//
-//    @Override
-//    public boolean isStopped() {
-//        return false;
-//    }    
 }

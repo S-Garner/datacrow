@@ -23,19 +23,17 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.client.console.components.panels;
+package org.datacrow.client.console.components.fileselection;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import javax.swing.JFileChooser;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.apache.logging.log4j.Logger;
@@ -45,7 +43,7 @@ import org.datacrow.client.console.components.DcLongTextField;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.utilities.CoreUtilities;
 
-public class BackupFilePreviewPanel extends JPanel implements PropertyChangeListener {
+public class BackupFilePreviewPanel extends FileSelectPreviewPanel {
     
     private static Logger logger = DcLogManager.getLogger(BackupFilePreviewPanel.class.getName());
     
@@ -53,6 +51,7 @@ public class BackupFilePreviewPanel extends JPanel implements PropertyChangeList
     
     public BackupFilePreviewPanel() {
         build();
+        preview.setEnabled(false);
     }
     
     @Override
@@ -63,8 +62,7 @@ public class BackupFilePreviewPanel extends JPanel implements PropertyChangeList
         if (propertyName.equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
             
             preview.setText("");
-            
-            File selection = (File)e.getNewValue();
+            File selection = (File) e.getNewValue();
             
             ZipFile zipFile = null;
             InputStream is = null;

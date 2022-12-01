@@ -47,7 +47,7 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcShortTextField;
-import org.datacrow.client.console.components.panels.FieldSelectionPanel;
+import org.datacrow.client.console.components.fileselection.FieldSelectionPanel;
 import org.datacrow.client.console.components.panels.SortOrderPanel;
 import org.datacrow.client.console.windows.DcFrame;
 import org.datacrow.client.util.PollerTask;

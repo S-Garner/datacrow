@@ -39,7 +39,7 @@ import javax.swing.JPanel;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
-import org.datacrow.client.console.components.panels.FieldSelectionPanel;
+import org.datacrow.client.console.components.fileselection.FieldSelectionPanel;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;

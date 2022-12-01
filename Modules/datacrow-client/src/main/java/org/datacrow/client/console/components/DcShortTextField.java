@@ -37,30 +37,31 @@ import javax.swing.text.PlainDocument;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
+import org.datacrow.client.console.components.actions.TextFieldActions;
 import org.datacrow.client.console.menu.DcEditorMouseListener;
 
-public class DcShortTextField extends JTextField implements IComponent {
+public class DcShortTextField extends JTextField implements ITextComponent {
 
     protected int MAX_TEXT_LENGTH = 0;
     
     private static final Toolkit toolkit = Toolkit.getDefaultToolkit();
-    private DcUndoListenerer undoListener;
+    private TextFieldActions textFieldActions;
 
     public DcShortTextField(int maxTextLength) {
         super();
         MAX_TEXT_LENGTH = maxTextLength;
-        undoListener = new DcUndoListenerer(this);
+        textFieldActions = new TextFieldActions(this);
         addMouseListener(new DcEditorMouseListener());
         ComponentFactory.setBorder(this);
     }    
     
-    public DcUndoListenerer getUndoListener() {
-        return undoListener;
+    public TextFieldActions getTextFieldActions() {
+        return textFieldActions;
     }
     
     @Override
     public void clear() {
-        undoListener = null;
+        textFieldActions = null;
     }
     
     @Override

@@ -33,8 +33,8 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import org.datacrow.client.console.Layout;
-import org.datacrow.client.console.components.panels.FieldSelectionPanel;
-import org.datacrow.client.console.components.panels.IFieldSelectionListener;
+import org.datacrow.client.console.components.fileselection.FieldSelectionPanel;
+import org.datacrow.client.console.components.fileselection.IFieldSelectionListener;
 import org.datacrow.client.tabs.Tab;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModule;

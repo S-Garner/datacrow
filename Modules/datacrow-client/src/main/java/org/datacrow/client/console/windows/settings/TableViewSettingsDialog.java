@@ -39,7 +39,7 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcColorSelector;
-import org.datacrow.client.console.components.panels.FieldSelectionPanel;
+import org.datacrow.client.console.components.fileselection.FieldSelectionPanel;
 import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModule;

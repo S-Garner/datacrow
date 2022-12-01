@@ -4,6 +4,10 @@ Data Crow version 4.4                                              Released on 2
 
 [New]
 - Added MobyGames online search
+- Added a new setting to regional setting: date format.
+- Press F5 to insert a time stamp into a text field. The timestamp is based on the 
+  date format setting + HH:mm:ss
+- Added a preview pane when selecting images
 
 [Updated]
 - Changed the online search to allow for additional filters to be set.
@@ -20,10 +24,18 @@ Data Crow version 4.4                                              Released on 2
   into account.
 - URL field launcher did not work for HTTPS hyper links.
 - Scrolling in the card view was sometimes reversed.
+- All settings files for module were missing, triggering a reset of existing user settings
+  as well as having incorrect settings after a clean install.
+- Settings and such were not stored to disk before creating a backup.
+- On new installations on Windows the Font selection would change on saving any of the
+  settings.
+- Default data was missing in Data Crow 4.3; none of the categories and such were
+  created.
+- Fixed an issue where a picture or file is selected even if the file choose action
+  was cancelled.
 
 [ToDO]
-- Add a timestamp button
-- Add preview for pictures to explorer
+- Translate new text to Dutch
 
 
 -----------------------------------------------------------------------------------------

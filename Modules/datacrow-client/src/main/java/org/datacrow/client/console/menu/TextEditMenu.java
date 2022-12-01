@@ -56,8 +56,8 @@ public class TextEditMenu extends DcMenu {
             actions.put(a.getValue(Action.NAME), a);
         }
 
-        JMenuItem menuUndo = ComponentFactory.getMenuItem(fld.getUndoListener().getUndoAction());
-        JMenuItem menuRedo = ComponentFactory.getMenuItem(fld.getUndoListener().getRedoAction());
+        JMenuItem menuUndo = ComponentFactory.getMenuItem(fld.getTextFieldActions().getUndoAction());
+        JMenuItem menuRedo = ComponentFactory.getMenuItem(fld.getTextFieldActions().getRedoAction());
         JMenuItem menuCut = ComponentFactory.getMenuItem(IconLibrary._icoCut, DcResources.getText("lblCut"));
         JMenuItem menuCopy = ComponentFactory.getMenuItem(IconLibrary._icoCopy, DcResources.getText("lblCopy"));
         JMenuItem menuPaste = ComponentFactory.getMenuItem(IconLibrary._icoPaste, DcResources.getText("lblPaste"));

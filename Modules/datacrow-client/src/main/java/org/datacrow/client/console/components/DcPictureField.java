@@ -56,6 +56,7 @@ import javax.swing.JToolTip;
 import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
+import org.datacrow.client.console.components.fileselection.ImageFilePreviewPanel;
 import org.datacrow.client.console.menu.DcPictureFieldMenu;
 import org.datacrow.client.console.windows.BrowserDialog;
 import org.datacrow.client.console.windows.OpenFromUrlDialog;
@@ -207,7 +208,7 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
                (imageWidth > size.width || imageHeight > size.height));
     }
 
-    private class PicturePane extends JComponent {
+    public class PicturePane extends JComponent {
         
         private PicturePane() {}
         
@@ -302,7 +303,9 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
     
     private void openImageFromFile() {
         try {
-            BrowserDialog dialog = new BrowserDialog("Select a new Image", new PictureFileFilter());
+            BrowserDialog dialog = new BrowserDialog(DcResources.getText("lblSelectImageFile"), new PictureFileFilter());
+            dialog.setPreview(new ImageFilePreviewPanel());
+            
             File file = dialog.showOpenFileDialog(this, null);
             if (file != null && file.isFile()) {
 

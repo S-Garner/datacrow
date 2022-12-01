@@ -39,27 +39,28 @@ import javax.swing.text.PlainDocument;
 import org.apache.logging.log4j.Logger;
 
 import org.datacrow.client.console.GUI;
+import org.datacrow.client.console.components.actions.TextFieldActions;
 import org.datacrow.client.console.menu.DcEditorMouseListener;
 import org.datacrow.client.console.windows.TextDialog;
 import org.datacrow.core.log.DcLogManager;
 
-public class DcLongTextField extends JTextArea implements IComponent, MouseListener {
+public class DcLongTextField extends JTextArea implements ITextComponent, MouseListener {
 
     private static Logger logger = DcLogManager.getLogger(DcLongTextField.class.getName());
     
-    private DcUndoListenerer undoListener;
+    private TextFieldActions textFieldActions;
     
     public DcLongTextField() {
         super();
         addMouseListener(this);
-        undoListener = new DcUndoListenerer(this);
+        textFieldActions = new TextFieldActions(this);
         addMouseListener(new DcEditorMouseListener());
         setLineWrap(true);
         setEditable(true);
     }
     
-    public DcUndoListenerer getUndoListener() {
-        return undoListener;
+    public TextFieldActions getTextFieldActions() {
+        return textFieldActions;
     }
     
     @Override
@@ -74,7 +75,7 @@ public class DcLongTextField extends JTextArea implements IComponent, MouseListe
 
     @Override
     public void clear() {
-        undoListener = null;
+        textFieldActions = null;
     }
     
     @Override

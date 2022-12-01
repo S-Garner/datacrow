@@ -79,6 +79,7 @@ import org.datacrow.client.console.components.DcCheckBox;
 import org.datacrow.client.console.components.DcColorSelector;
 import org.datacrow.client.console.components.DcComboBox;
 import org.datacrow.client.console.components.DcDateField;
+import org.datacrow.client.console.components.DcDateFormatComboBox;
 import org.datacrow.client.console.components.DcDecimalField;
 import org.datacrow.client.console.components.DcDirectoriesAsDrivesField;
 import org.datacrow.client.console.components.DcDriveMappingField;
@@ -408,6 +409,8 @@ public final class ComponentFactory extends UIComponents {
                 return getTagField(DcModules.getMappingModIdx(majormodule, minormodule, fieldIdx));
             case _SIMPLEREFERENCESFIELD:
                 return getSimpleReferencesField(DcModules.getMappingModIdx(majormodule, minormodule, fieldIdx));
+            case _DATEFOMATCOMBO:
+                return getDateFormatCombo();
             default:
                 return getShortTextField(maxTextLength);
         }
@@ -496,6 +499,9 @@ public final class ComponentFactory extends UIComponents {
         return new DcFontRenderingComboBox();
     }
 
+    public static final JComboBox<Object> getDateFormatCombo() {
+        return new DcDateFormatComboBox();
+    }
     
     public static final JComboBox<Object> getPersonOrderComboBox() {
         JComboBox<Object> cb = getComboBox();
