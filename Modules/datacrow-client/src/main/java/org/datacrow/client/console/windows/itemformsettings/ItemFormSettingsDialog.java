@@ -105,17 +105,6 @@ public class ItemFormSettingsDialog extends DcFrame implements ActionListener, C
         for (Tab tab : tabs) 
             tabNames.add(tab.getName());
         
-        // handles deletions
-        for (DcFieldDefinition def : module.getFieldDefinitions().getDefinitions()) {
-            if (CoreUtilities.isEmpty(def.getTab())) continue;
-            
-            boolean exists = false;
-            for (String tab : tabNames)
-                if (tab.equals(def.getTab())) exists = true;
-            
-            if (!exists) def.setTab(null);
-        }
-        
         TabDesignPanel panel;
         panels.clear();
         for (Tab tab : tabs) {

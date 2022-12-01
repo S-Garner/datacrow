@@ -44,8 +44,11 @@ import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.client.tabs.Tab;
 import org.datacrow.client.tabs.Tabs;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.modules.DcModule;
+import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 public class MaintainTabsDialog extends DcDialog implements ActionListener {
 	
@@ -117,6 +120,21 @@ public class MaintainTabsDialog extends DcDialog implements ActionListener {
         }
         
         for (Tab tab : tabList.getSelectedTabs()) {
+            
+            // remove tab assignments
+            DcModule module = DcModules.get(dlg.getModule());
+            
+            for (DcFieldDefinition def : module.getFieldDefinitions().getDefinitions()) {
+                String fieldTab = def.getTab();
+                fieldTab = fieldTab != null && fieldTab.startsWith("lbl") ? 
+                        DcResources.getText(fieldTab) : fieldTab;
+
+                if (tab.getName().equals(fieldTab)) {
+                    def.setTab(null);
+                }
+            }
+            
+            // remove the tab
             Tabs.getInstance().remove(tab);
         }
         
