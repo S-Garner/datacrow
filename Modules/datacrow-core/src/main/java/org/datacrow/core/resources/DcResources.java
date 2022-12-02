@@ -77,7 +77,11 @@ public class DcResources {
                                   "DcAudioCodecs.properties",
                                   "DcTips.properties"}; 
         
-        DcLanguageResource english = new DcLanguageResource("English");
+        DcLanguageResource english = new DcLanguageResource(
+                "English",
+                new File(DcConfig.getInstance().getResourcesDir(), "English" + "_resources.properties"));
+        
+        
         for (String propertyFile : propertyFiles) {
             Properties p = new Properties();
             try {
@@ -86,7 +90,7 @@ public class DcResources {
                 try {
                     p.load(getClass().getResourceAsStream("org/datacrow/core/resources/" + propertyFile));
                 } catch (Exception e) {
-                    logger.error("Could not load sustom resource files. Falling back to the default resources.", e);
+                    logger.error("Could not load custom resource files. Falling back to the default resources.", e);
                 }
             }
             
@@ -98,10 +102,23 @@ public class DcResources {
         
         resources.put("English", english);
         
+        File localFile;   
+        File installFolderFile;
+        DcLanguageResource localResource;
+        DcLanguageResource installResource;
         for (String language : getLanguages()) {
-            DcLanguageResource resource = new DcLanguageResource(language);
-            resource.merge(english);
-            addLanguageResource(language, resource);
+            localFile = new File(DcConfig.getInstance().getResourcesDir(), language + "_resources.properties");
+            installFolderFile = new File(new File(DcConfig.getInstance().getInstallationDir(), "resources"), language + "_resources.properties"); 
+            
+            localResource = new DcLanguageResource(language, localFile);
+            installResource = new DcLanguageResource(language, installFolderFile);
+            
+            // add newly introduced translations
+            localResource.merge(installResource);
+            // add English values for missing translations 
+            localResource.merge(english);
+            
+            addLanguageResource(language, localResource);
         }
         
         initialized = true;

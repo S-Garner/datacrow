@@ -33,8 +33,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.Logger;
-
-import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 
 /**
@@ -51,9 +49,9 @@ public class DcLanguageResource {
     private File file;
     private String language;
     
-    public DcLanguageResource(String language) {
+    public DcLanguageResource(String language, File file) {
         this.language = language;
-        this.file = new File(DcConfig.getInstance().getResourcesDir(), language + "_resources.properties");
+        this.file = file;
         load();
     }
     

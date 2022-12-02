@@ -29,6 +29,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Collection;
 
 import javax.swing.JButton;
@@ -41,6 +42,7 @@ import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcShortTextField;
 import org.datacrow.client.console.windows.DcDialog;
+import org.datacrow.core.DcConfig;
 import org.datacrow.core.resources.DcLanguageResource;
 import org.datacrow.core.resources.DcResources;
 
@@ -79,7 +81,10 @@ public class CreateLanguageDialog extends DcDialog implements ActionListener{
             GUI.getInstance().displayWarningMessage("msgLanguageWithNameAlreadyExists");
         } else {
             language = name.replaceAll(" ", "");
-            DcLanguageResource lr = new DcLanguageResource(name);
+            DcLanguageResource lr = new DcLanguageResource(
+                    name,
+                    new File(DcConfig.getInstance().getResourcesDir(), name + "_resources.properties"));
+            
             lr.merge(DcResources.getLanguageResource((String) cbLanguages.getSelectedItem()));
             DcResources.addLanguageResource(language, lr);
             close();
