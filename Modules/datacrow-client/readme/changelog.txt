@@ -36,10 +36,12 @@ Data Crow version 4.4                                              Released on 2
 - Fixed an issue where a picture or file is selected even if the file choose action
   was cancelled.
 - There was an issue with the Item Form Settings; it did a reset of the fields on opening
-  of the dialog.  
-
-[ToDO]
-- Translate new text to Dutch
+  of the dialog.
+- Fixed an issue where new translations are not updated for existing Data Crow 
+  installations. Now, when you install a new version of Data Crow it will load the
+  language file from your user folder and adds missing translations from the 
+  language file located in the installation folder. If there are still missing
+  translations these are added from the default English language file.  
 
 
 -----------------------------------------------------------------------------------------

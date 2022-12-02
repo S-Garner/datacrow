@@ -29,12 +29,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
@@ -55,9 +53,9 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class Servers {
     
-    private static final String baseUrl = "https://www.datacrow.org/online-services/";
-    
     private static Logger logger = DcLogManager.getLogger(Servers.class.getName());
+    
+    private static final String baseUrl = "https://www.datacrow.org/online-services/";
     private static Servers instance;
     
     private boolean initialized = false;
@@ -66,7 +64,8 @@ public class Servers {
     
     private boolean upgraded = false;
     private String upgradeInformation = "";
-    private Version version;
+    
+    private ServicesFile currentServicesFile;
     
     private Properties apiKeys = new Properties();
     
@@ -170,7 +169,7 @@ public class Servers {
     }
     
     public Version getVersionInformation() {
-        return version;
+        return currentServicesFile.getVersion();
     }    
     
     public boolean isUpgraded() {
@@ -230,50 +229,9 @@ public class Servers {
         return null;
     }
     
-    private Version getCurrentVersion() throws IOException {
-        String[] existingFiles = new File(DcConfig.getInstance().getServicesDir()).list();
-        
-        String s = "0.0.0";
-        
-        // delete existing jar files
-        for (String existingFile : existingFiles) {
-            if (existingFile.endsWith(".jar")) {
-                ZipFile zf = new ZipFile(DcConfig.getInstance().getServicesDir() + existingFile);
-                Properties p = new Properties();
-                try {
-                    ZipEntry entry;
-                    String name;
-                    Enumeration<? extends ZipEntry> entries = zf.entries();
-                    while (entries.hasMoreElements()) {
-                        entry = entries.nextElement();
-                        name = entry.getName();
-                        
-                        if (name.endsWith("services.properties")) {
-                            try {
-                                InputStream is = zf.getInputStream(entry);
-                                p.load(is);
-                                s = p.getProperty("version");
-                                is.close();
-                            } catch (IOException ie) {
-                                logger.error("Could not read version.properties from online services jar file", ie); 
-                            }                        
-                            break;
-                        }
-                    }
-                } finally {
-                    zf.close();       
-                }
-            }
-        }
-        
-        version = new Version(s);
-        
-        return version;
-    }
-    
     public boolean upgrade() throws IOException {
         
-        Version currentVersion = getCurrentVersion();
+        Version currentVersion = currentServicesFile.getVersion();
         Properties onlineVersionInfo = getOnlineVersionInformation();
 
         String onlineVersion = onlineVersionInfo != null ? onlineVersionInfo.getProperty("version") : null;
@@ -311,7 +269,8 @@ public class Servers {
                     
                     logger.info("Updated the online services to version " + onlineVersion);
                     
-                    this.version = new Version(onlineVersion);
+                    this.currentServicesFile = new ServicesFile(
+                            new File(DcConfig.getInstance().getServicesDir() + filename));
                     
                     upgradeInformation = onlineVersionInfo.getProperty("information");
                     upgraded = true;
@@ -331,15 +290,43 @@ public class Servers {
         if (!targetDir.exists())
             targetDir.mkdirs();
         
-        if (targetDir.list().length == 0) {
-            String[] sourceFiles = sourceDir.list();
-            for (String sourceFile : sourceFiles) {
+        String[] sourceFiles = sourceDir.list();
+        
+        for (String sourceFile : sourceFiles) {
+            try {
+                CoreUtilities.copy(new File(sourceDir, sourceFile), new File(targetDir, sourceFile), false);
+            } catch (Exception e) {
+                logger.error("Could not copy the online service pack to the user folder", e);
+            }
+        }
+        
+        // next, we'll only leave the latest version in place in the user folder:
+        String[] userFiles = targetDir.list();
+        File file;
+        ServicesFile sf;
+        
+        LinkedList<ServicesFile> servicesFiles = new LinkedList<>();
+        for (String userFile : userFiles) {
+            if (userFile.endsWith(".jar")) {
+                file = new File(DcConfig.getInstance().getServicesDir(), userFile);
                 try {
-                    CoreUtilities.copy(new File(sourceDir, sourceFile), new File(targetDir, sourceFile), false);
-                } catch (Exception e) {
-                    logger.error("Could not copy the online service pack to the user folder", e);
+                    sf = new ServicesFile(file);
+                    servicesFiles.add(sf);
+                } catch (IOException e) {
+                    logger.error("An error occurred trying to read information from " + file);
                 }
             }
+        }
+        
+        servicesFiles.sort(new ServicesFileComparator());
+        
+        // set the current services file
+        this.currentServicesFile = servicesFiles.get(0);
+        servicesFiles.remove(this.currentServicesFile);
+        
+        // remove old versions        
+        for (ServicesFile servicesFile : servicesFiles) {
+            servicesFile.delete();
         }
     }
     

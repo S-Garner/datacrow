@@ -32,7 +32,7 @@ import java.util.StringTokenizer;
  * 
  * @author Robert Jan van der Waals
  */
-public class Version {
+public class Version implements Comparable<Version> {
 
     private int minor = 0;
     private int major = 0;
@@ -156,4 +156,10 @@ public class Version {
             
         return false;
     }
+    
+    
+    @Override
+    public int compareTo(Version v) {
+        return toString().compareTo(v.toString());
+    }    
 }
