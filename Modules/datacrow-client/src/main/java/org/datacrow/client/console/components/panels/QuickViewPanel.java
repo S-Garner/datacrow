@@ -46,7 +46,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -389,7 +388,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         
         if (dco.isEnabled(index)) {
             Font fText = DcSettings.getFont(DcRepository.Settings.stSystemFontNormal);
-            boolean horizontal = direction.equals(_DIRECTION_HORIZONTAL) || direction.equals("horizontal");
+            boolean horizontal = direction.equals(_DIRECTION_HORIZONTAL) || direction.toLowerCase().equals("horizontal");
 
             if (!CoreUtilities.isEmpty(dco.getValue(index))) {
                 table += "<tr><td>";

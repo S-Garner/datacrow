@@ -1,11 +1,14 @@
 -----------------------------------------------------------------------------------------
-Data Crow version 4.4                                              Released on 2022-xx-xx
+Data Crow version 4.4                                              Released on 2022-12-06
 -----------------------------------------------------------------------------------------
 
+Thanks to all contributors! Ariel Chyłek, iro-de and anyone who took the time to log
+issues and feauture requests. 
+
 [New]
-- Added MobyGames online search
+- Added MobyGames online search for games (see https://mobygames.com).
 - Added a new setting to regional setting: date format.
-- Press F5 to insert a time stamp into a text field. The timestamp is based on the 
+- Press F5 to insert a time stamp into a text field. The time stamp is based on the 
   date format setting + HH:mm:ss
 - Added a preview pane when selecting images
 
@@ -41,7 +44,9 @@ Data Crow version 4.4                                              Released on 2
   installations. Now, when you install a new version of Data Crow it will load the
   language file from your user folder and adds missing translations from the 
   language file located in the installation folder. If there are still missing
-  translations these are added from the default English language file.  
+  translations these are added from the default English language file.
+- Horizontal / vertical setting not always applied correctly to the quick view.
+- Small fixes for the German translation.
 
 
 -----------------------------------------------------------------------------------------
