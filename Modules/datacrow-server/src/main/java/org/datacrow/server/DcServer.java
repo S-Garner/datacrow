@@ -55,6 +55,7 @@ import org.datacrow.server.db.DatabaseInvalidException;
 import org.datacrow.server.db.DatabaseManager;
 import org.datacrow.server.security.SecurityCenter;
 import org.datacrow.server.web.DcImageWebServer;
+import org.datacrow.server.web.DcWebServer;
 
 public class DcServer implements Runnable, IStarterClient, IClient {
 	
@@ -70,6 +71,7 @@ public class DcServer implements Runnable, IStarterClient, IClient {
     
     private static DcServer server;
     private static DcImageWebServer imgServer;
+    private static DcWebServer webServer;
     
     private static boolean enableWebServer = false;
 	
@@ -206,7 +208,12 @@ public class DcServer implements Runnable, IStarterClient, IClient {
                     connector.setServerAddress(ip);
                 }
                 
-                imgServer = new DcImageWebServer(imageServerPort);
+                imgServer = new DcImageWebServer(imageServerPort, ip);
+                
+                if (enableWebServer) {
+                    webServer = new DcWebServer(webServerPort, ip);
+                    webServer.setup();
+                }
                 
                 // if the logger failed starting is unnecessary
                 if (logger != null) {
@@ -239,6 +246,14 @@ public class DcServer implements Runnable, IStarterClient, IClient {
         Thread st = new Thread(server);
         st.start();
 
+        if (enableWebServer) {
+            try {
+                webServer.start();
+            } catch (Exception e) {
+                logger.error(e, e);
+            }
+        }        
+        
         try {
             imgServer.start();
         } catch (Exception e) {

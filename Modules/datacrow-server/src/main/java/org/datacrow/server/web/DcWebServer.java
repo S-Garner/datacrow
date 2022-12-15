@@ -25,24 +25,51 @@
 
 package org.datacrow.server.web;
 
-/**
- * @deprecated
- */
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.logging.log4j.Logger;
+import org.datacrow.core.DcConfig;
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.modules.DcModule;
+import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.utilities.CoreUtilities;
+import org.datacrow.core.utilities.Directory;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.webapp.WebAppContext;
+
 public class DcWebServer {
     
-//    private static Logger logger = DcLogManager.getLogger(DcWebServer.class.getName());
+    private static Logger logger = DcLogManager.getLogger(DcWebServer.class.getName());
     
-//    private static final String context = "/datacrow";
+    private static final String context = "/datacrow";
     
-	private boolean isRunning;
-//	private Tomcat server;
-//	private int port;
+	private final Server server;
 	
+	private boolean isRunning;
+
 	/**
 	 * Creates a new instance.
 	 */
-	public DcWebServer(int port) {
-	    //this.port = port;
+	public DcWebServer(int port, String ip) {
+        this.server = new Server();
+
+        ServerConnector connector = new ServerConnector(server);
+        connector.setPort(port);
+        connector.setHost(ip);
+        connector.setIdleTimeout(30000);
+        server.addConnector(connector);
+        
+        String baseDir = DcConfig.getInstance().getWebDir();
+        File contextDir = new File(baseDir, context);
+        
+        WebAppContext wac = new WebAppContext(contextDir.toString(), context);
+        wac.setConfigurationDiscovered(true);
+        server.setHandler(wac);
+
+        server.setStopAtShutdown(true);
 	}
 	
 	/**
@@ -53,10 +80,9 @@ public class DcWebServer {
     }
 	
 	public void setup() {
-        //logger.info("Starting to set up the web root");
+        logger.info("Starting to set up the web root");
         
-	    /*
-        File webDir = new File(DcConfig.getInstance().getWebDir(), "datacrow/");
+	    File webDir = new File(DcConfig.getInstance().getWebDir(), "datacrow/");
         webDir.mkdirs();
         
         File file;
@@ -81,11 +107,9 @@ public class DcWebServer {
         createIcons();
         createStyleSheet();
         
-        logger.info("Web root has been set up"); */
+        logger.info("Web root has been set up");
 	}
 	
-
-	/*
 	private void createIcons() {
 	    File webDir = new File(DcConfig.getInstance().getWebDir(), "datacrow/");
 	    File dir = new File(webDir, "/resources/default/images/");
@@ -165,14 +189,14 @@ public class DcWebServer {
         } catch (Exception e) {
             logger.error("Could not write icon to disk: " + filename, e);
         }
-    } */
-
+    }
+    
     /**
      * Stops the server.
      * @throws Exception
      */
 	public void stop() throws Exception {
-	    //server.stop();
+	    server.stop();
         isRunning = false;
 	}
 	
@@ -180,20 +204,7 @@ public class DcWebServer {
 	 * Starts the Web Server. The port is configurable.
 	 */
 	public void start() throws Exception {
-        /*server = new Tomcat();
-        server.setPort(port);
-        
-        String baseDir = DcConfig.getInstance().getWebDir();
-        server.setBaseDir(baseDir);
-
-        File contextDir = new File(baseDir, context);
-        Context context = server.addWebapp("/datacrow", contextDir.toString());
-
-        File configFile = new File(new File(baseDir, "datacrow"), "WEB-INF/web.xml");
-        context.setConfigFile(configFile.toURI().toURL());
-        
         server.start();
-
-        isRunning = true; */
+        isRunning = true;
 	} 
 }

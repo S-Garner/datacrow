@@ -28,12 +28,6 @@ public class DcLogManager {
 	    LoggerConfig loggerConfig = config.getLoggerConfig(LogManager.ROOT_LOGGER_NAME); 
 	    loggerConfig.setLevel(level);
 	    
-//	    TimeBasedTriggeringPolicy tbtp = TimeBasedTriggeringPolicy.newBuilder()
-//                .withInterval(0)
-//                .withModulate(false)
-//                .build();
-//	    CompositeTriggeringPolicy policy = CompositeTriggeringPolicy.createPolicy(tbtp, tp);
-	    
         TriggeringPolicy tp = SizeBasedTriggeringPolicy.createPolicy("10M");
                 
 	    RollingFileAppender fa = RollingFileAppender.newBuilder().setName("DataCrow_LogFile")

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.datacrow</groupId>
+        <artifactId>datacrow-main</artifactId>
+        <version>4.5</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>datacrow-beans</artifactId>
+    <name>datacrow-beans</name>
+    <url>https://datacrow.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>Central</id>
+            <name>Central Repository</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>JitPack</id>
+            <name>JitPack Just-in-Time Repository</name>
+            <url>https://jitpack.io/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- project dependencies -->
+        <dependency>
+            <groupId>org.datacrow</groupId>
+            <artifactId>datacrow-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- dependency>
+            <groupId>org.datacrow</groupId>
+            <artifactId>datacrow-core</artifactId>
+            <version>${project.version}</version>
+        </dependency -->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/webapp/datacrow/WEB-INF/lib/</outputDirectory>
+                            <includeGroupIds>org.apache.xbean,org.primefaces,org.apache.geronimo.specs,com.sun.xml.bind,javax.servlet,javax.el,org.apache.openwebbeans,org.apache.bval,org.projectlombok,org.apache.myfaces.core,com.sun.activation,jakarta.xml.bind</includeGroupIds>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-web-classes</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/webapp/datacrow/WEB-INF/classes/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/target/classes/</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-conf-files</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/webapp/datacrow/WEB-INF/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/conf/</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

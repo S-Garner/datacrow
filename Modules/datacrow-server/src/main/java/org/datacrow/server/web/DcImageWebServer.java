@@ -37,14 +37,19 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 public class DcImageWebServer {
     
     
-    private Server server;
+    private final Server server;
 	private boolean isRunning;
 	
 	/**
 	 * Creates a new instance.
 	 */
-	public DcImageWebServer(int port) {
-	    this.server = new Server(port);
+	public DcImageWebServer(int port, String ip) {
+	    this.server = new Server();
+	    ServerConnector connector = new ServerConnector(server);
+	    connector.setPort(port);
+	    connector.setHost(ip);
+	    connector.setIdleTimeout(30000);
+        server.addConnector(connector);
 	}
 	
 	/**
