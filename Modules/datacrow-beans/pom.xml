@@ -40,11 +40,6 @@
             <artifactId>datacrow-server</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- dependency>
-            <groupId>org.datacrow</groupId>
-            <artifactId>datacrow-core</artifactId>
-            <version>${project.version}</version>
-        </dependency -->
     </dependencies>
 
     <build>
