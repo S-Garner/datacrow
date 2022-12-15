@@ -27,24 +27,16 @@ package org.datacrow.web;
 
 import java.io.Serializable;
 
-import org.apache.logging.log4j.Level;
 import org.datacrow.web.bean.LoginBean;
-import org.datacrow.web.util.WebUtilities;
+
+import jakarta.inject.Inject;
 
 public abstract class DcBean implements Serializable  {
 
-	private static final long serialVersionUID = 1L;
-	
+	@Inject
 	private LoginBean loginBean;
 	
 	private LoginBean getLoginBean() {
-        if (loginBean == null) {
-            try {
-                loginBean = (LoginBean) WebUtilities.getBean("loginBean");
-            } catch (Exception e) {
-                WebUtilities.log(Level.ERROR, e);
-            }
-        }
         return loginBean;
 	}
 	

@@ -45,8 +45,6 @@ import jakarta.inject.Named;
 @SessionScoped
 public class LoginBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
 	private LocalServerConnector conn = new LocalServerConnector();
 	
 	public LoginBean() {}

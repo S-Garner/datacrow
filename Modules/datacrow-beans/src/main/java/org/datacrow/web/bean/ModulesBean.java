@@ -44,8 +44,6 @@ import jakarta.inject.Named;
 @SessionScoped
 public class ModulesBean extends DcBean implements Serializable {
     
-	private static final long serialVersionUID = 1L;
-    
     private Collection<Module> modules = new ArrayList<Module>();
     private Collection<Module> topModules = new ArrayList<Module>();
     

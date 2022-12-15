@@ -65,30 +65,28 @@ public class MainMenuBean implements Serializable {
                 DefaultSubMenu firstSubmenu = new DefaultSubMenu();
                 firstSubmenu.setLabel(DcResources.getText("lblEdit"));
                 
-                DefaultMenuItem item = new DefaultMenuItem();
-                item.setTitle(DcResources.getText("lblNewItem", module.getObjectName()));
-                
-                item.setIcon("fa fa-plus-circle");
-                item.setCommand("#{editItemBean.add}");
-                item.setUpdate(":editItemDetail");
-                item.setOncomplete("PF('editItemDetail').show()");                    
+                DefaultMenuItem item = DefaultMenuItem.builder()
+                        .title(DcResources.getText("lblNewItem", module.getObjectName()))
+                        .value(DcResources.getText("lblNewItem", module.getObjectName()))
+                        .icon("fa fa-plus-circle")
+                        .command("#{editItemBean.add}")
+                        .update(":editItemDetail")
+                        .oncomplete("PF('editItemDetail').show()").build();
                 
                 firstSubmenu.getElements().add(item);
-                
                 model.getElements().add(firstSubmenu);
             }
-            
             
             if (loginBean.isAdmin()) {
                 DefaultSubMenu firstSubmenu = new DefaultSubMenu();
                 firstSubmenu.setLabel(DcResources.getText("lblSettings"));
                 
-                DefaultMenuItem item = new DefaultMenuItem();
-                item.setTitle(DcResources.getText("lblItemFormSettings", module.getObjectName()));
-                
-                item.setIcon("fa fa-wrench");
-                item.setUpdate(":editItemFormsettings");
-                item.setOncomplete("PF('editItemFormsettings').show()");                    
+                DefaultMenuItem item = DefaultMenuItem.builder()
+                        .title(DcResources.getText("lblItemFormSettings", module.getObjectName()))
+                        .value(DcResources.getText("lblItemFormSettings", module.getObjectName()))
+                        .icon("fa fa-wrench")
+                        .update(":editItemFormsettings")
+                        .oncomplete("PF('editItemFormsettings').show()").build();                
                 
                 firstSubmenu.getElements().add(item);
                 model.getElements().add(firstSubmenu);

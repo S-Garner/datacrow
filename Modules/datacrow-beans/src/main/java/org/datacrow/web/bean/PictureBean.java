@@ -70,7 +70,7 @@ public class PictureBean extends DcBean {
     
     public void save() {}
     
-   /* public void handleFileUpload(FileUploadEvent event) {
+    public void handleFileUpload(FileUploadEvent event) {
         this.uploadedFile = event.getFile();
         
         try {
@@ -112,5 +112,5 @@ public class PictureBean extends DcBean {
         } catch (Exception e) {
             WebUtilities.log(Level.ERROR, e);
         }
-    } */
+    }
 }

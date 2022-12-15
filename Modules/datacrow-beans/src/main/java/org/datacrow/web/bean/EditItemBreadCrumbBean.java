@@ -99,7 +99,7 @@ public class EditItemBreadCrumbBean extends DcBean {
         return model;
     }
     
-   /* public void selectItem(MenuActionEvent event) {
+   public void selectItem(MenuActionEvent event) {
         DcMenuItem menuItem = (DcMenuItem) event.getMenuItem();
         
         Item item = menuItem.getItem();
@@ -111,5 +111,5 @@ public class EditItemBreadCrumbBean extends DcBean {
         } catch (Exception e) {
             WebUtilities.log(Level.ERROR, "Could not find / instantiate the Bread Crumb Bean", e);
         }
-    } */
+    }
 }

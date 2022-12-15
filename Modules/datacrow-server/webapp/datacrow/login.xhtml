@@ -10,16 +10,17 @@
     <h:outputStylesheet library="default" name="stylesheets/style.css" />
 </h:head>
 <h:body onload="getClientInfo()">
-	<p:layout fullPage="true">
-	    <p:layoutUnit id="top" position="center">
 	    
 	        <div align="center">
 	           <p:graphicImage url="/datacrow/javax.faces.resource/default/images/logo.jpg.xhtml" />
 	        </div>
 	        
 		    <h:form id="loginForm" prependId="false">
+		    
+		    <div class="ui-fluid">
+		    
             
-		        <div align="center">
+		        <!-- div align="center"  -->
 		    
 		        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 		        
@@ -37,9 +38,8 @@
 		        <p><p:commandButton id="login" value="login" action="#{loginBean.login}" /></p>
 		        
 		        </div>
+		        
 		    </h:form>
-	    </p:layoutUnit>
-	</p:layout>
     
     <script type="text/javascript">
         function getClientInfo()

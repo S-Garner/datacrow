@@ -8,8 +8,9 @@
 </h:head>
 
 <h:body onload="getClientInfo()">
-    <p:layout fullPage="true">
-        <p:layoutUnit position="north" resizable="false" style="border:none;" class="dcLayout" id="mainMenu">
+
+    <div class="ui-fluid">
+        <div class="ui-g" style="margin-top: 20px;">
             <h:form>
                 <p:menubar model="#{mainMenuBean.model}">
                     <f:facet name="options">
@@ -22,14 +23,11 @@
                     </f:facet>
                 </p:menubar>
             </h:form>
-        </p:layoutUnit>
 
-        <p:layoutUnit position="west" resizable="false" minSize="220" maxSize="220" style="border:none;" id="modulesMenu">
             <ui:include src="menu.xhtml" />
-        </p:layoutUnit>
+        </div>
 
-        <p:layoutUnit position="center" style="border:none;overflow-y: hidden !important;">
-        
+        <div class="ui-g" style="margin-top: 20px;">
             <h:form id="itemOverviewForm">
                 <p:dataGrid 
                     var="item" value="#{itemsBean.items.items}" 
@@ -107,14 +105,15 @@
                     </p:panel>
                 </p:dataGrid>
             </h:form>
+        </div>
 
-            <ui:include src="edititemform.xhtml" />
-            <ui:include src="viewitemform.xhtml" />
-            <ui:include src="editoverviewsettings.xhtml" />
-            <ui:include src="edititemformsettings.xhtml" />
+        <ui:include src="edititemform.xhtml" />
+        <ui:include src="viewitemform.xhtml" />
+        <ui:include src="editoverviewsettings.xhtml" />
+        <ui:include src="edititemformsettings.xhtml" />
 
-        </p:layoutUnit>
-    </p:layout>
+    </div>
+
     <script type="text/javascript">
 		function start() {
 			PF('statusDialog').show();
