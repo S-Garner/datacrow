@@ -257,7 +257,7 @@ public class Field extends DcBean {
         this.isLinkToDetails = isLinkToDetails;
     }
 
-    public Converter getConverter() {
+    public Converter<?> getConverter() {
         if (converter == null)
             converter = new ReferenceConverter(getReferenceModuleIdx());
         

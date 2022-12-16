@@ -27,17 +27,22 @@ package org.datacrow.web;
 
 import java.io.Serializable;
 
+import org.apache.logging.log4j.Level;
 import org.datacrow.web.bean.LoginBean;
-
-import jakarta.inject.Inject;
+import org.datacrow.web.util.WebUtilities;
 
 public abstract class DcBean implements Serializable  {
 
-	@Inject
-	private LoginBean loginBean;
-	
 	private LoginBean getLoginBean() {
-        return loginBean;
+	    LoginBean login = null;
+	    
+	    try {
+	        login = (LoginBean) WebUtilities.getBean("loginBean");
+	    } catch (Exception e) {
+	        WebUtilities.log(Level.ERROR, "Could not find the login bean");
+	    }
+	    
+        return login;
 	}
 	
 	protected boolean isUserLoggedOn() {

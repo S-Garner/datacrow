@@ -36,7 +36,7 @@ import jakarta.faces.convert.Converter;
 import org.datacrow.web.ReferencesCache;
 import org.datacrow.web.model.Reference;
 
-public class ReferenceConverter implements Converter {
+public class ReferenceConverter implements Converter<Object> {
     
     private List<Reference> additionalReferences = new ArrayList<Reference>();
     
