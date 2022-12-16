@@ -38,8 +38,6 @@ import jakarta.inject.Named;
 @SessionScoped
 public class ViewItemBean extends ItemBean {
 
-    private static final long serialVersionUID = 1L;
-
     @Override
     public void setItem(Item item) {
         this.item = item;

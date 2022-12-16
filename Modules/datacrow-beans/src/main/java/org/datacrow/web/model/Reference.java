@@ -36,8 +36,6 @@ import org.primefaces.model.tagcloud.DefaultTagCloudItem;
  */
 public class Reference extends DefaultTagCloudItem {
 
-    private static final long serialVersionUID = 1L;
-
     private String label;
     private String ID;
     private int module;

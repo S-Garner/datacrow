@@ -34,8 +34,6 @@ import org.datacrow.web.DcBean;
 
 public class Module extends DcBean {
 
-    private static final long serialVersionUID = 1L;
-    
     public static final int _TYPE_TOP_MODULE = 0;
     public static final int _TYPE_SUB_MODULE = 1;
     public static final int _TYPE_PROPERTY_MODULE = 2;

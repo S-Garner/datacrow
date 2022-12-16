@@ -55,8 +55,6 @@ import jakarta.inject.Named;
 @SessionScoped
 public class EditItemBean extends ItemBean {
     
-    private static final long serialVersionUID = 1L;
-    
     private Field field = null;
     
     public String add() {

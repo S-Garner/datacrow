@@ -48,8 +48,6 @@ import jakarta.inject.Named;
 @Named
 @SessionScoped
 public class ItemsBean extends DcBean {
-
-    private static final long serialVersionUID = 1L;
 	
     private Items items = new Items();
     

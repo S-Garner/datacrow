@@ -46,8 +46,6 @@ import jakarta.inject.Named;
 @SessionScoped
 public class PictureBean extends DcBean {
 
-    private static final long serialVersionUID = 1L;
-
     private Field field;
     
     private File tempDir;

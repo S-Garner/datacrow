@@ -62,8 +62,6 @@ import org.primefaces.model.tagcloud.TagCloudModel;
 public class Field extends DcBean {
 
     private static Logger logger = DcLogManager.getLogger(Field.class.getName());
-    
-    private static final long serialVersionUID = 1L;
 
     public static final int _CHECKBOX = 0;
     public static final int _TEXTFIELD = 1;

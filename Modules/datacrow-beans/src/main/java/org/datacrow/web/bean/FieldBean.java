@@ -39,8 +39,6 @@ import jakarta.inject.Named;
 @SessionScoped
 public class FieldBean extends DcBean {
 
-    private static final long serialVersionUID = 1L;
-
     private Field selectedField;
     
     public FieldBean() {}

@@ -39,8 +39,6 @@ import jakarta.faces.context.FacesContext;
 
 public abstract class ItemBean extends DcBean {
 
-    private static final long serialVersionUID = 1L;
-    
     protected Item item;
     
     public abstract void setItem(Item item);

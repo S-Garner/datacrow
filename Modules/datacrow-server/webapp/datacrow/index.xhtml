@@ -45,18 +45,24 @@
                                 <p:row style="width: 100%;">
                                     <table class="layouttable" style="border: none; padding: 0px; margin: 0;">
                                         <tr style="border: none; padding: 0px; margin: 0;">
-                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;"><h:outputText value="#{item.title}" /></td>
-                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;"><p:commandLink update=":viewItemDetail" oncomplete="PF('viewItemDetail').show()">
-                                                    <h:outputText styleClass="fa fa-folder-open-o" style="margin:0 auto;" />
+                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;">
+                                                <h:outputText value="#{item.title}" />
+                                            </td>
+                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;">
+                                                <p:commandLink update=":viewItemDetail" oncomplete="PF('viewItemDetail').show()">
+                                                    <h:outputText styleClass="pi pi-folder-open" style="margin:0 auto;" />
                                                     <f:setPropertyActionListener value="#{item}" target="#{viewItemBean.item}" />
                                                     <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForView}" />
-                                                </p:commandLink></td>
-                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;"><p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()"
-                                                    rendered="#{modulesBean.selectedModule.editingAllowed}">
-                                                    <h:outputText styleClass="fa fa-fw fa-edit" style="margin:0 auto;" />
+                                                </p:commandLink>
+                                            </td>
+                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;">
+                                                <p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()"
+                                                               rendered="#{modulesBean.selectedModule.editingAllowed}">
+                                                    <h:outputText styleClass="pi pi-user-edit" style="margin:0 auto;" />
                                                     <f:setPropertyActionListener value="#{item}" target="#{editItemBean.item}" />
                                                     <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForEdit}" />
-                                                </p:commandLink></td>
+                                                </p:commandLink>
+                                            </td>
                                         </tr>
                                     </table>
                                 </p:row>
@@ -87,18 +93,24 @@
                     <p:panel rendered="#{!modulesBean.selectedModule.advancedView}" style="height: 50px;">
                         <table class="layouttable" style="border: none; padding: 0px; margin: 0;">
                             <tr style="border: none; padding: 0px; margin: 0;">
-                                <td style="border: none; padding: 0px; margin: 0; width: 25px;"><p:commandLink update=":viewItemDetail" oncomplete="PF('viewItemDetail').show()">
-                                        <h:outputText styleClass="fa fa-folder-open-o" style="margin:0 auto;" />
+                                <td style="border: none; padding: 0px; margin: 0; width: 25px;">
+                                    <p:commandLink update=":viewItemDetail" oncomplete="PF('viewItemDetail').show()">
+                                        <h:outputText styleClass="pi pi-folder-open" style="margin:0 auto;" />
                                         <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForView}" />
-                                    </p:commandLink> <p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()" rendered="#{modulesBean.selectedModule.editingAllowed}">
-                                        <h:outputText styleClass="fa fa-fw fa-edit" style="margin:0 auto;" />
+                                    </p:commandLink>
+                                    <p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()" rendered="#{modulesBean.selectedModule.editingAllowed}">
+                                        <h:outputText styleClass="pi pi-user-edit" style="margin:0 auto;" />
                                         <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForEdit}" />
-                                    </p:commandLink></td>
-
-                                <td style="border: none; padding: 0px; margin: 0; width: 25px;"><p:graphicImage value="#{imageBean.content}" rendered="#{item.icon.alive}" cache="false">
+                                    </p:commandLink>
+                                </td>
+                                <td style="border: none; padding: 0px; margin: 0; width: 25px;">
+                                    <p:graphicImage value="#{imageBean.content}" rendered="#{item.icon.alive}" cache="false">
                                         <f:param name="filename" value="#{item.icon.filename}" />
-                                    </p:graphicImage></td>
-                                <td style="border: none; padding: 0px; margin: 0;" rowspan="2"><h:outputText value="#{item.title}" /></td>
+                                    </p:graphicImage>
+                                </td>
+                                <td style="border: none; padding: 0px; margin: 0;" rowspan="2">
+                                    <h:outputText value="#{item.title}" />
+                                </td>
                             </tr>
 
                         </table>

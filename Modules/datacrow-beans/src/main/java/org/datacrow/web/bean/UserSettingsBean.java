@@ -41,8 +41,6 @@ import jakarta.inject.Named;
 @SessionScoped
 public class UserSettingsBean extends DcBean {
     
-    private static final long serialVersionUID = 1L;
-    
     private UserSettings globalSettings = new UserSettings();
     
     private static final String _GLOBAL_SCREENSIZE_X = "GLOBAL_SCREENSIZE_X";

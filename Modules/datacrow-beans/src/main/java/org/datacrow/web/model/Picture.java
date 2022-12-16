@@ -33,8 +33,6 @@ import org.datacrow.web.DcBean;
 
 public class Picture extends DcBean {
 	
-	private static final long serialVersionUID = 1L;
-	
 	private String filename;
 	
 	private File fileLarge;

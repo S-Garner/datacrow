@@ -43,8 +43,6 @@ import jakarta.inject.Named;
 @SessionScoped 
 public class ViewItemBreadCrumbBean extends DcBean {
 
-    private static final long serialVersionUID = 1L;
-    
     private MenuModel model;
     
     private List<DcMenuItem> items = new ArrayList<DcMenuItem>();

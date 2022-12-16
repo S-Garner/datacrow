@@ -48,8 +48,6 @@ import org.datacrow.web.util.WebUtilities;
 
 public class Item extends DcBean {
     
-	private static final long serialVersionUID = 1L;
-
 	private List<Field> detailFields = new ArrayList<Field>();
 	private List<Field> technicalFields = new ArrayList<Field>();
 	private List<Field> picturesFields = new ArrayList<Field>();

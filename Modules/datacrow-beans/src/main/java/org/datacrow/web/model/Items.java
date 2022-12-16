@@ -42,8 +42,6 @@ import org.datacrow.web.DcBean;
  */
 public class Items extends DcBean {
 
-    private static final long serialVersionUID = 1L;
-
     private List<Item> items = new ArrayList<Item>();
     
     private int moduleIdx;

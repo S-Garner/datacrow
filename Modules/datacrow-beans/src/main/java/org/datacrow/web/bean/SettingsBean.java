@@ -46,8 +46,6 @@ import jakarta.inject.Named;
 @ViewScoped
 public class SettingsBean extends DcBean {
 
-    private static final long serialVersionUID = 1L;
-
     private Settings settings;
     private DcModule module;
     
