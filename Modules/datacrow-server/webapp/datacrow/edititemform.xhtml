@@ -57,11 +57,12 @@
 				
 				                <p:column headerText="" style="border:none;">
 				                  
-				                    <p:link href="#{image.value.url}" target="new" rendered="#{field.pictureAlive}">
+				                   <!--  TODO: fix the below -->
+				                    <!--  p:link href="#{image.value.url}" target="new" rendered="#{field.pictureAlive}">
 				                        <p:graphicImage value="#{imageBean.content}" cache="false">
 				                            <f:param name="filename" value="#{field.value.filename}_small" />
 				                        </p:graphicImage> 
-				                    </p:link>
+				                    </p:link -->
 				                      
 				                    <p:graphicImage url="/datacrow/javax.faces.resource/default/images/noimage.png.xhtml" rendered="#{!field.pictureAlive}" />
 				                      
