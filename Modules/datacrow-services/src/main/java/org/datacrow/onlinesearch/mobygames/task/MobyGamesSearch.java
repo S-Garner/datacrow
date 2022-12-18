@@ -37,6 +37,8 @@ import com.google.gson.internal.LinkedTreeMap;
 public class MobyGamesSearch extends SearchTask {
 
     private static Logger logger = DcLogManager.getLogger(MobyGamesSearch.class.getName());
+    
+    private MobyGamesPlatform platform;
 
     public MobyGamesSearch(
             IOnlineSearchClient listener, 
@@ -129,8 +131,7 @@ public class MobyGamesSearch extends SearchTask {
         Map<String, Object> additionalFilters = getAdditionalFilters();
         
         if (additionalFilters != null) {
-            MobyGamesPlatform platform =
-                    (MobyGamesPlatform) additionalFilters.get(DcResources.getText("lblPlatform"));
+            platform = (MobyGamesPlatform) additionalFilters.get(DcResources.getText("lblPlatform"));
     
             if (platform != null && !CoreUtilities.isEmpty(platform.getId()))
                 sUrl += "&platform=" + platform.getId();
@@ -476,15 +477,23 @@ public class MobyGamesSearch extends SearchTask {
         if (platforms == null)
             return;
         
+        String apiKey = DcSettings.getString(DcRepository.Settings.stMobyGamesApiKey);
+        
         for (LinkedTreeMap platform : platforms) {
             int platformId = ((Double) platform.get("platform_id")).intValue();
+
             String platformName = (String) platform.get("platform_name");
             String releasedOn = (String) platform.get("first_release_date");
+            
+            // use the platform as selected from the drop down filter
+            if (this.platform != null) {
+                platformName = this.platform.getDescription();
+            }
 
             item.createReference(Software._H_PLATFORM, platformName);
             
             String serviceUrl = "https://api.mobygames.com/v1/games/" + mobygamesId 
-                    + "/platforms/" + platformId + "?api_key=jI2EJMdA7RG8d/vl4uf3Aw==";
+                    + "/platforms/" + (this.platform != null ? this.platform.getId() : platformId) + "?api_key=" + apiKey;
            
             item.setValue(Software._SYS_SERVICEURL, serviceUrl);
             
