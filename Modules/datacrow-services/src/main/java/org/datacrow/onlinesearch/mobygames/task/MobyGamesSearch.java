@@ -39,7 +39,8 @@ public class MobyGamesSearch extends SearchTask {
     private static Logger logger = DcLogManager.getLogger(MobyGamesSearch.class.getName());
     
     private MobyGamesPlatform platform;
-
+    private String apiKey;
+    
     public MobyGamesSearch(
             IOnlineSearchClient listener, 
             IServer server, 
@@ -63,6 +64,11 @@ public class MobyGamesSearch extends SearchTask {
         attributes.put("Number of Offline Players", DcResources.getText("lblMobyGamesAttribNrOfOfflinePlayer"));
         attributes.put("Multiplayer Game Modes", DcResources.getText("lblMobyGamesAttribMultiplayerGameModes"));
         attributes.put("Save Game Methods", DcResources.getText("lblMobyGamesAttribSaveGameMethods"));
+        
+        apiKey = DcSettings.getString(DcRepository.Settings.stMobyGamesApiKey);
+        
+        if (apiKey != null)
+            apiKey = apiKey.replace("+", "%2B");
     }
 
     @Override
@@ -110,7 +116,6 @@ public class MobyGamesSearch extends SearchTask {
     }
     
     private String getBaseUrl() throws OnlineSearchUserError {
-        String apiKey = DcSettings.getString(DcRepository.Settings.stMobyGamesApiKey);
         if (CoreUtilities.isEmpty(apiKey)) {
             String msg = DcResources.getText("msgMobyGamesNoApiKeyDefined");
             msg = "<html>" + msg + "<br><u><a href=\"https://www.mobygames.com/info/api\">https://www.mobygames.com/info/api</a></u></html>";
@@ -132,11 +137,12 @@ public class MobyGamesSearch extends SearchTask {
         
         if (additionalFilters != null) {
             platform = (MobyGamesPlatform) additionalFilters.get(DcResources.getText("lblPlatform"));
+            platform = CoreUtilities.isEmpty(platform.getId()) ? null : platform;
     
-            if (platform != null && !CoreUtilities.isEmpty(platform.getId()))
+            if (platform != null)
                 sUrl += "&platform=" + platform.getId();
         }
-            
+        
         waitBetweenRequest(); // prevent button smashing
         try {
             URL url = new URL(sUrl);
@@ -477,8 +483,6 @@ public class MobyGamesSearch extends SearchTask {
         if (platforms == null)
             return;
         
-        String apiKey = DcSettings.getString(DcRepository.Settings.stMobyGamesApiKey);
-        
         for (LinkedTreeMap platform : platforms) {
             int platformId = ((Double) platform.get("platform_id")).intValue();
 
@@ -494,7 +498,7 @@ public class MobyGamesSearch extends SearchTask {
             
             String serviceUrl = "https://api.mobygames.com/v1/games/" + mobygamesId 
                     + "/platforms/" + (this.platform != null ? this.platform.getId() : platformId) + "?api_key=" + apiKey;
-           
+            
             item.setValue(Software._SYS_SERVICEURL, serviceUrl);
             
             if (releasedOn != null && releasedOn.length() >= 4)
