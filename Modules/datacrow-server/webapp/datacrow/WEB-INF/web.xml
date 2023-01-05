@@ -68,12 +68,12 @@
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
 
-	<!--  filter>
+	<filter>
 		<filter-name>LoginFilter</filter-name>
 		<filter-class>org.datacrow.web.LoginFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>LoginFilter</filter-name>
 		<servlet-name>Faces Servlet</servlet-name>
-	</filter-mapping -->
+	</filter-mapping>
 </web-app>

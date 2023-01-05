@@ -76,12 +76,7 @@
                             <p:column class="dcPanel">
                                 <p:row style="width: 100%;">
                                     <center>
-                                        <p:graphicImage value="#{imageBean.content}" rendered="#{item.cover.alive}" cache="false" immediate="true">
-                                            <f:param name="filename" value="#{item.cover.filename}_small" />
-                                        </p:graphicImage>
-
-                                        <p:graphicImage url="/datacrow/javax.faces.resource/default/images/noimage.png.xhtml" rendered="#{!item.cover.alive}" />
-
+                                        <p:graphicImage value="#{item.cover.url}" rendered="#{item.cover.alive}" cache="false" immediate="true" />
                                     </center>
                                 </p:row>
                             </p:column>
@@ -104,9 +99,7 @@
                                     </p:commandLink>
                                 </td>
                                 <td style="border: none; padding: 0px; margin: 0; width: 25px;">
-                                    <p:graphicImage value="#{imageBean.content}" rendered="#{item.icon.alive}" cache="false">
-                                        <f:param name="filename" value="#{item.icon.filename}" />
-                                    </p:graphicImage>
+                                    <p:graphicImage value="#{item.icon.url}" rendered="#{item.icon.alive}" cache="false" />
                                 </td>
                                 <td style="border: none; padding: 0px; margin: 0;" rowspan="2">
                                     <h:outputText value="#{item.title}" />

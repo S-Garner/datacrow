@@ -36,6 +36,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.PhaseId;
 import jakarta.inject.Named;
 
+@Deprecated
 @Named 
 @SessionScoped 
 public class ImageBean extends DcBean {
