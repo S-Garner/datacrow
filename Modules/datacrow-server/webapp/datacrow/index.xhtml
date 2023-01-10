@@ -3,6 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 
+ 
+
 <h:head>
     <h:outputStylesheet library="default" name="stylesheets/style.css" />
 </h:head>
@@ -10,7 +12,8 @@
 <h:body onload="getClientInfo()">
 
     <div class="ui-fluid">
-        <div class="ui-g" style="margin-top: 20px;">
+    
+        <div class="ui-g">
             <h:form>
                 <p:menubar model="#{mainMenuBean.model}">
                     <f:facet name="options">
@@ -23,93 +26,98 @@
                     </f:facet>
                 </p:menubar>
             </h:form>
-
-            <ui:include src="menu.xhtml" />
         </div>
 
-        <div class="ui-g" style="margin-top: 20px;">
-            <h:form id="itemOverviewForm">
-                <p:dataGrid 
-                    var="item" value="#{itemsBean.items.items}" 
-                    columns="#{userSettingsBean.overviewNumberOfColumns}" 
-                    rows="#{userSettingsBean.overviewNumberOfItemsPerRow}" 
-                    layout="grid" rowKey="#{item.ID}" id="itemOverview" rowsPerPageTemplate="5,10,15,50,100"
-                    paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
-                    paginatorPosition="bottom" styleClass="itemoverview"
-                    widgetVar="overview">
+        <div class="ui-g">
 
-                    <!--  this is the sole place where the width and height is determined for this overview -->
-                    <p:panel style="width: 270px; height: 55px;overflow-y: hidden !important;" rendered="#{modulesBean.selectedModule.advancedView}">
-                        <p:panelGrid columns="1" class="dcPanel">
-                            <p:column class="dcPanel">
-                                <p:row style="width: 100%;">
-                                    <table class="layouttable" style="border: none; padding: 0px; margin: 0;">
-                                        <tr style="border: none; padding: 0px; margin: 0;">
-                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;">
-                                                <h:outputText value="#{item.title}" />
-                                            </td>
-                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;">
-                                                <p:commandLink update=":viewItemDetail" oncomplete="PF('viewItemDetail').show()">
-                                                    <h:outputText styleClass="pi pi-folder-open" style="margin:0 auto;" />
-                                                    <f:setPropertyActionListener value="#{item}" target="#{viewItemBean.item}" />
-                                                    <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForView}" />
-                                                </p:commandLink>
-                                            </td>
-                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;">
-                                                <p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()"
-                                                               rendered="#{modulesBean.selectedModule.editingAllowed}">
-                                                    <h:outputText styleClass="pi pi-user-edit" style="margin:0 auto;" />
-                                                    <f:setPropertyActionListener value="#{item}" target="#{editItemBean.item}" />
-                                                    <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForEdit}" />
-                                                </p:commandLink>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </p:row>
-                            </p:column>
-                        </p:panelGrid>
-                    </p:panel>
+            <div class="ui-g-2">
+                <ui:include src="menu.xhtml" />
+            </div>
 
-                    <p:panel style="width: 270px; height: 212px;" rendered="#{modulesBean.selectedModule.advancedView}">
-
-                        <p:panelGrid columns="1" class="dcPanel">
-                            <p:column class="dcPanel">
-                                <p:row style="width: 100%;">
-                                    <center>
-                                        <p:graphicImage value="#{item.cover.url}" rendered="#{item.cover.alive}" cache="false" immediate="true" />
-                                    </center>
-                                </p:row>
-                            </p:column>
-                        </p:panelGrid>
-                    </p:panel>
-
-                    <!-- This if for simple items, such as categories -->
-
-                    <p:panel rendered="#{!modulesBean.selectedModule.advancedView}" style="height: 50px;">
-                        <table class="layouttable" style="border: none; padding: 0px; margin: 0;">
-                            <tr style="border: none; padding: 0px; margin: 0;">
-                                <td style="border: none; padding: 0px; margin: 0; width: 25px;">
-                                    <p:commandLink update=":viewItemDetail" oncomplete="PF('viewItemDetail').show()">
-                                        <h:outputText styleClass="pi pi-folder-open" style="margin:0 auto;" />
-                                        <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForView}" />
-                                    </p:commandLink>
-                                    <p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()" rendered="#{modulesBean.selectedModule.editingAllowed}">
-                                        <h:outputText styleClass="pi pi-user-edit" style="margin:0 auto;" />
-                                        <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForEdit}" />
-                                    </p:commandLink>
-                                </td>
-                                <td style="border: none; padding: 0px; margin: 0; width: 25px;">
-                                    <p:graphicImage value="#{item.icon.url}" rendered="#{item.icon.alive}" cache="false" />
-                                </td>
-                                <td style="border: none; padding: 0px; margin: 0;" rowspan="2">
-                                    <h:outputText value="#{item.title}" />
-                                </td>
-                            </tr>
-
-                        </table>
-                    </p:panel>
-                </p:dataGrid>
-            </h:form>
+	        <div class="ui-g-2">
+	            <h:form id="itemOverviewForm">
+	                <p:dataGrid 
+	                    var="item" value="#{itemsBean.items.items}" 
+	                    columns="#{userSettingsBean.overviewNumberOfColumns}" 
+	                    rows="#{userSettingsBean.overviewNumberOfItemsPerRow}" 
+	                    layout="grid" rowKey="#{item.ID}" id="itemOverview" rowsPerPageTemplate="5,10,15,50,100"
+	                    paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+	                    paginatorPosition="bottom" styleClass="itemoverview"
+	                    widgetVar="overview">
+	
+	                    <!--  this is the sole place where the width and height is determined for this overview -->
+	                    <p:panel style="width: 100%; height: 55px;overflow-y: hidden !important;" rendered="#{modulesBean.selectedModule.advancedView}">
+	                        <p:panelGrid columns="10" class="dcPanel">
+	                            <p:column class="dcPanel">
+	                                <p:row>
+	                                    <table class="layouttable" style="border: none; padding: 0px; margin: 0;">
+	                                        <tr style="border: none; padding: 0px; margin: 0;">
+	                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;">
+	                                                <h:outputText value="#{item.title}" />
+	                                            </td>
+	                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;">
+	                                                <p:commandLink update=":viewItemDetail" oncomplete="PF('viewItemDetail').show()">
+	                                                    <h:outputText styleClass="pi pi-folder-open" style="margin:0 auto;" />
+	                                                    <f:setPropertyActionListener value="#{item}" target="#{viewItemBean.item}" />
+	                                                    <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForView}" />
+	                                                </p:commandLink>
+	                                            </td>
+	                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;">
+	                                                <p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()"
+	                                                               rendered="#{modulesBean.selectedModule.editingAllowed}">
+	                                                    <h:outputText styleClass="pi pi-user-edit" style="margin:0 auto;" />
+	                                                    <f:setPropertyActionListener value="#{item}" target="#{editItemBean.item}" />
+	                                                    <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForEdit}" />
+	                                                </p:commandLink>
+	                                            </td>
+	                                        </tr>
+	                                    </table>
+	                                </p:row>
+	                            </p:column>
+	                        </p:panelGrid>
+	                    </p:panel>
+	
+	                    <p:panel style="width: 270px; height: 212px;" rendered="#{modulesBean.selectedModule.advancedView}">
+	
+	                        <p:panelGrid columns="1" class="dcPanel">
+	                            <p:column class="dcPanel">
+	                                <p:row style="width: 100%;">
+	                                    <center>
+	                                        <p:graphicImage value="#{item.cover.url}" rendered="#{item.cover.alive}" cache="false" immediate="true" />
+	                                    </center>
+	                                </p:row>
+	                            </p:column>
+	                        </p:panelGrid>
+	                    </p:panel>
+	
+	                    <!-- This if for simple items, such as categories -->
+	
+	                    <p:panel rendered="#{!modulesBean.selectedModule.advancedView}" style="height: 50px;">
+	                        <table class="layouttable" style="border: none; padding: 0px; margin: 0;">
+	                            <tr style="border: none; padding: 0px; margin: 0;">
+	                                <td style="border: none; padding: 0px; margin: 0; width: 25px;">
+	                                    <p:commandLink update=":viewItemDetail" oncomplete="PF('viewItemDetail').show()">
+	                                        <h:outputText styleClass="pi pi-folder-open" style="margin:0 auto;" />
+	                                        <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForView}" />
+	                                    </p:commandLink>
+	                                    <p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()" rendered="#{modulesBean.selectedModule.editingAllowed}">
+	                                        <h:outputText styleClass="pi pi-user-edit" style="margin:0 auto;" />
+	                                        <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForEdit}" />
+	                                    </p:commandLink>
+	                                </td>
+	                                <td style="border: none; padding: 0px; margin: 0; width: 25px;">
+	                                    <p:graphicImage value="#{item.icon.url}" rendered="#{item.icon.alive}" cache="false" />
+	                                </td>
+	                                <td style="border: none; padding: 0px; margin: 0;" rowspan="2">
+	                                    <h:outputText value="#{item.title}" />
+	                                </td>
+	                            </tr>
+	
+	                        </table>
+	                    </p:panel>
+	                </p:dataGrid>
+	            </h:form>
+	        </div>
         </div>
 
         <ui:include src="edititemform.xhtml" />

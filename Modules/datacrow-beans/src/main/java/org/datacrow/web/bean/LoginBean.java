@@ -108,6 +108,8 @@ public class LoginBean implements Serializable {
         try {
             ItemsBean itemsBean = (ItemsBean) WebUtilities.getBean("itemsBean");
             itemsBean.reset();
+            
+            conn.setUser(null);
         } catch (Exception e) {
             WebUtilities.log(Level.ERROR, e);
         }
