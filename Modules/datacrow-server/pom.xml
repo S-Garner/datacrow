@@ -107,7 +107,7 @@
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-cdi</artifactId>
             <version>${jetty.version}</version>
-            <scope>provided</scope>
+            <!-- scope>provided</scope -->
         </dependency>
 
         <!-- primefaces 12 -->
@@ -123,31 +123,31 @@
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <version>5.0.0</version>
-            <scope>provided</scope>
+            <!-- scope>provided</scope -->
         </dependency>
         <dependency>
             <groupId>jakarta.websocket</groupId>
             <artifactId>jakarta.websocket-client-api</artifactId>
             <version>2.1.0</version>
-            <scope>provided</scope>
+            <!-- scope>provided</scope -->
         </dependency>
         <dependency>
             <groupId>jakarta.websocket</groupId>
             <artifactId>jakarta.websocket-api</artifactId>
             <version>2.1.0</version>
-            <scope>provided</scope>
+            <!-- scope>provided</scope -->
         </dependency>
         <dependency>
             <groupId>jakarta.el</groupId>
             <artifactId>jakarta.el-api</artifactId>
-            <version>4.0.0</version>
-            <scope>provided</scope>
+            <version>5.0.1</version>
+            <!-- scope>provided</scope -->
         </dependency>
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
             <version>3.0.0</version>
-            <scope>provided</scope>
+            <!-- scope>provided</scope -->
         </dependency>
         <dependency>
             <groupId>org.glassfish.web</groupId>
@@ -311,6 +311,21 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/webapp/datacrow/WEB-INF/lib/</outputDirectory>
+                            <includeScope>provided</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin -->                    
         </plugins>
     </build>
 </project>

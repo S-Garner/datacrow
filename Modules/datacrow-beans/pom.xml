@@ -44,21 +44,6 @@
 
     <build>
         <plugins>
-            <!-- plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/webapp/datacrow/WEB-INF/lib/</outputDirectory>
-                            <includeGroupIds>org.apache.xbean,org.primefaces,org.apache.geronimo.specs,com.sun.xml.bind,javax.servlet,javax.el,org.apache.openwebbeans,org.apache.bval,org.projectlombok,org.apache.myfaces.core,com.sun.activation,jakarta.xml.bind</includeGroupIds>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.1.0</version>
