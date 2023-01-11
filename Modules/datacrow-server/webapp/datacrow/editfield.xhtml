@@ -76,7 +76,7 @@
         </p:column>
     </p:panelGrid>
 
-    <p:panel styleClass="dcPanel" rendered="#{field.multiRelate and !field.navigationAllowed}">
+    <p:panel styleClass="dcPanel" rendered="#{field.multiRelate and (!field.navigationAllowed or !field.navigationEditAllowed)}">
         <ui:repeat var="reference" value="#{field.value}">
            <p:commandLink 
                styleClass="dcButton">
@@ -88,7 +88,7 @@
         </ui:repeat>
     </p:panel>
 
-    <p:panel styleClass="dcPanel" rendered="#{field.multiRelate and field.navigationEditAllowed}">
+    <p:panel styleClass="dcPanel" rendered="#{field.multiRelate and field.navigationAllowed and field.navigationEditAllowed}">
         <ui:repeat var="reference" value="#{field.value}">
            <p:commandLink 
                update=":editItemDetail" 
