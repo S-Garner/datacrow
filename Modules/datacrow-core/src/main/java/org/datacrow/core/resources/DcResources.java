@@ -111,13 +111,17 @@ public class DcResources {
             installFolderFile = new File(new File(DcConfig.getInstance().getInstallationDir(), "resources"), language + "_resources.properties"); 
             
             localResource = new DcLanguageResource(language, localFile);
-            installResource = new DcLanguageResource(language, installFolderFile);
             
-            // add newly introduced translations
-            localResource.merge(installResource);
+            if (installFolderFile.exists()) {
+                installResource = new DcLanguageResource(language, installFolderFile);
+                
+                // add newly introduced translations
+                localResource.merge(installResource);
+            }
+                
             // add English values for missing translations 
             localResource.merge(english);
-            
+                
             addLanguageResource(language, localResource);
         }
         
