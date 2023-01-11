@@ -68,7 +68,7 @@ public class MainMenuBean implements Serializable {
                 DefaultMenuItem item = DefaultMenuItem.builder()
                         .title(DcResources.getText("lblNewItem", module.getObjectName()))
                         .value(DcResources.getText("lblNewItem", module.getObjectName()))
-                        .icon("fa fa-plus-circle")
+                        .icon("pi pi-plus-circle")
                         .command("#{editItemBean.add}")
                         .update(":editItemDetail")
                         .oncomplete("PF('editItemDetail').show()").build();
@@ -84,7 +84,7 @@ public class MainMenuBean implements Serializable {
                 DefaultMenuItem item = DefaultMenuItem.builder()
                         .title(DcResources.getText("lblItemFormSettings", module.getObjectName()))
                         .value(DcResources.getText("lblItemFormSettings", module.getObjectName()))
-                        .icon("fa fa-wrench")
+                        .icon("pi pi-wrench")
                         .update(":editItemFormsettings")
                         .oncomplete("PF('editItemFormsettings').show()").build();                
                 

@@ -130,9 +130,6 @@ public class SettingsBean extends DcBean {
     }
     
     public String saveItemFormFields() {
-        
-        // TODO: this looks odd
-        
         List<DcField> f =  this.itemFormFields.getTarget();
         int[] fields = new int[f.size()]; 
         int idx = 0;
@@ -147,9 +144,6 @@ public class SettingsBean extends DcBean {
     }
     
     public String saveOverviewFields() {
-        
-        // TODO: this looks odd        
-        
         List<DcField> f =  this.overviewFields.getTarget();
         int[] overviewFields = new int[f.size()]; 
         int idx = 0;

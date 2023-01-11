@@ -25,10 +25,14 @@
 
 package org.datacrow.web.bean;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 
+import org.apache.logging.log4j.Level;
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.web.DcBean;
+import org.datacrow.web.util.WebUtilities;
 import org.primefaces.model.DefaultStreamedContent;
 
 import jakarta.enterprise.context.SessionScoped;
@@ -36,7 +40,6 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.PhaseId;
 import jakarta.inject.Named;
 
-@Deprecated
 @Named 
 @SessionScoped 
 public class ImageBean extends DcBean {
@@ -68,19 +71,19 @@ public class ImageBean extends DcBean {
             if (!fileExists && !tempFileExists) {
                 return new DefaultStreamedContent();
             } else {
-                try {
-                    //if (tempFileExists)
-                        //return new DefaultStreamedContent(new ByteArrayInputStream(CoreUtilities.readFile(fileTemp)), "image/png");
-                    //else
-                      //  return new DefaultStreamedContent(new ByteArrayInputStream(CoreUtilities.readFile(file)), "image/png");
-                    
-                    // TODO: implement
-                    
-                    return new DefaultStreamedContent();
-                    
-                } catch (Exception e) {
-                    return new DefaultStreamedContent();
-                }
+                return DefaultStreamedContent.builder()
+                        .contentType("image/png")
+                        .stream(() -> {
+                            try {
+                                if (fileTemp.exists())
+                                    return new ByteArrayInputStream(CoreUtilities.readFile(fileTemp));
+                                else
+                                    return new ByteArrayInputStream(CoreUtilities.readFile(file));
+                            } catch (Exception e) {
+                                WebUtilities.log(Level.ERROR, e);
+                                return null;
+                            }
+                        }).build();
             }
         }
     }
