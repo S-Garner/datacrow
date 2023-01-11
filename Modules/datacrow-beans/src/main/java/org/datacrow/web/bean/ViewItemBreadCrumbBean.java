@@ -28,15 +28,17 @@ package org.datacrow.web.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
 import org.datacrow.web.DcBean;
 import org.datacrow.web.model.Item;
 import org.datacrow.web.util.DcMenuItem;
+import org.datacrow.web.util.WebUtilities;
+import org.primefaces.event.MenuActionEvent;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.MenuElement;
 import org.primefaces.model.menu.MenuModel;
 
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Named;
 
 @Named
@@ -96,12 +98,7 @@ public class ViewItemBreadCrumbBean extends DcBean {
         return model;
     }
     
-    public void selectItem(ActionEvent event) {
-        
-        System.out.println("Test");
-        
-        /*
-        
+    public void selectItem(MenuActionEvent event) {
         DcMenuItem menuItem = (DcMenuItem) event.getMenuItem();
         
         Item item = menuItem.getItem();
@@ -112,6 +109,6 @@ public class ViewItemBreadCrumbBean extends DcBean {
             itemBean.setItem(item);
         } catch (Exception e) {
             WebUtilities.log(Level.ERROR, "Could not find / instantiate the Bread Crumb Bean", e);
-        } */
+        }
     }
 }

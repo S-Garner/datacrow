@@ -37,6 +37,7 @@ public class DcMenuItem extends DefaultMenuItem {
     public DcMenuItem(Item item) {
         super();
         setTitle(item.getTitle());
+        setValue(item.getTitle());
         this.item = item;
     }
     
