@@ -151,11 +151,11 @@ public class DcServer implements Runnable, IStarterClient, IClient {
                 int index = credentials.indexOf("/");
                 username = index > -1 ? credentials.substring(0, index) : credentials;
                 password = index > -1 ? credentials.substring(index + 1) : "";
-            } else if (determiningInstallDir) {
+            } else if (determiningInstallDir && !arg.startsWith("-Dorg.")) { // exclude other parameters from being added to the path
                 installationDir += " " + arg;
-            } else if (determiningUserDir) {
+            } else if (determiningUserDir && !arg.startsWith("-Dorg.")) { // exclude other parameters from being added to the path
                 dataDir += " " + arg;                    
-            } else { 
+            } else if (!arg.startsWith("-Dorg.")) { 
             	printParameterHelp();
                 System.exit(0);
             }

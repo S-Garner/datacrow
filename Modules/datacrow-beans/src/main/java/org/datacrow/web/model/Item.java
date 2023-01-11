@@ -224,6 +224,11 @@ public class Item extends DcBean {
             
             field = m.getField(fieldIdx);
             
+            if (field == null) {
+                WebUtilities.log(Level.WARN, "Field with index [" + fieldIdx + "] could not be found for module [" + m.getIndex() + "]");
+                continue;
+            }
+            
             if (!isAuthorized(field) ||
                 !field.isEnabled() || 
                  field.isLoanField()) 
@@ -257,7 +262,7 @@ public class Item extends DcBean {
         	
             field = m.getField(fieldIdx);
             
-        	if (!field.isEnabled()) continue;
+        	if (field == null || !field.isEnabled()) continue;
 
             if (    !isAuthorized(field) ||
                     !field.isEnabled() || 

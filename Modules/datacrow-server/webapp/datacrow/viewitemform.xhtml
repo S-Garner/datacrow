@@ -91,34 +91,33 @@
 	                    </p:dataTable>
 	                </p:scrollPanel>
                 </p:tab>
-                
-	            <p:tab title="#{translationsBean.getText('lblRelatedItems')}" rendered="#{viewItemBean.item.hasReferencingItems}">
-	               <p:dataGrid var="reference" 
-                           value="#{viewItemBean.item.referencingItems}" 
-                           styleClass="itemform"
-                           layout="grid"
-                           style="border:none;"
-                           columns="3" 
-                           rows="20" 
-                           paginator="true"
-                           paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                           paginatorPosition="bottom">
-                           
-                        <p:column headerText="" style="border:none;">
-                        
-                        
-				           <p:commandLink
-				               value="#{reference.label}"
-				               update=":viewItemDetail" 
-				               oncomplete="PF('viewItemDetail').show()"
-				               styleClass="dcButton"
-                               style="height:40px">
-				               <f:setPropertyActionListener target="#{viewItemBean.reference}" value="#{reference}" />
-				            </p:commandLink>
-                        </p:column>
-                    </p:dataGrid>
-	            </p:tab>
-	         </p:accordionPanel>
+
+				<p:tab title="#{translationsBean.getText('lblRelatedItems')}"
+					rendered="#{viewItemBean.item.hasReferencingItems}">
+
+					<div class="ui-g">
+						<div class="ui-g-12">
+							<p:dataGrid var="reference"
+								value="#{viewItemBean.item.referencingItems}"
+								styleClass="itemform" layout="grid" style="border:none;"
+								columns="3" rows="20" paginator="true"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								paginatorPosition="bottom">
+
+								<p:column headerText="" style="border:none;">
+									<p:commandLink value="#{reference.label}"
+										update=":viewItemDetail"
+										oncomplete="PF('viewItemDetail').show()" 
+										styleClass="dcButton"
+										style="height:30px">
+										<f:setPropertyActionListener target="#{viewItemBean.reference}" value="#{reference}" />
+									</p:commandLink>
+								</p:column>
+							</p:dataGrid>
+						</div>
+					</div>
+				</p:tab>
+			</p:accordionPanel>
 
 			<div id="button" style="position: relative !important; bottom: 5px !important; top: 5px !important; vertical-align: bottom !important;">
 				<p:commandLink value="#{translationsBean.getText('lblClose')}"

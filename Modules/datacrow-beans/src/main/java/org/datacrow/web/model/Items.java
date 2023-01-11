@@ -32,9 +32,12 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilters;
+import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.utilities.definitions.DcFieldDefinition;
+import org.datacrow.core.utilities.definitions.DcFieldDefinitions;
 import org.datacrow.web.DcBean;
 
 /**
@@ -86,10 +89,26 @@ public class Items extends DcBean {
     public void setOverviewFields() {
         List<Integer> c = new ArrayList<Integer>();
         
-        int[] fields= DcModules.get(moduleIdx).getSettings().getIntArray(DcRepository.ModuleSettings.stWebOverviewFields);
+        DcModule m = DcModules.get(moduleIdx);
+        
+        int[] fields = m.getSettings().getIntArray(DcRepository.ModuleSettings.stWebOverviewFields);
         if (fields != null) {
-            for (int field : fields)
-                c.add(Integer.valueOf(field));
+            for (int field : fields) {
+                if (m.getField(field) != null)
+                    c.add(Integer.valueOf(field));
+            }
+        }
+
+        // so - we don't have any web field definitions; let's add the normal field indices instead (descriptive property)
+        if (c.size() == 0) {
+            DcFieldDefinitions definitions = 
+                    (DcFieldDefinitions) m.getSettings().getDefinitions(DcRepository.ModuleSettings.stFieldDefinitions);
+            
+            for (DcFieldDefinition def : definitions.getDefinitions()) {
+                if (def.isDescriptive()) {
+                    c.add(Integer.valueOf(def.getIndex()));
+                }
+            }
         }
         
         if (!c.contains(DcObject._ID))

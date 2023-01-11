@@ -75,8 +75,11 @@ public class SettingsBean extends DcBean {
         List<DcField> target = new ArrayList<DcField>();
         
         if (settings != null) {
-            for (int fieldIdx : settings.getIntArray(DcRepository.ModuleSettings.stWebItemFormFields))
-                target.add(module.getField(fieldIdx));
+            for (int fieldIdx : settings.getIntArray(DcRepository.ModuleSettings.stWebItemFormFields)) {
+                
+                if (module.getField(fieldIdx) != null)
+                    target.add(module.getField(fieldIdx));
+            }
         }
         
         for (DcField field : module.getFields()) {
@@ -102,8 +105,10 @@ public class SettingsBean extends DcBean {
         List<DcField> target = new ArrayList<DcField>();
         
         if (settings != null) {
-            for (int fieldIdx : settings.getIntArray(DcRepository.ModuleSettings.stWebOverviewFields))
-                target.add(module.getField(fieldIdx));
+            for (int fieldIdx : settings.getIntArray(DcRepository.ModuleSettings.stWebOverviewFields)) {
+                if (module.getField(fieldIdx) != null)
+                    target.add(module.getField(fieldIdx));
+            }
         }
         
         for (DcField field : module.getFields()) {

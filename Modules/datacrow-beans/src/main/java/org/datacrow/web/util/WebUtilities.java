@@ -79,12 +79,24 @@ public abstract class WebUtilities {
     
     public static void log(Level level, String msg, Exception e) {
         if (level == Level.DEBUG)
-            logger.debug(e, e);
+            if (e == null)
+                logger.debug(msg);
+            else
+                logger.debug(e, e);
         if (level == Level.ERROR)
-            logger.error(e, e);
+            if (e == null)
+                logger.error(msg);
+            else
+                logger.error(e, e);
         if (level == Level.WARN)
-            logger.warn(e, e);
+            if (e == null)
+                logger.warn(msg);
+            else
+                logger.warn(e, e);
         if (level == Level.INFO)
-            logger.info(e, e);        
+            if (e == null)
+                logger.info(msg);
+            else
+                logger.info(e, e);    
     }
 }

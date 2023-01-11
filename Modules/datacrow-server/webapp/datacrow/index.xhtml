@@ -14,18 +14,20 @@
     <div class="ui-fluid">
     
         <div class="ui-g">
-            <h:form>
-                <p:menubar model="#{mainMenuBean.model}">
-                    <f:facet name="options">
-                        <p:inputText value="#{itemsBean.items.searchString}" style="width:205px !important;" />
-                        <p:commandButton icon="fa fa-search" actionListener="#{itemsBean.search}" update=":itemOverviewForm:itemOverview" />
-
-                        <p:menuButton value="#{loginBean.username}" style="margin-left:10px;">
-                            <p:menuitem value="#{translationsBean.getText('lblLogoff')}" action="#{loginBean.logoff}" icon="ui-icon-extlink" />
-                        </p:menuButton>
-                    </f:facet>
-                </p:menubar>
-            </h:form>
+            <div class="ui-g-12">
+	            <h:form>
+	                <p:menubar model="#{mainMenuBean.model}">
+	                    <f:facet name="options">
+	                        <p:inputText value="#{itemsBean.items.searchString}" style="width:300px !important;" />
+	                        <p:commandButton icon="pi pi-search" actionListener="#{itemsBean.search}" update=":itemOverviewForm:itemOverview" />
+	
+	                        <p:menuButton value="#{loginBean.username}" style="margin-left:10px;">
+	                            <p:menuitem value="#{translationsBean.getText('lblLogoff')}" action="#{loginBean.logoff}" icon="ui-icon-extlink" />
+	                        </p:menuButton>
+	                    </f:facet>
+	                </p:menubar>
+	            </h:form>
+            </div>
         </div>
 
         <div class="ui-g">
@@ -37,61 +39,61 @@
 	        <div class="ui-g-10">
 	            <h:form id="itemOverviewForm">
 	                <p:dataGrid 
-	                    var="item" value="#{itemsBean.items.items}" 
+	                    var="item"
+	                    value="#{itemsBean.items.items}" 
 	                    columns="#{userSettingsBean.overviewNumberOfColumns}" 
 	                    rows="#{userSettingsBean.overviewNumberOfItemsPerRow}" 
-	                    layout="grid" rowKey="#{item.ID}" id="itemOverview" rowsPerPageTemplate="5,10,15,50,100"
-	                    paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
-	                    paginatorPosition="bottom" styleClass="itemoverview"
+	                    layout="grid"
+	                    rowKey="#{item.ID}"
+	                    id="itemOverview" 
+	                    rowsPerPageTemplate="5,10,15,50,100,1000"
+	                    paginator="true" 
+	                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+	                    paginatorPosition="bottom"
+	                    styleClass="itemoverview"
 	                    widgetVar="overview">
 	
-	                    <!--  this is the sole place where the width and height is determined for this overview -->
-	                    <p:panel style="width: 270px; height: 55px;overflow-y: hidden !important;" rendered="#{modulesBean.selectedModule.advancedView}">
+	                    <p:panel style="width: 270px; overflow-y: hidden !important;" rendered="#{modulesBean.selectedModule.advancedView}">
 	                        <p:panelGrid columns="1" class="dcPanel">
 	                            <p:column class="dcPanel">
-	                                <p:row style="width: 100%;">
-	                                    <table class="layouttable" style="border: none; padding: 0px; margin: 0;">
-	                                        <tr style="border: none; padding: 0px; margin: 0;">
-	                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;">
-	                                                <h:outputText value="#{item.title}" />
-	                                            </td>
-	                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;">
-	                                                <p:commandLink update=":viewItemDetail" oncomplete="PF('viewItemDetail').show()">
-	                                                    <h:outputText styleClass="pi pi-folder-open" style="margin:0 auto;" />
-	                                                    <f:setPropertyActionListener value="#{item}" target="#{viewItemBean.item}" />
-	                                                    <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForView}" />
-	                                                </p:commandLink>
-	                                            </td>
-	                                            <td style="border: none; padding: 0px; margin: 0; width: 25px;">
-	                                                <p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()"
-	                                                               rendered="#{modulesBean.selectedModule.editingAllowed}">
-	                                                    <h:outputText styleClass="pi pi-user-edit" style="margin:0 auto;" />
-	                                                    <f:setPropertyActionListener value="#{item}" target="#{editItemBean.item}" />
-	                                                    <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForEdit}" />
-	                                                </p:commandLink>
-	                                            </td>
-	                                        </tr>
-	                                    </table>
-	                                </p:row>
+	                                <div class="ui-g" style="height:50px">
+                                        <div class="ui-g-10">
+                                            <h:outputText value="#{item.title}" />
+							            </div>
+                                        <div class="ui-g-1">
+	                                        <p:commandLink update=":viewItemDetail" oncomplete="PF('viewItemDetail').show()">
+	                                            <h:outputText styleClass="pi pi-folder-open" style="margin:0 auto;" />
+	                                            <f:setPropertyActionListener value="#{item}" target="#{viewItemBean.item}" />
+	                                            <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForView}" />
+	                                        </p:commandLink>
+                                        </div>
+                                        <div class="ui-g-1">
+	                                        <p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()"
+	                                                       rendered="#{modulesBean.selectedModule.editingAllowed}">
+	                                            <h:outputText styleClass="pi pi-user-edit" style="margin:0 auto;" />
+	                                            <f:setPropertyActionListener value="#{item}" target="#{editItemBean.item}" />
+	                                            <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForEdit}" />
+	                                        </p:commandLink>
+                                        </div>
+	                                </div>
 	                            </p:column>
 	                        </p:panelGrid>
 	                    </p:panel>
 	
 	                    <p:panel style="width:270px;" rendered="#{modulesBean.selectedModule.advancedView}">
 	
-	                        <p:panelGrid columns="1" class="dcPanel" style="height:212px;">
+	                        <p:panelGrid columns="1" class="dcPanel" style="height:212px">
 	                            <p:column class="dcPanel">
-	                                <p:row style="width: 100%;">
-	                                    <center>
-	                                        <p:graphicImage value="#{item.cover.url}" rendered="#{item.cover.alive}" cache="false" immediate="true" />
-	                                    </center>
-	                                </p:row>
+                                   <center>
+                                        <p:graphicImage value="#{imageBean.content}" rendered="#{item.cover.alive}" cache="false" immediate="true">
+                                           <f:param name="filename" value="#{item.cover.filename}_small" />
+                                        </p:graphicImage>
+                                    </center>
 	                            </p:column>
 	                        </p:panelGrid>
 	                    </p:panel>
 	
 	                    <!-- This if for simple items, such as categories -->
-	
 	                    <p:panel rendered="#{!modulesBean.selectedModule.advancedView}" style="height: 50px;">
 	                        <table class="layouttable" style="border: none; padding: 0px; margin: 0;">
 	                            <tr style="border: none; padding: 0px; margin: 0;">
@@ -106,13 +108,14 @@
 	                                    </p:commandLink>
 	                                </td>
 	                                <td style="border: none; padding: 0px; margin: 0; width: 25px;">
-	                                    <p:graphicImage value="#{item.icon.url}" rendered="#{item.icon.alive}" cache="false" />
+	                                    <p:graphicImage value="#{imageBean.content}" rendered="#{item.icon.alive}" cache="false">
+	                                        <f:param name="filename" value="#{item.icon.filename}" />
+	                                    </p:graphicImage>	                                
 	                                </td>
 	                                <td style="border: none; padding: 0px; margin: 0;" rowspan="2">
 	                                    <h:outputText value="#{item.title}" />
 	                                </td>
 	                            </tr>
-	
 	                        </table>
 	                    </p:panel>
 	                </p:dataGrid>
