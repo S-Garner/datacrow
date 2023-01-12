@@ -189,9 +189,9 @@ public class EditItemBean extends ItemBean {
                     for (Object ref : (List) field.getValue()) {
                         if (ref instanceof Reference) {
                             o = conn.getItem(field.getReferenceModuleIdx(), ((Reference) ref).getId());
-                            
                             if (o == null) {
-                                dco.createReference(field.getIndex(), ((Reference) ref).getLabel()); 
+                                dco.createReference(field.getIndex(), ((Reference) ref).getLabel());
+                                ReferencesCache.getInstance().forceRefresh(field.getReferenceModuleIdx());
                             } else {
                                 dco.createReference(field.getIndex(), o);
                             }
@@ -264,7 +264,8 @@ public class EditItemBean extends ItemBean {
                     for (Object ref : (List) field.getValue()) {
                         o = conn.getItem(field.getReferenceModuleIdx(), ((Reference) ref).getId());
                         if (o == null) {
-                            dco.createReference(field.getIndex(), ((Reference) ref).getLabel()); 
+                            dco.createReference(field.getIndex(), ((Reference) ref).getLabel());
+                            ReferencesCache.getInstance().forceRefresh(field.getReferenceModuleIdx());
                         } else {
                             dco.createReference(field.getIndex(), o);
                         }

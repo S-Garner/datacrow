@@ -48,33 +48,39 @@
         </p:column>
     </p:autoComplete>
 
-    <p:panelGrid rendered="#{field.dropDown}" columns="2" style="width: 100% !important" styleClass="dcListBox" columnClasses="listbox-left, listbox-right">
-        <p:column style="border:none !important;">
-	        <p:selectOneListbox 
-	          id="editDropDown"
-	          filter="true" 
-	          filterMatchMode="contains"
-	          disabled="#{field.readonly}" 
-	          required="#{field.required}"
-	          value="#{field.value}"
-	          converter="#{field.converter}"
-	          scrollHeight="190"
-	          style="width:95% !important;height:200;">
-	                          
-	          <f:selectItems value="#{field.allReferences}" 
-	                         var="ref" 
-	                         itemLabel="#{ref.label}" 
-	                         itemValue="#{ref}" />
-	        </p:selectOneListbox>
-        </p:column>
-        <p:column style="border:none !important;">
-	        <p:commandButton
-	            icon="pi pi-plus-circle" 
-	            rendered="#{!field.readonly and field.navigationEditAllowed}"
-	            update=":editItemDetailContents" 
-	            actionListener="#{editItemBean.add(field)}" />
-        </p:column>
-    </p:panelGrid>
+    <p:panel rendered="#{field.dropDown}" styleClass="dcPanel">
+        <div class="ui-g" >
+            <div class="ui-g-11">
+		        <p:selectOneListbox 
+		          id="editDropDown"
+		          filter="true" 
+		          filterMatchMode="contains"
+		          disabled="#{field.readonly}" 
+		          required="#{field.required}"
+		          value="#{field.value}"
+		          converter="#{field.converter}"
+		          scrollHeight="190"
+		          style="height:200;">
+		                          
+		          <f:selectItems value="#{field.allReferences}" 
+		                         var="ref" 
+		                         itemLabel="#{ref.label}" 
+		                         itemValue="#{ref}" />
+		        </p:selectOneListbox>
+		    </div>
+		    <div class="ui-g-1">
+		        <p:commandLink
+		            icon="pi pi-plus-circle" 
+		            rendered="#{!field.readonly and field.navigationEditAllowed}"
+		            update=":editItemDetailContents" 
+		            actionListener="#{editItemBean.add(field)}">
+
+		            <i class="pi pi-plus-circle"></i>
+
+		         </p:commandLink>  
+            </div>
+        </div>
+    </p:panel>
 
     <p:panel styleClass="dcPanel" rendered="#{field.multiRelate and (!field.navigationAllowed or !field.navigationEditAllowed)}">
         <ui:repeat var="reference" value="#{field.value}">
@@ -102,18 +108,23 @@
             </p:commandLink>
         </ui:repeat>
         
-	    <p:commandButton
-            icon="pi pi-plus-circle"
-            styleClass="dcIconButton"
+	    <p:commandLink
             rendered="#{!field.readonly and field.navigationEditAllowed}"
             update=":editItemDetailContents" 
-            actionListener="#{editItemBean.add(field)}" />
+            actionListener="#{editItemBean.add(field)}">
+            
+            <i class="pi pi-plus-circle"></i>
+            
+        </p:commandLink>
         
-        <p:commandButton
-            icon="pi pi-user-edit" 
+        <p:commandLink
             rendered="#{!field.readonly}"
             update="editReferences"
             oncomplete="PF('editReferences').show()"
-            actionListener="#{editReferencesBean.setField(field)}" />
+            actionListener="#{editReferencesBean.setField(field)}">
+            
+            <i class="pi pi-user-edit"></i>
+            
+        </p:commandLink>
     </p:panel>
 </html>

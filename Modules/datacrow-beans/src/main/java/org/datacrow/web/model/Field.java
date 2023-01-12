@@ -33,9 +33,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import jakarta.faces.context.FacesContext;
-import jakarta.faces.convert.Converter;
-
 import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.console.UIComponents;
@@ -54,6 +51,9 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.tagcloud.DefaultTagCloudModel;
 import org.primefaces.model.tagcloud.TagCloudModel;
+
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
 
 /**
  * A light weight version of the DcField. The heavy weight version is also present
@@ -325,7 +325,7 @@ public class Field extends DcBean {
             @SuppressWarnings("unchecked")
             List<Reference> tags = (List<Reference>) value;
             List<Reference> newTags = new ArrayList<Reference>();
-            
+
             if (tags != null)
                 newTags.addAll(tags);
             
