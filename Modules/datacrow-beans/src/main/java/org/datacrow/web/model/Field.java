@@ -280,6 +280,16 @@ public class Field extends DcBean {
         }
         return dsc;
     }
+
+    public void delete() {
+        if (value instanceof Picture) {
+            ((Picture) value).setDeleted(true);
+        } else {
+            value = null;
+        }
+        
+        setChanged(true);
+    }
     
     /**
      * Retrieves the value for this field. This is only used for input forms.

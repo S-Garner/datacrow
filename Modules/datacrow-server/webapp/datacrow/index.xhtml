@@ -53,7 +53,7 @@
 	                    styleClass="itemoverview"
 	                    widgetVar="overview">
 	
-	                    <p:panel style="width: 270px; overflow-y: hidden !important;" rendered="#{modulesBean.selectedModule.advancedView}">
+	                    <p:panel style="width: 280px; overflow-y: hidden !important;" rendered="#{modulesBean.selectedModule.advancedView}">
 	                        <p:panelGrid columns="1" class="dcPanel">
 	                            <p:column class="dcPanel">
 	                                <div class="ui-g" style="height:50px">
@@ -66,22 +66,19 @@
 	                                            <f:setPropertyActionListener value="#{item}" target="#{viewItemBean.item}" />
 	                                            <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForView}" />
 	                                        </p:commandLink>
-                                        </div>
-                                        <div class="ui-g-1">
-	                                        <p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()"
-	                                                       rendered="#{modulesBean.selectedModule.editingAllowed}">
-	                                            <h:outputText styleClass="pi pi-user-edit" style="margin:0 auto;" />
-	                                            <f:setPropertyActionListener value="#{item}" target="#{editItemBean.item}" />
-	                                            <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForEdit}" />
-	                                        </p:commandLink>
+                                            <p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()"
+                                                           rendered="#{modulesBean.selectedModule.editingAllowed}">
+                                                <h:outputText styleClass="pi pi-pencil" style="margin:0 auto;" />
+                                                <f:setPropertyActionListener value="#{item}" target="#{editItemBean.item}" />
+                                                <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForEdit}" />
+                                            </p:commandLink>
                                         </div>
 	                                </div>
 	                            </p:column>
 	                        </p:panelGrid>
 	                    </p:panel>
 	
-	                    <p:panel style="width:270px;" rendered="#{modulesBean.selectedModule.advancedView}">
-	
+	                    <p:panel style="width:280px;" rendered="#{modulesBean.selectedModule.advancedView}">
 	                        <p:panelGrid columns="1" class="dcPanel" style="height:212px">
 	                            <p:column class="dcPanel">
                                    <center>
@@ -103,7 +100,7 @@
 	                                        <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForView}" />
 	                                    </p:commandLink>
 	                                    <p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()" rendered="#{modulesBean.selectedModule.editingAllowed}">
-	                                        <h:outputText styleClass="pi pi-user-edit" style="margin:0 auto;" />
+	                                        <h:outputText styleClass="pi pi-pencil" style="margin:0 auto;" />
 	                                        <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForEdit}" />
 	                                    </p:commandLink>
 	                                </td>

@@ -105,7 +105,9 @@ public class UpdateQuery extends Query {
                         picture.setValue(Picture._C_FILENAME, dco.getID() + "_" + field.getDatabaseFieldName() + ".jpg");
                         
                         icon = (ImageIcon) picture.getValue(Picture._D_IMAGE);
-                        if (icon != null) {
+                        if (picture.isDeleted()) {
+                            pictures.add(picture);
+                        } else if (icon != null) {
                             picture.setValue(Picture._E_HEIGHT, Long.valueOf(icon.getIconHeight()));
                             picture.setValue(Picture._F_WIDTH, Long.valueOf(icon.getIconWidth()));
                             pictures.add(picture);

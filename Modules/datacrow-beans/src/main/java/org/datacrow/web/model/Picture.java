@@ -42,8 +42,9 @@ public class Picture extends DcBean {
 	
 	private String name;
 
-	private boolean deleted = false;
 	private boolean edited = false;
+	
+	private boolean deleted = false;
 	
 	private byte[] contents = null;
 	
@@ -93,13 +94,13 @@ public class Picture extends DcBean {
     }
 	
 	public boolean isDeleted() {
-        return deleted;
-    }
+	    return deleted;
+	}
 
-    public void setDeleted(boolean b) {
-        this.deleted = b;
-    }
-
+	public void setDeleted(boolean b) {
+	    this.deleted = b;
+	}
+	
     public byte[] getContents() {
         return contents;
     }
@@ -117,7 +118,7 @@ public class Picture extends DcBean {
 	}
 	
     public boolean isAlive() {
-        if (filename == null || deleted)
+        if (filename == null || isDeleted())
             return false;
         else
             return fileSmall.exists() && fileLarge.exists();

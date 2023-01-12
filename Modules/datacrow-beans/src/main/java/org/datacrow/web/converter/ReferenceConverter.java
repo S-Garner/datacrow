@@ -63,7 +63,7 @@ public class ReferenceConverter implements Converter<Object> {
 
     @Override
     public String getAsString(FacesContext facesContext, UIComponent uiComponent, Object object) {
-        return String.valueOf(((Reference) object).getId());
+        return object == null ? "" : String.valueOf(((Reference) object).getId());
     }
     
     public void addReference(Reference reference) {

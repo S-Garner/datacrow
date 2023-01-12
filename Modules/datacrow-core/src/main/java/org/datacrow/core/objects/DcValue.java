@@ -132,10 +132,13 @@ public class DcValue implements Serializable {
 	                picture.isEdited(true);
 	                
                     setValueNative(picture, field);
-	            } else if (currentImage != null) {
-	                currentImage.flush();
+	            } else if (picture.hasImage()) {
+	                if (currentImage != null)
+	                    currentImage.flush();
+	                
 	                ((Picture) value).isDeleted(true);
                     setValueNative(picture, field);
+                    setChanged(true);
                 }
             }
        } else if (field.getValueType() == DcRepository.ValueTypes._ICON) {

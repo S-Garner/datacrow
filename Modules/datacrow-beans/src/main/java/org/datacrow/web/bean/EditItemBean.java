@@ -54,84 +54,86 @@ import jakarta.inject.Named;
 @Named
 @SessionScoped
 public class EditItemBean extends ItemBean {
-    
+
     private Field field = null;
-    
+
     public String add() {
-        
+
         try {
             // reset the bread crumb
             try {
-                EditItemBreadCrumbBean editItemBreadCrumbBean = (EditItemBreadCrumbBean) WebUtilities.getBean("editItemBreadCrumbBean");
+                EditItemBreadCrumbBean editItemBreadCrumbBean = (EditItemBreadCrumbBean) WebUtilities
+                        .getBean("editItemBreadCrumbBean");
                 editItemBreadCrumbBean.reset();
             } catch (Exception e) {
                 WebUtilities.log(Level.ERROR, "Could not find / instantiate the Bread Crumb Bean", e);
             }
-            
+
             // get the selected module
             ModulesBean modulesBean = (ModulesBean) WebUtilities.getBean("modulesBean");
-            
+
             if (modulesBean.getSelectedModuleIdx() != -1) {
-            
+
                 DcModule module = DcModules.get(modulesBean.getSelectedModuleIdx());
-                
+
                 DcObject dco = module.getItem();
                 dco.setIDs();
-                
+
                 Item item = new Item(dco);
                 item.setIsNewItem(true);
                 item.setTitle(DcResources.getText("lblNewItem", module.getObjectName()));
-                
+
                 setItem(item);
             }
-            
+
         } catch (Exception e) {
             WebUtilities.log(Level.ERROR, e);
         }
-        
+
         return "/index";
     }
-    
+
     public String add(Field field) {
-        
+
         int moduleIdx = field.getReferenceModuleIdx();
         DcModule module = DcModules.get(moduleIdx);
-        
+
         DcObject dco = module.getItem();
         dco.setIDs();
-        
+
         Item item = new Item(dco);
         item.setIsNewItem(true);
         item.setTitle(DcResources.getText("lblNewItem", module.getObjectName()));
-        
+
         setItem(item);
-        
+
         this.field = field;
-        
+
         return "/index";
     }
     
     @Override
     public void setItem(Item item) {
-        
+
         this.field = null;
         this.item = item;
-        
+
         if (!item.isNewItem() && !item.isLoaded()) {
             Connector conn = DcConfig.getInstance().getConnector();
             this.item.setValues(conn.getItem(item.getModuleIdx(), item.getID()));
             this.item.loadAllOtherItems();
             this.item.setLoaded(true);
         }
-        
+
         try {
-            EditItemBreadCrumbBean editItemBreadCrumbBean = (EditItemBreadCrumbBean) WebUtilities.getBean("editItemBreadCrumbBean");
+            EditItemBreadCrumbBean editItemBreadCrumbBean = (EditItemBreadCrumbBean) WebUtilities
+                    .getBean("editItemBreadCrumbBean");
             editItemBreadCrumbBean.addItem(this.item);
         } catch (Exception e) {
             WebUtilities.log(Level.ERROR, "Could not find / instantiate the Bread Crumb Bean", e);
         }
     }
-    
+
     public String save() {
         Item currentItem = getItem();
         if (currentItem != null) {
@@ -139,30 +141,30 @@ public class EditItemBean extends ItemBean {
                 insert(currentItem);
             else
                 update(currentItem);
-            
+
             if (currentItem.getModule().getType() == Module._TYPE_PROPERTY_MODULE)
                 ReferencesCache.getInstance().forceRefresh(currentItem.getModuleIdx());
         }
-        
+
         return "/index";
     }
-    
+
     @SuppressWarnings("rawtypes")
     private void update(Item item) {
         Connector conn = DcConfig.getInstance().getConnector();
         DcObject dco = conn.getItem(item.getModuleIdx(), item.getID());
-        
+
         dco.markAsUnchanged();
         dco.setNew(false);
-        
+
         Object o;
         boolean changed = false;
         for (Field field : item.getFields()) {
             if (field.isChanged()) {
-                
+
                 if ((field.isImage() || field.isIcon()) && field.getValue() instanceof Picture) {
                     Picture p = (Picture) field.getValue();
-                    
+
                     if (p.isEdited()) {
                         dco.setValue(field.getIndex(), new DcImageIcon(p.getContents()));
                         changed = true;
@@ -172,18 +174,18 @@ public class EditItemBean extends ItemBean {
                     }
                 } else if (field.isDropDown()) {
                     dco.setValue(field.getIndex(), null);
-                    
+
                     if (field.getValue() instanceof Reference) {
                         o = conn.getItem(field.getReferenceModuleIdx(), ((Reference) field.getValue()).getId());
-                        
+
                         if (o == null) {
-                            dco.createReference(field.getIndex(), ((Reference) field.getValue()).getLabel()); 
+                            dco.createReference(field.getIndex(), ((Reference) field.getValue()).getLabel());
                         } else {
                             dco.createReference(field.getIndex(), o);
                         }
                     }
 
-                    changed = true;                    
+                    changed = true;
                 } else if (field.isMultiRelate() || field.isTagField()) {
                     dco.setValue(field.getIndex(), null);
                     for (Object ref : (List) field.getValue()) {
@@ -215,44 +217,35 @@ public class EditItemBean extends ItemBean {
                 }
             }
         }
-        
+
         if (changed) {
             try {
                 conn.saveItem(dco);
-                FacesContext.getCurrentInstance().addMessage(
-                        null, 
-                        new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                        "Info", 
-                        DcResources.getText("msgDataSaved")));
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", DcResources.getText("msgDataSaved")));
             } catch (Exception e) {
-                FacesContext.getCurrentInstance().addMessage(
-                        null, 
-                        new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                        "Warning", 
-                        e.getMessage()));
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Warning", e.getMessage()));
             }
-            
+
             item.setLoaded(false);
             setItem(item);
-            
+
             getItemsBean().search();
-            
+
         } else {
-            FacesContext.getCurrentInstance().addMessage(
-                    null, 
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                    "Info", 
-                    DcResources.getText("msgNoChangesToSave")));
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", DcResources.getText("msgNoChangesToSave")));
         }
     }
-    
+
     @SuppressWarnings("rawtypes")
     private void insert(Item item) {
         Connector conn = DcConfig.getInstance().getConnector();
-        
+
         DcObject dco = DcModules.get(item.getModuleIdx()).getItem();
         dco.setNew(true);
-        
+
         Object o;
         Picture p;
         for (Field field : item.getFields()) {
@@ -275,23 +268,17 @@ public class EditItemBean extends ItemBean {
                 }
             }
         }
-        
+
         try {
             dco.setIDs();
             conn.saveItem(dco);
-            FacesContext.getCurrentInstance().addMessage(
-                    null, 
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                    "Info", 
-                    DcResources.getText("msgDataSaved")));
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", DcResources.getText("msgDataSaved")));
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(
-                    null, 
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                    "Warning", 
-                    e.getMessage()));
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Warning", e.getMessage()));
         }
-        
+
         if (field != null) {
             Reference reference = new Reference(dco.toString(), dco.getID(), dco.getModuleIdx());
             if (field.getType() == Field._MULTIRELATE) {
@@ -305,7 +292,7 @@ public class EditItemBean extends ItemBean {
                 field.setChanged(true);
             }
         }
-        
+
         setItem(new Item(conn.getItem(item.getModuleIdx(), dco.getID())));
         getItemsBean().search();
     }
