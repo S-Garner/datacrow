@@ -204,7 +204,9 @@ public class Field extends DcBean {
     }
     
     public List<Reference> getAllReferences() {
-        return ReferencesCache.getInstance().getReferences(getReferenceModuleIdx());
+        List<Reference> references = new ArrayList<>();
+        references.addAll(ReferencesCache.getInstance().getReferences(getReferenceModuleIdx()));
+        return references;
     }
     
     @SuppressWarnings("unchecked")

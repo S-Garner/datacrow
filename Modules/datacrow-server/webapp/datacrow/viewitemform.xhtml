@@ -74,22 +74,25 @@
 	            
 	            <p:tab title="#{viewItemBean.item.module.childModule.itemPluralName}" rendered="#{viewItemBean.item.module.canHaveChildren}">
                     <p:scrollPanel mode="native" style="width:100%;height:350px;border:none !important;">
-	                    <p:dataTable var="child" 
-	                           value="#{viewItemBean.item.children}" 
-	                           styleClass="itemform"
-	                           style="border:none;">
-	                           
-	                        <p:column headerText="" style="border:none;" >
-	                           <p:commandLink 
-	                               value="#{child.title}"
-	                               update=":viewItemDetail" 
-	                               oncomplete="PF('viewItemDetail').show()"
-	                               styleClass="dcButton">
-	                               <f:setPropertyActionListener target="#{viewItemBean.item}" value="#{child}" />
-	                            </p:commandLink>
-	                        </p:column>
-	                    </p:dataTable>
-	                </p:scrollPanel>
+						<div class="ui-g">
+							<div class="ui-g-12">
+								<p:dataGrid var="child" value="#{viewItemBean.item.children}"
+									styleClass="itemform" layout="grid" style="border:none;"
+									columns="3" rows="20" paginator="true"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									paginatorPosition="bottom">
+
+									<p:column headerText="" style="border:none;">
+										<p:commandLink value="#{child.title}" update=":viewItemDetail"
+											oncomplete="PF('viewItemDetail').show()">
+											<f:setPropertyActionListener target="#{viewItemBean.item}"
+												value="#{child}" />
+										</p:commandLink>
+									</p:column>
+								</p:dataGrid>
+							</div>
+						</div>
+					</p:scrollPanel>
                 </p:tab>
 
 				<p:tab title="#{translationsBean.getText('lblRelatedItems')}"
@@ -107,9 +110,7 @@
 								<p:column headerText="" style="border:none;">
 									<p:commandLink value="#{reference.label}"
 										update=":viewItemDetail"
-										oncomplete="PF('viewItemDetail').show()" 
-										styleClass="dcButton"
-										style="height:30px">
+										oncomplete="PF('viewItemDetail').show()">
 										<f:setPropertyActionListener target="#{viewItemBean.reference}" value="#{reference}" />
 									</p:commandLink>
 								</p:column>
