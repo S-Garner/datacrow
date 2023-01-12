@@ -383,6 +383,7 @@ public class Field extends DcBean {
             this.value = newRefs;
         } else if ((CoreUtilities.isEmpty(this.value) && !CoreUtilities.isEmpty(this.value)) ||
         	(!CoreUtilities.isEmpty(this.value) && CoreUtilities.isEmpty(this.value)) ||
+        	(value == null && this.value != null) ||
         	!value.equals(this.value)) {
             
 			if (!readonly)
