@@ -89,33 +89,39 @@
 	                            </p:column>
 	                        </p:panelGrid>
 	                    </p:panel>
-	
-	                    <!-- This if for simple items, such as categories -->
-	                    <p:panel rendered="#{!modulesBean.selectedModule.advancedView}" style="height: 50px;">
-	                        <table class="layouttable" style="border: none; padding: 0px; margin: 0;">
-	                            <tr style="border: none; padding: 0px; margin: 0;">
-	                                <td style="border: none; padding: 0px; margin: 0; width: 25px;">
-	                                    <p:commandLink update=":viewItemDetail" oncomplete="PF('viewItemDetail').show()">
-	                                        <h:outputText styleClass="pi pi-folder-open" style="margin:0 auto;" />
-	                                        <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForView}" />
-	                                    </p:commandLink>
-	                                    <p:commandLink update=":editItemDetail" oncomplete="PF('editItemDetail').show()" rendered="#{modulesBean.selectedModule.editingAllowed}">
-	                                        <h:outputText styleClass="pi pi-pencil" style="margin:0 auto;" />
-	                                        <f:setPropertyActionListener value="#{item}" target="#{itemsBean.selectedItemForEdit}" />
-	                                    </p:commandLink>
-	                                </td>
-	                                <td style="border: none; padding: 0px; margin: 0; width: 25px;">
-	                                    <p:graphicImage value="#{imageBean.content}" rendered="#{item.icon.alive}" cache="false">
-	                                        <f:param name="filename" value="#{item.icon.filename}" />
-	                                    </p:graphicImage>	                                
-	                                </td>
-	                                <td style="border: none; padding: 0px; margin: 0;" rowspan="2">
-	                                    <h:outputText value="#{item.title}" />
-	                                </td>
-	                            </tr>
-	                        </table>
-	                    </p:panel>
-	                </p:dataGrid>
+
+						<!-- This if for simple items, such as categories -->
+						<p:panel rendered="#{!modulesBean.selectedModule.advancedView}">
+
+							<div class="ui-g">
+								<div class="ui-g-10">
+									<p:graphicImage value="#{imageBean.content}"
+										rendered="#{item.icon.alive}" cache="false">
+										<f:param name="filename" value="#{item.icon.filename}" />
+									</p:graphicImage>
+									&nbsp;
+									<h:outputText value="#{item.title}" />
+								</div>
+
+								<div class="ui-g-1">
+									<p:commandLink update=":viewItemDetail"
+										oncomplete="PF('viewItemDetail').show()">
+										<h:outputText styleClass="pi pi-folder-open"
+											style="margin:0 auto;" />
+										<f:setPropertyActionListener value="#{item}"
+											target="#{itemsBean.selectedItemForView}" />
+									</p:commandLink>
+									<p:commandLink update=":editItemDetail"
+										oncomplete="PF('editItemDetail').show()"
+										rendered="#{modulesBean.selectedModule.editingAllowed}">
+										<h:outputText styleClass="pi pi-pencil" style="margin:0 auto;" />
+										<f:setPropertyActionListener value="#{item}"
+											target="#{itemsBean.selectedItemForEdit}" />
+									</p:commandLink>
+								</div>
+						    </div>
+						</p:panel>
+					</p:dataGrid>
 	            </h:form>
 	        </div>
         </div>
@@ -128,19 +134,18 @@
     </div>
 
     <script type="text/javascript">
-		function start() {
-			PF('statusDialog').show();
-		}
+					function start() {
+						PF('statusDialog').show();
+					}
 
-		function stop() {
-			PF('statusDialog').hide();
-		}
-		
-        function getClientInfo()
-        {
-            (document.getElementById('screenSizeX')).value = window.innerWidth;
-            (document.getElementById('screenSizeY')).value = window.innerHeight;
-        }
-	</script>
+					function stop() {
+						PF('statusDialog').hide();
+					}
+
+					function getClientInfo() {
+						(document.getElementById('screenSizeX')).value = window.innerWidth;
+						(document.getElementById('screenSizeY')).value = window.innerHeight;
+					}
+				</script>
 </h:body>
 </html>

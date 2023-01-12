@@ -13,54 +13,65 @@
 <h:body onload="getClientInfo()">
 
 	<div align="center">
-		<p:graphicImage url="/datacrow/javax.faces.resource/default/images/logo.jpg.xhtml" />
+	   <img src="./resources/default/static_images/logo.jpg" />
 	</div>
 
 	<h:form id="loginForm" prependId="false">
+		<p:messages id="messages" showDetail="true" autoUpdate="true"
+			closable="true" />
 
-		<div class="ui-fluid">
+		<h:inputHidden id="screenSizeX"
+			value="#{userSettingsBean.screenSizeX}" />
+		<h:inputHidden id="screenSizeY"
+			value="#{userSettingsBean.screenSizeY}" />
 
-
-			<!-- div align="center"  -->
-
-			<p:messages id="messages" showDetail="true" autoUpdate="true"
-				closable="true" />
-
-			<h:inputHidden id="screenSizeX"
-				value="#{userSettingsBean.screenSizeX}" />
-			<h:inputHidden id="screenSizeY"
-				value="#{userSettingsBean.screenSizeY}" />
-
-			<p>
-				<h:outputText
-					value="#{translationsBean.getText('msgLoginInformation')}" />
-			</p>
-			<h:panelGrid columns="2" cellpadding="5">
-				<p:outputLabel for="username"
-					value="#{translationsBean.getText('lblUsername')}" />
-				<p:inputText id="username" value="#{loginBean.username}"
-					required="true" />
-				<p:outputLabel for="password"
-					value="#{translationsBean.getText('lblPassword')}" />
-				<p:password id="password" value="#{loginBean.password}" />
-			</h:panelGrid>
-
-			<p>
-				<p:commandButton id="login" value="login"
-					action="#{loginBean.login}" />
-			</p>
-
+		<div class="ui-g">
+			<div class="ui-g-4" />
+			<div class="ui-g-1">
+				<center>
+					<p:outputLabel for="username"
+						value="#{translationsBean.getText('lblUsername')}" />
+				</center>
+			</div>
+			<div class="ui-g-3">
+				<center>
+					<p:inputText id="username" value="#{loginBean.username}" style="width:80%" />
+				</center>
+			</div>
 		</div>
 
+		<div class="ui-g">
+
+			<div class="ui-g-4" />
+			<div class="ui-g-1">
+				<center>
+					<p:outputLabel for="password"
+						value="#{translationsBean.getText('lblPassword')}" />
+				</center>
+			</div>
+			<div class="ui-g-3">
+				<center>
+					<p:password id="password" value="#{loginBean.password}" style="width:80%" />
+				</center>
+			</div>
+		</div>
+
+		<div class="ui-g">
+			<div class="ui-g-12">
+				<center>
+					<p:commandButton id="login" value="login"
+						action="#{loginBean.login}" />
+				</center>
+			</div>
+		</div>
 	</h:form>
 
 	<script type="text/javascript">
-        function getClientInfo()
-        {
-            (document.getElementById('screenSizeX')).value = window.innerWidth;
-            (document.getElementById('screenSizeY')).value = window.innerHeight;
-        }
-    </script>
+		function getClientInfo() {
+			(document.getElementById('screenSizeX')).value = window.innerWidth;
+			(document.getElementById('screenSizeY')).value = window.innerHeight;
+		}
+	</script>
 
 </h:body>
 </html>
