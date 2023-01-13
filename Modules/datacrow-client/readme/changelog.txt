@@ -1,4 +1,39 @@
 -----------------------------------------------------------------------------------------
+Data Crow version 4.5                                              Released on 2023-02-..
+-----------------------------------------------------------------------------------------
+
+This version brings the old web module back to live. There are no major adjustments
+since the 4.2.2 version as the goal was to get it back in, running on the latest 
+libraries available. This means the web module can now be fully supported again and
+makes it possible to extend the web module in the (near) future. One of the main 
+things to change after this release is to make sure the UI also shows nicely on mobile
+devices; it is currently not optimized for this.
+
+[Updated]
+- Java version has been uplifted from 11 to 17 as depending libraries required this.
+- Updated the web module from 4.2.2 to make it compatible with Data Crow 4.5.
+
+[New]
+- Web module has been re-implemented; 
+  PrimeFaces has been upgraded from version 6 to 12 (since Data Crow 4.2.2)
+  The web server used to run on TomCat (embedded) and is now running Jetty 11 
+  (also embedded). All required components have been uplifted to their respective
+  latest version.
+- Web module additions since 4.2.2:
+  Images can now also be deleted, drop downs now also have an empty option. 
+  
+[Fixed]
+- Fixes since Data Crow 4.2.2 for web module: 
+  ~ logging off was not correctly implemented
+  ~ messages were not being displayed on the web item form.
+  ~ tags were not saved when editing an item
+- Server could not allow parameters for the underlying web service to be passed (-D..)
+- Sometimes (discovered when working on the web module) picture are not correctly 
+  deleted. This was currently not effecting the Java client, only web client, but
+  would / could have caused issues for new developments.
+
+
+-----------------------------------------------------------------------------------------
 Data Crow version 4.4                                              Released on 2022-12-06
 -----------------------------------------------------------------------------------------
 
