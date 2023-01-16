@@ -100,7 +100,6 @@ public class SerializationHelper {
                 .registerTypeAdapter(IValueEnhancer.class, new InterfaceAdapter())
                 .registerTypeAdapter(DcModule.class, new InterfaceAdapter())
                 .registerTypeAdapter(Settings.class, new SettingsAdapter())
-                .setPrettyPrinting()
                 .create();
 
         gsonSimple = new GsonBuilder()
@@ -115,7 +114,7 @@ public class SerializationHelper {
                 .registerTypeAdapter(KeyStroke.class, new KeyStrokeAdapter())
                 .registerTypeAdapter(DcModuleSettings.class, new SettingsAdapter())
                 .registerTypeAdapter(Settings.class, new SettingsAdapter())
-                .setPrettyPrinting()
+                .registerTypeAdapter(IValueEnhancer.class, new InterfaceAdapter())
                 .create();
     }
     

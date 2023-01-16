@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.datacrow.core.enhancers.IValueEnhancer;
-import org.datacrow.core.enhancers.ValueEnhancers;
 import org.datacrow.core.objects.DcField;
 
 public class ServerValueEnhancersRequestResponse extends ServerResponse {
@@ -43,7 +42,8 @@ public class ServerValueEnhancersRequestResponse extends ServerResponse {
 	    super(_RESPONSE_VALUE_ENHANCERS);
 	    
 	    enhancers = new HashMap<DcField, Collection<IValueEnhancer>>();
-	    enhancers = ValueEnhancers.getEnhancers();
+	    // ignore these for now - enhancers are supplied by the fields and cannot be defined by server clients
+	    // enhancers = ValueEnhancers.getEnhancers();
 	}
 
     public Map<DcField, Collection<IValueEnhancer>> getEnhancers() {
