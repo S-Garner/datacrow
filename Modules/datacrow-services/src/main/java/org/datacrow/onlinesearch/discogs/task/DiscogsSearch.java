@@ -65,7 +65,7 @@ public class DiscogsSearch extends SearchTask {
         Collection<Object> result = new ArrayList<>();
         
         try {
-            String query = address + "/search?title=" + getQuery() + "&type=master&"  +  "key=" + consumerKey + "&secret=" + consumerSecret;
+            String query = address + "/search?title=" + getQuery() + "&type=release&"  +  "key=" + consumerKey + "&secret=" + consumerSecret;
             HttpConnection conn = new HttpConnection(new URL(query), userAgent);
             
             Map<String, List<String>> responseHeaders = conn.getResponseHeaders();
@@ -162,6 +162,7 @@ public class DiscogsSearch extends SearchTask {
     private void setStorageMedium(MusicAlbum musicalbum, LinkedTreeMap<?, ?> src) {
         if (!CoreUtilities.isEmpty(src.get("format"))) {
             for (String medium : (Collection<String>) src.get("format")) {
+                medium = medium.toUpperCase().equals("CD") ? "Audio CD" : medium;
                 musicalbum.createReference(MusicAlbum._I_STORAGEMEDIUM, medium);
                 break;
             }
