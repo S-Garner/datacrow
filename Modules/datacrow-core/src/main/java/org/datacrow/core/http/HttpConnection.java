@@ -35,6 +35,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map;
 
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.settings.DcSettings;
@@ -56,7 +58,20 @@ public class HttpConnection {
      * @throws HttpConnectionException
      */
     public HttpConnection(URL url) throws HttpConnectionException {
-        uc = connect(url);
+        uc = connect(url, null);
+    }
+
+    /**
+     * Create a new connection.
+     * @param url
+     * @throws HttpConnectionException
+     */
+    public HttpConnection(URL url, String userAgent) throws HttpConnectionException {
+        uc = connect(url, userAgent);
+    }
+    
+    public  Map<String, List<String>> getResponseHeaders() {
+        return uc.getHeaderFields();
     }
     
     /**
@@ -174,7 +189,7 @@ public class HttpConnection {
         uc = null;
     }
 
-    private HttpURLConnection connect(URL url) throws HttpConnectionException {
+    private HttpURLConnection connect(URL url, String userAgent) throws HttpConnectionException {
         String proxy = DcSettings.getString(DcRepository.Settings.stProxyServerName);
         String username = DcSettings.getString(DcRepository.Settings.stProxyUserName);
         String password = DcSettings.getString(DcRepository.Settings.stProxyPassword);
@@ -196,6 +211,10 @@ public class HttpConnection {
             if (useProxy && username.trim().length() > 0) {
         		String proxyUPB64 = Base64.encode(username + ":" + password);
         		uc.setRequestProperty("Proxy-Authorization", "Basic " + proxyUPB64);
+            } 
+            
+            if (userAgent != null) {
+                uc.addRequestProperty("User-Agent", userAgent);
             }
             
             uc.setRequestMethod("GET");
