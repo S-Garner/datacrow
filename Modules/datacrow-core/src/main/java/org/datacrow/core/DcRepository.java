@@ -121,8 +121,6 @@ public abstract class DcRepository {
         public static final String stICalendarFullExport = "icalendar_full_export";
         public static final String stDoNotAskAgainChangeUserDir = "do_not_ask_again_change_user_dir";
         public static final String stLoanAdminFormSize = "loan_admin_form_size";
-        public static final String stImdbMaxActors = "imdb_max_actors";
-        public static final String stImdbGetOriginalTitle = "imdb_original_title";
         public static final String stUsage = "usage_data_crow_starts";
         public static final String stAskForDonation = "allow_me_to_ask_for_a_donation";
     	public static final String stHighRenderingQuality = "high_rendering_quality";
@@ -248,6 +246,7 @@ public abstract class DcRepository {
         public static final String _MOBYGAMES = "MOBYGAMES";
         public static final String _PDCR = "PDCR"; // (P)lain (D)ata (C)row (R)eference ;-)
         public static final String _GOOGLE = "GOOGLE";
+        public static final String _DISCOGS = "DISCOGS";
         
         static {
             types.add(_MOBYGAMES);
@@ -255,6 +254,7 @@ public abstract class DcRepository {
             types.add(_DISCID);
             types.add(_GOOGLE);
             types.add(_TMDB);
+            types.add(_DISCOGS);
         }
     }
     
