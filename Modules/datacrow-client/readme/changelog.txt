@@ -34,7 +34,12 @@ devices; it is currently not optimized for this.
 - Sometimes (discovered when working on the web module) picture are not correctly 
   deleted. This was currently not effecting the Java client, only web client, but
   would / could have caused issues for new developments.
-
+- The layout of the main screen was not correctly saved on exiting Data Crow.
+- Music Album & Track fields were not being translated.
+- Sorting has been fixed.
+- Incorrect field settings in the movie module (String value type but Number edit
+  field).
+  
 
 -----------------------------------------------------------------------------------------
 Data Crow version 4.4                                              Released on 2022-12-06

@@ -79,33 +79,10 @@ public class ContainerModule extends DcParentModule {
         super(module);
     }
     
-//    @Override
-//    public int[] getSupportedViews() {
-//        return new int[] {IMasterView._LIST_VIEW};
-//    }
-//    
     @Override
 	public boolean isContainerManaged() {
 		return false;
 	}
-
-//	/**
-//     * Initializes the various views.
-//     */
-//    @Override
-//    protected void initializeUI()  {
-//        if (searchView == null && hasSearchView() ) {
-//            searchView = new IMasterView(getIndex());
-//            searchView.setTreePanel(this);
-//            
-//            // list view
-//            DcObjectList list = new DcObjectList(this, DcObjectList._CARDS, true, true);
-//            View listView = new View(searchView, View._TYPE_SEARCH, list, IMasterView._LIST_VIEW);
-//            list.setView(listView);
-//
-//            searchView.addView(IMasterView._LIST_VIEW, listView);            
-//        }
-//    }
 
     /**
      * Indicates whether this module be selected from the module bar.

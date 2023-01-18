@@ -107,7 +107,7 @@ public class DcModule implements Comparable<DcModule>, Serializable {
     private final int index;
     
     private int displayIndex;
-    private int defaultSortFieldIdx;
+    protected int defaultSortFieldIdx;
     private int nameFieldIdx;
     
     private String label;
@@ -205,7 +205,12 @@ public class DcModule implements Comparable<DcModule>, Serializable {
         this.objectNamePlural = objectNamePlural;
         
         String s = isAbstract() ? label : tableName;
-        if (s != null && s.length() > 1) s = s.substring(0, 1).toUpperCase() + s.substring(1);
+        if (s != null && s.length() > 1) {
+            s = s.substring(0, 1).toUpperCase() + s.substring(1);
+            
+            s = s.replace("Music_track", "Musictrack");
+            s = s.replace("Music_album", "Musicalbum");
+        }
         
         this.moduleResourceKey = "sys" + s;
         this.itemResourceKey = moduleResourceKey + "Item";
@@ -1272,13 +1277,12 @@ public class DcModule implements Comparable<DcModule>, Serializable {
 
     /**
      * Retrieves the index of the field on which is sorted by default.
-     * Return 1 if this field exists or else the defined default index.
      */
     public int getDefaultSortFieldIdx() {
         if (getIndex() == DcModules._RECORD_LABEL)
             return 3;
         else 
-            return getField(1) != null ? 1 : defaultSortFieldIdx;
+            return defaultSortFieldIdx;
     }
 
     /**

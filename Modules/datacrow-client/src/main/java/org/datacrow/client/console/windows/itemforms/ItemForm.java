@@ -485,7 +485,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
             logger.error("Field " + fieldIdx + " not found for module " + dco.getModule());
             return changed;
         }
-        
+
         JComponent component = fields.get(field);
         Object o = ComponentFactory.getValue(component);
 

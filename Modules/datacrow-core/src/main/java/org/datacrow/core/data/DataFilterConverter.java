@@ -489,9 +489,11 @@ public class DataFilterConverter {
 	                    sql.append(referenceMod.getTableName());
 	                    sql.append(".");
 	                    sql.append(referenceMod.getField(referenceMod.getSystemDisplayFieldIdx()).getDatabaseFieldName());
+	                    sql.append(" COLLATE \"Latin1_General 0\" ");
 	                    sql.append(df.getSortDirection() == DataFilter._SORTDIRECTION_ASCENDING ? "" : " DESC");
 	            	} else if (!orderOn.isUiOnly() && orderOn.getDatabaseFieldName() != null) {
 	                    sql.append(orderOn.getDatabaseFieldName());
+	                    sql.append(" COLLATE \"Latin1_General 0\" ");
 	                    sql.append(df.getSortDirection() == DataFilter._SORTDIRECTION_ASCENDING ? "" : " DESC");
 	            	}
 	            	counter++;
@@ -500,6 +502,7 @@ public class DataFilterConverter {
         } else if (field != null && !field.isUiOnly()) {
             sql.append(" ORDER BY ");
             sql.append(module.getField(module.getDefaultSortFieldIdx()).getDatabaseFieldName());
+            sql.append(" COLLATE \"Latin1_General 0\" ");
         }
     }
     

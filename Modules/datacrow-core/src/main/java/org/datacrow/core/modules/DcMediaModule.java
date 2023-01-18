@@ -44,6 +44,10 @@ public class DcMediaModule extends DcModule {
      */
     public DcMediaModule(XmlModule module) {
         super(module);
+        
+        if (defaultSortFieldIdx <= 0) {
+            defaultSortFieldIdx = DcMediaObject._A_TITLE;
+        }
     }
     
     /**

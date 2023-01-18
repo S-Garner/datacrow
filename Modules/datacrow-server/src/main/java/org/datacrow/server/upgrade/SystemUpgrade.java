@@ -88,6 +88,21 @@ public class SystemUpgrade {
                 checkAudioTables();
             }
             
+            if (!dbInitialized && v.isOlder(new Version(4, 5, 0, 0))) {
+                // change collation
+             
+                Connector connector = DcConfig.getInstance().getConnector();
+                connector.displayMessage(
+                        "Data Crow will change the settings of the database. The upgrade will end with a database restart. " +
+                        "This can take some time on larger databases.");                
+                
+                connector.executeSQL("SET DATABASE COLLATION SQL_TEXT_UCC");
+                connector.executeSQL("SHUTDOWN COMPACT");
+                
+                connector.displayMessage(
+                        "Settings have been changed and the database has been restarted.");   
+            }
+            
             if (dbInitialized && v.isOlder(new Version(4, 0, 2, 0))) {
                 renumberMusicTracks();
             }
