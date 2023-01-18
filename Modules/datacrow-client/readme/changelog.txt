@@ -21,6 +21,9 @@ devices; it is currently not optimized for this.
   latest version.
 - Web module additions since 4.2.2:
   Images can now also be deleted, drop downs now also have an empty option. 
+- Discogs.com online search for music albums has been added. 
+  Reintroduced after it was removed in version 4.3 as it was no longer working
+  in 4.2.2.
   
 [Fixed]
 - Fixes since Data Crow 4.2.2 for web module: 

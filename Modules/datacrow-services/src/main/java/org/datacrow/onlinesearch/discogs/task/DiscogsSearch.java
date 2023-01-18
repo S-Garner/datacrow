@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
+import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.DcRepository.ExternalReferences;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
@@ -25,6 +27,7 @@ import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.Servers;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.utilities.CoreUtilities;
+import org.datacrow.onlinesearch.discogs.helpers.DiscogsArtistCache;
 import org.datacrow.onlinesearch.discogs.helpers.DiscogsSearchResult;
 
 import com.google.gson.Gson;
@@ -35,13 +38,14 @@ public class DiscogsSearch extends SearchTask {
     
     private static Logger logger = DcLogManager.getLogger(DiscogsSearch.class.getName());
 
-    private final String userAgent = "DataCrow/4.5 +https://datacrow.org";
+    private final String userAgent = "DataCrow/" + DcConfig.getInstance().getVersion().toString() +  " +https://datacrow.org";
     private final String address = "https://api.discogs.com/database";
     private final String consumerKey;
     private final String consumerSecret;
-    private final boolean queryArtists;
 
     private final Gson gson;
+    
+    private final DiscogsArtistCache artistCache = new DiscogsArtistCache();
     
     public DiscogsSearch(
             IOnlineSearchClient listener, 
@@ -55,13 +59,17 @@ public class DiscogsSearch extends SearchTask {
         consumerKey = Servers.getInstance().getApiKey("discogs-consumer_key");
         consumerSecret = Servers.getInstance().getApiKey("discogs-consumer_secret");
         
-        queryArtists = 
-                DcModules.get(DcModules._MUSIC_ALBUM).
-                    getSettings().getBoolean(DcRepository.ModuleSettings.stOnlineSearchSubItems);
-        
-        
         GsonBuilder gsonBuilder = new GsonBuilder();
         gson = gsonBuilder.create();
+    }
+    
+    private void logUsageInformation(HttpConnection conn) {
+        Map<String, List<String>> responseHeaders = conn.getResponseHeaders();
+        logger.debug(
+                "The request limit per minute is: " + 
+                responseHeaders.get("X-Discogs-Ratelimit") + ", used: " + 
+                responseHeaders.get("X-Discogs-Ratelimit-Used") + ", remaining: " + 
+                responseHeaders.get("X-Discogs-Ratelimit-Remaining"));
     }
 
     @Override
@@ -75,35 +83,23 @@ public class DiscogsSearch extends SearchTask {
         
         waitBetweenRequest();
         
-        HttpConnection conn = new HttpConnection(new URL(dsr.getDetailsUrl()), userAgent);
+        HttpConnection conn = new HttpConnection(new URL(dsr.getDetailsUrl() + "?key=" + consumerKey + "&secret=" + consumerSecret), userAgent);
         String json = conn.getString(StandardCharsets.UTF_8);
+        logUsageInformation(conn);
+        conn.close();
         
         Map<?, ?> src = gson.fromJson(json, Map.class);
-        
-        @SuppressWarnings("unchecked")
-        Collection<LinkedTreeMap<?, ?>> tracks = (Collection<LinkedTreeMap<?, ?>>) src.get("tracklist");
-        
-        setArtists(dco, src);
-        
-        dco.setValue(MusicAlbum._N_WEBPAGE, src.get("uri"));
-        dco.addExternalReference(DcRepository.ExternalReferences._DISCOGS, src.get("id").toString());
-        
-        MusicTrack mt;
-        for (LinkedTreeMap<?, ?> track : tracks) {
-            mt = new MusicTrack();
-            
-            mt.setValue(MusicTrack._F_TRACKNUMBER, track.get("position"));
-            mt.setValue(MusicTrack._A_TITLE, track.get("title"));
-            
-            setPlaylength(mt, track);
-            
-            
-            
-            dco.addChild(mt);
-        }
-        
-        //musicalbum.setValue(MusicAlbum._N_WEBPAGE, "https://discogs.com" + src.get("uri"));
 
+        dco.setValue(MusicAlbum._N_WEBPAGE, src.get("uri"));
+        
+        Double id = (Double) src.get("id");
+        dco.addExternalReference(DcRepository.ExternalReferences._DISCOGS, String.valueOf(id.intValue()));
+
+        setArtists(dco, src);
+        setRating(dco, src);
+        
+        addTracks(dco, src);
+        
         return dco;
     }
     
@@ -121,16 +117,11 @@ public class DiscogsSearch extends SearchTask {
         try {
             String query = address + "/search?title=" + getQuery() + "&type=release&"  +  "key=" + consumerKey + "&secret=" + consumerSecret;
             HttpConnection conn = new HttpConnection(new URL(query), userAgent);
-            
-            Map<String, List<String>> responseHeaders = conn.getResponseHeaders();
-            logger.debug("The request limit - per minute is [" + responseHeaders.get("X-Discogs-Ratelimit") + "]");
-            logger.debug("The request limit - used rate limit [" + responseHeaders.get("X-Discogs-Ratelimit-Used") + "]");
-            logger.debug("The request limit - remaining rate limit [" + responseHeaders.get("X-Discogs-Ratelimit-Remaining") + "]");
+            logUsageInformation(conn);
             
             String json = conn.getString(StandardCharsets.UTF_8);
+            conn.close();
             
-
-
             Map<?, ?> musicalbums = gson.fromJson(json, Map.class);
             ArrayList<LinkedTreeMap<?, ?>> albums = (ArrayList<LinkedTreeMap<?, ?>>) musicalbums.get("results");
             
@@ -167,60 +158,72 @@ public class DiscogsSearch extends SearchTask {
         return result;
     }
     
-    @SuppressWarnings("unchecked")
-    private void setArtists(DcObject album, Map<?, ?> src) {
-        Collection<LinkedTreeMap<?, ?>> artistsData = (Collection<LinkedTreeMap<?, ?>>) src.get("artists");
+    private void addTracks(DcObject dco,  Map<?, ?> albumData) {
+        @SuppressWarnings("unchecked")
+        Collection<LinkedTreeMap<?, ?>> tracksData = (Collection<LinkedTreeMap<?, ?>>) albumData.get("tracklist");
         
-        DcAssociate artist;        
-        for (LinkedTreeMap<?, ?> artistData : artistsData) {
-            artist = new DcAssociate(DcModules._MUSICARTIST);
-            artist.setValue(DcAssociate._A_NAME, artistData.get("name"));
+        MusicTrack mt;
+        for (LinkedTreeMap<?, ?> trackData : tracksData) {
             
-            artist.setIDs();
-            setArtistDetails(artist, artistData);
-       
-            album.createReference(MusicAlbum._F_ARTISTS, artist);
-        }
+            if (trackData.get("type_") == null || !trackData.get("type_").equals("track"))
+                continue;
+            
+            mt = new MusicTrack();
+            
+            mt.setValue(MusicTrack._F_TRACKNUMBER, trackData.get("position"));
+            mt.setValue(MusicTrack._A_TITLE, trackData.get("title"));
+            
+            setPlaylength(mt, trackData);
+            
+            setArtists(mt, trackData);
+            
+            if (!mt.isFilled(MusicTrack._G_ARTIST)) {
+                setArtists(mt, albumData);
+            }
+            
+            dco.addChild(mt);
+        }        
     }    
     
-    private void setArtistDetails(DcAssociate artist, LinkedTreeMap<?, ?> artistData) {
-        if (queryArtists) {
-            String artistUrl = (String) artistData.get("resource_url");
+    @SuppressWarnings("unchecked")
+    private void setArtists(DcObject dco, Map<?, ?> src) {
+        Collection<LinkedTreeMap<?, ?>> artistsData = (Collection<LinkedTreeMap<?, ?>>) src.get("artists");
+
+        if (artistsData == null)
+            return;
+        
+        DcAssociate artist;
+        String artistId;
+        
+        for (LinkedTreeMap<?, ?> artistData : artistsData) {
+            artistId = String.valueOf(((Double) artistData.get("id")).intValue());
             
-            LinkedTreeMap<?, ?> data;
-            
-            if (!CoreUtilities.isEmpty(artistUrl)) {
+            if (artistCache.contains(artistId)) {
+                artist = artistCache.getArtist(artistId);
+            } else {
+                artist = new DcAssociate(DcModules._MUSICARTIST);
                 
-                try {
-                    HttpConnection conn = new HttpConnection(new URL(artistUrl), userAgent);
-                    
-                    waitBetweenRequest();
-                    
-                    String json = conn.getString(StandardCharsets.UTF_8);
-                    data = (LinkedTreeMap<?, ?>) gson.fromJson(json, Map.class);
-                    artist.setValue(DcAssociate._B_DESCRIPTION, data.get("profile"));
-                    
-                } catch (Exception e) {
-                    logger.error(e, e);
-                    listener.addError("Could not parse artist data. Error: [" + e.getMessage() + "]");
-                }
+                artist.addExternalReference(ExternalReferences._DISCOGS, artistId);
+                artist.setValue(DcAssociate._A_NAME, artistData.get("name"));
+                artist.setValue(DcAssociate._C_WEBPAGE, "https://www.discogs.com/artist/" + artistId);
+                artist.setIDs();
+                
+                artistCache.addArtist(artist, artistId);
             }
+            
+            dco.createReference(
+                    dco.getModuleIdx() == DcModules._MUSIC_ALBUM ? 
+                            MusicAlbum._F_ARTISTS : MusicTrack._G_ARTIST, artist);
         }
-    }
+    }    
     
     private void setPlaylength(DcObject track, LinkedTreeMap<?, ?> src) {
         String duration = (String) src.get("duration");
         if (!CoreUtilities.isEmpty(duration)) {
             String[] parts = duration.split(":");
-            int hours = 
-                    parts.length == 3 ? Integer.valueOf(parts[0]) : 0;
-            int minutes =
-                    parts.length == 3 ? Integer.valueOf(parts[1]) :
-                    parts.length == 2 ? Integer.valueOf(parts[0]) : 0;
-            int seconds =
-                    parts.length == 3 ? Integer.valueOf(parts[2]) :
-                    parts.length == 2 ? Integer.valueOf(parts[1]) :
-                    parts.length == 1 ? Integer.valueOf(parts[0]) : 0;
+            int hours =   parts.length == 3 ? Integer.valueOf(parts[0]) : 0;
+            int minutes = parts.length > 1 ? Integer.valueOf(parts[parts.length - 2]) : 0;
+            int seconds = parts.length > 0 ? Integer.valueOf(parts[parts.length - 1]) : 0;
             
             track.setValue(
                     MusicTrack._J_PLAYLENGTH, 
@@ -253,7 +256,18 @@ public class DiscogsSearch extends SearchTask {
     private void setCountry(DcObject musicalbum, LinkedTreeMap<?, ?> src) {
         if (!CoreUtilities.isEmpty(src.get("country")))
             musicalbum.createReference(MusicAlbum._F_COUNTRY, src.get("country"));
-    }    
+    }
+    
+    private void setRating(DcObject ma, Map<?, ?> albumData) {
+        LinkedTreeMap<?, ?> communityData = (LinkedTreeMap<?, ?>) albumData.get("community");
+        
+        LinkedTreeMap<?, ?> rating = communityData != null ? (LinkedTreeMap<?, ?>) communityData.get("rating") : null;
+        Double avg = rating != null ? (Double) rating.get("average") : null;
+        
+        if (avg != null) {
+            ma.setValue(MusicAlbum._E_RATING, Math.round(avg.intValue() * 2));
+        }
+    }
     
     @SuppressWarnings("unchecked")
     private void setGenres(DcObject musicalbum, LinkedTreeMap<?, ?> src) {
