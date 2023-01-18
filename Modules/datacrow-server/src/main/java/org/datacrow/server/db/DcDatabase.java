@@ -147,8 +147,6 @@ public class DcDatabase {
         if (!isNew()) {
         	new SystemUpgrade(false).start();
         	connection = DatabaseManager.getInstance().getAdminConnection();
-        } else {
-            DcConfig.getInstance().getConnector().executeSQL("SET DATABASE COLLATION SQL_TEXT_UCC");
         }
         
         startQueryQueue();
