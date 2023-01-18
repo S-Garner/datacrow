@@ -137,10 +137,6 @@ public class MainFrameMenuBar extends org.datacrow.client.console.components.DcM
         
         if (module.hasOnlineServices()) {
             menuTools.addSeparator();
-
-            if (module.getIndex() == DcModules._MUSIC_ALBUM)
-            	PluginHelper.add(menuTools, "RetrieveAudioCDInformation");
-
             PluginHelper.add(menuTools, "OnlineSearch");
             menuTools.addSeparator();
         }

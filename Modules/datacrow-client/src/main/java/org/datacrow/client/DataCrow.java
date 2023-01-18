@@ -315,8 +315,7 @@ public class DataCrow implements IStarterClient {
         mf.initialize();
         mf.setVisible(true);
         mf.load();
-    }        
-
+    }
 
     private void showStartupDialogs() {
         try {
