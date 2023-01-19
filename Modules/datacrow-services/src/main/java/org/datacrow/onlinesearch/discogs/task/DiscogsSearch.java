@@ -19,6 +19,7 @@ import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.MusicAlbum;
 import org.datacrow.core.objects.helpers.MusicTrack;
+import org.datacrow.core.objects.helpers.Software;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
 import org.datacrow.core.services.OnlineServiceError;
@@ -97,8 +98,10 @@ public class DiscogsSearch extends SearchTask {
 
         setArtists(dco, src);
         setRating(dco, src);
-        
         addTracks(dco, src);
+        
+        setServiceInfo(dco);
+        dco.setValue(Software._SYS_SERVICEURL, dsr.getDetailsUrl());
         
         return dco;
     }

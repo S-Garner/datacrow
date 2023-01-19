@@ -51,6 +51,7 @@ import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.objects.helpers.ContactPerson;
 import org.datacrow.core.objects.helpers.Container;
 import org.datacrow.core.objects.helpers.Item;
 import org.datacrow.core.resources.DcResources;
@@ -1196,11 +1197,6 @@ public class DcModule implements Comparable<DcModule>, Serializable {
                             true, true, true, false, 
                             255, UIComponents._SHORTTEXTFIELD, getIndex(), DcRepository.ValueTypes._STRING,
                             "LoanStatus"));
-//        systemFields.put(DcObject._SYS_LOANALLOWED,
-//                new DcField(DcObject._SYS_LOANALLOWED, getIndex(), "Is allowed to be lend?",
-//                            false, true, false, false, 
-//                            10, UIComponents._CHECKBOX, getIndex(), DcRepository.ValueTypes._BOOLEAN,
-//                            "LoanAllowed"));          
         systemFields.put(DcObject._SYS_LOANSTATUSDAYS,
                 new DcField(DcObject._SYS_LOANSTATUSDAYS, getIndex(), "Days",
                             true, true, true, false, 
@@ -1279,8 +1275,11 @@ public class DcModule implements Comparable<DcModule>, Serializable {
      * Retrieves the index of the field on which is sorted by default.
      */
     public int getDefaultSortFieldIdx() {
+        // TODO: change the way the default sort index is retrieved as this is really not where this belongs
         if (getIndex() == DcModules._RECORD_LABEL)
             return 3;
+        else if (getIndex() == DcModules._CONTACTPERSON)
+            return ContactPerson._A_NAME;
         else 
             return defaultSortFieldIdx;
     }

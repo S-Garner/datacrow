@@ -884,23 +884,6 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     }
     
     /**
-     * Resets this item. All values are set to empty.
-     * @param nochecks Just do it, do not check whether we are dealing with an edited item
-     */
-    public void clearValues() {
-        if (!isDestroyed()) {
-            for (Integer key : values.keySet()) {
-                if (key.intValue() != _ID) {
-                    DcValue value = values.get(key);
-                    value.clear();
-                }
-            }
-            markAsUnchanged();
-        }
-        loaded = false;
-    }
-
-    /**
      * Retrieves the maximum field / value length.
      * @param index The field index
      */
@@ -1531,13 +1514,12 @@ public class DcObject implements Comparable<DcObject>, Serializable {
                 children.clear();
             
             if (values != null) {
-                clearValues();
                 values.clear();
+                values = null;
             }
             
             children = null;
             loaded = false;
-            values = null;
         } catch (Exception e) {
             logger.error(e, e);
         }

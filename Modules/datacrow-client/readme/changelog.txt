@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------
-Data Crow version 4.5                                              Released on 2023-02-..
+Data Crow version 4.5                                              Released on 2023-01-19
 -----------------------------------------------------------------------------------------
 
 This version brings the old web module back to live. There are no major adjustments
@@ -23,7 +23,7 @@ devices; it is currently not optimized for this.
   Images can now also be deleted, drop downs now also have an empty option. 
 - Discogs.com online search for music albums has been added. 
   Reintroduced after it was removed in version 4.3 as it was no longer working
-  in 4.2.2.
+  in 4.2.2. It has been completely rewritten.
   
 [Fixed]
 - Fixes since Data Crow 4.2.2 for web module: 
@@ -36,9 +36,13 @@ devices; it is currently not optimized for this.
   would / could have caused issues for new developments.
 - The layout of the main screen was not correctly saved on exiting Data Crow.
 - Music Album & Track fields were not being translated.
-- Sorting has been fixed.
+- Sorting has been fixed. Sorting is now done correctly; case insensitive and 
+  special character insensitive.
 - Incorrect field settings in the movie module (String value type but Number edit
   field).
+- Media modules item sorting was (sometimes) incorrectly based on the ID field.
+  Now, if no other sorting field has been defined, the overview is sorted on the
+  title of the item. 
   
 
 -----------------------------------------------------------------------------------------
