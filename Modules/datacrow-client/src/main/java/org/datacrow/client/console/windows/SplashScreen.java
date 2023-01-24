@@ -30,15 +30,18 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.io.File;
 
 import javax.swing.JLabel;
 import javax.swing.JWindow;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
+import org.datacrow.client.console.components.DcPictureField;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.resources.DcResources;
 
 public final class SplashScreen extends JWindow {
 
@@ -60,20 +63,25 @@ public final class SplashScreen extends JWindow {
         //**********************************************************
         //Logo
         //**********************************************************
-        JLabel logo = new JLabel(new DcImageIcon(DcConfig.getInstance().getInstallationDir() + "icons/logo.jpg"));
-
+        DcPictureField logo = new DcPictureField();
+        logo.setValue(new DcImageIcon(
+                new File(DcConfig.getInstance().getInstallationDir(), "icons/splashscreen.png")));
+        logo.setPreferredSize(new Dimension(459,295));
+        
         //**********************************************************
         //Status 
         //**********************************************************
-        status.setPreferredSize(new Dimension(500, 22));
-        status.setText(DcConfig.getInstance().getVersion().getFullString());
+        status.setText(DcResources.getText(
+                "msgStartingDataCrow", DcConfig.getInstance().getVersion().toString()));
         status.setHorizontalAlignment(JLabel.CENTER);
         status.setVerticalAlignment(JLabel.CENTER);
-        status.setFont(new Font("Tahoma", Font.BOLD, 11));
+        status.setFont(new Font("Tahoma", Font.BOLD, 13));
         status.setForeground(Color.WHITE);
         
         getContentPane().setBackground(Color.BLACK);
         status.setBackground(Color.BLACK);
+        status.setMinimumSize(new Dimension(459, 25));
+        status.setPreferredSize(new Dimension(459, 25));
 
         //**********************************************************
         //Main panel

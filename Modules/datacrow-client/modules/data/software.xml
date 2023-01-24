@@ -51,6 +51,9 @@
             <language>
                 <name>French</name>
             </language>
+			<language>
+                <name>Polish</name>
+            </language>			
         </languages>
         <lend-by></lend-by>
         <license></license>
@@ -58,7 +61,7 @@
         <multiplayer-></multiplayer->
         <picture-back></picture-back>
         <picture-cd></picture-cd>
-        <picture-front>file:///D:\software_images\129225663996473_PictureFront.jpg</picture-front>
+        <picture-front>file:///D:\software_images\datacrow.png</picture-front>
         <platform>OS Independent</platform>
         <publishers>
         </publishers>

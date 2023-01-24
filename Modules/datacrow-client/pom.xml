@@ -379,7 +379,7 @@
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
-                <version>2.3.0</version>
+                <version>2.3.1</version>
                 <executions>
                     <execution>
                         <id>jar-to-exe</id>
@@ -416,6 +416,30 @@
                     </execution>
                 </executions>
             </plugin>
+
+
+            <!-- plugin>
+                <groupId>net.jsign</groupId>
+                <artifactId>jsign-maven-plugin</artifactId>
+                <version>4.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.parent.basedir}/datacrow-build/staging/dc-client/datacrow.exe</file>
+                            <name>Data Crow</name>
+                            <url>https://www.datacrow.org</url>
+                            <keystore>keystore.jks</keystore>
+                            <alias>test</alias>
+                            <storepass>password</storepass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin -->
+
+
         </plugins>
 
         <pluginManagement>

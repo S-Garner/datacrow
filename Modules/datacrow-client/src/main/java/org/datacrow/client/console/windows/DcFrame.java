@@ -27,13 +27,15 @@ package org.datacrow.client.console.windows;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Action;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
@@ -44,16 +46,23 @@ import org.datacrow.client.plugins.PluginHelper;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.console.IWindow;
+import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.utilities.CoreUtilities;
 
 public class DcFrame extends JFrame implements WindowFocusListener, IWindow {
 
 	private String helpIndex = null;
 
-    public DcFrame(String title, ImageIcon icon) {
+    public DcFrame(String title, DcImageIcon icon) {
         super(title);
         
-        setIconImage(icon == null ? IconLibrary._icoMain.getImage() : icon.getImage());
+        DcImageIcon image = icon == null ? IconLibrary._icoMain : icon;
         
+        List<Image> images = new ArrayList<>();
+        images.add(CoreUtilities.getScaledImage(image, 64, 64));
+        images.add(CoreUtilities.getScaledImage(image, 128, 128));
+        
+        setIconImages(images);
         GUI.getInstance().setRootFrame(this);
         
         addWindowListener(new WindowAdapter() {

@@ -41,7 +41,7 @@ Features:
   and module which you are not using and create your own reports (XSLT scripts).  
 * Platform independent and completely portable (run from an USB stick).
 * Loan administration. Keep track of your loans.
-* Application Server (separate download).
+* Web and Application Server (separate download).
 * Create your own collection modules and/or modify existing collection modules.
 * Advanced user configuration (access rights + module and field access).
 * Rename your files based on the information of Data Crow.
@@ -49,7 +49,7 @@ Features:
   one, rename any text within the application, set the fonts, ..
 * Reporting (PDF, HTML, Text and XML).
 * Registration of Software, Audio CDs and Music Files, Books, Movies and Images.
-* Search for items using online services (limited in this version; to be extended).
+* Search for items using online services.
 * Extract information from files on your CD, DVD or hard disk:
   image files (JPG, GIF, PNG, SVG), music files (technical info and tag content of 
   ASF, OGG, APE, FLAC and MP3 files) and movie file (MP4, DivX, Xvid, ASF, MKV, OGM, 

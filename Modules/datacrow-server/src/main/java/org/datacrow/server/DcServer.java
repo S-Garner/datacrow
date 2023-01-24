@@ -301,7 +301,11 @@ public class DcServer implements Runnable, IStarterClient, IClient {
         System.out.println("");
         System.out.println("-imageserverport:<port number>");
         System.out.println("Specifies the port to be used by the image server.");
-        System.out.println("Example: java -jar datacrow-server.jar -imageserverport:9001");        
+        System.out.println("Example: java -jar datacrow-server.jar -imageserverport:9001");
+        System.out.println("");
+        System.out.println("-webserverport:<port number>");
+        System.out.println("specifies the port to use for the web server. If not supplied, the web server module will not be started.");
+        System.out.println("Example: -webserverport:8080");
         System.out.println("");
         System.out.println("-debug");
         System.out.println("Debug mode for additional system event information.");

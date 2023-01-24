@@ -46,7 +46,7 @@ public abstract class IconLibrary {
     public static final DcImageIcon _icoGrayscale = new DcImageIcon(picPath + "grayscale.png");
     public static final DcImageIcon _icoRotateLeft = new DcImageIcon(picPath + "rotate_left.png");
     public static final DcImageIcon _icoRotateRight = new DcImageIcon(picPath + "rotate_right.png");
-    public static final DcImageIcon _icoMain = new DcImageIcon(picPath + "datacrow64.png");
+    public static final DcImageIcon _icoMain = new DcImageIcon(picPath + "datacrow.jpg");
     public static final DcImageIcon _icoIcon16 = new DcImageIcon(picPath + "icon16.png");
     public static final DcImageIcon _icoIcon32 = new DcImageIcon(picPath + "icon32.png");
     public static final DcImageIcon _icoLicense16 = new DcImageIcon(picPath + "license16.png");
