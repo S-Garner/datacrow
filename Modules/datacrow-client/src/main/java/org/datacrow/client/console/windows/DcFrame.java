@@ -59,8 +59,30 @@ public class DcFrame extends JFrame implements WindowFocusListener, IWindow {
         DcImageIcon image = icon == null ? IconLibrary._icoMain : icon;
         
         List<Image> images = new ArrayList<>();
-        images.add(CoreUtilities.getScaledImage(image, 64, 64));
-        images.add(CoreUtilities.getScaledImage(image, 128, 128));
+        
+        int width = image.getIconWidth();
+        
+        if (width < 64) {
+            images.add(image.getImage());
+        } else {
+            images.add(CoreUtilities.getScaledImage(image, 64, 64));
+            
+            if (width > 128) {
+                images.add(CoreUtilities.getScaledImage(image, 128, 128));
+            } else if (width == 128) {
+                images.add(image.getImage());
+            }
+
+            if (width > 256) {
+                images.add(CoreUtilities.getScaledImage(image, 256, 256));
+            } else if (width == 256) {
+                images.add(image.getImage());
+            }
+            
+            if (width > 256) {
+                images.add(image.getImage());
+            }            
+        }
         
         setIconImages(images);
         GUI.getInstance().setRootFrame(this);
