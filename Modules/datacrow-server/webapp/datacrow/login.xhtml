@@ -13,7 +13,10 @@
 <h:body onload="getClientInfo()">
 
 	<div align="center">
-	   <img src="./resources/default/static_images/logo.jpg" />
+	   <br />
+	   <img src="./resources/default/static_images/logo.png" />
+	   <br />
+	   <br />
 	</div>
 
 	<h:form id="loginForm" prependId="false">
@@ -57,10 +60,11 @@
 		</div>
 
 		<div class="ui-g">
-			<div class="ui-g-12">
+            <div class="ui-g-12">
 				<center>
 					<p:commandButton id="login" value="login"
-						action="#{loginBean.login}" />
+						action="#{loginBean.login}" 
+                        style="width:150px;"/>
 				</center>
 			</div>
 		</div>

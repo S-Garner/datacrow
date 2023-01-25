@@ -32,7 +32,8 @@ public class LoginFilter implements Filter, Serializable {
     
     @Override
     public void doFilter(
-            ServletRequest request, ServletResponse response,
+            ServletRequest request, 
+            ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
         
@@ -47,14 +48,17 @@ public class LoginFilter implements Filter, Serializable {
         } else {
             logger.debug("Login bean not found: null");
         }
-
-        if (loggedOn || req.getRequestURI().endsWith("login.xhtml")) {
+        
+        if ( !req.getRequestURI().endsWith(".xhtml")) {
+            // make sure we are not redirecting CSS style requests and the likes
+            chain.doFilter(request, response);
+        } else if (loggedOn || req.getRequestURI().endsWith("login.xhtml")) {
             logger.debug("Going to the requested page");
             chain.doFilter(request, response);
         } else {
             logger.debug("Referring to the login page");
             HttpServletResponse res = (HttpServletResponse) response;
-            res.sendRedirect(req.getContextPath() + "/login.xhtml");
+            res.sendRedirect("login.xhtml?faces-redirect=true");
         }
     }
 }
