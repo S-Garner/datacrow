@@ -13,6 +13,7 @@ Data Crow version 4.5.1                                            Released on 2
 - Web module you needed to login twice in order to get into the application (a 4.2.2 
   issue)
 - Web module: download button was too large.
+- Donate plugin was outdated and donate dialog pointed to the old site.
 
 
 -----------------------------------------------------------------------------------------

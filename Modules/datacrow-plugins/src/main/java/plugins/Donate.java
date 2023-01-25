@@ -64,7 +64,7 @@ public class Donate extends Plugin {
     @Override
     public void actionPerformed(ActionEvent ae) {
         try {
-        	URLLauncher launcher = new URLLauncher(new URL("http://www.datacrow.net/donate.html"));
+        	URLLauncher launcher = new URLLauncher(new URL("https://www.patreon.com/user?u=84210754"));
         	launcher.launch();
         } catch (IOException e) {
         	logger.error(e, e);

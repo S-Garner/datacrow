@@ -35,7 +35,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -43,7 +42,6 @@ import org.datacrow.client.console.components.DcPictureField;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
-import org.datacrow.core.resources.DcResources;
 
 public class AboutDialog extends DcDialog {
 
@@ -72,7 +70,7 @@ public class AboutDialog extends DcDialog {
 
         DcPictureField about = ComponentFactory.getPictureField(false, false);
         try {
-            about.setValue(new URL("file://" + DcConfig.getInstance().getInstallationDir() + "icons/aboutinformation.jpg"));
+            about.setValue(new URL("file://" + DcConfig.getInstance().getInstallationDir() + "icons/credits.png"));
             panelAbout.add(about, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
             GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
             new Insets(5, 5, 5, 5), 0, 0));
@@ -81,35 +79,17 @@ public class AboutDialog extends DcDialog {
         }
 
         //**********************************************************
-        //Credits
-        //**********************************************************
-        JPanel panelCredits = new JPanel();
-        panelCredits.setLayout(Layout.getGBL());
-
-        DcPictureField credits = ComponentFactory.getPictureField(false, false);
-        try {
-            credits.setValue(new URL("file://" + DcConfig.getInstance().getInstallationDir() + "icons/aboutcredits.jpg"));
-            panelCredits.add(credits, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
-            GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-            new Insets(5, 5, 5, 5), 0, 0));
-        } catch (Exception e) {
-            logger.error("Could not load the credits image", e);
-        }
-
-        //**********************************************************
         //Main panel
         //**********************************************************
         tabbedPane.addTab(DcConfig.getInstance().getVersion().getFullString(), IconLibrary._icoAbout, panelAbout);
-        tabbedPane.addTab(DcResources.getText("lblCredits"), IconLibrary._icoHelp, panelCredits);
 
         getContentPane().setLayout(Layout.getGBL());
         getContentPane().add(tabbedPane,   Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
                                            GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                                            new Insets(5, 5, 5, 5), 0, 0));
 
-        setTitle(DcResources.getText("msgQuestion"));
         pack();
-        setSize(new Dimension(445,390));
-        setResizable(false);
+        setSize(new Dimension(510,580));
+        setResizable(true);
     }
 }

@@ -125,7 +125,7 @@ public class DonateDialog extends DcFrame implements ActionListener {
             try {
                 DcSettings.set(DcRepository.Settings.stAskForDonation, Boolean.FALSE);
                 
-                URLLauncher launcher = new URLLauncher(new URL("http://www.datacrow.net/donate.html"));
+                URLLauncher launcher = new URLLauncher(new URL("https://www.patreon.com/user?u=84210754"));
                 launcher.launch();
                 
                 close();
