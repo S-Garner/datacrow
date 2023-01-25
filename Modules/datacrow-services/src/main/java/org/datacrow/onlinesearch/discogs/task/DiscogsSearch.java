@@ -57,6 +57,8 @@ public class DiscogsSearch extends SearchTask {
         
         super(listener, server, null, mode, query, additionalFilters);
         
+        setMaximum(100);
+        
         consumerKey = Servers.getInstance().getApiKey("discogs-consumer_key");
         consumerSecret = Servers.getInstance().getApiKey("discogs-consumer_secret");
         
