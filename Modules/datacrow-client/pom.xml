@@ -15,12 +15,6 @@
     <packaging>jar</packaging>
     <url>https://datacrow.org</url>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.datacrow</groupId>
@@ -398,7 +392,7 @@
                             </classPath>
                             <jre>
                                 <minVersion>17</minVersion>
-                                <jdkPreference>preferJre</jdkPreference>
+                                <requiresJdk>preferJre</requiresJdk>
                                 <path>./java</path>
                             </jre>
                             <versionInfo>
@@ -416,9 +410,7 @@
                     </execution>
                 </executions>
             </plugin>
-
-
-            <!-- plugin>
+            <!--plugin>
                 <groupId>net.jsign</groupId>
                 <artifactId>jsign-maven-plugin</artifactId>
                 <version>4.2</version>
@@ -431,17 +423,14 @@
                             <file>${project.parent.basedir}/datacrow-build/staging/dc-client/datacrow.exe</file>
                             <name>Data Crow</name>
                             <url>https://www.datacrow.org</url>
-                            <keystore>keystore.jks</keystore>
-                            <alias>test</alias>
-                            <storepass>password</storepass>
+                            <certfile>U:/Certificates/Data Crow/cert.pem</certfile>
+                            <keyfile>U:/Certificates/Data Crow/key.pem</keyfile>
+                            <keypass>H@mStr1ngS*ckzB1gT1m$</keypass>
                         </configuration>
                     </execution>
                 </executions>
             </plugin -->
-
-
         </plugins>
-
         <pluginManagement>
             <plugins>
                 <plugin>

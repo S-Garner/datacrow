@@ -15,9 +15,6 @@
     <url>https://datacrow.org</url>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
         <jetty.version>11.0.11</jetty.version>
         <jakarta.el.version>5.0.0-M1</jakarta.el.version>
         <jakarta.faces.version>4.0.0</jakarta.faces.version>
