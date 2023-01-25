@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.datacrow</groupId>
         <artifactId>datacrow-main</artifactId>
-        <version>4.5</version>
+        <version>4.5.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -400,8 +400,8 @@
                                 <txtFileVersion>${project.version}.0.0</txtFileVersion>
                                 <fileDescription>Data Crow</fileDescription>
                                 <copyright>C</copyright>
-                                <productVersion>${project.version}.0.0</productVersion>
-                                <txtProductVersion>${project.version}.0.0</txtProductVersion>
+                                <productVersion>${project.version}.0</productVersion>
+                                <txtProductVersion>${project.version}.0</txtProductVersion>
                                 <productName>Data Crow</productName>
                                 <internalName>Data Crow</internalName>
                                 <originalFilename>datacrow.exe</originalFilename>
