@@ -25,10 +25,13 @@
     
     <p:panel styleClass="dcPanel" rendered="#{(field.file)}">
         <h:outputText value="#{field.value}" rendered="#{!field.enableDownload}" />
-      
-        <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" rendered="#{field.enableDownload}">
-            <p:fileDownload value="#{field.streamedContent}" />
-        </p:commandButton>
+        <div class="ui-g">
+	        <div class="ui-g-3">
+	        <p:commandButton value="#{translationsBean.getText('lblDownload')}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" rendered="#{field.enableDownload}">
+	            <p:fileDownload value="#{field.streamedContent}" />
+	        </p:commandButton>
+	        </div>
+        </div>
     </p:panel>
     
     <p:panel styleClass="dcPanel" rendered="#{(field.doubleValue)}">
