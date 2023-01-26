@@ -3,7 +3,7 @@ Data Crow version 4.5.1                                            Released on 2
 -----------------------------------------------------------------------------------------
 
 [Changed]
-- Changed all Data Crow icons.
+- Changed all Data Crow product icons.
 - The main application icon now consists of multiple sizes to allow support for multiple
   displaying purposes.
 - Discogs maximum search results has been increased (online services pack version 1.4).
@@ -17,6 +17,7 @@ Data Crow version 4.5.1                                            Released on 2
   issue)
 - Web module: download button was too large.
 - Donate plugin was outdated and donate dialog pointed to the old site.
+- Some fields were not translatable on the loan panel (item form > loan administration)
 
 
 -----------------------------------------------------------------------------------------

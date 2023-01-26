@@ -67,7 +67,7 @@ OpenJDK) or higher installed.
 2.0 Requirements
 
 Data Crow needs Java;
-Java Second Edition 11 (or higher) from Oracle (http://java.com/)
+Java Second Edition 17 (or higher) from Oracle (http://java.com/)
   
 Data Crow was tested on:
 Windows 11 and Ubuntu (latest version at the moment of testing).
@@ -167,7 +167,7 @@ This application would not have succeeded (or even existed) without the help of:
 * Ariel Chyłek for his persistence and assistance of users. Even when Data Crow was as
   good as abandoned he hang in there and advised and helped the users of Data Crow.
   Hats of to you sir!
-* Flag-Courier (sourceforge.net user) and Tostis (also a sourceforge.net uers)
+* Flag-Courier (sourceforge.net user) and Tostis (also a sourceforge.net user)
   for updating the build process and maintaining the code when Data Crow was abandoned.
 * http://hsqldb.sourceforge.net for hosting Data Crow.
 * The creators of the many, many 3rd party libraries use by Data Crow, such as:
