@@ -9,6 +9,7 @@ Data Crow version 4.5.1                                            Released on 2
 - Discogs maximum search results has been increased (online services pack version 1.4).
 - Reintroduced the donation question.
 - Updated the completely outdated About dialog contents.
+- Added an executable for the server version.
 
 [Fixed]
 - Web module did not show the login page correctly.

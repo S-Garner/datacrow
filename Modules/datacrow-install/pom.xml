@@ -62,7 +62,7 @@
                 <version>2.3.1</version>
                 <executions>
                     <execution>
-                        <id>jar-to-exe</id>
+                        <id>generate-installer-executables</id>
                         <phase>package</phase>
                         <goals>
                             <goal>launch4j</goal>
@@ -78,25 +78,142 @@
                                 <mainClass>com.izforge.izpack.installer.bootstrap.Installer</mainClass>
                             </classPath>
                             <jre>
-                                <minVersion>17</minVersion>
-                                <jdkPreference>preferJre</jdkPreference>
+                                <minVersion>${maven.compiler.target}</minVersion>
+                                <requiresJdk>preferJre</requiresJdk>
                                 <path>./java</path>
                             </jre>
                             <versionInfo>
                                 <fileVersion>1.0.0.0</fileVersion>
-                                <txtFileVersion>${project.version}.0.0</txtFileVersion>
+                                <txtFileVersion>${project.version}.0</txtFileVersion>
                                 <fileDescription>Data Crow</fileDescription>
                                 <copyright>C</copyright>
-                                <productVersion>${project.version}.0.0</productVersion>
-                                <txtProductVersion>${project.version}.0.0</txtProductVersion>
+                                <productVersion>${project.version}.0</productVersion>
+                                <txtProductVersion>${project.version}.0</txtProductVersion>
                                 <productName>Data Crow</productName>
                                 <internalName>Data Crow</internalName>
                                 <originalFilename>install.exe</originalFilename>
                             </versionInfo>					
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>generate-client-executable</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <stayAlive>true</stayAlive>
+                            <icon>${project.parent.basedir}/datacrow-client/icons/datacrow.ico</icon>
+                            <jar>${project.parent.basedir}/datacrow-build/staging/dc-client/datacrow-client-${project.version}.jar</jar>
+                            <outfile>${project.parent.basedir}/datacrow-build/staging/dc-client/datacrow.exe</outfile>
+                            <classPath>
+                                <mainClass>org.datacrow.client.DataCrow</mainClass>
+                            </classPath>
+                            <jre>
+                                <minVersion>${maven.compiler.target}</minVersion>
+                                <requiresJdk>preferJre</requiresJdk>
+                                <path>./java</path>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>${project.version}.0</txtFileVersion>
+                                <fileDescription>Data Crow</fileDescription>
+                                <copyright>C</copyright>
+                                <productVersion>${project.version}.0</productVersion>
+                                <txtProductVersion>${project.version}.0</txtProductVersion>
+                                <productName>Data Crow</productName>
+                                <internalName>Data Crow</internalName>
+                                <originalFilename>datacrow.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>					
+                    <execution>
+                        <id>generate-server-executable</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>console</headerType>
+                            <stayAlive>true</stayAlive>
+                            <icon>${project.parent.basedir}/datacrow-client/icons/datacrow.ico</icon>
+                            <jar>${project.parent.basedir}/datacrow-build/staging/dc-server/datacrow-server.jar</jar>
+                            <outfile>${project.parent.basedir}/datacrow-build/staging/dc-server/datacrow-server.exe</outfile>
+                            <classPath>
+                                <mainClass>org.datacrow.server.DcServer</mainClass>
+                            </classPath>
+                            <jre>
+                                <minVersion>${maven.compiler.target}</minVersion>
+                                <requiresJdk>preferJre</requiresJdk>
+                                <path>./java</path>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>1.0.0.0</fileVersion>
+                                <txtFileVersion>${project.version}.0</txtFileVersion>
+                                <fileDescription>Data Crow</fileDescription>
+                                <copyright>C</copyright>
+                                <productVersion>${project.version}.0</productVersion>
+                                <txtProductVersion>${project.version}.0</txtProductVersion>
+                                <productName>Data Crow</productName>
+                                <internalName>Data Crow</internalName>
+                                <originalFilename>datacrow.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
                 </executions>
-            </plugin>            
+            </plugin>
+            <plugin>
+                <groupId>net.jsign</groupId>
+                <artifactId>jsign-maven-plugin</artifactId>
+                <version>4.2</version>
+                <executions>
+                    <execution>
+						<id>sign-client-executable</id>
+						<phase>initialize</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.parent.basedir}/datacrow-build/staging/dc-client/datacrow.exe</file>
+                            <name>Data Crow</name>
+                            <url>https://www.datacrow.org</url>
+                            <certfile>U:/Certificates/Data Crow/cert.pem</certfile>
+                            <keyfile>U:/Certificates/Data Crow/key.pem</keyfile>
+                            <keypass>{G+K0eCbjy4gHcxK9se9TS+aB7rTQUIfsEyw19t9/55JNmwv7XHZnXGLH4d+C9q1i}</keypass>
+                        </configuration>
+                    </execution>
+                    <execution>
+						<id>sign-server-executable</id>
+						<phase>initialize</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.parent.basedir}/datacrow-build/staging/dc-server/datacrow-server.exe</file>
+                            <name>Data Crow</name>
+                            <url>https://www.datacrow.org</url>
+                            <certfile>U:/Certificates/Data Crow/cert.pem</certfile>
+                            <keyfile>U:/Certificates/Data Crow/key.pem</keyfile>
+                            <keypass>{G+K0eCbjy4gHcxK9se9TS+aB7rTQUIfsEyw19t9/55JNmwv7XHZnXGLH4d+C9q1i}</keypass>
+                        </configuration>
+                    </execution>
+                    <execution>
+						<id>sign-installer-executable</id>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.basedir}/target/install.exe</file>
+                            <name>Data Crow</name>
+                            <url>https://www.datacrow.org</url>
+                            <certfile>U:/Certificates/Data Crow/cert.pem</certfile>
+                            <keyfile>U:/Certificates/Data Crow/key.pem</keyfile>
+                            <keypass>{G+K0eCbjy4gHcxK9se9TS+aB7rTQUIfsEyw19t9/55JNmwv7XHZnXGLH4d+C9q1i}</keypass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 			<plugin>
 			    <groupId>org.codehaus.mojo</groupId>
 			    <artifactId>exec-maven-plugin</artifactId>
