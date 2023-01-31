@@ -22,6 +22,15 @@
 		<param-value>resources.application</param-value>
 	</context-param>
 
+    <servlet>
+        <servlet-name>ModuleServlet</servlet-name>
+        <servlet-class>org.datacrow.api.rest.ModuleRestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModuleServlet</servlet-name>
+        <url-pattern>/rest/modules/*</url-pattern>
+    </servlet-mapping>
+
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
