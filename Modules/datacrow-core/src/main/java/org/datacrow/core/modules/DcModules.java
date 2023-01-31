@@ -47,6 +47,7 @@ import org.datacrow.core.modules.security.UserModule;
 import org.datacrow.core.modules.xml.XmlModule;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.server.response.ServerModulesRequestResponse;
 import org.datacrow.core.settings.DcSettings;
@@ -698,17 +699,32 @@ public class DcModules implements Serializable {
      */
     public static DcModule getCurrent() {
         DcModule current = DcModules.get(DcSettings.getInt(DcRepository.Settings.stModule));
+        SecuredUser user = DcConfig.getInstance().getConnector().getUser();
         
-        if (current != null && !current.isEnabled())
+        if (current != null && (!current.isEnabled() || (user != null && !user.isAuthorized(current)))) {
+            logger.info(
+                    "The current active module is " + (current.isEnabled() ? "enabled" : "disabled") + 
+                    ". User [" + user + "] is " + (user.isAuthorized(current) ? 
+                            "authorized" : "not authorized") + " to use the current module [" + current.getName() + 
+                            "]. Data Crow will try and find another available module for this user.");
+            
             current = null;
+        }
         
         if (current == null) {
+            // else, find the first authorized module available
             for (DcModule m : DcModules.getModules()) {
-                if (m.isTopModule() && m.isEnabled() && !m.hasDependingModules())
+                if (m.isTopModule() && m.isEnabled() && !m.hasDependingModules() && (user == null || user.isAuthorized(m)))
                     current = m;
                 
                 if (current != null) break;
             }
+            
+            if (current == null) {
+                logger.warn(
+                        "Determing active module: no modules are available for user [" + user + "]. The system won't be able to start correctly.");
+            }
+            
         }
         if (current != null) {
             if (current.getIndex() == DcModules._CONTAINER &&
@@ -717,9 +733,7 @@ public class DcModules implements Serializable {
             }
         }
         
-        if (    current != null &&
-                DcConfig.getInstance().getConnector().getUser() != null &&
-                DcConfig.getInstance().getConnector().getUser().isAuthorized(current))
+        if (current != null && user != null && user.isAuthorized(current))
             return current;
         
         return null;
