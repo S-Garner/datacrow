@@ -36,7 +36,6 @@ import javax.help.HelpSet;
 import javax.swing.JFrame;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.util.Utilities;
@@ -77,18 +76,17 @@ public class HelpDialog {
             final DefaultHelpBroker hb = new DefaultHelpBroker();
             hb.setHelpSet(hs);
             hb.setActivationWindow(window);
-            hb.setCurrentID(helpIndex);
             hb.setSize(DcSettings.getDimension(DcRepository.Settings.stHelpFormSize));
             hb.setLocation(Utilities.getCenteredWindowLocation(hb.getSize(), false));
             hb.setFont(ComponentFactory.getSystemFont());
+            hb.setCurrentID("dc");
             hb.setDisplayed(true);
-
+            
             Window helpWindow = hb.getWindowPresentation().getHelpWindow();
             if (helpWindow instanceof JFrame) {
                 JFrame helpFrame = (JFrame) helpWindow;
                 helpFrame.setIconImage(IconLibrary._icoMain.getImage());
                 helpFrame.setTitle(DcResources.getText("lblDataCrowHelp"));
-
                 
                 helpWindow.addWindowListener(new WindowAdapter() {
                     @Override
@@ -98,6 +96,8 @@ public class HelpDialog {
                     }
                 });
             }
+            
+            hb.setCurrentID(helpIndex);
 
         } catch (Exception e) {
             logger.error(DcResources.getText("msgErrorOpeningHelp"), e);

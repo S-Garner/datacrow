@@ -27,6 +27,7 @@ package org.datacrow.client.console;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -47,7 +48,9 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
 import java.beans.PropertyChangeListener;
 import java.beans.VetoableChangeListener;
+import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
@@ -1034,4 +1037,23 @@ public final class ComponentFactory extends UIComponents {
         
         return null;
     }
+    
+    public static <T extends JComponent> List<T> getChildComponents(
+            Class<T> clazz, Container parent, boolean includeNested) {
+
+        List<T> children = new ArrayList<T>();
+
+        for (Component c : parent.getComponents()) {
+            boolean isClazz = clazz.isAssignableFrom(c.getClass());
+            if (isClazz) {
+                children.add(clazz.cast(c));
+            }
+            if (includeNested && c instanceof JComponent) {
+                children.addAll(getChildComponents(clazz, (Container) c,
+                        includeNested));
+            }
+        }
+
+        return children;
+    }    
 }
