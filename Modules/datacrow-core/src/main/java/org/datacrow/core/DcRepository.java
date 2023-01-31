@@ -247,6 +247,7 @@ public abstract class DcRepository {
         public static final String _PDCR = "PDCR"; // (P)lain (D)ata (C)row (R)eference ;-)
         public static final String _GOOGLE = "GOOGLE";
         public static final String _DISCOGS = "DISCOGS";
+        public static final String _ITUNES = "ITUNES";
         
         static {
             types.add(_MOBYGAMES);
@@ -255,6 +256,7 @@ public abstract class DcRepository {
             types.add(_GOOGLE);
             types.add(_TMDB);
             types.add(_DISCOGS);
+            types.add(_ITUNES);
         }
     }
     
