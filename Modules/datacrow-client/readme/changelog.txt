@@ -6,6 +6,10 @@ Data Crow version 4.6                                              Released on 2
 - iTunes online search
 
 [Changed]
+- The web modules is now configured for HTTPS (only). A default self signed certificate
+  has been added. This can be used for internal / local network use. If the application
+  needs to be running in a web environment it is recommended to add a valid certificate
+  which can be configured in ssl/datacrow-ssl.properties.
 - Changed all Data Crow product icons.
 - The main application icon now consists of multiple sizes to allow support for multiple
   displaying purposes.

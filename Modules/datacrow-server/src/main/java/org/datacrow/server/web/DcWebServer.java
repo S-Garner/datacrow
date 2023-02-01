@@ -72,12 +72,9 @@ public class DcWebServer {
         httpConfiguration.setSecureScheme("https");
         httpConfiguration.setSecurePort(port);
         
-        // The HTTP configuration object.
         HttpConfiguration httpConfig = new HttpConfiguration();
-        // Add the SecureRequestCustomizer because we are using TLS.
         httpConfig.addCustomizer(src);
 
-        // The ConnectionFactory for HTTP/1.1.
         HttpConnectionFactory http11 = new HttpConnectionFactory(httpConfig);
 
         Properties p = new Properties();
@@ -89,7 +86,6 @@ public class DcWebServer {
     
         // Configure the SslContextFactory with the keyStore information.
         SslContextFactory.Server sslContextFactory = new SslContextFactory.Server();
-        
         String keyStoreFile = p.getProperty("keystore_file");
         String keyStorePassword = p.getProperty("keystore_password");
         
