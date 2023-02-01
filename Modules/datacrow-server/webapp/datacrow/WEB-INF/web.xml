@@ -30,6 +30,10 @@
         <servlet-name>ModuleServlet</servlet-name>
         <url-pattern>/rest/modules/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModuleServlet</servlet-name>
+        <url-pattern>/rest/fields/*</url-pattern>
+    </servlet-mapping>    
 
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
