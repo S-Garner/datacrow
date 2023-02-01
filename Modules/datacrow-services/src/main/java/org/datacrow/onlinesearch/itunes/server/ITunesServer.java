@@ -24,6 +24,9 @@ public class ITunesServer implements IServer {
 
     public ITunesServer() {
         regions.add(new Region("en", "English", "https://itunes.apple.com/"));
+        
+        modes.add(new TitleSearchMode());
+        modes.add(new UpcSearchMode());
     }
 
     @Override

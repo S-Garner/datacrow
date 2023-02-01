@@ -11,15 +11,15 @@ public class ITunesArtistCache {
     
     public ITunesArtistCache() {}
     
-    public void addArtist(DcAssociate person, String discogsId) {
-        artists.put(discogsId, person);
+    public void addArtist(DcAssociate person, String id) {
+        artists.put(id, person);
     }
 
-    public boolean contains(String discogsid) {
-        return artists.containsKey(discogsid);
+    public boolean contains(String id) {
+        return artists.containsKey(id);
     }
     
-    public DcAssociate getArtist(String discogsId) {
-        return artists.get(discogsId);
+    public DcAssociate getArtist(String id) {
+        return artists.get(id);
     }
 }

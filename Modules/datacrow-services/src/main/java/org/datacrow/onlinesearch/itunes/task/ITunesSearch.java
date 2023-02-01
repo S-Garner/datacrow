@@ -63,6 +63,8 @@ public class ITunesSearch extends SearchTask {
             
             String url = "https://itunes.apple.com/lookup?entity=song&id=" + isr.getId();
             
+            dco.setValue(DcObject._SYS_SERVICEURL, url);
+            
             HttpConnection conn = new HttpConnection(new URL(url));
             String json = conn.getString(StandardCharsets.UTF_8);
             conn.close();
@@ -129,7 +131,11 @@ public class ITunesSearch extends SearchTask {
         Collection<Object> result = new ArrayList<>();
         
         try {
-            String url = getServer().getUrl() + "/search?term=" + getQuery() + "&media=music&entity=album&limit=" + getMaximum();
+            String url;
+            if (getMode().getFieldBinding() == MusicAlbum._A_TITLE)
+                url = getServer().getUrl() + "/search?term=" + getQuery() + "&media=music&entity=album&limit=" + getMaximum();
+            else
+                url = getServer().getUrl() + "/lookup?upc=" + getQuery();
             
             HttpConnection conn = new HttpConnection(new URL(url));           
             String json = conn.getString(StandardCharsets.UTF_8);
@@ -158,6 +164,9 @@ public class ITunesSearch extends SearchTask {
                 album.createReference(MusicAlbum._G_GENRES, src.get("primaryGenreName"));
                 album.createReference(MusicAlbum._I_STORAGEMEDIUM, src.get("Audio CD"));
                 
+                if (getMode().getFieldBinding() == MusicAlbum._P_EAN)
+                    album.setValue(MusicAlbum._P_EAN, getQuery());
+                
                 String id = String.valueOf(((Number) src.get("collectionId")).longValue());
                 album.addExternalReference(DcRepository.ExternalReferences._ITUNES, id);
                 setServiceInfo(album);
@@ -175,7 +184,6 @@ public class ITunesSearch extends SearchTask {
         return result;
     }
     
-    @SuppressWarnings("unchecked")
     private void setArtists(DcObject dco, LinkedTreeMap<?, ?> src) {
 
         String artistId = String.valueOf(((Number) src.get("artistId")).longValue());
