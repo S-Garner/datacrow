@@ -253,24 +253,7 @@
                             <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/upgrade</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/upgrade</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-resources-exe-server</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}</directory>
-                                    <include>datacrow-server*bit*</include>
+                                    <directory>${project.parent.basedir}/datacrow-client/upgrade</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>
@@ -287,6 +270,22 @@
                             <resources>
                                 <resource>
                                     <directory>${basedir}/icons</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-resources-ssl-server</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/ssl</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/ssl</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>

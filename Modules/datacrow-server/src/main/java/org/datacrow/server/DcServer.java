@@ -211,8 +211,12 @@ public class DcServer implements Runnable, IStarterClient, IClient {
                 imgServer = new DcImageWebServer(imageServerPort, ip);
                 
                 if (enableWebServer) {
-                    webServer = new DcWebServer(webServerPort, ip);
-                    webServer.setup();
+                    try {
+                        webServer = new DcWebServer(webServerPort, ip);
+                        webServer.setup();
+                    } catch (Exception e) {
+                        logger.error("Web server could not be started", e);
+                    }
                 }
                 
                 // if the logger failed starting is unnecessary
