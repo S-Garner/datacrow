@@ -57,6 +57,7 @@ public class AboutDialog extends DcDialog {
         img.flush();
 
         setCenteredLocation();
+        setResizable(false);
     }
 
     private void buildDialog() {
@@ -90,6 +91,5 @@ public class AboutDialog extends DcDialog {
 
         pack();
         setSize(new Dimension(510,580));
-        setResizable(true);
     }
 }
