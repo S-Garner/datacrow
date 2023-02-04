@@ -25,6 +25,7 @@
         <module>datacrow-client</module>
         <module>datacrow-plugins</module>
 		<module>datacrow-beans</module>
+		<module>datacrow-synch-service</module>
     </modules>
 
     <build>
