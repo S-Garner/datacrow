@@ -6,8 +6,8 @@ Data Crow version 4.6                                              Released on 2
 - iTunes online search.
 
 [Changed]
-- The executables of Data Crow are now signed by my own official certificate obtained 
-  from Comodo. This means no more issues with virus scanners and no more unknown 
+- The executables of Data Crow are now signed by my own official certificate. 
+  This means no more issues with virus scanners and no more unknown 
   publisher messages for Windows users. I had to update the datacrow-install module
   to include the signing. This will only work on my build machines as the certificate 
   is private to myself. There is no code hidden from you, it's still true to form for 
