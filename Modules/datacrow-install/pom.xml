@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.datacrow</groupId>
 		<artifactId>datacrow-main</artifactId>
-		<version>4.6.0</version>
+		<version>4.6.1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -178,9 +178,9 @@
                             <file>${project.parent.basedir}/datacrow-build/staging/dc-client/datacrow.exe</file>
                             <name>Data Crow</name>
                             <url>https://www.datacrow.org</url>
-                            <certfile>U:/Certificates/Data Crow/cert.pem</certfile>
-                            <keyfile>U:/Certificates/Data Crow/key.pem</keyfile>
-                            <keypass>{G+K0eCbjy4gHcxK9se9TS+aB7rTQUIfsEyw19t9/55JNmwv7XHZnXGLH4d+C9q1i}</keypass>
+                            <certfile>U:/certificates/CSR/vanderwaalsbv</certfile>
+                            <keyfile>U:/certificates/CSR/PRIVATEKEY.pem</keyfile>
+                            <keypass>{xV7vXjxwmSMHOd66QmsdUfHANfD5+J46Gn7n5mD82vHgAHHBAKC8+Cx2b04R8tY4}</keypass>
                         </configuration>
                     </execution>
                     <execution>
@@ -193,9 +193,9 @@
                             <file>${project.parent.basedir}/datacrow-build/staging/dc-server/datacrow-server.exe</file>
                             <name>Data Crow</name>
                             <url>https://www.datacrow.org</url>
-                            <certfile>U:/Certificates/Data Crow/cert.pem</certfile>
-                            <keyfile>U:/Certificates/Data Crow/key.pem</keyfile>
-                            <keypass>{G+K0eCbjy4gHcxK9se9TS+aB7rTQUIfsEyw19t9/55JNmwv7XHZnXGLH4d+C9q1i}</keypass>
+                            <certfile>U:/certificates/CSR/vanderwaalsbv</certfile>
+                            <keyfile>U:/certificates/CSR/PRIVATEKEY.pem</keyfile>
+                            <keypass>{xV7vXjxwmSMHOd66QmsdUfHANfD5+J46Gn7n5mD82vHgAHHBAKC8+Cx2b04R8tY4}</keypass>
                         </configuration>
                     </execution>
                     <execution>
@@ -207,9 +207,9 @@
                             <file>${project.basedir}/target/install.exe</file>
                             <name>Data Crow</name>
                             <url>https://www.datacrow.org</url>
-                            <certfile>U:/Certificates/Data Crow/cert.pem</certfile>
-                            <keyfile>U:/Certificates/Data Crow/key.pem</keyfile>
-                            <keypass>{G+K0eCbjy4gHcxK9se9TS+aB7rTQUIfsEyw19t9/55JNmwv7XHZnXGLH4d+C9q1i}</keypass>
+                            <certfile>U:/certificates/CSR/vanderwaalsbv</certfile>
+                            <keyfile>U:/certificates/CSR/PRIVATEKEY.pem</keyfile>
+                            <keypass>{xV7vXjxwmSMHOd66QmsdUfHANfD5+J46Gn7n5mD82vHgAHHBAKC8+Cx2b04R8tY4}</keypass>
                         </configuration>
                     </execution>
                 </executions>
