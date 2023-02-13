@@ -54,7 +54,9 @@ import org.datacrow.core.server.requests.ClientRequestReferencingItems;
 import org.datacrow.core.server.requests.ClientRequestSimpleValues;
 import org.datacrow.core.server.requests.ClientRequestUser;
 import org.datacrow.core.server.requests.ClientRequestValueEnhancers;
+import org.datacrow.core.server.requests.IClientRequest;
 import org.datacrow.core.server.response.DefaultServerResponse;
+import org.datacrow.core.server.response.IServerResponse;
 import org.datacrow.core.server.response.ServerActionResponse;
 import org.datacrow.core.server.response.ServerApplicationSettingsRequestResponse;
 import org.datacrow.core.server.response.ServerErrorResponse;
@@ -75,12 +77,12 @@ public class DcServerSessionRequestHandler extends Thread {
 		
 	private static Logger logger = DcLogManager.getLogger(DcServerSessionRequestHandler.class.getName());
 	
-	private Socket socket;
-	private boolean canceled = false;
-	private LocalServerConnector conn;
-	private ClientRequest cr;
+	protected Socket socket;
+	protected boolean canceled = false;
+	protected LocalServerConnector conn;
+	protected IClientRequest cr;
 	
-	private DcServerSession session;
+	protected final DcServerSession session;
 	
 	public DcServerSessionRequestHandler(DcServerSession session) {
 		this.session = session;
@@ -150,7 +152,7 @@ public class DcServerSessionRequestHandler extends Thread {
 	 */
 	private void processRequest(ObjectOutputStream os) throws Exception {
         try {
-            ServerResponse sr = null;
+            IServerResponse sr = null;
 	        switch (cr.getType()) {
 	        case ClientRequest._REQUEST_ITEMS:
 	        	sr = processItemsRequest((ClientRequestItems) cr);
@@ -236,28 +238,28 @@ public class DcServerSessionRequestHandler extends Thread {
 	    return sr;
 	}
 	
-   private ServerResponse processItemKeysRequest(ClientRequestItemKeys cr) {
+   private IServerResponse processItemKeysRequest(ClientRequestItemKeys cr) {
         Map<String, Integer> items = conn.getKeys(cr.getDataFilter());
         ServerItemKeysRequestResponse sr = new ServerItemKeysRequestResponse(items);
         return sr;
     }
 	
-	private ServerResponse processLoginRequest(ClientRequestLogin lr) {
+	private IServerResponse processLoginRequest(ClientRequestLogin lr) {
 		SecuredUser su = conn.login(lr.getUsername(), lr.getPassword());
 		return new ServerLoginResponse(su);
 	}
 	
-	private ServerResponse processSQLRequest(ClientRequestExecuteSQL csr) throws Exception {
+	private IServerResponse processSQLRequest(ClientRequestExecuteSQL csr) throws Exception {
 	    DcResultSet result = conn.executeSQL(csr.getSQL());
         return new ServerSQLResponse(result);
     }
 	
-    private ServerResponse processReferencingItemsRequest(ClientRequestReferencingItems crri) throws Exception {
+    private IServerResponse processReferencingItemsRequest(ClientRequestReferencingItems crri) throws Exception {
         List<DcObject> values = conn.getReferencingItems(crri.getModuleIdx(), crri.getID());
         return new ServerItemsRequestResponse(values);
     }
 	
-    private ServerResponse processSimpleValuesRequest(ClientRequestSimpleValues crsv) throws Exception {
+    private IServerResponse processSimpleValuesRequest(ClientRequestSimpleValues crsv) throws Exception {
         List<DcSimpleValue> values = conn.getSimpleValues(crsv.getModule(), crsv.isIncludeIcons());
         return new ServerSimpleValuesResponse(values);
     }
@@ -308,7 +310,7 @@ public class DcServerSessionRequestHandler extends Thread {
         return sr;
     }
 	
-	private ServerResponse processItemRequest(ClientRequestItem cr) {
+	private IServerResponse processItemRequest(ClientRequestItem cr) {
 		DcObject result = null;
 		int[] fields = cr.getFields();
 		Object value = cr.getValue();

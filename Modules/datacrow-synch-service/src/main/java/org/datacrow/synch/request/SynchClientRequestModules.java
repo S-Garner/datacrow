@@ -23,58 +23,31 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.server;
+package org.datacrow.synch.request;
 
-import java.net.Socket;
+import org.datacrow.core.server.requests.ClientRequest;
 
-import org.apache.logging.log4j.Logger;
-import org.datacrow.core.log.DcLogManager;
-import org.datacrow.core.security.SecuredUser;
-import org.datacrow.core.security.SecurityException;
-import org.datacrow.core.server.requests.IClientRequest;
-import org.datacrow.server.security.SecurityCenter;
+public class SynchClientRequestModules extends ClientRequest {
 
-public class DcServerSession {
+	private static final long serialVersionUID = 1L;
 	
-	private transient static Logger logger = DcLogManager.getLogger(DcServerSession.class.getName());
-	
-	protected Socket socket;
-	protected DcServerSessionRequestHandler ct;
-	
-	public DcServerSession(Socket socket) {
-		this.socket = socket;
-		
-		long time = System.currentTimeMillis();
-		logger.debug("Client session started: " + time);
-		
-		ct = new DcServerSessionRequestHandler(this);
-		ct.start();
+	public SynchClientRequestModules(String username, String password) {
+		super(SynchClientRequest._REQUEST_MODULES, null);
 
+		this.username = username;
+		this.password = password;
 	}
 	
-	public DcServerSession() {} 
-	
-	public boolean isAlive() {
-		return ct.isAlive();
+	@Override
+	public String getUsername() {
+		return username;
 	}
-	
-	public void closeSession() {
-		try {
-			ct.cancel();
-		} catch (Exception e) {
-			logger.error(e, e);
-		}
+
+	@Override
+	public String getPassword() {
+		return password;
 	}
-	
-	public String getName() {
-		return socket.toString();
-	}
-	
-	public SecuredUser getUser(IClientRequest cr) throws SecurityException {
-		return SecurityCenter.getInstance().login(cr.getClientKey(), cr.getUsername(), cr.getPassword());
-	}
-	
-	public Socket getSocket() {
-		return socket;
-	}
+
+	@Override
+	public void close() {}
 }

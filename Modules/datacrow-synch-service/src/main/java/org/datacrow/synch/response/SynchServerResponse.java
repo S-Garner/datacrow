@@ -23,58 +23,26 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.server;
+package org.datacrow.synch.response;
 
-import java.net.Socket;
+import java.io.Serializable;
 
-import org.apache.logging.log4j.Logger;
-import org.datacrow.core.log.DcLogManager;
-import org.datacrow.core.security.SecuredUser;
-import org.datacrow.core.security.SecurityException;
-import org.datacrow.core.server.requests.IClientRequest;
-import org.datacrow.server.security.SecurityCenter;
+import org.datacrow.core.server.response.IServerResponse;
 
-public class DcServerSession {
-	
-	private transient static Logger logger = DcLogManager.getLogger(DcServerSession.class.getName());
-	
-	protected Socket socket;
-	protected DcServerSessionRequestHandler ct;
-	
-	public DcServerSession(Socket socket) {
-		this.socket = socket;
-		
-		long time = System.currentTimeMillis();
-		logger.debug("Client session started: " + time);
-		
-		ct = new DcServerSessionRequestHandler(this);
-		ct.start();
+public class SynchServerResponse implements Serializable, IServerResponse {
 
-	}
+	private static final long serialVersionUID = 1L;
 	
-	public DcServerSession() {} 
-	
-	public boolean isAlive() {
-		return ct.isAlive();
-	}
-	
-	public void closeSession() {
-		try {
-			ct.cancel();
-		} catch (Exception e) {
-			logger.error(e, e);
-		}
-	}
-	
-	public String getName() {
-		return socket.toString();
-	}
-	
-	public SecuredUser getUser(IClientRequest cr) throws SecurityException {
-		return SecurityCenter.getInstance().login(cr.getClientKey(), cr.getUsername(), cr.getPassword());
-	}
-	
-	public Socket getSocket() {
-		return socket;
-	}
+    public static final int _RESPONSE_LOGIN = 0;
+    public static final int _RESPONSE_MODULES = 1;
+    
+    private int type;
+    
+    public SynchServerResponse(int type) {
+        this.type = type;
+    }
+    
+    public int getType() {
+        return type;
+    }
 }

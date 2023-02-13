@@ -27,7 +27,7 @@ package org.datacrow.core.server.response;
 
 import java.io.Serializable;
 
-public class ServerResponse implements Serializable {
+public class ServerResponse implements Serializable, IServerResponse {
 
     public static final int _RESPONSE_DEFAULT = 0;
     public static final int _RESPONSE_ACTION = 1;

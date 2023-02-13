@@ -29,7 +29,7 @@ import java.io.Serializable;
 
 import org.datacrow.core.security.SecuredUser;
 
-public class ClientRequest implements Serializable {
+public class ClientRequest implements Serializable, IClientRequest {
 
 	private static final long serialVersionUID = -6116073911491261119L;
 	

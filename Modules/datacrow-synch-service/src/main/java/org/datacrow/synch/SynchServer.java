@@ -26,14 +26,11 @@
 package org.datacrow.synch;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.FileSystems;
 import java.util.Date;
-import java.util.Properties;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import org.apache.logging.log4j.Level;
@@ -50,7 +47,6 @@ import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
-import org.datacrow.server.DcServerSession;
 import org.datacrow.server.LocalServerConnector;
 import org.datacrow.server.db.DatabaseInvalidException;
 import org.datacrow.server.db.DatabaseManager;
@@ -62,8 +58,8 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
 
     private static SynchServer instance;
 
-    private final LinkedBlockingDeque<DcServerSession> sessions = 
-    		new  LinkedBlockingDeque<DcServerSession>();
+    private final LinkedBlockingDeque<SynchServerSession> sessions = 
+    		new  LinkedBlockingDeque<SynchServerSession>();
     
     private int port;
 	
@@ -82,7 +78,7 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
             	if (DcConfig.getInstance().getConnector() != null)
             		DcConfig.getInstance().getConnector().shutdown(true);
             	
-            	System.out.println("\r\nServer has stopped");
+            	System.out.println("\r\nSynch server has stopped");
             }
         });
         
@@ -160,8 +156,7 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
         }
         
         if (CoreUtilities.isEmpty(ip)) {
-            System.out.println("The IP address (-ip:<IP address>) is a required parameters. "
-            		+ "It is used to generated URLs to server resources, such as images.\r\n");
+            System.out.println("The IP address (-ip:<IP address>) is a required parameters.\r\n");
             printParameterHelp();
         } else if (CoreUtilities.isEmpty(dataDir)) {
             System.out.println("The user dir (-userdir:<directory>) is a required parameters.\r\n");
@@ -185,12 +180,12 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
                 }
                 
                 if (logger != null) {
-                    logger.info("Server has been started, ready for client connections.");
-                    logger.info("Thick clients can connect to IP address " + connector.getServerAddress() + 
+                    logger.info("Synch server has been started, ready for client connections.");
+                    logger.info("Synch clients can connect to IP address " + connector.getServerAddress() + 
                             " on port " + connector.getApplicationServerPort() + " and on image port " +
                             connector.getImageServerPort());
 
-                    logger.info("Listening for CTRL-C for server shutdown.");
+                    logger.info("Listening for CTRL-C for synch server shutdown.");
                     
                     instance.startServer();
                 }
@@ -296,16 +291,13 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
                     DcConfig dcc = DcConfig.getInstance();
                     dcc.setConnector(connector);
                     
-                    applyDatabaseSetting();
-                    
                     DatabaseManager.getInstance().initialize();
                     DcModules.loadDefaultModuleData();
         	    }
             }
-           
         } catch (Throwable t) {
             t.printStackTrace();
-        	logger.error("Data Crow could not be started: " + t, t);
+        	logger.error("Synch server could not be started: " + t, t);
             try {
                 DcSettings.set(DcRepository.Settings.stGracefulShutdown, Boolean.FALSE);
                 DcSettings.save();
@@ -324,7 +316,7 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
         this.isStopped = true;
         
         try {
-        	for (DcServerSession session : sessions) {
+        	for (SynchServerSession session : sessions) {
         		session.closeSession();
         	}
         	
@@ -343,31 +335,6 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
             throw new RuntimeException("Cannot open port " + port, e);
         }
     }
-	
-    private void applyDatabaseSetting() {
-        try {
-            File file = new File(DcConfig.getInstance().getDatabaseDir(), 
-                                 DcSettings.getString(DcRepository.Settings.stConnectionString) + ".properties");
-            if (file.exists()) {
-                Properties properties = new Properties();
-                
-                FileInputStream fis = new FileInputStream(file);
-                properties.load(fis);
-                fis.close();
-                
-                properties.setProperty("readonly", "false");
-                properties.setProperty("hsqldb.nio_data_file", "true");
-                properties.setProperty("hsqldb.lock_file", "false");
-                properties.setProperty("hsqldb.log_size", "10000");
-
-                FileOutputStream fos = new FileOutputStream(file);
-                properties.store(fos, "Default properties for the DC database of Data Crow.");
-                fos.close();
-            }
-        } catch (Exception e) {
-            logger.error("Could not set the default database properties.", e);
-        }
-    }   
 	
 	@Override
 	public void run() {
@@ -401,7 +368,7 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
                 }
             }
             
-            DcServerSession session = new DcServerSession(clientSocket);
+            SynchServerSession session = new SynchServerSession(clientSocket);
             sessions.add(session);
         }
         
