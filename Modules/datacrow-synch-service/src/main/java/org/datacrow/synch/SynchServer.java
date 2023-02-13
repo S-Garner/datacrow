@@ -1,11 +1,40 @@
+/******************************************************************************
+ *                                     __                                     *
+ *                              <-----/@@\----->                              *
+ *                             <-< <  \\//  > >->                             *
+ *                               <-<-\ __ /->->                               *
+ *                               Data /  \ Crow                               *
+ *                                   ^    ^                                   *
+ *                              info@datacrow.org                             *
+ *                                                                            *
+ *                       This file is part of Data Crow.                      *
+ *       Data Crow is free software; you can redistribute it and/or           *
+ *        modify it under the terms of the GNU General Public                 *
+ *       License as published by the Free Software Foundation; either         *
+ *              version 3 of the License, or any later version.               *
+ *                                                                            *
+ *        Data Crow is distributed in the hope that it will be useful,        *
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.             *
+ *           See the GNU General Public License for more details.             *
+ *                                                                            *
+ *        You should have received a copy of the GNU General Public           *
+ *  License along with this program. If not, see http://www.gnu.org/licenses  *
+ *                                                                            *
+ ******************************************************************************/
+
 package org.datacrow.synch;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.FileSystems;
 import java.util.Date;
+import java.util.Properties;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
@@ -16,46 +45,54 @@ import org.datacrow.core.IStarterClient;
 import org.datacrow.core.clients.IClient;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.modules.upgrade.ModuleUpgrade;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
-import org.datacrow.server.DcServer;
+import org.datacrow.server.DcServerSession;
 import org.datacrow.server.LocalServerConnector;
 import org.datacrow.server.db.DatabaseInvalidException;
 import org.datacrow.server.db.DatabaseManager;
+import org.datacrow.server.security.SecurityCenter;
 
 public class SynchServer implements Runnable, IStarterClient, IClient {
-    
-    private static Logger logger;
 
-    protected final int port;
+	private static Logger logger;
 
-    public boolean isStopped = false;
-    
-    protected ServerSocket socket = null;    
-    protected Thread runningThread = null;
-    private static SynchServer server;
-    
-    public static void main(String[] args) {
+    private static SynchServer instance;
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
+    private final LinkedBlockingDeque<DcServerSession> sessions = 
+    		new  LinkedBlockingDeque<DcServerSession>();
+    
+    private int port;
+	
+    private ServerSocket socket = null;
+    private boolean isStopped = false;
+    
+	public SynchServer(int port) {
+		this.port = port;
+	}
+	
+	public static void main(String[] args) {
+
+		Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                if (DcConfig.getInstance().getConnector() != null)
-                    DcConfig.getInstance().getConnector().shutdown(true);
-                
-                System.out.println("\r\nSynch Server has stopped");
+            	if (DcConfig.getInstance().getConnector() != null)
+            		DcConfig.getInstance().getConnector().shutdown(true);
+            	
+            	System.out.println("\r\nServer has stopped");
             }
         });
         
         System.setProperty("java.awt.headless", "true");
-        
+	    
         String installationDir = "";
         String dataDir = "";
         String db = "dc";
         
-        int port = 200;
+        int port = 9000;
         
         String username = "sa";
         String password = null;
@@ -66,7 +103,6 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
         boolean determiningUserDir = false;
         
         DcConfig dcc = DcConfig.getInstance();
-        
         for (String arg : args) {
             if (arg.toLowerCase().startsWith("-dir:")) {
                 installationDir = arg.substring(5, arg.length());
@@ -94,12 +130,12 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
                 int index = credentials.indexOf("/");
                 username = index > -1 ? credentials.substring(0, index) : credentials;
                 password = index > -1 ? credentials.substring(index + 1) : "";
-            } else if (determiningInstallDir) {
+            } else if (determiningInstallDir && !arg.startsWith("-Dorg.")) { // exclude other parameters from being added to the path
                 installationDir += " " + arg;
-            } else if (determiningUserDir) {
+            } else if (determiningUserDir && !arg.startsWith("-Dorg.")) { // exclude other parameters from being added to the path
                 dataDir += " " + arg;                    
-            } else {
-                printParameterHelp();
+            } else if (!arg.startsWith("-Dorg.")) { 
+            	printParameterHelp();
                 System.exit(0);
             }
         }
@@ -125,7 +161,7 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
         
         if (CoreUtilities.isEmpty(ip)) {
             System.out.println("The IP address (-ip:<IP address>) is a required parameters. "
-                    + "It is used to generated URLs to server resources, such as images.\r\n");
+            		+ "It is used to generated URLs to server resources, such as images.\r\n");
             printParameterHelp();
         } else if (CoreUtilities.isEmpty(dataDir)) {
             System.out.println("The user dir (-userdir:<directory>) is a required parameters.\r\n");
@@ -134,13 +170,13 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
             
             dataDir = !dataDir.endsWith("/") && !dataDir.endsWith("\\") ? dataDir + File.separatorChar : dataDir;
             
-            dcc.setOperatingMode(DcConfig._OPERATING_MODE_SERVER);
-            dcc.setInstallationDir(installationDir);
-            dcc.setDataDir(dataDir);
-            
-            server = new SynchServer(port);
-            
-            if (server.initialize(username, password, db)) {
+    	    dcc.setOperatingMode(DcConfig._OPERATING_MODE_SERVER);
+    	    dcc.setInstallationDir(installationDir);
+    	    dcc.setDataDir(dataDir);
+    	    
+    	    instance = new SynchServer(port);
+    	    
+            if (instance.initialize(username, password, db)) {
                 
                 Connector connector = dcc.getConnector();
                 if (connector != null) {
@@ -148,219 +184,44 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
                     connector.setServerAddress(ip);
                 }
                 
-                // if the logger failed starting is unnecessary
                 if (logger != null) {
-                    logger.info("Synch server has been started, ready for client connections.");
-                    logger.info("Clients can connect to IP address " + connector.getServerAddress() + " on port " + connector.getApplicationServerPort());
+                    logger.info("Server has been started, ready for client connections.");
+                    logger.info("Thick clients can connect to IP address " + connector.getServerAddress() + 
+                            " on port " + connector.getApplicationServerPort() + " and on image port " +
+                            connector.getImageServerPort());
+
                     logger.info("Listening for CTRL-C for server shutdown.");
                     
-                    server.startServer();
+                    instance.startServer();
                 }
             }
-        }        
-    }
-    
-    private SynchServer(int port) {
-        this.port = port;
-        startServer();
-    }
-    
-    private void startServer() {
-        Thread st = new Thread(server);
-        st.start();
-
-        try {
-            st.join();
-        } catch (InterruptedException e) {
-            logger.error(e, e);
-        }
-        
-        logger.info("Synch Server has been stopped");
-        server.shutdown();        
-    }
-    
-    private void openServerSocket() {
-        try {
-            this.socket = new ServerSocket(port);
-        } catch (IOException e) {
-            throw new RuntimeException("Cannot open port " + port, e);
         }
     }
-    
+	
     @Override
     public void configureLog4j(boolean debug) {
         DcLogManager.configureLog4j(debug ? Level.DEBUG: Level.INFO, true);
-    }    
-
-    @Override
-    public void run() {
-        
-        synchronized(this) {
-            this.runningThread = Thread.currentThread();
-        }
-        
-        openServerSocket();
-        
-        while(!isStopped()){
-            Socket clientSocket = null;
-            
-            try {
-                clientSocket = this.socket.accept();
-                clientSocket.setKeepAlive(true);
-                
-                logger.info("A client has connected (" + clientSocket.getInetAddress() + ")");
-                
-            } catch (IOException e) {
-                
-                if (clientSocket != null) {
-                    try {
-                        clientSocket.close();
-                    } catch (Exception e2) {
-                        logger.debug("Error closing client socket after Exception was thrown: " + e, e2);
-                    }
-                }
-                
-                if (isStopped()) {
-                    logger.info("Server Stopped.");
-                    return;
-                } else {
-                    throw new RuntimeException("Error accepting client connection", e);
-                }
-            }
-            
-            //DcServerSession session = new DcServerSession(clientSocket);
-            //sessions.add(session);
-        }
-        
-        logger.info("Server Stopped.");
     }
-    
-    public boolean initialize(String username, String password, String db) {
-        
-        boolean initialized = false;
-        
+	
+	private void startServer() {
+        Thread st = new Thread(instance);
+        st.start();
+
         try {
-            
-            DcStarter ds = new DcStarter(this);
-            initialized = ds.initialize();
-            if (initialized) {
-
-                DcSettings.set(DcRepository.Settings.stConnectionString, "dc");
-                if (!CoreUtilities.isEmpty(db))
-                    DcSettings.set(DcRepository.Settings.stConnectionString, db);
-                
-                logger.info(new Date() + " Starting Data Crow Synch Server.");
-                DcModules.load();
-                
-                try {
-                    DatabaseManager.getInstance().doDatabaseHealthCheck();
-                } catch (DatabaseInvalidException die) {
-                    System.out.println(die.getMessage());
-                    System.exit(0);
-                }
-    
-                LocalServerConnector connector = new LocalServerConnector();
-                SecuredUser su = connector.login(username, password);
-                
-                if (su == null) {
-                    logger.error("The user could not login, please check the credentials.");
-                    initialized = false;
-                } else {
-                    connector.initialize();
-                    
-                    DcConfig dcc = DcConfig.getInstance();
-                    dcc.setConnector(connector);
-                    
-                    //applyDatabaseSetting();
-                    
-                    DatabaseManager.getInstance().initialize();
-                    DcModules.loadDefaultModuleData();
-                }
-            }
-           
-        } catch (Throwable t) {
-            t.printStackTrace();
-            logger.error("Data Crow could not be started: " + t, t);
-            try {
-                DcSettings.set(DcRepository.Settings.stGracefulShutdown, Boolean.FALSE);
-                DcSettings.save();
-            } catch (Exception e) {
-                logger.error("An error occured while saving settings: " + e, e);
-            }
+        	st.join();
+        } catch (InterruptedException e) {
+            logger.error(e, e);
         }
-        return initialized;
-    }    
 
-    @Override
-    public void notifyLog4jConfigured() {
-        logger = DcLogManager.getLogger(DcServer.class.getName());
-    }
-
-    @Override
-    public void notifyFatalError(String msg) {
-        if (logger != null)
-            logger.error(msg);
-        else
-            System.out.println(msg);
-        
-        System.exit(0);
-    }
-
-    @Override
-    public void notifyWarning(String msg) {
-        if (logger != null)
-            logger.warn(msg);
-        else
-            System.out.println(msg);
-    }
-
-    @Override
-    public void notifyError(String msg) {
-        logger.error(msg);
-    }
-
-    @Override
-    public void requestDataDirSetup(String target) {}
-
-    @Override
-    public void notify(String msg) {
-        if (logger != null)
-            logger.info(msg);
-        else
-            System.out.println(msg);   
-    }
-
-    @Override
-    public void notifyError(Throwable t) {
-        if (logger != null)
-            logger.error(t, t);
-        else
-            t.printStackTrace();
-    }
-
-    @Override
-    public void notifyTaskCompleted(boolean success, String taskID) {}
-
-    @Override
-    public void notifyTaskStarted(int taskSize) {}
-
-    @Override
-    public void notifyProcessed() {}
-
-    @Override
-    public boolean isCancelled() {
-        return false;
-    }
-    
-    private synchronized boolean isStopped() {
-        return this.isStopped;
-    }
-
-    public synchronized void shutdown(){
-        this.isStopped = true;
-    }
-    
-    private static void printParameterHelp() {
+        logger.info("Server has been stopped");
+        instance.shutdown();
+	}
+	
+	public static SynchServer getInstance() {
+	    return instance;
+	}
+	
+	private static void printParameterHelp() {
         System.out.println("The following parameters can be used:");
         System.out.println("");
         System.out.println("-dir:<installdir>");
@@ -393,5 +254,223 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
         System.out.println("Specifies the IP address used by the server. The server will use this IP address to point to resources such as images.");
         System.out.println("Example: java -jar datacrow-server.jar -ip:192.168.178.10");
         System.out.println("make sure to use an external IP address if users will be connecting not attached to your network.");          
-    }    
+	}
+	
+	public boolean initialize(String username, String password, String db) {
+	    
+	    boolean initialized = false;
+	    
+        try {
+            
+            DcStarter ds = new DcStarter(this);
+            initialized = ds.initialize();
+            if (initialized) {
+
+                DcSettings.set(DcRepository.Settings.stConnectionString, "dc");
+                if (!CoreUtilities.isEmpty(db))
+                    DcSettings.set(DcRepository.Settings.stConnectionString, db);
+                
+                logger.info(new Date() + " Starting Data Crow Server.");
+                
+                new ModuleUpgrade().upgrade();
+                DcModules.load();
+                
+    			try {
+    			    DatabaseManager.getInstance().doDatabaseHealthCheck();
+    			} catch (DatabaseInvalidException die) {
+    				System.out.println(die.getMessage());
+    			    System.exit(0);
+    			}
+    
+                SecurityCenter.getInstance().initialize();
+                
+        	    LocalServerConnector connector = new LocalServerConnector();
+        	    SecuredUser su = connector.login(username, password);
+        	    
+        	    if (su == null) {
+        	        logger.error("The user could not login, please check the credentials.");
+        	        initialized = false;
+        	    } else {
+            	    connector.initialize();
+                    
+                    DcConfig dcc = DcConfig.getInstance();
+                    dcc.setConnector(connector);
+                    
+                    applyDatabaseSetting();
+                    
+                    DatabaseManager.getInstance().initialize();
+                    DcModules.loadDefaultModuleData();
+        	    }
+            }
+           
+        } catch (Throwable t) {
+            t.printStackTrace();
+        	logger.error("Data Crow could not be started: " + t, t);
+            try {
+                DcSettings.set(DcRepository.Settings.stGracefulShutdown, Boolean.FALSE);
+                DcSettings.save();
+            } catch (Exception e) {
+            	logger.error("An error occured while saving settings: " + e, e);
+            }
+        }
+        return initialized;
+	}
+    
+    private synchronized boolean isStopped() {
+        return this.isStopped;
+    }
+
+    public synchronized void shutdown(){
+        this.isStopped = true;
+        
+        try {
+        	for (DcServerSession session : sessions) {
+        		session.closeSession();
+        	}
+        	
+        	if (this.socket != null)
+        	    this.socket.close();
+        	
+        } catch (IOException e) {
+            throw new RuntimeException("Error closing server", e);
+        }
+    }
+
+    private void openServerSocket() {
+        try {
+            this.socket = new ServerSocket(port);
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot open port " + port, e);
+        }
+    }
+	
+    private void applyDatabaseSetting() {
+        try {
+            File file = new File(DcConfig.getInstance().getDatabaseDir(), 
+                                 DcSettings.getString(DcRepository.Settings.stConnectionString) + ".properties");
+            if (file.exists()) {
+                Properties properties = new Properties();
+                
+                FileInputStream fis = new FileInputStream(file);
+                properties.load(fis);
+                fis.close();
+                
+                properties.setProperty("readonly", "false");
+                properties.setProperty("hsqldb.nio_data_file", "true");
+                properties.setProperty("hsqldb.lock_file", "false");
+                properties.setProperty("hsqldb.log_size", "10000");
+
+                FileOutputStream fos = new FileOutputStream(file);
+                properties.store(fos, "Default properties for the DC database of Data Crow.");
+                fos.close();
+            }
+        } catch (Exception e) {
+            logger.error("Could not set the default database properties.", e);
+        }
+    }   
+	
+	@Override
+	public void run() {
+    	
+        openServerSocket();
+        
+        while(!isStopped()){
+            Socket clientSocket = null;
+            
+            try {
+                clientSocket = this.socket.accept();
+                clientSocket.setKeepAlive(true);
+                
+                logger.info("A client has connected (" + clientSocket.getInetAddress() + ")");
+                
+            } catch (IOException e) {
+            	
+                if (clientSocket != null) {
+                    try {
+                    	clientSocket.close();
+                    } catch (Exception e2) {
+                        logger.debug("Error closing client socket after Exception was thrown: " + e, e2);
+                    }
+                }
+                
+                if (isStopped()) {
+                    logger.info("Server Stopped.");
+                    return;
+                } else {
+                	throw new RuntimeException("Error accepting client connection", e);
+                }
+            }
+            
+            DcServerSession session = new DcServerSession(clientSocket);
+            sessions.add(session);
+        }
+        
+        logger.info("Server Stopped.");
+    }
+
+    @Override
+    public void notifyLog4jConfigured() {
+        logger = DcLogManager.getLogger(SynchServer.class.getName());
+    }
+
+    @Override
+    public void notifyFatalError(String msg) {
+        if (logger != null)
+            logger.error(msg);
+        else
+            System.out.println(msg);
+        
+        System.exit(0);
+    }
+
+    @Override
+    public void notifyWarning(String msg) {
+        if (logger != null)
+            logger.warn(msg);
+        else
+            System.out.println(msg);
+    }
+
+    @Override
+    public void notifyError(String msg) {
+        logger.error(msg);
+    }
+
+    @Override
+    public void requestDataDirSetup(String target) {
+    	System.out.println("The data folder does not exist or is invalid. Please specify a correct, "
+    			+ "initialized data folder; -userdir:<userdir>.");
+    	
+    	System.exit(0);
+    }
+
+    @Override
+    public void notify(String msg) {
+        if (logger != null)
+            logger.info(msg);
+        else
+            System.out.println(msg);   
+    }
+
+    @Override
+    public void notifyError(Throwable t) {
+        if (logger != null)
+            logger.error(t, t);
+        else
+            t.printStackTrace();
+    }
+
+    @Override
+    public void notifyTaskCompleted(boolean success, String taskID) {}
+
+    @Override
+    public void notifyTaskStarted(int taskSize) {}
+
+    @Override
+    public void notifyProcessed() {}
+
+    @Override
+    public boolean isCancelled() {
+        return false;
+    }
 }
