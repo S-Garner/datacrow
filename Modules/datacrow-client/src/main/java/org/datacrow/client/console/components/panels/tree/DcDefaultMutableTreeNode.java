@@ -26,6 +26,7 @@
 package org.datacrow.client.console.components.panels.tree;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,20 +55,20 @@ public class DcDefaultMutableTreeNode extends DefaultMutableTreeNode {
     
     public Map<String, Integer> getItems() {
         Object o = getUserObject();
-        return o instanceof String ? new HashMap<String, Integer>() : ((NodeElement) getUserObject()).getItems();
+        return o instanceof String ? new HashMap<String, Integer>() : ((NodeElement) getUserObject()).getItems(this);
     }
 
     public List<String> getItemList() {
-        return new ArrayList<String>(((NodeElement) getUserObject()).getItems().keySet());
+        return new ArrayList<String>(((NodeElement) getUserObject()).getItems(this).keySet());
     }
     
     public Map<String, Integer> getItemsSorted(List<String> allSortedItems) {
         Object uo = getUserObject();
-        return uo instanceof String ? getItems() : ((NodeElement) uo).getItemsSorted(allSortedItems);
+        return uo instanceof String ? getItems() : ((NodeElement) uo).getItemsSorted(allSortedItems, this);
     }
     
     public boolean contains(String item) {
-        return ((NodeElement) getUserObject()).getItems().containsKey(item);
+        return ((NodeElement) getUserObject()).getItems(this).containsKey(item);
     }
     
     @Override
@@ -83,4 +84,39 @@ public class DcDefaultMutableTreeNode extends DefaultMutableTreeNode {
         DcDefaultMutableTreeNode node = (DcDefaultMutableTreeNode) obj;
         return node.getUserObject().equals(getUserObject());
     }
+    
+    /**
+     * Returns all direct children for the given node.
+     */
+    public Collection<DefaultMutableTreeNode> getChildren(
+    			DefaultMutableTreeNode parent) {
+	        
+    	Collection<DefaultMutableTreeNode> children = new ArrayList<>();
+        int size = parent.getChildCount();
+        
+        DefaultMutableTreeNode child;
+        for (int i = 0; i < size; i++) {
+            child = (DefaultMutableTreeNode) parent.getChildAt(i);
+            children.add(child);
+        }
+        
+        return children;
+    }    
+    
+    
+    /**
+     * Returns all children, including children of children; the whole hierarchy.
+     */
+    public Collection<DefaultMutableTreeNode> getChildrenFromLowerHierarchy(
+    			DefaultMutableTreeNode parent) {
+	        
+    	Collection<DefaultMutableTreeNode> children = new ArrayList<>();
+
+    	for (DefaultMutableTreeNode child : getChildren(parent)) {
+    		children.add(child);
+    		children.addAll(getChildren(child));
+    	}
+    	
+        return children;
+    }    
 }

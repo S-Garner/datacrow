@@ -29,6 +29,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.ImageIcon;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.datacrow.core.objects.DcImageIcon;
 
 public class NodeElement {
@@ -74,13 +76,13 @@ public class NodeElement {
         return icon;
     }
     
-    public Map<String, Integer> getItems() {
+    public Map<String, Integer> getItems(DefaultMutableTreeNode node) {
     	return items;
     }
     
-    public Map<String, Integer> getItemsSorted(List<String> allOrderedItems) {
+    public Map<String, Integer> getItemsSorted(List<String> allOrderedItems, DefaultMutableTreeNode node) {
     	
-    	Map<String, Integer> items = getItems();
+    	Map<String, Integer> items = getItems(node);
     	
     	Map<String, Integer> result = new LinkedHashMap<String, Integer>();
     	

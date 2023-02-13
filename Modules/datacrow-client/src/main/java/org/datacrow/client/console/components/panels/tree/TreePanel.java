@@ -209,7 +209,7 @@ public abstract class TreePanel extends JPanel implements TreeSelectionListener,
 	    
 	    // check whether the currently selected node already contains the key (in which case selection does
 	    // not need to be changed.
-	    if (elem == null ||  !elem.getItems().containsKey(dco.getID())) {
+	    if (elem == null ||  !elem.getItems(node).containsKey(dco.getID())) {
 	        DcDefaultMutableTreeNode newNode = findNode((DcDefaultMutableTreeNode) getFullPath(dco).getLastChild(), top, true);
 	        if (newNode != null) 
 	            setSelected(newNode);

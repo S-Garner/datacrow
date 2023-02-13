@@ -28,6 +28,8 @@ package org.datacrow.client.console.components.panels.tree;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.data.DataFilter;
@@ -46,22 +48,29 @@ public class ContainerNodeElement extends NodeElement {
 	}
 
 	@Override
-	public Map<String, Integer> getItems() {
+	public Map<String, Integer> getItems(DefaultMutableTreeNode node) {
 		if (	DcModules.get(DcModules._CONTAINER).getSettings().getInt(
 				DcRepository.ModuleSettings.stTreePanelShownItems) == DcModules._ITEM) {
 			
 			DataFilter df = new DataFilter(DcModules._ITEM);
 			df.addEntry(new DataFilterEntry(DcModules._ITEM, Item._SYS_CONTAINER, Operator.EQUAL_TO, getKey()));
+			
+			String containerId; 
+			for (DefaultMutableTreeNode child : ((DcDefaultMutableTreeNode) node).getChildrenFromLowerHierarchy(node)) {
+				containerId = (String) ((ContainerNodeElement) child.getUserObject()).getKey();
+				df.addEntry(new DataFilterEntry(DataFilterEntry._OR, DcModules._ITEM, Item._SYS_CONTAINER, Operator.EQUAL_TO, containerId));
+			}
+
 			Connector connector = DcConfig.getInstance().getConnector();
 			return connector.getKeys(df);
 		} else {
-			return super.getItems();
+			return super.getItems(node);
 		}
 	}
 	
 	@Override
-    public Map<String, Integer> getItemsSorted(List<String> allOrderedItems) {
-    	return getItems();
+    public Map<String, Integer> getItemsSorted(List<String> allOrderedItems, DefaultMutableTreeNode node) {
+    	return getItems(node);
     }
 	
     @Override
