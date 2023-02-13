@@ -36,7 +36,7 @@ import org.datacrow.core.server.Connector;
  */
 public class DcConfig {
     
-    private Version version = new Version(4, 6, 0, 0);
+    private Version version = new Version(4, 6, 1, 0);
     
     /** Running as a server */
     public static final int _OPERATING_MODE_SERVER = 1;
