@@ -1,9 +1,11 @@
 package org.datacrow.synch.request;
 
+import java.io.Serializable;
+
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.requests.IClientRequest;
 
-public class SynchClientRequest implements IClientRequest {
+public class SynchClientRequest implements IClientRequest, Serializable {
 	
 	public static final int _REQUEST_LOGIN = 0;
 	public static final int _REQUEST_MODULES = 1;

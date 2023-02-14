@@ -5,6 +5,9 @@ Data Crow version 4.7.x                                            Released on 2
 [Changed]
 - Hierarchy view for containers will now show all items per container + the items of 
   children of the selected container.
+  
+[Fixed]
+- Errors for Data Crow client in case the server was not responding when logging on.
 
 
 -----------------------------------------------------------------------------------------

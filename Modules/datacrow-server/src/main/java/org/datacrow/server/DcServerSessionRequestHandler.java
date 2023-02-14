@@ -146,8 +146,6 @@ public class DcServerSessionRequestHandler extends Thread {
 	
 	/**
 	 * Processes an request. The type of the request is checked before type casting.
-	 * 
-	 * @param cr
 	 * @throws Exception
 	 */
 	private void processRequest(ObjectOutputStream os) throws Exception {
@@ -213,8 +211,6 @@ public class DcServerSessionRequestHandler extends Thread {
 	
     /** 
      * Retrieves items directly from the DataFilter.
-     * 
-     * @param cr
      * @throws Exception
      */
     private ServerResponse processUserManagementAction(ClientRequestUser cr) {
@@ -228,8 +224,6 @@ public class DcServerSessionRequestHandler extends Thread {
 	
 	/** 
 	 * Retrieves items directly from the DataFilter.
-	 * 
-	 * @param cr
 	 * @throws Exception
 	 */
 	private ServerResponse processItemsRequest(ClientRequestItems cr) {

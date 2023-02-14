@@ -12,14 +12,10 @@ import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.requests.ClientRequestLogin;
 import org.datacrow.core.server.requests.ClientRequestModules;
 import org.datacrow.core.server.response.IServerResponse;
-import org.datacrow.core.server.response.ServerModulesRequestResponse;
-import org.datacrow.core.server.response.ServerResponse;
 import org.datacrow.core.server.serialization.SerializationHelper;
 import org.datacrow.server.DcServerSessionRequestHandler;
 import org.datacrow.server.LocalServerConnector;
 import org.datacrow.synch.request.SynchClientRequest;
-import org.datacrow.synch.request.SynchClientRequestLogin;
-import org.datacrow.synch.request.SynchClientRequestModules;
 import org.datacrow.synch.response.SynchServerLoginResponse;
 import org.datacrow.synch.response.SynchServerModuleResponse;
 
@@ -66,7 +62,7 @@ public class SynchServerSessionRequestHandler extends DcServerSessionRequestHand
                     
                     cr = SerializationHelper.getInstance().deserializeClientRequest(is);
                     
-                    if (!(cr instanceof SynchClientRequestLogin))
+                    if (!(cr instanceof SynchServerLoginResponse))
                         conn.setUser(session.getUser(cr));
                     
                     processRequest(os);
@@ -91,8 +87,6 @@ public class SynchServerSessionRequestHandler extends DcServerSessionRequestHand
 	
 	/**
 	 * Processes an request. The type of the request is checked before type casting.
-	 * 
-	 * @param cr
 	 * @throws Exception
 	 */
 	private void processRequest(ObjectOutputStream os) throws Exception {
@@ -103,7 +97,7 @@ public class SynchServerSessionRequestHandler extends DcServerSessionRequestHand
 	        	sr = processLoginRequest((ClientRequestLogin) cr);
 	        	break;
 	        case SynchClientRequest._REQUEST_MODULES:
-	        	sr = processLoginRequest((ClientRequestLogin) cr);
+	        	sr = processModulesRequest((ClientRequestModules) cr);
 	        	break;
             default:
                 logger.error("No handler found for " + cr);

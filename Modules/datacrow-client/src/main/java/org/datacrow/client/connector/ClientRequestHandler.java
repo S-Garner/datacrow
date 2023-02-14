@@ -86,9 +86,8 @@ public class ClientRequestHandler {
                 logger.debug("Failed to wait for 1 second after connection error", ie);
             }
             
-            connection.disconnect();
-            // retry
-            process();
+            if (connection != null)
+            	connection.disconnect();
             
         } catch (Exception e) {
             logger.error("Failed to connect to server", e);
