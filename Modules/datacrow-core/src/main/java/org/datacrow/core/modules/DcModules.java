@@ -821,8 +821,7 @@ public class DcModules implements Serializable {
     public static Collection<DcModule> getActualReferencingModules(int moduleIdx) {
         Collection<DcModule> refs = new ArrayList<DcModule>();
         for (DcModule module : getAllModules()) {
-            if ( module.getIndex() != moduleIdx && 
-                 module.getType() != DcModule._TYPE_TEMPLATE_MODULE &&
+            if ( module.getType() != DcModule._TYPE_TEMPLATE_MODULE &&
                !(module.getType() == DcModule._TYPE_MAPPING_MODULE && 
                 ((MappingModule) module).getParentModIdx() == moduleIdx)) {
                 

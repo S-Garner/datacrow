@@ -203,8 +203,13 @@ public class DefineFieldDialog extends DcDialog implements ActionListener {
                 DcModule m = (DcModule) comboReference.getSelectedItem();
                 field.setModuleReference(m.getIndex());
                 
-                if (m.getXmlModule() != null)
-                    m.getXmlModule().setHasDependingModules(true);
+                if (m.getXmlModule() != null) {
+                	boolean markAsdepending = 
+                			!m.isSelectableInUI() || 
+                			!GUI.getInstance().displayQuestion(DcResources.getText("msgEditFieldModuleStillMainModule"));
+                	
+                	m.getXmlModule().setHasDependingModules(markAsdepending);
+            	}
             }
 
             field.setUiOnly(ft.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
@@ -377,8 +382,10 @@ public class DefineFieldDialog extends DcDialog implements ActionListener {
             }
 
             Collections.sort(modules, new ModuleComparator());
-            for (DcModule module : modules)
-                comboReference.addItem(module);
+            for (DcModule module : modules) {
+            	if (!module.isAbstract())
+            		comboReference.addItem(module);
+            }
         }
         
         panel.add(ComponentFactory.getLabel(DcResources.getText("lblSearchable")),

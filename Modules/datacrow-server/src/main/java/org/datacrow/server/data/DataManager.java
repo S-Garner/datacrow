@@ -119,24 +119,24 @@ public class DataManager {
                 logger.debug("Could not close database resources", se);
             }
         }
-        
         return count;
     }
-
-
     
     public List<DcObject> getReferencingItems(SecuredUser su, int moduleIdx, String ID) {
         List<DcObject> items = new ArrayList<DcObject>();
         
         DataFilter df;
         for (DcModule module : DcModules.getActualReferencingModules(moduleIdx)) {
-            if ( module.getIndex() != moduleIdx && 
-                 module.getType() != DcModule._TYPE_MAPPING_MODULE &&   
-                 module.getType() != DcModule._TYPE_TEMPLATE_MODULE) {
+            if (module.getType() != DcModule._TYPE_MAPPING_MODULE &&   
+                module.getType() != DcModule._TYPE_TEMPLATE_MODULE) {
                 
                 for (DcField field : module.getFields()) {
-                    if (field.getReferenceIdx() == moduleIdx) {
-                        df = new DataFilter(module.getIndex());
+                    
+                	if (field.getReferenceIdx() == moduleIdx && 
+                    	(field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE ||
+                    	 field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION)) {
+                        
+                    	df = new DataFilter(module.getIndex());
                         df.addEntry(new DataFilterEntry(DataFilterEntry._AND, module.getIndex(), field.getIndex(), Operator.EQUAL_TO, ID));
                         
                         for (DcObject dco : getItems(su, df, module.getMinimalFields(null))) {
