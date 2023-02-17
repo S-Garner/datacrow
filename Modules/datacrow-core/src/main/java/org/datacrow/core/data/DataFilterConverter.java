@@ -39,6 +39,7 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.utilities.CoreUtilities;
 
@@ -192,6 +193,10 @@ public class DataFilterConverter {
                 
                 if (value instanceof Date) {
                     queryValue = "'" + formatter.format((Date) value) + "'";
+                } else if (value instanceof DcSimpleValue) {
+                    queryValue = ((DcSimpleValue) value).getID(); 
+                } else if (value instanceof DcObject) {
+                	queryValue = ((DcObject) value).getID();
                 } else {
                     queryValue = String.valueOf(value);
                     if (    field.getValueType() == DcRepository.ValueTypes._STRING ||
@@ -331,6 +336,8 @@ public class DataFilterConverter {
                             sql.append("'");
                             if (o instanceof DcObject)
                                 sql.append(((DcObject) o).getID());
+                            else if (o instanceof DcSimpleValue)
+                                sql.append(((DcSimpleValue) o).getID());
                             else
                                 sql.append(o.toString());
                             
