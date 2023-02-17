@@ -41,5 +41,9 @@ public class DcLog {
         if (listeners.size() == 0) {
             backlog.add(msg);
         }
+        
+        for (ILogListener listener : listeners) {
+        	listener.add(msg);
+        }
     }
 }
