@@ -229,6 +229,9 @@ public class DcReferencesField extends JComponent implements IComponent, ActionL
             // this will update the description of a property (for example)
             // on this references field.
             DcMapping m;
+            
+            if (references == null) return;
+            
             for (DcObject reference : references) {
                 m = (DcMapping) reference;
                 if (dco.getID().equals(m.getReferencedID()))
