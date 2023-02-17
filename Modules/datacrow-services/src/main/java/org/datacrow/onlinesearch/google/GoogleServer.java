@@ -23,7 +23,7 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.onlinesearch.google.server;
+package org.datacrow.onlinesearch.google;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,7 +38,6 @@ import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.settings.Setting;
-import org.datacrow.onlinesearch.google.task.GoogleSearch;
 
 public class GoogleServer implements IServer {
     

@@ -1,4 +1,4 @@
-package org.datacrow.onlinesearch.itunes.server;
+package org.datacrow.onlinesearch.itunes;
 
 import org.datacrow.core.objects.helpers.MusicAlbum;
 import org.datacrow.core.resources.DcResources;

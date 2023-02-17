@@ -23,7 +23,7 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.onlinesearch.tmdb.server;
+package org.datacrow.onlinesearch.tmdb;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,7 +38,6 @@ import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.settings.Setting;
-import org.datacrow.onlinesearch.tmdb.task.TmdbMovieSearch;
 
 public class TmdbMovieServer implements IServer {
     

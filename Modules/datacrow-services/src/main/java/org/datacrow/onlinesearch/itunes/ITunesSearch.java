@@ -1,4 +1,4 @@
-package org.datacrow.onlinesearch.itunes.task;
+package org.datacrow.onlinesearch.itunes;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -24,8 +24,6 @@ import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.utilities.CoreUtilities;
-import org.datacrow.onlinesearch.itunes.helpers.ITunesArtistCache;
-import org.datacrow.onlinesearch.itunes.helpers.ITunesSearchResult;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

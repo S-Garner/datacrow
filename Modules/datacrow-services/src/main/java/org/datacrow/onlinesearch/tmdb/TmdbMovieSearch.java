@@ -23,7 +23,7 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.onlinesearch.tmdb.task;
+package org.datacrow.onlinesearch.tmdb;
 
 import java.net.URL;
 import java.util.ArrayList;

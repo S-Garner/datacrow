@@ -1,4 +1,4 @@
-package org.datacrow.onlinesearch.mobygames.server;
+package org.datacrow.onlinesearch.mobygames;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +22,6 @@ import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.Setting;
-import org.datacrow.onlinesearch.mobygames.helpers.MobyGamesPlatform;
-import org.datacrow.onlinesearch.mobygames.task.MobyGamesSearch;
 
 
 public class MobyGamesServer implements IServer {

@@ -1,4 +1,4 @@
-package org.datacrow.onlinesearch.itunes.helpers;
+package org.datacrow.onlinesearch.itunes;
 
 import org.datacrow.core.objects.DcObject;
 

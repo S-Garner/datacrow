@@ -1,4 +1,4 @@
-package org.datacrow.onlinesearch.mobygames.helpers;
+package org.datacrow.onlinesearch.mobygames;
 
 public class MobyGamesPlatform {
     

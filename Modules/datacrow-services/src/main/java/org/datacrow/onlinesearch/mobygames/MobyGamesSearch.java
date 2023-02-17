@@ -1,4 +1,4 @@
-package org.datacrow.onlinesearch.mobygames.task;
+package org.datacrow.onlinesearch.mobygames;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -25,8 +25,6 @@ import org.datacrow.core.services.SearchTaskUtilities;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
-import org.datacrow.onlinesearch.mobygames.helpers.MobyGamesPlatform;
-import org.datacrow.onlinesearch.mobygames.helpers.MobyGamesResult;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 

@@ -1,4 +1,4 @@
-package org.datacrow.onlinesearch.discogs.helpers;
+package org.datacrow.onlinesearch.discogs;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package org.datacrow.onlinesearch.discogs.server;
+package org.datacrow.onlinesearch.itunes;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,17 +13,19 @@ import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.settings.Setting;
-import org.datacrow.onlinesearch.discogs.task.DiscogsSearch;
 
-public class DiscogsServer implements IServer {
+public class ITunesServer implements IServer {
     
     private static final long serialVersionUID = 6451130355747891181L;
 
     private Collection<Region> regions = new ArrayList<Region>();
     private Collection<SearchMode> modes = new ArrayList<SearchMode>();
 
-    public DiscogsServer() {
-        regions.add(new Region("en", "English", "http://www.discogs.com/"));
+    public ITunesServer() {
+        regions.add(new Region("en", "English", "https://itunes.apple.com/"));
+        
+        modes.add(new TitleSearchMode());
+        modes.add(new UpcSearchMode());
     }
 
     @Override
@@ -53,7 +55,7 @@ public class DiscogsServer implements IServer {
     
     @Override
     public String getName() {
-        return "Discogs";
+        return "iTunes";
     }
 
     @Override
@@ -68,7 +70,7 @@ public class DiscogsServer implements IServer {
 
     @Override
     public String getUrl() {
-        return "http://www.discogs.com";
+        return "https://itunes.apple.com";
     }
     
     @Override
@@ -80,7 +82,7 @@ public class DiscogsServer implements IServer {
             Map<String, Object> additionalFilters,
             DcObject client) {
         
-        DiscogsSearch task = new DiscogsSearch(listener, this, mode, query, additionalFilters);
+        ITunesSearch task = new ITunesSearch(listener, this, mode, query, additionalFilters);
         task.setClient(client);
         return task;
     }
@@ -92,6 +94,6 @@ public class DiscogsServer implements IServer {
 
     @Override
     public long getWaitTimeBetweenRequest() {
-        return 1000l;
+        return 3000l;
     }
 }

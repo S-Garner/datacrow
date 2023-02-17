@@ -23,7 +23,7 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.onlinesearch.google.task;
+package org.datacrow.onlinesearch.google;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;

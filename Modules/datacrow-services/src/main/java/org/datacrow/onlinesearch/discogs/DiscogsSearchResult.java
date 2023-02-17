@@ -1,12 +1,10 @@
-package org.datacrow.onlinesearch.discogs.helpers;
+package org.datacrow.onlinesearch.discogs;
 
 import org.datacrow.core.objects.DcObject;
 
 public class DiscogsSearchResult {
 
-    
-private DcObject dco;
-    
+	private DcObject dco;
     private String coverUrl;
     private String detailsUrl;
     

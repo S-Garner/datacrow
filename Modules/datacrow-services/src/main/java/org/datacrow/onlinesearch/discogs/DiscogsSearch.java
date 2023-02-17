@@ -1,4 +1,4 @@
-package org.datacrow.onlinesearch.discogs.task;
+package org.datacrow.onlinesearch.discogs;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -28,8 +28,6 @@ import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.Servers;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.utilities.CoreUtilities;
-import org.datacrow.onlinesearch.discogs.helpers.DiscogsArtistCache;
-import org.datacrow.onlinesearch.discogs.helpers.DiscogsSearchResult;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

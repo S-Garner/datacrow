@@ -1,4 +1,4 @@
-package org.datacrow.onlinesearch.itunes.helpers;
+package org.datacrow.onlinesearch.itunes;
 
 import java.util.HashMap;
 import java.util.Map;
