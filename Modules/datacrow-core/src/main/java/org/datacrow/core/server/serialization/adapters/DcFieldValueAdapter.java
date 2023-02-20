@@ -16,6 +16,7 @@ import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.server.serialization.helpers.DcFieldValue;
+import org.datacrow.core.utilities.CoreUtilities;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -107,9 +108,11 @@ public class DcFieldValueAdapter implements JsonDeserializer<DcFieldValue>, Json
                 if (jo != null) result = context.deserialize(jsonObject.getAsJsonObject("fieldvalue"), Picture.class);
             } else if (field.getValueType() == DcRepository.ValueTypes._BIGINTEGER ||
                        field.getValueType() == DcRepository.ValueTypes._LONG) {
-                result = Long.valueOf(e.getAsString());
-            } else if (field.getValueType() == DcRepository.ValueTypes._DOUBLE) { 
-                result = Double.valueOf(e.getAsString());   
+            	String s = e.getAsString();
+        		result = CoreUtilities.isEmpty(s) ? null : Long.valueOf(s);
+            } else if (field.getValueType() == DcRepository.ValueTypes._DOUBLE) {
+            	String s = e.getAsString();
+        		result = CoreUtilities.isEmpty(s) ? null : Double.valueOf(s);
             } else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
                 JsonArray array = (JsonArray) e;
                 Iterator<?> iter = array.iterator();
@@ -146,8 +149,10 @@ public class DcFieldValueAdapter implements JsonDeserializer<DcFieldValue>, Json
             } else if (field.getValueType() == DcRepository.ValueTypes._DATE ||
                        field.getValueType() == DcRepository.ValueTypes._DATETIME) {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            	String s = e.getAsString();
                 try {
-                    result = formatter.parse(jsonObject.get("fieldvalue").getAsString());
+                    result =  CoreUtilities.isEmpty(s) ? null :
+                    	formatter.parse(jsonObject.get("fieldvalue").getAsString());
                 } catch (Exception exp) {
                     logger.debug("Could not parse date from [" + jsonObject.get("fieldvalue").getAsString() + "]", exp);
                 }

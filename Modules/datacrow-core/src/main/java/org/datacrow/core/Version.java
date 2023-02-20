@@ -34,6 +34,8 @@ import java.util.StringTokenizer;
  */
 public class Version implements Comparable<Version> {
 
+	private String edition = " - BETA edition";
+	
     private int minor = 0;
     private int major = 0;
     private int build = 0;
@@ -136,7 +138,7 @@ public class Version implements Comparable<Version> {
      * @return  String representation; for example Data Crow 4.0.0.0 
      */
     public String getFullString() {
-        return "Data Crow " + toString();
+        return "Data Crow " + toString() + edition;
     }
     
     @Override

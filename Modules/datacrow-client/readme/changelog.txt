@@ -17,6 +17,7 @@ Data Crow version 4.7.0                                            Released on 2
 - Module disappears completely when a reference field is added referencing itself
   (reference field on software pointing to software).
 - The log window (CTRL+L) did not show latest entries.
+- The server edition sometimes gave errors on saving new items.
 
 
 -----------------------------------------------------------------------------------------
