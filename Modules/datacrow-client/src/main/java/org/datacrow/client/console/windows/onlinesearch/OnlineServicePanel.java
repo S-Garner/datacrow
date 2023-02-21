@@ -253,6 +253,7 @@ public class OnlineServicePanel extends JPanel implements ActionListener, KeyLis
             		c = ComponentFactory.getComboBox(field.getOptions().toArray());
             	} else {
             		c = ComponentFactory.getShortTextField(1024);
+            		((Component) c).addKeyListener(this);
             	}
                 fldAdditionFields.put(field.getName(), c);                
             }

@@ -38,7 +38,7 @@ public class ArchiveOrgSoftwareSearch extends SearchTask {
 	
 	private final String address = 
 			"https://archive.org/advancedsearch.php?fl[]=identifier&fl[]=avg_rating&fl[]=collection&fl[]=date&fl[]=description&fl[]=format&fl[]=language&" +
-			"fl[]=mediatype&fl[]=name&fl[]=subject&fl[]=title&fl[]=type&fl[]=volume&fl[]=week&fl[]=year&rows=100&output=json";
+			"fl[]=mediatype&fl[]=name&fl[]=subject&fl[]=title&fl[]=type&fl[]=volume&fl[]=week&fl[]=year&rows=50&output=json";
 			
     public ArchiveOrgSoftwareSearch(
             IOnlineSearchClient listener, 
@@ -49,7 +49,7 @@ public class ArchiveOrgSoftwareSearch extends SearchTask {
         
         super(listener, server, null, mode, query, additionalFilters);
         
-        setMaximum(100);
+        setMaximum(50);
         
         GsonBuilder gsonBuilder = new GsonBuilder();
         gson = gsonBuilder.create();
@@ -70,23 +70,32 @@ public class ArchiveOrgSoftwareSearch extends SearchTask {
 
         Map<?, ?> item = gson.fromJson(json, Map.class);
 
+        // images
         setImages(dco, item, aosr.getId());
         
         Map<?, ?> metadata = (Map<?, ?>) item.get("metadata");
-        
-        if (metadata.containsKey("year"))
-        	dco.setValue(DcMediaObject._C_YEAR, metadata.get("year"));
-        
-        if (metadata.containsKey("subject")) {
-        	String description = (String) dco.getValue(DcMediaObject._B_DESCRIPTION);
-        	description = CoreUtilities.isEmpty(description) ? "" : description;
-        	description += "\r\n" + metadata.get("subject");
-        	dco.setValue(DcMediaObject._B_DESCRIPTION, description);
+
+        if (metadata != null) {
+	        // year
+        	Object year = metadata.get("year");
+	        if (metadata.containsKey("year")) {
+	        	if (year instanceof Collection) {
+	        		for (Object o : (Collection<?>) year) {
+	        			dco.setValue(DcMediaObject._C_YEAR, o);
+	        			break;
+	        		}
+	        	} else {
+	        		dco.setValue(DcMediaObject._C_YEAR, year);
+	        	}
+	        }
+	
+	        // URL
+	        dco.setValue(Software._I_WEBPAGE, "https://archive.org/details/" + aosr.getId());
+	
+	        // Other
+	        setExtendedDescription(dco, metadata);
+	        setDevelopers(dco, metadata);
         }
-        
-        dco.setValue(Software._I_WEBPAGE, "https://archive.org/details/" + aosr.getId());
-        
-        setDevelopers(dco, metadata);
 
         dco.addExternalReference(DcRepository.ExternalReferences._ARCHIVEORG, String.valueOf(aosr.getId()));
         setServiceInfo(dco);
@@ -110,7 +119,7 @@ public class ArchiveOrgSoftwareSearch extends SearchTask {
         try {
             String query = address + "&q=title:%22" + getQuery() + "%22%20AND%20mediatype:%22software%22";
             
-            String topic = (String) getAdditionalFilters().get(DcResources.getText("lblTopic"));
+            String topic = (String) getAdditionalFilters().get(DcResources.getText("lblCollection"));
             if (!CoreUtilities.isEmpty(topic)) {
             	topic = topic.replaceAll(" ", "").replaceAll("-", "").replaceAll("_", "");
             	query += "%20AND%20collection:*" + URLEncoder.encode(topic, StandardCharsets.UTF_8) + "*";
@@ -172,6 +181,8 @@ public class ArchiveOrgSoftwareSearch extends SearchTask {
     		return;
     	}
     	
+    	id = URLEncoder.encode(id, StandardCharsets.UTF_8);
+    	
     	setBoxArt(dco, item, id, server, dir);
     	setScreenshots(dco, item, id, server, dir);
     }
@@ -186,6 +197,39 @@ public class ArchiveOrgSoftwareSearch extends SearchTask {
     	}
     }
     
+    private void setExtendedDescription(DcObject dco, Map<?, ?> metadata) {
+    	String description = (String) dco.getValue(DcMediaObject._B_DESCRIPTION);
+    	
+    	description = CoreUtilities.isEmpty(description) ? "" : description + "\r\n\r\n";
+        description += DcResources.getText("lblArchiveOrgStructure");
+
+        if (metadata.get("collection") != null) {
+	        description += "\r\n" + DcResources.getText("lblArchiveOrgCollection") + " ";
+	        description += getCommaSeparatedString(metadata.get("collection"));
+        }
+        
+        if (metadata.get("subject") != null) {
+        	description += "\r\n" + DcResources.getText("lblArchiveOrgSubject") + " ";
+        	description += getCommaSeparatedString(metadata.get("subject"));
+        }
+
+        dco.setValue(DcMediaObject._B_DESCRIPTION, description);
+    }
+    
+    private String getCommaSeparatedString(Object o) {
+    	String s = "";
+        if (o instanceof String) {
+        	s += o;
+        } else if (o != null) {
+            int i = 0;
+            for (Object collection : (Collection<?>) o) {
+            	s += i> 0 ? ", " + collection : collection;
+            	i++;
+            }        	
+        }    	
+        return s;
+    }
+    
     private void setBoxArt(DcObject dco, Map<?, ?> item, String id, String server, String dir) {
     	
     	int[] fields = new int[] {Software._M_PICTUREFRONT, Software._N_PICTUREBACK};
@@ -196,27 +240,35 @@ public class ArchiveOrgSoftwareSearch extends SearchTask {
     	String name;
     	String link;
     	byte[] image;
+    	long size;
+    	
     	
     	for (LinkedTreeMap<?, ?> file : files) {
     		name = (String) file.get("name");
+    		name = name.replace(" ", "%20");
     		
-    		if (   !name.toLowerCase().contains("thumb") &&
-    			   (	name.toLowerCase().contains("box") || 
-    					name.toLowerCase().contains("cover") || 
-    					name.toLowerCase().contains("front") ||
-    					name.toLowerCase().contains("back")) &&
-    			   (	name.toLowerCase().endsWith("jpg") || 
-    					name.toLowerCase().endsWith("png") || 
-    					name.toLowerCase().endsWith("jpeg") || 
-    					name.toLowerCase().endsWith("gif"))) {
-    			
-    			link = "https://" + server + dir + "/" + name;
-    			image = getImageBytes(link);
-    			
-    			if (image != null)
-    				dco.setValue(fields[fieldIdx++], image);
-                
-                if (fieldIdx > 2) break;
+    		if (file.get("size") != null) {
+	    		size = Long.valueOf((String) file.get("size")).longValue();
+	    		
+	    		if (   !name.toLowerCase().contains("thumb") &&
+	    				size < 6000000 &&
+	    			   (	name.toLowerCase().contains("box") || 
+	    					name.toLowerCase().contains("cover") || 
+	    					name.toLowerCase().contains("front") ||
+	    					name.toLowerCase().contains("back")) &&
+	    			   (	name.toLowerCase().endsWith("jpg") || 
+	    					name.toLowerCase().endsWith("png") || 
+	    					name.toLowerCase().endsWith("jpeg") || 
+	    					name.toLowerCase().endsWith("gif"))) {
+	    			
+	    			link = "https://" + server + dir + "/" + name;
+	    			image = getImageBytes(link);
+	    			
+	    			if (image != null)
+	    				dco.setValue(fields[fieldIdx++], image);
+	                
+	                if (fieldIdx > 1) break;
+	    		}
     		}
     	}
     }
@@ -230,28 +282,35 @@ public class ArchiveOrgSoftwareSearch extends SearchTask {
     	String name;
     	String link;
     	byte[] image;
+    	long size;
     	
     	for (LinkedTreeMap<?, ?> file : files) {
     		name = (String) file.get("name");
+    		name = name.replace(" ", "%20");
     		
-    		if (   !name.contains("thumb") &&
-     			   (	!name.toLowerCase().contains("box") && 
-       					!name.toLowerCase().contains("cover") && 
-       					!name.toLowerCase().contains("front") &&
-       					!name.toLowerCase().contains("back")) &&    				
-    			   (	name.toLowerCase().endsWith("jpg") || 
-    					name.toLowerCase().endsWith("png") || 
-    					name.toLowerCase().endsWith("jpeg") || 
-    					name.toLowerCase().endsWith("gif"))) {
-    			
-    			link = "https://" + server + dir + "/" + name;
-    			image = getImageBytes(link);
-    			
-    			if (image != null)
-    				dco.setValue(fields[fieldIdx++], image);
-                
-                if (fieldIdx > 2) break;
-    		}
+    		if (file.get("size") != null) {
+	    		size = Long.valueOf((String) file.get("size")).longValue();
+	    		
+	    		if (   !name.contains("thumb") &&
+	    				size < 6000000 &&
+	     			   (	!name.toLowerCase().contains("box") && 
+	       					!name.toLowerCase().contains("cover") && 
+	       					!name.toLowerCase().contains("front") &&
+	       					!name.toLowerCase().contains("back")) &&    				
+	    			   (	name.toLowerCase().endsWith("jpg") || 
+	    					name.toLowerCase().endsWith("png") || 
+	    					name.toLowerCase().endsWith("jpeg") || 
+	    					name.toLowerCase().endsWith("gif"))) {
+	    			
+	    			link = "https://" + server + dir + "/" + name;
+	    			image = getImageBytes(link);
+	    			
+	    			if (image != null)
+	    				dco.setValue(fields[fieldIdx++], image);
+	                
+	                if (fieldIdx > 2) break;
+	    		}
+	    	}
     	}
     }    
 }

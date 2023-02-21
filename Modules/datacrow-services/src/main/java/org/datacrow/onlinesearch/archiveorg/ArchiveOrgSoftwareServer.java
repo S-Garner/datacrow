@@ -87,13 +87,13 @@ public class ArchiveOrgSoftwareServer implements IServer {
 
     @Override
     public long getWaitTimeBetweenRequest() {
-        return 1000l;
+        return 100l;
     }
     
     @Override
     public Collection<FilterField> getFilterFields() {
         Collection<FilterField> fields = new ArrayList<>();
-        fields.add(new FilterField(DcResources.getText("lblTopic"), null));
+        fields.add(new FilterField(DcResources.getText("lblCollection"), null));
         return fields;
     }    
 }
