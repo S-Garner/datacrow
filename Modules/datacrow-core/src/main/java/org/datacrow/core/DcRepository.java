@@ -27,6 +27,12 @@ package org.datacrow.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Properties;
+
+import org.apache.logging.log4j.Logger;
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.resources.DcResources;
 
 /**
  * Holder of definitions such as setting keys and static collections. This abstract class
@@ -35,6 +41,8 @@ import java.util.Collection;
  * @author Robert Jan van der Waals
  */
 public abstract class DcRepository {
+	
+	private static Logger logger = DcLogManager.getLogger(DcRepository.class.getName());
 
     /**
      * The keys for module specific settings.
@@ -266,7 +274,25 @@ public abstract class DcRepository {
      * @author Robert Jan van der Waals
      */
     public static final class Collections {
-        
+    	
+    	public static final Properties languages = new Properties();
+    	
+    	static {
+            try {
+                Properties p = new Properties();
+                p.load(DcResources.class.getResourceAsStream("Language.properties"));
+                
+                Enumeration<?> enums = p.propertyNames();
+                while (enums.hasMoreElements()) {
+                    String key = enums.nextElement().toString();
+                    String value = p.getProperty(key);
+                    languages.put(key, value);
+                }
+            } catch (Exception e) {
+                logger.error("Could not load the language.properties file", e);
+            }
+    	}
+    	
         /**
          * Music Genres
          */
