@@ -33,6 +33,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
+import org.datacrow.core.DcConfig;
 import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.objects.DcObject;
@@ -58,9 +59,11 @@ import org.datacrow.core.services.plugin.IServer;
  * @author Robert Jan van der Waals
  */
 public abstract class SearchTask extends Thread {
+	
+	private static Logger logger = DcLogManager.getLogger(SearchTask.class.getName());
 
-    private static Logger logger = DcLogManager.getLogger(SearchTask.class.getName());
-
+	protected final String userAgent = "DataCrow/" + DcConfig.getInstance().getVersion().toString() +  " +https://datacrow.org";
+	
     // retrieve minimal item details
     public static final int _ITEM_MODE_SIMPLE = 0;
     // retrieve full item details

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
-import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcRepository.ExternalReferences;
 import org.datacrow.core.http.HttpConnection;
@@ -37,7 +36,6 @@ public class DiscogsSearch extends SearchTask {
     
     private static Logger logger = DcLogManager.getLogger(DiscogsSearch.class.getName());
 
-    private final String userAgent = "DataCrow/" + DcConfig.getInstance().getVersion().toString() +  " +https://datacrow.org";
     private final String address = "https://api.discogs.com/database";
     private final String consumerKey;
     private final String consumerSecret;

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
-import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.log.DcLogManager;
@@ -32,8 +31,7 @@ import com.google.gson.internal.LinkedTreeMap;
 public class ArchiveOrgSoftwareSearch extends SearchTask {
     
     private static Logger logger = DcLogManager.getLogger(ArchiveOrgSoftwareSearch.class.getName());
-
-    private final String userAgent = "DataCrow/" + DcConfig.getInstance().getVersion().toString() +  " +https://datacrow.org";
+    
     private final Gson gson;
 	
 	private final String address = 
@@ -95,6 +93,7 @@ public class ArchiveOrgSoftwareSearch extends SearchTask {
 	        // Other
 	        setExtendedDescription(dco, metadata);
 	        setDevelopers(dco, metadata);
+	        setLanguage(dco, metadata);
         }
 
         dco.addExternalReference(DcRepository.ExternalReferences._ARCHIVEORG, String.valueOf(aosr.getId()));
@@ -197,6 +196,15 @@ public class ArchiveOrgSoftwareSearch extends SearchTask {
     	}
     }
     
+    private void setLanguage(DcObject dco, Map<?, ?> metadata) {
+    	if (metadata.containsKey("language")) {
+    		String language = (String) metadata.get("language");
+    		language = (String) DcRepository.Collections.languages.get(language.toLowerCase());
+    		if (language != null)
+    			dco.createReference(Software._D_LANGUAGE, language);
+    	}
+    }
+    
     private void setExtendedDescription(DcObject dco, Map<?, ?> metadata) {
     	String description = (String) dco.getValue(DcMediaObject._B_DESCRIPTION);
     	
@@ -241,7 +249,6 @@ public class ArchiveOrgSoftwareSearch extends SearchTask {
     	String link;
     	byte[] image;
     	long size;
-    	
     	
     	for (LinkedTreeMap<?, ?> file : files) {
     		name = (String) file.get("name");

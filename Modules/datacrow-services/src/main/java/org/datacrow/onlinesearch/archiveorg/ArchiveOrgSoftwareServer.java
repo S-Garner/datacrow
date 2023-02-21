@@ -25,7 +25,7 @@ public class ArchiveOrgSoftwareServer implements IServer {
     public ArchiveOrgSoftwareServer() {
         regions.add(new Region("en", "English", "https://www.archive.org/"));
     }
-
+    
     @Override
     public int getModule() {
         return DcModules._SOFTWARE;
