@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.FilterField;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.Region;
@@ -14,14 +15,14 @@ import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.settings.Setting;
 
-public class ArchiveOrgServer implements IServer {
+public class ArchiveOrgSoftwareServer implements IServer {
     
     private static final long serialVersionUID = 6451130355747891181L;
 
     private Collection<Region> regions = new ArrayList<Region>();
     private Collection<SearchMode> modes = new ArrayList<SearchMode>();
 
-    public ArchiveOrgServer() {
+    public ArchiveOrgSoftwareServer() {
         regions.add(new Region("en", "English", "https://www.archive.org/"));
     }
 
@@ -43,11 +44,6 @@ public class ArchiveOrgServer implements IServer {
     @Override
     public boolean isFullModeOnly() {
         return false;
-    }
-    
-    @Override
-    public Collection<FilterField> getFilterFields() {
-        return new ArrayList<>();
     }
     
     @Override
@@ -79,7 +75,7 @@ public class ArchiveOrgServer implements IServer {
             Map<String, Object> additionalFilters,
             DcObject client) {
         
-        ArchiveOrgSearch task = new ArchiveOrgSearch(listener, this, mode, query, additionalFilters);
+        ArchiveOrgSoftwareSearch task = new ArchiveOrgSoftwareSearch(listener, this, mode, query, additionalFilters);
         task.setClient(client);
         return task;
     }
@@ -93,4 +89,11 @@ public class ArchiveOrgServer implements IServer {
     public long getWaitTimeBetweenRequest() {
         return 1000l;
     }
+    
+    @Override
+    public Collection<FilterField> getFilterFields() {
+        Collection<FilterField> fields = new ArrayList<>();
+        fields.add(new FilterField(DcResources.getText("lblTopic"), null));
+        return fields;
+    }    
 }

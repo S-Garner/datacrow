@@ -25,6 +25,7 @@
 
 package org.datacrow.client.console.windows.onlinesearch;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -44,7 +45,7 @@ import javax.swing.JTextField;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
-import org.datacrow.client.console.components.DcComboBox;
+import org.datacrow.client.console.components.IComponent;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.objects.DcObject;
@@ -60,7 +61,7 @@ public class OnlineServicePanel extends JPanel implements ActionListener, KeyLis
     private JButton buttonSearch;
     
     private JTextField fldQuery;
-    private Map<String, JComboBox<?>> fldAdditionFields = new HashMap<>();
+    private Map<String, IComponent> fldAdditionFields = new HashMap<>();
     
     private JButton buttonStop = ComponentFactory.getButton(DcResources.getText("lblStop"));
     
@@ -97,7 +98,7 @@ public class OnlineServicePanel extends JPanel implements ActionListener, KeyLis
         Map<String, Object> additional = new HashMap<>();
         
         for (String key : fldAdditionFields.keySet()) {
-            additional.put(key, fldAdditionFields.get(key).getSelectedItem());
+            additional.put(key, fldAdditionFields.get(key).getValue());
         }
         
         return additional;
@@ -246,10 +247,14 @@ public class OnlineServicePanel extends JPanel implements ActionListener, KeyLis
         fldAdditionFields.clear();
         
         if (server.getFilterFields() != null) {
-            DcComboBox cb;
+        	IComponent c;
             for (FilterField field : server.getFilterFields()) {
-                cb = ComponentFactory.getComboBox(field.getOptions().toArray());
-                fldAdditionFields.put(field.getName(), cb);                
+            	if (field.getOptions() != null) {
+            		c = ComponentFactory.getComboBox(field.getOptions().toArray());
+            	} else {
+            		c = ComponentFactory.getShortTextField(1024);
+            	}
+                fldAdditionFields.put(field.getName(), c);                
             }
         }
         
@@ -265,16 +270,16 @@ public class OnlineServicePanel extends JPanel implements ActionListener, KeyLis
                           new Insets(5, 5, 5, 5), 0, 0));                
 
         JLabel lbl;
-        JComboBox<?> cb;
+        IComponent c;
         int y = 1;
         for (String key : fldAdditionFields.keySet()) {
             lbl = ComponentFactory.getLabel(key);
-            cb = fldAdditionFields.get(key);
+            c = fldAdditionFields.get(key);
             
             add(lbl, Layout.getGBC( 0, y, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                      new Insets(5, 5, 5, 5), 0, 0));
-            add(cb,  Layout.getGBC( 1, y, stretchX, 1, 10.0, 10.0
+            add((Component) c,  Layout.getGBC( 1, y, stretchX, 1, 10.0, 10.0
                     ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                      new Insets(5, 5, 5, 5), 0, 0));
             y++;

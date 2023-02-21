@@ -8,11 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionUtil;
-import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Software;
 import org.datacrow.core.resources.DcResources;
@@ -34,8 +32,6 @@ import com.google.gson.internal.LinkedTreeMap;
 @SuppressWarnings("rawtypes")
 public class MobyGamesSearch extends SearchTask {
 
-    private static Logger logger = DcLogManager.getLogger(MobyGamesSearch.class.getName());
-    
     private MobyGamesPlatform platform;
     private String apiKey;
     
@@ -434,24 +430,6 @@ public class MobyGamesSearch extends SearchTask {
             if (image != null)
                 item.setValue(Software._M_PICTUREFRONT, image);
         }
-    }
-    
-    private byte[] getImageBytes(String url) {
-        url = url.replace("http://", "https://");
-        
-        // waitBetweenRequest();
-                  
-        try {
-            if (url != null && url.length() > 0) {
-                byte[] b = HttpConnectionUtil.retrieveBytes(url);
-                if (b != null && b.length > 50)
-                    return b;
-            }
-        } catch (Exception e) {
-            logger.debug("Cannot download image from [" + url + "]", e);
-        }
-        
-        return null;
     }
     
     @SuppressWarnings("unchecked")

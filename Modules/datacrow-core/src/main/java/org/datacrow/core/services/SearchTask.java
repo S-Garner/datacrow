@@ -26,16 +26,18 @@
 package org.datacrow.core.services;
 
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
+import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.plugin.IServer;
-import org.datacrow.core.utilities.StringUtils;
 
 /**
  * A search task performs the actual online search. The search task is used by the
@@ -71,7 +73,7 @@ public abstract class SearchTask extends Thread {
     private int maximum = 20;
     
     private String input;
-    private String query;
+    protected String query;
     private Map<String, Object> additionalFilters;
     
     // The currently used URL or address
@@ -207,19 +209,10 @@ public abstract class SearchTask extends Thread {
      * The used query as specified by the user.
      */
     public String getQuery() {
-        String s = StringUtils.normalize2(query); 
-            
-        s = query.replaceAll(" ", getWhiteSpaceSubst());
-        s = s.replaceAll("\n", "");
-        s = s.replaceAll("\r", "");
-        
-        // replace the & character
-        int idx = s.indexOf('&');
-        while (idx > -1) {
-            s = s.substring(0, s.indexOf('&')) + "%26" + s.substring(s.indexOf('&') + 1, s.length());
-            idx = s.indexOf('&');
-        }
-            
+        String s = query;
+        s = s.replaceAll("\n", " ");
+        s = s.replaceAll("\r", " ");
+        s = URLEncoder.encode(s, StandardCharsets.UTF_8);
         return s;
     }
 
@@ -376,4 +369,18 @@ public abstract class SearchTask extends Thread {
         listener.processed(counter);
         listener.stopped();        
     }
+    
+    protected byte[] getImageBytes(String url) {
+        url = url.replace("http://", "https://");
+        try {
+            if (url != null && url.length() > 0) {
+                byte[] b = HttpConnectionUtil.retrieveBytes(url);
+                if (b != null && b.length > 50)
+                    return b;
+            }
+        } catch (Exception e) {
+            logger.debug("Cannot download image from [" + url + "]", e);
+        }
+        return null;
+    }    
 }
