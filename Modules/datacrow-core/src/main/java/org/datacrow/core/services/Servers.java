@@ -294,7 +294,7 @@ public class Servers {
         
         for (String sourceFile : sourceFiles) {
             try {
-                CoreUtilities.copy(new File(sourceDir, sourceFile), new File(targetDir, sourceFile), false);
+                CoreUtilities.copy(new File(sourceDir, sourceFile), new File(targetDir, sourceFile), true);
             } catch (Exception e) {
                 logger.error("Could not copy the online service pack to the user folder", e);
             }
