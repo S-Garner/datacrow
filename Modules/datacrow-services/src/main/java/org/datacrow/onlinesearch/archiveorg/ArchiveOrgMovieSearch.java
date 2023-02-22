@@ -4,15 +4,12 @@ import java.util.Map;
 
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Movie;
-import org.datacrow.core.objects.helpers.Software;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.plugin.IServer;
 
 public class ArchiveOrgMovieSearch extends ArchiveOrgSearch {
     
-    //private static Logger logger = DcLogManager.getLogger(ArchiveOrgMovieSearch.class.getName());
-	
 	private final String address = 
 			"https://archive.org/advancedsearch.php?fl[]=identifier&fl[]=avg_rating&fl[]=collection&fl[]=date&fl[]=description&fl[]=format&fl[]=language&" +
 			"fl[]=mediatype&fl[]=name&fl[]=subject&fl[]=title&fl[]=type&fl[]=volume&fl[]=week&fl[]=year&rows=50&output=json";
@@ -34,21 +31,62 @@ public class ArchiveOrgMovieSearch extends ArchiveOrgSearch {
     
 	@Override
 	protected DcObject parseItem(Map<?, ?> item, ArchiveOrgSearchResult aosr) {
-		
 		DcObject dco =  aosr.getDco();
         setImages(dco, item, aosr.getId());
         
-//        Map<?, ?> metadata = (Map<?, ?>) item.get("metadata");
-//
-//        if (metadata != null)
-//	        setDevelopers(dco, metadata);
+        dco.setValue(Movie._G_WEBPAGE, "https://archive.org/details/" + aosr.getId());
+        
+        Map<?, ?> metadata = (Map<?, ?>) item.get("metadata");
+
+        if (metadata != null) {
+	        setDirectors(dco, metadata);
+	     
+	        if (metadata.containsKey("color"))
+	        	dco.createReference(Movie._13_COLOR, "Color");
+
+	        if (metadata.containsKey("series"))
+	        	dco.createReference(Movie._8_SERIES, metadata.get("series"));
+	        
+	        setRuntime(dco, metadata);
+	        setDimension(dco, metadata);
+        }
 		
         return dco;
 	}
+
+	private void setDimension(DcObject dco, Map<?, ?> metadata) {
+        if (metadata.containsKey("vimeo-width")) {
+        	dco.setValue(Movie._P_WIDTH, metadata.get("vimeo-width"));
+        }
+
+        if (metadata.containsKey("vimeo-height")) {
+        	dco.setValue(Movie._Q_HEIGHT, metadata.get("vimeo-height"));
+        }
+	}
 	
+	private void setRuntime(DcObject dco, Map<?, ?> metadata) {
+        if (metadata.containsKey("runtime")) {
+        	String time = (String) metadata.get("runtime");
+        	
+        	if (time != null && time.length() == 8) {
+        		String[] parts = time.split(":");
+        		
+        		if (parts.length == 3) {
+        			try {
+		        		int runtime = 
+		        				(Integer.valueOf(parts[0]) * 60 * 60) +
+		        				(Integer.valueOf(parts[1]) * 60) + 
+		        				Integer.valueOf(parts[2]);
+		        		dco.setValue(Movie._L_PLAYLENGTH, runtime);
+        			} catch (NumberFormatException nfe) {
+        				listener.addError("Could not parse time from [" + time + "]");
+        			}
+        		}
+        	}
+        }
+	}
 	
     private void setImages(DcObject dco, Map<?, ?> item, String id) {
-    	
     	String server = (String) item.get("d1");
     	String dir = (String) item.get("dir");
 
@@ -63,4 +101,17 @@ public class ArchiveOrgMovieSearch extends ArchiveOrgSearch {
 	    			dir);
     	}
     }
+    
+    private void setDirectors(DcObject dco, Map<?, ?> metadata) {
+    	if (metadata.containsKey("creator")) {
+    		String s = (String) metadata.get("creator");
+    		String[] creators = 
+    				s.indexOf(",") > 0 ? s.split(",") : 
+    				s.indexOf("&") > 0 ? s.split("&") : 
+    				s.split("/");
+    		for (String creator : creators) {
+    			dco.createReference(Movie._J_DIRECTOR, creator.trim());
+    		}
+    	}
+    }    
 }

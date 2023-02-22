@@ -22,6 +22,8 @@ import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.utilities.CoreUtilities;
+import org.datacrow.core.utilities.StringUtils;
+import org.jsoup.Jsoup;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -67,8 +69,6 @@ public abstract class ArchiveOrgSearch extends SearchTask {
         Map<?, ?> metadata = (Map<?, ?>) item.get("metadata");
 
         if (metadata != null) {
-	        dco.setValue(Software._I_WEBPAGE, "https://archive.org/details/" + aosr.getId());
-	
 	        setYear(dco, metadata);
 	        setExtendedDescription(dco, metadata);
 	        setLanguage(dco, metadata);
@@ -116,12 +116,19 @@ public abstract class ArchiveOrgSearch extends SearchTask {
     		ArchiveOrgSearchResult aosr;
             DcObject dco;
             
+            String description;
             int count = 0;
             for (LinkedTreeMap<?, ?> src : items) {
             	dco = DcModules.get(getServer().getModule()).getItem();
             	
             	dco.setValue(DcMediaObject._A_TITLE, src.get("title"));
-            	dco.setValue(DcMediaObject._B_DESCRIPTION, src.get("description"));
+            	
+            	description = getAsString(src.get("description"), "\r\n\r\n");
+            	description = description.replaceAll("<br />", "\r\n").replaceAll("<br>", "\r\n");
+            	description = description == null ? null : Jsoup.parse(description).text();
+            	description = description.replaceAll("<p", "").replaceAll("</p", "");
+            	
+            	dco.setValue(DcMediaObject._B_DESCRIPTION, description);
             	
             	aosr = new ArchiveOrgSearchResult(dco);
             	aosr.setId((String) src.get("identifier"));
@@ -150,6 +157,12 @@ public abstract class ArchiveOrgSearch extends SearchTask {
         	} else {
         		dco.setValue(DcMediaObject._C_YEAR, year);
         	}
+        } else if (metadata.containsKey("date")) {
+        	year = metadata.get("date");
+        	String s = year.toString();
+        	s = s.length() == 10 ? s.substring(0, 4) : null;
+        	if (s != null && StringUtils.getContainedNumber(s).length() == 4)
+        		dco.setValue(DcMediaObject._C_YEAR, s);
         }
     }
     
@@ -175,12 +188,12 @@ public abstract class ArchiveOrgSearch extends SearchTask {
 
         if (metadata.get("collection") != null) {
 	        description += "\r\n" + DcResources.getText("lblArchiveOrgCollection") + " ";
-	        description += getCommaSeparatedString(metadata.get("collection"));
+	        description += getAsString(metadata.get("collection"), ", ");
         }
         
         if (metadata.get("subject") != null) {
         	description += "\r\n" + DcResources.getText("lblArchiveOrgSubject") + " ";
-        	description += getCommaSeparatedString(metadata.get("subject"));
+        	description += getAsString(metadata.get("subject"), ", ");
         }
         
         dco.setValue(DcMediaObject._B_DESCRIPTION, description);
@@ -248,14 +261,14 @@ public abstract class ArchiveOrgSearch extends SearchTask {
     	return 7500000;
     }
     
-    private String getCommaSeparatedString(Object o) {
+    private String getAsString(Object o, String combineWith) {
     	String s = "";
         if (o instanceof String) {
         	s += o;
         } else if (o != null) {
             int i = 0;
             for (Object collection : (Collection<?>) o) {
-            	s += i> 0 ? ", " + collection : collection;
+            	s += i> 0 ? combineWith + collection : collection;
             	i++;
             }        	
         }    	

@@ -34,6 +34,7 @@ public class ArchiveOrgSoftwareSearch extends ArchiveOrgSearch {
 		DcObject dco =  aosr.getDco();
 		
         setImages(dco, item, aosr.getId());
+        dco.setValue(Software._I_WEBPAGE, "https://archive.org/details/" + aosr.getId());
         
         Map<?, ?> metadata = (Map<?, ?>) item.get("metadata");
 
