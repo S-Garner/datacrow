@@ -9,6 +9,8 @@ public class MobyGamesResult {
     
     private DcObject dco;
     
+    private String cover;
+    
     private Collection<String> screenshots = new ArrayList<>();
     
     public MobyGamesResult(DcObject dco) {
@@ -25,5 +27,13 @@ public class MobyGamesResult {
     
     public void addScreenshot(String link) {
         screenshots.add(link);
+    }
+    
+    public String getCover() {
+    	return cover;
+    }
+    
+    public void addCover(String link) {
+    	this.cover = link;
     }
 }

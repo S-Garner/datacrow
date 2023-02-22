@@ -35,6 +35,8 @@ public class MobyGamesSearch extends SearchTask {
     private MobyGamesPlatform platform;
     private String apiKey;
     
+    private final Gson gson = new Gson();
+    
     public MobyGamesSearch(
             IOnlineSearchClient listener, 
             IServer server, 
@@ -79,14 +81,13 @@ public class MobyGamesSearch extends SearchTask {
         HttpConnection connection = HttpConnectionUtil.getConnection(url);
         String result = connection.getString(StandardCharsets.UTF_8);
         
-        Gson gson = new Gson();
         Map<?, ?> game = gson.fromJson(result, Map.class);
         
         setAttributes(game, item);
         setCompanies(game, item);
         setCountries(game, item);
         
-        setScreenshots(mgr, item);
+        setPictures(mgr, item);
         setServiceInfo(item);
         
         extendDescription(game, item);
@@ -144,8 +145,6 @@ public class MobyGamesSearch extends SearchTask {
             HttpConnection connection = HttpConnectionUtil.getConnection(url);
             String result = connection.getString(StandardCharsets.UTF_8);
             
-            Gson gson = new Gson();
-            
             Map<?, ?> map = gson.fromJson(result, Map.class);
             
             @SuppressWarnings({"unchecked"})
@@ -168,10 +167,10 @@ public class MobyGamesSearch extends SearchTask {
                 setRating(game, item);
                 setCategories(game, item);
                 setPlatformDetails(game, item, mobygamesId);
-                setPictureFront(game, item);
                 
                 MobyGamesResult mgr = new MobyGamesResult(item);
                 setScreenshots(game, mgr);
+                setPictureFront(game, mgr);
                 
                 keys.add(mgr);
                 
@@ -382,7 +381,7 @@ public class MobyGamesSearch extends SearchTask {
             item.createReference(Software._G_PUBLISHER, publisher);
     }    
     
-    private void setScreenshots(MobyGamesResult mgr, DcObject item) {
+    private void setPictures(MobyGamesResult mgr, DcObject item) {
         int[] fields = new int[] {Software._P_SCREENSHOTONE, Software._Q_SCREENSHOTTWO, Software._R_SCREENSHOTTHREE};
         int fieldIdx = 0;
         
@@ -393,6 +392,12 @@ public class MobyGamesSearch extends SearchTask {
                 item.setValue(fields[fieldIdx++], image);
             
             if (fieldIdx > 2) break;
+        }
+        
+        if (!CoreUtilities.isEmpty(mgr.getCover())) {
+	        image = getImageBytes(mgr.getCover());
+	        if (image != null)
+	            item.setValue(Software._M_PICTUREFRONT, image);
         }
     }
     
@@ -421,14 +426,12 @@ public class MobyGamesSearch extends SearchTask {
     }
     
 
-    private void setPictureFront(LinkedTreeMap game, Software item) {
+    private void setPictureFront(LinkedTreeMap game, MobyGamesResult result) {
         LinkedTreeMap pic = (LinkedTreeMap) game.get("sample_cover");
                 
         if (!CoreUtilities.isEmpty(pic)) {
             String link = (String) pic.get("image");
-            byte[] image = getImageBytes(link);
-            if (image != null)
-                item.setValue(Software._M_PICTUREFRONT, image);
+            result.addCover(link);
         }
     }
     
@@ -447,7 +450,7 @@ public class MobyGamesSearch extends SearchTask {
     private void setRating(LinkedTreeMap game, Software item) {
         Double d = (Double) game.get("moby_score");
         if (d != null) {
-            int rating = d.intValue()  * 2;
+            int rating = d.intValue();
             item.setValue(Software._E_RATING, Integer.valueOf(rating));    
         }
     }

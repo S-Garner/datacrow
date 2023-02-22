@@ -13,6 +13,7 @@ Data Crow version 4.7.0                                            Released on 2
   allowing for, for example, a field called related software item on a software item.
 - Hierarchy view for containers will now show all items per container + the items of 
   children of the selected container.
+- Small performance increase for the MobyGames.com search.
   
 [Fixed]
 - Errors for Data Crow client in case the server was not responding when logging on.
@@ -21,6 +22,7 @@ Data Crow version 4.7.0                                            Released on 2
   (reference field on software pointing to software).
 - The log window (CTRL+L) did not show latest entries.
 - The server edition sometimes gave errors on saving new items.
+- Ratings for Mobygames.com online search were incorrect.
 
 
 -----------------------------------------------------------------------------------------
