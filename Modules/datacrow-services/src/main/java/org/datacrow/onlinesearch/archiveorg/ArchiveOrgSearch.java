@@ -98,7 +98,7 @@ public abstract class ArchiveOrgSearch extends SearchTask {
             
             String topic = (String) getAdditionalFilters().get(DcResources.getText("lblCollection"));
             if (!CoreUtilities.isEmpty(topic)) {
-            	topic = topic.replaceAll(" ", "").replaceAll("-", "").replaceAll("_", "");
+            	topic = topic.replaceAll(" ", "").replaceAll("-", "");
             	query += "%20AND%20collection:*" + URLEncoder.encode(topic, StandardCharsets.UTF_8) + "*";
             }
             
@@ -160,7 +160,7 @@ public abstract class ArchiveOrgSearch extends SearchTask {
         } else if (metadata.containsKey("date")) {
         	year = metadata.get("date");
         	String s = year.toString();
-        	s = s.length() == 10 ? s.substring(0, 4) : null;
+        	s = s.length() == 10 ? s.substring(0, 4) : s.length() == 4 ? s : null;
         	if (s != null && StringUtils.getContainedNumber(s).length() == 4)
         		dco.setValue(DcMediaObject._C_YEAR, s);
         }
@@ -214,25 +214,21 @@ public abstract class ArchiveOrgSearch extends SearchTask {
 		List<LinkedTreeMap<?, ?>> files = (List<LinkedTreeMap<?, ?>>) item.get("files");
     	String name;
     	String link;
-    	String type;
     	byte[] image;
     	long size;
     	
     	for (LinkedTreeMap<?, ?> file : files) {
     		name = (String) file.get("name");
-    		type = (String) file.get("type");
     		name = name.replace(" ", "%20");
     		
     		if (file.get("size") != null) {
 	    		size = Long.valueOf((String) file.get("size")).longValue();
 	    		
-	    		if (   !name.toLowerCase().contains("thumb") &&
-	    			   (type == null || !type.equals("thumbnail")) &&
-	    				size < getMaximumImageSize() &&
-	    			   (	name.toLowerCase().endsWith("jpg") || 
-	    					name.toLowerCase().endsWith("png") || 
-	    					name.toLowerCase().endsWith("jpeg") || 
-	    					name.toLowerCase().endsWith("gif"))) {
+	    		if (size < getMaximumImageSize() &&
+	    				(name.toLowerCase().endsWith("jpg") || 
+	    				 name.toLowerCase().endsWith("png") || 
+	    				 name.toLowerCase().endsWith("jpeg") || 
+	    				 name.toLowerCase().endsWith("gif"))) {
 	    			
 	    			boolean valid = true;
 	    			for (String equals : filterEquals) {

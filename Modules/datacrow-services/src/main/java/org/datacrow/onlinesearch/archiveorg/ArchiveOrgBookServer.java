@@ -15,20 +15,20 @@ import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.settings.Setting;
 
-public class ArchiveOrgMovieServer implements IServer {
+public class ArchiveOrgBookServer implements IServer {
     
     private static final long serialVersionUID = 6451130355747891181L;
 
     private Collection<Region> regions = new ArrayList<Region>();
     private Collection<SearchMode> modes = new ArrayList<SearchMode>();
 
-    public ArchiveOrgMovieServer() {
+    public ArchiveOrgBookServer() {
         regions.add(new Region("en", "English", "https://www.archive.org/"));
     }
     
     @Override
     public int getModule() {
-        return DcModules._MOVIE;
+        return DcModules._BOOK;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class ArchiveOrgMovieServer implements IServer {
             Map<String, Object> additionalFilters,
             DcObject client) {
         
-        ArchiveOrgMovieSearch task = new ArchiveOrgMovieSearch(listener, this, mode, query, additionalFilters);
+        ArchiveOrgBookSearch task = new ArchiveOrgBookSearch(listener, this, mode, query, additionalFilters);
         task.setClient(client);
         return task;
     }

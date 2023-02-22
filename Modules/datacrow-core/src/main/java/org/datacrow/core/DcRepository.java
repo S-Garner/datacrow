@@ -257,6 +257,7 @@ public abstract class DcRepository {
         public static final String _DISCOGS = "DISCOGS";
         public static final String _ITUNES = "ITUNES";
         public static final String _ARCHIVEORG = "ARCHIVE.ORG";
+        public static final String _OPENLIBRARY = "OPENLIBRARY";
         
         static {
             types.add(_MOBYGAMES);

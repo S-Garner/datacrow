@@ -54,7 +54,7 @@ public class ArchiveOrgSoftwareSearch extends ArchiveOrgSearch {
 	    			dco, 
 	    			item,
 	    			new String[] {},
-	    			new String[] {"front","cover","back","cd","disc","floppy","box"},
+	    			new String[] {"front","cover","back","cd","disc","floppy","box","thumb"},
 	    			new int[] {Software._P_SCREENSHOTONE, Software._Q_SCREENSHOTTWO, Software._R_SCREENSHOTTHREE},
 	    			server,
 	    			dir);
@@ -63,7 +63,7 @@ public class ArchiveOrgSoftwareSearch extends ArchiveOrgSearch {
 	    			dco, 
 	    			item, 
 	    			new String[] {"front","cover","back","cd","disc","floppy","box"},
-	    			new String[] {},
+	    			new String[] {"thumb"},
 	    			new int[] {Software._M_PICTUREFRONT, Software._N_PICTUREBACK, Software._O_PICTURECD},
 	    			server,
 	    			dir);

@@ -95,7 +95,7 @@ public class ArchiveOrgMovieSearch extends ArchiveOrgSearch {
 	    			dco, 
 	    			item,
 	    			new String[] {},
-	    			new String[] {},
+	    			new String[] {"thumb"},
 	    			new int[] {Movie._X_PICTUREFRONT},
 	    			server,
 	    			dir);

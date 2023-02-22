@@ -87,7 +87,7 @@ public class ArchiveOrgSoftwareServer implements IServer {
 
     @Override
     public long getWaitTimeBetweenRequest() {
-        return 100l;
+        return 500l;
     }
     
     @Override
