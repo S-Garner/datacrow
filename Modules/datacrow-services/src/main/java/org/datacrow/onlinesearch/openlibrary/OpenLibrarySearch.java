@@ -11,6 +11,7 @@ import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.objects.helpers.Book;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
 import org.datacrow.core.services.OnlineServiceError;
@@ -46,15 +47,18 @@ public class OpenLibrarySearch extends SearchTask {
         OpenLibrarySearchResult olsr = (OpenLibrarySearchResult) key;
         DcObject dco = olsr.getDco();
         
-        String address = "";
-//        
-//        waitBetweenRequest();
-//        
-//        HttpConnection conn = new HttpConnection(new URL(address), userAgent);
-//        String json = conn.getString(StandardCharsets.UTF_8);
-//        conn.close();
-//
-//        Map<?, ?> item = gson.fromJson(json, Map.class);
+        String address = "https://openlibrary.org/" + olsr.getWorkId() + ".json";
+        
+        waitBetweenRequest();
+        
+        HttpConnection conn = new HttpConnection(new URL(address), userAgent);
+        String json = conn.getString(StandardCharsets.UTF_8);
+        conn.close();
+
+        Map<?, ?> item = gson.fromJson(json, Map.class);
+        
+        dco.setValue(Book._B_DESCRIPTION, item.get("description"));
+        
 //        
 //        DcObject dco = parseItem(item, aosr);
 //        
@@ -67,7 +71,7 @@ public class OpenLibrarySearch extends SearchTask {
 //        }
         
         dco.addExternalReference(DcRepository.ExternalReferences._OPENLIBRARY, 
-				"work-" + olsr.getWork() + "#edition-" + olsr.getEdition());        		
+				"work-" + olsr.getWorkId());        		
         		
         setServiceInfo(dco);
         dco.setValue(DcObject._SYS_SERVICEURL, address);
@@ -88,7 +92,9 @@ public class OpenLibrarySearch extends SearchTask {
         waitBetweenRequest();
         
         try {
-            String query = "https://openlibrary.org/search.json?q=" + getQuery();
+            String query = "https://openlibrary.org/search.json?q=" + 
+            		getQuery() + "&limit=" + getMaximum() + "&fields=key,title,edition_key";
+            
             HttpConnection conn = new HttpConnection(new URL(query), userAgent);
             String json = conn.getString(StandardCharsets.UTF_8);
             conn.close();
@@ -97,20 +103,37 @@ public class OpenLibrarySearch extends SearchTask {
             
             ArrayList<LinkedTreeMap<?, ?>> items = (ArrayList<LinkedTreeMap<?, ?>>) m.get("docs");
             
-    		OpenLibrarySearchResult aosr;
+    		OpenLibrarySearchResult olsr;
             DcObject dco;
             int count = 0;
+            String key;
             for (LinkedTreeMap<?, ?> src : items) {
             	dco = DcModules.get(getServer().getModule()).getItem();
             	
             	dco.setValue(DcMediaObject._A_TITLE, src.get("title"));
+            	key = (String) src.get("key");
             	
-            	aosr = new OpenLibrarySearchResult(dco);
-            	//aosr.setId((String) src.get("identifier"));
+            	olsr = new OpenLibrarySearchResult(dco);
+            	
+            	if (key.startsWith("/works/")) {
+            		olsr.setWorkId(key);
+            		
+                	Collection editions = (Collection) src.get("edition_key");
+                	for (Object edition : editions) {
+                		olsr.addEdition(edition.toString());
+                	}
+                	
+            	} else {
+            		olsr.addEdition(key);
+            		
+            		// get works information and add
+            	}
+            	
+
             	
                 count++;
                 
-                result.add(aosr);
+                result.add(olsr);
                 
                 if (count == getMaximum()) break;                
             }

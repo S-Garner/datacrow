@@ -58,6 +58,8 @@ public class OpenLibraryServer implements IServer {
 
     @Override
     public Collection<SearchMode> getSearchModes() {
+    	//modes.add(null)
+    	
         return modes;
     }
 

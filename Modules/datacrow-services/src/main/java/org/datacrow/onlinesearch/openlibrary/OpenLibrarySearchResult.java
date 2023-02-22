@@ -1,32 +1,29 @@
 package org.datacrow.onlinesearch.openlibrary;
 
+import java.util.Collection;
+
 import org.datacrow.core.objects.DcObject;
 
 public class OpenLibrarySearchResult {
 
 	private DcObject dco;
-    
-    private String edition;
-    private String work;
+    private String workId;
+    private Collection<String> editions;
     
     public OpenLibrarySearchResult(DcObject dco) {
         this.dco = dco;
     }
     
-    public String getEdition() {
-		return edition;
+	public String getWorkId() {
+		return workId;
 	}
 
-	public void setEdition(String edition) {
-		this.edition = edition;
+	public void setWorkId(String workId) {
+		this.workId = workId;
 	}
-
-	public String getWork() {
-		return work;
-	}
-
-	public void setWork(String work) {
-		this.work = work;
+	
+	public void addEdition(String editionId) {
+		editions.add(editionId);
 	}
 
 	public DcObject getDco() {
