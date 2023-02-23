@@ -89,9 +89,6 @@ public class OpenLibrarySearch extends SearchTask {
     			
     			if (languages.containsKey(language))
     				dco.createReference(Book._D_LANGUAGE, languages.get(language));
-    			
-    		} else {
-    			dco.createReference(Book._D_LANGUAGE, languages.get("eng"));
     		}
     	}
 
