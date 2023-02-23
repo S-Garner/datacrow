@@ -4,6 +4,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.datacrow.core.DcRepository;
@@ -15,9 +16,12 @@ import org.datacrow.core.objects.helpers.Book;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
 import org.datacrow.core.services.OnlineServiceError;
+import org.datacrow.core.services.Region;
 import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.plugin.IServer;
+import org.datacrow.core.utilities.isbn.ISBN;
+import org.datacrow.core.utilities.isbn.InvalidBarCodeException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,15 +30,19 @@ import com.google.gson.internal.LinkedTreeMap;
 public class OpenLibrarySearch extends SearchTask {
     
     protected final Gson gson;
+    
+    private final HashMap<String, byte[]> workImages = new HashMap<>();
+    private final Map<String, String> languages = DcRepository.Collections.getLanguages();
 	
     public OpenLibrarySearch(
             IOnlineSearchClient listener, 
             IServer server, 
             SearchMode mode,
+            Region region,
             String query,
             Map<String, Object> additionalFilters) {
         
-        super(listener, server, null, mode, query, additionalFilters);
+        super(listener, server, region, mode, query, additionalFilters);
         
         setMaximum(50);
         
@@ -47,30 +55,66 @@ public class OpenLibrarySearch extends SearchTask {
         OpenLibrarySearchResult olsr = (OpenLibrarySearchResult) key;
         DcObject dco = olsr.getDco();
         
-        String address = "https://openlibrary.org/" + olsr.getWorkId() + "/editions.json";
+        if (checkLanguage(olsr)) {
+	    	setEditionData(olsr.getEditionData(), olsr);
+	        
+	        dco.addExternalReference(DcRepository.ExternalReferences._OPENLIBRARY, olsr.getEditionId());        		
+	        		
+	        setServiceInfo(dco);
+	        dco.setValue(DcObject._SYS_SERVICEURL, "https://openlibrary.org" + olsr.getEditionId() + ".json");
+        } else {
+        	dco = null;
+        }
         
-        waitBetweenRequest();
-        
-        HttpConnection conn = new HttpConnection(new URL(address), userAgent);
-        String json = conn.getString(StandardCharsets.UTF_8);
-        conn.close();
+        return dco;
+    }
+    
+    private boolean checkLanguage(OpenLibrarySearchResult olsr) {
+    	
+    	Map<?, ?> item = olsr.getEditionData();
+    	
+    	boolean valid = 
+    			getRegion().getCode().equals("-") || 
+    			!item.containsKey("languages");
+    	
+    	if (valid) {
+    		String language = null;
+    		DcObject dco = olsr.getDco();
+    		
+    		if (item.containsKey("languages")) {
+    			Map<?, ?> values = (Map<?, ?>) ((ArrayList<?>) item.get("languages")).get(0);
+    			language = (String) values.get("key");
+    			language = language.substring(
+    					language.lastIndexOf("/") > -1 ? language.lastIndexOf("/") + 1 : 0, language.length());
+    			
+    			if (languages.containsKey(language))
+    				dco.createReference(Book._D_LANGUAGE, languages.get(language));
+    			
+    		} else {
+    			dco.createReference(Book._D_LANGUAGE, languages.get("eng"));
+    		}
+    	}
 
-        Map<?, ?> item = gson.fromJson(json, Map.class);
-        
-        String editionId = (String) item.get("key");
-        
-        // if there's just one edition; just get that and be done with it (ISBN search)
-        // if there's only a work id; get all editions:
-        //     https://openlibrary.org/works/OL45804W/editions.json
-        
+    	return valid;
+    }
+    
+    private void setEditionData(Map<?, ?> item, OpenLibrarySearchResult olsr) {
+    	DcObject dco = olsr.getDco();
+    	
+        String key = (String) item.get("key");
+		olsr.setEditionId(key);	
+		
+		setIsbn(item, dco);
+		setTitle(item, dco);
+		setCover(item, olsr);
 
-        
+		if (item.containsKey("number_of_pages"))
+			dco.setValue(Book._T_NROFPAGES, item.get("number_of_pages"));
+
+    	
         // editions:
-        // - number_of_pages
         // - publishers (names)
-        // - isbn_10 & isbn_13
         // - physical_format (hardcover, etc)
-        // - full_title (if exists)
         // - notes (description)
         // - languages
         // - series
@@ -81,27 +125,78 @@ public class OpenLibrarySearch extends SearchTask {
         
         // covers (where not -1): see https://openlibrary.org/books/OL38565767M.json
         // - https://covers.openlibrary.org/b/id/12904717-L.jpg -> if not exists, use edition image. 
-        
-        
-        
-        
-//        
-//        DcObject dco = parseItem(item, aosr);
-//        
-//        Map<?, ?> metadata = (Map<?, ?>) item.get("metadata");
-//
-//        if (metadata != null) {
-//	        setYear(dco, metadata);
-//	        setExtendedDescription(dco, metadata);
-//	        setLanguage(dco, metadata);
-//        }
-        
-        dco.addExternalReference(DcRepository.ExternalReferences._OPENLIBRARY, editionId);        		
-        		
-        setServiceInfo(dco);
-        dco.setValue(DcObject._SYS_SERVICEURL, address);
-        
-        return dco;
+    }
+    
+    private void setCover(Map<?, ?> item, OpenLibrarySearchResult olsr) {
+    	DcObject dco = olsr.getDco();
+    	
+    	byte[] image = null;
+    	if (item.containsKey("covers")) {
+    		String coverId = getFirstEntry(item.get("covers"));
+    		if (coverId.length() > 4) {
+    			waitBetweenRequest();
+    			String link = "https://covers.openlibrary.org/b/id/" + coverId + "-L.jpg";
+    			image = getImageBytes(link);
+    		}
+    	} else {
+    		if (workImages.containsKey(olsr.getMainCoverId())) {
+    			image = workImages.get(olsr.getMainCoverId());
+    		} else {
+    			String link = "https://covers.openlibrary.org/b/olid/" + olsr.getMainCoverId() + "-L.jpg";
+    			image = getImageBytes(link);
+				workImages.put(olsr.getMainCoverId(), image);
+    		}
+    	}
+    	
+		if (image != null)
+            dco.setValue(Book._K_PICTUREFRONT, image);
+    }
+    
+    private void setTitle(Map<?, ?> item, DcObject dco) {
+		if (item.containsKey("title")) {
+			String title = (String) item.get("title");
+			
+			if (item.containsKey("subtitle"))
+				title += " " + item.get("subtitle");
+			
+			dco.setValue(Book._A_TITLE, title);
+		}
+    }
+    
+    private void setIsbn(Map<?, ?> item, DcObject dco) {
+    	String isbn = "";
+    	if (item.containsKey("isbn_13")) {
+    		isbn = getFirstEntry(item.get("isbn_13"));
+    		// sometimes there's text appended...
+    		isbn = isbn.replaceAll(" ", "").replaceAll("-", "");
+    		isbn = isbn.length() > 13 ? isbn.substring(0, 13) : isbn;
+    	} else if (item.containsKey("isbn_10")) {
+    		isbn = getFirstEntry(item.get("isbn_10"));
+    		isbn = isbn.replaceAll(" ", "").replaceAll("-", "");
+    		isbn = isbn.length() > 10 ? isbn.substring(0, 10) : isbn;
+    	}
+    	
+    	try {
+    		isbn = new ISBN(isbn).getIsbn13();
+    		dco.setValue(Book._N_ISBN13, isbn);
+    	} catch (InvalidBarCodeException ibce) {
+    		listener.addError("Could not parse ISBN-13 from [" + isbn + "]. Error: " + ibce.getMessage());
+    	}
+    }
+    
+    private String getFirstEntry(Object o) {
+    	String result = "";
+    	if (o instanceof ArrayList<?>) {
+    		ArrayList<?> c = (ArrayList<?>) o;
+    		if (c.size() > 0) {
+    			o = c.get(0) == null ? "" : c.get(0);
+    			result = o instanceof Double ? "" + ((Double) o).longValue() : o.toString();
+    		}
+    	} else if (o instanceof String) {
+    		result = o instanceof Double ? "" + ((Double) o).longValue() : (String) o;
+    	}
+    	
+    	return result;
     }
     
     @Override
@@ -122,77 +217,125 @@ public class OpenLibrarySearch extends SearchTask {
             if (getMode().getFieldBinding() == Book._A_TITLE) {
             	// fetches works
             	query = "https://openlibrary.org/search.json?q=" + 
-                 		getQuery() + "&limit=" + getMaximum() + "&fields=key,title,description,cover_edition_key,author_name";
+                 		getQuery() + "&limit=" + getMaximum() + 
+                 		"&fields=key,title,description,cover_edition_key,author_name,edition_key";
+            	
+                HttpConnection conn = new HttpConnection(new URL(query), userAgent);
+                String json = conn.getString(StandardCharsets.UTF_8);
+                conn.close();
+                
+                Map<?, ?> m = gson.fromJson(json, Map.class);
+                
+                if (m.containsKey("docs")) {
+	                ArrayList<LinkedTreeMap<?, ?>> works = (ArrayList<LinkedTreeMap<?, ?>>) m.get("docs");
+	                
+	        		OpenLibrarySearchResult olsr;
+	                DcObject dco;
+	                int count = 0;
+	                String key;
+	                ArrayList<LinkedTreeMap<?, ?>> editions;
+	                
+	                for (Map<?, ?> work : works) {
+	                	
+	                	key = (String) work.get("key");
+	                	
+	                	waitBetweenRequest();
+	                	
+	                	// next get the editions for this work
+	                    String address = "https://openlibrary.org/" + key + "/editions.json";
+	                    
+	                    conn = new HttpConnection(new URL(address), userAgent);
+	                    json = conn.getString(StandardCharsets.UTF_8);
+	                    conn.close();
+
+	                    m = gson.fromJson(json, Map.class);
+
+	                    editions = (ArrayList<LinkedTreeMap<?, ?>>) m.get("entries");
+	                    
+	                    for (Map<?, ?> edition : editions) {
+	                    	// store edition information
+	                    	
+	                    	dco = DcModules.get(getServer().getModule()).getItem();
+		                	olsr = new OpenLibrarySearchResult(dco);
+		                	
+		                	olsr.setEditionData(edition);
+		                	setWorkInformation(work, olsr);
+		                	
+		                    count++;
+		                    
+		                    result.add(olsr);
+	                    }
+	                    
+	                    if (count == getMaximum()) break;                
+	                }
+                }
+            	
             } else {
             	// fetches an edition
-           	 	query = "https://openlibrary.org/isbn/" + getQuery() + ".json";            	
-            }
-            
-            HttpConnection conn = new HttpConnection(new URL(query), userAgent);
-            String json = conn.getString(StandardCharsets.UTF_8);
-            conn.close();
-            
-            Map<?, ?> m = gson.fromJson(json, Map.class);
-            
-            ArrayList<LinkedTreeMap<?, ?>> items = (ArrayList<LinkedTreeMap<?, ?>>) m.get("docs");
-            
-    		OpenLibrarySearchResult olsr;
-            DcObject dco;
-            int count = 0;
-            String key;
-            Map<?, ?> data = null;
-            for (Map<?, ?> src : items) {
-            	key = (String) src.get("key");
-
-            	dco = DcModules.get(getServer().getModule()).getItem();
-            	olsr = new OpenLibrarySearchResult(dco);
-
-            	if (getMode().getFieldBinding() == Book._A_TITLE) { // we're working with a work
-            		data = src;
-            		olsr.setWorkId(key);
-            	} else { // we're working with an edition. We'll store the edition id but also query the work data.
-            		olsr.setEditionId(key);
-            		olsr.setEditionData(src);
-            		
-                	Collection works = (Collection) src.get("works");
-                	String workId;
-                	for (Object work : works) {
-                		workId = (String) ((Map<?, ?>) work).get("key");
-                		olsr.setWorkId(workId);
-                		
-                        conn = new HttpConnection(new URL("https://openlibrary.org/works" + workId + ".json"), userAgent);
-                        json = conn.getString(StandardCharsets.UTF_8);
-                        conn.close();
-                		
-                        m = gson.fromJson(json, Map.class);
-                        items = (ArrayList<LinkedTreeMap<?, ?>>) m.get("docs");                        
-                        data = items.get(0); 
-                		
-                		break;
-                	}
-            	}
-            	
-            	dco.setValue(DcMediaObject._A_TITLE, data.get("title"));
-            	
-            	if (data.containsKey("first_publish_year"))
-            		dco.setValue(DcMediaObject._C_YEAR, data.get("first_publish_year"));
-
-            	if (data.containsKey("cover_edition_key"))
-            		olsr.setMainCoverId((String) data.get("cover_edition_key"));
-
-            	setAuthors(data, dco);
-            	
-                count++;
+           	 	query = "https://openlibrary.org/isbn/" + getQuery() + ".json";
+           	 	
+                HttpConnection conn = new HttpConnection(new URL(query), userAgent);
+                String json = conn.getString(StandardCharsets.UTF_8);
+                conn.close();
+           	 	
+                Map<?, ?> item = gson.fromJson(json, Map.class);
                 
-                result.add(olsr);
-                
-                if (count == getMaximum()) break;                
+                if (item != null && item.containsKey("key")) {
+	                DcObject dco = DcModules.get(getServer().getModule()).getItem();
+	                OpenLibrarySearchResult olsr = new OpenLibrarySearchResult(dco);
+	                
+	        		olsr.setEditionData(item);
+	        		
+	            	Collection works = (Collection) item.get("works");
+	            	String workId;
+	            	String link;
+	            	for (Object work : works) {
+	            		workId = (String) ((Map<?, ?>) work).get("key");
+	            		olsr.setWorkId(workId);
+	            		
+	            		waitBetweenRequest();
+	            		
+	            		link = "https://openlibrary.org/search.json?q="+ workId +
+	            				"&fields=key,title,description,cover_edition_key,author_name";
+	            		
+	                    conn = new HttpConnection(new URL(link), userAgent);
+	                    json = conn.getString(StandardCharsets.UTF_8);
+	                    conn.close();
+	            		
+	                    item = gson.fromJson(json, Map.class);
+	                    
+	                    if (item.containsKey("docs")) {
+		                    item = ((ArrayList<LinkedTreeMap<?, ?>>) item.get("docs")).get(0);
+		                    setWorkInformation(item, olsr);
+		                    result.add(olsr);
+	                    }
+	            		
+	            		break; // we assume we're dealing with one work, not multiple
+	            	}
+                }
             }
         } catch (Exception e) {
             throw new OnlineServiceError(e);
         }
         
         return result;
+    }
+    
+    private void setWorkInformation(Map<?, ?> work, OpenLibrarySearchResult olsr) {
+    	String key = (String) work.get("key");
+    	olsr.setWorkId(key);
+    	
+    	DcObject dco = olsr.getDco();
+    	
+    	dco.setValue(DcMediaObject._A_TITLE, work.get("title"));
+    	
+    	if (work.containsKey("first_publish_year"))
+    		dco.setValue(DcMediaObject._C_YEAR, work.get("first_publish_year"));
+
+    	if (work.containsKey("cover_edition_key"))
+    		olsr.setMainCoverId((String) work.get("cover_edition_key"));
+
+    	setAuthors(work, dco);
     }
     
     @SuppressWarnings("rawtypes")

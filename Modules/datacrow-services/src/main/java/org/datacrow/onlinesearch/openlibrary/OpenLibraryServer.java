@@ -8,7 +8,6 @@ import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Book;
-import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.FilterField;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.Region;
@@ -92,7 +91,8 @@ public class OpenLibraryServer implements IServer {
             Map<String, Object> additionalFilters,
             DcObject client) {
         
-        OpenLibrarySearch task = new OpenLibrarySearch(listener, this, mode, query, additionalFilters);
+        OpenLibrarySearch task = new OpenLibrarySearch(
+        		listener, this, mode, region, query, additionalFilters);
         task.setClient(client);
         return task;
     }
@@ -109,8 +109,6 @@ public class OpenLibraryServer implements IServer {
     
     @Override
     public Collection<FilterField> getFilterFields() {
-        Collection<FilterField> fields = new ArrayList<>();
-        fields.add(new FilterField(DcResources.getText("lblCollection"), null));
-        return fields;
+        return null;
     }    
 }
