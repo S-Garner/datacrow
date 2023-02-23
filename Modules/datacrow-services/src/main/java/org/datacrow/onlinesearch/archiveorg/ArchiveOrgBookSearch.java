@@ -50,12 +50,12 @@ public class ArchiveOrgBookSearch extends ArchiveOrgSearch {
         	setIsbn(dco, metadata);
         	setPages(dco, metadata);
         	
-        	if (	metadata.containsKey("openlibrary_work") &&
-        			metadata.containsKey("openlibrary_edition")) {
+        	if (metadata.containsKey("openlibrary_edition")) {
+        		String key = (String) metadata.get("openlibrary_edition");
+        		key = key.startsWith("/books/") ? key : "/books/" + key;
+        		
         		dco.addExternalReference(
-        				DcRepository.ExternalReferences._OPENLIBRARY,
-        				"work-" + metadata.get("openlibrary_work") +
-        				"#edition-" + metadata.get("openlibrary_edition"));
+        				DcRepository.ExternalReferences._OPENLIBRARY, key);
         	}
         }
         return dco;

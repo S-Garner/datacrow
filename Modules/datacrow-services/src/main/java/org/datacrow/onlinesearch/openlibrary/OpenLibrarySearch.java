@@ -57,6 +57,7 @@ public class OpenLibrarySearch extends SearchTask {
 
         Map<?, ?> item = gson.fromJson(json, Map.class);
         
+        String editionId = (String) item.get("key");
         
         // if there's just one edition; just get that and be done with it (ISBN search)
         // if there's only a work id; get all editions:
@@ -95,8 +96,7 @@ public class OpenLibrarySearch extends SearchTask {
 //	        setLanguage(dco, metadata);
 //        }
         
-        dco.addExternalReference(DcRepository.ExternalReferences._OPENLIBRARY, 
-				"work-" + olsr.getWorkId());        		
+        dco.addExternalReference(DcRepository.ExternalReferences._OPENLIBRARY, editionId);        		
         		
         setServiceInfo(dco);
         dco.setValue(DcObject._SYS_SERVICEURL, address);
