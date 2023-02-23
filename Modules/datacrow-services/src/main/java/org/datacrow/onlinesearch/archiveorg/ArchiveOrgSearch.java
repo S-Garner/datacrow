@@ -32,6 +32,7 @@ import com.google.gson.internal.LinkedTreeMap;
 public abstract class ArchiveOrgSearch extends SearchTask {
     
     protected final Gson gson;
+    protected final Map<String, String> languages = DcRepository.Collections.getLanguages();
 	
     public ArchiveOrgSearch(
             IOnlineSearchClient listener, 
@@ -169,7 +170,7 @@ public abstract class ArchiveOrgSearch extends SearchTask {
     private void setLanguage(DcObject dco, Map<?, ?> metadata) {
     	if (metadata.containsKey("language")) {
     		String language = (String) metadata.get("language");
-    		language = (String) DcRepository.Collections.languages.get(language.toLowerCase());
+    		language = languages.get(language.toLowerCase());
     		if (language != null)
     			dco.createReference(Software._D_LANGUAGE, language);
     	}

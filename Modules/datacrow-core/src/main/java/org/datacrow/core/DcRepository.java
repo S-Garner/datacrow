@@ -25,9 +25,12 @@
 
 package org.datacrow.core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.logging.log4j.Logger;
@@ -276,22 +279,29 @@ public abstract class DcRepository {
      */
     public static final class Collections {
     	
-    	public static final Properties languages = new Properties();
+    	private static final HashMap<String, String> languages = new HashMap<>();
     	
-    	static {
-            try {
-                Properties p = new Properties();
-                p.load(DcResources.class.getResourceAsStream("Language.properties"));
-                
-                Enumeration<?> enums = p.propertyNames();
-                while (enums.hasMoreElements()) {
-                    String key = enums.nextElement().toString();
-                    String value = p.getProperty(key);
-                    languages.put(key, value);
-                }
-            } catch (Exception e) {
-                logger.error("Could not load the language.properties file", e);
-            }
+    	@SuppressWarnings("unchecked")
+		public static Map<String, String> getLanguages() {
+    		
+    		if (languages.size() == 0) {
+	    		try {
+	    		
+		    		Properties p = new Properties();
+		            p.load(DcResources.class.getResourceAsStream("Language.properties"));
+		            
+		            Enumeration<?> enums = p.propertyNames();
+		            while (enums.hasMoreElements()) {
+		                String key = enums.nextElement().toString();
+		                String value = p.getProperty(key);
+		                languages.put(key, value);
+		            }
+	    		} catch (IOException ioe) {
+	    			logger.error("Could not load languages file", ioe);
+	    		}
+    		}
+    		
+    		return (Map<String, String>) languages.clone();
     	}
     	
         /**

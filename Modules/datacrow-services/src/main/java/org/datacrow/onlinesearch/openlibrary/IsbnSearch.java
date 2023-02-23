@@ -1,5 +1,6 @@
 package org.datacrow.onlinesearch.openlibrary;
 
+import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.SearchMode;
 
 public class IsbnSearch extends SearchMode {
@@ -10,7 +11,7 @@ public class IsbnSearch extends SearchMode {
 
 	@Override
 	public String getDisplayName() {
-		return "lblSearchIsbn";
+		return DcResources.getText("lblSearchIsbn");
 	}
 
 	@Override

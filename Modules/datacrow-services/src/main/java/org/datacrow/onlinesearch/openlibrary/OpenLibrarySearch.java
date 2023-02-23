@@ -47,7 +47,7 @@ public class OpenLibrarySearch extends SearchTask {
         OpenLibrarySearchResult olsr = (OpenLibrarySearchResult) key;
         DcObject dco = olsr.getDco();
         
-        String address = "https://openlibrary.org/" + olsr.getWorkId() + ".json";
+        String address = "https://openlibrary.org/" + olsr.getWorkId() + "/editions.json";
         
         waitBetweenRequest();
         
@@ -57,7 +57,32 @@ public class OpenLibrarySearch extends SearchTask {
 
         Map<?, ?> item = gson.fromJson(json, Map.class);
         
-        dco.setValue(Book._B_DESCRIPTION, item.get("description"));
+        
+        // if there's just one edition; just get that and be done with it (ISBN search)
+        // if there's only a work id; get all editions:
+        //     https://openlibrary.org/works/OL45804W/editions.json
+        
+
+        
+        // editions:
+        // - number_of_pages
+        // - publishers (names)
+        // - isbn_10 & isbn_13
+        // - physical_format (hardcover, etc)
+        // - full_title (if exists)
+        // - notes (description)
+        // - languages
+        // - series
+        // - copyright_date
+        // - translation_of (original title)
+        // - edition_name
+        // 
+        
+        // covers (where not -1): see https://openlibrary.org/books/OL38565767M.json
+        // - https://covers.openlibrary.org/b/id/12904717-L.jpg -> if not exists, use edition image. 
+        
+        
+        
         
 //        
 //        DcObject dco = parseItem(item, aosr);
@@ -84,7 +109,7 @@ public class OpenLibrarySearch extends SearchTask {
         return null;
     }
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
     protected Collection<Object> getItemKeys() throws OnlineSearchUserError, OnlineServiceError {
         Collection<Object> result = new ArrayList<>();
@@ -92,8 +117,16 @@ public class OpenLibrarySearch extends SearchTask {
         waitBetweenRequest();
         
         try {
-            String query = "https://openlibrary.org/search.json?q=" + 
-            		getQuery() + "&limit=" + getMaximum() + "&fields=key,title,edition_key";
+            String query;
+            
+            if (getMode().getFieldBinding() == Book._A_TITLE) {
+            	// fetches works
+            	query = "https://openlibrary.org/search.json?q=" + 
+                 		getQuery() + "&limit=" + getMaximum() + "&fields=key,title,description,cover_edition_key,author_name";
+            } else {
+            	// fetches an edition
+           	 	query = "https://openlibrary.org/isbn/" + getQuery() + ".json";            	
+            }
             
             HttpConnection conn = new HttpConnection(new URL(query), userAgent);
             String json = conn.getString(StandardCharsets.UTF_8);
@@ -107,29 +140,47 @@ public class OpenLibrarySearch extends SearchTask {
             DcObject dco;
             int count = 0;
             String key;
-            for (LinkedTreeMap<?, ?> src : items) {
-            	dco = DcModules.get(getServer().getModule()).getItem();
-            	
-            	dco.setValue(DcMediaObject._A_TITLE, src.get("title"));
+            Map<?, ?> data = null;
+            for (Map<?, ?> src : items) {
             	key = (String) src.get("key");
-            	
+
+            	dco = DcModules.get(getServer().getModule()).getItem();
             	olsr = new OpenLibrarySearchResult(dco);
-            	
-            	if (key.startsWith("/works/")) {
+
+            	if (getMode().getFieldBinding() == Book._A_TITLE) { // we're working with a work
+            		data = src;
             		olsr.setWorkId(key);
+            	} else { // we're working with an edition. We'll store the edition id but also query the work data.
+            		olsr.setEditionId(key);
+            		olsr.setEditionData(src);
             		
-                	Collection editions = (Collection) src.get("edition_key");
-                	for (Object edition : editions) {
-                		olsr.addEdition(edition.toString());
+                	Collection works = (Collection) src.get("works");
+                	String workId;
+                	for (Object work : works) {
+                		workId = (String) ((Map<?, ?>) work).get("key");
+                		olsr.setWorkId(workId);
+                		
+                        conn = new HttpConnection(new URL("https://openlibrary.org/works" + workId + ".json"), userAgent);
+                        json = conn.getString(StandardCharsets.UTF_8);
+                        conn.close();
+                		
+                        m = gson.fromJson(json, Map.class);
+                        items = (ArrayList<LinkedTreeMap<?, ?>>) m.get("docs");                        
+                        data = items.get(0); 
+                		
+                		break;
                 	}
-                	
-            	} else {
-            		olsr.addEdition(key);
-            		
-            		// get works information and add
             	}
             	
+            	dco.setValue(DcMediaObject._A_TITLE, data.get("title"));
+            	
+            	if (data.containsKey("first_publish_year"))
+            		dco.setValue(DcMediaObject._C_YEAR, data.get("first_publish_year"));
 
+            	if (data.containsKey("cover_edition_key"))
+            		olsr.setMainCoverId((String) data.get("cover_edition_key"));
+
+            	setAuthors(data, dco);
             	
                 count++;
                 
@@ -142,5 +193,17 @@ public class OpenLibrarySearch extends SearchTask {
         }
         
         return result;
+    }
+    
+    @SuppressWarnings("rawtypes")
+	private void setAuthors(Map<?, ?> data, DcObject dco) {
+    	if (data.containsKey("author_name")) {
+    		Collection authors = (Collection) data.get("author_name");
+    		String name;
+    		for (Object author : authors) {
+    			name = author.toString();
+    			dco.createReference(Book._G_AUTHOR, name);
+    		}
+    	}
     }
 }

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.objects.helpers.Book;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.FilterField;
 import org.datacrow.core.services.IOnlineSearchClient;
@@ -23,7 +25,22 @@ public class OpenLibraryServer implements IServer {
     private Collection<SearchMode> modes = new ArrayList<SearchMode>();
 
     public OpenLibraryServer() {
-        regions.add(new Region("en", "English", "https://www.openlibrary.org/"));
+    	Map<String, String> languages = DcRepository.Collections.getLanguages();
+    	
+    	regions.add(
+				new Region("-", 
+				"-", 
+				"https://www.openlibrary.org/"));
+    	
+    	for (String key : languages.keySet()) {
+    		regions.add(
+    				new Region(key.toString(), 
+    				languages.get(key), 
+    				"https://www.openlibrary.org/"));
+    	}
+        
+    	modes.add(new IsbnSearch(Book._N_ISBN13));
+    	modes.add(new KeywordSearch(Book._A_TITLE));
     }
     
     @Override
@@ -58,8 +75,6 @@ public class OpenLibraryServer implements IServer {
 
     @Override
     public Collection<SearchMode> getSearchModes() {
-    	//modes.add(null)
-    	
         return modes;
     }
 
