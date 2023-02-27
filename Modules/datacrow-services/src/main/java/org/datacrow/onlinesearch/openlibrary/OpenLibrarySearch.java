@@ -73,24 +73,26 @@ public class OpenLibrarySearch extends SearchTask {
     	
     	Map<?, ?> item = olsr.getEditionData();
     	
-    	boolean valid = 
-    			getRegion().getCode().equals("-") || 
-    			!item.containsKey("languages");
+    	String code = getRegion().getCode();
     	
-    	if (valid) {
-    		String language = null;
-    		DcObject dco = olsr.getDco();
-    		
-    		if (item.containsKey("languages")) {
-    			Map<?, ?> values = (Map<?, ?>) ((ArrayList<?>) item.get("languages")).get(0);
-    			language = (String) values.get("key");
-    			language = language.substring(
-    					language.lastIndexOf("/") > -1 ? language.lastIndexOf("/") + 1 : 0, language.length());
-    			
-    			if (languages.containsKey(language))
-    				dco.createReference(Book._D_LANGUAGE, languages.get(language));
-    		}
-    	}
+    	boolean valid = code.equals("-");
+    	
+		String language = null;
+		DcObject dco = olsr.getDco();
+		
+		if (item.containsKey("languages")) {
+			Map<?, ?> values = (Map<?, ?>) ((ArrayList<?>) item.get("languages")).get(0);
+			language = (String) values.get("key");
+			language = language.substring(
+					language.lastIndexOf("/") > -1 ? language.lastIndexOf("/") + 1 : 0, language.length());
+			
+			// check if the language matches our filter.
+			valid |= language.equals(code);
+			
+			// and create a reference (regardless of validity)
+			if (languages.containsKey(language))
+				dco.createReference(Book._D_LANGUAGE, languages.get(language));
+		}
 
     	return valid;
     }
@@ -104,24 +106,34 @@ public class OpenLibrarySearch extends SearchTask {
 		setIsbn(item, dco);
 		setTitle(item, dco);
 		setCover(item, olsr);
+		setPublishers(item, dco);
 
 		if (item.containsKey("number_of_pages"))
 			dco.setValue(Book._T_NROFPAGES, item.get("number_of_pages"));
-
-    	
+		
         // editions:
-        // - publishers (names)
         // - physical_format (hardcover, etc)
         // - notes (description)
-        // - languages
         // - series
         // - copyright_date
+		// - publish_date
         // - translation_of (original title)
         // - edition_name
-        // 
+        // - translated_from -> new field
         
         // covers (where not -1): see https://openlibrary.org/books/OL38565767M.json
         // - https://covers.openlibrary.org/b/id/12904717-L.jpg -> if not exists, use edition image. 
+    }
+
+    private void setPublishers(Map<?, ?> item, DcObject dco) {
+    	if (item.containsKey("publishers")) {
+    		Collection<?> publishers = (Collection<?>) item.get("publishers");
+    		String name;
+    		for (Object publisher : publishers) {
+    			name = publisher.toString();
+    			dco.createReference(Book._F_PUBLISHER, name);
+    		}
+    	}
     }
     
     private void setCover(Map<?, ?> item, OpenLibrarySearchResult olsr) {
@@ -335,10 +347,9 @@ public class OpenLibrarySearch extends SearchTask {
     	setAuthors(work, dco);
     }
     
-    @SuppressWarnings("rawtypes")
 	private void setAuthors(Map<?, ?> data, DcObject dco) {
     	if (data.containsKey("author_name")) {
-    		Collection authors = (Collection) data.get("author_name");
+    		Collection<?> authors = (Collection<?>) data.get("author_name");
     		String name;
     		for (Object author : authors) {
     			name = author.toString();
