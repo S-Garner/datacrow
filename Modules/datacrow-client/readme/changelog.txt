@@ -14,6 +14,7 @@ Data Crow version 4.7.0                                            Released on 2
 - Hierarchy view for containers will now show all items per container + the items of 
   children of the selected container.
 - Small performance increase for the MobyGames.com search.
+- Added two new fields to the Book module: translated from & original title
   
 [Fixed]
 - Errors for Data Crow client in case the server was not responding when logging on.
@@ -23,6 +24,8 @@ Data Crow version 4.7.0                                            Released on 2
 - The log window (CTRL+L) did not show latest entries.
 - The server edition sometimes gave errors on saving new items.
 - Ratings for Mobygames.com online search were incorrect.
+- Errors when retrieving back covers when performing an online searching using 
+  The Movie Database.
 
 
 -----------------------------------------------------------------------------------------

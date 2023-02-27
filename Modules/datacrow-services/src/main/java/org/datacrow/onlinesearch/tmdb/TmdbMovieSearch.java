@@ -71,7 +71,7 @@ import com.omertron.themoviedbapi.results.ResultList;
  */
 public class TmdbMovieSearch extends SearchTask {
 
-    public static final String ORIGNAL_SIZE = "original";
+    public static final String ORIGINAL_SIZE = "original";
     private static final Logger logger = DcLogManager.getLogger(TmdbMovieSearch.class.getName());
     private TheMovieDbApi tmdb;
 
@@ -136,11 +136,11 @@ public class TmdbMovieSearch extends SearchTask {
 
                 switch (aw.getArtworkType()) {
                     case POSTER:
-                        img = HttpConnectionUtil.retrieveBytes(tmdb.createImageUrl(imgUrl, ORIGNAL_SIZE));
+                        img = HttpConnectionUtil.retrieveBytes(tmdb.createImageUrl(imgUrl, ORIGINAL_SIZE));
                         movie.setValue(Movie._X_PICTUREFRONT, new DcImageIcon(img));
                         break;
                     case BACKDROP:
-                        img = HttpConnectionUtil.retrieveBytes(imgUrl);
+                        img = HttpConnectionUtil.retrieveBytes(tmdb.createImageUrl(imgUrl, ORIGINAL_SIZE));
                         movie.setValue(Movie._Y_PICTUREBACK, new DcImageIcon(img));
                         break;
                     default:
@@ -163,7 +163,7 @@ public class TmdbMovieSearch extends SearchTask {
                         && DcModules.get(DcModules._MOVIE).getSettings().getBoolean(DcRepository.ModuleSettings.stOnlineSearchSubItems)
                         && !CoreUtilities.isEmpty(pc.getArtworkPath())) {
 
-                    imgUrl = tmdb.createImageUrl(pc.getArtworkPath(), ORIGNAL_SIZE);
+                    imgUrl = tmdb.createImageUrl(pc.getArtworkPath(), ORIGINAL_SIZE);
                     img = HttpConnectionUtil.retrieveBytes(imgUrl);
                     dco.setValue(DcAssociate._D_PHOTO, new DcImageIcon(img));
                 }
@@ -187,7 +187,7 @@ public class TmdbMovieSearch extends SearchTask {
                             && DcModules.get(DcModules._MOVIE).getSettings().getBoolean(DcRepository.ModuleSettings.stOnlineSearchSubItems)
                             && !CoreUtilities.isEmpty(pc.getArtworkPath())) {
 
-                        imgUrl = tmdb.createImageUrl(pc.getArtworkPath(), ORIGNAL_SIZE);
+                        imgUrl = tmdb.createImageUrl(pc.getArtworkPath(), ORIGINAL_SIZE);
                         img = HttpConnectionUtil.retrieveBytes(imgUrl);
                         dco.setValue(DcAssociate._D_PHOTO, new DcImageIcon(img));
                     }
