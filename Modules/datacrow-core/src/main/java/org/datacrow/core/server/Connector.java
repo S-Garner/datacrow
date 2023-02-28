@@ -112,10 +112,10 @@ public abstract class Connector {
 		return password;
 	}
 	
-   public IPollerTask getPollerTask(Thread thread, String title) {
+    public IPollerTask getPollerTask(Thread thread, String title) {
         return null;
     }
-	
+    
 	public abstract void deleteModule(int moduleIdx);
 	
 	public abstract ServerModulesRequestResponse getModules();

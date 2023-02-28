@@ -40,10 +40,7 @@ public class ServerValueEnhancersRequestResponse extends ServerResponse {
 
 	public ServerValueEnhancersRequestResponse() {
 	    super(_RESPONSE_VALUE_ENHANCERS);
-	    
 	    enhancers = new HashMap<DcField, Collection<IValueEnhancer>>();
-	    // ignore these for now - enhancers are supplied by the fields and cannot be defined by server clients
-	    // enhancers = ValueEnhancers.getEnhancers();
 	}
 
     public Map<DcField, Collection<IValueEnhancer>> getEnhancers() {

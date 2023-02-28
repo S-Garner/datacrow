@@ -26,7 +26,6 @@
 package org.datacrow.client.connector;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.security.LoginDialog;
 import org.datacrow.client.tabs.Tabs;
@@ -43,6 +42,7 @@ import org.datacrow.core.filerenamer.FilePatterns;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.modules.upgrade.ModuleUpgrade;
+import org.datacrow.core.modules.upgrade.ModuleUpgradeResult;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.settings.DcSettings;
@@ -103,9 +103,11 @@ public class DirectConnector extends LocalServerConnector {
 	@Override
 	public void initialize() {
 	    try {	        
-	        new ModuleUpgrade().upgrade();
-			DcModules.load();
 
+	    	ModuleUpgradeResult mur = new ModuleUpgrade().upgrade();
+			DcModules.load();
+			DcModules.updateModuleSetting(mur);
+			
 			DcSettings.initialize();
 			
             DcSettings.set(DcRepository.Settings.stConnectionString, "dc");
@@ -120,9 +122,7 @@ public class DirectConnector extends LocalServerConnector {
 			}
 			
 			SecurityCenter.getInstance().initialize();
-	        login(getUsername(), getPassword());
-
-	        
+	        login(getUsername(), getPassword());	        
 	        
 	        DatabaseManager.getInstance().initialize();
 	        

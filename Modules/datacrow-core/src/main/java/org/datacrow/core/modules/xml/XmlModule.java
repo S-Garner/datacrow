@@ -36,11 +36,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.logging.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.modules.DcAssociateModule;
@@ -57,6 +52,10 @@ import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcProperty;
 import org.datacrow.core.utilities.XMLParser;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 /**
  * A XML representation of a module.
@@ -203,7 +202,7 @@ public class XmlModule extends XmlObject {
         return changed;
     }
     
-    /**
+	/**
      * Parses the provided XML byte content.
      * @param xml
      * @throws InvalidModuleXmlException

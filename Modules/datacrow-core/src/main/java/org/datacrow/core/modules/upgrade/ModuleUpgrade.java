@@ -77,8 +77,10 @@ public class ModuleUpgrade extends XmlObject {
         return xml;
     }
     
-    public void upgrade() throws ModuleUpgradeException {
+    public ModuleUpgradeResult upgrade() throws ModuleUpgradeException {
         removeDuplicates();
+        
+        ModuleUpgradeResult results = new ModuleUpgradeResult();
         
         File dir = new File(DcConfig.getInstance().getInstallationDir(), "upgrade");
         add = new File(dir, "add.xml");
@@ -88,10 +90,10 @@ public class ModuleUpgrade extends XmlObject {
         try {
             
             if (remove.exists())
-                remove();
+                remove(results);
             
             if (add.exists())
-                add();
+                add(results);
             
             if (alter.exists())
                 alter();
@@ -99,6 +101,8 @@ public class ModuleUpgrade extends XmlObject {
         } catch (Exception exp) {
             throw new ModuleUpgradeException(exp);
         }
+        
+        return results;
     }
 
     private void save(XmlModule module, String filename) throws Exception {
@@ -115,7 +119,7 @@ public class ModuleUpgrade extends XmlObject {
         return null;
     }
     
-    private void add() throws Exception {
+    private void add(ModuleUpgradeResult results) throws Exception {
         Document document = read(add);
         
         Element element = document.getDocumentElement();
@@ -148,14 +152,15 @@ public class ModuleUpgrade extends XmlObject {
                 if (getField(field.getIndex(), xmlModule.getFields()) == null) {
                     xmlModule.getFields().add(field);
                     logger.info(DcResources.getText("msgUpgradedModuleXAdded", 
-                                new String[]{xmlModule.getName(), field.getName()}));                    
+                                new String[]{xmlModule.getName(), field.getName()}));
+                    
+                    results.addAddedField(xmlModule.getIndex(), field.getIndex());
                 }
             }
-            
             save(xmlModule, jarfile);
         }
     }
-
+    
     private void alter() throws Exception {
         Document document = read(alter);
         
@@ -211,7 +216,7 @@ public class ModuleUpgrade extends XmlObject {
         }        
     }
 
-    private void remove() throws Exception {
+    private void remove(ModuleUpgradeResult results) throws Exception {
         Document document = read(remove);
         
         Element element = document.getDocumentElement();
@@ -246,6 +251,8 @@ public class ModuleUpgrade extends XmlObject {
                     xmlModule.getFields().remove(fieldOrg);
                     logger.info(DcResources.getText("msgUpgradedModuleXRemoved", 
                                  new String[]{xmlModule.getName(), fieldOrg.getName()}));
+                    
+                    results.addRemovedField(xmlModule.getIndex(), fieldOrg.getIndex());
                 }
             }
             

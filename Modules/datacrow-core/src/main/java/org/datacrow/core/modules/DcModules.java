@@ -44,6 +44,7 @@ import org.datacrow.core.migration.itemimport.CsvImporter;
 import org.datacrow.core.migration.itemimport.ItemImporterHelper;
 import org.datacrow.core.modules.security.PermissionModule;
 import org.datacrow.core.modules.security.UserModule;
+import org.datacrow.core.modules.upgrade.ModuleUpgradeResult;
 import org.datacrow.core.modules.xml.XmlModule;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
@@ -132,11 +133,10 @@ public class DcModules implements Serializable {
      */
     public static void load() throws ModuleUpgradeException, InvalidModuleXmlException, ModuleJarException {
     	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
-
             // retrieve modules from server
             Connector conn = DcConfig.getInstance().getConnector();
             ServerModulesRequestResponse moduleResponse = conn.getModules();
-
+            
 	        propertyBaseModules.clear();
 	        modules.clear();
 	        
@@ -176,6 +176,14 @@ public class DcModules implements Serializable {
 	        loadSystemModules();
 	        loadModuleJars();
     	}
+    }
+    
+    /**
+     * Updates settings based on removed / added fields (based on the system upgrade)
+     */
+    public static void updateModuleSetting(ModuleUpgradeResult mur) {
+    	for (DcModule m : getAllModules())
+    		m.updateSettings(mur);
     }
     
     public static boolean isTopModule(int moduleIdx) {

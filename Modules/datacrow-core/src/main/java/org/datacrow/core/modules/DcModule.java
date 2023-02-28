@@ -44,6 +44,7 @@ import org.datacrow.core.console.IMasterView;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.modules.upgrade.ModuleUpgradeResult;
 import org.datacrow.core.modules.xml.XmlField;
 import org.datacrow.core.modules.xml.XmlModule;
 import org.datacrow.core.objects.DcAssociate;
@@ -1127,7 +1128,6 @@ public class DcModule implements Comparable<DcModule>, Serializable {
                 addField(getField(DcObject._SYS_LOANSTATUSDAYS));
                 addField(getField(DcObject._SYS_LOANSTARTDATE));
                 addField(getField(DcObject._SYS_LOANENDDATE));
-//                addField(getField(DcObject._SYS_LOANALLOWED));
             }
             addField(getField(DcObject._SYS_MODULE));
         } catch (Exception e) {
@@ -1386,5 +1386,27 @@ public class DcModule implements Comparable<DcModule>, Serializable {
             if (getTemplateModule() != null)
                 getTemplateModule().delete();
         }
+    }
+    
+    public void updateSettings(ModuleUpgradeResult mur) {
+		boolean changed = false;
+		for (int fieldIdx : getFieldIndices())
+			changed |= (mur.isAdded(getIndex(), fieldIdx) || mur.isRemoved(getIndex(), fieldIdx));
+
+		if (changed) {
+			settings.addIntsToIntArray(
+					DcRepository.ModuleSettings.stOnlineSearchFieldOverwriteSettings, 
+					mur.getAddedFields(getIndex()));
+			settings.addIntsToIntArray(
+					DcRepository.ModuleSettings.stOnlineSearchRetrievedFields, 
+					mur.getAddedFields(getIndex()));
+			
+			settings.removeIntsFromIntArray(
+					DcRepository.ModuleSettings.stOnlineSearchFieldOverwriteSettings, 
+					mur.getRemovedFields(getIndex()));
+			settings.removeIntsFromIntArray(
+					DcRepository.ModuleSettings.stOnlineSearchRetrievedFields, 
+					mur.getRemovedFields(getIndex()));			
+		}
     }
 }

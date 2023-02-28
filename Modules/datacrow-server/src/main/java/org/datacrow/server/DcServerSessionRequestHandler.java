@@ -185,7 +185,7 @@ public class DcServerSessionRequestHandler extends Thread {
             case ClientRequest._REQUEST_VALUE_ENHANCERS_SETTINGS:
                 sr = processValueEnhancersRequest((ClientRequestValueEnhancers) cr);
                 break;
-            case ClientRequest._USER_MGT:
+            case ClientRequest._REQUEST_USER_MGT:
                 sr = processUserManagementAction((ClientRequestUser) cr);
                 break;
             case ClientRequest._REQUEST_MODULE_SETTINGS:

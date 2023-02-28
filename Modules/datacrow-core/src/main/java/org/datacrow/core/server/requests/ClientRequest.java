@@ -37,7 +37,7 @@ public class ClientRequest implements Serializable, IClientRequest {
 	public static final int _REQUEST_ITEMS = 1;
 	public static final int _REQUEST_ITEM = 2;
 	public static final int _REQUEST_ITEM_KEYS = 3;
-	public static final int _USER_MGT = 4;
+	public static final int _REQUEST_USER_MGT = 4;
 	public static final int _REQUEST_EXECUTE_SQL = 5;
 	public static final int _REQUEST_ITEM_ACTION = 6;
 	public static final int _REQUEST_SIMPLE_VALUES = 7;

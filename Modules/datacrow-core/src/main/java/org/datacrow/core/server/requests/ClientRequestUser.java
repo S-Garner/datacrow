@@ -42,7 +42,7 @@ public class ClientRequestUser extends ClientRequest {
 	private String password;
 	
 	public ClientRequestUser(int actionType, SecuredUser su, User user, String password) {
-		super(ClientRequest._USER_MGT, su);
+		super(ClientRequest._REQUEST_USER_MGT, su);
 		
 		this.actionType = actionType;
 		this.user = user;
