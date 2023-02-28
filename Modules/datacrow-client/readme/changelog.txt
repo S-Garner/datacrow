@@ -22,6 +22,9 @@ TODO:
   children of the selected container.
 - Small performance increase for the MobyGames.com search.
 - Added two new fields to the Book module: translated from & original title
+- Small changes to the overall layout; update the module selection bar, removed line around
+  the main menu, increased spacing for many of the components.
+- Better spacing of long texts in the quick view.
   
 [Fixed]
 - Errors for Data Crow client in case the server was not responding when logging on.
