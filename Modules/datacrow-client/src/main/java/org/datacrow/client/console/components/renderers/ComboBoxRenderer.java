@@ -33,8 +33,10 @@ import javax.swing.ListCellRenderer;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcLabel;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.settings.DcSettings;
 
 public class ComboBoxRenderer extends DcLabel implements ListCellRenderer<Object> {
     
@@ -50,6 +52,12 @@ public class ComboBoxRenderer extends DcLabel implements ListCellRenderer<Object
         return instance;
     }    
     
+    private int getPreferredHeight() {
+        int height = DcSettings.getInt(DcRepository.Settings.stIconSize);
+        height = height < ComponentFactory.getPreferredFieldHeight() ? ComponentFactory.getPreferredFieldHeight() : height;
+        return height;
+    }
+    
     @Override
     public Component getListCellRendererComponent(
                                        JList<?> list,
@@ -58,8 +66,8 @@ public class ComboBoxRenderer extends DcLabel implements ListCellRenderer<Object
                                        boolean isSelected,
                                        boolean cellHasFocus) {
         
-    	setMinimumSize(new Dimension(100, ComponentFactory.getPreferredFieldHeight()));
-    	setPreferredSize(new Dimension(100, ComponentFactory.getPreferredFieldHeight()));
+    	setMinimumSize(new Dimension(100, getPreferredHeight()));
+    	setPreferredSize(new Dimension(100, getPreferredHeight()));
     	
     	setFont(ComponentFactory.getStandardFont());
     	

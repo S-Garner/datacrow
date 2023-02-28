@@ -823,7 +823,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                 if (component instanceof DcCheckBox)
                     ((DcCheckBox) component).setText("");
 
-                space = y == 0 ? 2 : 0; 
+                space = 2; 
                 panel.add(label,     Layout.getGBC(0, y, 1, 1, 1.0, 1.0
                         ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                          new Insets(space, 2, 2, 5), 0, 0));

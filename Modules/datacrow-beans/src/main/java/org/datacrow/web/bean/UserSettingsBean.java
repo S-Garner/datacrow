@@ -26,6 +26,8 @@
 package org.datacrow.web.bean;
 
 import org.apache.logging.log4j.Level;
+import org.datacrow.core.DcRepository;
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.web.DcBean;
 import org.datacrow.web.model.Module;
 import org.datacrow.web.model.UserSettings;
@@ -60,6 +62,10 @@ public class UserSettingsBean extends DcBean {
         }
             
         return rows;
+    }
+    
+    public int getIconSize() {
+    	return DcSettings.getInt(DcRepository.Settings.stIconSize);
     }
     
     public int getOverviewNumberOfColumns() {

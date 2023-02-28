@@ -23,77 +23,64 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.client.console.components.lists.elements;
+package org.datacrow.client.console.components;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.util.ArrayList;
-import java.util.Collection;
+public class DcIconSizeComboBox extends DcComboBox {
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import org.datacrow.core.DcRepository;
-import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.DcProperty;
-import org.datacrow.core.objects.Picture;
-import org.datacrow.core.settings.DcSettings;
-
-public class DcPropertyListElement extends DcObjectListElement {
-
-	private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
-    private JPanel panelInfo;
-
-    public DcPropertyListElement(int module) {
-        super(module);
-    }
-    
-    @Override
-    public void setBackground(Color color) {
-        super.setBackground(color);
-        if (panelInfo != null)
-            panelInfo.setBackground(color);
-    }     
-    
-    @Override
-    public Collection<Picture> getPictures() {
-        return new ArrayList<Picture>();
-    }
-    
-    @Override
-    public void setDcObject(DcObject dco) {
-        super.setDcObject(dco);
-        build();
-    }
-    
-    @Override
-    public int[] getFields() {
-    	return new int[] {DcObject._ID, DcProperty._A_NAME, DcProperty._B_ICON};
-    }
-
-    @Override
-    public void build() {
-        setLayout(layout);
-        panelInfo = getPanel();
-        JLabel label = getLabel(DcProperty._A_NAME, false, 800);
-
-        if (dco.getValue(DcProperty._B_ICON) != null)
-            label.setIcon(dco.getIcon());
+	public DcIconSizeComboBox() {
+        super();
         
-        panelInfo.add(label);
-        
-        int height = DcSettings.getInt(DcRepository.Settings.stIconSize);
-        height = height < fieldHeight ? fieldHeight : height;
-        
-        label.setPreferredSize(new Dimension(800, height));
-        panelInfo.setPreferredSize(new Dimension(800, height));
-        add(panelInfo);
-    } 
+        addItem(new IconSize(Long.valueOf(8), "8 * 8"));
+        addItem(new IconSize(Long.valueOf(16), "16 * 16"));
+        addItem(new IconSize(Long.valueOf(32), "32 * 32"));
+        addItem(new IconSize(Long.valueOf(64), "64 * 64"));
+//        addItem(new IconSize(Long.valueOf(128), "128 * 128"));
+//        addItem(new IconSize(Long.valueOf(256), "256 * 256"));
+//        addItem(new IconSize(Long.valueOf(512), "512 * 512"));
+    }
     
-	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-		panelInfo = null;
-	}
+    @Override
+    public void setValue(Object value) {
+        if (value == null) return;
+        
+        if (value instanceof IconSize) {
+            setSelectedItem(value);
+        } else {
+        	IconSize is;
+            for (int i = 0; i < getItemCount(); i++) {
+                is = (IconSize) getItemAt(i);
+                if (is.getSize().equals(value)) {
+                    setSelectedIndex(i);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public Object getValue() {
+    	IconSize is = (IconSize) getSelectedItem();
+        return is.getSize();
+    }
+    
+    private class IconSize {
+    
+        private Long size;
+        private String name;
+        
+        public IconSize(long size, String name) {
+        	this.size = size;
+        	this.name = name;
+        }
+        
+        public Long getSize() {
+            return size;
+        }
+        
+        public String toString() {
+            return name;
+        }
+    }
 }
+
+    

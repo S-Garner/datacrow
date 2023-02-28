@@ -43,6 +43,7 @@ import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.data.DcIconCache;
 import org.datacrow.core.objects.DcLookAndFeel;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
@@ -53,6 +54,7 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
     private DcComboBox cbButtonHeight = ComponentFactory.getComboBox();
     private DcComboBox cbTreeNodeHeight = ComponentFactory.getComboBox();
     private DcComboBox cbTableRowHeight = ComponentFactory.getComboBox();
+    private DcComboBox cbIconSize = ComponentFactory.getIconSizeCombo();
     
     private JCheckBox checkNoLF = ComponentFactory.getCheckBox(DcResources.getText("lblNoLF"));
     private JCheckBox checkSystemLF = ComponentFactory.getCheckBox(DcResources.getText("lblLaf"));
@@ -120,6 +122,7 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
         cbButtonHeight.setSelectedItem(Long.valueOf(DcSettings.getInt(DcRepository.Settings.stButtonHeight)));
         cbTreeNodeHeight.setSelectedItem(Long.valueOf(DcSettings.getInt(DcRepository.Settings.stTreeNodeHeight)));
         cbTableRowHeight.setSelectedItem(Long.valueOf(DcSettings.getInt(DcRepository.Settings.stTableRowHeight)));
+        cbIconSize.setValue(DcSettings.getLong(DcRepository.Settings.stIconSize));
         
         applyModus = true;
     }
@@ -144,6 +147,7 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
         cbFieldHeight.setEnabled(b);
         cbTreeNodeHeight.setEnabled(b);
         cbTableRowHeight.setEnabled(b);
+        cbIconSize.setEnabled(b);
     }
     
     /**
@@ -152,7 +156,7 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
     private void buildComponent() {
         setLayout(Layout.getGBL());
         
-        for (int i = 20; i < 50; i++) {
+        for (int i = 20; i < 65; i++) {
             cbFieldHeight.addItem(Long.valueOf(i));
             cbButtonHeight.addItem(Long.valueOf(i));
             cbTableRowHeight.addItem(Long.valueOf(i));
@@ -175,6 +179,10 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
         cbTreeNodeHeight.setActionCommand("applyTreeNodeHeight");
         cbTreeNodeHeight.setToolTipText(DcResources.getText("tpTreeNodeHeight"));
         
+        cbIconSize.addActionListener(this);
+        cbIconSize.setActionCommand("applyIconSize");
+        
+        DcLabel lblIconSize = ComponentFactory.getLabel(DcResources.getText("lblIconSize"));
         DcLabel lblTableRowHeight = ComponentFactory.getLabel(DcResources.getText("lblTableRowHeight"));
         DcLabel lblTreeNodeHeight = ComponentFactory.getLabel(DcResources.getText("lblTreeNodeHeight"));
         DcLabel lblFieldHeight = ComponentFactory.getLabel(DcResources.getText("lblInputFieldHeight"));
@@ -219,7 +227,13 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
                  new Insets( 0, 0, 0, 0), 0, 0));
         add(cbTreeNodeHeight, Layout.getGBC( 1, 6, 1, 1, 1.0, 1.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                 new Insets( 0, 0, 0, 0), 0, 0));         
+                 new Insets( 0, 0, 0, 0), 0, 0));
+        add(lblIconSize,Layout.getGBC( 0, 7, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+                 new Insets( 0, 0, 0, 0), 0, 0));
+        add(cbIconSize, Layout.getGBC( 1, 7, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                 new Insets( 0, 0, 0, 0), 0, 0));  
     }
     
     public static class FontStyle {
@@ -302,6 +316,16 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
         } else if (ae.getActionCommand().equals("applyTableRowHeight")) {
             Long value = (Long) cbTableRowHeight.getSelectedItem();
             if (value != null) DcSettings.set(DcRepository.Settings.stTableRowHeight, value);
+        } else if (ae.getActionCommand().equals("applyIconSize")) {
+            Long value = (Long) cbIconSize.getValue();
+            if (value != null && !value.equals(DcSettings.getLong(DcRepository.Settings.stIconSize))) {
+            	DcSettings.set(DcRepository.Settings.stIconSize, value);
+            	
+            	if (value.intValue() > ((Long) cbTreeNodeHeight.getSelectedItem()).intValue())
+            		cbTreeNodeHeight.setSelectedItem(value);
+            	
+            	DcIconCache.getInstance().reload();
+            }
         } else {
             applyLAF();
         }

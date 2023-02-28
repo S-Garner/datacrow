@@ -38,7 +38,9 @@ import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.renderers.ComboBoxRenderer;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.settings.DcSettings;
 
 public class DcComboBox extends JComboBox<Object> implements IComponent {
 
@@ -46,9 +48,9 @@ public class DcComboBox extends JComboBox<Object> implements IComponent {
     
     public DcComboBox(DefaultComboBoxModel<Object> model) {
         super(model);
-         
-        setMinimumSize(new Dimension(100, ComponentFactory.getPreferredFieldHeight()));
-        setPreferredSize(new Dimension(100, ComponentFactory.getPreferredFieldHeight()));
+        
+        setMinimumSize(new Dimension(100, getPreferredHeight()));
+        setPreferredSize(new Dimension(100, getPreferredHeight()));
         setRenderer(ComboBoxRenderer.getInstance());
         ComponentFactory.setBorder(this);
     }
@@ -56,8 +58,8 @@ public class DcComboBox extends JComboBox<Object> implements IComponent {
     public DcComboBox(Object[] items) {
         super(items);
         
-        setMinimumSize(new Dimension(100, ComponentFactory.getPreferredFieldHeight()));
-        setPreferredSize(new Dimension(100, ComponentFactory.getPreferredFieldHeight()));
+        setMinimumSize(new Dimension(100, getPreferredHeight()));
+        setPreferredSize(new Dimension(100, getPreferredHeight()));
         setRenderer(ComboBoxRenderer.getInstance());
         setEditor(new DcComboBoxEditor());
         ComponentFactory.setBorder(this);
@@ -66,12 +68,18 @@ public class DcComboBox extends JComboBox<Object> implements IComponent {
     public DcComboBox() {
         super();
         
-        setMinimumSize(new Dimension(100, ComponentFactory.getPreferredFieldHeight()));
-        setPreferredSize(new Dimension(100, ComponentFactory.getPreferredFieldHeight()));
+        setMinimumSize(new Dimension(100, getPreferredHeight()));
+        setPreferredSize(new Dimension(100, getPreferredHeight()));
         ComponentFactory.setBorder(this);
         setRenderer(ComboBoxRenderer.getInstance());
         setEditor(new DcComboBoxEditor());
         ComponentFactory.setBorder(this);
+    }
+    
+    private int getPreferredHeight() {
+        int height = DcSettings.getInt(DcRepository.Settings.stIconSize);
+        height = height < ComponentFactory.getPreferredFieldHeight() ? ComponentFactory.getPreferredFieldHeight() : height;
+        return height;
     }
     
     @Override

@@ -55,8 +55,14 @@ public class DcIconCache {
 	public void initialize() {
         for (String file : new File(DcConfig.getInstance().getIconsDir()).list()) {
         	if (new File(DcConfig.getInstance().getIconsDir(), file).isFile())
-        		icons.put(file.substring(0, file.length() - 4), new DcImageIcon(DcConfig.getInstance().getIconsDir() + file));
+        		icons.put(file.substring(0, file.length() - 4), 
+        				  new DcImageIcon(DcConfig.getInstance().getIconsDir() + file).toIcon());
         }
+	}
+	
+	public void reload() {
+		icons.clear();
+		initialize();
 	}
 	
     public DcImageIcon addIcon(String ID, String base64) {
@@ -77,7 +83,7 @@ public class DcIconCache {
         
         // re-load image if necessary
         if (icon != null) {
-            icons.put(ID, icon);
+            icons.put(ID, icon.toIcon());
             icon.setImage(icon.getImage());
         }
         

@@ -65,5 +65,6 @@ public class UIComponents {
     public static final int _SIMPLEREFERENCESFIELD = 37;    
     public static final int _TAGFIELD = 38;
     public static final int _DATEFOMATCOMBO = 39;
+    public static final int _ICONSIZECOMBO = 40;
     
 }

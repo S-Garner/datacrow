@@ -75,7 +75,6 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.components.AwsKeyRequestDialog;
 import org.datacrow.client.console.components.DcButton;
 import org.datacrow.client.console.components.DcCheckBox;
@@ -95,6 +94,7 @@ import org.datacrow.client.console.components.DcFontRenderingComboBox;
 import org.datacrow.client.console.components.DcFontSelector;
 import org.datacrow.client.console.components.DcHtmlEditorPane;
 import org.datacrow.client.console.components.DcIconSelectField;
+import org.datacrow.client.console.components.DcIconSizeComboBox;
 import org.datacrow.client.console.components.DcImageLabel;
 import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.client.console.components.DcLoginNameField;
@@ -414,6 +414,8 @@ public final class ComponentFactory extends UIComponents {
                 return getSimpleReferencesField(DcModules.getMappingModIdx(majormodule, minormodule, fieldIdx));
             case _DATEFOMATCOMBO:
                 return getDateFormatCombo();
+            case _ICONSIZECOMBO:
+                return getIconSizeCombo();                
             default:
                 return getShortTextField(maxTextLength);
         }
@@ -500,6 +502,10 @@ public final class ComponentFactory extends UIComponents {
 
     public static final JComboBox<Object> getFontRenderingCombo() {
         return new DcFontRenderingComboBox();
+    }
+    
+    public static final DcIconSizeComboBox getIconSizeCombo() {
+        return new DcIconSizeComboBox();
     }
 
     public static final JComboBox<Object> getDateFormatCombo() {

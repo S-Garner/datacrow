@@ -35,7 +35,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.components.panels.tree.NodeElement;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
@@ -73,8 +72,3 @@ public class DcTreeRenderer extends DefaultTreeCellRenderer {
         return this;
     }
 }
-
-
-
-
-

@@ -111,6 +111,8 @@ public class OpenLibrarySearch extends SearchTask {
 		setPublishers(item, dco);
 		setTranslatedFrom(item, dco);
 		setYear(item, dco);
+		
+		dco.setValue(Book._H_WEBPAGE, "https://openlibrary.org" + key);
 
 		if (item.containsKey("number_of_pages"))
 			dco.setValue(Book._T_NROFPAGES, item.get("number_of_pages"));

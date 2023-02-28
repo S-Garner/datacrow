@@ -600,7 +600,18 @@ public class DcApplicationSettings extends Settings {
                             "",
                             "lblLookAndFeel",
                             false,
-                            false, -1));        
+                            false, -1));
+        
+        
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._LONG,
+                            DcRepository.Settings.stIconSize,
+                            Long.valueOf(16),
+                            UIComponents._ICONSIZECOMBO,
+                            "",
+                            "lblLookAndFeel",
+                            false,
+                            false, -1));
         addSetting(_HTTP,
                 new Setting(DcRepository.ValueTypes._STRING,
                             DcRepository.Settings.stProxyServerName,

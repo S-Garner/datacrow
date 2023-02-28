@@ -32,7 +32,9 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 
 import org.apache.logging.log4j.Logger;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class DcImageIcon extends ImageIcon {
@@ -50,6 +52,11 @@ public class DcImageIcon extends ImageIcon {
 	
     public DcImageIcon() {
         super();
+    }
+    
+    public DcImageIcon toIcon() {
+		int size = DcSettings.getInt(DcRepository.Settings.stIconSize);
+    	return new DcImageIcon(CoreUtilities.getScaledImage(this, size, size));
     }
     
     public DcImageIcon(File file) {

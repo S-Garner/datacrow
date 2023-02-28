@@ -319,7 +319,6 @@ public class OnlineServicePanel extends JPanel implements ActionListener, KeyLis
             panelServers.add(btServerSettings, Layout.getGBC( 1, 0, 1, 1, 1.0, 10.0
                     ,GridBagConstraints.EAST, GridBagConstraints.NONE,
                      new Insets(5, 0, 5, 0), 0, 0));
-        
 
         // main panel
         add(labelServer,  Layout.getGBC( 0, 2, 1, 1, 1.0, 1.0
@@ -334,7 +333,7 @@ public class OnlineServicePanel extends JPanel implements ActionListener, KeyLis
         add(buttonSearch, Layout.getGBC( 3, 2, 1, 1, 1.0, 1.0
                          ,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
                           new Insets(5, 5, 5, 5), 0, 0));
-        add(buttonStop,   Layout.getGBC(4, 2, 1, 1, 1.0, 1.0
+        add(buttonStop,   Layout.getGBC( 4, 2, 1, 1, 1.0, 1.0
                          ,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
                           new Insets(5, 5, 5, 5), 0, 0));      
     }

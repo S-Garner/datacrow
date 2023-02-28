@@ -56,7 +56,7 @@ public class NodeElement {
     }
     
     public void setIcon(DcImageIcon icon) {
-        this.icon = icon != null ? new DcImageIcon(icon.getBytes()) : icon;
+        this.icon = icon != null ? new DcImageIcon(icon.getBytes()).toIcon() : icon;
     }
     
     public void addItem(String item, Integer moduleIdx) {

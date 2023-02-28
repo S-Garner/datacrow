@@ -87,7 +87,7 @@ public class PictureBean extends DcBean {
 
             if (isIcon) {
                 fileSmall = fileLarge;
-                Image image = CoreUtilities.getScaledImage((byte[]) p.getContents(), 16, 16);
+                Image image = CoreUtilities.getScaledImage((byte[]) p.getContents(), 512, 512);
                 byte[] bytes = CoreUtilities.getBytes(new DcImageIcon(image));
                 CoreUtilities.writeToFile(bytes, fileLarge);
             } else {

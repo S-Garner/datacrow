@@ -3,10 +3,13 @@ Data Crow version 4.7.0                                            Released on 2
 -----------------------------------------------------------------------------------------
 
 TODO:
-- Make sure new fields are ticked for the online search.
+- Translate new fields
+- lblIconSize
+
 
 [New]
-- Archive.org software online search.
+- Archive.org software online book, software and movie search.
+- Open Library (openlibrary.org) online book search.
 - Added a new Look and Feel: FlatLaf Light. This is a more modern Look and Feel which is
   still actively developed (https://www.formdev.com/flatlaf/)
   This will be the default Look and Feel for Data Crow from now on (for new installations).
@@ -25,6 +28,12 @@ TODO:
 - Small changes to the overall layout; update the module selection bar, removed line around
   the main menu, increased spacing for many of the components.
 - Better spacing of long texts in the quick view.
+- Icon size can now be changed: Settings > Look and Feel > Icon Size
+  Note that currently all icons as part of the Data Crow data are stored at a size of 16x16.
+  If you change an icon it will be stored at 512x512 (if the original size allows for it)
+  so it can adjust to any selected icon size.
+- Selecting clear for the online search will now only clear the results, not the search
+  terms.
   
 [Fixed]
 - Errors for Data Crow client in case the server was not responding when logging on.

@@ -345,6 +345,7 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
                 addNew(); 
                 stop();
                 clear();
+                panelService.setQuery("");
                 toFront();
             }
         }            
@@ -440,13 +441,9 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
     }
     
     private void clear() {
-        stop();
-        panelService.setQuery("");
-    	
         list.clear();
     	table.clear();
     	
-        updateProgressBar(0);
         items.clear();
         textLog.setText("");
         panelService.setFocus();
