@@ -29,7 +29,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.Insets;
-import java.net.URL;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -42,6 +41,8 @@ import org.datacrow.client.console.components.DcPictureField;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.utilities.CoreUtilities;
 
 public class AboutDialog extends DcDialog {
 
@@ -53,7 +54,7 @@ public class AboutDialog extends DcDialog {
         buildDialog();
 
         setTitle("");
-        Image img =IconLibrary._icoMain.getImage();
+        Image img = IconLibrary._icoMain.getImage();
         img.flush();
 
         setCenteredLocation();
@@ -71,7 +72,9 @@ public class AboutDialog extends DcDialog {
 
         DcPictureField about = ComponentFactory.getPictureField(false, false);
         try {
-            about.setValue(new URL("file://" + DcConfig.getInstance().getInstallationDir() + "icons/credits.png"));
+        	Image icon = CoreUtilities.getScaledImage(
+        			new DcImageIcon(DcConfig.getInstance().getInstallationDir() + "icons/credits.png"), 430, 430);
+            about.setValue(new DcImageIcon(icon));
             panelAbout.add(about, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
             GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
             new Insets(5, 5, 5, 5), 0, 0));

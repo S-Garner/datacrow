@@ -912,14 +912,6 @@ public final class ComponentFactory extends UIComponents {
         textField.setMinimumSize(new Dimension(50, getPreferredFieldHeight()));
         return textField;
     }
-
-    public static final DcShortTextField getISO9001ShortTextField(int maxTextLength) {
-        DcShortTextField textField = new DcShortTextField(maxTextLength);
-        textField.setFont(getStandardFont());
-        textField.setPreferredSize(new Dimension(50, getPreferredFieldHeight()));
-        textField.setMinimumSize(new Dimension(50, getPreferredFieldHeight()));
-        return textField;
-    }
     
     public static final DcShortTextField getTextFieldDisabled() {
         DcShortTextField textField = new DcShortTextField(4000);

@@ -241,7 +241,7 @@ public class DcApplicationSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._BOOLEAN,
                             DcRepository.Settings.stHighRenderingQuality,
-                            Boolean.FALSE,
+                            Boolean.TRUE,
                             UIComponents._CHECKBOX,
                             "",
                             "lblHighRenderingQuality",

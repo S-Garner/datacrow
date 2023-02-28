@@ -793,10 +793,10 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                         field.getFieldType() == ComponentFactory._TAGFIELD) {
                     
                     stretch = GridBagConstraints.BOTH;
-                    factor = 200;
+                    factor = 100;
 
                     longText = (JTextArea) component;
-                    longText.setMargin(new Insets(1, 1, 1, 5));
+                    longText.setMargin(new Insets(2, 1, 2, 5));
 
                     if (field.isReadOnly()) 
                         ComponentFactory.setUneditable(longText);
@@ -823,7 +823,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                 if (component instanceof DcCheckBox)
                     ((DcCheckBox) component).setText("");
 
-                space = y == 0 ? 5 : 0; 
+                space = y == 0 ? 2 : 0; 
                 panel.add(label,     Layout.getGBC(0, y, 1, 1, 1.0, 1.0
                         ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                          new Insets(space, 2, 2, 5), 0, 0));

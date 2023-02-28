@@ -25,15 +25,10 @@
 
 package org.datacrow.client.console.menu;
 
-import java.awt.Color;
 import java.util.Collection;
-
-import javax.swing.BorderFactory;
-import javax.swing.border.TitledBorder;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcMenu;
-import org.datacrow.client.console.components.DcTitledBorder;
 import org.datacrow.client.plugins.PluginHelper;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.IconLibrary;
@@ -58,10 +53,6 @@ public class MainFrameMenuBar extends org.datacrow.client.console.components.DcM
 
     public MainFrameMenuBar(DcModule module) {
         this.module = module;
-        
-        TitledBorder border = new DcTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1), "");
-        this.setBorder(border);
-        
     	build();
     }
     

@@ -198,10 +198,10 @@ public class FieldSelectionPanel extends JPanel implements KeyListener {
         panelFilter.add(ComponentFactory.getLabel(DcResources.getText("lblFilter")), 
                  Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                 new Insets( 0, 0, 0, 0), 0, 0));
+                 new Insets( 2, 0, 2, 0), 0, 0));
         panelFilter.add(txtFilter,     Layout.getGBC( 1, 0, 1, 1, 20.0, 20.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                 new Insets( 0, 0, 0, 0), 0, 0));
+                 new Insets( 2, 0, 2, 0), 0, 0));
         
         add(panelFilter,  Layout.getGBC( 0, 0, 2, 1, 1.0, 1.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
