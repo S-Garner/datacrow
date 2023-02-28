@@ -20,6 +20,8 @@ import org.datacrow.core.services.Region;
 import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.plugin.IServer;
+import org.datacrow.core.utilities.CoreUtilities;
+import org.datacrow.core.utilities.StringUtils;
 import org.datacrow.core.utilities.isbn.ISBN;
 import org.datacrow.core.utilities.isbn.InvalidBarCodeException;
 
@@ -107,22 +109,46 @@ public class OpenLibrarySearch extends SearchTask {
 		setTitle(item, dco);
 		setCover(item, olsr);
 		setPublishers(item, dco);
+		setTranslatedFrom(item, dco);
+		setYear(item, dco);
 
 		if (item.containsKey("number_of_pages"))
 			dco.setValue(Book._T_NROFPAGES, item.get("number_of_pages"));
+
+		if (item.containsKey("translation_of"))
+			dco.setValue(Book._X_ORIGINAL_TITLE, item.get("translation_of"));
 		
         // editions:
         // - physical_format (hardcover, etc)
         // - notes (description)
         // - series
-        // - copyright_date
-		// - publish_date
-        // - translation_of (original title)
         // - edition_name
-        // - translated_from -> new field
-        
-        // covers (where not -1): see https://openlibrary.org/books/OL38565767M.json
-        // - https://covers.openlibrary.org/b/id/12904717-L.jpg -> if not exists, use edition image. 
+    }
+    
+    private void setYear(Map<?, ?> item, DcObject dco) {
+    	String date = item.containsKey("publish_date") ? 
+    			(String) item.get("publish_date") : 
+    			(String) item.get("copyright_date");  
+    	
+    	if (!CoreUtilities.isEmpty(date)) {
+    		date = date.length() > 4 ? date.substring(0, 4) : date;
+    		
+    		if (StringUtils.getContainedNumber(date).length() == 4)
+    			dco.setValue(Book._C_YEAR, date);
+    	}
+    }
+    
+    private void setTranslatedFrom(Map<?, ?> item, DcObject dco) {
+    	String language;
+    	if (item.containsKey("translated_from")) {
+			Map<?, ?> values = (Map<?, ?>) ((ArrayList<?>) item.get("translated_from")).get(0);
+			language = (String) values.get("key");
+			language = language.substring(
+					language.lastIndexOf("/") > -1 ? language.lastIndexOf("/") + 1 : 0, language.length());
+
+			if (languages.containsKey(language))
+				dco.createReference(Book._Y_TRANSLATED_FROM, languages.get(language));
+		}    	
     }
 
     private void setPublishers(Map<?, ?> item, DcObject dco) {
