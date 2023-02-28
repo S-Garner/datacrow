@@ -80,6 +80,8 @@ import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.synchronizers.Synchronizers;
 import org.datacrow.core.utilities.CoreUtilities;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 /**
  * This is the starting point of the application.
  * 
@@ -457,6 +459,11 @@ public class DataCrow implements IStarterClient {
     }
 
     private void installLafs() {
+    	
+    	FlatLightLaf.setup();
+
+        UIManager.installLookAndFeel("FlatLaf Light",
+                "com.formdev.flatlaf.FlatLightLaf");    	
         UIManager.installLookAndFeel("JTattoo - Smart",
                 "com.jtattoo.plaf.smart.SmartLookAndFeel");
         UIManager.installLookAndFeel("JTattoo - Acryl",
@@ -479,6 +486,10 @@ public class DataCrow implements IStarterClient {
                 "com.jtattoo.plaf.mint.MintLookAndFeel");
         UIManager.installLookAndFeel("JTattoo - Luna",
                 "com.jtattoo.plaf.luna.LunaLookAndFeel");
+        UIManager.installLookAndFeel("JTattoo - Luna",
+                "com.jtattoo.plaf.luna.LunaLookAndFeel");
+        
+        
     }
 
     @Override

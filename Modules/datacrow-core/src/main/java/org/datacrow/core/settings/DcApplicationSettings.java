@@ -595,7 +595,7 @@ public class DcApplicationSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._LOOKANDFEEL,
                             DcRepository.Settings.stLookAndFeel,
-                            new DcLookAndFeel("JTattoo - Fast", "com.jtattoo.plaf.fast.FastLookAndFeel", null, 1),
+                            new DcLookAndFeel("FlatLaf Light", "com.formdev.flatlaf.FlatLightLaf", null, 1),
                             UIComponents._LOOKANDFEELSELECTOR,
                             "",
                             "lblLookAndFeel",

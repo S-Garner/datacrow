@@ -33,6 +33,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
@@ -260,5 +261,44 @@ public class Settings implements Serializable {
         o = o == null ? -1 : o;
         return o instanceof Integer ? ((Integer) o).intValue() :
                o instanceof Long ? ((Long) o).intValue() : 0;
+    }
+
+    public void addIntsToIntArray(String key, Collection<Integer> add) {
+    	
+    	if (add == null || add.size() == 0) return;
+    	
+    	List<Integer> current = new ArrayList<>();
+
+    	for (int fieldIdx : getIntArray(key))
+    		current.add(Integer.valueOf(fieldIdx));
+
+    	for (Integer fieldIdx : add) {
+    		if (!current.contains(fieldIdx))
+    			current.add(fieldIdx);
+    	}
+	
+    	int[] value = new int[current.size()];
+    	for (int i = 0; i < value.length; i++)
+    		value[i] = current.get(i).intValue();
+    	
+    	setValue(key, value);
+    }
+    
+    public void removeIntsFromIntArray(String key, Collection<Integer> remove) {
+    	
+    	if (remove == null || remove.size() == 0) return;
+    	
+    	List<Integer> cleaned = new ArrayList<>();
+
+    	for (int fieldIdx : getIntArray(key)) {
+    		if (!remove.contains(Integer.valueOf(fieldIdx)))
+    			cleaned.add(Integer.valueOf(fieldIdx));
+    	}
+	
+    	int[] value = new int[cleaned.size()];
+    	for (int i = 0; i < value.length; i++)
+    		value[i] = cleaned.get(i).intValue();
+    	
+    	setValue(key, value);
     }
 }
