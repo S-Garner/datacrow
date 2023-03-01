@@ -82,7 +82,19 @@ public class DcIconCache {
             icon.setImage(icon.getImage());
         }
         
-        return icon != null ? icon.toIcon() : null;
+        return getScaledIcon(icon);
+    }
+    
+    private DcImageIcon getScaledIcon(DcImageIcon icon) {
+    	
+    	if (icon == null) return null;
+    	
+    	String filename = icon.getFilename();
+    	
+    	DcImageIcon scaledIcon = icon.toIcon();
+    	scaledIcon.setFilename(filename);
+    	
+    	return scaledIcon;
     }
     
     public DcImageIcon getIcon(DcObject dco) {
@@ -121,7 +133,7 @@ public class DcIconCache {
         if (icon != null)
             icon.setImage(icon.getImage());
         
-        return icon != null ? icon.toIcon() : null;
+        return getScaledIcon(icon);
     }
     
     public void removeIcon(String ID) {
