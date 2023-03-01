@@ -27,9 +27,8 @@ package org.datacrow.client.console.components.panels.tree;
 
 import java.io.File;
 
-import javax.swing.ImageIcon;
-
 import org.datacrow.core.IconLibrary;
+import org.datacrow.core.objects.DcImageIcon;
 
 public class FileNodeElement extends NodeElement {
     
@@ -41,7 +40,7 @@ public class FileNodeElement extends NodeElement {
     }
 
     @Override
-    public ImageIcon getIcon() {
+    public DcImageIcon getIcon() {
     	if (file == null) {
     		return IconLibrary._icoOpen;
     	} else {

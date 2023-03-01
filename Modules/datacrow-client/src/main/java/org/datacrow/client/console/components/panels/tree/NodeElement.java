@@ -28,7 +28,7 @@ package org.datacrow.client.console.components.panels.tree;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.ImageIcon;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.datacrow.core.objects.DcImageIcon;
@@ -44,7 +44,7 @@ public class NodeElement {
     public NodeElement(Object key, String displayValue, DcImageIcon icon) {
         this.key = key;   
         this.displayValue = displayValue;
-        this.icon = icon != null ? new DcImageIcon(icon.getBytes()) : icon;
+        this.icon = icon != null ? icon.toIcon() : icon;
     }
     
     public void setKey(Object key) {
@@ -72,7 +72,7 @@ public class NodeElement {
         return items != null ? items.size() : 0;
     }
     
-    public ImageIcon getIcon() {
+    public DcImageIcon getIcon() {
         return icon;
     }
     

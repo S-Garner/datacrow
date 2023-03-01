@@ -25,7 +25,7 @@ Data Crow version 4.7.0                                            Released on 2
 - Better spacing of long texts in the quick view.
 - Icon size can now be changed: Settings > Look and Feel > Icon Size
   Note that currently all icons as part of the Data Crow data are stored at a size of 16x16.
-  If you change an icon it will be stored at 512x512 (if the original size allows for it)
+  If you change an icon it will be stored at 128*128 (if the original size allows for it)
   so it can adjust to any selected icon size.
 - Selecting clear for the online search will now only clear the results, not the search
   terms.
