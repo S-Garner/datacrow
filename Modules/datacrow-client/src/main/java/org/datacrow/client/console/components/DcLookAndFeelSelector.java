@@ -88,7 +88,9 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
         LookAndFeelInfo laf;
         for (int i = 0; i < lafs.length; i++) {
             laf = lafs[i];
-            if (laf.getName().toLowerCase().indexOf("nimbus") == -1)
+            if (	laf.getName().toLowerCase().indexOf("cde/motif") == -1 &&
+            		laf.getName().toLowerCase().indexOf("nimbus") == -1 &&
+            		laf.getName().toLowerCase().indexOf("windows classic") == -1)
                 comboSystemLF.addItem(new DcLookAndFeel(laf.getName(), laf.getClassName(), null, DcLookAndFeel._LAF));
         }
     }

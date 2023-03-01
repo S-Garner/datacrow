@@ -274,7 +274,7 @@ public class ModuleListPanel extends JPanel {
 
             mb.add(menu);
             add(mb, Layout.getGBC(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, 
-                    GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+                    GridBagConstraints.HORIZONTAL, new Insets(0, 0, -3, 0), 0, 0));
         }
         
         public void setModule(DcModule module) {
