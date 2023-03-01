@@ -316,6 +316,7 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
                                 public void run() {
                                     ItemForm itemForm = new ItemForm(false, false, o, true);
                                     itemForm.setVisible(true);
+                                    itemForm.toFront();
                                 }
                             }));
                 }

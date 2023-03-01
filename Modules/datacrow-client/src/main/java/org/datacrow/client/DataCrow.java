@@ -486,10 +486,6 @@ public class DataCrow implements IStarterClient {
                 "com.jtattoo.plaf.mint.MintLookAndFeel");
         UIManager.installLookAndFeel("JTattoo - Luna",
                 "com.jtattoo.plaf.luna.LunaLookAndFeel");
-        UIManager.installLookAndFeel("JTattoo - Luna",
-                "com.jtattoo.plaf.luna.LunaLookAndFeel");
-        
-        
     }
 
     @Override

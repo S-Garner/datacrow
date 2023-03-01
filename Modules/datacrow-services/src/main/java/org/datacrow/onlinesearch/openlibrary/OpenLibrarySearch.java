@@ -358,13 +358,30 @@ public class OpenLibrarySearch extends SearchTask {
         return result;
     }
     
-    private void setWorkInformation(Map<?, ?> work, OpenLibrarySearchResult olsr) {
+    private void setWorkInformation(Map<?, ?> work, OpenLibrarySearchResult olsr) throws Exception {
     	String key = (String) work.get("key");
     	olsr.setWorkId(key);
     	
     	DcObject dco = olsr.getDco();
     	
     	dco.setValue(DcMediaObject._A_TITLE, work.get("title"));
+    	
+    	if (work.containsKey("description")) {
+    		dco.setValue(DcMediaObject._B_DESCRIPTION, work.get("description"));
+    	} else {
+    		query = "https://openlibrary.org" + key + ".json";
+    		
+    		waitBetweenRequest();
+    		
+            HttpConnection conn = new HttpConnection(new URL(query), userAgent);
+            String json = conn.getString(StandardCharsets.UTF_8);
+            conn.close();
+       	 	
+            Map<?, ?> item = gson.fromJson(json, Map.class);
+            
+            if (item.containsKey("description"))
+        		dco.setValue(DcMediaObject._B_DESCRIPTION, item.get("description"));
+    	}
     	
     	if (work.containsKey("first_publish_year"))
     		dco.setValue(DcMediaObject._C_YEAR, work.get("first_publish_year"));

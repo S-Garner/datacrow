@@ -2,11 +2,6 @@
 Data Crow version 4.7.0                                            Released on 2023-03-xx
 -----------------------------------------------------------------------------------------
 
-TODO:
-- Translate new fields
-- lblIconSize
-
-
 [New]
 - Archive.org software online book, software and movie search.
 - Open Library (openlibrary.org) online book search.
@@ -34,6 +29,7 @@ TODO:
   so it can adjust to any selected icon size.
 - Selecting clear for the online search will now only clear the results, not the search
   terms.
+- Look and Feel: removed CDE/Motif and Windows Classic.
   
 [Fixed]
 - Errors for Data Crow client in case the server was not responding when logging on.
@@ -45,7 +41,10 @@ TODO:
 - Ratings for Mobygames.com online search were incorrect.
 - Errors when retrieving back covers when performing an online searching using 
   The Movie Database.
-
+- Fixed an issue with the module selection buttons where for some skins the selection
+  color overflowed.
+- Luna was shown twice as a Look and Feel in the dropdown.
+  
 
 -----------------------------------------------------------------------------------------
 Data Crow version 4.6.1                                            Released on 2023-02-12
