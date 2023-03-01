@@ -68,7 +68,6 @@ import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.AncestorListener;
 import javax.swing.filechooser.FileFilter;
@@ -869,7 +868,6 @@ public final class ComponentFactory extends UIComponents {
         longText.setWrapStyleWord(true);
         longText.setLineWrap(true);
         longText.setEditable(true);
-        longText.setMargin(new Insets(5,5,5,5));
         longText.setFont(getStandardFont());
         return longText;
     }
@@ -932,7 +930,7 @@ public final class ComponentFactory extends UIComponents {
     }
     
     public static final void setBorder(JComponent c) {
-        c.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+        //c.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
     }
     
     public static final DcShortTextField getIdFieldDisabled() {

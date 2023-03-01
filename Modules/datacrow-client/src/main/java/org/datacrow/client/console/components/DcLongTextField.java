@@ -29,15 +29,16 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 import javax.swing.JToolTip;
+import javax.swing.border.Border;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.actions.TextFieldActions;
 import org.datacrow.client.console.menu.DcEditorMouseListener;
@@ -57,6 +58,10 @@ public class DcLongTextField extends JTextArea implements ITextComponent, MouseL
         addMouseListener(new DcEditorMouseListener());
         setLineWrap(true);
         setEditable(true);
+        
+        Border border = getBorder();
+        setBorder(BorderFactory.createCompoundBorder(border,
+                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
     }
     
     public TextFieldActions getTextFieldActions() {

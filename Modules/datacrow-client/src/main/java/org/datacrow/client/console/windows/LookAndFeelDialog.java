@@ -67,7 +67,7 @@ public class LookAndFeelDialog extends DcDialog implements ActionListener  {
 
         pack();
         
-        setSize(new Dimension(400, 300));
+        setSize(new Dimension(550, 500));
         
         setCenteredLocation();
     }

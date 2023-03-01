@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------
-Data Crow version 4.7.0                                            Released on 2023-03-xx
+Data Crow version 4.7.0                                            Released on 2023-03-02
 -----------------------------------------------------------------------------------------
 
 [New]
@@ -45,6 +45,8 @@ Data Crow version 4.7.0                                            Released on 2
   color overflowed.
 - Luna was shown twice as a Look and Feel in the drop-down.
 - Aligned the quick view bottom with the other screen elements.
+- Incorrect text margins in various text and tag fields.
+- Fixed the disappearing border edges for fields when resizing various forms and dialogs.
 
 
 -----------------------------------------------------------------------------------------

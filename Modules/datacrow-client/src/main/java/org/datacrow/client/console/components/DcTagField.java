@@ -36,7 +36,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
+import javax.swing.border.Border;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -85,6 +87,10 @@ public class DcTagField extends JTextArea implements IComponent, KeyListener, Mo
         } catch (Exception e) {
             logger.error("Could not retrieve the current Tags", e);
         }
+        
+        Border border = getBorder();
+        setBorder(BorderFactory.createCompoundBorder(border,
+                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
     }
     
     @Override
@@ -171,15 +177,6 @@ public class DcTagField extends JTextArea implements IComponent, KeyListener, Mo
         
         return tags;
     }
-
-/*    private int getLastTagStart() {
-        String s = getText();
-        while (s.endsWith(separator)) 
-            s = s.substring(0, s.length() - 1);
-        
-        int idx = s.lastIndexOf(separator);
-        return idx == -1 ? 0 : idx;
-    } */
     
     private Collection<Point> getLocations() {
         String s = getText();

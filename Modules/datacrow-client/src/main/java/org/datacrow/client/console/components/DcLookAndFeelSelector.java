@@ -43,7 +43,6 @@ import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.core.DcRepository;
-import org.datacrow.core.data.DcIconCache;
 import org.datacrow.core.objects.DcLookAndFeel;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
@@ -158,7 +157,7 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
     private void buildComponent() {
         setLayout(Layout.getGBL());
         
-        for (int i = 20; i < 65; i++) {
+        for (int i = 20; i < 41; i++) {
             cbFieldHeight.addItem(Long.valueOf(i));
             cbButtonHeight.addItem(Long.valueOf(i));
             cbTableRowHeight.addItem(Long.valueOf(i));
@@ -322,11 +321,10 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
             Long value = (Long) cbIconSize.getValue();
             if (value != null && !value.equals(DcSettings.getLong(DcRepository.Settings.stIconSize))) {
             	DcSettings.set(DcRepository.Settings.stIconSize, value);
-            	
             	if (value.intValue() > ((Long) cbTreeNodeHeight.getSelectedItem()).intValue())
             		cbTreeNodeHeight.setSelectedItem(value);
-            	
-            	DcIconCache.getInstance().reload();
+            	if (value.intValue() > ((Long) cbFieldHeight.getSelectedItem()).intValue())
+            		cbFieldHeight.setSelectedItem(value);            	
             }
         } else {
             applyLAF();

@@ -33,10 +33,8 @@ public class DcIconSizeComboBox extends DcComboBox {
         addItem(new IconSize(Long.valueOf(8), "8 * 8"));
         addItem(new IconSize(Long.valueOf(16), "16 * 16"));
         addItem(new IconSize(Long.valueOf(32), "32 * 32"));
-        addItem(new IconSize(Long.valueOf(64), "64 * 64"));
-//        addItem(new IconSize(Long.valueOf(128), "128 * 128"));
-//        addItem(new IconSize(Long.valueOf(256), "256 * 256"));
-//        addItem(new IconSize(Long.valueOf(512), "512 * 512"));
+        addItem(new IconSize(Long.valueOf(36), "36 * 36"));
+        addItem(new IconSize(Long.valueOf(40), "40 * 40"));
     }
     
     @Override
