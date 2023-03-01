@@ -58,7 +58,7 @@ public class OpenLibrarySearch extends SearchTask {
         DcObject dco = olsr.getDco();
         
         if (checkLanguage(olsr)) {
-	    	setEditionData(olsr.getEditionData(), olsr);
+	    	setEditionInformation(olsr.getEditionData(), olsr);
 	        
 	        dco.addExternalReference(DcRepository.ExternalReferences._OPENLIBRARY, olsr.getEditionId());        		
 	        		
@@ -69,171 +69,6 @@ public class OpenLibrarySearch extends SearchTask {
         }
         
         return dco;
-    }
-    
-    private boolean checkLanguage(OpenLibrarySearchResult olsr) {
-    	
-    	Map<?, ?> item = olsr.getEditionData();
-    	
-    	String code = getRegion().getCode();
-    	
-    	boolean valid = code.equals("-");
-    	
-		String language = null;
-		DcObject dco = olsr.getDco();
-		
-		if (item.containsKey("languages")) {
-			Map<?, ?> values = (Map<?, ?>) ((ArrayList<?>) item.get("languages")).get(0);
-			language = (String) values.get("key");
-			language = language.substring(
-					language.lastIndexOf("/") > -1 ? language.lastIndexOf("/") + 1 : 0, language.length());
-			
-			// check if the language matches our filter.
-			valid |= language.equals(code);
-			
-			// and create a reference (regardless of validity)
-			if (languages.containsKey(language))
-				dco.createReference(Book._D_LANGUAGE, languages.get(language));
-		}
-
-    	return valid;
-    }
-    
-    private void setEditionData(Map<?, ?> item, OpenLibrarySearchResult olsr) {
-    	DcObject dco = olsr.getDco();
-    	
-        String key = (String) item.get("key");
-		olsr.setEditionId(key);	
-		
-		setIsbn(item, dco);
-		setTitle(item, dco);
-		setCover(item, olsr);
-		setPublishers(item, dco);
-		setTranslatedFrom(item, dco);
-		setYear(item, dco);
-		
-		dco.setValue(Book._H_WEBPAGE, "https://openlibrary.org" + key);
-
-		if (item.containsKey("number_of_pages"))
-			dco.setValue(Book._T_NROFPAGES, item.get("number_of_pages"));
-
-		if (item.containsKey("translation_of"))
-			dco.setValue(Book._X_ORIGINAL_TITLE, item.get("translation_of"));
-		
-        // editions:
-        // - physical_format (hardcover, etc)
-        // - notes (description)
-        // - series
-        // - edition_name
-    }
-    
-    private void setYear(Map<?, ?> item, DcObject dco) {
-    	String date = item.containsKey("publish_date") ? 
-    			(String) item.get("publish_date") : 
-    			(String) item.get("copyright_date");  
-    	
-    	if (!CoreUtilities.isEmpty(date)) {
-    		date = date.length() > 4 ? date.substring(0, 4) : date;
-    		
-    		if (StringUtils.getContainedNumber(date).length() == 4)
-    			dco.setValue(Book._C_YEAR, date);
-    	}
-    }
-    
-    private void setTranslatedFrom(Map<?, ?> item, DcObject dco) {
-    	String language;
-    	if (item.containsKey("translated_from")) {
-			Map<?, ?> values = (Map<?, ?>) ((ArrayList<?>) item.get("translated_from")).get(0);
-			language = (String) values.get("key");
-			language = language.substring(
-					language.lastIndexOf("/") > -1 ? language.lastIndexOf("/") + 1 : 0, language.length());
-
-			if (languages.containsKey(language))
-				dco.createReference(Book._Y_TRANSLATED_FROM, languages.get(language));
-		}    	
-    }
-
-    private void setPublishers(Map<?, ?> item, DcObject dco) {
-    	if (item.containsKey("publishers")) {
-    		Collection<?> publishers = (Collection<?>) item.get("publishers");
-    		String name;
-    		for (Object publisher : publishers) {
-    			name = publisher.toString();
-    			dco.createReference(Book._F_PUBLISHER, name);
-    		}
-    	}
-    }
-    
-    private void setCover(Map<?, ?> item, OpenLibrarySearchResult olsr) {
-    	DcObject dco = olsr.getDco();
-    	
-    	byte[] image = null;
-    	if (item.containsKey("covers")) {
-    		String coverId = getFirstEntry(item.get("covers"));
-    		if (coverId.length() > 4) {
-    			waitBetweenRequest();
-    			String link = "https://covers.openlibrary.org/b/id/" + coverId + "-L.jpg";
-    			image = getImageBytes(link);
-    		}
-    	} else {
-    		if (workImages.containsKey(olsr.getMainCoverId())) {
-    			image = workImages.get(olsr.getMainCoverId());
-    		} else {
-    			String link = "https://covers.openlibrary.org/b/olid/" + olsr.getMainCoverId() + "-L.jpg";
-    			image = getImageBytes(link);
-				workImages.put(olsr.getMainCoverId(), image);
-    		}
-    	}
-    	
-		if (image != null)
-            dco.setValue(Book._K_PICTUREFRONT, image);
-    }
-    
-    private void setTitle(Map<?, ?> item, DcObject dco) {
-		if (item.containsKey("title")) {
-			String title = (String) item.get("title");
-			
-			if (item.containsKey("subtitle"))
-				title += " " + item.get("subtitle");
-			
-			dco.setValue(Book._A_TITLE, title);
-		}
-    }
-    
-    private void setIsbn(Map<?, ?> item, DcObject dco) {
-    	String isbn = "";
-    	if (item.containsKey("isbn_13")) {
-    		isbn = getFirstEntry(item.get("isbn_13"));
-    		// sometimes there's text appended...
-    		isbn = isbn.replaceAll(" ", "").replaceAll("-", "");
-    		isbn = isbn.length() > 13 ? isbn.substring(0, 13) : isbn;
-    	} else if (item.containsKey("isbn_10")) {
-    		isbn = getFirstEntry(item.get("isbn_10"));
-    		isbn = isbn.replaceAll(" ", "").replaceAll("-", "");
-    		isbn = isbn.length() > 10 ? isbn.substring(0, 10) : isbn;
-    	}
-    	
-    	try {
-    		isbn = new ISBN(isbn).getIsbn13();
-    		dco.setValue(Book._N_ISBN13, isbn);
-    	} catch (InvalidBarCodeException ibce) {
-    		listener.addError("Could not parse ISBN-13 from [" + isbn + "]. Error: " + ibce.getMessage());
-    	}
-    }
-    
-    private String getFirstEntry(Object o) {
-    	String result = "";
-    	if (o instanceof ArrayList<?>) {
-    		ArrayList<?> c = (ArrayList<?>) o;
-    		if (c.size() > 0) {
-    			o = c.get(0) == null ? "" : c.get(0);
-    			result = o instanceof Double ? "" + ((Double) o).longValue() : o.toString();
-    		}
-    	} else if (o instanceof String) {
-    		result = o instanceof Double ? "" + ((Double) o).longValue() : (String) o;
-    	}
-    	
-    	return result;
     }
     
     @Override
@@ -366,9 +201,11 @@ public class OpenLibrarySearch extends SearchTask {
     	
     	dco.setValue(DcMediaObject._A_TITLE, work.get("title"));
     	
+    	// the description is not part of the list results - however if it is, we'll
+    	// use it. Else we'll query the full details page.
     	if (work.containsKey("description")) {
     		dco.setValue(DcMediaObject._B_DESCRIPTION, work.get("description"));
-    	} else {
+    	} else { 
     		query = "https://openlibrary.org" + key + ".json";
     		
     		waitBetweenRequest();
@@ -392,14 +229,206 @@ public class OpenLibrarySearch extends SearchTask {
     	setAuthors(work, dco);
     }
     
-	private void setAuthors(Map<?, ?> data, DcObject dco) {
-    	if (data.containsKey("author_name")) {
-    		Collection<?> authors = (Collection<?>) data.get("author_name");
-    		String name;
-    		for (Object author : authors) {
-    			name = author.toString();
-    			dco.createReference(Book._G_AUTHOR, name);
-    		}
+    private void setEditionInformation(Map<?, ?> item, OpenLibrarySearchResult olsr) {
+    	DcObject dco = olsr.getDco();
+    	
+        String key = (String) item.get("key");
+		olsr.setEditionId(key);	
+		
+		setIsbn(item, dco);
+		setTitle(item, dco);
+		setCover(item, olsr);
+		setPublishers(item, dco);
+		setTranslatedFrom(item, dco);
+		setYear(item, dco);
+		
+		dco.setValue(Book._H_WEBPAGE, "https://openlibrary.org" + key);
+
+		if (item.containsKey("number_of_pages"))
+			dco.setValue(Book._T_NROFPAGES, item.get("number_of_pages"));
+
+		if (item.containsKey("translation_of"))
+			dco.setValue(Book._X_ORIGINAL_TITLE, item.get("translation_of"));
+		
+		if (item.containsKey("physical_format"))
+			dco.createReference(Book._U_BINDING, item.get("physical_format"));
+		
+		setGenres(item, dco);
+		
+		if (item.containsKey("edition_name"))
+			dco.setValue(Book._W_EDITION_COMMENT, item.get("edition_name"));
+		
+		setSeries(item, dco);
+    }    
+    
+    private boolean checkLanguage(OpenLibrarySearchResult olsr) {
+    	
+    	Map<?, ?> item = olsr.getEditionData();
+    	
+    	String code = getRegion().getCode();
+    	
+    	boolean valid = code.equals("-");
+    	
+		String language = null;
+		DcObject dco = olsr.getDco();
+		
+		if (item.containsKey("languages")) {
+			Map<?, ?> values = (Map<?, ?>) ((ArrayList<?>) item.get("languages")).get(0);
+			language = (String) values.get("key");
+			language = language.substring(
+					language.lastIndexOf("/") > -1 ? language.lastIndexOf("/") + 1 : 0, language.length());
+			
+			// check if the language matches our filter.
+			valid |= language.equals(code);
+			
+			// and create a reference (regardless of validity)
+			if (languages.containsKey(language))
+				dco.createReference(Book._D_LANGUAGE, languages.get(language));
+		}
+
+    	return valid;
+    }
+    
+    private void setSeries(Map<?, ?> item, DcObject dco) {
+    	Collection<String> series = getList(item, "series");
+
+    	String s = "";
+		for (Object serie : (Collection<?>) series)
+			s += s.length() > 0 ? ", " + serie : serie;
+    			
+		dco.setValue(Book._O_SERIES, s);
+    }
+    
+    private void setGenres(Map<?, ?> item, DcObject dco) {
+    	Collection<String> genres = getList(item, "genres");
+    	for (String genre : genres) {
+    		genre = genre.endsWith(".") ? genre.substring(0, genre.length() - 1) : genre;
+			dco.createReference(Book._I_CATEGORY, genre.trim());
+		}
+    }
+    
+    private void setYear(Map<?, ?> item, DcObject dco) {
+    	String date = item.containsKey("publish_date") ? 
+    			(String) item.get("publish_date") : 
+    			(String) item.get("copyright_date");  
+    	
+    	if (!CoreUtilities.isEmpty(date)) {
+    		date = date.length() > 4 ? date.substring(0, 4) : date;
+    		
+    		if (StringUtils.getContainedNumber(date).length() == 4)
+    			dco.setValue(Book._C_YEAR, date);
     	}
     }
+    
+    private void setTranslatedFrom(Map<?, ?> item, DcObject dco) {
+    	String language;
+    	if (item.containsKey("translated_from")) {
+			Map<?, ?> values = (Map<?, ?>) ((ArrayList<?>) item.get("translated_from")).get(0);
+			language = (String) values.get("key");
+			language = language.substring(
+					language.lastIndexOf("/") > -1 ? language.lastIndexOf("/") + 1 : 0, language.length());
+
+			if (languages.containsKey(language))
+				dco.createReference(Book._Y_TRANSLATED_FROM, languages.get(language));
+		}    	
+    }
+
+    private void setPublishers(Map<?, ?> item, DcObject dco) {
+    	Collection<String> publishers = getList(item, "publishers");
+
+		for (String publisher : publishers)
+			dco.createReference(Book._F_PUBLISHER, publisher);
+    }
+    
+    private void setCover(Map<?, ?> item, OpenLibrarySearchResult olsr) {
+    	DcObject dco = olsr.getDco();
+    	
+    	byte[] image = null;
+    	if (item.containsKey("covers")) {
+    		String coverId = getFirstEntry(item.get("covers"));
+    		if (coverId.length() > 4) {
+    			waitBetweenRequest();
+    			String link = "https://covers.openlibrary.org/b/id/" + coverId + "-L.jpg";
+    			image = getImageBytes(link);
+    		}
+    	} else {
+    		if (workImages.containsKey(olsr.getMainCoverId())) {
+    			image = workImages.get(olsr.getMainCoverId());
+    		} else {
+    			String link = "https://covers.openlibrary.org/b/olid/" + olsr.getMainCoverId() + "-L.jpg";
+    			image = getImageBytes(link);
+				workImages.put(olsr.getMainCoverId(), image);
+    		}
+    	}
+    	
+		if (image != null)
+            dco.setValue(Book._K_PICTUREFRONT, image);
+    }
+    
+    private void setTitle(Map<?, ?> item, DcObject dco) {
+		if (item.containsKey("title")) {
+			String title = (String) item.get("title");
+			
+			if (item.containsKey("subtitle"))
+				title += " " + item.get("subtitle");
+			
+			dco.setValue(Book._A_TITLE, title);
+		}
+    }
+    
+    private void setIsbn(Map<?, ?> item, DcObject dco) {
+    	String isbn = "";
+    	if (item.containsKey("isbn_13")) {
+    		isbn = getFirstEntry(item.get("isbn_13"));
+    		// sometimes there's text appended...
+    		isbn = isbn.replaceAll(" ", "").replaceAll("-", "");
+    		isbn = isbn.length() > 13 ? isbn.substring(0, 13) : isbn;
+    	} else if (item.containsKey("isbn_10")) {
+    		isbn = getFirstEntry(item.get("isbn_10"));
+    		isbn = isbn.replaceAll(" ", "").replaceAll("-", "");
+    		isbn = isbn.length() > 10 ? isbn.substring(0, 10) : isbn;
+    	}
+    	
+    	try {
+    		isbn = new ISBN(isbn).getIsbn13();
+    		dco.setValue(Book._N_ISBN13, isbn);
+    	} catch (InvalidBarCodeException ibce) {
+    		listener.addError("Could not parse ISBN-13 from [" + isbn + "]. Error: " + ibce.getMessage());
+    	}
+    }
+    
+	private void setAuthors(Map<?, ?> data, DcObject dco) {
+		Collection<String> authors = getList(data, "author_name");
+		for (String author : authors)
+			dco.createReference(Book._G_AUTHOR, author);
+    }
+	
+    private Collection<String> getList(Map<?, ?> item, String tag) {
+    	Object o = item.get(tag);
+    	
+    	Collection<String> v = new ArrayList<>();
+    	
+		if (o instanceof String) {
+			v.add((String) o);
+		} else if (o instanceof Collection) {
+			for (Object i : (Collection<?>) o)
+				v.add((String) i);
+		}
+    	return v;
+    }	
+	
+    private String getFirstEntry(Object o) {
+    	String result = "";
+    	if (o instanceof ArrayList<?>) {
+    		ArrayList<?> c = (ArrayList<?>) o;
+    		if (c.size() > 0) {
+    			o = c.get(0) == null ? "" : c.get(0);
+    			result = o instanceof Double ? "" + ((Double) o).longValue() : o.toString();
+    		}
+    	} else if (o instanceof String) {
+    		result = o instanceof Double ? "" + ((Double) o).longValue() : (String) o;
+    	}
+    	
+    	return result;
+    }	
 }

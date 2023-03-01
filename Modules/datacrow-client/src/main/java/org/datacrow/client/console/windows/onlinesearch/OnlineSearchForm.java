@@ -495,7 +495,7 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
                     panelService.setQuery(query);
                 }
             } catch (Exception e) {
-                logger.debug("Invalid CueCat decode " + query, e);
+                logger.debug("Invalid CueCat decode " + query);
             }
         }
         

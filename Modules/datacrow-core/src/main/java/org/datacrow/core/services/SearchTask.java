@@ -385,5 +385,5 @@ public abstract class SearchTask extends Thread {
             logger.debug("Cannot download image from [" + url + "]", e);
         }
         return null;
-    }    
+    }
 }
