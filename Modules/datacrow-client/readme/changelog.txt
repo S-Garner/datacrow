@@ -43,8 +43,9 @@ Data Crow version 4.7.0                                            Released on 2
   The Movie Database.
 - Fixed an issue with the module selection buttons where for some skins the selection
   color overflowed.
-- Luna was shown twice as a Look and Feel in the dropdown.
-  
+- Luna was shown twice as a Look and Feel in the drop-down.
+- Aligned the quick view bottom with the other screen elements.
+
 
 -----------------------------------------------------------------------------------------
 Data Crow version 4.6.1                                            Released on 2023-02-12

@@ -506,7 +506,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         tabbedPane.addTab(DcResources.getText("lblDescription"), IconLibrary._icoInformation ,scroller);
         add(tabbedPane, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
             GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-            new Insets(4, 0, 3, 0), 0, 0));
+            new Insets(4, 0, 5, 0), 0, 0));
         
         String html = "<html><body " + Utilities.getHtmlStyle(DcSettings.getColor(DcRepository.Settings.stQuickViewBackgroundColor)) + "></body> </html>";
         descriptionPane.setHtml(html);

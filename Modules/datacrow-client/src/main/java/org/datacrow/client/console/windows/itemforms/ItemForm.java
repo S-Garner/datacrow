@@ -151,6 +151,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                      IconLibrary._icoMain.getImage();
         
         setIconImage(icon);
+        
         this.applyTemplate =  applyTemplate && !update;
         
         if (o.getModule().getType() == DcModule._TYPE_PROPERTY_MODULE)
@@ -802,7 +803,6 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                         ComponentFactory.setUneditable(longText);
                     
                     pane = new JScrollPane(longText);
-                    
                     ComponentFactory.setBorder(pane);
                     
                     if (field.getFieldType() == ComponentFactory._TAGFIELD)
@@ -823,7 +823,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                 if (component instanceof DcCheckBox)
                     ((DcCheckBox) component).setText("");
 
-                space = 2; 
+                space = 5; 
                 panel.add(label,     Layout.getGBC(0, y, 1, 1, 1.0, 1.0
                         ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                          new Insets(space, 2, 2, 5), 0, 0));

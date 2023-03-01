@@ -129,6 +129,7 @@ public class ModuleListPanel extends JPanel {
             for (DcField field : module.getFields()) {
                 rm = DcModules.getReferencedModule(field);
                 if (    rm.isEnabled() && 
+                		!rm.isSelectableInUI() && // if this is set, it is already added as a main module
                         rm.getIndex() != module.getIndex() && 
                         rm.getType() != DcModule._TYPE_PROPERTY_MODULE &&
                         rm.getType() != DcModule._TYPE_EXTERNALREFERENCE_MODULE &&
