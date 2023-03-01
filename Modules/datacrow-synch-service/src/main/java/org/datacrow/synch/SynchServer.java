@@ -43,7 +43,6 @@ import org.datacrow.core.clients.IClient;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.modules.upgrade.ModuleUpgrade;
-import org.datacrow.core.modules.upgrade.ModuleUpgradeResult;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
@@ -268,7 +267,7 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
                 
                 logger.info(new Date() + " Starting Data Crow Server.");
                 
-                ModuleUpgradeResult mur = new ModuleUpgrade().upgrade();
+                new ModuleUpgrade().upgrade();
                 DcModules.load();
                 
     			try {
