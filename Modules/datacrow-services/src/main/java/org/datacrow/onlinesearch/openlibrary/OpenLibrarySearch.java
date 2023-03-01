@@ -111,6 +111,8 @@ public class OpenLibrarySearch extends SearchTask {
 	                	
 	                	key = (String) work.get("key");
 	                	
+	                	String description = getDescription(work, key);
+	                	
 	                	waitBetweenRequest();
 	                	
 	                	// next get the editions for this work
@@ -132,6 +134,9 @@ public class OpenLibrarySearch extends SearchTask {
 		                	
 		                	olsr.setEditionData(edition);
 		                	setWorkInformation(work, olsr);
+		                	
+		                	if (!CoreUtilities.isEmpty(description))
+		                		dco.setValue(Book._B_DESCRIPTION, description);
 		                	
 		                    count++;
 		                    
@@ -193,6 +198,58 @@ public class OpenLibrarySearch extends SearchTask {
         return result;
     }
     
+    private String getDescription(Map<?, ?> work, String key) {
+    	
+    	String description = "";
+    	
+    	try {
+	    	// the description is not part of the list results - however if it is, we'll
+	    	// use it. Else we'll query the full details page.
+	    	if (work.containsKey("description")) {
+	    		description = getDescriptionValue(work, "description");
+	    	} else { 
+	    		query = "https://openlibrary.org" + key + ".json";
+	    		
+	            try {
+	                sleep(200);
+	            } catch (InterruptedException ie) {
+	                listener.addError("Error, could not wait while retrieving description");
+	            }
+	    		
+	            HttpConnection conn = new HttpConnection(new URL(query), userAgent);
+	            String json = conn.getString(StandardCharsets.UTF_8);
+	            conn.close();
+	       	 	
+	            Map<?, ?> item = gson.fromJson(json, Map.class);
+	            
+	            // OL13785537W
+	            description = getDescriptionValue(item, "description");
+	    	}
+    	} catch (Exception e) {
+    		listener.addError("Could not retrieve description for [" + key + "]. Error: " + e.getMessage());
+    	}
+    	
+    	return description;
+    }
+    
+    /**
+     * Gets the string for the given tag. It checks whether the value is a simple String or
+     * whether the value is of type Map where the map contains the value tag.
+     */
+    private String getDescriptionValue(Map<?, ?> item, String tag) {
+    	Object o  = item.get(tag);
+    	
+    	String s = "";
+    	if (o instanceof String) {
+    		s = (String) o;
+    	} else if (o instanceof Map<?, ?>) {
+    		Map<?, ?> d = (Map<?, ?>) o;
+    		s = d.containsKey("value") ? (String) d.get("value") : s;
+    	}
+    	
+    	return s;
+    }
+    
     private void setWorkInformation(Map<?, ?> work, OpenLibrarySearchResult olsr) throws Exception {
     	String key = (String) work.get("key");
     	olsr.setWorkId(key);
@@ -200,25 +257,6 @@ public class OpenLibrarySearch extends SearchTask {
     	DcObject dco = olsr.getDco();
     	
     	dco.setValue(DcMediaObject._A_TITLE, work.get("title"));
-    	
-    	// the description is not part of the list results - however if it is, we'll
-    	// use it. Else we'll query the full details page.
-    	if (work.containsKey("description")) {
-    		dco.setValue(DcMediaObject._B_DESCRIPTION, work.get("description"));
-    	} else { 
-    		query = "https://openlibrary.org" + key + ".json";
-    		
-    		waitBetweenRequest();
-    		
-            HttpConnection conn = new HttpConnection(new URL(query), userAgent);
-            String json = conn.getString(StandardCharsets.UTF_8);
-            conn.close();
-       	 	
-            Map<?, ?> item = gson.fromJson(json, Map.class);
-            
-            if (item.containsKey("description"))
-        		dco.setValue(DcMediaObject._B_DESCRIPTION, item.get("description"));
-    	}
     	
     	if (work.containsKey("first_publish_year"))
     		dco.setValue(DcMediaObject._C_YEAR, work.get("first_publish_year"));
