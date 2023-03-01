@@ -56,7 +56,7 @@ public class DcImageIcon extends ImageIcon {
     
     public DcImageIcon toIcon() {
 		int size = DcSettings.getInt(DcRepository.Settings.stIconSize);
-    	return new DcImageIcon(CoreUtilities.getScaledImage(this, size, size));
+    	return new DcImageIcon(CoreUtilities.getScaledImage(this.getBytes(), size, size));
     }
     
     public DcImageIcon(File file) {

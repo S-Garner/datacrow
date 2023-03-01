@@ -56,13 +56,8 @@ public class DcIconCache {
         for (String file : new File(DcConfig.getInstance().getIconsDir()).list()) {
         	if (new File(DcConfig.getInstance().getIconsDir(), file).isFile())
         		icons.put(file.substring(0, file.length() - 4), 
-        				  new DcImageIcon(DcConfig.getInstance().getIconsDir() + file).toIcon());
+        				  new DcImageIcon(DcConfig.getInstance().getIconsDir() + file));
         }
-	}
-	
-	public void reload() {
-		icons.clear();
-		initialize();
 	}
 	
     public DcImageIcon addIcon(String ID, String base64) {
@@ -83,11 +78,11 @@ public class DcIconCache {
         
         // re-load image if necessary
         if (icon != null) {
-            icons.put(ID, icon.toIcon());
+            icons.put(ID, icon);
             icon.setImage(icon.getImage());
         }
         
-        return icon;
+        return icon != null ? icon.toIcon() : null;
     }
     
     public DcImageIcon getIcon(DcObject dco) {
@@ -126,7 +121,7 @@ public class DcIconCache {
         if (icon != null)
             icon.setImage(icon.getImage());
         
-        return icon;
+        return icon != null ? icon.toIcon() : null;
     }
     
     public void removeIcon(String ID) {
