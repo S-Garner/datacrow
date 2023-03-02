@@ -38,6 +38,7 @@ import java.util.Map;
 import org.apache.logging.log4j.Logger;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.Version;
 import org.datacrow.core.console.IPollerTask;
 import org.datacrow.core.log.DcLogManager;
@@ -45,10 +46,12 @@ import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.objects.DcLookAndFeel;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.helpers.MusicTrack;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.Directory;
@@ -135,6 +138,11 @@ public class SystemUpgrade {
                 }
             }
             
+            if (v.isOlder(new Version(4, 7, 0, 0))) {
+            	DcSettings.set(DcRepository.Settings.stLookAndFeel, 
+            			new DcLookAndFeel("FlatLaf Light", "com.formdev.flatlaf.FlatLightLaf", null, 1));
+            }
+            
             if (!dbInitialized)
                 moveImages();
             
@@ -175,7 +183,6 @@ public class SystemUpgrade {
                     logger.error("Could not save icons for module " + m, e);
                 }
             }
-            
         }
     }
     
