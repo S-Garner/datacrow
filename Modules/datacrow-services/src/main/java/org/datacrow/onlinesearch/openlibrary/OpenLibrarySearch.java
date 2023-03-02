@@ -9,10 +9,12 @@ import java.util.Map;
 
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.http.HttpConnection;
+import org.datacrow.core.http.HttpConnectionException;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Book;
+import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
 import org.datacrow.core.services.OnlineServiceError;
@@ -111,38 +113,44 @@ public class OpenLibrarySearch extends SearchTask {
 	                	
 	                	key = (String) work.get("key");
 	                	
-	                	String description = getDescription(work, key);
-	                	
 	                	waitBetweenRequest();
 	                	
 	                	// next get the editions for this work
 	                    String address = "https://openlibrary.org/" + key + "/editions.json";
 	                    
-	                    conn = new HttpConnection(new URL(address), userAgent);
-	                    json = conn.getString(StandardCharsets.UTF_8);
-	                    conn.close();
-
-	                    m = gson.fromJson(json, Map.class);
-
-	                    editions = (ArrayList<LinkedTreeMap<?, ?>>) m.get("entries");
+	                    listener.addMessage(DcResources.getText("msgRetrievingEditions", key));
 	                    
-	                    for (Map<?, ?> edition : editions) {
-	                    	// store edition information
-	                    	
-	                    	dco = DcModules.get(getServer().getModule()).getItem();
-		                	olsr = new OpenLibrarySearchResult(dco);
-		                	
-		                	olsr.setEditionData(edition);
-		                	setWorkInformation(work, olsr);
-		                	
-		                	if (!CoreUtilities.isEmpty(description))
-		                		dco.setValue(Book._B_DESCRIPTION, description);
-		                	
-		                    count++;
+	                    
+	                    try {
+		                    conn = new HttpConnection(new URL(address), userAgent);
+		                    json = conn.getString(StandardCharsets.UTF_8);
+		                    conn.close();
+	
+		                    m = gson.fromJson(json, Map.class);
+	
+		                    editions = (ArrayList<LinkedTreeMap<?, ?>>) m.get("entries");
 		                    
-		                    result.add(olsr);
-	                    }
+		                    for (Map<?, ?> edition : editions) {
+		                    	// store edition information
+		                    	
+		                    	dco = DcModules.get(getServer().getModule()).getItem();
+			                	olsr = new OpenLibrarySearchResult(dco);
+			                	
+			                	olsr.setEditionData(edition);
+			                	olsr.setWorkData(work);
+			                	
+			                	setWorkInformation(work, olsr);
+			                	
+			                    result.add(olsr);
+		                    }
 	                    
+		                    count++;
+	                    } catch (HttpConnectionException hce) {
+	                    	listener.addMessage(
+	                    			DcResources.getText("msgEditionsNotAvailable", 
+	                    			new String[] {key, hce.getMessage()}));
+	                    }
+
 	                    if (count == getMaximum()) break;                
 	                }
                 }
@@ -168,8 +176,8 @@ public class OpenLibrarySearch extends SearchTask {
 	            	String link;
 	            	for (Object work : works) {
 	            		workId = (String) ((Map<?, ?>) work).get("key");
-	            		olsr.setWorkId(workId);
 	            		
+	            		olsr.setWorkId(workId);
 	            		waitBetweenRequest();
 	            		
 	            		link = "https://openlibrary.org/search.json?q="+ workId +
@@ -184,6 +192,7 @@ public class OpenLibrarySearch extends SearchTask {
 	                    if (item.containsKey("docs")) {
 		                    item = ((ArrayList<LinkedTreeMap<?, ?>>) item.get("docs")).get(0);
 		                    setWorkInformation(item, olsr);
+		                    olsr.setWorkData(item);
 		                    result.add(olsr);
 	                    }
 	            		
@@ -203,10 +212,14 @@ public class OpenLibrarySearch extends SearchTask {
     	String description = "";
     	
     	try {
-	    	// the description is not part of the list results - however if it is, we'll
-	    	// use it. Else we'll query the full details page.
-	    	if (work.containsKey("description")) {
+    		// if the description has been retrieved before for the given work key - use this
+    		// else if the work details already have a description key - use this
+    		// else query for the description and store this in the cache.
+    		if (workDescription.containsKey(key)) {
+    			description = workDescription.get(key);
+    		} else if (work.containsKey("description")) {
 	    		description = getDescriptionValue(work, "description");
+	    		workDescription.put(key, description);
 	    	} else { 
 	    		query = "https://openlibrary.org" + key + ".json";
 	    		
@@ -221,9 +234,9 @@ public class OpenLibrarySearch extends SearchTask {
 	            conn.close();
 	       	 	
 	            Map<?, ?> item = gson.fromJson(json, Map.class);
-	            
-	            // OL13785537W
 	            description = getDescriptionValue(item, "description");
+	            
+	            workDescription.put(key, description);
 	    	}
     	} catch (Exception e) {
     		listener.addError("Could not retrieve description for [" + key + "]. Error: " + e.getMessage());
@@ -267,11 +280,18 @@ public class OpenLibrarySearch extends SearchTask {
     	setAuthors(work, dco);
     }
     
+    private Map<String, String> workDescription = new HashMap<>();
+    
     private void setEditionInformation(Map<?, ?> item, OpenLibrarySearchResult olsr) {
     	DcObject dco = olsr.getDco();
     	
         String key = (String) item.get("key");
 		olsr.setEditionId(key);	
+		
+		
+		String description = getDescription(olsr.getWorkData(), olsr.getWorkId());
+    	if (!CoreUtilities.isEmpty(description))
+    		dco.setValue(Book._B_DESCRIPTION, description);
 		
 		setIsbn(item, dco);
 		setTitle(item, dco);

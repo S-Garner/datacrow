@@ -11,6 +11,7 @@ public class OpenLibrarySearchResult {
     private String editionId;
     private String mainCoverId;
     private Map<?, ?> editionData;
+    private Map<?, ?> workData;
     
     public Map<?, ?> getEditionData() {
 		return editionData;
@@ -18,6 +19,14 @@ public class OpenLibrarySearchResult {
 
 	public void setEditionData(Map<?, ?> editionData) {
 		this.editionData = editionData;
+	}
+
+	public void setWorkData(Map<?, ?> workData) {
+		this.workData = workData;
+	}
+	
+	public Map<?, ?> getWorkData() {
+		return workData;
 	}
 
 	public String getEditionId() {
