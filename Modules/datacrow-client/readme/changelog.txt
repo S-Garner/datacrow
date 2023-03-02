@@ -1,3 +1,15 @@
+-----------------------------------------------------------------------------------------
+Data Crow version 4.8.0                                            Released on 2023-03-02
+-----------------------------------------------------------------------------------------
+
+[Changed]
+- Updated HSQL DB to version 2.7.1. JSoup updated to 1.15.4. Gson (from Google) updated to 
+  version 2.10.1. Apache xmlgraphics Batik updated to 1.16. Apache PDFBox updated to 
+  2.0.27. Apache Tika upgraded to 2.7.0. Log4j updated to 2.20. jAudiotagger updated to 
+  3.0.1. ImageIO updated to 3.9.4. Jetty updated to 11.0.14. Jakarta Faces updated to 
+  4.0.1. Jakarta Platform updated to 10.0.0. SLF4J API Module updated 2.0.6. Jakarta 
+  Servlet updated to 6.0. 
+
 
 - Add composers + query with online searches
 - Merge items (from sub modules)
