@@ -10,19 +10,13 @@
     <artifactId>datacrow-services</artifactId>
     <name>Datacrow services</name>
     <packaging>jar</packaging>
-    <version>1.6.0</version>
+    <version>1.7.0</version>
     
     <dependencies>
         <dependency>
             <groupId>org.datacrow</groupId>
             <artifactId>datacrow-core</artifactId>
             <version>4.8.0</version>
-        </dependency>
-        
-        <!-- TMDB -->
-        <dependency>
-            <groupId>com.omertron</groupId>
-            <artifactId>themoviedbapi</artifactId>
         </dependency>
     </dependencies>
 

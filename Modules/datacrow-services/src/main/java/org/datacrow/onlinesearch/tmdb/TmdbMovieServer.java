@@ -48,16 +48,17 @@ public class TmdbMovieServer implements IServer {
 
     public TmdbMovieServer() {
         regions.add(new Region("en", "English", "http://www.themoviedb.org/"));
-        regions.add(new Region("de", "German", "http://www.themoviedb.org/"));
-        regions.add(new Region("fr", "French", "http://www.themoviedb.org/"));
-        regions.add(new Region("ru", "Russian", "http://www.themoviedb.org/"));
         regions.add(new Region("zh", "Chinese", "http://www.themoviedb.org/"));
         regions.add(new Region("da", "Danish", "http://www.themoviedb.org/"));
+        regions.add(new Region("nl", "Dutch", "http://www.themoviedb.org/"));
+        regions.add(new Region("fr", "French", "http://www.themoviedb.org/"));        
+        regions.add(new Region("de", "German", "http://www.themoviedb.org/"));
         regions.add(new Region("it", "Italian", "http://www.themoviedb.org/"));
         regions.add(new Region("ja", "Japanese", "http://www.themoviedb.org/"));
         regions.add(new Region("ko", "Korean", "http://www.themoviedb.org/"));
         regions.add(new Region("no", "Norwegian", "http://www.themoviedb.org/"));
         regions.add(new Region("pt", "Portuguese", "http://www.themoviedb.org/"));
+        regions.add(new Region("ru", "Russian", "http://www.themoviedb.org/"));
         regions.add(new Region("es", "Spanish", "http://www.themoviedb.org/"));
     }
 

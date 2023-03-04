@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
@@ -317,12 +316,12 @@ public class LocalServerConnector extends Connector {
 	
     @Override
     public ServerModulesRequestResponse getModules() {
-        throw new NotImplementedException("This request type has not been implemented for this connector");
+        throw new RuntimeException("This request type has not been implemented for this connector");
     }
 
     @Override
     public HashMap<Integer, Settings> getModuleSettings() {
-        throw new NotImplementedException("This request type has not been implemented for this connector");
+        throw new RuntimeException("This request type has not been implemented for this connector");
     }
     
     @Override

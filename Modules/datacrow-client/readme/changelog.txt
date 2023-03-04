@@ -9,6 +9,10 @@ Data Crow version 4.8.0                                            Released on 2
   3.0.1. ImageIO updated to 3.9.4. Jetty updated to 11.0.14. Jakarta Faces updated to 
   4.0.1. Jakarta Platform updated to 10.0.0. SLF4J API Module updated 2.0.6. Jakarta 
   Servlet updated to 6.0. 
+- Online service pack 1.7: reimplemented online service for The Movie Database; fixed 
+  issues present in previous versions where actors and such were no longer retrieved and 
+  added additional fields to be retrieved such as: rating, countries and languages.
+
 
 [To Do]
 - Add composers + query with online searches

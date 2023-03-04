@@ -26,20 +26,19 @@
 package org.datacrow.onlinesearch.tmdb;
 
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcRepository.ExternalReferences;
+import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionException;
 import org.datacrow.core.http.HttpConnectionUtil;
-import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcImageIcon;
-import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Movie;
 import org.datacrow.core.services.IOnlineSearchClient;
@@ -53,15 +52,7 @@ import org.datacrow.core.services.Servers;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.utilities.CoreUtilities;
 
-import com.omertron.themoviedbapi.MovieDbException;
-import com.omertron.themoviedbapi.TheMovieDbApi;
-import com.omertron.themoviedbapi.enumeration.SearchType;
-import com.omertron.themoviedbapi.model.Genre;
-import com.omertron.themoviedbapi.model.artwork.Artwork;
-import com.omertron.themoviedbapi.model.credits.MediaCreditCast;
-import com.omertron.themoviedbapi.model.credits.MediaCreditCrew;
-import com.omertron.themoviedbapi.model.movie.MovieInfo;
-import com.omertron.themoviedbapi.results.ResultList;
+import com.google.gson.Gson;
 
 /**
  * Class for handling searches over TheMovieDatabase's API, powered by https://github.com/Omertron/api-themoviedb
@@ -71,10 +62,13 @@ import com.omertron.themoviedbapi.results.ResultList;
  */
 public class TmdbMovieSearch extends SearchTask {
 
-    public static final String ORIGINAL_SIZE = "original";
-    private static final Logger logger = DcLogManager.getLogger(TmdbMovieSearch.class.getName());
-    private TheMovieDbApi tmdb;
-
+	private static final Gson gson = new Gson();
+	
+    private final String apiKey;
+    private final String lang;
+    
+    private String imageBaseUrl;
+    
     public TmdbMovieSearch(
             IOnlineSearchClient listener, 
             IServer server, 
@@ -85,11 +79,16 @@ public class TmdbMovieSearch extends SearchTask {
         
         super(listener, server, region, mode, query, additionalFilters);
         
+        apiKey = Servers.getInstance().getApiKey("tmdb");
+        lang = getRegion().getCode();
+        
         try {
-            String apiKey = Servers.getInstance().getApiKey("tmdb");
-            tmdb = new TheMovieDbApi(apiKey);
-        } catch (MovieDbException e) {
-            logger.error(e, e);
+        	imageBaseUrl = new TmdbConfigurationInfo(apiKey, userAgent).getImageUrl();
+        	imageBaseUrl += "original";
+        	
+        } catch (Exception e) {
+        	listener.addError("Could not retrieve the TMDB condifguration information. Message: " + e.getMessage());
+        	imageBaseUrl = "https://image.tmdb.org/t/p/original";
         }
     }
 
@@ -98,172 +97,202 @@ public class TmdbMovieSearch extends SearchTask {
         return " ";
     }
     
-    @Override
-    public DcObject query(DcObject dco) throws Exception {
-        return getItem(dco, true);
-    }
+	@Override
+	protected DcObject getItem(URL url) throws Exception {
+		return null;
+	}
     
-    @Override
-    protected DcObject getItem(URL url) throws Exception {
-        return null;
-    }
-
     @Override
     protected DcObject getItem(Object key, boolean full) throws Exception {
-        Movie movie = (Movie) key;
+    	TmdbSearchResult tsr = (TmdbSearchResult) key;
+    	DcObject dco = tsr.getDco();
+    	
+    	waitBetweenRequest();
+    	
+    	String additionalData = "images,casts,list,crew";
+    	String url = "http://api.themoviedb.org/3/movie/" + tsr.getMovieId() + 
+    			"?api_key=" + apiKey + "&append_to_response=" + additionalData + "&language=en";
+
+        HttpConnection conn = new HttpConnection(new URL(url), userAgent);
+        String json = conn.getString(StandardCharsets.UTF_8);
+        conn.close();
         
-        String movieId = movie.getExternalReference(ExternalReferences._TMDB);
-        MovieInfo movieInfo = tmdb.getMovieInfo(Integer.parseInt(movieId), getRegion().getCode(), "images,casts,list,crew");
+        Map<?, ?> src = gson.fromJson(json, Map.class);
+
+        setPlaylength(src, dco);
+        setRating(src, dco);
+        setImages(src, dco);
         
-        if (full) {
-            setImages(movieInfo, movie);
-            setGenres(movieInfo, movie);
-            setCast(movieInfo, movie);
-            setCrew(movieInfo, movie);
-        }
+        setCast(src, "cast", dco, Movie._I_ACTORS, null);
+        setCast(src, "crew", dco, Movie._J_DIRECTOR, "Director");
         
-        return movie;
-    }
-    
-    private void setImages(MovieInfo movieInfo, Movie movie) {
-        try {
-            byte[] img;
-            String imgUrl;
-            for (Artwork aw : movieInfo.getImages()) {
-                imgUrl = aw.getFilePath();
-                
-                if (CoreUtilities.isEmpty(imgUrl)) continue;
-
-                switch (aw.getArtworkType()) {
-                    case POSTER:
-                        img = HttpConnectionUtil.retrieveBytes(tmdb.createImageUrl(imgUrl, ORIGINAL_SIZE));
-                        movie.setValue(Movie._X_PICTUREFRONT, new DcImageIcon(img));
-                        break;
-                    case BACKDROP:
-                        img = HttpConnectionUtil.retrieveBytes(tmdb.createImageUrl(imgUrl, ORIGINAL_SIZE));
-                        movie.setValue(Movie._Y_PICTUREBACK, new DcImageIcon(img));
-                        break;
-                    default:
-                        break;
-                }
-            }
-        } catch (Exception e) {
-            logger.error(e, e);
-        }
-    }
-    
-    private void setCast(MovieInfo movieInfo, Movie movie) {
-        try {
-            DcObject dco;
-            byte[] img;
-            URL imgUrl;
-            for (MediaCreditCast pc : movieInfo.getCast()) {
-                dco = movie.createReference(Movie._I_ACTORS, pc.getName());
-                if (dco.isNew()
-                        && DcModules.get(DcModules._MOVIE).getSettings().getBoolean(DcRepository.ModuleSettings.stOnlineSearchSubItems)
-                        && !CoreUtilities.isEmpty(pc.getArtworkPath())) {
-
-                    imgUrl = tmdb.createImageUrl(pc.getArtworkPath(), ORIGINAL_SIZE);
-                    img = HttpConnectionUtil.retrieveBytes(imgUrl);
-                    dco.setValue(DcAssociate._D_PHOTO, new DcImageIcon(img));
-                }
-            }
-        } catch (Exception e) {
-            logger.debug("Could not retrieve actors for " + movie, e);
-        }
-    }
-    
-    private void setCrew(MovieInfo movieInfo, Movie movie) {
-        try {
-            DcObject dco;
-            byte[] img;
-            URL imgUrl;
-            for (MediaCreditCrew pc : movieInfo.getCrew()) {
-
-                if (pc.getJob() != null && pc.getJob().equalsIgnoreCase("director")) {
-                    dco = movie.createReference(Movie._J_DIRECTOR, pc.getName());
-
-                    if (dco.isNew()
-                            && DcModules.get(DcModules._MOVIE).getSettings().getBoolean(DcRepository.ModuleSettings.stOnlineSearchSubItems)
-                            && !CoreUtilities.isEmpty(pc.getArtworkPath())) {
-
-                        imgUrl = tmdb.createImageUrl(pc.getArtworkPath(), ORIGINAL_SIZE);
-                        img = HttpConnectionUtil.retrieveBytes(imgUrl);
-                        dco.setValue(DcAssociate._D_PHOTO, new DcImageIcon(img));
-                    }
-                }
-            }
-        } catch (MovieDbException | HttpConnectionException e) {
-            logger.debug("Could not retrieve crew for " + movie, e);
-        }
-    }
-    
-    private void setGenres(MovieInfo movieInfo, Movie movie) {
-        try {
-            for (Genre genre : movieInfo.getGenres()) {
-            	movie.createReference(Movie._H_GENRES, genre.getName());
-            }
-        } catch (Exception e) {
-            logger.debug("Could not retrieve genres for " + movie, e);
-        }
-    }
-
-    @Override
-    protected void preSearchCheck() {
-        SearchTaskUtilities.checkForIsbn(this);
+        setReferences(src, "production_countries", dco, Movie._F_COUNTRY);
+        setReferences(src, "spoken_languages", dco, Movie._1_AUDIOLANGUAGE);
+        setReferences(src, "spoken_languages", dco, Movie._D_LANGUAGE);
+        
+        setReferences(src, "genres", dco, Movie._H_GENRES);
+        setString(src, "homepage", dco, Movie._G_WEBPAGE);
+        
+        return dco;
     }
     
     @Override
     protected Collection<Object> getItemKeys() throws OnlineSearchUserError, OnlineServiceError {
-        Collection<Object> keys = new ArrayList<>();
+        Collection<Object> results = new ArrayList<>();
         
         try {
-
-            int pg = 0;
-            String language = "";
-            int year = 0;
-            boolean adult = true;
-            int primeRelYr = 0;
-            SearchType searchType = SearchType.PHRASE;
-            
             waitBetweenRequest();
+
+            String url =  "http://api.themoviedb.org/3/search/movie?query=" + 
+            		getQuery() + "&api_key=" + apiKey + "&language=" + lang;
             
-            ResultList<MovieInfo> movieList =
-                    tmdb.searchMovie(getQuery(), pg, language, adult, year, primeRelYr, searchType);
-    
-            String date;
-            Movie movie;
+            HttpConnection conn = new HttpConnection(new URL(url), userAgent);
+            String json = conn.getString(StandardCharsets.UTF_8);
+            conn.close();
+            
+            Map<?, ?> raw = gson.fromJson(json, Map.class);
+            
+            @SuppressWarnings("unchecked")
+			ArrayList<Map<?, ?>> movies = 
+				(ArrayList<Map<?, ?>>) raw.get("results");
+            
             int count = 0;
-    
-            for (MovieInfo movieInfo : movieList.getResults()) {
-                movieInfo = tmdb.getMovieInfo(movieInfo.getId(), getRegion().getCode());
-    
-                movie = new Movie();
-                movie.setValue(DcMediaObject._A_TITLE, movieInfo.getTitle());
-                movie.setValue(Movie._G_WEBPAGE, movieInfo.getHomepage());
-                movie.setValue(Movie._F_TITLE_LOCAL, movieInfo.getOriginalTitle());
-                movie.setValue(DcMediaObject._B_DESCRIPTION, movieInfo.getOverview());
-                
-                setServiceInfo(movie);
-                
-                date = movieInfo.getReleaseDate();
-                if (!CoreUtilities.isEmpty(date) && date.length() > 4) {
-                    movie.setValue(DcMediaObject._C_YEAR, date.substring(0, 4));
-                }
-                    
-                if (movieInfo.getRuntime() > 0)
-                    movie.setValue(Movie._L_PLAYLENGTH, (movieInfo.getRuntime() * 60));
-                
-                movie.addExternalReference(ExternalReferences._TMDB, String.valueOf(movieInfo.getId()));
-                keys.add(movie);
-                
-                count++;
-                if (count == getMaximum()) break;
+            TmdbSearchResult tsr;
+            DcObject movie;
+            String id;
+            for (Map<?, ?> src : movies) {
+            	movie = DcModules.get(DcModules._MOVIE).getItem();
+            	
+            	id = String.valueOf(((Number) src.get("id")).longValue());
+            	
+            	setString(src, "title", movie, Movie._A_TITLE);
+            	setString(src, "original_title", movie, Movie._F_TITLE_LOCAL);
+            	setString(src, "overview", movie, Movie._B_DESCRIPTION);
+            	
+            	movie.setValue(Movie._G_WEBPAGE, "https://www.themoviedb.org/movie/" + id);
+            	
+            	setYear(src, "release_date" , movie);
+            	setServiceInfo(movie);
+            	
+            	movie.addExternalReference(ExternalReferences._TMDB, String.valueOf(id));
+            	
+            	tsr = new TmdbSearchResult(movie);
+            	tsr.setMovieId(id);
+            	results.add(tsr);
+            	
+            	count++;
+            	if (count == getMaximum()) break;
             }
         } catch (Exception e) {
             throw new OnlineServiceError(e);
         }
         
-        return keys;
+        return results;
+    }
+    
+    private void setString(Map<?, ?> map, String tag, DcObject dco, int fieldIdx) {
+    	
+    	Object o = map.get(tag);
+    	
+    	if (!CoreUtilities.isEmpty(o)) {
+    		String s = o instanceof String ? (String) o : o.toString();
+    		dco.setValue(fieldIdx, s);
+    	}
+    }
+    
+    private void setYear(Map<?, ?> map, String tag, DcObject dco) {
+    	if (map.containsKey(tag)) {
+    		String year =  (String) map.get(tag);
+    		year = year.length() == 10 ? year.substring(0, 4) : null;
+    		
+    		if (year != null)
+    			dco.setValue(Movie._C_YEAR, year);
+    	}
+    }
+    
+    @SuppressWarnings("unchecked")
+	private void setReferences(Map<?, ?> map, String tag, DcObject dco, int fieldIdx) {
+    	if (!map.containsKey(tag)) return;
+    	
+		ArrayList<Map<?, ?>> values = 
+    			(ArrayList<Map<?, ?>>) map.get(tag);
+    	
+		String name;
+    	for (Map<? ,?> value : values) {
+    		name = value.containsKey("name") ? 
+    				(String) value.get("name") :
+    					value.containsKey("english_name") ?
+    						(String) value.get("english_name") : null;
+    		
+    		if (name != null) 
+    			dco.createReference(fieldIdx, name);
+    	}	
+    }
+    
+    private void setRating(Map<?, ?> map, DcObject dco) {
+    	if (map.containsKey("vote_average") && !CoreUtilities.isEmpty(map.get("vote_average"))) {
+    		int rating = ((Number) map.get("vote_average")).intValue();
+    		dco.setValue(Movie._E_RATING, Integer.valueOf(rating));
+    	}
+    }
+    
+    private void setPlaylength(Map<?, ?> map, DcObject dco) {
+    	if (map.containsKey("runtime") && !CoreUtilities.isEmpty(map.get("runtime"))) {
+    		int runtime = ((Number) map.get("runtime")).intValue();
+    		runtime = runtime * 60;
+    		dco.setValue(Movie._L_PLAYLENGTH, Integer.valueOf(runtime));
+    	}
+    }
+    
+    private void setImages(Map<?, ?> map, DcObject dco) {
+    	byte[] image;
+    	
+    	if (map.containsKey("backdrop_path") && !CoreUtilities.isEmpty(map.get("backdrop_path"))) {
+    		image = getImageBytes(imageBaseUrl + map.get("backdrop_path"));
+    		dco.setValue(Movie._Y_PICTUREBACK, image);
+    	}
+    	
+    	if (map.containsKey("poster_path") && !CoreUtilities.isEmpty(map.get("poster_path"))) {
+    		image = getImageBytes(imageBaseUrl + map.get("poster_path"));
+    		dco.setValue(Movie._X_PICTUREFRONT, image);
+    	}
+    }  
+    
+    @SuppressWarnings("unchecked")
+	private void setCast(Map<?, ?> src, String castType, DcObject dco, int fieldIdx, String role) {
+    	
+    	if (src.containsKey("casts")) {
+    		ArrayList<Map<?, ?>> castmembers = 
+    				(ArrayList<Map<?, ?>>) ((Map<?, ?>)  src.get("casts")).get(castType);
+    		
+    		if (castmembers == null)
+    			return;
+    		
+    		byte[] image; 
+    		DcObject person;
+    		for (Map<? ,?> castmember : castmembers) {
+    			
+    			if (role != null && !role.equalsIgnoreCase((String) castmember.get("job")))
+    				continue;
+    			
+    			person = dco.createReference(fieldIdx, (String) castmember.get("name"));
+    			if (person.isNew() &&
+                    DcModules.get(DcModules._MOVIE).getSettings().getBoolean(DcRepository.ModuleSettings.stOnlineSearchSubItems) &&
+                    !CoreUtilities.isEmpty(castmember.get("profile_path"))) {
+
+    				try {
+    					image = HttpConnectionUtil.retrieveBytes(imageBaseUrl + castmember.get("profile_path"));
+    					person.setValue(DcAssociate._D_PHOTO, new DcImageIcon(image));
+    				} catch (HttpConnectionException hce) {
+    					listener.addMessage("Could not retrieve photo for " + person + ". Message: " + hce.getMessage());
+    				}
+                }
+    		}
+    	}
+    }
+
+    @Override
+    protected void preSearchCheck() {
+        SearchTaskUtilities.checkForIsbn(this);
     }
 }

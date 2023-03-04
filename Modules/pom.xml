@@ -151,13 +151,6 @@
                 <version>1.6.13</version>
             </dependency>
 
-            <!-- Movie DB API implementation -->
-            <dependency>
-                <groupId>com.omertron</groupId>
-                <artifactId>themoviedbapi</artifactId>
-                <version>4.3</version>
-            </dependency>
-
             <!-- Tika parser (PDF, etc) -->
             <dependency>
                 <groupId>org.apache.tika</groupId>

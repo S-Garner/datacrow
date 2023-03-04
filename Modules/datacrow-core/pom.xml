@@ -62,11 +62,7 @@
             <artifactId>jsoup</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.omertron</groupId>
-            <artifactId>themoviedbapi</artifactId>
-        </dependency>
-
+		<!-- Twelve Monkeys -->
         <dependency>
             <groupId>com.twelvemonkeys.imageio</groupId>
             <artifactId>imageio-core</artifactId>
