@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------
-Data Crow version 4.8.0                                            Released on 2023-xx-xx
+Data Crow version 4.8.0                                            Released on 2023-04-xx
 -----------------------------------------------------------------------------------------
 
 [Changed]
@@ -19,10 +19,10 @@ Data Crow version 4.8.0                                            Released on 2
 - Merge items (from sub modules)
 - Switch key values on for all modules - settings for default modules
 - Add MovieMeter
-- Retest PDF box
 - Retest audio tagger.
-- Move help to online.
 - Finish the synch server.
+- Move help to online.
+- Auto update of Data Crow
 
 
 -----------------------------------------------------------------------------------------
