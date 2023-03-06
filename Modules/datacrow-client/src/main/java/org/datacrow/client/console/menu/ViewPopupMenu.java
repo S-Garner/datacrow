@@ -31,22 +31,26 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
+import org.datacrow.client.console.GUI;
+import org.datacrow.client.console.components.DcMenuItem;
 import org.datacrow.client.console.components.DcPopupMenu;
 import org.datacrow.client.console.views.View;
 import org.datacrow.client.console.windows.BrowserDialog;
+import org.datacrow.client.console.windows.MergeItemsDialog;
 import org.datacrow.client.console.windows.drivemanager.DriveManagerSingleItemMatcher;
 import org.datacrow.client.plugins.PluginHelper;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.UserMode;
+import org.datacrow.core.console.IView;
 import org.datacrow.core.drivemanager.DriveManager;
 import org.datacrow.core.drivemanager.FileInfo;
 import org.datacrow.core.fileimporter.FileImporter;
@@ -72,10 +76,12 @@ public class ViewPopupMenu extends DcPopupMenu implements ActionListener {
     private static Logger logger = DcLogManager.getLogger(ViewPopupMenu.class.getName());
     
     private DcObject dco;
+    private final int viewIdx;
     
     public ViewPopupMenu(DcObject dco, int viewType, int viewIdx, int moduleIdx) {
         
-        this.dco = dco;
+    	this.dco = dco;
+        this.viewIdx = viewIdx;
         
         DcModule current = DcModules.getCurrent();
         DcModule module = dco.getModule();
@@ -97,7 +103,6 @@ public class ViewPopupMenu extends DcPopupMenu implements ActionListener {
         String filename = dco.getFilename();
         File file = !CoreUtilities.isEmpty(filename) ? new File(filename) : null;
         
-        
         Connector connector = DcConfig.getInstance().getConnector();
         if (viewType == View._TYPE_SEARCH) {
             
@@ -114,6 +119,16 @@ public class ViewPopupMenu extends DcPopupMenu implements ActionListener {
                     // is deleted.
                     PluginHelper.add(this, "Delete", DcModules.getCurrent().getIndex());
                 }
+            }
+            
+            if (!module.isSelectableInUI())  {
+            	addSeparator();
+				DcMenuItem miMerge = new DcMenuItem(
+						DcResources.getText("lblMergeItems", current.getObjectNamePlural()));
+				miMerge.setIcon(IconLibrary._icoMerge);
+				miMerge.setActionCommand("merge");
+				miMerge.addActionListener(this);
+				add(miMerge);
             }
             
             if (file != null && connector.getUser().isAdmin() && dco.getModule().isFileBacked()) {
@@ -288,7 +303,19 @@ public class ViewPopupMenu extends DcPopupMenu implements ActionListener {
                 }
             }
         }).start();        
-    }    
+    }
+    
+    public void mergeItems() {
+    	IView view = GUI.getInstance().getSearchView(dco.getModuleIdx()).get(viewIdx);
+        List<? extends DcObject> items = view.getSelectedItems();
+        if (items.size() == 0) {
+            GUI.getInstance().displayWarningMessage(DcResources.getText("msgMergeNoItemsSelected"));
+        } else {
+            MergeItemsDialog dlg = new MergeItemsDialog(items, dco.getModule());
+            dlg.setVisible(true);
+        }
+    }
+        
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -304,6 +331,8 @@ public class ViewPopupMenu extends DcPopupMenu implements ActionListener {
             } catch (ValidationException ve) {
                 logger.debug(ve, ve);
             }
+        } else if (e.getActionCommand().equals("merge")) {
+            mergeItems();
         } else if (e.getActionCommand().equals("locateFileHP")) {
             locateFile(DriveManager._PRECISION_HIGHEST);
         } else if (e.getActionCommand().equals("locateFileMP")) {

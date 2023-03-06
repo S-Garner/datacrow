@@ -82,14 +82,6 @@ public class SecurityCenter {
      */
     private SecurityCenter() {}
     
-    public void registerUser() {
-    	
-    }
-    
-//    public SecuredUser getUser(String token) {
-//        return users.get(token);
-//    }
-    
     public SecuredUser getAdmin() {
     	if (admin == null) {
     		User user = new User();

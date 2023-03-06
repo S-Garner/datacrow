@@ -63,7 +63,8 @@ import org.datacrow.client.console.components.lists.elements.DcObjectListElement
 import org.datacrow.client.console.menu.DcPropertyViewPopupMenu;
 import org.datacrow.client.console.windows.CreateMultipleItemsDialog;
 import org.datacrow.client.console.windows.DcFrame;
-import org.datacrow.client.console.windows.MergePropertyItemsDialog;
+import org.datacrow.client.console.windows.IMergeItemsListener;
+import org.datacrow.client.console.windows.MergeItemsDialog;
 import org.datacrow.client.plugins.PluginHelper;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
@@ -84,7 +85,8 @@ import org.datacrow.core.wf.tasks.DcTask;
 import org.datacrow.core.wf.tasks.DeleteItemTask;
 
 
-public class DcMinimalisticItemView extends DcFrame implements ActionListener, MouseListener, ISimpleItemView, KeyListener, IClient {
+public class DcMinimalisticItemView extends DcFrame 
+	implements ActionListener, MouseListener, ISimpleItemView, KeyListener, IClient, IMergeItemsListener {
 
     private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
     
@@ -188,7 +190,8 @@ public class DcMinimalisticItemView extends DcFrame implements ActionListener, M
         if (items.size() == 0) {
             GUI.getInstance().displayWarningMessage(DcResources.getText("msgMergeNoItemsSelected"));
         } else {
-            MergePropertyItemsDialog dlg = new MergePropertyItemsDialog(items, DcModules.get(module), this);
+            MergeItemsDialog dlg = new MergeItemsDialog(items, DcModules.get(module));
+            dlg.addListener(this);
             dlg.setVisible(true);
         }
     }
@@ -602,4 +605,9 @@ public class DcMinimalisticItemView extends DcFrame implements ActionListener, M
     public void applySettings() {
         setFont(null);
     }
+
+	@Override
+	public void notifyItemsMerged() {
+		load();
+	}
 }

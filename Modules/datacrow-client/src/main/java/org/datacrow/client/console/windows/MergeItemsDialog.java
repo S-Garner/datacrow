@@ -39,7 +39,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -48,7 +47,6 @@ import org.datacrow.client.console.components.DcObjectComboBox;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.clients.IClient;
-import org.datacrow.core.console.ISimpleItemView;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilterEntry;
 import org.datacrow.core.data.Operator;
@@ -66,32 +64,32 @@ import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
-public class MergePropertyItemsDialog extends DcDialog implements ActionListener, IClient {
+public class MergeItemsDialog extends DcDialog implements ActionListener, IClient {
     
-    private static Logger logger = DcLogManager.getLogger(MergePropertyItemsDialog.class.getName());
+    private static Logger logger = DcLogManager.getLogger(MergeItemsDialog.class.getName());
 
     private JTextArea textLog = ComponentFactory.getTextArea();
     
     private DcModule module;
-    private Collection<DcObject> items;
+    private Collection<? extends DcObject> items;
     private DcObjectComboBox cbItems;
 
-    private DcButton buttonApply = ComponentFactory.getButton(DcResources.getText("lblApply"));
-    private DcButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
+    private final DcButton buttonApply = ComponentFactory.getButton(DcResources.getText("lblApply"));
+    private final DcButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
     
-    private JProgressBar progressBar = new JProgressBar();
-    private ISimpleItemView view;
+    private final JProgressBar progressBar = new JProgressBar();
+    
+    private final Collection<IMergeItemsListener> listeners = new ArrayList<>();
     
     private boolean canceled = false;
     
-    public MergePropertyItemsDialog(Collection<DcObject> items, DcModule module, ISimpleItemView view) {
+    public MergeItemsDialog(Collection<? extends DcObject> items, DcModule module) {
         super(GUI.getInstance().getRootFrame());
         
         this.setTitle(DcResources.getText("lblMergeItems", module.getObjectNamePlural()));
         this.module = module;
         this.items = items;
-        this.view = view;
-
+        
         setHelpIndex("dc.items.mergeitems");
 
         build();
@@ -109,6 +107,10 @@ public class MergePropertyItemsDialog extends DcDialog implements ActionListener
             MergeTask task = new MergeTask(this, items, target);
             task.start();
         }
+    }
+    
+    public void addListener(IMergeItemsListener listener) {
+    	listeners.add(listener);
     }
 
     @Override
@@ -134,10 +136,6 @@ public class MergePropertyItemsDialog extends DcDialog implements ActionListener
         buttonApply.setEnabled(true);
         cbItems.setEnabled(true);
         progressBar.setValue(progressBar.getMaximum());
-        
-        if (module.getType() == DcModule._TYPE_PROPERTY_MODULE) {
-            view.load();
-        }
     }
 
     @Override
@@ -243,23 +241,30 @@ public class MergePropertyItemsDialog extends DcDialog implements ActionListener
         pack();
     }
     
+    public void notifyListeners() {
+    	for (IMergeItemsListener listener : listeners) {
+    		listener.notifyItemsMerged();
+    	}
+    }
+    
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getActionCommand().equals("close")) {
             close();
         } else if (ae.getActionCommand().equals("replace")) {
             replace();
+            notifyListeners();
         }
     }
     
     private class MergeTask extends Thread {
         
-        private Collection<DcObject> items;
+        private Collection<? extends DcObject> items;
         private DcObject target;
         
         private IClient client;
         
-        private MergeTask(IClient client, Collection<DcObject> items, DcObject target) {
+        private MergeTask(IClient client, Collection<? extends DcObject> items, DcObject target) {
             this.items = items;
             this.target = target;
             this.client = client;
