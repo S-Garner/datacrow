@@ -2,6 +2,14 @@
 Data Crow version 4.8.0                                            Released on 2023-04-xx
 -----------------------------------------------------------------------------------------
 
+[New]
+- Added merge option to other modules beside the property modules. This means you can now
+  merge artists, developers and other (sub) module items. It allows you to select the 
+  duplicated items and select an existing target item. The process will the update all 
+  references from the duplicated items to the new target item. When that's done, the 
+  selected duplicated items are removed from the database completely. The merge dialog 
+  has been improved a bit as well.
+
 [Changed]
 - Updated HSQL DB to version 2.7.1. JSoup updated to 1.15.4. Gson (from Google) updated to 
   version 2.10.1. Apache xmlgraphics Batik updated to 1.16. Apache PDFBox updated to 
@@ -16,15 +24,19 @@ Data Crow version 4.8.0                                            Released on 2
 
 [To Do]
 - Add composers + query with online searches
-- Merge items (from sub modules)
-- Switch key values on for all modules - settings for default modules
+- Switch on key values on for all modules - settings for default modules
 - Add MovieMeter
 - Retest audio tagger.
 - Finish the synch server.
 - Move help to online.
-- Auto update of Data Crow
+- Issue with sorting
+- (Auto update of Data Crow)
 
-
+- Add translations;
+  backlog see forums
+  msgSelectedSourceItemsForMerge
+  lblSelectedItems
+  
 -----------------------------------------------------------------------------------------
 Data Crow version 4.7.0                                            Released on 2023-03-02
 -----------------------------------------------------------------------------------------

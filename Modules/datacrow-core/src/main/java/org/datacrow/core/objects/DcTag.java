@@ -25,8 +25,6 @@
 
 package org.datacrow.core.objects;
 
-import org.apache.logging.log4j.Logger;
-import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.modules.DcModules;
 
 
@@ -39,8 +37,6 @@ import org.datacrow.core.modules.DcModules;
  */
 public class DcTag extends DcProperty {
 
-    private transient static Logger logger = DcLogManager.getLogger(DcProperty.class.getName());
-    
 	private static final long serialVersionUID = -3687586617870758603L;
 
 	/**
@@ -57,7 +53,6 @@ public class DcTag extends DcProperty {
         if (o != null && o instanceof DcTag) {
             equals = ((DcTag) o).getID().equals(getID());
         } else if (o instanceof String) {
-            logger.debug("Should not check for equality this way", new Exception());
             equals = o.toString().equals(getValue(_A_NAME)) || o.toString().equals(getValue(_ID));
         }
         return equals;

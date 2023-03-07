@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
@@ -43,6 +44,7 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcButton;
+import org.datacrow.client.console.components.DcLongTextField;
 import org.datacrow.client.console.components.DcObjectComboBox;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
@@ -136,6 +138,8 @@ public class MergeItemsDialog extends DcDialog implements ActionListener, IClien
         buttonApply.setEnabled(true);
         cbItems.setEnabled(true);
         progressBar.setValue(progressBar.getMaximum());
+        
+        notifyListeners();
     }
 
     @Override
@@ -169,6 +173,41 @@ public class MergeItemsDialog extends DcDialog implements ActionListener, IClien
     }
 
     private void build() {
+
+        //**********************************************************
+        //Overview panel
+        //**********************************************************
+
+        JPanel panelOverview = new JPanel();
+        panelOverview.setLayout(Layout.getGBL());
+        
+        DcLongTextField txtExplanation = ComponentFactory.getLongTextField();
+        
+        txtExplanation.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        txtExplanation.setEditable(false);
+        txtExplanation.setText(DcResources.getText("msgSelectedSourceItemsForMerge"));
+        
+        DcLongTextField txtSelectedItems = ComponentFactory.getLongTextField();
+        txtSelectedItems.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        txtSelectedItems.setEditable(false);
+        JScrollPane itemScroller = new JScrollPane(txtSelectedItems);
+        itemScroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        String s = "";
+        for (DcObject dco : items)
+        	s += (s.length() > 0 ? ", " : "") + dco.toString();
+
+        txtSelectedItems.setText(s);
+        
+        itemScroller.setBorder(ComponentFactory.getTitleBorder(DcResources.getText("lblSelectedItems")));
+        
+        panelOverview.add(txtExplanation, Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                 new Insets(0, 0, 0, 0), 0, 0));
+        panelOverview.add(itemScroller, Layout.getGBC( 0, 1, 1, 1, 20.0, 20.0
+                    ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                     new Insets(5, 0, 0, 0), 0, 0));
+    	
         //**********************************************************
         //Input panel
         //**********************************************************
@@ -182,7 +221,7 @@ public class MergeItemsDialog extends DcDialog implements ActionListener, IClien
                  new Insets(0, 0, 0, 0), 0, 0));
         panelInput.add(cbItems, Layout.getGBC(1, 0, 1, 1, 100.0, 1.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                 new Insets(0, 0, 0, 0), 0, 0));
+                 new Insets(0, 10, 0, 0), 0, 0));
         
         //**********************************************************
         //Action panel
@@ -214,10 +253,10 @@ public class MergeItemsDialog extends DcDialog implements ActionListener, IClien
         panelLog.setLayout(Layout.getGBL());
 
         textLog.setEditable(false);
-        JScrollPane scroller = new JScrollPane(textLog);
-        scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane logScroller = new JScrollPane(textLog);
+        logScroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         panelLog.setBorder(ComponentFactory.getTitleBorder(DcResources.getText("lblLog")));
-        panelLog.add(scroller, Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
+        panelLog.add(logScroller, Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                      new Insets(5, 5, 5, 5), 0, 0));
         
@@ -225,15 +264,19 @@ public class MergeItemsDialog extends DcDialog implements ActionListener, IClien
         //Main panel
         //**********************************************************
         this.getContentPane().setLayout(Layout.getGBL());
-        this.getContentPane().add(panelInput  ,Layout.getGBC(0, 0, 1, 1, 1.0, 1.0
-              ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-               new Insets(5, 5, 5, 5), 0, 0));
-        this.getContentPane().add(panelActions,Layout.getGBC(0, 2, 1, 1, 1.0, 1.0
-              ,GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE,
-               new Insets(5, 5, 5, 5), 0, 0));
-        this.getContentPane().add(panelProgress,Layout.getGBC(0, 3, 1, 1, 1.0, 1.0
-              ,GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL,
-               new Insets(5, 5, 5, 5), 0, 0));
+
+        this.getContentPane().add(panelOverview, Layout.getGBC(0, 0, 1, 1, 20.0, 20.0
+                ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                 new Insets(5, 10, 5, 10), 0, 0));
+        this.getContentPane().add(panelInput  ,Layout.getGBC(0, 1, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                 new Insets(5, 10, 5, 10), 0, 0));
+          this.getContentPane().add(panelActions,Layout.getGBC(0, 2, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE,
+                 new Insets(5, 5, 5, 5), 0, 0));
+          this.getContentPane().add(panelProgress,Layout.getGBC(0, 3, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL,
+                 new Insets(5, 5, 5, 5), 0, 0));
         this.getContentPane().add(panelLog,Layout.getGBC(0, 4, 1, 1, 20.0, 20.0
                 ,GridBagConstraints.SOUTHWEST, GridBagConstraints.BOTH,
                  new Insets(5, 5, 5, 5), 0, 0));
@@ -249,12 +292,10 @@ public class MergeItemsDialog extends DcDialog implements ActionListener, IClien
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getActionCommand().equals("close")) {
+        if (ae.getActionCommand().equals("close"))
             close();
-        } else if (ae.getActionCommand().equals("replace")) {
+        else if (ae.getActionCommand().equals("replace"))
             replace();
-            notifyListeners();
-        }
     }
     
     private class MergeTask extends Thread {
