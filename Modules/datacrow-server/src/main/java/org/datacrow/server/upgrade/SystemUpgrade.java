@@ -55,6 +55,8 @@ import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.Directory;
+import org.datacrow.core.utilities.definitions.DcFieldDefinition;
+import org.datacrow.core.utilities.definitions.DcFieldDefinitions;
 import org.datacrow.server.db.DatabaseManager;
 
 /**
@@ -142,6 +144,10 @@ public class SystemUpgrade {
             	DcSettings.set(DcRepository.Settings.stLookAndFeel, 
             			new DcLookAndFeel("FlatLaf Light", "com.formdev.flatlaf.FlatLightLaf", null, 1));
             }
+
+            if (v.isOlder(new Version(4, 8, 0, 0))) {
+            	correctKeyValueSettings();
+            }
             
             if (!dbInitialized)
                 moveImages();
@@ -152,6 +158,32 @@ public class SystemUpgrade {
                 "if the error persists";
             throw new SystemUpgradeException(msg);
         }
+    }
+    
+    private void correctKeyValueSettings() {
+    	boolean hasKey;
+    	DcFieldDefinitions definitions;
+    	
+    	for (DcModule module : DcModules.getModules()) {
+    		
+    		if (module.getType() != DcModule._TYPE_MAPPING_MODULE &&   
+                module.getType() != DcModule._TYPE_TEMPLATE_MODULE) {
+    		
+	    		definitions =  
+    				(DcFieldDefinitions) module.getSetting(DcRepository.ModuleSettings.stFieldDefinitions);
+	    		
+	    		hasKey = false;
+	    		
+	    		for (DcFieldDefinition def : definitions.getDefinitions()) {
+	    			hasKey |= def.isUnique();
+	    		}
+	    		
+	    		if (!hasKey) {
+	        		for (DcFieldDefinition def : definitions.getDefinitions())
+	    				def.setUnique(def.isRequired());
+	    		}
+    		}
+    	}
     }
     
     private void saveIcons() {

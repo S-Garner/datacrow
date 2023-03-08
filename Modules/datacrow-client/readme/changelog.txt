@@ -20,11 +20,20 @@ Data Crow version 4.8.0                                            Released on 2
 - Online service pack 1.7: reimplemented online service for The Movie Database; fixed 
   issues present in previous versions where actors and such were no longer retrieved and 
   added additional fields to be retrieved such as: rating, countries and languages.
+- Switched on key field settings in everyone's configuration. This will allow for the 
+  uniqueness check to work; when saving an item, Data Crow will check whether the 
+  item already exists. It does this by checking the field settings; it will check 
+  the combination of values for all fields marked as "key". If an item already exists
+  with the exact same values for these key fields Data Crow will prevent you from 
+  saving the item. Since this was incorrectly set in the base configuration of Data 
+  Crow it will now be adjusted (just once) for everyone; every field that is currently
+  marked as 'required' will also gain the 'key' setting (see Settings > General Field
+  Settings).
 
 
 [To Do]
+
 - Add composers + query with online searches
-- Switch on key values on for all modules - settings for default modules
 - Add MovieMeter
 - Retest audio tagger.
 - Finish the synch server.
@@ -36,6 +45,8 @@ Data Crow version 4.8.0                                            Released on 2
   backlog see forums
   msgSelectedSourceItemsForMerge
   lblSelectedItems
+  
+Add credits on website for: https://www.fatcow.com/free-icons
   
 -----------------------------------------------------------------------------------------
 Data Crow version 4.7.0                                            Released on 2023-03-02

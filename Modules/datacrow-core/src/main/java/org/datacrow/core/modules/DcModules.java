@@ -109,6 +109,7 @@ public class DcModules implements Serializable {
     public static final int _DEVELOPER = 35000;
     public static final int _MUSICARTIST = 36000;
     public static final int _RECORD_LABEL = 37000;
+    public static final int _COMPOSER = 38000;
     
     public static final int _COUNTRY = 1000000;
     public static final int _LANGUAGE = 1100000;

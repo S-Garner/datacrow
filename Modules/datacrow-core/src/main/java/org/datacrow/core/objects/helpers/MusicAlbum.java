@@ -42,6 +42,7 @@ public class MusicAlbum extends DcMediaObject {
     public static final int _N_WEBPAGE = 9;
     public static final int _P_EAN = 11;
     public static final int _Q_RECORDLABEL = 19;
+    public static final int _R_COMPOSER = 21;
 
     public MusicAlbum() {
         super(DcModules._MUSIC_ALBUM);
