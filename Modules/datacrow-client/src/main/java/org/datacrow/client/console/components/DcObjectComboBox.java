@@ -68,7 +68,23 @@ public class DcObjectComboBox extends DcComboBox {
                 }
             }
         }
-    }    
+    }
+    
+    public void remove(Collection<? extends DcObject> remove) {
+        Collection<DcObject> newValues = new ArrayList<DcObject>();
+        Object value;
+        for (int i = 0; i < dataModel.getSize(); i++) {
+            value = dataModel.getElementAt(i);
+            if (value instanceof DcObject && !remove.contains(value))
+                newValues.add((DcObject) value);
+        }
+        
+        removeAllItems();
+        
+        addItem(" ");
+        for (DcObject dco : newValues)
+            addItem(dco);        
+    }
 
     @Override
     public void refresh() {

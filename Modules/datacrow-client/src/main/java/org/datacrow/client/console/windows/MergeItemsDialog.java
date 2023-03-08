@@ -212,7 +212,8 @@ public class MergeItemsDialog extends DcDialog implements ActionListener, IClien
         //Input panel
         //**********************************************************
         cbItems = ComponentFactory.getObjectCombo(module.getIndex());
-
+        cbItems.remove(items);
+        
         JPanel panelInput = new JPanel();
         panelInput.setLayout(Layout.getGBL());
         

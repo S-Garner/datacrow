@@ -43,6 +43,7 @@ import org.datacrow.client.console.components.DcMenuItem;
 import org.datacrow.client.console.components.DcPopupMenu;
 import org.datacrow.client.console.views.View;
 import org.datacrow.client.console.windows.BrowserDialog;
+import org.datacrow.client.console.windows.IMergeItemsListener;
 import org.datacrow.client.console.windows.MergeItemsDialog;
 import org.datacrow.client.console.windows.drivemanager.DriveManagerSingleItemMatcher;
 import org.datacrow.client.plugins.PluginHelper;
@@ -71,7 +72,7 @@ import org.datacrow.core.server.Connector;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
-public class ViewPopupMenu extends DcPopupMenu implements ActionListener {
+public class ViewPopupMenu extends DcPopupMenu implements ActionListener, IMergeItemsListener {
 
     private static Logger logger = DcLogManager.getLogger(ViewPopupMenu.class.getName());
     
@@ -312,6 +313,7 @@ public class ViewPopupMenu extends DcPopupMenu implements ActionListener {
             GUI.getInstance().displayWarningMessage(DcResources.getText("msgMergeNoItemsSelected"));
         } else {
             MergeItemsDialog dlg = new MergeItemsDialog(items, dco.getModule());
+            dlg.addListener(this);
             dlg.setVisible(true);
         }
     }
@@ -360,4 +362,9 @@ public class ViewPopupMenu extends DcPopupMenu implements ActionListener {
             }
         }
     }
+
+	@Override
+	public void notifyItemsMerged() {
+		GUI.getInstance().getSearchView(dco.getModuleIdx()).refresh();
+	}
 }
