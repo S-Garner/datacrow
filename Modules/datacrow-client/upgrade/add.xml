@@ -53,6 +53,26 @@
 			</field>
 		</fields>
 	</module>
+	<module>
+        <module-index>69</module-index>
+        <module-jar>music track.jar</module-jar>
+		<fields>
+            <field>
+                <index>12</index>
+                <name>Composers</name>
+                <database-column-name>Composers</database-column-name>
+                <ui-only>true</ui-only>
+                <enabled>true</enabled>
+                <readonly>false</readonly>
+                <searchable>true</searchable>
+                <maximum-length>0</maximum-length>
+                <field-type>21</field-type>
+                <module-reference>38000</module-reference>
+                <value-type>18</value-type>
+                <overwritable>true</overwritable>
+            </field>
+		</fields>
+	</module>	
     <module>
         <module-index>54</module-index>
         <module-jar>book.jar</module-jar>

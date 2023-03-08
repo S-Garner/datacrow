@@ -9,6 +9,7 @@ Data Crow version 4.8.0                                            Released on 2
   references from the duplicated items to the new target item. When that's done, the 
   selected duplicated items are removed from the database completely. The merge dialog 
   has been improved a bit as well.
+- Added componists module and added a componists field to the music album module.
 
 [Changed]
 - Updated HSQL DB to version 2.7.1. JSoup updated to 1.15.4. Gson (from Google) updated to 
@@ -29,24 +30,26 @@ Data Crow version 4.8.0                                            Released on 2
   Crow it will now be adjusted (just once) for everyone; every field that is currently
   marked as 'required' will also gain the 'key' setting (see Settings > General Field
   Settings).
+- Discogs.com service now also sets the composer for tracks & albums.
+
+[Fixed]
+- Discogs.com service now handles sub tracks correctly.
 
 
 [To Do]
-
-- Add composers + query with online searches
+- Fix Record Label; convert table names, etc.
+- Correct all settings.
 - Add MovieMeter
 - Retest audio tagger.
 - Finish the synch server.
 - Move help to online.
 - Issue with sorting
 - (Auto update of Data Crow)
-
 - Add translations;
   backlog see forums
   msgSelectedSourceItemsForMerge
   lblSelectedItems
-  
-Add credits on website for: https://www.fatcow.com/free-icons
+
   
 -----------------------------------------------------------------------------------------
 Data Crow version 4.7.0                                            Released on 2023-03-02

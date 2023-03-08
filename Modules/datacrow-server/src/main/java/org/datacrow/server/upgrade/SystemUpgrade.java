@@ -36,7 +36,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.Version;
@@ -145,9 +144,8 @@ public class SystemUpgrade {
             			new DcLookAndFeel("FlatLaf Light", "com.formdev.flatlaf.FlatLightLaf", null, 1));
             }
 
-            if (v.isOlder(new Version(4, 8, 0, 0))) {
+            if (v.isOlder(new Version(4, 8, 0, 0)))
             	correctKeyValueSettings();
-            }
             
             if (!dbInitialized)
                 moveImages();

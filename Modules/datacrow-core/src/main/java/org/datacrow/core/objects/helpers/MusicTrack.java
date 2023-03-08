@@ -42,6 +42,7 @@ public class MusicTrack extends DcMediaObject {
     public static final int _M_LYRIC = 8;
     public static final int _O_STATE = 10;
     public static final int _P_ALBUM = 11;
+    public static final int _Q_COMPOSER = 12;
 
     public MusicTrack() {
         super(DcModules._MUSIC_TRACK);

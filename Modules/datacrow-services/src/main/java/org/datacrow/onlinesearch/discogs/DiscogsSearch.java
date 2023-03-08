@@ -43,6 +43,7 @@ public class DiscogsSearch extends SearchTask {
     private final Gson gson;
     
     private final DiscogsArtistCache artistCache = new DiscogsArtistCache();
+    private final DiscogsArtistCache composerCache = new DiscogsArtistCache();
     
     public DiscogsSearch(
             IOnlineSearchClient listener, 
@@ -95,6 +96,7 @@ public class DiscogsSearch extends SearchTask {
         dco.addExternalReference(DcRepository.ExternalReferences._DISCOGS, String.valueOf(id.intValue()));
 
         setArtists(dco, src);
+        setComposers(null, dco, src);
         setRating(dco, src);
         addTracks(dco, src);
         
@@ -166,24 +168,81 @@ public class DiscogsSearch extends SearchTask {
         MusicTrack mt;
         for (LinkedTreeMap<?, ?> trackData : tracksData) {
             
-            if (trackData.get("type_") == null || !trackData.get("type_").equals("track"))
-                continue;
+        	if (trackData.get("type_") == null) continue;
+        	
+        	if (trackData.get("type_").equals("track")) {
+                mt = new MusicTrack();
+                
+                mt.setValue(MusicTrack._F_TRACKNUMBER, trackData.get("position"));
+                mt.setValue(MusicTrack._A_TITLE, trackData.get("title"));
+                
+                setPlaylength(mt, trackData);
+                setArtists(mt, trackData);
+                setComposers(mt, dco, trackData);
+                
+                if (!mt.isFilled(MusicTrack._G_ARTIST))
+                    setArtists(mt, albumData);
+                
+                dco.addChild(mt);        		
+        		
+        	} else if (trackData.get("type_").equals("index")) {
+        		@SuppressWarnings("unchecked")
+				Collection<LinkedTreeMap<?, ?>> subTracksData = 
+        				(Collection<LinkedTreeMap<?, ?>>) trackData.get("sub_tracks");
+        		
+        		for (LinkedTreeMap<?, ?> subTrackData : subTracksData) {
+        			mt = new MusicTrack();
+                    
+                    mt.setValue(MusicTrack._F_TRACKNUMBER, subTrackData.get("position"));
+                    mt.setValue(MusicTrack._A_TITLE, subTrackData.get("title"));
+                    
+                    setPlaylength(mt, subTrackData);
+                    setArtists(mt, subTrackData);
+                    setComposers(mt, dco, trackData);
+                    
+                    if (!mt.isFilled(MusicTrack._G_ARTIST))
+                        setArtists(mt, albumData);
+                    
+                    dco.addChild(mt);        			
+        		}
+        	}
+        } 
+    }  
+    
+    @SuppressWarnings("unchecked")
+    private void setComposers(DcObject track, DcObject album, Map<?, ?> src) {
+    	Collection<LinkedTreeMap<?, ?>> artistsData = (Collection<LinkedTreeMap<?, ?>>) src.get("extraartists");
+
+        if (artistsData == null)
+            return;
+        
+        DcAssociate composer;
+        String artistId;
+        
+        for (LinkedTreeMap<?, ?> artistData : artistsData) {
+            artistId = String.valueOf(((Double) artistData.get("id")).intValue());
+            if ("Composed By".equals(artistData.get("role"))) { 
             
-            mt = new MusicTrack();
-            
-            mt.setValue(MusicTrack._F_TRACKNUMBER, trackData.get("position"));
-            mt.setValue(MusicTrack._A_TITLE, trackData.get("title"));
-            
-            setPlaylength(mt, trackData);
-            
-            setArtists(mt, trackData);
-            
-            if (!mt.isFilled(MusicTrack._G_ARTIST)) {
-                setArtists(mt, albumData);
+	            if (composerCache.contains(artistId)) {
+	            	composer = composerCache.getArtist(artistId);
+	            } else {
+	            	composer = new DcAssociate(DcModules._COMPOSER);
+	                
+	            	composer.addExternalReference(ExternalReferences._DISCOGS, artistId);
+	            	composer.setValue(DcAssociate._A_NAME, artistData.get("name"));
+	            	composer.setValue(DcAssociate._C_WEBPAGE, "https://www.discogs.com/artist/" + artistId);
+	            	composer.setIDs();
+	                
+	            	composerCache.addArtist(composer, artistId);
+	            }
+	            
+	            if (album != null)
+	            	album.createReference(MusicAlbum._R_COMPOSER, composer);
+	            
+	            if (track != null)
+	            	track.createReference(MusicTrack._Q_COMPOSER, composer);
             }
-            
-            dco.addChild(mt);
-        }        
+        }
     }    
     
     @SuppressWarnings("unchecked")
