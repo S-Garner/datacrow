@@ -34,6 +34,7 @@ Data Crow version 4.8.0                                            Released on 2
 
 [Fixed]
 - Discogs.com service now handles sub tracks correctly.
+- Corrected all incorrect base settings, for new installation.
 
 
 [To Do]
