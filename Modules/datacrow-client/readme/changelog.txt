@@ -10,6 +10,7 @@ Data Crow version 4.8.0                                            Released on 2
   selected duplicated items are removed from the database completely. The merge dialog 
   has been improved a bit as well.
 - Added componists module and added a componists field to the music album module.
+- Added moviemeter.nl online search (Dutch movie site).
 
 [Changed]
 - Updated HSQL DB to version 2.7.1. JSoup updated to 1.15.4. Gson (from Google) updated to 
@@ -39,17 +40,11 @@ Data Crow version 4.8.0                                            Released on 2
   were incorrect. The database will be automatically updated.
 
 [To Do]
-- Add MovieMeter
 - Retest audio tagger.
 - Finish the synch server.
 - Move help to online.
 - Issue with sorting
 - (Auto update of Data Crow)
-- Add translations;
-  backlog see forums
-  msgSelectedSourceItemsForMerge
-  lblSelectedItems
-
   
 -----------------------------------------------------------------------------------------
 Data Crow version 4.7.0                                            Released on 2023-03-02

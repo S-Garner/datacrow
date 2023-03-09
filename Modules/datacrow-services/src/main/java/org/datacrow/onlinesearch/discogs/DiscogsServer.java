@@ -22,7 +22,7 @@ public class DiscogsServer implements IServer {
     private Collection<SearchMode> modes = new ArrayList<SearchMode>();
 
     public DiscogsServer() {
-        regions.add(new Region("en", "English", "http://www.discogs.com/"));
+        regions.add(new Region("en", "English", "https://www.discogs.com/"));
     }
 
     @Override

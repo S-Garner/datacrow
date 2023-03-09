@@ -43,10 +43,12 @@ public class MovieMeterServer implements IServer {
     
     private static final long serialVersionUID = -3390016609750312258L;
 
-    private Collection<Region> regions = new ArrayList<Region>();
     private Collection<SearchMode> modes = new ArrayList<SearchMode>();
+    private Collection<Region> regions = new ArrayList<Region>();
 
-    public MovieMeterServer() {}
+    public MovieMeterServer() {
+    	regions.add(new Region("nl", "Dutch", "https://moviemeter.nl/"));
+    }
 
     @Override
     public int getModule() {
@@ -71,11 +73,6 @@ public class MovieMeterServer implements IServer {
     @Override
     public String getName() {
         return "MovieMeter.nl";
-    }
-
-    @Override
-    public Collection<Region> getRegions() {
-        return regions;
     }
 
     @Override
@@ -116,4 +113,9 @@ public class MovieMeterServer implements IServer {
     public long getWaitTimeBetweenRequest() {
         return 1000l;
     }
+
+	@Override
+	public Collection<Region> getRegions() {
+		return regions;
+	}
 }
