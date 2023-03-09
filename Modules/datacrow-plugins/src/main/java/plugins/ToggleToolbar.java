@@ -5,7 +5,7 @@
  *                               <-<-\ __ /->->                               *
  *                               Data /  \ Crow                               *
  *                                   ^    ^                                   *
- *                              info@datacrow.net                             *
+ *                              info@datacrow.org                             *
  *                                                                            *
  *                       This file is part of Data Crow.                      *
  *       Data Crow is free software; you can redistribute it and/or           *
@@ -22,6 +22,7 @@
  *  License along with this program. If not, see http://www.gnu.org/licenses  *
  *                                                                            *
  ******************************************************************************/
+
 package plugins;
 
 import java.awt.event.ActionEvent;
