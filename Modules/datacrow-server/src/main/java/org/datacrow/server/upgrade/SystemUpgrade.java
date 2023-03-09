@@ -27,6 +27,7 @@ package org.datacrow.server.upgrade;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -81,7 +82,6 @@ public class SystemUpgrade {
     
     public void start() throws SystemUpgradeException {
         try {
-            
             Version v = DatabaseManager.getInstance().getVersion();
             if (!dbInitialized && v.isOlder(new Version(4, 0, 0, 0))) {
                 Connector connector = DcConfig.getInstance().getConnector();
@@ -90,6 +90,13 @@ public class SystemUpgrade {
                         + "for information.");
                 
                 checkAudioTables();
+            }
+            
+            if (!dbInitialized)
+                moveImages();
+            
+            if (!dbInitialized) {
+            	renameRecordLabel();
             }
             
             if (dbInitialized && v.isOlder(new Version(4, 0, 2, 0))) {
@@ -139,22 +146,87 @@ public class SystemUpgrade {
                 }
             }
             
-            if (v.isOlder(new Version(4, 7, 0, 0))) {
+            if (dbInitialized && v.isOlder(new Version(4, 7, 0, 0))) {
             	DcSettings.set(DcRepository.Settings.stLookAndFeel, 
             			new DcLookAndFeel("FlatLaf Light", "com.formdev.flatlaf.FlatLightLaf", null, 1));
             }
 
-            if (v.isOlder(new Version(4, 8, 0, 0)))
+            if (dbInitialized && v.isOlder(new Version(4, 8, 0, 0)))
             	correctKeyValueSettings();
             
-            if (!dbInitialized)
-                moveImages();
-            
+
         } catch (Exception e) {
             String msg = e.toString() + ". Data conversion failed. " +
                 "Please restore your latest Backup and retry. Contact the developer " +
                 "if the error persists";
             throw new SystemUpgradeException(msg);
+        }
+    }
+    
+    private void renameRecordLabel() {
+        Connection conn = DatabaseManager.getInstance().getAdminConnection();
+        Connector connector = DcConfig.getInstance().getConnector();
+        Statement stmt = null;
+        
+        try {
+            stmt = conn.createStatement();
+            
+			DatabaseMetaData dbm = conn.getMetaData();
+			ResultSet tables = dbm.getTables(null, null, "TBL_6A4A14EC9A6D43F380B5222A101EC4A2", null);
+			boolean exists = tables.next();
+			tables.close();
+
+			if (exists) {
+
+	            String sql = "alter table TBL_6A4A14EC9A6D43F380B5222A101EC4A2 rename to RECORDLABEL";
+	            stmt.execute(sql);
+	            
+	            sql = "alter table TBL_6A4A14EC9A6D43F380B5222A101EC4A2_EXTERNALREFERENCE rename to RECORDLABEL_EXTERNALREFERENCE";
+	            stmt.execute(sql);
+	
+	            sql = "alter table TBL_6A4A14EC9A6D43F380B5222A101EC4A2_TEMPLATE rename to RECORDLABEL_TEMPLATE";
+	            stmt.execute(sql);
+	            
+	            sql = "alter table X_TBL_6A4A14EC9A6D43F380B5222A101EC4A2_EXTERNALREFERENCES rename to X_RECORDLABEL_EXTERNALREFERENCES";
+	            stmt.execute(sql);            
+	
+	            sql = "alter table X_TBL_6A4A14EC9A6D43F380B5222A101EC4A2_TAGS rename to X_RECORDLABEL_TAGS";
+	            stmt.execute(sql);            
+	
+	            sql = "alter table RECORDLABEL alter column col_8f90365edbd844738c5b662cb597a084 rename to Description";
+	            stmt.execute(sql);            
+	            
+	            sql = "alter table RECORDLABEL alter column col_ca4236f9dc5c42398aa6a070f2149655 rename to Webpage";
+	            stmt.execute(sql);            
+	
+	            sql = "alter table RECORDLABEL alter column col_d3a623ec48584c8cb0f25d3b8432d6f0 rename to Name";
+	            stmt.execute(sql);            
+	            
+	            sql = "alter table RECORDLABEL alter column col_f87162e98604407bb33987913faf36a9 rename to ContactInformation";
+	            stmt.execute(sql);
+	            
+	            sql = "alter table RECORDLABEL_TEMPLATE alter column col_8f90365edbd844738c5b662cb597a084 rename to Description";
+	            stmt.execute(sql);            
+	            
+	            sql = "alter table RECORDLABEL_TEMPLATE alter column col_ca4236f9dc5c42398aa6a070f2149655 rename to Webpage";
+	            stmt.execute(sql);            
+	
+	            sql = "alter table RECORDLABEL_TEMPLATE alter column col_d3a623ec48584c8cb0f25d3b8432d6f0 rename to Name";
+	            stmt.execute(sql);            
+	            
+	            sql = "alter table RECORDLABEL_TEMPLATE alter column col_f87162e98604407bb33987913faf36a9 rename to ContactInformation";
+	            stmt.execute(sql);
+	            
+	            sql = "alter table MUSIC_ALBUM alter column COL_FF4C3A3A56C243B6887F1A15490628BE rename to RecordLabel";
+	            stmt.execute(sql);
+			}
+        } catch (Exception e) {
+            logger.error("Upgrade failed; could not renamed the record label tables.", e);
+            connector.displayError("Upgrade failed; could not renamed the record label tables.");
+            System.exit(0);
+        } finally {
+        	try { if (stmt != null) stmt.close(); } catch (Exception e) {};
+        	try { if (stmt != null) conn.close(); } catch (Exception e) {};
         }
     }
     

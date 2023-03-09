@@ -49,6 +49,7 @@ import org.datacrow.core.modules.xml.XmlField;
 import org.datacrow.core.modules.xml.XmlModule;
 import org.datacrow.core.modules.xml.XmlObject;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.XMLParser;
 
 /**
@@ -170,6 +171,7 @@ public class ModuleUpgrade extends XmlObject {
         for (int i = 0; i < nodes.getLength(); i++) {
             Element module = (Element) nodes.item(i);
             String jarfile = XMLParser.getString(module, "module-jar");
+            String tableName = XMLParser.getString(module, "table-name");
             int index = XMLParser.getInt(module, "module-index");
             
             if (!new File(DcConfig.getInstance().getModuleDir() + jarfile).exists()) continue;
@@ -189,6 +191,9 @@ public class ModuleUpgrade extends XmlObject {
             
             // get the fields to add
             XmlModule xmlModule = jar.getModule();
+
+            if (!CoreUtilities.isEmpty(tableName))
+            	xmlModule.setTableName(tableName);
             
             for (XmlField fieldNew :  getFields(module, index)) {
                 XmlField fieldOrg = getField(fieldNew.getIndex(), xmlModule.getFields());

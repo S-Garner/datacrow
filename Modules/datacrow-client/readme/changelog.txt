@@ -35,11 +35,10 @@ Data Crow version 4.8.0                                            Released on 2
 [Fixed]
 - Discogs.com service now handles sub tracks correctly.
 - Corrected all incorrect base settings, for new installation.
-
+- Cleanup; corrected the record label module and field references, internal names
+  were incorrect. The database will be automatically updated.
 
 [To Do]
-- Fix Record Label; convert table names, etc.
-- Correct all settings.
 - Add MovieMeter
 - Retest audio tagger.
 - Finish the synch server.
