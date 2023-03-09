@@ -29,12 +29,15 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.datacrow.core.DcRepository.ExternalReferences;
 import org.datacrow.core.http.HttpConnection;
+import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.objects.helpers.Movie;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
 import org.datacrow.core.services.OnlineServiceError;
@@ -44,6 +47,8 @@ import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.SearchTaskUtilities;
 import org.datacrow.core.services.Servers;
 import org.datacrow.core.services.plugin.IServer;
+import org.datacrow.core.utilities.CoreUtilities;
+import org.datacrow.onlinesearch.util.JsonHelper;
 
 import com.google.gson.Gson;
 
@@ -75,30 +80,29 @@ public class MovieMeterSearch extends SearchTask {
     	DcObject dco = tsr.getDco();
     	
     	waitBetweenRequest();
-    	
-//    	String additionalData = "images,casts,list,crew";
-//    	String url = "http://api.themoviedb.org/3/movie/" + tsr.getMovieId() + 
-//    			"?api_key=" + apiKey + "&append_to_response=" + additionalData + "&language=en";
-//
-//        HttpConnection conn = new HttpConnection(new URL(url), userAgent);
-//        String json = conn.getString(StandardCharsets.UTF_8);
-//        conn.close();
-//        
-//        Map<?, ?> src = gson.fromJson(json, Map.class);
-//
-//        setPlaylength(src, dco);
-//        setRating(src, dco);
-//        setImages(src, dco);
-//        
-//        setCast(src, "cast", dco, Movie._I_ACTORS, null);
-//        setCast(src, "crew", dco, Movie._J_DIRECTOR, "Director");
-//        
-//        setReferences(src, "production_countries", dco, Movie._F_COUNTRY);
-//        setReferences(src, "spoken_languages", dco, Movie._1_AUDIOLANGUAGE);
-//        setReferences(src, "spoken_languages", dco, Movie._D_LANGUAGE);
-//        
-//        setReferences(src, "genres", dco, Movie._H_GENRES);
-//        setString(src, "homepage", dco, Movie._G_WEBPAGE);
+
+    	String url = "https://www.moviemeter.nl/api/film/" + tsr.getMovieId() + 
+    			"?api_key=" + apiKey;
+
+        HttpConnection conn = new HttpConnection(new URL(url), userAgent);
+        String json = conn.getString(StandardCharsets.UTF_8);
+        conn.close();
+        
+        Map<?, ?> src = gson.fromJson(json, Map.class);
+        
+        JsonHelper.setString(src, "plot", dco, Movie._B_DESCRIPTION);
+        JsonHelper.setString(src, "url", dco, Movie._G_WEBPAGE);
+        
+        if (src.containsKey("imdb"))
+        	dco.addExternalReference(ExternalReferences._IMDB, (String) src.get("imdb"));
+        
+        setPlaylength(src, dco);
+        setImage(src, dco);
+        
+        setReferences(src, "countries", dco, Movie._F_COUNTRY);
+        setReferences(src, "genres", dco, Movie._H_GENRES);
+        setReferences(src, "actors", dco, Movie._I_ACTORS);
+        setReferences(src, "directors", dco, Movie._J_DIRECTOR);
         
         return dco;
     }
@@ -110,34 +114,27 @@ public class MovieMeterSearch extends SearchTask {
         try {
             waitBetweenRequest();
 
-            String url = getServer().getUrl() + "q=" + getQuery() + "&api_key=" + apiKey;
+            String url = getServer().getUrl() + "?q=" + getQuery() + "&api_key=" + apiKey;
             
             HttpConnection conn = new HttpConnection(new URL(url), userAgent);
             String json = conn.getString(StandardCharsets.UTF_8);
             conn.close();
             
-            Map<?, ?> raw = gson.fromJson(json, Map.class);
-            
             @SuppressWarnings("unchecked")
-			ArrayList<Map<?, ?>> movies = 
-				(ArrayList<Map<?, ?>>) raw.get("results");
+			List<Map<?, ?>> raw = gson.fromJson(json, List.class);
             
             int count = 0;
             MovieMeterSearchResult mmsr;
             DcObject movie;
             String id;
-            for (Map<?, ?> src : movies) {
+            for (Map<?, ?> src : raw) {
             	movie = DcModules.get(DcModules._MOVIE).getItem();
             	
             	id = String.valueOf(((Number) src.get("id")).longValue());
-//            	
-//            	setString(src, "title", movie, Movie._A_TITLE);
-//            	setString(src, "original_title", movie, Movie._F_TITLE_LOCAL);
-//            	setString(src, "overview", movie, Movie._B_DESCRIPTION);
-//            	
-//            	movie.setValue(Movie._G_WEBPAGE, "https://www.themoviedb.org/movie/" + id);
-//            	
-//            	setYear(src, "release_date" , movie);
+
+            	JsonHelper.setString(src, "title", movie, Movie._A_TITLE);
+            	JsonHelper.setYear(src, "year", movie);
+            	setRating(src, movie);
 
             	setServiceInfo(movie);
             	movie.addExternalReference(ExternalReferences._MOVIEMETER, String.valueOf(id));
@@ -156,106 +153,61 @@ public class MovieMeterSearch extends SearchTask {
         return results;
     }
     
-//    private void setString(Map<?, ?> map, String tag, DcObject dco, int fieldIdx) {
-//    	
-//    	Object o = map.get(tag);
-//    	
-//    	if (!CoreUtilities.isEmpty(o)) {
-//    		String s = o instanceof String ? (String) o : o.toString();
-//    		dco.setValue(fieldIdx, s);
-//    	}
-//    }
-//    
-//    private void setYear(Map<?, ?> map, String tag, DcObject dco) {
-//    	if (map.containsKey(tag)) {
-//    		String year =  (String) map.get(tag);
-//    		year = year.length() == 10 ? year.substring(0, 4) : null;
-//    		
-//    		if (year != null)
-//    			dco.setValue(Movie._C_YEAR, year);
-//    	}
-//    }
-//    
-//    @SuppressWarnings("unchecked")
-//	private void setReferences(Map<?, ?> map, String tag, DcObject dco, int fieldIdx) {
-//    	if (!map.containsKey(tag)) return;
-//    	
-//		ArrayList<Map<?, ?>> values = 
-//    			(ArrayList<Map<?, ?>>) map.get(tag);
-//    	
-//		String name;
-//    	for (Map<? ,?> value : values) {
-//    		name = value.containsKey("name") ? 
-//    				(String) value.get("name") :
-//    					value.containsKey("english_name") ?
-//    						(String) value.get("english_name") : null;
-//    		
-//    		if (name != null) 
-//    			dco.createReference(fieldIdx, name);
-//    	}	
-//    }
-//    
-//    private void setRating(Map<?, ?> map, DcObject dco) {
-//    	if (map.containsKey("vote_average") && !CoreUtilities.isEmpty(map.get("vote_average"))) {
-//    		int rating = ((Number) map.get("vote_average")).intValue();
-//    		dco.setValue(Movie._E_RATING, Integer.valueOf(rating));
-//    	}
-//    }
-//    
-//    private void setPlaylength(Map<?, ?> map, DcObject dco) {
-//    	if (map.containsKey("runtime") && !CoreUtilities.isEmpty(map.get("runtime"))) {
-//    		int runtime = ((Number) map.get("runtime")).intValue();
-//    		runtime = runtime * 60;
-//    		dco.setValue(Movie._L_PLAYLENGTH, Integer.valueOf(runtime));
-//    	}
-//    }
-//    
-//    private void setImages(Map<?, ?> map, DcObject dco) {
-//    	byte[] image;
-//    	
-//    	if (map.containsKey("backdrop_path") && !CoreUtilities.isEmpty(map.get("backdrop_path"))) {
-//    		image = getImageBytes(imageBaseUrl + map.get("backdrop_path"));
-//    		dco.setValue(Movie._Y_PICTUREBACK, image);
-//    	}
-//    	
-//    	if (map.containsKey("poster_path") && !CoreUtilities.isEmpty(map.get("poster_path"))) {
-//    		image = getImageBytes(imageBaseUrl + map.get("poster_path"));
-//    		dco.setValue(Movie._X_PICTUREFRONT, image);
-//    	}
-//    }  
-//    
-//    @SuppressWarnings("unchecked")
-//	private void setCast(Map<?, ?> src, String castType, DcObject dco, int fieldIdx, String role) {
-//    	
-//    	if (src.containsKey("casts")) {
-//    		ArrayList<Map<?, ?>> castmembers = 
-//    				(ArrayList<Map<?, ?>>) ((Map<?, ?>)  src.get("casts")).get(castType);
-//    		
-//    		if (castmembers == null)
-//    			return;
-//    		
-//    		byte[] image; 
-//    		DcObject person;
-//    		for (Map<? ,?> castmember : castmembers) {
-//    			
-//    			if (role != null && !role.equalsIgnoreCase((String) castmember.get("job")))
-//    				continue;
-//    			
-//    			person = dco.createReference(fieldIdx, (String) castmember.get("name"));
-//    			if (person.isNew() &&
-//                    DcModules.get(DcModules._MOVIE).getSettings().getBoolean(DcRepository.ModuleSettings.stOnlineSearchSubItems) &&
-//                    !CoreUtilities.isEmpty(castmember.get("profile_path"))) {
-//
-//    				try {
-//    					image = HttpConnectionUtil.retrieveBytes(imageBaseUrl + castmember.get("profile_path"));
-//    					person.setValue(DcAssociate._D_PHOTO, new DcImageIcon(image));
-//    				} catch (HttpConnectionException hce) {
-//    					listener.addMessage("Could not retrieve photo for " + person + ". Message: " + hce.getMessage());
-//    				}
-//                }
-//    		}
-//    	}
-//    }
+    private void setPlaylength(Map<?, ?> map, DcObject dco) {
+    	if (map.containsKey("duration") && !CoreUtilities.isEmpty(map.get("duration"))) {
+    		int runtime = ((Number) map.get("duration")).intValue();
+    		runtime = runtime * 60;
+    		dco.setValue(Movie._L_PLAYLENGTH, Integer.valueOf(runtime));
+    	}
+    }
+    
+    private void setRating(Map<?, ?> map, DcObject dco) {
+    	if (map.containsKey("average")) {
+    		Double rating = (Double) map.get("average");
+    		dco.setValue(Movie._E_RATING, Integer.valueOf(rating.intValue() * 2));
+    	}
+    }
+    
+    private void setImage(Map<?, ?> map, DcObject dco) {
+    	if (map.containsKey("posters")) {
+    		String url = (String) ((Map<?, ?>) map.get("posters")).get("large");
+    		
+    		if (url != null) {
+    			try {
+    				byte[] img = HttpConnectionUtil.retrieveBytes(url);
+    				dco.setValue(Movie._X_PICTUREFRONT, img);
+    			} catch (Exception e) {
+    				listener.addMessage("Could not retrieve image: " + e.getMessage());
+    			}
+    		}
+    	}
+    }    
+    
+    /**
+     * The character used to substitute white spaces from the query (see {@link #getQuery()}).
+     * Should be overridden by specific implementations.
+     */
+    public String getWhiteSpaceSubst() {
+        return "%";
+    }
+    
+	@SuppressWarnings("rawtypes")
+	private void setReferences(Map<?, ?> map, String tag, DcObject dco, int fieldIdx) {
+    	if (!map.containsKey(tag)) return;
+    	
+		ArrayList<?> values = (ArrayList<?>) map.get(tag);
+		
+		for (Object entry : values) {
+			
+			if (entry instanceof String) {
+				dco.createReference(fieldIdx, entry);
+			} else if (entry instanceof Map) {
+				String name = (String) ((Map) entry).get("name");
+				if (name != null)
+					dco.createReference(fieldIdx, name);
+			}
+		}
+    }
 
     @Override
     protected void preSearchCheck() {

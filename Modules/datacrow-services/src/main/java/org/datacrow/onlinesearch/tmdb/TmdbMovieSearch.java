@@ -51,6 +51,7 @@ import org.datacrow.core.services.SearchTaskUtilities;
 import org.datacrow.core.services.Servers;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.utilities.CoreUtilities;
+import org.datacrow.onlinesearch.util.JsonHelper;
 
 import com.google.gson.Gson;
 
@@ -131,7 +132,7 @@ public class TmdbMovieSearch extends SearchTask {
         setReferences(src, "spoken_languages", dco, Movie._D_LANGUAGE);
         
         setReferences(src, "genres", dco, Movie._H_GENRES);
-        setString(src, "homepage", dco, Movie._G_WEBPAGE);
+        JsonHelper.setString(src, "homepage", dco, Movie._G_WEBPAGE);
         
         return dco;
     }
@@ -165,13 +166,14 @@ public class TmdbMovieSearch extends SearchTask {
             	
             	id = String.valueOf(((Number) src.get("id")).longValue());
             	
-            	setString(src, "title", movie, Movie._A_TITLE);
-            	setString(src, "original_title", movie, Movie._F_TITLE_LOCAL);
-            	setString(src, "overview", movie, Movie._B_DESCRIPTION);
+            	JsonHelper.setString(src, "title", movie, Movie._A_TITLE);
+            	JsonHelper.setString(src, "original_title", movie, Movie._F_TITLE_LOCAL);
+            	JsonHelper.setString(src, "overview", movie, Movie._B_DESCRIPTION);
             	
             	movie.setValue(Movie._G_WEBPAGE, "https://www.themoviedb.org/movie/" + id);
             	
-            	setYear(src, "release_date" , movie);
+            	JsonHelper.setYear(src, "release_date" , movie);
+            	
             	setServiceInfo(movie);
             	
             	movie.addExternalReference(ExternalReferences._TMDB, String.valueOf(id));
@@ -188,26 +190,6 @@ public class TmdbMovieSearch extends SearchTask {
         }
         
         return results;
-    }
-    
-    private void setString(Map<?, ?> map, String tag, DcObject dco, int fieldIdx) {
-    	
-    	Object o = map.get(tag);
-    	
-    	if (!CoreUtilities.isEmpty(o)) {
-    		String s = o instanceof String ? (String) o : o.toString();
-    		dco.setValue(fieldIdx, s);
-    	}
-    }
-    
-    private void setYear(Map<?, ?> map, String tag, DcObject dco) {
-    	if (map.containsKey(tag)) {
-    		String year =  (String) map.get(tag);
-    		year = year.length() == 10 ? year.substring(0, 4) : null;
-    		
-    		if (year != null)
-    			dco.setValue(Movie._C_YEAR, year);
-    	}
     }
     
     @SuppressWarnings("unchecked")
