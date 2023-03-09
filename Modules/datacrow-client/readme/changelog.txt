@@ -11,6 +11,9 @@ Data Crow version 4.8.0                                            Released on 2
   has been improved a bit as well.
 - Added componists module and added a componists field to the music album module.
 - Added moviemeter.nl online search (Dutch movie site).
+- Database language setting added. This determines how items are sorted. For most
+  languages, the default will work. But if you find the sorting is not correct, please
+  change the setting in Settings > Regional Settings > Database Language.
 
 [Changed]
 - Updated HSQL DB to version 2.7.1. JSoup updated to 1.15.4. Gson (from Google) updated to 
@@ -38,15 +41,15 @@ Data Crow version 4.8.0                                            Released on 2
 - Corrected all incorrect base settings, for new installation.
 - Cleanup; corrected the record label module and field references, internal names
   were incorrect. The database will be automatically updated.
+- Sorting of values was not correct for the tree panels and for the auto numbering tool
+  (for special characters).
 
 [To Do]
 - Retest audio tagger.
 - Finish the synch server.
 - Move help to online.
-- Issue with sorting
 - (Auto update of Data Crow)
 
-- Translate: lblDatabaseLanguage, tpDatabaseLanguage
   
 -----------------------------------------------------------------------------------------
 Data Crow version 4.7.0                                            Released on 2023-03-02

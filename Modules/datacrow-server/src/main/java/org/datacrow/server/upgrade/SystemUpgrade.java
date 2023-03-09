@@ -150,6 +150,15 @@ public class SystemUpgrade {
             	DcSettings.set(DcRepository.Settings.stLookAndFeel, 
             			new DcLookAndFeel("FlatLaf Light", "com.formdev.flatlaf.FlatLightLaf", null, 1));
             }
+            
+            if (dbInitialized && v.isOlder(new Version(4, 8, 0, 0))) {
+            	if (DcSettings.getString(DcRepository.Settings.stLanguage).equals("Polski"))
+            		DcSettings.set(DcRepository.Settings.stDatabaseLanguage, "Polish");
+            	
+            	if (	DcSettings.getString(DcRepository.Settings.stLanguage).equals("Portuguese") ||
+            			DcSettings.getString(DcRepository.Settings.stLanguage).equals("Brazilian_Portuguese"))
+            		DcSettings.set(DcRepository.Settings.stDatabaseLanguage, "Portuguese");            	
+            }
 
             if (dbInitialized && v.isOlder(new Version(4, 8, 0, 0)))
             	correctKeyValueSettings();
