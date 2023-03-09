@@ -41,6 +41,7 @@ import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.menu.TreePanelMenuBar;
 import org.datacrow.client.util.PollerTask;
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.data.DcResultSet;
 import org.datacrow.core.log.DcLogManager;
@@ -49,6 +50,7 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.settings.DcSettings;
 
 /**
  * The file tree panel shows the file paths and file names of the current
@@ -154,6 +156,8 @@ public class FileTreePanel extends TreePanel {
         protected void createTree() {
             build();
             
+            String collation = DcSettings.getString(DcRepository.Settings.stDatabaseLanguage);
+            
             DcModule m = DcModules.get(getModule());
             StringBuffer sql = new StringBuffer("");
             Collection<DcModule> modules = new ArrayList<DcModule>();
@@ -189,6 +193,8 @@ public class FileTreePanel extends TreePanel {
         	}
 
             sql.append(" ORDER BY FILENAME");
+            sql.append(" COLLATE \"" + collation + " 0\" ");
+            
             createTree(sql.toString());
             
             SwingUtilities.invokeLater(

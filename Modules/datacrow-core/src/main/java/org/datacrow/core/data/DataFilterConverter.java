@@ -41,6 +41,7 @@ import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.objects.Picture;
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class DataFilterConverter {
@@ -484,6 +485,8 @@ public class DataFilterConverter {
         
         Collection<DcField> order = df.getOrder();
         DcField field = module.getField(module.getDefaultSortFieldIdx());
+        
+        String collation = DcSettings.getString(DcRepository.Settings.stDatabaseLanguage);
 
         if (order.size() > 0) {
 	        for(DcField orderOn : order) {
@@ -499,7 +502,7 @@ public class DataFilterConverter {
 	                    
 	                    // for text only
 	                    if (referenceMod.getField(referenceMod.getSystemDisplayFieldIdx()).getValueType() == DcRepository.ValueTypes._STRING)
-	                    	sql.append(" COLLATE \"Latin1_General 0\" ");
+	                    	sql.append(" COLLATE \"" + collation + " 0\" ");
 	                    
 	                    sql.append(df.getSortDirection() == DataFilter._SORTDIRECTION_ASCENDING ? "" : " DESC");
 	            	} else if (!orderOn.isUiOnly() && orderOn.getDatabaseFieldName() != null) {
@@ -507,7 +510,7 @@ public class DataFilterConverter {
 	                    
 	                    // for text only
 	                    if (orderOn.getValueType() == DcRepository.ValueTypes._STRING)
-	                    	sql.append(" COLLATE \"Latin1_General 0\" ");
+	                    	sql.append(" COLLATE \"" + collation + " 0\" ");
 	                    
 	                    sql.append(df.getSortDirection() == DataFilter._SORTDIRECTION_ASCENDING ? "" : " DESC");
 	            	}
@@ -520,7 +523,7 @@ public class DataFilterConverter {
             
             // for text only
             if (module.getField(module.getDefaultSortFieldIdx()).getValueType() == DcRepository.ValueTypes._STRING)
-            	sql.append(" COLLATE \"Latin1_General 0\" ");
+            	sql.append(" COLLATE \"" + collation + " 0\" ");
         }
     }
     

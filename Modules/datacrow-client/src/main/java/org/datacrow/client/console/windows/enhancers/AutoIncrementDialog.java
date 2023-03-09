@@ -49,6 +49,7 @@ import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcLongTextField;
 import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.data.DcResultSet;
 import org.datacrow.core.enhancers.AutoIncrementer;
@@ -59,6 +60,7 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 public class AutoIncrementDialog extends DcDialog implements ActionListener {
@@ -334,12 +336,15 @@ public class AutoIncrementDialog extends DcDialog implements ActionListener {
             buttonRun.setEnabled(false);
             buttonSave.setEnabled(false);
             
+            String collation = DcSettings.getString(DcRepository.Settings.stDatabaseLanguage);
             String order = "";
             for (int i = 0; i < ordering.length; i++) {
                 if (i > 0)
                     order += ", ";
                 
                 order += ordering[i].getDatabaseFieldName();
+                if  (ordering[i].getValueType() == DcRepository.ValueTypes._STRING)
+                	order += " COLLATE \"" + collation + " 0\" ";   
             }
             
             String qry = "SELECT ID, " + field.getDatabaseFieldName() + " FROM " + module.getTableName();
@@ -351,7 +356,8 @@ public class AutoIncrementDialog extends DcDialog implements ActionListener {
             String qryCurrent = "SELECT " + field.getDatabaseFieldName() + " FROM " + module.getTableName() + 
                                 " WHERE " + field.getDatabaseFieldName() + " IS NOT NULL AND " +
                                 field.getDatabaseFieldName() + " > 0 " +
-                                "ORDER BY 1";
+                                "ORDER BY 1" +
+                                (field.getValueType() == DcRepository.ValueTypes._STRING ? " COLLATE \"" + collation + " 0\" " :"");
 
             Connector conn = DcConfig.getInstance().getConnector();
             Collection<Integer> currentValues = new ArrayList<Integer>();

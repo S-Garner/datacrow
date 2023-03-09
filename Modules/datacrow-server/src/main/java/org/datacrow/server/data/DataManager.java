@@ -53,6 +53,7 @@ import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.objects.helpers.ExternalReference;
 import org.datacrow.core.objects.helpers.Media;
 import org.datacrow.core.security.SecuredUser;
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 import org.datacrow.server.db.DatabaseManager;
@@ -357,11 +358,16 @@ public class DataManager {
     public List<DcSimpleValue> getSimpleValues(SecuredUser su, int module, boolean icons) {
         DcModule m = DcModules.get(module);
         boolean useIcons = icons && m.getIconField() != null;
+        
+        String collation = DcSettings.getString(DcRepository.Settings.stDatabaseLanguage);
+        
         String sql = "select ID, " + m.getField(m.getDisplayFieldIdx()).getDatabaseFieldName() + 
                       (useIcons ? ", " + m.getIconField().getDatabaseFieldName() : " ") +  
                      " from " + m.getTableName() +
-                     " order by 2";
-
+                     " order by 2" + 
+					 (m.getField(m.getDisplayFieldIdx()).getValueType() == DcRepository.ValueTypes._STRING ? 
+							" COLLATE \"" + collation + " 0\" " : "");
+        
         List<DcSimpleValue> values = new ArrayList<DcSimpleValue>();
         
         ResultSet rs = null;

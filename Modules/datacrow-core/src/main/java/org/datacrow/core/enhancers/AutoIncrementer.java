@@ -31,6 +31,7 @@ import java.util.Collection;
 import org.apache.logging.log4j.Logger;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.data.DcResultSet;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.modules.DcModule;
@@ -38,6 +39,7 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.settings.DcSettings;
 
 /**
  * Auto numbering functionality. Applies a new number to the indicated number 
@@ -127,10 +129,14 @@ public class AutoIncrementer implements IValueEnhancer {
             } else {
                 counter = counter + getStep();
                 
-                String qryCurrent = "SELECT " + field.getDatabaseFieldName() + " FROM " + module.getTableName() + 
-                " WHERE " + field.getDatabaseFieldName() + " IS NOT NULL AND " +
-                field.getDatabaseFieldName() + " > 0 " +
-                "ORDER BY 1";            
+                String collation = DcSettings.getString(DcRepository.Settings.stDatabaseLanguage);
+                
+                String qryCurrent = 
+                		"SELECT " + field.getDatabaseFieldName() + " FROM " + module.getTableName() + 
+                		" WHERE " + field.getDatabaseFieldName() + " IS NOT NULL AND " +
+                		field.getDatabaseFieldName() + " > 0 " +
+                		"ORDER BY 1" +
+                		(field.getValueType() == DcRepository.ValueTypes._STRING ? " COLLATE \"" + collation + " 0\" " : "");
                 
                 Collection<Integer> currentValues = new ArrayList<Integer>();
                 rs = connector.executeSQL(qryCurrent);

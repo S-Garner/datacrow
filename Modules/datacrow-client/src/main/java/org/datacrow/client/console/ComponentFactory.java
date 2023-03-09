@@ -77,6 +77,7 @@ import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.components.AwsKeyRequestDialog;
 import org.datacrow.client.console.components.DcButton;
 import org.datacrow.client.console.components.DcCheckBox;
+import org.datacrow.client.console.components.DcCollationComboBox;
 import org.datacrow.client.console.components.DcColorSelector;
 import org.datacrow.client.console.components.DcComboBox;
 import org.datacrow.client.console.components.DcDateField;
@@ -414,7 +415,9 @@ public final class ComponentFactory extends UIComponents {
             case _DATEFOMATCOMBO:
                 return getDateFormatCombo();
             case _ICONSIZECOMBO:
-                return getIconSizeCombo();                
+                return getIconSizeCombo();
+            case _COLLATIONCOMBO:
+            	return getCollationCombo();
             default:
                 return getShortTextField(maxTextLength);
         }
@@ -505,6 +508,10 @@ public final class ComponentFactory extends UIComponents {
     
     public static final DcIconSizeComboBox getIconSizeCombo() {
         return new DcIconSizeComboBox();
+    }
+    
+    public static final DcComboBox getCollationCombo() {
+    	return new DcCollationComboBox();
     }
 
     public static final JComboBox<Object> getDateFormatCombo() {

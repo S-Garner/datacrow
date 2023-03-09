@@ -54,6 +54,7 @@ import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class FieldTreePanel extends TreePanel {
@@ -181,6 +182,9 @@ public class FieldTreePanel extends TreePanel {
          * @param fields
          */
         private void createTree(int[] fields) {
+        	
+        	String collation = DcSettings.getString(DcRepository.Settings.stDatabaseLanguage);
+        	
             DcModule m = DcModules.get(getModule());
 
             StringBuffer sql = new StringBuffer("");
@@ -387,8 +391,12 @@ public class FieldTreePanel extends TreePanel {
             		
             	if (field.getIndex() == DcObject._SYS_MODULE) {
             	    sql.append("2");
+            	    if (field.getValueType() == DcRepository.ValueTypes._STRING)
+            	    	sql.append(" COLLATE \"" + collation + " 0\" ");
             	} else {
             	    sql.append(String.valueOf((level * 3) + 4));
+            	    if (field.getValueType() == DcRepository.ValueTypes._STRING)
+            	    	sql.append(" COLLATE \"" + collation + " 0\" ");
             	    level++;
             	}
             }

@@ -256,7 +256,15 @@ public class DcApplicationSettings extends Settings {
                             "lblLanguage",
                             true,
                             true, -1));
-
+        addSetting(_Regional,
+                new Setting(DcRepository.ValueTypes._STRING,
+                            DcRepository.Settings.stDatabaseLanguage,
+                            "Latin1_General",
+                            UIComponents._COLLATIONCOMBO,
+                            "tpDatabaseLanguage",
+                            "lblDatabaseLanguage",
+                            true,
+                            true, -1));
         addSetting(_Regional,
                 new Setting(DcRepository.ValueTypes._STRING,
                             DcRepository.Settings.stDateFormat,
