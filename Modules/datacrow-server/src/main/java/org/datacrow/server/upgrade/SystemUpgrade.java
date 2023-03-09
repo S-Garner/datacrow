@@ -221,8 +221,8 @@ public class SystemUpgrade {
 	            stmt.execute(sql);
 			}
         } catch (Exception e) {
-            logger.error("Upgrade failed; could not renamed the record label tables.", e);
-            connector.displayError("Upgrade failed; could not renamed the record label tables.");
+            logger.error("Upgrade failed; could not rename the record label tables.", e);
+            connector.displayError("Upgrade failed; could not rename the record label tables.");
             System.exit(0);
         } finally {
         	try { if (stmt != null) stmt.close(); } catch (Exception e) {};

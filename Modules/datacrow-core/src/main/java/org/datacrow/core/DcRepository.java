@@ -262,6 +262,7 @@ public abstract class DcRepository {
         public static final String _ITUNES = "ITUNES";
         public static final String _ARCHIVEORG = "ARCHIVE.ORG";
         public static final String _OPENLIBRARY = "OPENLIBRARY";
+        public static final String _MOVIEMETER = "MOVIEMETER";
         
         static {
             types.add(_MOBYGAMES);
@@ -271,6 +272,9 @@ public abstract class DcRepository {
             types.add(_TMDB);
             types.add(_DISCOGS);
             types.add(_ITUNES);
+            types.add(_ARCHIVEORG);
+            types.add(_OPENLIBRARY);
+            types.add(_MOVIEMETER);
         }
     }
     
