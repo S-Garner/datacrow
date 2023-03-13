@@ -112,14 +112,10 @@ public class User extends DcObject {
         		throw new ValidationException(DcResources.getText("msgLoginnameIsNotAllowedToChange"));
     		}
     	}
-    }
-
-    
+    }    
     
     @Override
-	public void afterDelete() {
-
-	}
+	public void afterDelete() {}
 
 	@Override
     public void beforeDelete() throws ValidationException {
