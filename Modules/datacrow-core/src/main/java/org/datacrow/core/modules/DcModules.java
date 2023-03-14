@@ -90,6 +90,7 @@ public class DcModules implements Serializable {
     public static final int _LOANEXPORT = 67;
     public static final int _MUSIC_ALBUM = 68;
     public static final int _MUSIC_TRACK = 69;
+    public static final int _BOARDGAME = 70;
     
     public static final int _CATEGORY = 10000;
     public static final int _STORAGEMEDIA = 11000;
@@ -100,6 +101,7 @@ public class DcModules implements Serializable {
     public static final int _GENRE = 16000;
     public static final int _CONTAINERTYPE = 17000;
     public static final int _TAG = 19000;
+    public static final int _BOARDGAMECATEGORIES = 20000;
     
     public static final int _ACTOR = 30000;
     public static final int _DIRECTOR = 31000;
@@ -110,6 +112,9 @@ public class DcModules implements Serializable {
     public static final int _MUSICARTIST = 36000;
     public static final int _RECORD_LABEL = 37000;
     public static final int _COMPOSER = 38000;
+    public static final int _BOARDGAMEPUBLISHER = 39000;
+    public static final int _BOARDGAMEARTIST = 40000;
+    public static final int _BOARDGAMEDESIGNER = 41000;
     
     public static final int _COUNTRY = 1000000;
     public static final int _LANGUAGE = 1100000;
@@ -250,6 +255,7 @@ public class DcModules implements Serializable {
         DcPropertyModule stateModule = new DcPropertyModule(DcModules._STATE, "State", "state", "st", "State", "States");
         stateModule.setIcon16(IconLibrary._icoState16);
         stateModule.setIcon32(IconLibrary._icoState32);
+        stateModule.setServingMultipleModules(true);
         propertyBaseModules.put(DcModules._STATE, stateModule);
         
         DcPropertyModule platformModule = new DcPropertyModule(DcModules._PLATFORM, "Platform", "platform", "pf", "Platform", "Platforms");
@@ -309,6 +315,10 @@ public class DcModules implements Serializable {
         DcPropertyModule editionModule = new DcPropertyModule(DcModules._EDITIONTYPE, "Edition Type", "editiontype", "edty", "Edition type", "Edition types");
         editionModule.setServingMultipleModules(true);
         propertyBaseModules.put(DcModules._EDITIONTYPE, editionModule);
+        
+        DcPropertyModule boardGameCategoryModule = new DcPropertyModule(DcModules._BOARDGAMECATEGORIES, "Categories", "boardgame_categories", "boca", "Category", "Categories");
+        boardGameCategoryModule.setServingMultipleModules(false);
+        propertyBaseModules.put(DcModules._BOARDGAMECATEGORIES, boardGameCategoryModule);        
     }
     
     /**
