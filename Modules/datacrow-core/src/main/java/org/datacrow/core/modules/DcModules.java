@@ -122,6 +122,8 @@ public class DcModules implements Serializable {
     
     public static final int _MAPPING = 50000;
 	
+    private static boolean loaded = false;
+    
     private transient static Logger logger = DcLogManager.getLogger(DcModules.class.getName());
     private static final Map<Integer, DcPropertyModule> propertyBaseModules = new HashMap<Integer, DcPropertyModule>();
     private static final Map<Integer, DcModule> modules = new LinkedHashMap<Integer, DcModule>();
@@ -177,6 +179,12 @@ public class DcModules implements Serializable {
 	        loadSystemModules();
 	        loadModuleJars();
     	}
+    	
+    	loaded = false;
+    }
+    
+    public static boolean isLoaded() {
+    	return loaded;
     }
     
     /**

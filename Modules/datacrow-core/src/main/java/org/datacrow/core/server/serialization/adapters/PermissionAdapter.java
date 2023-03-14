@@ -100,9 +100,14 @@ public class PermissionAdapter implements JsonDeserializer<Permission>, JsonSeri
         if (!CoreUtilities.isEmpty(src.get("module")))
         	permission.setValue(Permission._C_MODULE, src.get("module").getAsLong());
         
-        permission.setValue(Permission._D_VIEW, src.get("view").getAsBoolean());
-        permission.setValue(Permission._E_EDIT, src.get("edit").getAsBoolean());
-        permission.setValue(Permission._F_USER, src.get("user").getAsString());
+        if (!CoreUtilities.isEmpty(src.get("view")))
+        	permission.setValue(Permission._D_VIEW, src.get("view").getAsBoolean());
+        
+        if (!CoreUtilities.isEmpty(src.get("edit")))
+        	permission.setValue(Permission._E_EDIT, src.get("edit").getAsBoolean());
+        
+        if (!CoreUtilities.isEmpty(src.get("user")))
+        	permission.setValue(Permission._F_USER, src.get("user").getAsString());
         
         try {
         	if (!CoreUtilities.isEmpty(src.get("created")))

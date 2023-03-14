@@ -27,27 +27,80 @@ package org.datacrow.core.server.serialization.adapters;
 
 import java.lang.reflect.Type;
 
+import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcField;
+import org.datacrow.core.objects.DcValue;
 import org.datacrow.core.objects.helpers.User;
+import org.datacrow.core.server.serialization.helpers.DcFieldValue;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
-public class UserAdapter extends DcObjectAdapter {
+public class UserAdapter implements JsonDeserializer<User>, JsonSerializer<User> {
     
     public JsonElement serialize(
     		User src, 
             Type typeOfSrc, 
             JsonSerializationContext context) {
         
-    	JsonElement jdco = super.serialize(src, typeOfSrc, context);
-        return jdco;        
+        JsonObject jdco = new JsonObject();
+        
+        src.loadImageData();
+        
+        jdco.addProperty("moduleIdx", src.getModuleIdx());
+        jdco.addProperty("isnew", src.isNew());
+        
+        JsonArray array = new JsonArray();
+        
+        DcValue v;
+        for (DcField field :  src.getFields()) {
+            v = src.getValueDef(field.getIndex());
+            DcFieldValue value = new DcFieldValue(
+                    field.getModule(),
+                    field.getIndex(), 
+                    v.getValue(), 
+                    v.isChanged());
+            
+            if (field.getIndex() == User._E_PHOTO && !DcModules.isLoaded())
+            	continue;
+            
+            array.add(context.serialize(value));
+        }
+        
+        jdco.add("values", array);
+        
+        return jdco;      
     }
 
     public User deserialize(JsonElement json, Type type, JsonDeserializationContext context)
             throws JsonParseException {
 
-        return (User) super.deserialize(json, type, context);
+        JsonObject jsonObject = json.getAsJsonObject();
+        boolean isnew = jsonObject.get("isnew").getAsBoolean();
+
+        User dco = new User();
+        
+        JsonArray values = jsonObject.getAsJsonArray("values");
+        
+        DcFieldValue fieldValue;
+        for (JsonElement value : values) {
+            fieldValue = context.deserialize(value, DcFieldValue.class);
+
+            if (fieldValue.getFieldIndex() == User._E_PHOTO && !DcModules.isLoaded()) 
+            	continue;
+            
+            dco.setValue(fieldValue.getFieldIndex(), fieldValue.getValue());
+            dco.setChanged(fieldValue.getFieldIndex(), fieldValue.isChanged());
+        }
+        
+        dco.setNew(isnew);
+            
+        return dco;
     }
 }
