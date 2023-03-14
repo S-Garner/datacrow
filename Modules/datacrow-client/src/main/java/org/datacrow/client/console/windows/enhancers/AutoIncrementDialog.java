@@ -357,7 +357,9 @@ public class AutoIncrementDialog extends DcDialog implements ActionListener {
                                 " WHERE " + field.getDatabaseFieldName() + " IS NOT NULL AND " +
                                 field.getDatabaseFieldName() + " > 0 " +
                                 "ORDER BY 1" +
-                                (field.getValueType() == DcRepository.ValueTypes._STRING ? " COLLATE \"" + collation + " 0\" " :"");
+                                (field.getValueType() == DcRepository.ValueTypes._STRING ||
+                                 field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE 
+                                ? " COLLATE \"" + collation + " 0\" " :"");
 
             Connector conn = DcConfig.getInstance().getConnector();
             Collection<Integer> currentValues = new ArrayList<Integer>();

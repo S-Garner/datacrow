@@ -136,7 +136,9 @@ public class AutoIncrementer implements IValueEnhancer {
                 		" WHERE " + field.getDatabaseFieldName() + " IS NOT NULL AND " +
                 		field.getDatabaseFieldName() + " > 0 " +
                 		"ORDER BY 1" +
-                		(field.getValueType() == DcRepository.ValueTypes._STRING ? " COLLATE \"" + collation + " 0\" " : "");
+                		(field.getValueType() == DcRepository.ValueTypes._STRING ||
+                		 field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE ? 
+                				 " COLLATE \"" + collation + " 0\" " : "");
                 
                 Collection<Integer> currentValues = new ArrayList<Integer>();
                 rs = connector.executeSQL(qryCurrent);
