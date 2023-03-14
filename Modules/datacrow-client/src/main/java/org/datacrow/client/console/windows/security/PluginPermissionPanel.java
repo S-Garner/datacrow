@@ -110,7 +110,7 @@ public class PluginPermissionPanel extends JPanel implements ActionListener {
                 permission = DcModules.get(DcModules._PERMISSION).getItem();
                 permission.setIDs();
                 permission.setValue(Permission._A_PLUGIN, plugin.getKey());
-                permission.setValue(Permission._F_USER, user);
+                permission.setValue(Permission._F_USER, user.getID());
                 
                 if (update) {
                     try {
@@ -184,7 +184,7 @@ public class PluginPermissionPanel extends JPanel implements ActionListener {
             permission = (Permission) table.getValueAt(row, _COLUMN_PERMISSION, true);
 
             if (!permission.isFilled(Permission._F_USER))
-                permission.setValue(Permission._F_USER, user);
+                permission.setValue(Permission._F_USER, user.getID());
             
             permissions.add(permission);
         }    

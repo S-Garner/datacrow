@@ -40,8 +40,6 @@ import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.objects.Picture;
-import org.datacrow.core.objects.helpers.Permission;
-import org.datacrow.core.objects.helpers.User;
 import org.datacrow.core.server.requests.ClientRequest;
 import org.datacrow.core.server.requests.ClientRequestApplicationSettings;
 import org.datacrow.core.server.requests.ClientRequestExecuteSQL;
@@ -77,10 +75,8 @@ import org.datacrow.core.server.serialization.adapters.DcSimpleValueAdapter;
 import org.datacrow.core.server.serialization.adapters.FileAdapter;
 import org.datacrow.core.server.serialization.adapters.InterfaceAdapter;
 import org.datacrow.core.server.serialization.adapters.KeyStrokeAdapter;
-import org.datacrow.core.server.serialization.adapters.PermissionAdapter;
 import org.datacrow.core.server.serialization.adapters.PictureAdapter;
 import org.datacrow.core.server.serialization.adapters.SettingsAdapter;
-import org.datacrow.core.server.serialization.adapters.UserAdapter;
 import org.datacrow.core.server.serialization.helpers.DcFieldValue;
 import org.datacrow.core.settings.DcModuleSettings;
 import org.datacrow.core.settings.Settings;
@@ -118,8 +114,6 @@ public class SerializationHelper {
         
         gson = new GsonBuilder()
                 .disableHtmlEscaping()
-                .registerTypeAdapter(Permission.class, new PermissionAdapter())
-                .registerTypeAdapter(User.class, new UserAdapter())
                 .registerTypeAdapter(Picture.class, new PictureAdapter())
                 .registerTypeAdapter(DcObject.class, new DcObjectAdapter())
                 .registerTypeAdapter(DcFieldValue.class, new DcFieldValueAdapter())

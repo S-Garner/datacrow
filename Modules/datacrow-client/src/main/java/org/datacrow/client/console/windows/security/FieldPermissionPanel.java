@@ -126,7 +126,7 @@ public class FieldPermissionPanel extends JPanel implements ActionListener {
                 permission.setValue(Permission._C_MODULE, Long.valueOf(field.getModule()));
                 permission.setValue(Permission._D_VIEW, Boolean.TRUE);
                 permission.setValue(Permission._E_EDIT, Boolean.FALSE);
-                permission.setValue(Permission._F_USER, user);
+                permission.setValue(Permission._F_USER, user.getID());
                 
                 if (update) {
                     // create the missing permission
@@ -237,7 +237,7 @@ public class FieldPermissionPanel extends JPanel implements ActionListener {
             permission = (Permission) table.getValueAt(row, _COLUMN_PERMISSION, true);
             
             if (!permission.isFilled(Permission._F_USER))
-            	permission.setValue(Permission._F_USER, user);
+            	permission.setValue(Permission._F_USER, user.getID());
             	
             permissions.add(permission);
         }    

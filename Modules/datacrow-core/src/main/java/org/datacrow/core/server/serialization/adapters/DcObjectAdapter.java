@@ -31,6 +31,7 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcValue;
+import org.datacrow.core.server.serialization.SerializationHelper;
 import org.datacrow.core.server.serialization.helpers.DcFieldValue;
 
 import com.google.gson.JsonArray;
@@ -49,15 +50,26 @@ public class DcObjectAdapter implements JsonDeserializer<DcObject>, JsonSerializ
             Type typeOfSrc, 
             JsonSerializationContext context) {
         
-        JsonObject jdco = new JsonObject();
+        JsonObject jdco = toJsonObject(src, context);
+        
+        JsonArray arrChildren = new JsonArray();
+        for (DcObject child :  src.getCurrentChildren())            
+        	arrChildren.add(toJsonObject(child, context));
+        
+        jdco.add("children", arrChildren);  
+        
+        return jdco;
+    }
+    
+    public JsonObject toJsonObject(DcObject src, JsonSerializationContext context) {
+    	JsonObject jdco = new JsonObject();
         
         src.loadImageData();
         
         jdco.addProperty("moduleIdx", src.getModuleIdx());
         jdco.addProperty("isnew", src.isNew());
         
-        JsonArray array = new JsonArray();
-        
+        JsonArray arrFields = new JsonArray();
         DcValue v;
         for (DcField field :  src.getFields()) {
             v = src.getValueDef(field.getIndex());
@@ -66,14 +78,15 @@ public class DcObjectAdapter implements JsonDeserializer<DcObject>, JsonSerializ
                     field.getIndex(), 
                     v.getValue(), 
                     v.isChanged());
-            
-            array.add(context.serialize(value));
+
+            arrFields.add(context.serialize(value));
         }
         
-        jdco.add("values", array);
+        jdco.add("values", arrFields);
         
         return jdco;
     }
+    
     
     public DcObject deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext)
             throws JsonParseException {
@@ -92,6 +105,16 @@ public class DcObjectAdapter implements JsonDeserializer<DcObject>, JsonSerializ
             
             dco.setValue(fieldValue.getFieldIndex(), fieldValue.getValue());
             dco.setChanged(fieldValue.getFieldIndex(), fieldValue.isChanged());
+        }
+        
+        JsonArray children = jsonObject.getAsJsonArray("children");
+        
+        if (children != null) {
+	        DcObject child;
+	        for (JsonElement je : children) {
+	        	child = SerializationHelper.getInstance().getGson().fromJson(je, DcObject.class);
+	        	dco.addChild(child);
+	        }
         }
         
         dco.setNew(isnew);

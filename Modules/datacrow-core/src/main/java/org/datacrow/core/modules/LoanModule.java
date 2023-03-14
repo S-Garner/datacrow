@@ -28,16 +28,12 @@ package org.datacrow.core.modules;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.console.UIComponents;
-import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.Loan;
-import org.datacrow.core.plugin.InvalidPluginException;
-import org.datacrow.core.plugin.Plugins;
 import org.datacrow.core.settings.Settings;
 
 /**
@@ -47,9 +43,7 @@ import org.datacrow.core.settings.Settings;
  */
 public class LoanModule extends DcModule {
 
-    private transient static Logger logger = DcLogManager.getLogger(LoanModule.class.getName());
-    
-    private static final long serialVersionUID = -1777037389578494831L;
+    private static final long serialVersionUID = 1L;
 
     public LoanModule(int index, 
             boolean topModule, 
@@ -89,12 +83,7 @@ public class LoanModule extends DcModule {
     
     @Override
     public boolean isEditingAllowed() {
-        try {
-            return DcConfig.getInstance().getConnector().getUser().isAuthorized(Plugins.getInstance().get("Loan"));
-        } catch (InvalidPluginException ipe) {
-            logger.error(ipe, ipe);
-            return false;
-        }
+		return DcConfig.getInstance().getConnector().getUser().isAuthorized("Loan");
     }
 
     /**

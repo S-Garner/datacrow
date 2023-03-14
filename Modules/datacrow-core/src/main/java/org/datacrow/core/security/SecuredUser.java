@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
+import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
@@ -145,7 +146,12 @@ public final class SecuredUser implements Serializable {
      */
     public boolean isAuthorized(String plugin) {
         try {
-            return isAuthorized(Plugins.getInstance().get(plugin));
+        	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER) {
+        		 PluginPermission permission = pluginPermissions.get(plugin);
+                 return permission != null && permission.isAuthorized();
+        	} else {
+        		return isAuthorized(Plugins.getInstance().get(plugin));        		
+        	}
         } catch (InvalidPluginException ipe) {
             logger.error(ipe, ipe);
             return false;

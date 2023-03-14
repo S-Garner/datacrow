@@ -43,6 +43,13 @@ Data Crow version 4.8.0                                            Released on 2
   were incorrect. The database will be automatically updated.
 - Sorting of values was not correct for the tree panels and for the auto numbering tool
   (for special characters).
+- Server: user could not be edited (Error + Client got stuck).
+- Server: children were not saved when creating a new item.
+- Server: performance was impacted due to the fact that the whole user object was
+  serialized for each permission entry.
+- Server: loan module check for editing allowed was depending on the plugin being
+  loaded. It should only have checked to see whether the permission was given as the
+  server does not have access to the plugins themselves.
 
 [To Do]
 - Retest audio tagger.
