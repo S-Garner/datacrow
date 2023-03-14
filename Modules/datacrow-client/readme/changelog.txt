@@ -47,6 +47,7 @@ Data Crow version 4.8.0                                            Released on 2
 [To Do]
 - Retest audio tagger.
 - Finish the synch server.
+- Sorting not yet correct for grouping pane.
 - Move help to online.
 - Edit User in server edition not working.
 - (Auto update of Data Crow)
