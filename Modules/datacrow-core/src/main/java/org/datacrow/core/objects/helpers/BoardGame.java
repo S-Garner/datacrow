@@ -39,11 +39,13 @@ public class BoardGame extends DcMediaObject {
     public static final int _J_NR_OF_PLAYERS = 5;
     public static final int _K_PLAYTIME = 6;
     public static final int _L_MINIMUM_AGE = 7;
-    public static final int _M_PICTURE = 8;
-    public static final int _N_WEBPAGE = 9;
-    public static final int _O_RULES_URL = 10;
-    public static final int _P_EAN = 11;
-    public static final int _Q_STATE = 12;
+    public static final int _M_WEBPAGE = 8;
+    public static final int _N_RULES_URL = 9;
+    public static final int _O_EAN = 10;
+    public static final int _P_STATE = 11;
+    public static final int _Q_PICTURE1 = 12;
+    public static final int _R_PICTURE2 = 13;
+    public static final int _S_PICTURE3 = 14;
     
     public BoardGame() {
        super(DcModules._BOARDGAME);
