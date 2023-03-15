@@ -14,6 +14,7 @@ Data Crow version 4.8.0                                            Released on 2
 - Database language setting added. This determines how items are sorted. For most
   languages, the default will work. But if you find the sorting is not correct, please
   change the setting in Settings > Regional Settings > Database Language.
+- Added a new module: Board Games
 
 [Changed]
 - Updated HSQL DB to version 2.7.1. JSoup updated to 1.15.4. Gson (from Google) updated to 
