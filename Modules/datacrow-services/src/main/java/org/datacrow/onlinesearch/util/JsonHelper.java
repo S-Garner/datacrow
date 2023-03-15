@@ -40,7 +40,7 @@ public class JsonHelper {
     	
     	if (!CoreUtilities.isEmpty(o)) {
     		String s = o instanceof String ? (String) o : o.toString();
-    		dco.setValue(fieldIdx, s);
+    		dco.setValue(fieldIdx, s.trim());
     	}
     }
     
