@@ -391,8 +391,6 @@ public class FieldTreePanel extends TreePanel {
             		
             	if (field.getIndex() == DcObject._SYS_MODULE) {
             	    sql.append("2");
-            	    if (field.getValueType() == DcRepository.ValueTypes._STRING)
-            	    	sql.append(" COLLATE \"" + collation + " 0\" ");
             	} else {
             	    sql.append(String.valueOf((level * 3) + 4));
             	    if (	field.getValueType() == DcRepository.ValueTypes._STRING ||
