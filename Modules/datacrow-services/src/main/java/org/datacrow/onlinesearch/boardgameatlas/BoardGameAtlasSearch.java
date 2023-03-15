@@ -29,11 +29,14 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository.ExternalReferences;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionUtil;
+import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.BoardGame;
@@ -43,20 +46,22 @@ import org.datacrow.core.services.OnlineServiceError;
 import org.datacrow.core.services.Region;
 import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
-import org.datacrow.core.services.SearchTaskUtilities;
 import org.datacrow.core.services.Servers;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.onlinesearch.util.JsonHelper;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
 public class BoardGameAtlasSearch extends SearchTask {
+    
+    private static Logger logger = DcLogManager.getLogger(BoardGameAtlasSearch.class.getName());
 
 	private static final Gson gson = new Gson();
     private final String apiKey;
+    
+    private static final Map<Object, String> mechanics = new HashMap<>();
+    private static final Map<Object, String> categories = new HashMap<>();
     
     public BoardGameAtlasSearch(
             IOnlineSearchClient listener, 
@@ -69,15 +74,13 @@ public class BoardGameAtlasSearch extends SearchTask {
         super(listener, server, region, mode, query, additionalFilters);
         apiKey = Servers.getInstance().getApiKey("boardgameatlas");
         
+        if (mechanics.size() == 0)
+            retrieveMechanicsInformation();
         
-        // get mechanics:
-        // https://api.boardgameatlas.com/api/game/mechanics?client_id=?
-        
-        // get categories:
-        // https://api.boardgameatlas.com/api/game/categories?client_id=?
-        
+        if (categories.size() == 0)
+            retrieveCategoryInformation();
     }
-
+    
 	@Override
 	protected DcObject getItem(URL url) throws Exception {
 		return null;
@@ -107,43 +110,6 @@ public class BoardGameAtlasSearch extends SearchTask {
         return dco;
     }
     
-    private void setPlaytime(Map<?, ?> src, DcObject dco) {
-        Number min = (Number) src.get("min_playtime");
-        Number max = (Number) src.get("max_playtime");
-        
-        if (min != null || max != null) {
-            Long l = min == null ? 
-                           Long.valueOf(max.longValue()) :
-                               Long.valueOf(min.longValue());
-            dco.setValue(BoardGame._K_PLAYTIME, l);
-        }
-    }      
-    
-    private void setNumberOfPlayers(Map<?, ?> src, DcObject dco) {
-        Number minPlayers = (Number) src.get("min_players");
-        Number maxPlayers = (Number) src.get("max_players");
-        
-        if (minPlayers != null || maxPlayers != null) {
-            String s = minPlayers == null ? 
-                           String.valueOf(maxPlayers.longValue()) :
-                               maxPlayers == null ?
-                                   String.valueOf(minPlayers.longValue()) :
-                                       String.valueOf(minPlayers.longValue()) + "-" + String.valueOf(maxPlayers.longValue());
-            dco.setValue(BoardGame._J_NR_OF_PLAYERS, s);
-        }
-    }    
-    
-    private void setDescription(Map<?, ?> src, DcObject dco) {
-        JsonHelper.setString(src, "description", dco, BoardGame._B_DESCRIPTION);        
-        if (dco.isFilled(BoardGame._B_DESCRIPTION)) {
-            String s = (String) dco.getValue(BoardGame._B_DESCRIPTION);
-            s = "<html><body>" + s + "</body></html>";
-            Document doc = Jsoup.parse(s);
-            s = doc.body().text();
-            dco.setValue(BoardGame._B_DESCRIPTION, s);
-        }   
-    }
-    
     @Override
     protected Collection<Object> getItemKeys() throws OnlineSearchUserError, OnlineServiceError {
         Collection<Object> results = new ArrayList<>();
@@ -151,7 +117,7 @@ public class BoardGameAtlasSearch extends SearchTask {
         try {
             waitBetweenRequest();
 
-            String url = "https://api.boardgameatlas.com/api/search?name" + getQuery() + "&client_id=" + apiKey;
+            String url = "https://api.boardgameatlas.com/api/search?name=" + getQuery() + "&client_id=" + apiKey;
             
             HttpConnection conn = new HttpConnection(new URL(url), userAgent);
             String json = conn.getString(StandardCharsets.UTF_8);
@@ -206,6 +172,50 @@ public class BoardGameAtlasSearch extends SearchTask {
     			}
     		}
     	}
+    }
+    
+    private void setPlaytime(Map<?, ?> src, DcObject dco) {
+        Number min = (Number) src.get("min_playtime");
+        Number max = (Number) src.get("max_playtime");
+        
+        if (min != null || max != null) {
+            Long l = min == null ? 
+                           Long.valueOf(max.longValue()) :
+                               Long.valueOf(min.longValue());
+            dco.setValue(BoardGame._K_PLAYTIME, l);
+        }
+    }      
+    
+    private void setNumberOfPlayers(Map<?, ?> src, DcObject dco) {
+        Number minPlayers = (Number) src.get("min_players");
+        Number maxPlayers = (Number) src.get("max_players");
+        
+        if (minPlayers != null || maxPlayers != null) {
+            String s = minPlayers == null ? 
+                           String.valueOf(maxPlayers.longValue()) :
+                               maxPlayers == null ?
+                                   String.valueOf(minPlayers.longValue()) :
+                                       String.valueOf(minPlayers.longValue()) + "-" + String.valueOf(maxPlayers.longValue());
+            dco.setValue(BoardGame._J_NR_OF_PLAYERS, s);
+        }
+    }    
+    
+    private void setDescription(Map<?, ?> src, DcObject dco) {
+        JsonHelper.setString(src, "description", dco, BoardGame._B_DESCRIPTION);        
+        if (dco.isFilled(BoardGame._B_DESCRIPTION)) {
+            String s = (String) dco.getValue(BoardGame._B_DESCRIPTION);
+            s = s.replaceAll("<p ", "");
+            s = s.replaceAll("</p ", "");
+            s = s.replaceAll("<p>", "");
+            s = s.replaceAll("</p>", "");
+            s = s.replaceAll("<br / ", "\r\n");
+            s = s.replaceAll("</strong ", "");
+            s = s.replaceAll("<strong ", "");
+            s = s.replaceAll("</em ", "");
+            s = s.replaceAll("<em ", "");
+            
+            dco.setValue(BoardGame._B_DESCRIPTION, s);
+        }   
     }    
     
     /**
@@ -215,4 +225,44 @@ public class BoardGameAtlasSearch extends SearchTask {
     public String getWhiteSpaceSubst() {
         return "%";
     }
+    
+    private void retrieveMechanicsInformation() {
+        try {
+            String url = "https://api.boardgameatlas.com/api/game/mechanics?client_id=" + apiKey;
+            
+            HttpConnection conn = new HttpConnection(new URL(url), userAgent);
+            String json = conn.getString(StandardCharsets.UTF_8);
+            conn.close();
+            
+            Map<?, ?> result = gson.fromJson(json, Map.class);
+            @SuppressWarnings("unchecked")
+            ArrayList<LinkedTreeMap<?, ?>> raw = (ArrayList<LinkedTreeMap<?, ?>>) result.get("mechanics");
+
+            for (Map<?, ?> src : raw) {    
+                mechanics.put(src.get("id"), (String) src.get("name"));
+            }
+        } catch (Exception e) {
+            logger.error("Could not obtain mechanic information from BoardGamesAtlas.com", e);
+        }
+    }
+    
+    private void retrieveCategoryInformation() {
+        try {
+            String url = "https://api.boardgameatlas.com/api/game/categories?client_id=" + apiKey;
+            
+            HttpConnection conn = new HttpConnection(new URL(url), userAgent);
+            String json = conn.getString(StandardCharsets.UTF_8);
+            conn.close();
+            
+            Map<?, ?> result = gson.fromJson(json, Map.class);
+            @SuppressWarnings("unchecked")
+            ArrayList<LinkedTreeMap<?, ?>> raw = (ArrayList<LinkedTreeMap<?, ?>>) result.get("categories");
+
+            for (Map<?, ?> src : raw) {    
+                categories.put(src.get("id"), (String) src.get("name"));
+            }
+        } catch (Exception e) {
+            logger.error("Could not obtain mechanic information from BoardGamesAtlas.com", e);
+        }
+    }     
 }
