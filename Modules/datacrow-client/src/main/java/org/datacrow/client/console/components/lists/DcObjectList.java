@@ -35,7 +35,7 @@ import javax.swing.JViewport;
 import javax.swing.event.ListSelectionListener;
 
 import org.apache.logging.log4j.Logger;
-
+import org.datacrow.client.console.components.lists.elements.DcBoardGameListHwElement;
 import org.datacrow.client.console.components.lists.elements.DcBookListHwElement;
 import org.datacrow.client.console.components.lists.elements.DcCardObjectListElement;
 import org.datacrow.client.console.components.lists.elements.DcMovieListHwElement;
@@ -491,6 +491,8 @@ public class DcObjectList extends DcList implements IViewComponent {
                 element = new DcMovieListHwElement(module);
             else if (module == DcModules._BOOK)
                 element = new DcBookListHwElement(module);
+            else if (module == DcModules._BOARDGAME)
+                element = new DcBoardGameListHwElement(module);
             else 
                 element = new DcCardObjectListElement(module);
         } else if (style == _CARDS) {
