@@ -102,6 +102,7 @@ public class DcModules implements Serializable {
     public static final int _CONTAINERTYPE = 17000;
     public static final int _TAG = 19000;
     public static final int _BOARDGAMECATEGORIES = 20000;
+    public static final int _BOARDGAMEMECHANICS = 21000;
     
     public static final int _ACTOR = 30000;
     public static final int _DIRECTOR = 31000;
@@ -243,7 +244,7 @@ public class DcModules implements Serializable {
     }
     
     /**
-     * Registers the base modules. These modules are used as template.
+     * Registers the base modules.
      */
     private static void initReferenceBaseModules() {
         
@@ -318,7 +319,11 @@ public class DcModules implements Serializable {
         
         DcPropertyModule boardGameCategoryModule = new DcPropertyModule(DcModules._BOARDGAMECATEGORIES, "Categories", "boardgame_categories", "boca", "Category", "Categories");
         boardGameCategoryModule.setServingMultipleModules(false);
-        propertyBaseModules.put(DcModules._BOARDGAMECATEGORIES, boardGameCategoryModule);        
+        propertyBaseModules.put(DcModules._BOARDGAMECATEGORIES, boardGameCategoryModule);
+        
+        DcPropertyModule boardGameMechanicModule = new DcPropertyModule(DcModules._BOARDGAMEMECHANICS, "Machanics", "boardgame_mechanics", "bome", "Game Mechanic", "Game Mechanics");
+        boardGameMechanicModule.setServingMultipleModules(false);
+        propertyBaseModules.put(DcModules._BOARDGAMEMECHANICS, boardGameMechanicModule);         
     }
     
     /**

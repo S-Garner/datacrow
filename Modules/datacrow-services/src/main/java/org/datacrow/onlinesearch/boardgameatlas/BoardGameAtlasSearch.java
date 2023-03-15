@@ -106,6 +106,7 @@ public class BoardGameAtlasSearch extends SearchTask {
         setNumberOfPlayers(src, dco);
         setPlaytime(src, dco);
         setImage(src, dco);
+        //setMechanics(src, dco);
         
         return dco;
     }

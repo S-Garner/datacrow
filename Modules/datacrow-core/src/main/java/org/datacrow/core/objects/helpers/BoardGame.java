@@ -46,6 +46,7 @@ public class BoardGame extends DcMediaObject {
     public static final int _Q_PICTURE1 = 12;
     public static final int _R_PICTURE2 = 13;
     public static final int _S_PICTURE3 = 14;
+    public static final int _T_GAME_MECHANICS = 15;
     
     public BoardGame() {
        super(DcModules._BOARDGAME);
