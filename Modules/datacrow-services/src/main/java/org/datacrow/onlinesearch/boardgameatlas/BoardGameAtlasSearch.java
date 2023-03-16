@@ -252,9 +252,9 @@ public class BoardGameAtlasSearch extends SearchTask {
         Number max = (Number) src.get("max_playtime");
         
         if (min != null || max != null) {
-            Long l = min == null ? 
-                           Long.valueOf(max.longValue()) :
-                               Long.valueOf(min.longValue());
+            Long l = max == null ? 
+                       Long.valueOf(min.longValue()) :
+                           Long.valueOf(max.longValue());
             dco.setValue(BoardGame._K_PLAYTIME, l);
         }
     }      
