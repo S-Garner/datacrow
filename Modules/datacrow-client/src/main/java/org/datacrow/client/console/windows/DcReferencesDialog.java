@@ -297,7 +297,7 @@ public class DcReferencesDialog extends DcDialog implements ActionListener, KeyL
         } else {
             Collection<DcSimpleValue> filtered = new ArrayList<DcSimpleValue>();
             for (DcSimpleValue sv : availableItems) {
-                if (sv.getName().toLowerCase().startsWith(filter.toLowerCase()))
+                if (sv.getName().toLowerCase().contains(filter.toLowerCase()))
                     filtered.add(sv);
             }
         
