@@ -26,6 +26,8 @@
 package org.datacrow.core.objects;
 
 import org.datacrow.core.modules.DcMediaModule;
+import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 /**
  * Media objects come with a set of predefined fields such as a title,
@@ -78,7 +80,15 @@ public class DcMediaObject extends DcObject {
     
     @Override
     public String toString() {
-        String s = (String) getValue(DcMediaObject._A_TITLE);
-        return s == null || s.trim().length() == 0 ? super.toString() : s;
+    	boolean b = false;
+        for (DcFieldDefinition definition : DcModules.get(module).getFieldDefinitions().getDefinitions())
+	        b |= definition.isDescriptive() && definition.isEnabled();
+
+	    if (b) {
+	    	return super.toString();
+	    } else {
+		    String s = (String) getValue(DcMediaObject._A_TITLE);
+	        return s == null || s.trim().length() == 0 ? super.toString() : s;
+	    }
     }    
 }

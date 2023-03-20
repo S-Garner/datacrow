@@ -26,7 +26,9 @@
 package org.datacrow.core.objects;
 
 import org.datacrow.core.enhancers.IValueEnhancer;
+import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.utilities.CoreUtilities;
+import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 /**
  * Represents companies and persons.  
@@ -122,16 +124,6 @@ public class DcAssociate extends DcObject {
         return DcAssociate._A_NAME;
     }
     
-    @Override
-    public String toString() {
-		return getValue(DcAssociate._A_NAME) != null  ? (String) getValue(DcAssociate._A_NAME) : "";
-    }  
-
-    @Override
-    public String getName() {
-        return toString();
-    }    
-    
     /**
      * Returns the name formatted as First name, Last name.
      */
@@ -140,5 +132,18 @@ public class DcAssociate extends DcObject {
             return (getDisplayString(DcAssociate._E_FIRSTNAME) + " " + getDisplayString(DcAssociate._F_LASTTNAME)).trim();
 
         return getName();
-    }     
+    } 
+    
+    @Override
+    public String toString() {
+    	boolean b = false;
+        for (DcFieldDefinition definition : DcModules.get(module).getFieldDefinitions().getDefinitions())
+	        b |= definition.isDescriptive() && definition.isEnabled();
+
+	    if (b) {
+	    	return super.toString();
+	    } else {
+	    	return getValue(DcAssociate._A_NAME) != null  ? (String) getValue(DcAssociate._A_NAME) : "";
+	    }
+    }    
 }

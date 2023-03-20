@@ -25,6 +25,8 @@
 
 package org.datacrow.core.objects;
 
+import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 /**
  * A property represents a simple item such as a category or a storage medium.
@@ -66,17 +68,20 @@ public class DcProperty extends DcObject {
     @Override
     public String getFilename() {
         return null;
-    }    
+    }
     
     @Override
     public String toString() {
-        return getValue(_A_NAME) != null ? getValue(_A_NAME).toString() : "";
-    }  
+    	boolean b = false;
+        for (DcFieldDefinition definition : DcModules.get(module).getFieldDefinitions().getDefinitions())
+	        b |= definition.isDescriptive() && definition.isEnabled();
 
-    @Override
-    public String getName() {
-        return toString();
-    }
+	    if (b) {
+	    	return super.toString();
+	    } else {
+	    	return getValue(_A_NAME) != null ? getValue(_A_NAME).toString() : "";
+	    }
+    }   
     
     @Override
     public boolean equals(Object o) {
