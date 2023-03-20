@@ -18,7 +18,7 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
   languages, the default will work. But if you find the sorting is not correct, please
   change the setting in Settings > Regional Settings > Database Language.
 - Added a new module: Board Games
-- Added online search: Board Games Atlas
+- Added online search: Board Games Atlas.
 
 [Changed]
 - Updated HSQL DB to version 2.7.1. JSoup updated to 1.15.4. Gson (from Google) updated to 
@@ -49,7 +49,7 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
   were incorrect. The database will be automatically updated.
 - Sorting of values was not correct for the tree panels and for the auto numbering tool
   (for special characters).
-- Server: user could not be edited (Error + Client got stuck).
+- Server: user could not be edited (error + client got stuck).
 - Server: children were not saved when creating a new item.
 - Server: performance was impacted due to the fact that the whole user object was
   serialized for each permission entry.
@@ -66,7 +66,10 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
 - Books, add: year of original issue & translators
 - Online search for books: add translators
 - Move help to online.
+<<<<<<< HEAD
 - Related Items; show items using the descriptive setting if possible.
+=======
+>>>>>>> 13a26daf0ef1ec184f33e8080248dace2ff784df
 
 
 -----------------------------------------------------------------------------------------

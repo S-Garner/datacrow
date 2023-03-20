@@ -48,6 +48,7 @@ import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.Servers;
 import org.datacrow.core.services.plugin.IServer;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.onlinesearch.util.JsonHelper;
 
 import com.google.gson.Gson;
@@ -100,12 +101,17 @@ public class BoardGameAtlasSearch extends SearchTask {
         JsonHelper.setString(src, "url", dco, BoardGame._M_WEBPAGE);
         JsonHelper.setString(src, "rules_url", dco, BoardGame._N_RULES_URL);
         JsonHelper.setLong(src, "min_age", dco, BoardGame._L_MINIMUM_AGE);
+        JsonHelper.setString(src, "description_preview", dco, BoardGame._B_DESCRIPTION);
 
         setRating(src, dco);
-        setDescription(src, dco);
         setNumberOfPlayers(src, dco);
         setPlaytime(src, dco);
         setImage(src, dco);
+        setMechanics(src, dco);
+        setCategories(src, dco);
+        setDesigner(src, dco);
+        setPublisher(src, dco);
+        setArtists(src, dco);
         
         return dco;
     }
@@ -153,6 +159,73 @@ public class BoardGameAtlasSearch extends SearchTask {
         return results;
     }
     
+    private void setMechanics(Map<?, ?> map, DcObject dco) {
+        if (map.containsKey("mechanics")) {
+            
+            @SuppressWarnings("unchecked")
+            ArrayList<Map<?, ?>> raw = (ArrayList<Map<?, ?>>) map.get("mechanics");
+            Object id;
+            String mechanic; 
+            for (Map<?, ?> src : raw) {
+                id = src.get("id");
+                mechanic = mechanics.get(id);
+                
+                if (mechanic != null) {
+                    dco.createReference(BoardGame._T_GAME_MECHANICS, mechanic);
+                }
+            }
+        }
+    }
+    
+    private void setDesigner(Map<?, ?> map, DcObject dco) {
+        if (map.containsKey("primary_designer")) {
+            Map<?, ?> designer = (Map<?, ?>) map.get("primary_designer");
+            String name = (String) designer.get("name");
+            
+            if (!CoreUtilities.isEmpty(name)) {
+                dco.createReference(BoardGame._H_DESIGNERS, name);
+            }
+        }
+    }
+    
+    private void setArtists(Map<?, ?> map, DcObject dco) {
+        if (map.containsKey("artists")) {
+            Collection<?> artists = (Collection<?>) map.get("artists");
+            for (Object artist : artists) {
+                dco.createReference(BoardGame._G_ARTISTS, artist);
+            }
+        }
+    }
+    
+    private void setPublisher(Map<?, ?> map, DcObject dco) {
+        if (map.containsKey("primary_publisher")) {
+            Map<?, ?> designer = (Map<?, ?>) map.get("primary_publisher");
+            String name = (String) designer.get("name");
+            
+            if (!CoreUtilities.isEmpty(name)) {
+                dco.createReference(BoardGame._F_PUBLISHERS, name);
+            }
+        }
+    }
+    
+    private void setCategories(Map<?, ?> map, DcObject dco) {
+        if (map.containsKey("categories")) {
+            
+            @SuppressWarnings("unchecked")
+            ArrayList<Map<?, ?>> raw = (ArrayList<Map<?, ?>>) map.get("categories");
+            Object id;
+            String cat; 
+            for (Map<?, ?> src : raw) {
+                id = src.get("id");
+                cat = categories.get(id);
+                
+                if (cat != null) {
+                    dco.createReference(BoardGame._I_CATEGORIES, cat);
+                }
+            }
+        }
+    }    
+    
     private void setRating(Map<?, ?> map, DcObject dco) {
     	if (map.containsKey("average_user_rating")) {
     	    Number rating = (Number) map.get("average_user_rating");
@@ -179,9 +252,9 @@ public class BoardGameAtlasSearch extends SearchTask {
         Number max = (Number) src.get("max_playtime");
         
         if (min != null || max != null) {
-            Long l = min == null ? 
-                           Long.valueOf(max.longValue()) :
-                               Long.valueOf(min.longValue());
+            Long l = max == null ? 
+                       Long.valueOf(min.longValue()) :
+                           Long.valueOf(max.longValue());
             dco.setValue(BoardGame._K_PLAYTIME, l);
         }
     }      
@@ -198,24 +271,6 @@ public class BoardGameAtlasSearch extends SearchTask {
                                        String.valueOf(minPlayers.longValue()) + "-" + String.valueOf(maxPlayers.longValue());
             dco.setValue(BoardGame._J_NR_OF_PLAYERS, s);
         }
-    }    
-    
-    private void setDescription(Map<?, ?> src, DcObject dco) {
-        JsonHelper.setString(src, "description", dco, BoardGame._B_DESCRIPTION);        
-        if (dco.isFilled(BoardGame._B_DESCRIPTION)) {
-            String s = (String) dco.getValue(BoardGame._B_DESCRIPTION);
-            s = s.replaceAll("<p ", "");
-            s = s.replaceAll("</p ", "");
-            s = s.replaceAll("<p>", "");
-            s = s.replaceAll("</p>", "");
-            s = s.replaceAll("<br / ", "\r\n");
-            s = s.replaceAll("</strong ", "");
-            s = s.replaceAll("<strong ", "");
-            s = s.replaceAll("</em ", "");
-            s = s.replaceAll("<em ", "");
-            
-            dco.setValue(BoardGame._B_DESCRIPTION, s);
-        }   
     }    
     
     /**

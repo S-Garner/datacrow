@@ -58,7 +58,7 @@ public class SimpleValueTableCellRenderer extends DcTableCellRenderer {
             DcSimpleValue sv = (DcSimpleValue) value;
             setText(sv.getName());
             setToolTipText(sv.getName());
-            setIcon(sv.getIcon());
+            setIcon(sv.getIcon() != null ? sv.getIcon().toIcon() : null);
         }
         
         return renderer;
