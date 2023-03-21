@@ -206,7 +206,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         
         setTitle(!update && !readonly ?
                   DcResources.getText("lblNewItem", dco.getModule().getObjectName()) :
-                  dco.getName());
+                  dco.toString());
 
         JMenuBar mb = getDcMenuBar();
         if (mb != null) setJMenuBar(mb);

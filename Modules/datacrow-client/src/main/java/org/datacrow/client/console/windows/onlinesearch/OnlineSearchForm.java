@@ -131,7 +131,7 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
         setHelpIndex("dc.onlinesearch");
         
         if (panelService.getQuery() == null || panelService.getQuery().trim().length() == 0)
-            panelService.setQuery(dco != null ? dco.getName() : "");
+            panelService.setQuery(dco != null ? dco.toString() : "");
 
         setSize(getModule().getSettings().getDimension(DcRepository.ModuleSettings.stOnlineSearchFormSize));
         setCenteredLocation();

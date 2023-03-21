@@ -83,12 +83,12 @@ public class DcCardObjectListElement extends DcObjectListElement {
             }
             
             if (sb.length() == 0) {
-                return dco.getName();
+                return dco.toString();
             } else {
                 return sb.toString();
             }
         } 
-        return dco.getName();
+        return dco.toString();
     }
 
     public boolean isBuild() {

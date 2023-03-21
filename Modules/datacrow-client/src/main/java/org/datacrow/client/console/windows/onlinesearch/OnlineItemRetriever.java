@@ -58,7 +58,7 @@ public class OnlineItemRetriever extends Thread {
     
     @Override
     public void run() {
-        PollerTask poller = new PollerTask(this, DcResources.getText("msgRetrievingItemDetails", dco.getName()));
+        PollerTask poller = new PollerTask(this, DcResources.getText("msgRetrievingItemDetails", dco.toString()));
         poller.start();
         
         try {

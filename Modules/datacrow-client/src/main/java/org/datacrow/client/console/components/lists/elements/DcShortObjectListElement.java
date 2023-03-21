@@ -76,7 +76,7 @@ public class DcShortObjectListElement extends DcObjectListElement {
 
         panelInfo = getPanel();
         
-        JLabel label = ComponentFactory.getLabel(dco.getName());
+        JLabel label = ComponentFactory.getLabel(dco.toString());
         panelInfo.add(label);
         panelInfo.setPreferredSize(new Dimension(50000, fieldHeight));
         add(panelInfo);

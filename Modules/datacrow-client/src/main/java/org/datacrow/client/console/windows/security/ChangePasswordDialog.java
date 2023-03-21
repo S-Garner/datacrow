@@ -108,7 +108,7 @@ public class ChangePasswordDialog extends DcDialog implements ActionListener, Ke
          getContentPane().setLayout(Layout.getGBL());
          Connector connector = DcConfig.getInstance().getConnector();
          
-         String name = connector.getUser().getUser().getName();
+         String name = connector.getUser().getUser().toString();
          String loginname = connector.getUser().getUsername();
          
          DcLongTextField help = ComponentFactory.getHelpTextField();

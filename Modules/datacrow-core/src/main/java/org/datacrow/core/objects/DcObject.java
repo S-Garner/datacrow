@@ -251,7 +251,7 @@ public class DcObject implements Comparable<DcObject>, Serializable {
      * no specify any descriptive fields the default name field index is used as defined in the
      * module definition.
      */
-    public String getName() {
+    protected String getName() {
         String name = "";
         boolean descriptiveFound = false;
         for (DcFieldDefinition definition :  DcModules.get(module).getFieldDefinitions().getDefinitions()) {
