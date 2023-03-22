@@ -180,7 +180,7 @@ public class SelectItemDialog extends DcDialog implements ActionListener, KeyLis
             String displayValue;
             for (DcListElement element : elements) {
                 displayValue = ((DcObjectListElement) element).getDcObject().toString();
-                if (displayValue.toLowerCase().startsWith(filter.toLowerCase()))
+                if (displayValue.toLowerCase().contains(filter.toLowerCase()))
                     newElements.add(element);
             }
             list.setListData(newElements);                

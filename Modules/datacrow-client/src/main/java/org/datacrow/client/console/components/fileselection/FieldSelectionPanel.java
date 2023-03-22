@@ -308,7 +308,7 @@ public class FieldSelectionPanel extends JPanel implements KeyListener {
             String displayValue;
             for (DcListElement element : getAvailableElements()) {
                 displayValue = ((DcFieldListElement) element).getField().getLabel();
-                if (displayValue.toLowerCase().startsWith(filter.toLowerCase()))
+                if (displayValue.toLowerCase().contains(filter.toLowerCase()))
                     newElements.add(element);
             }
             listLeft.setListData(newElements);

@@ -149,15 +149,9 @@ The various parameters you can use are listed below:
     -credentials:username/password
      Specify the login credentials to start Data Crow without displaying the login dialog.
      
-    -nosplash
-     Hides the splashscreen on startup.
-     
     -debug
      For additional logging information.     
-     
-    -clearsettings
-     Loads the default Data Crow settings. Disgards all user settings.
-     
+
 
 ----------------------------------------------------------------------------------------
 7.0 Credits

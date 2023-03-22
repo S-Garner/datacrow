@@ -41,12 +41,14 @@ import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.DcComboBox;
+import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.client.console.components.DcShortTextField;
 import org.datacrow.client.console.components.DcToolBarButton;
 import org.datacrow.client.console.windows.filtering.FilterDialog;
@@ -186,9 +188,10 @@ public class DcToolBar extends JToolBar implements ActionListener, MouseListener
         fldFilter.setPreferredSize(new Dimension(150, ComponentFactory.getPreferredFieldHeight()));
         fldFilter.addKeyListener(this);
         
-        addSeparator();
-        add(ComponentFactory.getLabel(DcResources.getText("lblQuickFilter") + " "));
-        addSeparator();
+        DcLabel lblSearch = ComponentFactory.getLabel(DcResources.getText("lblQuickFilter") + " ");
+        lblSearch.setBorder(new CompoundBorder(lblSearch.getBorder(), new EmptyBorder(0,20,0,0)));
+        
+        add(lblSearch);
         add(fldFilter);
 
         JButton buttonAdvanced = ComponentFactory.getIconButton(IconLibrary._icoSearch);
@@ -210,9 +213,10 @@ public class DcToolBar extends JToolBar implements ActionListener, MouseListener
         add(button1);
         
         if (filters.size() > 0) {
-            addSeparator();
-            
-            add(ComponentFactory.getLabel(DcResources.getText("lblFilters") + " "));
+            DcLabel lblFilters = ComponentFactory.getLabel(DcResources.getText("lblFilters") + " ");
+            lblFilters.setBorder(new CompoundBorder(lblSearch.getBorder(), new EmptyBorder(0,20,0,0)));
+
+            add(lblFilters);
             add(comboFilters);
             add(button2);
         }

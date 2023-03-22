@@ -188,10 +188,6 @@ public class DataCrow implements IStarterClient {
                 System.out.println("Debug mode for additional logging information.");
                 System.out.println("Example: java -jar datacrow.jar -debug");
                 System.out.println("");
-                System.out.println("-clearsettings");
-                System.out.println("Loads the default Data Crow settings. Disgards all user settings.");
-                System.out.println("Example: java -jar datacrow.jar -clearsettings");
-                System.out.println("");
                 System.out.println("-credentials:username/password");
                 System.out.println("Specify the login credentials to start Data Crow without displaying the login dialog.");
                 System.out.println("Example (username and password): java -jar datacrow.jar -credentials:sa/12345");

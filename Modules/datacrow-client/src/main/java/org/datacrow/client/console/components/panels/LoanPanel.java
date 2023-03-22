@@ -425,7 +425,7 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
         scroller.setMinimumSize(new Dimension(100, 50));
         scroller.setMaximumSize(new Dimension(800, 50));
         
-        panelDescription.setBorder(ComponentFactory.getTitleBorder(DcResources.getText("lblDescription")));
+        //panelDescription.setBorder(ComponentFactory.getTitleBorder(DcResources.getText("lblDescription")));
         
         panelDescription.add(scroller, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0
                             ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
@@ -527,24 +527,24 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
             
             add(labelStartDate , Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(5, 5, 5,  5), 0, 0));
+                     new Insets(5, 5, 5, 5), 0, 0));
             add(inputStartDate , Layout.getGBC( 1, 0, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(5, 5, 5,  5), 0, 0));
+                     new Insets(5, 5, 5, 5), 0, 0));
             
             add(labelDueDate , Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                      new Insets(5, 5, 5,  5), 0, 0));
             add(inputDueDate , Layout.getGBC( 1, 1, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(5, 5, 5,  5), 0, 0));            
+                     new Insets(5, 5, 5, 5), 0, 0));            
             
             add(labelPerson ,    Layout.getGBC( 0, 2, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(5, 5, 5,  5), 0, 0));
+                     new Insets(5, 5, 5, 5), 0, 0));
             add(comboPersons ,   Layout.getGBC( 1, 2, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(5, 5, 5,  5), 0, 0));
+                     new Insets(5, 5, 5, 5), 0, 0));
             
             JPanel panelActions = new JPanel();
             buttonLend.addActionListener(this);
@@ -552,7 +552,7 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
             
             add(panelActions,    Layout.getGBC( 1, 3, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE,
-                     new Insets(5, 5, 5,  5), 0, 0));
+                     new Insets(5, 5, 5, 0), 0, 0));
         }
         
         @Override
@@ -582,7 +582,7 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
             
             add(panelActions , Layout.getGBC( 1, 1, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE,
-                     new Insets(5, 5, 5,  5), 0, 0));
+                     new Insets(5, 5, 5, 0), 0, 0));
         }
 
         @Override
