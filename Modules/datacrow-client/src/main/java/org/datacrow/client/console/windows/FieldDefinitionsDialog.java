@@ -266,6 +266,12 @@ public class FieldDefinitionsDialog extends DcDialog implements ActionListener {
             add(scroller, Layout.getGBC(0, 0, 1, 1, 50.0, 50.0,
                     GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                     new Insets(0, 0, 0, 0), 0, 0));
+            
+            NavigationPanel panelNav = new NavigationPanel(table);
+
+            add(panelNav,  Layout.getGBC(1, 0, 1, 1, 1.0, 1.0,
+                    GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                    new Insets(0, 5, 5, 5), 0, 0));
 
             table.applyHeaders();
         }
