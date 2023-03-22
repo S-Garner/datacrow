@@ -28,13 +28,15 @@ package plugins;
 import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
+import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.client.console.windows.DcFrame;
-import org.datacrow.client.console.windows.help.HelpDialog;
+import org.datacrow.client.util.launcher.URLLauncher;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
@@ -66,14 +68,24 @@ public class Help extends Plugin {
         while (!(o instanceof Window) && o != null)
             o = ((Component) o).getParent();
         
-        if (o != null) { 
+        if (o != null) {
+        	String helpIndex = "https://datacrow.org/docs";
+        	
             if (o instanceof DcFrame)
-                HelpDialog.setHelpIndex(((DcFrame) o).getHelpIndex());
+                helpIndex = ((DcFrame) o).getHelpIndex();
             else if (o instanceof DcDialog)
-                HelpDialog.setHelpIndex(((DcDialog) o).getHelpIndex());
+            	helpIndex = ((DcDialog) o).getHelpIndex();
+            
+            try {
+                URL url = new URL(helpIndex);
+                if (url != null) {
+                	URLLauncher launcher = new URLLauncher(url);
+                	launcher.launch();
+                }
+            } catch (Exception exp) {
+                GUI.getInstance().displayErrorMessage(exp.toString());
+            }
         }
-        
-        new HelpDialog((Window) o);
     }
     
     @Override
