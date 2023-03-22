@@ -457,9 +457,15 @@ public class DataCrow implements IStarterClient {
     private void installLafs() {
     	
     	FlatLightLaf.setup();
-
+    	
         UIManager.installLookAndFeel("FlatLaf Light",
-                "com.formdev.flatlaf.FlatLightLaf");    	
+                "com.formdev.flatlaf.FlatLightLaf");
+        UIManager.installLookAndFeel("FlatLaf Dark",
+                "com.formdev.flatlaf.FlatDarkLaf");
+        UIManager.installLookAndFeel("FlatLaf Darcula",
+                "com.formdev.flatlaf.FlatDarculaLaf");
+        UIManager.installLookAndFeel("FlatLaf IntelliJ",
+                "com.formdev.flatlaf.FlatIntelliJLaf");
         UIManager.installLookAndFeel("JTattoo - Smart",
                 "com.jtattoo.plaf.smart.SmartLookAndFeel");
         UIManager.installLookAndFeel("JTattoo - Acryl",
