@@ -90,11 +90,6 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.help</groupId>
-            <artifactId>javahelp</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>net.jthink</groupId>
             <artifactId>jaudiotagger</artifactId>
         </dependency>
@@ -227,22 +222,6 @@
                             <resources>
                                 <resource>
                                     <directory>${basedir}/readme</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-resources-help-client</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-client/help</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/help</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>
