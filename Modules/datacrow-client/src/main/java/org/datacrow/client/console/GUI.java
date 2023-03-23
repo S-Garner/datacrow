@@ -57,6 +57,7 @@ import org.datacrow.client.console.windows.IDialog;
 import org.datacrow.client.console.windows.SplashScreen;
 import org.datacrow.client.console.windows.UpdateAllDialog;
 import org.datacrow.client.console.windows.fileimport.FileImportDialog;
+import org.datacrow.client.console.windows.fileimport.MusicFileImportDialog;
 import org.datacrow.client.console.windows.filerenamer.FileRenamerDialog;
 import org.datacrow.client.console.windows.filtering.FilterDialog;
 import org.datacrow.client.console.windows.itemforms.DcMinimalisticItemView;
@@ -295,7 +296,13 @@ public class GUI {
     public FileImportDialog getFileImportDialog(int moduleIdx) {
         FileImporters importers = FileImporters.getInstance();
         FileImporter importer = importers.getFileImporter(moduleIdx);
-        FileImportDialog dlg = new FileImportDialog(importer);
+        
+        FileImportDialog dlg;
+        if (DcModules._MUSIC_ALBUM == moduleIdx)
+        	dlg = new MusicFileImportDialog(importer);
+        else
+        	dlg = new FileImportDialog(importer);
+        
         return dlg;
     }
     

@@ -339,12 +339,16 @@ public class AutoIncrementDialog extends DcDialog implements ActionListener {
             String collation = DcSettings.getString(DcRepository.Settings.stDatabaseLanguage);
             String order = "";
             for (int i = 0; i < ordering.length; i++) {
-                if (i > 0)
-                    order += ", ";
-                
-                order += ordering[i].getDatabaseFieldName();
-                if  (ordering[i].getValueType() == DcRepository.ValueTypes._STRING)
-                	order += " COLLATE \"" + collation + " 0\" ";   
+            	
+            	if (ordering[i] != null) {
+            	
+	                if (order.length() > 0)
+	                    order += ", ";
+	                
+	                order += ordering[i].getDatabaseFieldName();
+	                if  (ordering[i].getValueType() == DcRepository.ValueTypes._STRING)
+	                	order += " COLLATE \"" + collation + " 0\" ";
+            	}
             }
             
             String qry = "SELECT ID, " + field.getDatabaseFieldName() + " FROM " + module.getTableName();
@@ -366,7 +370,11 @@ public class AutoIncrementDialog extends DcDialog implements ActionListener {
             try {
                 DcResultSet result = conn.executeSQL(qryCurrent);
                 for (int row = 0; row < result.getRowCount(); row++) {
-                	currentValues.add(result.getInteger(row, 0));
+                	try {
+                		currentValues.add(Integer.valueOf(result.getInt(row, 0)));
+                	} catch (Exception e) {
+                		logger.debug("Could not get current value for row " + row, e);
+                	}
                 }
                 
                 result = conn.executeSQL(qry);

@@ -154,7 +154,7 @@ public class DcModules implements Serializable {
 	        }
 
 	        for (DcPropertyModule m : moduleResponse.getPropertyBaseModules()) {
-	        	propertyBaseModules.put(m.getIndex(), m);
+	        	propertyBaseModules.put(Integer.valueOf(m.getIndex()), m);
 	        }
 
 	        // now that modules have been loaded (without any settings) the settings need to be requested for;
@@ -694,7 +694,7 @@ public class DcModules implements Serializable {
      * @param module The module index
      */
     public static DcPropertyModule getPropertyBaseModule(int module) {
-        return propertyBaseModules.get(module);
+        return propertyBaseModules.get(Integer.valueOf(module));
     }    
 
     /**
