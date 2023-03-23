@@ -34,7 +34,9 @@ import java.util.Collection;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcProperty;
 import org.datacrow.core.objects.Picture;
@@ -69,14 +71,15 @@ public class DcPropertyListElement extends DcObjectListElement {
     
     @Override
     public int[] getFields() {
-    	return new int[] {DcObject._ID, DcProperty._A_NAME, DcProperty._B_ICON};
+    	return DcModules.get(module).getFieldIndices();
     }
 
     @Override
     public void build() {
         setLayout(layout);
         panelInfo = getPanel();
-        JLabel label = getLabel(DcProperty._A_NAME, false, 800);
+        
+        JLabel label = ComponentFactory.getLabel(dco.toString());
 
         if (dco.getValue(DcProperty._B_ICON) != null)
             label.setIcon(dco.getIcon());

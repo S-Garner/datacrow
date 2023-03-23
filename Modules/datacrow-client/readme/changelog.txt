@@ -67,6 +67,7 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
 - Help updates; reviewed all help files and remove incorrect references and incorrect
   information.
 - Removed references to no longer existing parameters (-clearsettings and -nosplash).
+- Property maintenance overviews did not adhere to the descriptive field settings.
 
 [To Do]
 - Move help to online.
