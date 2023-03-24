@@ -26,7 +26,6 @@
 package plugins;
 
 import java.awt.Component;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.HashMap;
@@ -53,6 +52,8 @@ public class Help extends Plugin {
 	private static Logger logger = DcLogManager.getLogger(Help.class.getName());
 
 	private static final long serialVersionUID = 1;
+	
+	private static final String baseUrl = "https://datacrow.org/docs/";
 
 	private static final Map<String, String> index = new HashMap<>();
 	
@@ -163,16 +164,16 @@ public class Help extends Plugin {
             
             if (index.get(key) != null) {
             	String link = key == null ? "" : index.get(key);
-                launch("https://datacrow.org/docs/" + link);
+                launch(baseUrl + link);
             } if (key == null) {
             	logger.error("Key has not been set for [" + e.getSource() + "]");
-            	launch("https://datacrow.org/docs/");
+            	launch(baseUrl);
             } else if (index.get(key) == null) {
         		logger.error("Help index [" + key + "] has not been mapped");
-        		launch("https://datacrow.org/docs/");
+        		launch(baseUrl);
             }
         } else {
-        	launch("https://datacrow.org/docs/");  	
+        	launch(baseUrl);  	
         }
     }
 	
