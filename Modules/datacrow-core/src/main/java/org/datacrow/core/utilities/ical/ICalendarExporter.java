@@ -213,12 +213,12 @@ public class ICalendarExporter extends Thread implements IClient {
         item.load(item.getModule().getMinimalFields(null));
         
         String summary = DcResources.getText("msgCalendarSummary", new String[] {
-                DcResources.getText(item.getModule().getItemResourceKey()),
+                item.getModule().getObjectName(),
                 item.toString(),
                 person});
         
         String description = DcResources.getText("msgCalendarDescription", new String[] {
-                DcResources.getText(item.getModule().getItemResourceKey()),
+        		item.getModule().getObjectName(),
                 item.toString(),
                 person,
                 sdf2.format(loan.getValue(Loan._A_STARTDATE))});

@@ -73,17 +73,20 @@ public class ICalendarExporterDialog extends DcDialog implements ActionListener,
         cbFullExport.setSelected(DcSettings.getBoolean(DcRepository.Settings.stICalendarFullExport));
     }
     
-    private void export() {
-        
-        File target = ffTarget.getFile();
-        
-        if (target == null) {
-            GUI.getInstance().displayMessage("msgSelectFileFirst");
-        } else {
-            ICalendarExporter exporter = new ICalendarExporter(this, target, cbFullExport.isSelected());
-            exporter.start();
-        }
-    }
+	private void export() {
+
+		String filename = ffTarget.getFilename();
+
+		if (filename == null) {
+			GUI.getInstance().displayMessage("msgSelectFileFirst");
+		} else {
+			filename = !filename.toLowerCase().endsWith(".ics") ? filename + ".ics" : filename;
+
+			ICalendarExporter exporter =
+					new ICalendarExporter(this, new File(filename), cbFullExport.isSelected());
+			exporter.start();
+		}
+	}
 
     @Override
     public void notifyProcessed() {

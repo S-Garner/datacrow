@@ -68,7 +68,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class FindReplaceDialog extends DcFrame implements ActionListener {
 
-	private JButton buttonApply;
+	private JButton buttonPreview;
     private JButton buttonClose;
 
     private DcModule module;
@@ -230,16 +230,16 @@ public class FindReplaceDialog extends DcFrame implements ActionListener {
         //**********************************************************
         JPanel panelActions = new JPanel();
 
-        buttonApply = ComponentFactory.getButton(DcResources.getText("lblApply"));
+        buttonPreview = ComponentFactory.getButton(DcResources.getText("lblPreview"));
         buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
 
-        buttonApply.addActionListener(this);
-        buttonApply.setActionCommand("replace");
+        buttonPreview.addActionListener(this);
+        buttonPreview.setActionCommand("replace");
         
         buttonClose.addActionListener(this);
         buttonClose.setActionCommand("close");
 
-        panelActions.add(buttonApply);
+        panelActions.add(buttonPreview);
         panelActions.add(buttonClose);
         
         //**********************************************************

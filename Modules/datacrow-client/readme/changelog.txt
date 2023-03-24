@@ -45,6 +45,8 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
 - Small layout fixes for the loan administration panel.
 - Added sorting capabilities to the General Field Settings dialog.
 - Added look & feels; FlatLaf IntelliJ, FlatLaf Dark & FlatLaf Darcula
+- File Renamer; renamed Start button to Preview.
+- Find & Replace; renamed Appy button to Preview.
 
 [Fixed]
 - Discogs.com service now handles sub tracks correctly.
@@ -72,6 +74,8 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
   fields were selected except for the first level.
 - File Importer; the specific music file import dialog was not used in the Music Album
   module, instead the generic import dialog was shown.
+- When exporting loans to an iCalender file the description and summary of the event
+  contained %1 instead of the item type.
 
 [To Do]
 - Move help to online.

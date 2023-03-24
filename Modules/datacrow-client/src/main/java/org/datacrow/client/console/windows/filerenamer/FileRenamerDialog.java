@@ -93,7 +93,7 @@ public class FileRenamerDialog extends DcFrame implements ActionListener, IFileR
     private final JButton buttonSavePattern = ComponentFactory.getIconButton(IconLibrary._icoSave);
     
     private final JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
-    private final JButton buttonStart = ComponentFactory.getButton(DcResources.getText("lblStart"));
+    private final JButton buttonPreview = ComponentFactory.getButton(DcResources.getText("lblPreview"));
     private final JButton buttonStop = ComponentFactory.getButton(DcResources.getText("lblStop"));
     
     private final JComboBox<Object> cbItemPickMode = ComponentFactory.getComboBox();
@@ -308,7 +308,7 @@ public class FileRenamerDialog extends DcFrame implements ActionListener, IFileR
             patternFld.setFont(ComponentFactory.getStandardFont());
             logFld.setFont(ComponentFactory.getStandardFont());
             buttonClose.setFont(ComponentFactory.getSystemFont());
-            buttonStart.setFont(ComponentFactory.getSystemFont());
+            buttonPreview.setFont(ComponentFactory.getSystemFont());
             buttonStop.setFont(ComponentFactory.getSystemFont());
             borderLog.setTitleFont(ComponentFactory.getSystemFont());
             borderPattern.setTitleFont(ComponentFactory.getSystemFont());
@@ -384,13 +384,13 @@ public class FileRenamerDialog extends DcFrame implements ActionListener, IFileR
         //**********************************************************
         JPanel panelTask = new JPanel();
         
-        buttonStart.addActionListener(this);
-        buttonStart.setActionCommand("start");
+        buttonPreview.addActionListener(this);
+        buttonPreview.setActionCommand("start");
 
         buttonStop.addActionListener(this);
         buttonStop.setActionCommand("stop");
 
-        panelTask.add(buttonStart);
+        panelTask.add(buttonPreview);
         panelTask.add(buttonStop);
         
         
@@ -507,14 +507,14 @@ public class FileRenamerDialog extends DcFrame implements ActionListener, IFileR
     @Override
     public void notifyJobStarted() {
         logFld.setText("");
-        buttonStart.setEnabled(false);
+        buttonPreview.setEnabled(false);
         buttonClose.setEnabled(false);
         buttonStop.setEnabled(true);
     }
 
     @Override
     public void notifyJobStopped() {
-        buttonStart.setEnabled(true);
+        buttonPreview.setEnabled(true);
         buttonClose.setEnabled(true);
         buttonStop.setEnabled(false);
     }
