@@ -162,6 +162,6 @@ public class Version implements Comparable<Version> {
     
     @Override
     public int compareTo(Version v) {
-        return toString().compareTo(v.toString());
+        return isOlder(v) ? -1 : isNewer(v) ? +1 : 0;
     }    
 }

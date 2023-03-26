@@ -208,15 +208,19 @@ public abstract class SearchTask extends Thread {
         this.searchMode = searchMode;
     }
 
-    /**
-     * The used query as specified by the user.
-     */
-    public String getQuery() {
-        String s = query;
+    public String httpFormat(String v) {
+        String s = v;
         s = s.replaceAll("\n", " ");
         s = s.replaceAll("\r", " ");
         s = URLEncoder.encode(s, StandardCharsets.UTF_8);
         return s;
+    }
+    
+    /**
+     * The used query as specified by the user.
+     */
+    public String getQuery() {
+        return httpFormat(query);
     }
 
     public Map<String, Object> getAdditionalFilters() {

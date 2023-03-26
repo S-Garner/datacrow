@@ -321,19 +321,19 @@ public class OnlineServicePanel extends JPanel implements ActionListener, KeyLis
                      new Insets(5, 0, 5, 0), 0, 0));
 
         // main panel
-        add(labelServer,  Layout.getGBC( 0, 2, 1, 1, 1.0, 1.0
+        add(labelServer,  Layout.getGBC( 0, y, 1, 1, 1.0, 1.0
                          ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
                           new Insets(5, 5, 5, 5), 0, 0));
-        add(panelServers, Layout.getGBC( 1, 2, 1, 1, 10.0, 10.0
+        add(panelServers, Layout.getGBC( 1, y, 1, 1, 10.0, 10.0
                          ,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
                           new Insets(0, 0, 0, 0), 0, 0));
-        add(comboRegions, Layout.getGBC( 2, 2, 1, 1, 10.0, 10.0
+        add(comboRegions, Layout.getGBC( 2, y, 1, 1, 10.0, 10.0
                          ,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
                           new Insets(5, 5, 5, 5), 0, 0));
-        add(buttonSearch, Layout.getGBC( 3, 2, 1, 1, 1.0, 1.0
+        add(buttonSearch, Layout.getGBC( 3, y, 1, 1, 1.0, 1.0
                          ,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
                           new Insets(5, 5, 5, 5), 0, 0));
-        add(buttonStop,   Layout.getGBC( 4, 2, 1, 1, 1.0, 1.0
+        add(buttonStop,   Layout.getGBC( 4, y, 1, 1, 1.0, 1.0
                          ,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
                           new Insets(5, 5, 5, 5), 0, 0));      
     }

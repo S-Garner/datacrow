@@ -44,6 +44,7 @@ import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.MusicAlbum;
 import org.datacrow.core.objects.helpers.MusicTrack;
 import org.datacrow.core.objects.helpers.Software;
+import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
 import org.datacrow.core.services.OnlineServiceError;
@@ -120,6 +121,9 @@ public class DiscogsSearch extends SearchTask {
         Double id = (Double) src.get("id");
         dco.addExternalReference(DcRepository.ExternalReferences._DISCOGS, String.valueOf(id.intValue()));
 
+        
+        dco.setValue(MusicAlbum._A_TITLE, src.get("title"));
+        
         setArtists(dco, src);
         setComposers(null, dco, src);
         setRating(dco, src);
@@ -143,7 +147,19 @@ public class DiscogsSearch extends SearchTask {
         Collection<Object> result = new ArrayList<>();
         
         try {
-            String query = address + "/search?title=" + getQuery() + "&type=release&"  +  "key=" + consumerKey + "&secret=" + consumerSecret;
+            String search = getMode().getFieldBinding() == MusicAlbum._P_EAN ? 
+                    "barcode=" + getQuery() : "title=" + getQuery();
+            
+            String artist = (String) getAdditionalFilters().get(DcResources.getText("lblArtist"));
+            String year = (String) getAdditionalFilters().get(DcResources.getText("lblReleaseYear"));
+            
+            if (!CoreUtilities.isEmpty(artist))
+                search += "&artist=" + httpFormat(artist);
+            
+            if (!CoreUtilities.isEmpty(year))
+                search += "&year=" + httpFormat(year);
+            
+            String query = address + "/search?" + search + "&type=release&"  +  "key=" + consumerKey + "&secret=" + consumerSecret;
             HttpConnection conn = new HttpConnection(new URL(query), userAgent);
             logUsageInformation(conn);
             

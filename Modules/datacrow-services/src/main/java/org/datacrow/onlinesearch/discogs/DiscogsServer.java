@@ -31,6 +31,7 @@ import java.util.Map;
 
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.FilterField;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.Region;
@@ -48,6 +49,9 @@ public class DiscogsServer implements IServer {
 
     public DiscogsServer() {
         regions.add(new Region("en", "English", "https://www.discogs.com/"));
+        
+        modes.add(new KeywordSearchMode());
+        modes.add(new BarcodeSearchMode());
     }
 
     @Override
@@ -68,11 +72,6 @@ public class DiscogsServer implements IServer {
     @Override
     public boolean isFullModeOnly() {
         return false;
-    }
-    
-    @Override
-    public Collection<FilterField> getFilterFields() {
-        return new ArrayList<>();
     }
     
     @Override
@@ -118,4 +117,12 @@ public class DiscogsServer implements IServer {
     public long getWaitTimeBetweenRequest() {
         return 1000l;
     }
+    
+    @Override
+    public Collection<FilterField> getFilterFields() {
+        Collection<FilterField> fields = new ArrayList<>();
+        fields.add(new FilterField(DcResources.getText("lblArtist"), null));
+        fields.add(new FilterField(DcResources.getText("lblReleaseYear"), null));
+        return fields;
+    }  
 }

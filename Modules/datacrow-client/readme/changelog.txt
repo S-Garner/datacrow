@@ -52,6 +52,10 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
   website (https://datacrow.org/docs). When you press F1 for help, this page will be opened.
   Pages have been mapped to the appropriate topics you are requesting help for, as was the
   case for the old help system.
+- Discogs.com; title contained the artist name. Changed to only contain the title.
+- Discogs.com; added two additional search fields; year and artist. They are both optional
+  and can be used to refine your queries.
+- Discogs.com; added UPC search mode.
 
 [Fixed]
 - Discogs.com service now handles sub tracks correctly.
@@ -84,8 +88,6 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
 - Many corrections have been made to the help system.
 
 [To Do]
-- Discogs.com; check title; set from details page
-- Discogs.com; add artist search mode for albums
 - Books, add: year of original issue & translators
 - Online search for books: add translators
 - Add merge items help page

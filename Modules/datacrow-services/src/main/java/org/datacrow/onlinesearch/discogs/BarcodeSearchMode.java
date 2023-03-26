@@ -23,24 +23,30 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.core.services;
+package org.datacrow.onlinesearch.discogs;
 
-import java.util.Comparator;
+import org.datacrow.core.objects.helpers.MusicAlbum;
+import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.services.SearchMode;
 
-import org.datacrow.core.Version;
+public class BarcodeSearchMode extends SearchMode {
 
-/**
- * @author Robert Jan van der Waals
- */
-public class ServicesFileComparator implements Comparator<ServicesFile> {
-
-    public ServicesFileComparator() {}
+    public BarcodeSearchMode() {
+        super(MusicAlbum._P_EAN);
+    }
 
     @Override
-    public int compare(ServicesFile sf1, ServicesFile sf2) {
-    	Version version1 = sf1.getVersion();
-    	Version version2 = sf2.getVersion();
-    	
-        return version2.compareTo(version1); 
+    public String getDisplayName() {
+        return DcResources.getText("lblUPCSearchMode");
+    }
+
+    @Override
+    public boolean singleIsPerfect() {
+        return true;
+    }
+
+    @Override
+    public boolean keywordSearch() {
+        return false;
     }
 }
