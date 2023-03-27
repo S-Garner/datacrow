@@ -116,6 +116,7 @@ public class DcModules implements Serializable {
     public static final int _BOARDGAMEPUBLISHER = 39000;
     public static final int _BOARDGAMEARTIST = 40000;
     public static final int _BOARDGAMEDESIGNER = 41000;
+    public static final int _TRANSLATOR = 42000;
     
     public static final int _COUNTRY = 1000000;
     public static final int _LANGUAGE = 1100000;

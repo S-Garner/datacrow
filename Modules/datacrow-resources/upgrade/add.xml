@@ -105,6 +105,35 @@
                 <value-type>8</value-type>
                 <overwritable>true</overwritable>
             </field>
+            <field>
+                <index>21</index>
+                <name>Translators</name>
+                <database-column-name>Translators</database-column-name>
+                <ui-only>false</ui-only>
+                <enabled>true</enabled>
+                <readonly>false</readonly>
+                <searchable>true</searchable>
+                <maximum-length>255</maximum-length>
+                <field-type>21</field-type>
+                <module-reference>42000</module-reference>
+                <value-type>18</value-type>
+                <overwritable>true</overwritable>
+            </field>
+            <field>
+                <index>22</index>
+                <name>Year of First Publication</name>
+                <database-column-name>yearfirstpublication</database-column-name>
+                <ui-only>false</ui-only>
+                <enabled>true</enabled>
+                <readonly>false</readonly>
+                <searchable>false</searchable>
+                <techinfo>false</techinfo>
+                <maximum-length>20</maximum-length>
+                <field-type>4</field-type>
+                <module-reference>{index}</module-reference>
+                <value-type>1</value-type>
+                <overwritable>false</overwritable>
+            </field>			
         </fields>
     </module>    
 </modules>

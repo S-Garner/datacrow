@@ -58,6 +58,8 @@ public class Book extends DcMediaObject {
     public static final int _W_EDITION_COMMENT = 18;
     public static final int _X_ORIGINAL_TITLE = 19;
     public static final int _Y_TRANSLATED_FROM = 20;
+    public static final int _Z_TRANSLATOR = 21;
+    public static final int _AA_YEARFIRSTPUBLICATION = 22;
     
     public Book() {
        super(DcModules._BOOK);

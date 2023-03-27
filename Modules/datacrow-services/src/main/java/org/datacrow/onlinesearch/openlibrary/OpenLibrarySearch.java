@@ -145,7 +145,6 @@ public class OpenLibrarySearch extends SearchTask {
 	                    
 	                    listener.addMessage(DcResources.getText("msgRetrievingEditions", key));
 	                    
-	                    
 	                    try {
 		                    conn = new HttpConnection(new URL(address), userAgent);
 		                    json = conn.getString(StandardCharsets.UTF_8);
@@ -296,8 +295,18 @@ public class OpenLibrarySearch extends SearchTask {
     	
     	dco.setValue(DcMediaObject._A_TITLE, work.get("title"));
     	
-    	if (work.containsKey("first_publish_year"))
-    		dco.setValue(DcMediaObject._C_YEAR, work.get("first_publish_year"));
+    	if (work.containsKey("first_publish_year")) {
+    	    String year = (String) work.get("first_publish_year");
+    		dco.setValue(Book._AA_YEARFIRSTPUBLICATION, year);
+    	} else if (work.containsKey("first_publish_date")) {
+            String year = (String) work.get("first_publish_date");
+            
+            if (year.length() > 4)
+                year = year.substring(year.length() - 4);
+            
+            if (StringUtils.getContainedNumber(year).length() == 4)
+                dco.setValue(Book._AA_YEARFIRSTPUBLICATION, year);
+    	}
 
     	if (work.containsKey("cover_edition_key"))
     		olsr.setMainCoverId((String) work.get("cover_edition_key"));
@@ -324,6 +333,7 @@ public class OpenLibrarySearch extends SearchTask {
 		setPublishers(item, dco);
 		setTranslatedFrom(item, dco);
 		setYear(item, dco);
+		setTranslators(item, dco);
 		
 		dco.setValue(Book._H_WEBPAGE, "https://openlibrary.org" + key);
 
@@ -478,6 +488,19 @@ public class OpenLibrarySearch extends SearchTask {
     	} catch (InvalidBarCodeException ibce) {
     		listener.addError("Could not parse ISBN-13 from [" + isbn + "]. Error: " + ibce.getMessage());
     	}
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void setTranslators(Map<?, ?> data, DcObject dco) {
+        if (data.containsKey("contributors")) {
+            Collection<Map<?, ?>> contributors = (Collection<Map<?, ?>>)  data.get("contributors");
+            
+            for (Map<?, ?> contributor : contributors) {
+                if ("Translator".equalsIgnoreCase((String) contributor.get("role"))) {
+                    dco.createReference(Book._Z_TRANSLATOR, contributor.get("name"));
+                }
+            }
+        }
     }
     
 	private void setAuthors(Map<?, ?> data, DcObject dco) {
