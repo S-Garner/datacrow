@@ -92,7 +92,13 @@ public class MergeItemsDialog extends DcDialog implements ActionListener, IClien
         this.module = module;
         this.items = items;
         
-        setHelpIndex("dc.items.mergeitems");
+        if (module.getType() == DcModule._TYPE_PROPERTY_MODULE) {
+        	setHelpIndex("dc.items.mergepropertyitems");
+        } else {
+        	setHelpIndex("dc.items.mergeitems");
+        }
+        
+        
 
         build();
 

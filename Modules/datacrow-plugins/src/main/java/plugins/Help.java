@@ -83,7 +83,8 @@ public class Help extends Plugin {
 		index.put("dc.items.createmultiple","create-multiple-items");
 		index.put("dc.items.itemform_property","maintaining-properties/#alternative-names");
 		index.put("dc.items.itemform_multiref","the-item-form/#multireference");
-		index.put("dc.items.mergeitems","maintaining-properties/#merging");
+		index.put("dc.items.mergeitems","merging-items");
+		index.put("dc.items.mergepropertyitems","maintaining-properties/#merging");
 		index.put("dc.items.sort","sorting");
 		index.put("dc.items.administration","maintaining-properties");
 		index.put("dc.charts","charts");

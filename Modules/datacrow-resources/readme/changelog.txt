@@ -90,7 +90,6 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
 - Many corrections have been made to the help system.
 
 [To Do]
-- Add merge items help page
 - Books, add: year of original issue & translators
 - Online search for books: add translators
 
