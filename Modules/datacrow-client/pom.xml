@@ -212,7 +212,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-resources-readme-client</id>
+                        <id>copy-resources-readme</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -221,14 +221,14 @@
                             <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-client/readme</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/readme</directory>
+                                    <directory>${project.parent.basedir}/datacrow-resources/readme</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-resources-icons-client</id>
+                        <id>copy-resources-icons</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -244,7 +244,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-resources-modules-client</id>
+                        <id>copy-resources-modules</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -253,30 +253,14 @@
                             <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-client/modules</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/modules</directory>
+                                    <directory>${project.parent.basedir}/datacrow-resources/modules</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-resources-modules-server</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/modules</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/modules</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-resources-reports-server</id>
+                        <id>copy-resources-reports</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -292,7 +276,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-resources-resources-client</id>
+                        <id>copy-resources-translations</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -301,14 +285,14 @@
                             <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-client/resources</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/resources</directory>
+                                    <directory>${project.parent.basedir}/datacrow-resources/resources</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-resources-upgrade-client</id>
+                        <id>copy-resources-upgrade</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -317,14 +301,14 @@
                             <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-client/upgrade</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/upgrade</directory>
+                                    <directory>${project.parent.basedir}/datacrow-resources/upgrade</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-resources-fonts-client</id>
+                        <id>copy-resources-fonts</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>

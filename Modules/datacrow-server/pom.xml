@@ -243,7 +243,54 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-resources-upgrade-server</id>
+                        <id>copy-resources-translations</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/resources</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.parent.basedir}/datacrow-resources/resources</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-resources-readme</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/readme</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.parent.basedir}/datacrow-resources/readme</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>					
+					<execution>
+                        <id>copy-resources-modules</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/modules</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.parent.basedir}/datacrow-resources/modules</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>                    <execution>
+                        <id>copy-resources-upgrade</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -252,14 +299,14 @@
                             <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/upgrade</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.parent.basedir}/datacrow-client/upgrade</directory>
+                                    <directory>${project.parent.basedir}/datacrow-resources/upgrade</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-resources-icons-server</id>
+                        <id>copy-resources-icons</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -275,7 +322,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-resources-ssl-server</id>
+                        <id>copy-resources-ssl</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
