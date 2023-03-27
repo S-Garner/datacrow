@@ -28,10 +28,15 @@ package org.datacrow.core;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
@@ -289,14 +294,13 @@ public abstract class DcRepository {
      */
     public static final class Collections {
     	
-    	private static final HashMap<String, String> languages = new HashMap<>();
+    	private static final HashMap<String, String> languages = new LinkedHashMap<>();
     	
     	@SuppressWarnings("unchecked")
 		public static Map<String, String> getLanguages() {
     		
     		if (languages.size() == 0) {
 	    		try {
-	    		
 		    		Properties p = new Properties();
 		            p.load(DcResources.class.getResourceAsStream("Language.properties"));
 		            
@@ -305,6 +309,27 @@ public abstract class DcRepository {
 		                String key = enums.nextElement().toString();
 		                String value = p.getProperty(key);
 		                languages.put(key, value);
+		            }
+		            
+		            Set<Map.Entry<String, String>> languageSet =
+		            		languages.entrySet();
+		            
+		            List<Map.Entry<String, String>> languageListEntry =
+		                    new ArrayList<Map.Entry<String, String>>(languageSet);
+		            
+		            java.util.Collections.sort(languageListEntry,
+		                    new Comparator<Map.Entry<String, String>>() {
+		     
+		                @Override
+		                public int compare(Entry<String, String> es1, Entry<String, String> es2) {
+		                    return es1.getValue().compareTo(es2.getValue());
+		                }
+		            });
+		            
+		            languages.clear();
+
+		            for(Map.Entry<String, String> map : languageListEntry){
+		            	languages.put(map.getKey(), map.getValue());
 		            }
 	    		} catch (IOException ioe) {
 	    			logger.error("Could not load languages file", ioe);

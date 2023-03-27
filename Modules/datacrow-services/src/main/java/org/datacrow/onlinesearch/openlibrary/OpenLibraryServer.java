@@ -33,6 +33,7 @@ import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Book;
+import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.FilterField;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.Region;
@@ -134,6 +135,8 @@ public class OpenLibraryServer implements IServer {
     
     @Override
     public Collection<FilterField> getFilterFields() {
-        return null;
+        Collection<FilterField> fields = new ArrayList<>();
+        fields.add(new FilterField(DcResources.getText("lblAuthor"), null));
+        return fields;
     }    
 }

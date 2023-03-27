@@ -56,6 +56,9 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
 - Discogs.com; added two additional search fields; year and artist. They are both optional
   and can be used to refine your queries.
 - Discogs.com; added UPC search mode.
+- Books module: added fields added translators & year of First Publication
+- Online search OpenLibrary.org: added translators & year of First Publication
+- Online search OpenLibrary.org: added optional author filter field to narrow search
 
 [Fixed]
 - Discogs.com service now handles sub tracks correctly.
@@ -88,10 +91,8 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
 - When exporting loans to an iCalender file the description and summary of the event
   contained %1 instead of the item type.
 - Many corrections have been made to the help system.
-
-[To Do]
-- Books, add: year of original issue & translators
-- Online search for books: add translators
+- Server edition was missing the language resources.
+- Online search OpenLibrary.org: language drop-down was not sorted.
 
 Next version
 - Finish the synch server.

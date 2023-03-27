@@ -114,10 +114,15 @@ public class OpenLibrarySearch extends SearchTask {
             String query;
             
             if (getMode().getFieldBinding() == Book._A_TITLE) {
+                String search = "q=" + getQuery();
+                String author = (String) getAdditionalFilters().get(DcResources.getText("lblAuthor"));
+                
+                if (!CoreUtilities.isEmpty(author))
+                    search += "&author=" + httpFormat(author);
+                
             	// fetches works
-            	query = "https://openlibrary.org/search.json?q=" + 
-                 		getQuery() + "&limit=" + getMaximum() + 
-                 		"&fields=key,title,description,cover_edition_key,author_name,edition_key";
+            	query = "https://openlibrary.org/search.json?" + search + "&limit=" + getMaximum() + 
+                 		"&fields=key,title,description,cover_edition_key,author_name,edition_key,first_publish_year";
             	
                 HttpConnection conn = new HttpConnection(new URL(query), userAgent);
                 String json = conn.getString(StandardCharsets.UTF_8);
@@ -296,16 +301,8 @@ public class OpenLibrarySearch extends SearchTask {
     	dco.setValue(DcMediaObject._A_TITLE, work.get("title"));
     	
     	if (work.containsKey("first_publish_year")) {
-    	    String year = (String) work.get("first_publish_year");
+    	    Long year = Long.valueOf(((Number) work.get("first_publish_year")).longValue());
     		dco.setValue(Book._AA_YEARFIRSTPUBLICATION, year);
-    	} else if (work.containsKey("first_publish_date")) {
-            String year = (String) work.get("first_publish_date");
-            
-            if (year.length() > 4)
-                year = year.substring(year.length() - 4);
-            
-            if (StringUtils.getContainedNumber(year).length() == 4)
-                dco.setValue(Book._AA_YEARFIRSTPUBLICATION, year);
     	}
 
     	if (work.containsKey("cover_edition_key"))
@@ -365,7 +362,7 @@ public class OpenLibrarySearch extends SearchTask {
 		String language = null;
 		DcObject dco = olsr.getDco();
 		
-		if (item.containsKey("languages")) {
+		if (!valid && item.containsKey("languages")) {
 			Map<?, ?> values = (Map<?, ?>) ((ArrayList<?>) item.get("languages")).get(0);
 			language = (String) values.get("key");
 			language = language.substring(

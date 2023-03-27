@@ -109,7 +109,7 @@
                 <index>21</index>
                 <name>Translators</name>
                 <database-column-name>Translators</database-column-name>
-                <ui-only>false</ui-only>
+                <ui-only>true</ui-only>
                 <enabled>true</enabled>
                 <readonly>false</readonly>
                 <searchable>true</searchable>
