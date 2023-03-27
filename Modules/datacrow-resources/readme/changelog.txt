@@ -1,12 +1,12 @@
 -----------------------------------------------------------------------------------------
-Data Crow version 4.8.0                                            Released on 2023-04-xx
+Data Crow version 4.8.0                                            Released on 2023-xx-xx
 -----------------------------------------------------------------------------------------
 With each release there's more available in Data Crow. This time there's a completely
 new module; Board Games. It includes online search support using the magnificent site
-BoardGamesAtlas.com. On the Movie front a new online search has been added; MovieMeter.nl.
+BoardGamesAtlas.com. On the Movie front a new online search has been added; MovieMeter.nl
 
 [New]
-- Added merge option to other modules beside the property modules. This means you can now
+- Added merge option to other modules beside the property modules. This means you can now 
   merge artists, developers and other (sub) module items. It allows you to select the 
   duplicated items and select an existing target item. The process will the update all 
   references from the duplicated items to the new target item. When that's done, the 
@@ -21,6 +21,11 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
 - Added online search: Board Games Atlas.
 
 [Changed]
+- The help system was relying on old library called Java Help. As the information within
+  was hard to maintained it has been decided to move the help system onto the datacrow.org
+  website (https://datacrow.org/docs). When you press F1 for help, this page will be opened.
+  Pages have been mapped to the appropriate topics you are requesting help for, as was the
+  case for the old help system.
 - Updated HSQL DB to version 2.7.1. JSoup updated to 1.15.4. Gson (from Google) updated to 
   version 2.10.1. Apache xmlgraphics Batik updated to 1.16. Apache PDFBox updated to 
   2.0.27. Apache Tika upgraded to 2.7.0. Log4j updated to 2.20. jAudiotagger updated to 
@@ -47,11 +52,6 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
 - Added look & feels; FlatLaf IntelliJ, FlatLaf Dark & FlatLaf Darcula
 - File Renamer; renamed Start button to Preview.
 - Find & Replace; renamed Appy button to Preview.
-- The help system was relying on old library called Java Help. As the information within
-  was hard to maintained it has been decided to move the help system onto the datacrow.org
-  website (https://datacrow.org/docs). When you press F1 for help, this page will be opened.
-  Pages have been mapped to the appropriate topics you are requesting help for, as was the
-  case for the old help system.
 - Discogs.com; title contained the artist name. Changed to only contain the title.
 - Discogs.com; added two additional search fields; year and artist. They are both optional
   and can be used to refine your queries.
@@ -94,8 +94,6 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
 - Server edition was missing the language resources.
 - Online search OpenLibrary.org: language drop-down was not sorted.
 
-Next version
-- Finish the synch server.
 
 -----------------------------------------------------------------------------------------
 Data Crow version 4.7.0                                            Released on 2023-03-02
