@@ -63,7 +63,6 @@
             <fileset dir="datacrow-build/staging/dc-client/reports" targetdir="$INSTALL_PATH/reports"/>
             <fileset dir="datacrow-build/staging/dc-client/plugins" targetdir="$INSTALL_PATH/plugins"/>
             <fileset dir="datacrow-build/staging/dc-client/icons" targetdir="$INSTALL_PATH/icons"/>
-            <fileset dir="datacrow-build/staging/dc-client/help" targetdir="$INSTALL_PATH/help"/>
             <fileset dir="datacrow-build/staging/dc-client/modules" targetdir="$INSTALL_PATH/modules"/>
             <fileset dir="datacrow-build/staging/dc-client/upgrade" targetdir="$INSTALL_PATH/upgrade"/>
             <fileset dir="datacrow-build/staging/dc-client/lib" targetdir="${INSTALL_PATH}/lib"/>

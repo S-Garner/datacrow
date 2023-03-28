@@ -44,9 +44,12 @@ import org.datacrow.core.console.IPollerTask;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcLookAndFeel;
+import org.datacrow.core.objects.DcMediaObject;
+import org.datacrow.core.objects.DcProperty;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.helpers.MusicTrack;
 import org.datacrow.core.resources.DcResources;
@@ -274,6 +277,7 @@ public class SystemUpgrade {
     	boolean hasKey;
     	DcFieldDefinitions definitions;
     	
+    	// We mark all items not having a unique field as unique, based on the required setting
     	for (DcModule module : DcModules.getModules()) {
     		
     		if (module.getType() != DcModule._TYPE_MAPPING_MODULE &&   
@@ -284,13 +288,39 @@ public class SystemUpgrade {
 	    		
 	    		hasKey = false;
 	    		
+	    		// check if the unique setting has been set
 	    		for (DcFieldDefinition def : definitions.getDefinitions()) {
 	    			hasKey |= def.isUnique();
 	    		}
 	    		
+	    		boolean found = false;
 	    		if (!hasKey) {
-	        		for (DcFieldDefinition def : definitions.getDefinitions())
-	    				def.setUnique(def.isRequired());
+	    			
+	    			// if not, set uniqueness based on the required setting
+	        		for (DcFieldDefinition def : definitions.getDefinitions()) {
+	        			if (def.isRequired()) {
+	        				def.setUnique(def.isRequired());
+	        				found = true;
+	        			}
+	        		}
+	        		
+	        		// no settings at all, we'll adjust to the defaults per module type
+	        		if (!found) {
+	        			DcFieldDefinition def = null;
+	        			if (module.getType() == DcModule._TYPE_PROPERTY_MODULE)
+	        				def =  definitions.get(DcProperty._A_NAME);
+	        			else if (module.getType() == DcModule._TYPE_ASSOCIATE_MODULE)
+	        				def =  definitions.get(DcAssociate._A_NAME);	        			
+	        			else if (module.getType() == DcModule._TYPE_MEDIA_MODULE)
+	        				def =  definitions.get(DcMediaObject._A_TITLE);	        			
+	        			
+	        			if (def != null) {
+	        				def.setDescriptive(true);
+	        				def.setRequired(true);
+	        				def.setUnique(true);
+	        				def.setEnabled(true);
+	        			}
+	        		}
 	    		}
     		}
     	}

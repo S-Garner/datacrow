@@ -870,7 +870,7 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
 		public void valueChanged(ListSelectionEvent e) {
 			if (list.getSelectedIndex() == -1 || list.getSelectedItem() == null) return;
 			
-			if (e.getValueIsAdjusting())
+			if (!e.getValueIsAdjusting())
 				qvCard.setObject(getSelectedObject());
 		}    	
     }
