@@ -1044,6 +1044,25 @@ public class DcApplicationSettings extends Settings {
                             "",
                             false,
                             false, -1));
+        
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._LONG,
+                            DcRepository.Settings.stQuickViewDividerLocationOnlineSearchTable,
+                            300,
+                            -1,
+                            "",
+                            "",
+                            false,
+                            false, -1));
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._LONG,
+                            DcRepository.Settings.stQuickViewDividerLocationOnlineSearchCard,
+                            300,
+                            -1,
+                            "",
+                            "",
+                            false,
+                            false, -1));
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._LONG,
                             DcRepository.Settings.stTreeDividerLocation,

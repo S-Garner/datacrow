@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -46,14 +47,17 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
+import org.datacrow.client.console.components.DcViewDivider;
 import org.datacrow.client.console.components.lists.DcObjectList;
 import org.datacrow.client.console.components.panels.OnlineServiceSettingsPanel;
+import org.datacrow.client.console.components.panels.QuickViewPanel;
 import org.datacrow.client.console.components.tables.DcTable;
 import org.datacrow.client.console.views.IViewComponent;
 import org.datacrow.client.console.windows.DcFrame;
@@ -90,7 +94,13 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
     private boolean startSearchOnOpen = false;
     private boolean disablePerfectMatch = false;
     
+    private DcViewDivider vdCard;
+    private DcViewDivider vdTable;
+    
     protected SearchTask task;
+    
+	private final QuickViewPanel qvTable = new QuickViewPanel(false);
+	private final QuickViewPanel qvCard = new QuickViewPanel(false);
     
     private JTabbedPane tpResult;
     private ItemForm itemForm;
@@ -358,6 +368,9 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
         
         panelService.save();
         panelSettings.save();
+        
+        vdCard.deactivate();
+        vdTable.deactivate();
     }
 
     public void update() {
@@ -637,24 +650,41 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
         
         tpResult = ComponentFactory.getTabbedPane();
 
-        list = new DcObjectList(DcObjectList._ELABORATE, false, true);
-        JScrollPane sp1 = new JScrollPane(list);
+        // card tab
+        list = new DcObjectList(DcObjectList._CARDS, false, true);
         list.addMouseListener(this);
-        sp1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        list.addSelectionListener(new CardSelectionListener());
         
+        JScrollPane spCard = new JScrollPane(list);
+        spCard.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        spCard.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createEmptyBorder(5, 5, 5, 5), spCard.getBorder()));
+
+        qvCard.isAllowPopup(false);
+    	vdCard = new DcViewDivider(spCard, qvCard, DcRepository.Settings.stQuickViewDividerLocationOnlineSearchCard);
+    	vdCard.applyDividerLocation();
+
+    	// table tab
         table = new DcTable(getModule(), true, false);
         table.setDynamicLoading(false);
         table.activate();
-        JScrollPane sp2 = new JScrollPane(table);
+        table.addSelectionListener(new TableSelectionListener());
         table.addMouseListener(this);
-        sp1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
         
-        tpResult.addTab(DcResources.getText("lblCardView"), IconLibrary._icoCardView, sp1);
-        tpResult.addTab(DcResources.getText("lblTableView"), IconLibrary._icoTableView, sp2);
+        JScrollPane spTable = new JScrollPane(table);
+        spTable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        spTable.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createEmptyBorder(5, 5, 5, 5), spTable.getBorder()));
+    	
+        qvCard.isAllowPopup(false);
+    	vdTable = new DcViewDivider(spTable, qvTable, DcRepository.Settings.stQuickViewDividerLocationOnlineSearchTable);
+    	vdTable.applyDividerLocation();
+    	
+    	// tabbed pane
+        tpResult.addTab(DcResources.getText("lblCardView"), IconLibrary._icoCardView, vdCard);
+        tpResult.addTab(DcResources.getText("lblTableView"), IconLibrary._icoTableView, vdTable);
         
         tpResult.setSelectedIndex(DcSettings.getInt(DcRepository.Settings.stOnlineSearchSelectedView));
-
         tpResult.addChangeListener(this);
         
         //**********************************************************
@@ -834,5 +864,24 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
     public void mousePressed(MouseEvent e) {}
     @Override
     public void mouseClicked(MouseEvent e) {}
+    
+    private class CardSelectionListener implements ListSelectionListener {
+    	
+		public void valueChanged(ListSelectionEvent e) {
+			if (list.getSelectedIndex() == -1 || list.getSelectedItem() == null) return;
+			
+			if (e.getValueIsAdjusting())
+				qvCard.setObject(getSelectedObject());
+		}    	
+    }
 
+    private class TableSelectionListener implements ListSelectionListener {
+    	
+		public void valueChanged(ListSelectionEvent e) {
+			if (table.getSelectedIndex() == -1 || table.getSelectedItem() == null) return;
+
+			if (e.getValueIsAdjusting())
+	            qvTable.setObject(getSelectedObject()); 
+		}    	
+    }
 }

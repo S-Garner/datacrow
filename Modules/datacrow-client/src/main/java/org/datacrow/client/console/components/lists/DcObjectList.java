@@ -35,16 +35,11 @@ import javax.swing.JViewport;
 import javax.swing.event.ListSelectionListener;
 
 import org.apache.logging.log4j.Logger;
-import org.datacrow.client.console.components.lists.elements.DcBoardGameListHwElement;
-import org.datacrow.client.console.components.lists.elements.DcBookListHwElement;
 import org.datacrow.client.console.components.lists.elements.DcCardObjectListElement;
-import org.datacrow.client.console.components.lists.elements.DcMovieListHwElement;
-import org.datacrow.client.console.components.lists.elements.DcMusicAlbumListHwElement;
 import org.datacrow.client.console.components.lists.elements.DcMusicTrackListElement;
 import org.datacrow.client.console.components.lists.elements.DcObjectListElement;
 import org.datacrow.client.console.components.lists.elements.DcPropertyListElement;
 import org.datacrow.client.console.components.lists.elements.DcShortObjectListElement;
-import org.datacrow.client.console.components.lists.elements.DcSoftwareListHwElement;
 import org.datacrow.client.console.components.lists.elements.DcTemplateListElement;
 import org.datacrow.client.console.components.renderers.DcObjectListRenderer;
 import org.datacrow.client.console.views.IViewComponent;
@@ -64,7 +59,6 @@ public class DcObjectList extends DcList implements IViewComponent {
     private View view;
     private DcModule module;
     
-    public static final int _ELABORATE = 0;
     public static final int _CARDS = 1;
     public static final int _LISTING = 2;
     
@@ -482,20 +476,7 @@ public class DcObjectList extends DcList implements IViewComponent {
         DcObjectListElement element = null;
         int moduleType = DcModules.get(module).getType();
         
-        if (style == _ELABORATE) {
-            if (module == DcModules._MUSIC_ALBUM) 
-                element = new DcMusicAlbumListHwElement(module);
-            else if (module == DcModules._SOFTWARE)
-                element = new DcSoftwareListHwElement(module);
-            else if (module == DcModules._MOVIE)
-                element = new DcMovieListHwElement(module);
-            else if (module == DcModules._BOOK)
-                element = new DcBookListHwElement(module);
-            else if (module == DcModules._BOARDGAME)
-                element = new DcBoardGameListHwElement(module);
-            else 
-                element = new DcCardObjectListElement(module);
-        } else if (style == _CARDS) {
+        if (style == _CARDS) {
             if (moduleType == DcModule._TYPE_TEMPLATE_MODULE)
                 element = new DcTemplateListElement(module);
             else if (module == DcModules._MUSIC_TRACK)

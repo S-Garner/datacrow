@@ -129,6 +129,7 @@ public abstract class DcRepository {
         public static final String stMobyGamesApiKey = "mobygames_api_key";
         public static final String stServerAddress = "server_address";
         public static final String stApplicationServerPort = "application_server_port";
+        public static final String stOnlineSearchSelectedView = "online_search_selected_view";
         public static final String stImageServerPort = "image_server_port";
         public static final String stMaintainTabsDialogSize = "maintain_tabs_dialog_size";
         public static final String stMergeItemsDialogSize = "merge_items_dialog_size";
@@ -159,7 +160,6 @@ public abstract class DcRepository {
         public static final String stDatabaseLanguage = "database_language";
         public static final String stCheckedForJavaVersion = "checked_for_java_version";
         public static final String stSelectItemDialogSize = "select_item_dialog_size";
-        public static final String stOnlineSearchSelectedView = "online_search_selected_view";
         public static final String stInputFieldHeight = "input_field_height";
         public static final String stButtonHeight = "button_height";
         public static final String stDirectoriesAsDrivesDialogSize = "directories_as_drives_dialog_size";
@@ -199,6 +199,8 @@ public abstract class DcRepository {
         public static final String stShowToolSelectorOnStartup = "show_tool_selector_on_startup";
         public static final String stProgramDefinitions = "program_definitions";
         public static final String stQuickViewDividerLocation = "quick_view_divider_location";
+        public static final String stQuickViewDividerLocationOnlineSearchTable = "quick_view_divider_location_online_search_table";
+        public static final String stQuickViewDividerLocationOnlineSearchCard = "quick_view_divider_location_online_search_card";
         public static final String stTreeDividerLocation = "tree_divider_location";
         public static final String stReferencesDialogSize = "references_dialog_size";
         public static final String stModuleSelectDialogSize = "module_select_dialog_size";

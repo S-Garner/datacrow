@@ -275,7 +275,7 @@ public class GroupingPane extends JPanel implements ChangeListener, IGroupingPan
         
         add(tp, Layout.getGBC( 0, 0, 1, 1, 10.0, 10.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-                 new Insets(0,0,0,0), 0, 0));
+                 new Insets(0, 0, 0, 0), 0, 0));
     }
     
     @Override

@@ -81,7 +81,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     public static final String _DIRECTION_HORIZONTAL = DcResources.getText("lblHorizontal");
     public static final String _DIRECTION_VERTICAL = DcResources.getText("lblVertical");  
     
-    protected final boolean showImages;
+    private final boolean showInlineImages;
     
 	private DcObject dco;
     
@@ -95,9 +95,10 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     
     private JScrollPane scroller;
     private final JTabbedPane tabbedPane = ComponentFactory.getTabbedPane();
+    private boolean isAllowPopup = true;
     
-    public QuickViewPanel(boolean showImages) {
-        this.showImages = showImages;
+    public QuickViewPanel(boolean showInlineImages) {
+        this.showInlineImages = showInlineImages;
         setLayout(Layout.getGBL());
         tabbedPane.addChangeListener(this);
         
@@ -109,6 +110,10 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     public void reloadImage() {
         if (tabbedPane.getSelectedIndex() > 0)
             loadImage();
+    }
+    
+    public void isAllowPopup(boolean b) {
+    	isAllowPopup = b;
     }
     
     private void loadImage() {
@@ -198,7 +203,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         setObject(connector.getItem(moduleIdx, key, module.getMinimalFields(fields)));
     }   
     
-    protected void setObject(DcObject dco) {
+    public void setObject(DcObject dco) {
         try {
             
             if (dco == null) return;
@@ -386,12 +391,15 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         
         String table = htmlTable;
         
-        if (dco.isEnabled(index)) {
+        if (	dco.isEnabled(index) && // field must be enabled
+        		(dco.getField(index).getFieldType() != ComponentFactory._PICTUREFIELD || showInlineImages)) {
+        	
             Font fText = DcSettings.getFont(DcRepository.Settings.stSystemFontNormal);
             boolean horizontal = direction.equals(_DIRECTION_HORIZONTAL) || direction.toLowerCase().equals("horizontal");
 
             if (!CoreUtilities.isEmpty(dco.getValue(index))) {
-                table += "<tr><td>";
+
+            	table += "<tr><td>";
                 
                 if (dco.getField(index).getFieldType() != ComponentFactory._PICTUREFIELD)
                     table += "<b>" + dco.getLabel(index) + "</b>";
@@ -418,7 +426,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
                         filename = new File(DcConfig.getInstance().getInstallationDir(), filename.substring(2, filename.length())).toString();
                     
                     value = "<a href=\"file://" + filename +  "?original=" +filename+  "\" " + Utilities.getHtmlStyle(fText) + ">" + new File(filename).getName() + "</a>";                        
-                } else if (field.getFieldType() == ComponentFactory._PICTUREFIELD) {
+                } else if (field.getFieldType() == ComponentFactory._PICTUREFIELD && showInlineImages) {
                 	Picture p = (Picture) dco.getValue(index);
                 	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
                 	    value = "<img src=\"" + p.getThumbnailUrl() + "\" alt=\"" + dco.getLabel(index) + "\">";
@@ -513,12 +521,14 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     }    
     
     private void showPopupMenu(int x, int y) {
-        PopupMenu popupMenu = new PopupMenu();
-        
-        if (descriptionPane.isShowing())
-            popupMenu.show(descriptionPane, x, y);
-        else 
-            popupMenu.show(this, x, y);
+    	if (isAllowPopup) {
+	        PopupMenu popupMenu = new PopupMenu();
+	        
+	        if (descriptionPane.isShowing())
+	            popupMenu.show(descriptionPane, x, y);
+	        else 
+	            popupMenu.show(this, x, y);
+    	}
     }    
     
     @Override
