@@ -1,11 +1,15 @@
 -----------------------------------------------------------------------------------------
-Data Crow version 4.8.0                                            Released on 2023-xx-xx
+Data Crow version 4.8.0                                            Released on 2023-03-28
 -----------------------------------------------------------------------------------------
 With each release there's more available in Data Crow. This time there's a completely
 new module; Board Games. It includes online search support using the magnificent site
 BoardGamesAtlas.com. On the Movie front a new online search has been added; MovieMeter.nl
+The help has been moved to the website (https://datacrow.org/docs) and the applications
+help has been linked to the website.
 
 [New]
+- Added a new module: Board Games
+- Added online search: Board Games Atlas.
 - Added merge option to other modules beside the property modules. This means you can now 
   merge artists, developers and other (sub) module items. It allows you to select the 
   duplicated items and select an existing target item. The process will the update all 
@@ -17,8 +21,6 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
 - Database language setting added. This determines how items are sorted. For most
   languages, the default will work. But if you find the sorting is not correct, please
   change the setting in Settings > Regional Settings > Database Language.
-- Added a new module: Board Games
-- Added online search: Board Games Atlas.
 
 [Changed]
 - The help system was relying on old library called Java Help. As the information within
@@ -59,6 +61,9 @@ BoardGamesAtlas.com. On the Movie front a new online search has been added; Movi
 - Books module: added fields added translators & year of First Publication
 - Online search OpenLibrary.org: added translators & year of First Publication
 - Online search OpenLibrary.org: added optional author filter field to narrow search
+- Online search: improved the search result overview; less clunky (large) components
+  with fixed fields. Instead smaller cards are displayed and the details of a search
+  result can be reviewed in the quick view of the online search form.
 
 [Fixed]
 - Discogs.com service now handles sub tracks correctly.
