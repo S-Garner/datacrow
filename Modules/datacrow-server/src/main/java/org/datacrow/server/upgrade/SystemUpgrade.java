@@ -102,10 +102,6 @@ public class SystemUpgrade {
             	renameRecordLabel();
             }
             
-            if (!dbInitialized) {
-            	renameStatesTable();
-            }
-            
             if (dbInitialized && v.isOlder(new Version(4, 0, 2, 0))) {
                 renumberMusicTracks();
             }
@@ -176,33 +172,6 @@ public class SystemUpgrade {
                 "Please restore your latest Backup and retry. Contact the developer " +
                 "if the error persists";
             throw new SystemUpgradeException(msg);
-        }
-    }
-    
-    private void renameStatesTable() {
-        Connection conn = DatabaseManager.getInstance().getAdminConnection();
-        Connector connector = DcConfig.getInstance().getConnector();
-        Statement stmt = null;
-        
-        try {
-            stmt = conn.createStatement();
-            
-			DatabaseMetaData dbm = conn.getMetaData();
-			ResultSet tables = dbm.getTables(null, null, "SOFTWARE_STATE", null);
-			boolean exists = tables.next();
-			tables.close();
-
-			if (exists) {
-	            String sql = "alter table SOFTWARE_STATE rename to STATE";
-	            stmt.execute(sql);
-			}
-        } catch (Exception e) {
-            logger.error("Upgrade failed; could not rename the software state tables.", e);
-            connector.displayError("Upgrade failed; could not rename the software state tables.");
-            System.exit(0);
-        } finally {
-        	try { if (stmt != null) stmt.close(); } catch (Exception e) {};
-        	try { if (stmt != null) conn.close(); } catch (Exception e) {};
         }
     }
     
