@@ -1,4 +1,18 @@
 -----------------------------------------------------------------------------------------
+Data Crow version 4.8.1                                            Released on 2023-03-28
+-----------------------------------------------------------------------------------------
+With version 4.8.0 I mistakingly made a structure change to the states for the various
+modules. This fix reverts back that change after which you'll have all the features of
+version 4.8.0 without having to deal with this pesky issue.
+Luckily a user quickly notified me allowing me to fix this issue swiftly. Not many of
+you will have had the version 4.8 installed but I thought it to be better to create this
+release rather than trying to retract version 4.8 and re-release it.
+
+[Fixed]
+- Missing states in drop downs in various modules after upgrading to version 4.8.0.
+
+
+-----------------------------------------------------------------------------------------
 Data Crow version 4.8.0                                            Released on 2023-03-28
 -----------------------------------------------------------------------------------------
 With each release there's more available in Data Crow. This time there's a completely
