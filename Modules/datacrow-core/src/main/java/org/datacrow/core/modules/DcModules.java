@@ -257,7 +257,6 @@ public class DcModules implements Serializable {
         DcPropertyModule stateModule = new DcPropertyModule(DcModules._STATE, "State", "state", "st", "State", "States");
         stateModule.setIcon16(IconLibrary._icoState16);
         stateModule.setIcon32(IconLibrary._icoState32);
-        stateModule.setServingMultipleModules(true);
         propertyBaseModules.put(DcModules._STATE, stateModule);
         
         DcPropertyModule platformModule = new DcPropertyModule(DcModules._PLATFORM, "Platform", "platform", "pf", "Platform", "Platforms");
