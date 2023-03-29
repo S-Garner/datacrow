@@ -45,7 +45,7 @@ import org.datacrow.core.settings.DcSettings;
 
 public class ToggleQuickView extends Plugin {
 
-	private static final long serialVersionUID = 8890425746204201552L;
+	private static final long serialVersionUID = 1L;
 
 	public ToggleQuickView(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

@@ -29,7 +29,7 @@ import org.datacrow.core.modules.DcModule;
 
 public class QuickViewFieldDefinition extends Definition {
 
-	private static final long serialVersionUID = 8343642952728935678L;
+	private static final long serialVersionUID = 1L;
 
 	private int module;
     private int field;

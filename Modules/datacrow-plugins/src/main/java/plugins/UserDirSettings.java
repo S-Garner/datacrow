@@ -41,7 +41,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class UserDirSettings extends Plugin {
 
-	private static final long serialVersionUID = 4656001651375578265L;
+	private static final long serialVersionUID = 1L;
 
 	public UserDirSettings(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

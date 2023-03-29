@@ -39,7 +39,7 @@ import org.datacrow.core.objects.Picture;
  */
 public class PictureModule extends DcModule {
     
-    private static final long serialVersionUID = 4278200439507269874L;
+	private static final long serialVersionUID = 1L;
 
     /**
      * Creates a new instance

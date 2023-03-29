@@ -50,7 +50,7 @@ public class ViewSettings extends Plugin {
 
 	private static Logger logger = DcLogManager.getLogger(ViewSettings.class.getName());
 	
-	private static final long serialVersionUID = -8261181858476124190L;
+	private static final long serialVersionUID = 1L;
 
 	public ViewSettings(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

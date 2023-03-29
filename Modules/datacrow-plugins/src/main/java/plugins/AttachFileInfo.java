@@ -64,7 +64,7 @@ import org.datacrow.core.utilities.filefilters.DcFileFilter;
 
 public class AttachFileInfo extends Plugin implements IFileImportClient {
     
-	private static final long serialVersionUID = -8096220110268580352L;
+	private static final long serialVersionUID = 1L;
 
 	private static final Logger logger = DcLogManager.getLogger(AttachFileInfo.class.getName());
     

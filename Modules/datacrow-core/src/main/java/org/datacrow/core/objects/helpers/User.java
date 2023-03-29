@@ -36,7 +36,7 @@ import org.datacrow.core.server.Connector;
 
 public class User extends DcObject {
 
-    private static final long serialVersionUID = -6350928968206517038L;
+	private static final long serialVersionUID = 1L;
     
     public static final int _A_LOGINNAME = 1;
     public static final int _B_ENABLED = 2;

@@ -31,7 +31,7 @@ import org.datacrow.core.objects.DcSimpleValue;
 
 public class ServerSimpleValuesResponse extends ServerResponse {
 
-    private static final long serialVersionUID = 5189812172288470911L;
+	private static final long serialVersionUID = 1L;
 
     private List<DcSimpleValue> values;
 	

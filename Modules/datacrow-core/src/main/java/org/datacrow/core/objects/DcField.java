@@ -48,7 +48,7 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinitions;
  */
 public class DcField implements Serializable {
 
-    private static final long serialVersionUID = -3426157253979375896L;
+	private static final long serialVersionUID = 1L;
     
     private String systemName;
     private String label;

@@ -54,7 +54,7 @@ import org.datacrow.core.utilities.definitions.QuickViewFieldDefinitions;
  */
 public class Setting implements Serializable {
     
-	private static final long serialVersionUID = -4608034218115847676L;
+	private static final long serialVersionUID = 1L;
 
 	private transient static Logger logger = DcLogManager.getLogger(Setting.class.getName());
 

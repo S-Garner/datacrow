@@ -39,7 +39,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class DriveManager extends Plugin {
     
-	private static final long serialVersionUID = 23530110123767324L;
+	private static final long serialVersionUID = 1L;
 
 	public DriveManager(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

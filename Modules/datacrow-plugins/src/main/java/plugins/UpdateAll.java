@@ -42,7 +42,7 @@ import org.datacrow.core.server.Connector;
 
 public class UpdateAll extends Plugin {
 
-	private static final long serialVersionUID = 1673890875102633298L;
+	private static final long serialVersionUID = 1L;
 
 	public UpdateAll(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

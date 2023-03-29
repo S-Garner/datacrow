@@ -37,7 +37,7 @@ import org.datacrow.core.objects.DcObject;
  */
 public class ItemModule extends DcChildModule {
 
-	private static final long serialVersionUID = -560323358112716977L;
+	private static final long serialVersionUID = 1L;
 
 	/**
      * Creates a new instance.

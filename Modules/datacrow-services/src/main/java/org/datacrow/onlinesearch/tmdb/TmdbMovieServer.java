@@ -41,7 +41,7 @@ import org.datacrow.core.settings.Setting;
 
 public class TmdbMovieServer implements IServer {
     
-    private static final long serialVersionUID = -3390016609750312258L;
+	private static final long serialVersionUID = 1L;
 
     private Collection<Region> regions = new ArrayList<Region>();
     private Collection<SearchMode> modes = new ArrayList<SearchMode>();

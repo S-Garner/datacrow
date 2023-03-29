@@ -39,7 +39,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class DatabaseEditor extends Plugin {
 
-	private static final long serialVersionUID = 4229608103821431288L;
+	private static final long serialVersionUID = 1L;
 
 	public DatabaseEditor(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

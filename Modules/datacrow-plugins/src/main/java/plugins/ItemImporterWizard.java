@@ -43,7 +43,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class ItemImporterWizard extends Plugin {
 
-	private static final long serialVersionUID = 6786432836551770563L;
+	private static final long serialVersionUID = 1L;
 
 	public ItemImporterWizard(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

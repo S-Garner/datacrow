@@ -45,7 +45,7 @@ public abstract class XmlObject implements Serializable {
     
     private transient static Logger logger = DcLogManager.getLogger(XmlObject.class.getName());
     
-    private static final long serialVersionUID = -3547274854409410569L;
+    private static final long serialVersionUID = 1L;
 
     public Class<?> getClass(String tag, String className) throws InvalidValueException {
         String s = className;

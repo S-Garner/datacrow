@@ -43,7 +43,7 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinitions;
  */
 public class TemplateModule extends DcModule {
     
-    private static final long serialVersionUID = 5366008689695714729L;
+	private static final long serialVersionUID = 1L;
 
     private DcModule parent;
     

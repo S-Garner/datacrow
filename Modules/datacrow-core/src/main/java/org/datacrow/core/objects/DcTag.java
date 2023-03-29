@@ -37,7 +37,7 @@ import org.datacrow.core.modules.DcModules;
  */
 public class DcTag extends DcProperty {
 
-	private static final long serialVersionUID = -3687586617870758603L;
+	private static final long serialVersionUID = 1L;
 
 	/**
      * Creates a new instance.

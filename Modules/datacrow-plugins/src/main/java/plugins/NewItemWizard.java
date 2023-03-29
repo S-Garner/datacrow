@@ -46,7 +46,7 @@ import org.datacrow.core.server.Connector;
 
 public class NewItemWizard extends Plugin {
 
-	private static final long serialVersionUID = -8436363192622227601L;
+	private static final long serialVersionUID = 1L;
 
 	public NewItemWizard(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

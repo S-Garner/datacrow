@@ -31,7 +31,7 @@ import java.util.StringTokenizer;
 
 public class ProgramDefinitions implements IDefinitions {
 
-	private static final long serialVersionUID = -8505998507769763398L;
+	private static final long serialVersionUID = 1L;
 
 	Collection<ProgramDefinition> definitions = new ArrayList<ProgramDefinition>();
     

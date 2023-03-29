@@ -44,7 +44,7 @@ import org.datacrow.core.objects.DcTemplate;
  */
 public abstract class Plugin extends AbstractAction {
 
-    private static final long serialVersionUID = 4600350535556305957L;
+	private static final long serialVersionUID = 1L;
     
     public static final int _VIEWTYPE_SEARCH = 0;
     public static final int _VIEWTYPE_INSERT = 1;

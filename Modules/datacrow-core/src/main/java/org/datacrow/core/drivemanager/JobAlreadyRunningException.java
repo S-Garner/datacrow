@@ -29,7 +29,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class JobAlreadyRunningException extends Exception {
 
-    private static final long serialVersionUID = 8722832815755912043L;
+	private static final long serialVersionUID = 1L;
 
     public JobAlreadyRunningException() {
         super(DcResources.getText("msgJobAlreadyRunning"));

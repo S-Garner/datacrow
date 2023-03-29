@@ -30,7 +30,7 @@ import org.datacrow.core.objects.DcMediaObject;
 
 public class BoardGame extends DcMediaObject {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
     
     public static final int _F_PUBLISHERS = 1;
     public static final int _G_ARTISTS = 2;

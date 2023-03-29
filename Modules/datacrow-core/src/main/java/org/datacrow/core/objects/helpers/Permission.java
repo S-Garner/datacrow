@@ -30,7 +30,7 @@ import org.datacrow.core.objects.DcObject;
 
 public class Permission extends DcObject {
 
-    private static final long serialVersionUID = -6649072271337366239L;
+	private static final long serialVersionUID = 1L;
     
     public static final int _A_PLUGIN = 1;
     public static final int _B_FIELD = 2;

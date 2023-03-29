@@ -44,7 +44,7 @@ import org.datacrow.core.services.Servers;
 
 public class OnlineSearch extends Plugin {
 
-	private static final long serialVersionUID = 1119318129008874523L;
+	private static final long serialVersionUID = 1L;
 
 	public OnlineSearch(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

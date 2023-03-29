@@ -29,7 +29,7 @@ import org.datacrow.core.security.SecuredUser;
 
 public class ServerLoginResponse extends ServerResponse {
 
-	private static final long serialVersionUID = 8442261502976241941L;
+	private static final long serialVersionUID = 1L;
 
 	private SecuredUser su;
 	

@@ -29,7 +29,7 @@ import org.datacrow.core.security.SecuredUser;
 
 public class ClientRequestModuleSettings extends ClientRequest {
 	
-	private static final long serialVersionUID = 7180315041964459782L;
+	private static final long serialVersionUID = 1L;
 
 	public ClientRequestModuleSettings(SecuredUser su) {
         super(ClientRequest._REQUEST_MODULE_SETTINGS, su);

@@ -27,7 +27,7 @@ package org.datacrow.core.utilities.isbn;
 
 public class InvalidBarCodeException extends Exception {
 
-    private static final long serialVersionUID = -8698223195758331624L;
+	private static final long serialVersionUID = 1L;
 
     public InvalidBarCodeException() {
         super();

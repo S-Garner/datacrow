@@ -40,7 +40,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class ChangeView extends Plugin {
 
-	private static final long serialVersionUID = -8157658800465547107L;
+	private static final long serialVersionUID = 1L;
 
 	public ChangeView(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

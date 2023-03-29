@@ -39,7 +39,7 @@ import org.datacrow.core.objects.helpers.Container;
  */
 public class ContainerModule extends DcParentModule {
 
-    private static final long serialVersionUID = -8086927475371268096L;
+	private static final long serialVersionUID = 1L;
 
 	/**
      * Creates a new instance.

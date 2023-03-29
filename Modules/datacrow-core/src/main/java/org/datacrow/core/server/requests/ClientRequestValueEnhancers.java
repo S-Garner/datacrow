@@ -29,7 +29,7 @@ import org.datacrow.core.security.SecuredUser;
 
 public class ClientRequestValueEnhancers extends ClientRequest {
 
-    private static final long serialVersionUID = 4722639116575414294L;
+	private static final long serialVersionUID = 1L;
 
     public ClientRequestValueEnhancers(SecuredUser su) {
         super(ClientRequest._REQUEST_VALUE_ENHANCERS_SETTINGS, su);

@@ -38,7 +38,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class Exit extends Plugin {
 
-	private static final long serialVersionUID = 3408241927214676932L;
+	private static final long serialVersionUID = 1L;
 
 	public Exit(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

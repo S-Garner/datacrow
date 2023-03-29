@@ -30,7 +30,7 @@ import org.datacrow.core.objects.DcMediaObject;
 
 public class MusicAlbum extends DcMediaObject {
 
-    private static final long serialVersionUID = -8652406894711818628L;
+	private static final long serialVersionUID = 1L;
     
     public static final int _F_ARTISTS = 1;
     public static final int _G_GENRES = 2;

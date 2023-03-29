@@ -36,7 +36,7 @@ import org.datacrow.core.modules.xml.XmlModule;
  */
 public class DcParentModule extends DcModule  {
 
-    private static final long serialVersionUID = 4714961191122806192L;
+	private static final long serialVersionUID = 1L;
 
     /**
      * Creates a new module based on a XML definition.

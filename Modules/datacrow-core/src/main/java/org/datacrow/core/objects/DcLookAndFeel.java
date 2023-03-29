@@ -34,7 +34,7 @@ import java.io.Serializable;
  */
 public class DcLookAndFeel implements Serializable {
     
-    private static final long serialVersionUID = -4374575377707562660L;
+	private static final long serialVersionUID = 1L;
 
     public static final int _LAF = 1;
     public static final int _NONE = 3;

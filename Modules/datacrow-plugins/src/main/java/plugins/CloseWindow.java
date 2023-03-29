@@ -47,7 +47,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class CloseWindow extends Plugin {
 
-	private static final long serialVersionUID = -4302814739124486217L;
+	private static final long serialVersionUID = 1L;
 
 	public CloseWindow(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

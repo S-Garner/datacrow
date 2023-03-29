@@ -29,7 +29,7 @@ import org.datacrow.core.security.SecuredUser;
 
 public class ClientRequestReferencingItems extends ClientRequest {
 
-	private static final long serialVersionUID = -217958082795736269L;
+	private static final long serialVersionUID = 1L;
 
 	private int moduleIdx;
 	private String ID;

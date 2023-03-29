@@ -49,9 +49,9 @@ import org.datacrow.core.resources.DcResources;
 
 public class Help extends Plugin {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private static Logger logger = DcLogManager.getLogger(Help.class.getName());
-
-	private static final long serialVersionUID = 1;
 	
 	private static final String baseUrl = "https://datacrow.org/docs/";
 

@@ -45,7 +45,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class Report extends Plugin {
 
-	private static final long serialVersionUID = -5287981476453811542L;
+	private static final long serialVersionUID = 1L;
 
 	public Report(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

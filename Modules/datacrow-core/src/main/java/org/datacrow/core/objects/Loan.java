@@ -44,7 +44,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class Loan extends DcObject {
 
-    private static final long serialVersionUID = 2452738490117020045L;
+	private static final long serialVersionUID = 1L;
     
     private transient static final Calendar calDaysLoaned = Calendar.getInstance();
     private transient static final Calendar calDaysTillOverdue = Calendar.getInstance();

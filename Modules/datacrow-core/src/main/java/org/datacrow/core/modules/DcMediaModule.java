@@ -36,7 +36,7 @@ import org.datacrow.core.objects.DcMediaObject;
 
 public class DcMediaModule extends DcModule {
     
-    private static final long serialVersionUID = -4813944714346927458L;
+	private static final long serialVersionUID = 1L;
 
     /**
      * Creates a new instance based on a XML definition.

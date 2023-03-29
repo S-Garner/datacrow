@@ -32,7 +32,7 @@ package org.datacrow.core.modules;
  */
 public class InvalidModuleXmlException extends Exception {
 
-    private static final long serialVersionUID = 8698000516706015026L;
+	private static final long serialVersionUID = 1L;
 
     public InvalidModuleXmlException(String file, Exception e) {
         super("An error occured while parsing the xml file from the module jar [" + file + "]. " + e, e);

@@ -52,7 +52,7 @@ import org.datacrow.core.utilities.Rating;
  */
 public class DcValue implements Serializable {
 
-    private static final long serialVersionUID = 3222707222963657152L;
+	private static final long serialVersionUID = 1L;
 
     private transient static Logger logger = DcLogManager.getLogger(DcValue.class.getName());
     

@@ -30,7 +30,7 @@ import org.datacrow.core.security.SecuredUser;
 
 public class ClientRequestItemAction extends ClientRequest {
     
-	private static final long serialVersionUID = 995483880408186456L;
+	private static final long serialVersionUID = 1L;
 
 	public static final int _ACTION_SAVE = 0;
     public static final int _ACTION_DELETE = 1;

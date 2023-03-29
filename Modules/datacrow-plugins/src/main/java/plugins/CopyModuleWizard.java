@@ -39,7 +39,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class CopyModuleWizard extends Plugin {
 
-	private static final long serialVersionUID = -8412892045559864036L;
+	private static final long serialVersionUID = 1L;
 
 	public CopyModuleWizard(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

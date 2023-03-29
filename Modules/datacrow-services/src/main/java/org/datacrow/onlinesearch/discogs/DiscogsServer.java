@@ -42,7 +42,7 @@ import org.datacrow.core.settings.Setting;
 
 public class DiscogsServer implements IServer {
     
-    private static final long serialVersionUID = 6451130355747891181L;
+    private static final long serialVersionUID = 1L;
 
     private Collection<Region> regions = new ArrayList<Region>();
     private Collection<SearchMode> modes = new ArrayList<SearchMode>();

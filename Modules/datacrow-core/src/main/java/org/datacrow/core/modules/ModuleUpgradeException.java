@@ -31,7 +31,7 @@ package org.datacrow.core.modules;
  */
 public class ModuleUpgradeException extends Exception {
     
-    private static final long serialVersionUID = 6632518650764515579L;
+	private static final long serialVersionUID = 1L;
 
     public ModuleUpgradeException(Exception exp) {
         super("An error occurred while upgrading a module (using the add, remove and alter XML files): " + exp.getMessage(), exp);

@@ -50,7 +50,7 @@ import org.datacrow.core.settings.DcSettings;
  */
 public class AutoIncrementer implements IValueEnhancer {
 
-    private static final long serialVersionUID = -7279353941127658339L;
+	private static final long serialVersionUID = 1L;
 
     private transient static Logger logger = DcLogManager.getLogger(AutoIncrementer.class.getName());
     

@@ -41,7 +41,7 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinition;
  */
 public class DcMediaObject extends DcObject {
     
-    private static final long serialVersionUID = -2320044892640837631L;
+	private static final long serialVersionUID = 1L;
     
     public static final int _A_TITLE = 150;
     public static final int _B_DESCRIPTION = 151;

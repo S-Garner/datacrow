@@ -51,7 +51,7 @@ import org.datacrow.core.objects.DcProperty;
  */
 public class DcPropertyModule extends DcModule {
 
-    private static final long serialVersionUID = -1481435217423089270L;
+	private static final long serialVersionUID = 1L;
     
     /**
      * Creates a new module based on a XML definition.

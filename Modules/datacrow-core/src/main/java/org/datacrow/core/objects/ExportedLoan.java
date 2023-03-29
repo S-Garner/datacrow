@@ -29,7 +29,7 @@ import org.datacrow.core.modules.DcModules;
 
 public class ExportedLoan extends Loan {
     
-	private static final long serialVersionUID = -4572504884906920955L;
+	private static final long serialVersionUID = 1L;
 
 	public static final int _F_SEQUENCE = 6;
     

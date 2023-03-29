@@ -31,7 +31,7 @@ import org.datacrow.core.objects.Loan;
 
 public class LoanExportModule extends LoanModule {
     
-    private static final long serialVersionUID = -1777037389578494831L;
+	private static final long serialVersionUID = 1L;
 
     /**
      * Creates a new instance of this module.

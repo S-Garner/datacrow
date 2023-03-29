@@ -53,7 +53,7 @@ import org.datacrow.core.services.plugin.ServiceClassLoader;
  */
 public class OnlineServices implements Serializable {
 
-    private static final long serialVersionUID = -1807699973082637903L;
+	private static final long serialVersionUID = 1L;
 
     private static Logger logger = DcLogManager.getLogger(OnlineServices.class.getName());
     

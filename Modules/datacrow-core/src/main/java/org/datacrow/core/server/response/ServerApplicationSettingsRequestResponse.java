@@ -30,7 +30,7 @@ import org.datacrow.core.settings.Settings;
 
 public class ServerApplicationSettingsRequestResponse extends ServerResponse {
 
-    private static final long serialVersionUID = -5876133656204207647L;
+	private static final long serialVersionUID = 1L;
     
     private Settings settings;
 

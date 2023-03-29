@@ -39,7 +39,7 @@ import org.datacrow.core.objects.helpers.Permission;
  */
 public final class ModulePermission implements Serializable {
 
-	private static final long serialVersionUID = -110561509699847482L;
+	private static final long serialVersionUID = 1L;
 
 	private int moduleIdx;
     

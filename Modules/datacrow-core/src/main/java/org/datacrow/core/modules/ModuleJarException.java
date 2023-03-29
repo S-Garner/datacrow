@@ -31,7 +31,7 @@ package org.datacrow.core.modules;
  */
 public class ModuleJarException extends Exception {
 
-    private static final long serialVersionUID = 9098579629069397720L;
+	private static final long serialVersionUID = 1L;
 
     public ModuleJarException(Exception e) {
         super(e);

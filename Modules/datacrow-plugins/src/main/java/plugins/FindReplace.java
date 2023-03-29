@@ -41,7 +41,7 @@ import org.datacrow.core.server.Connector;
 
 public class FindReplace extends Plugin {
 
-	private static final long serialVersionUID = 114669273363631045L;
+	private static final long serialVersionUID = 1L;
 
 	public FindReplace(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

@@ -41,7 +41,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class ApplyFilter extends Plugin {
 
-	private static final long serialVersionUID = 3155877055001314103L;
+	private static final long serialVersionUID = 1L;
 
 	public ApplyFilter(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

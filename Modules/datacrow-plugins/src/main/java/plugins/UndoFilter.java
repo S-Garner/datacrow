@@ -45,7 +45,7 @@ import org.datacrow.core.server.Connector;
 
 public class UndoFilter extends Plugin {
     
-	private static final long serialVersionUID = -1189380365258964567L;
+	private static final long serialVersionUID = 1L;
 
 	public UndoFilter(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

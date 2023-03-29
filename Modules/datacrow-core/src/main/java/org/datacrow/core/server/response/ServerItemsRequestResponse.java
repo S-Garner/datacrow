@@ -31,7 +31,7 @@ import org.datacrow.core.objects.DcObject;
 
 public class ServerItemsRequestResponse extends ServerResponse {
 
-	private static final long serialVersionUID = 1324718151380668953L;
+	private static final long serialVersionUID = 1L;
 
 	private List<DcObject> items;
 	

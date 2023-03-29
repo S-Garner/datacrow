@@ -44,7 +44,7 @@ import org.datacrow.core.server.Connector;
 
 public class SaveAll extends Plugin {
 
-	private static final long serialVersionUID = -2406936569638774842L;
+	private static final long serialVersionUID = 1L;
 
 	public SaveAll(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

@@ -43,7 +43,7 @@ import org.datacrow.core.settings.Settings;
  */
 public class LoanModule extends DcModule {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
     public LoanModule(int index, 
             boolean topModule, 

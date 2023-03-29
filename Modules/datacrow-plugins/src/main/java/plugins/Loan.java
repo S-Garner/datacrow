@@ -44,7 +44,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class Loan extends Plugin {
 
-	private static final long serialVersionUID = -2927328852680636954L;
+	private static final long serialVersionUID = 1L;
 
 	private static Logger logger = DcLogManager.getLogger(Loan.class.getName());
     

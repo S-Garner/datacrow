@@ -27,7 +27,7 @@ package org.datacrow.core.fileimporter;
 
 public class ParseException extends Exception {
 
-    private static final long serialVersionUID = -191500873300205914L;
+	private static final long serialVersionUID = 1L;
 
     public ParseException(Exception exp) {
         super(exp);

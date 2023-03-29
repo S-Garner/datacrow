@@ -43,7 +43,7 @@ import org.datacrow.core.server.Connector;
 
 public class EditAsNew extends Plugin {
 
-	private static final long serialVersionUID = -3595178825935243669L;
+	private static final long serialVersionUID = 1L;
 
 	public EditAsNew(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

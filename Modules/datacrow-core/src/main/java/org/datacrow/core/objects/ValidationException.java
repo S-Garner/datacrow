@@ -27,7 +27,7 @@ package org.datacrow.core.objects;
 
 public class ValidationException extends Exception {
 
-    private static final long serialVersionUID = 7306094516703141849L;
+	private static final long serialVersionUID = 1L;
 
     public ValidationException(String error) {
     	super(error);

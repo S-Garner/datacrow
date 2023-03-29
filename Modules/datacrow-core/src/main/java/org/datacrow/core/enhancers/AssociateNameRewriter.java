@@ -36,7 +36,7 @@ import org.datacrow.core.objects.DcField;
  */
 public class AssociateNameRewriter implements IValueEnhancer {
 
-    private static final long serialVersionUID = -6256725648992706967L;
+	private static final long serialVersionUID = 1L;
 
     public static final int _FIRSTLAST = 0;
     public static final int _LASTFIRST = 1;

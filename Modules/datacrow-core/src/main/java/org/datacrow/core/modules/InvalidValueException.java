@@ -33,7 +33,7 @@ package org.datacrow.core.modules;
  */
 public class InvalidValueException extends Exception {
 
-    private static final long serialVersionUID = -2530771839205073601L;
+	private static final long serialVersionUID = 1L;
 
     public InvalidValueException(String tag, String value) {
         super("[" + value + "] is invalid for [" + tag + "]");

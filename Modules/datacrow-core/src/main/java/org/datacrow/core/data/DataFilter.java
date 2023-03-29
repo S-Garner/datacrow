@@ -54,7 +54,7 @@ import org.datacrow.core.utilities.StringUtils;
  */
 public class DataFilter implements Serializable {
 
-	private static final long serialVersionUID = -8815051491433808198L;
+	private static final long serialVersionUID = 1L;
 
 	private transient static Logger logger = DcLogManager.getLogger(DataFilter.class.getName());
     

@@ -39,7 +39,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class SetPassword extends Plugin {
 
-	private static final long serialVersionUID = 1508348801393747372L;
+	private static final long serialVersionUID = 1L;
 
 	public SetPassword(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

@@ -36,7 +36,7 @@ import org.datacrow.core.objects.helpers.ExternalReference;
 
 public class ExternalReferenceModule extends DcPropertyModule {
 
-	private static final long serialVersionUID = 6598581150070091707L;
+	private static final long serialVersionUID = 1L;
 
 	public ExternalReferenceModule() {
         super(DcModules._EXTERNALREFERENCE, "External Reference", "ExternalReference", "ExtRef", "External Reference", "External References");

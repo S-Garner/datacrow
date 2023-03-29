@@ -41,7 +41,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class ManageTemplate extends Plugin {
 
-	private static final long serialVersionUID = -2915517358466176902L;
+	private static final long serialVersionUID = 1L;
 
 	public ManageTemplate(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

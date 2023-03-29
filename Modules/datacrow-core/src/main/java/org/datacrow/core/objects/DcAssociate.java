@@ -37,7 +37,7 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinition;
  */
 public class DcAssociate extends DcObject {
 
-    private static final long serialVersionUID = 6420907381739662714L;
+	private static final long serialVersionUID = 1L;
     
     public static final int _A_NAME = 1;
     public static final int _B_DESCRIPTION = 2;

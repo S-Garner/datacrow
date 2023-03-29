@@ -38,7 +38,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class TipOfTheDay extends Plugin {
 
-	private static final long serialVersionUID = 3627033105340726425L;
+	private static final long serialVersionUID = 1L;
 
 	public TipOfTheDay(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

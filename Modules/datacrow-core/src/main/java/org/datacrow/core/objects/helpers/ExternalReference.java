@@ -29,7 +29,7 @@ import org.datacrow.core.objects.DcObject;
 
 public class ExternalReference extends DcObject {
 
-    private static final long serialVersionUID = 9031499353731926500L;
+    private static final long serialVersionUID = 1L;
 
     public static final int _EXTERNAL_ID = 151;
     public static final int _EXTERNAL_ID_TYPE = 152;

@@ -36,7 +36,7 @@ import org.datacrow.core.log.DcLogManager;
 
 public class DcResultSet implements Serializable {
 	
-    private static final long serialVersionUID = 4100611974488962280L;
+	private static final long serialVersionUID = 1L;
 
     private transient static Logger logger = DcLogManager.getLogger(DcResultSet.class.getName());
 	

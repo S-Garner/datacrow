@@ -29,7 +29,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class ProgramDefinition extends Definition {
 
-	private static final long serialVersionUID = -1751426625622194638L;
+	private static final long serialVersionUID = 1L;
 
 	private String extension = "";
 	private String program = "";

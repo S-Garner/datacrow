@@ -38,7 +38,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class ExpertMode extends Plugin {
 
-	private static final long serialVersionUID = -1307379831147223149L;
+	private static final long serialVersionUID = 1L;
 
 	public ExpertMode(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

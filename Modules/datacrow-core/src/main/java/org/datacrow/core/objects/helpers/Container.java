@@ -39,7 +39,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class Container extends DcObject {
 
-    private static final long serialVersionUID = -3032927100353360734L;
+	private static final long serialVersionUID = 1L;
 
     public static final int _A_NAME = 1;
     public static final int _B_TYPE = 2;

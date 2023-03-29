@@ -40,7 +40,7 @@ import org.datacrow.core.server.Connector;
 
 public class SaveSelected extends Plugin {
 
-	private static final long serialVersionUID = 3536906527233141856L;
+	private static final long serialVersionUID = 1L;
 
 	public SaveSelected(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

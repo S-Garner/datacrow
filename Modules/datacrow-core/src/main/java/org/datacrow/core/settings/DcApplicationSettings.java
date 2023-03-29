@@ -53,7 +53,7 @@ import org.datacrow.core.utilities.definitions.ProgramDefinitions;
  */
 public class DcApplicationSettings extends Settings {
     
-	private static final long serialVersionUID = -8489291594837824378L;
+	private static final long serialVersionUID = 1L;
 
 	private static Logger logger = DcLogManager.getLogger(DcApplicationSettings.class.getName());
     

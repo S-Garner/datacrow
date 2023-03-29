@@ -40,7 +40,7 @@ import org.datacrow.core.server.Connector;
 
 public class RemoveRow extends Plugin {
 
-	private static final long serialVersionUID = 5050983169985407116L;
+	private static final long serialVersionUID = 1L;
 
 	public RemoveRow(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

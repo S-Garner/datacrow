@@ -39,7 +39,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class AlterModuleWizard extends Plugin {
 
-	private static final long serialVersionUID = 4544745671850957748L;
+	private static final long serialVersionUID = 1L;
 
 	public AlterModuleWizard(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

@@ -40,7 +40,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class DeleteModuleWizard extends Plugin {
 
-	private static final long serialVersionUID = 4628279296090670815L;
+	private static final long serialVersionUID = 1L;
 
 	public DeleteModuleWizard(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

@@ -31,7 +31,7 @@ package org.datacrow.server.upgrade;
  */
 public class SystemUpgradeException extends Exception {
 
-    private static final long serialVersionUID = -4176526283444984974L;
+	private static final long serialVersionUID = 1L;
 
     public SystemUpgradeException(String message) {
         super(message);

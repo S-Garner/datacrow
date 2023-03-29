@@ -43,7 +43,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class Donate extends Plugin {
 
-	private static final long serialVersionUID = 1171947673088492494L;
+	private static final long serialVersionUID = 1L;
 
 	private static Logger logger = DcLogManager.getLogger(Donate.class.getName());
 	

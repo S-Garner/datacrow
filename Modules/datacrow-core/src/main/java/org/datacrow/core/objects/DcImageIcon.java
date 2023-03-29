@@ -39,7 +39,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class DcImageIcon extends ImageIcon {
 
-	private static final long serialVersionUID = 5371441182570021920L;
+	private static final long serialVersionUID = 1L;
 
     private transient static Logger logger = DcLogManager.getLogger(DcImageIcon.class.getName());
 

@@ -27,7 +27,7 @@ package org.datacrow.synch.request;
 
 public class SynchClientRequestLogin extends SynchClientRequest {
 
-	private static final long serialVersionUID = -3642120478572616447L;
+    private static final long serialVersionUID = 1L;
 	
 	public SynchClientRequestLogin(String username, String password) {
 		super(SynchClientRequest._REQUEST_LOGIN, null);

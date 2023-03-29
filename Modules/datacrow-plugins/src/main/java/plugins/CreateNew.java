@@ -45,7 +45,7 @@ import org.datacrow.core.server.Connector;
 
 public class CreateNew extends Plugin {
 
-	private static final long serialVersionUID = 8447703968873760428L;
+	private static final long serialVersionUID = 1L;
 
 	public CreateNew(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

@@ -27,7 +27,7 @@ package org.datacrow.core.server.response;
 
 public class ServerActionResponse extends ServerResponse {
 
-	private static final long serialVersionUID = -6801244804443089531L;
+	private static final long serialVersionUID = 1L;
 
 	private boolean success;
 	

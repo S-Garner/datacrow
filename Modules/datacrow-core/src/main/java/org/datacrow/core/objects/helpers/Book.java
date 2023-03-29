@@ -36,7 +36,7 @@ import org.datacrow.core.utilities.isbn.InvalidBarCodeException;
 
 public class Book extends DcMediaObject {
 
-    private static final long serialVersionUID = 8019536746874888487L;
+	private static final long serialVersionUID = 1L;
 
     private transient static Logger logger = DcLogManager.getLogger(Book.class.getName());
     

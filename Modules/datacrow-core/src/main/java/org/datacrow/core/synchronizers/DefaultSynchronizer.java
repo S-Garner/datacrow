@@ -48,7 +48,7 @@ import org.datacrow.core.utilities.StringUtils;
 
 public abstract class DefaultSynchronizer extends Synchronizer {
 
-    private static final long serialVersionUID = 3378042573756736554L;
+	private static final long serialVersionUID = 1L;
 
     private transient static Logger logger = DcLogManager.getLogger(DefaultSynchronizer.class.getName());
     

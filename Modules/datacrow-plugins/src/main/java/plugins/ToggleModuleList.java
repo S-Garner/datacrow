@@ -42,7 +42,7 @@ import org.datacrow.core.settings.DcSettings;
 
 public class ToggleModuleList extends Plugin {
 
-	private static final long serialVersionUID = -4804763831353700123L;
+	private static final long serialVersionUID = 1L;
 
 	public ToggleModuleList(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

@@ -30,7 +30,7 @@ import org.datacrow.core.objects.DcMediaObject;
 
 public class Software extends DcMediaObject {
 
-    private static final long serialVersionUID = -7444435615496014105L;
+	private static final long serialVersionUID = 1L;
     
     public static final int _F_DEVELOPER = 1;
     public static final int _G_PUBLISHER  = 2;

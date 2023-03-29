@@ -34,7 +34,7 @@ import java.io.Serializable;
  */
 public final class PluginPermission implements Serializable {
 
-    private static final long serialVersionUID = -6365857869321863289L;
+    private static final long serialVersionUID = 1L;
 
     private String key;
     private boolean authorized = true;

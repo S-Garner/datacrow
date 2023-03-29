@@ -29,7 +29,7 @@ import java.io.Serializable;
 
 public abstract class Definition implements Serializable {
     
-	private static final long serialVersionUID = 212475213815814453L;
+	private static final long serialVersionUID = 1L;
 
 	protected final String seperator = "/&/";
     

@@ -40,7 +40,7 @@ import org.datacrow.core.server.Connector;
 
 public class AddRow extends Plugin {
 
-	private static final long serialVersionUID = 2709826671964016080L;
+	private static final long serialVersionUID = 1L;
 
 	public AddRow(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

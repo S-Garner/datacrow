@@ -63,7 +63,7 @@ import org.datacrow.core.utilities.definitions.QuickViewFieldDefinitions;
  */
 public class DcModuleSettings extends Settings {
     
-	private static final long serialVersionUID = 8052899124466678552L;
+	private static final long serialVersionUID = 1L;
 
 	private String _General = "lblGroupGeneral";
 	

@@ -30,7 +30,7 @@ import org.datacrow.core.security.SecuredUser;
 
 public class ClientRequestItems extends ClientRequest {
 
-	private static final long serialVersionUID = 8865540961598453753L;
+	private static final long serialVersionUID = 1L;
 
 	private DataFilter df;
     private int[] fields;

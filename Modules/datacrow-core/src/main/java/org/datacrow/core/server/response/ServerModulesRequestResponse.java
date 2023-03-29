@@ -34,7 +34,7 @@ import org.datacrow.core.modules.DcPropertyModule;
 
 public class ServerModulesRequestResponse extends ServerResponse {
 
-	private static final long serialVersionUID = 8442261502976241941L;
+	private static final long serialVersionUID = 1L;
 	
 	private List<DcModule> modules;
 	private List<DcPropertyModule> propertyBaseModules;

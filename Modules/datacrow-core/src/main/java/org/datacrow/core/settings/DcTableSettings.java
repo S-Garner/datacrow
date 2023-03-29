@@ -33,7 +33,7 @@ import org.datacrow.core.utilities.StringUtils;
 
 public class DcTableSettings implements Serializable {
     
-	private static final long serialVersionUID = -1302562822792157363L;
+	private static final long serialVersionUID = 1L;
 
 	private int module; 
     private Map<Integer, Integer> columnWidths = new HashMap<Integer, Integer>();

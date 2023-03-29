@@ -31,7 +31,7 @@ import org.datacrow.core.security.SecuredUser;
 
 public class ClientRequest implements Serializable, IClientRequest {
 
-	private static final long serialVersionUID = -6116073911491261119L;
+	private static final long serialVersionUID = 1L;
 	
 	public static final int _REQUEST_LOGIN = 0;
 	public static final int _REQUEST_ITEMS = 1;

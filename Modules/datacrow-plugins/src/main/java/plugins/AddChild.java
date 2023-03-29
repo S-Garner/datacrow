@@ -45,7 +45,7 @@ import org.datacrow.core.server.Connector;
 
 public class AddChild extends Plugin {
 
-	private static final long serialVersionUID = 1647446110383897403L;
+	private static final long serialVersionUID = 1L;
 
 	public AddChild(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

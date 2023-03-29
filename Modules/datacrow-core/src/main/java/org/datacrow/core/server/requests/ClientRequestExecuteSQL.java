@@ -29,7 +29,7 @@ import org.datacrow.core.security.SecuredUser;
 
 public class ClientRequestExecuteSQL extends ClientRequest {
 
-	private static final long serialVersionUID = 4519004386738579467L;
+	private static final long serialVersionUID = 1L;
 
 	private String sql;
 	

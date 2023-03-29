@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class ServerItemKeysRequestResponse extends ServerResponse {
 
-	private static final long serialVersionUID = -3958640668849383528L;
+	private static final long serialVersionUID = 1L;
 
 	private Map<String, Integer> items;
 	

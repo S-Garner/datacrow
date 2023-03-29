@@ -34,7 +34,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class DcFieldDefinition extends Definition {
 
-	private static final long serialVersionUID = -2251987748376443119L;
+	private static final long serialVersionUID = 1L;
 	
 	private int module;
     private int index;

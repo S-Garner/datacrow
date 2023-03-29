@@ -42,7 +42,7 @@ public class DcMapping extends DcObject {
     
     private transient static Logger logger = DcLogManager.getLogger(DcMapping.class.getName());
     
-    private static final long serialVersionUID = 1314886460279316879L;
+    private static final long serialVersionUID = 1L;
     
     public static final int _A_PARENT_ID = 1;
     public static final int _B_REFERENCED_ID = 2;

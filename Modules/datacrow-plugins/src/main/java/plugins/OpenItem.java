@@ -41,7 +41,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class OpenItem extends Plugin {
 
-	private static final long serialVersionUID = 828318393365008760L;
+	private static final long serialVersionUID = 1L;
 
 	public OpenItem(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

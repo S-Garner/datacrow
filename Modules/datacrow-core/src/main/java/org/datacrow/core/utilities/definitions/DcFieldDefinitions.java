@@ -36,7 +36,7 @@ import org.datacrow.core.modules.DcModules;
 
 public class DcFieldDefinitions implements IDefinitions {
     
-	private static final long serialVersionUID = 7631062844554482317L;
+	private static final long serialVersionUID = 1L;
 
 	private java.util.List<DcFieldDefinition> definitions = new ArrayList<DcFieldDefinition>();
     private final int module;

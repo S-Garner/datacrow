@@ -31,7 +31,7 @@ import java.util.StringTokenizer;
 
 public class QuickViewFieldDefinitions implements IDefinitions {
 
-	private static final long serialVersionUID = -5067780475246039249L;
+	private static final long serialVersionUID = 1L;
 
 	private Collection<QuickViewFieldDefinition> definitions = new ArrayList<QuickViewFieldDefinition>();
     

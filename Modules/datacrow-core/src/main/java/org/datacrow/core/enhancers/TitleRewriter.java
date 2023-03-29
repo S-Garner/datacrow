@@ -40,7 +40,7 @@ import org.datacrow.core.objects.DcMediaObject;
  */
 public class TitleRewriter implements IValueEnhancer {
 
-    private static final long serialVersionUID = 8108647277337071336L;
+	private static final long serialVersionUID = 1L;
 
     private boolean enabled = false;
     private String wordList;

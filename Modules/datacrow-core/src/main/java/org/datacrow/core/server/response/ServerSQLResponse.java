@@ -29,7 +29,7 @@ import org.datacrow.core.data.DcResultSet;
 
 public class ServerSQLResponse extends ServerResponse {
 
-	private static final long serialVersionUID = -978735764038866148L;
+	private static final long serialVersionUID = 1L;
 
 	private DcResultSet result;
 	

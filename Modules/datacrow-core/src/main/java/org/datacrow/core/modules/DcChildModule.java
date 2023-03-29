@@ -40,7 +40,7 @@ import org.datacrow.core.objects.DcField;
  */
 public class DcChildModule extends DcModule implements IChildModule {
 
-    private static final long serialVersionUID = 1388069555942936534L;
+	private static final long serialVersionUID = 1L;
     
     /**
      * Creates a new instances of this module based on a XML definition.

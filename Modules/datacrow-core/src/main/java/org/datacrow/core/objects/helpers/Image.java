@@ -30,7 +30,7 @@ import org.datacrow.core.objects.DcMediaObject;
 
 public class Image extends DcMediaObject {
 
-    private static final long serialVersionUID = 5979878340503227989L;
+	private static final long serialVersionUID = 1L;
     
     public static final int _F_WIDTH = 1;
     public static final int _G_HEIGHT = 2;

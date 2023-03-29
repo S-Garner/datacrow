@@ -93,7 +93,7 @@ import org.datacrow.core.utilities.definitions.QuickViewFieldDefinitions;
  */
 public class DcModule implements Comparable<DcModule>, Serializable {
 
-	private static final long serialVersionUID = 154180107544049967L;
+	private static final long serialVersionUID = 1L;
 
 	private transient static Logger logger = DcLogManager.getLogger(DcModule.class.getName());
     

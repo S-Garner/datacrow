@@ -46,7 +46,7 @@ public class DcTemplate extends DcObject {
 	
 	private transient static Logger logger = DcLogManager.getLogger(DcTemplate.class.getName());
 
-    private static final long serialVersionUID = -6626046268821765360L;
+	private static final long serialVersionUID = 1L;
 
     public static final int _SYS_TEMPLATENAME = 400;
     public static final int _SYS_DEFAULT = 401;

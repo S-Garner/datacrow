@@ -41,7 +41,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public abstract class Synchronizer implements Serializable{
     
-    private static final long serialVersionUID = 4936363252166226585L;
+	private static final long serialVersionUID = 1L;
 
     protected ISynchronizerClient client; 
 

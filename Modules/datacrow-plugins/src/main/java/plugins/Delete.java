@@ -41,7 +41,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class Delete extends Plugin {
 
-	private static final long serialVersionUID = -4074595273858723948L;
+	private static final long serialVersionUID = 1L;
 
 	public Delete(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

@@ -42,7 +42,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class Filter extends Plugin {
 
-	private static final long serialVersionUID = 8130172828471596795L;
+	private static final long serialVersionUID = 1L;
 
 	public Filter(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

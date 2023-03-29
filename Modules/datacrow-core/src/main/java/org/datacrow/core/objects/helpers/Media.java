@@ -30,7 +30,7 @@ import org.datacrow.core.objects.DcMediaObject;
 
 public class Media extends DcMediaObject {
 
-    private static final long serialVersionUID = 4692871264834975063L;
+	private static final long serialVersionUID = 1L;
 
     public Media() {
         super(DcModules._MEDIA);

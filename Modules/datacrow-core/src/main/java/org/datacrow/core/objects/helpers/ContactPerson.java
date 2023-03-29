@@ -34,7 +34,7 @@ import org.datacrow.core.server.Connector;
 
 public class ContactPerson extends DcObject {
 
-    private static final long serialVersionUID = 3504231999443415852L;
+	private static final long serialVersionUID = 1L;
     
     public static final int _A_NAME = 1;
     public static final int _B_DESCRIPTION = 2;

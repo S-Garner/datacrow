@@ -40,7 +40,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class EditItem extends Plugin {
 
-	private static final long serialVersionUID = -8818198030805572238L;
+	private static final long serialVersionUID = 1L;
 
 	public EditItem(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

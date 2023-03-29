@@ -39,7 +39,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class AutoIncrementer extends Plugin {
 
-	private static final long serialVersionUID = -1599023987051948291L;
+	private static final long serialVersionUID = 1L;
 
 	public AutoIncrementer(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

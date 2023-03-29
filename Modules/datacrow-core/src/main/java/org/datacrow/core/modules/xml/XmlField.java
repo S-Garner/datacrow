@@ -42,7 +42,7 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinition;
  */
 public class XmlField extends XmlObject {
     
-    private static final long serialVersionUID = 2222359215507624776L;
+	private static final long serialVersionUID = 1L;
 
     private int index;
     private int module;

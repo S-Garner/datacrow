@@ -59,7 +59,7 @@ import org.datacrow.core.utilities.XMLParser;
  */
 public class ModuleUpgrade extends XmlObject {
     
-    private static final long serialVersionUID = -3173735328850109566L;
+	private static final long serialVersionUID = 1L;
 
     private transient static Logger logger = DcLogManager.getLogger(ModuleUpgrade.class.getName());
     

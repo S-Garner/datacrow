@@ -48,7 +48,7 @@ import org.datacrow.core.security.SecuredUser;
  */
 public class UserModule extends DcParentModule {
     
-    private static final long serialVersionUID = 8781289658107612773L;
+	private static final long serialVersionUID = 1L;
 
     /**
      * Creates a new instance.

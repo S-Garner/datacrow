@@ -40,7 +40,7 @@ import org.datacrow.core.resources.DcResources;
  */
 public class SettingsGroup implements Serializable {
     
-	private static final long serialVersionUID = -1843356766710620713L;
+	private static final long serialVersionUID = 1L;
 
 	private String helpIndex = "";
     private String key = "";

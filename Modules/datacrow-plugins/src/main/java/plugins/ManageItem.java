@@ -44,7 +44,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class ManageItem extends Plugin {
     
-	private static final long serialVersionUID = -2881008188562123698L;
+	private static final long serialVersionUID = 1L;
 
 	private static Logger logger = DcLogManager.getLogger(ManageItem.class.getName());
     

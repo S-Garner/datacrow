@@ -50,7 +50,7 @@ import org.datacrow.core.plugin.RegisteredPlugin;
  */
 public final class SecuredUser implements Serializable {
     
-    private static final long serialVersionUID = -2189132770680792540L;
+    private static final long serialVersionUID = 1L;
 
     private transient static Logger logger = DcLogManager.getLogger(SecuredUser.class.getName());
     

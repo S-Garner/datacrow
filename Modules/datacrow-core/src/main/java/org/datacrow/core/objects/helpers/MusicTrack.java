@@ -31,7 +31,7 @@ import org.datacrow.core.objects.ValidationException;
 
 public class MusicTrack extends DcMediaObject {
 
-	private static final long serialVersionUID = 2782531771816681715L;
+	private static final long serialVersionUID = 1L;
 	
     public static final int _F_TRACKNUMBER = 1;
     public static final int _G_ARTIST = 2;

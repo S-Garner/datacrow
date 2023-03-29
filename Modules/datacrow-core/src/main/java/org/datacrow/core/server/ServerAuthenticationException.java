@@ -27,6 +27,6 @@ package org.datacrow.core.server;
 
 public class ServerAuthenticationException extends Exception {
 
-	private static final long serialVersionUID = 5547615892604052920L;
+	private static final long serialVersionUID = 1L;
 
 }

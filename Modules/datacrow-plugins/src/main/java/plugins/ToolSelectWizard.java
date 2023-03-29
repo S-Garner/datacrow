@@ -37,7 +37,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class ToolSelectWizard extends Plugin {
 
-	private static final long serialVersionUID = 4410034012196209579L;
+	private static final long serialVersionUID = 1L;
 
 	public ToolSelectWizard(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

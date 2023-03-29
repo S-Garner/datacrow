@@ -38,7 +38,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class About extends Plugin {
 
-	private static final long serialVersionUID = 7102112738114433552L;
+	private static final long serialVersionUID = 1L;
 
 	public About(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

@@ -43,7 +43,7 @@ import org.datacrow.core.utilities.definitions.IDefinitions;
 
 public class Settings implements Serializable {
     
-	private static final long serialVersionUID = -33466202843742845L;
+	private static final long serialVersionUID = 1L;
 
 	private static Logger logger = DcLogManager.getLogger(Settings.class.getName());
 

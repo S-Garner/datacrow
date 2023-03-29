@@ -37,7 +37,7 @@ import org.datacrow.core.resources.DcResources;
  */
 public class DataFilterEntry implements Serializable {
 	
-	private static final long serialVersionUID = 641926559616446568L;
+	private static final long serialVersionUID = 1L;
 
 	public static final String _AND = DcResources.getText("lblAnd");
     public static final String _OR = DcResources.getText("lblOr");

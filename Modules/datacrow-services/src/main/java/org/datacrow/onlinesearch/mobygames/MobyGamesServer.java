@@ -53,7 +53,7 @@ public class MobyGamesServer implements IServer {
     
     private static Logger logger = DcLogManager.getLogger(MobyGamesServer.class.getName());
     
-    private static final long serialVersionUID = 6451130355747891181L;
+    private static final long serialVersionUID = 1L;
 
     private Collection<Region> regions = new ArrayList<Region>();
     private Collection<SearchMode> modes = new ArrayList<SearchMode>();

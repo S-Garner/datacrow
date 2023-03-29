@@ -42,7 +42,7 @@ import org.datacrow.core.settings.DcSettings;
 
 public class ToggleToolbar extends Plugin {
 
-	private static final long serialVersionUID = -2000828555413077589L;
+	private static final long serialVersionUID = 1L;
 
 	public ToggleToolbar(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

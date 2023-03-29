@@ -43,7 +43,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class FileImport extends Plugin {
 
-	private static final long serialVersionUID = -24000662200835664L;
+	private static final long serialVersionUID = 1L;
 
 	public FileImport(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

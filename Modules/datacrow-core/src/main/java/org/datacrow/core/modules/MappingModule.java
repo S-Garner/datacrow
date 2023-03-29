@@ -42,7 +42,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class MappingModule extends DcModule {
 
-    private static final long serialVersionUID = 7229196343761371630L;
+	private static final long serialVersionUID = 1L;
 
     private final DcModule parentMod;
     private final DcModule referencedMod;

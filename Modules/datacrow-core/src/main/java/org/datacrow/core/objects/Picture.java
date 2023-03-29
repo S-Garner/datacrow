@@ -45,7 +45,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class Picture extends DcObject {
 
-    private static final long serialVersionUID = 2871103592900195025L;
+	private static final long serialVersionUID = 1L;
 
     private transient static Logger logger = DcLogManager.getLogger(Picture.class.getName());
     

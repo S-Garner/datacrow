@@ -66,7 +66,7 @@ public class XmlModule extends XmlObject {
     
     private transient static Logger logger = DcLogManager.getLogger(XmlModule.class.getName());
     
-    private static final long serialVersionUID = 3672118094404831329L;
+    private static final long serialVersionUID = 1L;
 
     private Document document;
     
