@@ -25,9 +25,7 @@
 
 package org.datacrow.synch.request;
 
-import org.datacrow.core.server.requests.ClientRequest;
-
-public class SynchClientRequestModules extends ClientRequest {
+public class SynchClientRequestModules extends SynchClientRequest {
 
 	private static final long serialVersionUID = 1L;
 	

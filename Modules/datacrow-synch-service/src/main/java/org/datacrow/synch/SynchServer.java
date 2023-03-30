@@ -31,7 +31,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.FileSystems;
 import java.util.Date;
-import java.util.concurrent.LinkedBlockingDeque;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
@@ -55,12 +54,8 @@ import org.datacrow.server.security.SecurityCenter;
 public class SynchServer implements Runnable, IStarterClient, IClient {
 
 	private static Logger logger;
-
     private static SynchServer instance;
 
-    private final LinkedBlockingDeque<SynchServerSession> sessions = 
-    		new  LinkedBlockingDeque<SynchServerSession>();
-    
     private int port;
 	
     private ServerSocket socket = null;
@@ -313,16 +308,13 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
     }
 
     public synchronized void shutdown(){
-        this.isStopped = true;
+    	this.isStopped = true;
         
+    	SynchServerSessions.getInstance().close();
+
         try {
-        	for (SynchServerSession session : sessions) {
-        		session.closeSession();
-        	}
-        	
-        	if (this.socket != null)
-        	    this.socket.close();
-        	
+	        if (this.socket != null)
+	    	    this.socket.close();
         } catch (IOException e) {
             throw new RuntimeException("Error closing server", e);
         }
@@ -335,7 +327,7 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
             throw new RuntimeException("Cannot open port " + port, e);
         }
     }
-	
+    
 	@Override
 	public void run() {
     	
@@ -369,7 +361,11 @@ public class SynchServer implements Runnable, IStarterClient, IClient {
             }
             
             SynchServerSession session = new SynchServerSession(clientSocket);
-            sessions.add(session);
+            
+            SynchServerSessionRequestHandler sssrh = new SynchServerSessionRequestHandler(session);
+            sssrh.start();
+    		
+            SynchServerSessions.getInstance().addSession(session);
         }
         
         logger.info("Server Stopped.");

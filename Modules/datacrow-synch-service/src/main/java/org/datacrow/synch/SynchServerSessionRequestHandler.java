@@ -36,6 +36,7 @@ import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.requests.ClientRequestLogin;
 import org.datacrow.core.server.requests.ClientRequestModules;
+import org.datacrow.core.server.requests.IClientRequest;
 import org.datacrow.core.server.response.IServerResponse;
 import org.datacrow.core.server.serialization.SerializationHelper;
 import org.datacrow.server.DcServerSessionRequestHandler;
@@ -44,7 +45,7 @@ import org.datacrow.synch.request.SynchClientRequest;
 import org.datacrow.synch.response.SynchServerLoginResponse;
 import org.datacrow.synch.response.SynchServerModuleResponse;
 
-public class SynchServerSessionRequestHandler extends DcServerSessionRequestHandler {
+public class SynchServerSessionRequestHandler extends Thread {
 
 	private static Logger logger = DcLogManager.getLogger(DcServerSessionRequestHandler.class.getName());
 	
@@ -52,8 +53,11 @@ public class SynchServerSessionRequestHandler extends DcServerSessionRequestHand
 	private boolean canceled = false;
 	private LocalServerConnector conn;
 	
+	private SynchServerSession session;
+	private IClientRequest cr;
+	
 	public SynchServerSessionRequestHandler(SynchServerSession session) {
-		super(session);
+		this.session = session;
 	} 
 	
 	protected void cancel() {
@@ -87,8 +91,14 @@ public class SynchServerSessionRequestHandler extends DcServerSessionRequestHand
                     
                     cr = SerializationHelper.getInstance().deserializeClientRequest(is);
                     
-                    if (!(cr instanceof SynchServerLoginResponse))
-                        conn.setUser(session.getUser(cr));
+                    if (!(cr instanceof SynchServerLoginResponse)) {
+                    	cr.getClientKey();
+                    	
+                    	
+                    	
+                    	conn.setUser(session.getUser(cr));
+                    }
+                        
                     
                     processRequest(os);
                 } catch (IOException e) {

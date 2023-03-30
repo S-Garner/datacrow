@@ -23,57 +23,49 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.synch.request;
+package org.datacrow.synch;
 
-import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.LinkedBlockingDeque;
 
 import org.datacrow.core.security.SecuredUser;
-import org.datacrow.core.server.requests.IClientRequest;
-import org.datacrow.synch.SynchServerSessions;
 
-public class SynchClientRequest implements IClientRequest, Serializable {
+/**
+ * @author RJ
+ *
+ */
+public class SynchServerSessions {
 	
-	public static final int _REQUEST_LOGIN = 0;
-	public static final int _REQUEST_MODULES = 1;
+	private static SynchServerSessions instance;
+	
+	private final Map<String, SecuredUser> tokenizedUsers = new HashMap<>();
+    private final LinkedBlockingDeque<SynchServerSession> sessions = 
+    		new  LinkedBlockingDeque<SynchServerSession>();
+    
+    static {
+    	instance = new SynchServerSessions();
+    }
 
-	private int type;
+	private SynchServerSessions() {}
+
+    public static SynchServerSessions getInstance() {
+    	return instance;
+    }
+    
+    public SecuredUser getUser(String token) {
+    	return tokenizedUsers.get(token);
+    }
 	
-	private String clientKey;
-	protected String username;
-	protected String password;
+	public void addSession(SynchServerSession session) {
+		sessions.add(session);
+	}
 	
-	public SynchClientRequest(int type, String token) {
-		this.type = type;
+	protected void close() {
+		for (SynchServerSession session : sessions)
+			session.closeSession();
 		
-		SecuredUser su = SynchServerSessions.getInstance().getUser(token);
-
-		if (su != null) {
-			this.clientKey = su.getUser().getID();
-			this.username = su.getUsername();
-			this.password = su.getPassword();
-		}
+		tokenizedUsers.clear();
+		sessions.clear();
 	}
-	
-	@Override
-	public String getUsername() {
-		return username;
-	}
-
-	@Override
-	public String getPassword() {
-		return password;
-	}
-
-	@Override
-	public String getClientKey() {
-		return clientKey;
-	}
-
-	@Override
-	public int getType() {
-		return type;
-	}
-
-	@Override
-	public void close() {}
 }

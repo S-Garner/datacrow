@@ -119,11 +119,6 @@ public class DcServerSessionRequestHandler extends Thread {
                     
                     cr = SerializationHelper.getInstance().deserializeClientRequest(is);
                     
-                    if (    !(cr instanceof ClientRequestLogin) && 
-                            !(cr instanceof ClientRequestUser)) {
-                        conn.setUser(session.getUser(cr));
-                    }
-                    
                     processRequest(os);
                 } catch (IOException e) {
                     logger.info("Client session has been ended (" + socket.getInetAddress() + ")");

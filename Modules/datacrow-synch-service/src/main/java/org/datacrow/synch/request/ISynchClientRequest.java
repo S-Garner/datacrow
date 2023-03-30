@@ -25,55 +25,19 @@
 
 package org.datacrow.synch.request;
 
-import java.io.Serializable;
+/**
+ * @author RJ
+ *
+ */
+public interface ISynchClientRequest {
 
-import org.datacrow.core.security.SecuredUser;
-import org.datacrow.core.server.requests.IClientRequest;
-import org.datacrow.synch.SynchServerSessions;
-
-public class SynchClientRequest implements IClientRequest, Serializable {
+	public String getUsername();
 	
-	public static final int _REQUEST_LOGIN = 0;
-	public static final int _REQUEST_MODULES = 1;
-
-	private int type;
+	public String getPassword();
 	
-	private String clientKey;
-	protected String username;
-	protected String password;
+	public String getClientKey();
 	
-	public SynchClientRequest(int type, String token) {
-		this.type = type;
-		
-		SecuredUser su = SynchServerSessions.getInstance().getUser(token);
-
-		if (su != null) {
-			this.clientKey = su.getUser().getID();
-			this.username = su.getUsername();
-			this.password = su.getPassword();
-		}
-	}
+	public int getType();
 	
-	@Override
-	public String getUsername() {
-		return username;
-	}
-
-	@Override
-	public String getPassword() {
-		return password;
-	}
-
-	@Override
-	public String getClientKey() {
-		return clientKey;
-	}
-
-	@Override
-	public int getType() {
-		return type;
-	}
-
-	@Override
-	public void close() {}
+	public void close();
 }

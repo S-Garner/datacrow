@@ -29,20 +29,41 @@ import java.net.Socket;
 
 import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.security.SecuredUser;
+import org.datacrow.core.security.SecurityException;
+import org.datacrow.core.server.requests.IClientRequest;
 import org.datacrow.server.DcServerSession;
+import org.datacrow.server.DcServerSessionRequestHandler;
+import org.datacrow.server.security.SecurityCenter;
 
 public class SynchServerSession extends DcServerSession {
+
+	protected Socket socket;
+	protected DcServerSessionRequestHandler ct;
 	
 	private transient static Logger logger = 
 			DcLogManager.getLogger(SynchServerSession.class.getName());
 
 	public SynchServerSession(Socket socket) {
 		this.socket = socket;
-		
 		long time = System.currentTimeMillis();
 		logger.debug("Client session started: " + time);
-		
-		ct = new SynchServerSessionRequestHandler(this);
-		ct.start();
 	}
+	
+	
+	public boolean isAlive() {
+		return ct.isAlive();
+	}
+	
+	public String getName() {
+		return socket.toString();
+	}
+	
+	public SecuredUser getUser(IClientRequest cr) throws SecurityException {
+		return SecurityCenter.getInstance().login(cr.getClientKey(), cr.getUsername(), cr.getPassword());
+	}
+	
+	public Socket getSocket() {
+		return socket;
+	}	
 }
