@@ -29,10 +29,6 @@ import java.net.Socket;
 
 import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
-import org.datacrow.core.security.SecuredUser;
-import org.datacrow.core.security.SecurityException;
-import org.datacrow.core.server.requests.IClientRequest;
-import org.datacrow.server.security.SecurityCenter;
 
 public class DcServerSession {
 	
@@ -68,10 +64,6 @@ public class DcServerSession {
 	
 	public String getName() {
 		return socket.toString();
-	}
-	
-	public SecuredUser getUser(IClientRequest cr) throws SecurityException {
-		return SecurityCenter.getInstance().login(cr.getClientKey(), cr.getUsername(), cr.getPassword());
 	}
 	
 	public Socket getSocket() {

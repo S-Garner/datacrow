@@ -33,13 +33,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
-import org.datacrow.core.DcConfig;
 import org.datacrow.core.data.DcResultSet;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.security.SecuredUser;
-import org.datacrow.core.server.Connector;
 import org.datacrow.core.server.requests.ClientRequest;
 import org.datacrow.core.server.requests.ClientRequestApplicationSettings;
 import org.datacrow.core.server.requests.ClientRequestExecuteSQL;
@@ -79,7 +77,8 @@ public class DcServerSessionRequestHandler extends Thread {
 	
 	protected Socket socket;
 	protected boolean canceled = false;
-	protected LocalServerConnector conn;
+	
+	protected LocalServerConnector context;
 	protected IClientRequest cr;
 	
 	protected final DcServerSession session;
@@ -109,15 +108,23 @@ public class DcServerSessionRequestHandler extends Thread {
 	        os = new ObjectOutputStream(socket.getOutputStream());
 	        is = new ObjectInputStream(socket.getInputStream());
 
-	        // this is the connector we'll use on the server.
-            // we'll use the actual logged on user credentials for the actions to be performed.
-            conn = new LocalServerConnector();
-            DcConfig.getInstance().setConnector(conn);
+            context = new LocalServerConnector();
             
             while (!socket.isClosed()) {
                 try {
-                    
                     cr = SerializationHelper.getInstance().deserializeClientRequest(is);
+                    
+                    // check if we can login with the user of the request
+					if (	!(cr instanceof ClientRequestLogin) && 
+							!(cr instanceof ClientRequestUser)) {
+						
+						SecuredUser su = SecurityCenter.getInstance().login(
+								cr.getClientKey(),
+								cr.getUsername(),
+								cr.getPassword());
+
+						context.setUser(su);
+					}    
                     
                     processRequest(os);
                 } catch (IOException e) {
@@ -222,34 +229,34 @@ public class DcServerSessionRequestHandler extends Thread {
 	 * @throws Exception
 	 */
 	private ServerResponse processItemsRequest(ClientRequestItems cr) {
-    	List<DcObject> items = conn.getItems(cr.getDataFilter(), cr.getFields());
+    	List<DcObject> items = context.getItems(cr.getDataFilter(), cr.getFields());
         ServerItemsRequestResponse sr = new ServerItemsRequestResponse(items);
 	    return sr;
 	}
 	
    private IServerResponse processItemKeysRequest(ClientRequestItemKeys cr) {
-        Map<String, Integer> items = conn.getKeys(cr.getDataFilter());
+        Map<String, Integer> items = context.getKeys(cr.getDataFilter());
         ServerItemKeysRequestResponse sr = new ServerItemKeysRequestResponse(items);
         return sr;
     }
 	
 	private IServerResponse processLoginRequest(ClientRequestLogin lr) {
-		SecuredUser su = conn.login(lr.getUsername(), lr.getPassword());
+		SecuredUser su = context.login(lr.getUsername(), lr.getPassword());
 		return new ServerLoginResponse(su);
 	}
 	
 	private IServerResponse processSQLRequest(ClientRequestExecuteSQL csr) throws Exception {
-	    DcResultSet result = conn.executeSQL(csr.getSQL());
+	    DcResultSet result = context.executeSQL(csr.getSQL());
         return new ServerSQLResponse(result);
     }
 	
     private IServerResponse processReferencingItemsRequest(ClientRequestReferencingItems crri) throws Exception {
-        List<DcObject> values = conn.getReferencingItems(crri.getModuleIdx(), crri.getID());
+        List<DcObject> values = context.getReferencingItems(crri.getModuleIdx(), crri.getID());
         return new ServerItemsRequestResponse(values);
     }
 	
     private IServerResponse processSimpleValuesRequest(ClientRequestSimpleValues crsv) throws Exception {
-        List<DcSimpleValue> values = conn.getSimpleValues(crsv.getModule(), crsv.isIncludeIcons());
+        List<DcSimpleValue> values = context.getSimpleValues(crsv.getModule(), crsv.isIncludeIcons());
         return new ServerSimpleValuesResponse(values);
     }
     
@@ -272,18 +279,15 @@ public class DcServerSessionRequestHandler extends Thread {
     private ServerResponse processItemActionRequest(ClientRequestItemAction cr) {
         DcObject dco = cr.getItem();
         
-        DcConfig dcc = DcConfig.getInstance();
-        Connector conn = dcc.getConnector();
-        
         ServerResponse sr;
         boolean success = false;
         Throwable t = null;
         
         try {
 	        if (cr.getAction() == ClientRequestItemAction._ACTION_DELETE) {
-	            success = conn.deleteItem(dco);
+	            success = context.deleteItem(dco);
 	        } else if (cr.getAction() == ClientRequestItemAction._ACTION_SAVE) {
-	            success = conn.saveItem(dco);
+	            success = context.saveItem(dco);
 	        }
         } catch (Exception e) {
             logger.error("Error while executing Item Action", e);
@@ -306,19 +310,16 @@ public class DcServerSessionRequestHandler extends Thread {
 		
 		int moduleIdx = cr.getModule();
 		
-		DcConfig dcc = DcConfig.getInstance();
-		Connector conn = dcc.getConnector();
-		
 		if (cr.getSearchType() == ClientRequestItem._SEARCHTYPE_BY_ID) {
-			result = conn.getItem(moduleIdx, (String) value, fields);
+			result = context.getItem(moduleIdx, (String) value, fields);
 		} else if (cr.getSearchType() == ClientRequestItem._SEARCHTYPE_BY_EXTERNAL_ID) {
-			result = conn.getItemByExternalID(moduleIdx, cr.getExternalKeyType(), (String) value);	
+			result = context.getItemByExternalID(moduleIdx, cr.getExternalKeyType(), (String) value);	
 		} else if (cr.getSearchType() == ClientRequestItem._SEARCHTYPE_BY_KEYWORD) {
-			result = conn.getItemByKeyword(moduleIdx, (String) cr.getValue());	
+			result = context.getItemByKeyword(moduleIdx, (String) cr.getValue());	
 		} else if (cr.getSearchType() == ClientRequestItem._SEARCHTYPE_BY_UNIQUE_FIELDS) {
-			result = conn.getItemByUniqueFields((DcObject) cr.getValue());	
+			result = context.getItemByUniqueFields((DcObject) cr.getValue());	
         } else if (cr.getSearchType() == ClientRequestItem._SEARCHTYPE_BY_DISPLAY_VALUE) {
-            result = conn.getItemByDisplayValue(cr.getModule(), (String) cr.getValue());  
+            result = context.getItemByDisplayValue(cr.getModule(), (String) cr.getValue());  
         }
 		
         ServerItemRequestResponse sr = new ServerItemRequestResponse(result);
