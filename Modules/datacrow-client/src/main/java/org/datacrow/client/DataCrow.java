@@ -374,7 +374,7 @@ public class DataCrow implements IStarterClient {
         
         Connector connector;
         if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
-            connector = new ClientToServerConnector();
+            connector = ClientToServerConnector.getInstance();
         } else {
             connector = new DirectConnector();
         }

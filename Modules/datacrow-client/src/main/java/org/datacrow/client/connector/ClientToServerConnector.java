@@ -113,7 +113,7 @@ public class ClientToServerConnector extends Connector {
 		return si;
 	}
 	
-	public ClientToServerConnector() {
+	private ClientToServerConnector() {
 		super();
 	}
 	
@@ -199,7 +199,7 @@ public class ClientToServerConnector extends Connector {
 				
 				GUI.getInstance().displayErrorMessage(ser.getErrorMessage());
 				
-				// to avoid ClassCastExecptions.
+				// to avoid ClassCastExceptions.
 				sr = null;
 			}
 
@@ -261,6 +261,7 @@ public class ClientToServerConnector extends Connector {
                 su = response.getUser();
             
             success = su != null;
+            retry++;
         }
         
         if (!success) {
@@ -462,7 +463,7 @@ public class ClientToServerConnector extends Connector {
 	}
 
 	@Override
-	public List<DcObject> getItems(DataFilter df, int fields[]) {
+	public List<DcObject> getItems(DataFilter df, int[] fields) {
     	ClientRequestItems cr = new ClientRequestItems(getUser());
     	cr.setFields(fields);
         cr.setDataFilter(df);
