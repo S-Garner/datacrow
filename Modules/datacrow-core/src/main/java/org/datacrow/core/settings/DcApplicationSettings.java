@@ -32,11 +32,11 @@ import java.io.File;
 
 import javax.swing.JFrame;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcLookAndFeel;
 import org.datacrow.core.synchronizers.Synchronizer;
@@ -55,7 +55,7 @@ public class DcApplicationSettings extends Settings {
     
 	private static final long serialVersionUID = 1L;
 
-	private static Logger logger = DcLogManager.getLogger(DcApplicationSettings.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcApplicationSettings.class.getName());
     
     public static final String _General = "lblGroupGeneral";
     public static final String _FileHashing = "lblFileHashing";

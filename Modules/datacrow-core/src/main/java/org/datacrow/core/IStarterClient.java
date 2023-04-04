@@ -33,12 +33,12 @@ package org.datacrow.core;
  */
 public interface IStarterClient {
     
-    void configureLog4j(boolean debug);
+    void intializeLogger(boolean debug);
     
     /**
      * Indicates that the Log4j logger has been configured.
      */
-    void notifyLog4jConfigured();
+    void notifyLoggerConfigured();
     
     /**
      * Indicates that the a fatal error has occurred.

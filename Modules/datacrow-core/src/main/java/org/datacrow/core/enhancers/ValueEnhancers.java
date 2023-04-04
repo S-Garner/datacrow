@@ -34,10 +34,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -52,7 +51,7 @@ import org.datacrow.core.server.Connector;
  */
 public class ValueEnhancers {
 
-    private transient static Logger logger = DcLogManager.getLogger(ValueEnhancers.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(ValueEnhancers.class.getName());
     
     public static final int _AUTOINCREMENT = 0;
     public static final int _TITLEREWRITERS = 1;

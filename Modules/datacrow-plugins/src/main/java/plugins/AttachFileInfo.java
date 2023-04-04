@@ -33,8 +33,6 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.BrowserDialog;
 import org.datacrow.client.console.windows.itemforms.ItemForm;
@@ -47,6 +45,7 @@ import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.fileimporter.FileImporter;
 import org.datacrow.core.fileimporter.FileImporters;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcImageIcon;
@@ -66,7 +65,7 @@ public class AttachFileInfo extends Plugin implements IFileImportClient {
     
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger logger = DcLogManager.getLogger(AttachFileInfo.class.getName());
+	private static final DcLogger logger = DcLogManager.getInstance().getLogger(AttachFileInfo.class.getName());
     
     public AttachFileInfo(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

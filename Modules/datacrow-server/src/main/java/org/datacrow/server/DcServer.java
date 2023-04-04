@@ -36,14 +36,14 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.LinkedBlockingDeque;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcStarter;
 import org.datacrow.core.IStarterClient;
 import org.datacrow.core.clients.IClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogSystem4j;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.modules.upgrade.ModuleUpgrade;
 import org.datacrow.core.modules.upgrade.ModuleUpgradeResult;
@@ -60,7 +60,7 @@ import org.datacrow.server.web.DcWebServer;
 
 public class DcServer implements Runnable, IStarterClient, IClient {
 	
-	private static Logger logger;
+	private static DcLogger logger;
 	
 	protected int port;
 	
@@ -93,6 +93,8 @@ public class DcServer implements Runnable, IStarterClient, IClient {
         });
         
         System.setProperty("java.awt.headless", "true");
+        
+        DcLogManager.getInstance().setLogSystem(new DcLogSystem4j());
 	    
         String installationDir = "";
         String dataDir = "";
@@ -243,8 +245,8 @@ public class DcServer implements Runnable, IStarterClient, IClient {
     }
 	
     @Override
-    public void configureLog4j(boolean debug) {
-        DcLogManager.configureLog4j(debug ? Level.DEBUG: Level.INFO, true);
+    public void intializeLogger(boolean debug) {
+    	DcLogManager.getInstance().initialize(debug);
     }
 	
 	private void startServer() {
@@ -480,8 +482,8 @@ public class DcServer implements Runnable, IStarterClient, IClient {
     }
 
     @Override
-    public void notifyLog4jConfigured() {
-        logger = DcLogManager.getLogger(DcServer.class.getName());
+    public void notifyLoggerConfigured() {
+        logger = DcLogManager.getInstance().getLogger(DcServer.class.getName());
     }
 
     @Override

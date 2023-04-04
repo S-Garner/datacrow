@@ -54,14 +54,13 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.MainFrame;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.Base64;
@@ -70,7 +69,7 @@ import org.datacrow.core.utilities.StringUtils;
 
 public class Utilities {
     
-    private static Logger logger = DcLogManager.getLogger(Utilities.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Utilities.class.getName());
 
     private static final Toolkit tk = Toolkit.getDefaultToolkit();
 

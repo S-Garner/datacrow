@@ -34,13 +34,13 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.Version;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.services.plugin.ServiceClassLoader;
 import org.datacrow.core.settings.DcSettings;
@@ -53,7 +53,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class Servers {
     
-    private static Logger logger = DcLogManager.getLogger(Servers.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Servers.class.getName());
     
     private static final String baseUrl = "https://www.datacrow.org/online-services/";
     private static Servers instance;

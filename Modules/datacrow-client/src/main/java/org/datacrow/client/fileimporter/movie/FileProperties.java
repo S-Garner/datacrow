@@ -33,14 +33,13 @@ import java.io.RandomAccessFile;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 abstract class FileProperties {
     
-    private static Logger logger = DcLogManager.getLogger(FileProperties.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FileProperties.class.getName());
 
     public static final int _TYPE_AUDIO_CODEC = 0;
     public static final int _TYPE_VIDEO_CODEC = 1;

@@ -35,12 +35,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilterEntry;
 import org.datacrow.core.data.Operator;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcAssociate;
@@ -64,7 +64,7 @@ import org.datacrow.server.db.SelectQuery;
  */ 
 public class DataManager {
 
-    private static Logger logger = DcLogManager.getLogger(DataManager.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DataManager.class.getName());
     
     private static DataManager instance = new DataManager();
     

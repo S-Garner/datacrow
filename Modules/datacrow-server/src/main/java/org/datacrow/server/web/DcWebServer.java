@@ -32,9 +32,9 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcImageIcon;
@@ -51,7 +51,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 public class DcWebServer {
     
-    private static Logger logger = DcLogManager.getLogger(DcWebServer.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcWebServer.class.getName());
     
     private static final String context = "/datacrow";
     

@@ -33,15 +33,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
-import org.w3c.dom.Document;
 import org.datacrow.core.clients.IItemExporterClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.itemexport.ItemExporter;
 import org.datacrow.core.migration.itemexport.ItemExporterSettings;
 import org.datacrow.core.migration.itemexport.ItemExporters;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.resources.DcResources;
+import org.w3c.dom.Document;
+
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRParameter;
@@ -59,7 +60,7 @@ import net.sf.jasperreports.engine.util.JRXmlUtils;
 @SuppressWarnings("deprecation")
 public class ReportGenerator {
     
-    private static Logger logger = DcLogManager.getLogger(ReportGenerator.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ReportGenerator.class.getName());
     
     private File source;
     private File target;

@@ -32,16 +32,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.server.Connector;
 import org.datacrow.web.model.Reference;
 
 public class ReferencesCache {
     
-    private transient static Logger logger = DcLogManager.getLogger(ReferencesCache.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(ReferencesCache.class.getName());
     
     private Map<Integer, List<Reference>> references = new HashMap<Integer, List<Reference>>();
     private Map<Integer, Date> referencesDateStored = new HashMap<Integer, Date>();

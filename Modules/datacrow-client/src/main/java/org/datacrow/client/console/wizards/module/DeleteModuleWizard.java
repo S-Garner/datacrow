@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.wizards.IWizardPanel;
 import org.datacrow.client.console.wizards.Wizard;
@@ -38,6 +36,7 @@ import org.datacrow.client.console.wizards.WizardException;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcMediaModule;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
@@ -53,7 +52,7 @@ import org.datacrow.core.settings.DcSettings;
 
 public class DeleteModuleWizard extends Wizard {
 
-    private static Logger logger = DcLogManager.getLogger(DeleteModuleWizard.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DeleteModuleWizard.class.getName());
     
     public DeleteModuleWizard() {
         super();

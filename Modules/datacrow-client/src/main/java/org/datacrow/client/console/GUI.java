@@ -43,8 +43,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.components.lists.DcObjectList;
 import org.datacrow.client.console.components.panels.QuickViewPanel;
 import org.datacrow.client.console.components.tables.DcTable;
@@ -76,6 +74,7 @@ import org.datacrow.core.console.IWindow;
 import org.datacrow.core.fileimporter.FileImporter;
 import org.datacrow.core.fileimporter.FileImporters;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcImageIcon;
@@ -86,7 +85,7 @@ import org.datacrow.core.settings.DcSettings;
 
 public class GUI {
 	
-	private static Logger logger = DcLogManager.getLogger(GUI.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(GUI.class.getName());
     
     private static GUI instance = new GUI();
     

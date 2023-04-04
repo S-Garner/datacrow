@@ -44,15 +44,14 @@ import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.plaf.ListUI;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.lists.elements.DcListElement;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 public class DcList extends JList<Object> implements ComponentListener {
     
-    private static Logger logger = DcLogManager.getLogger(DcList.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcList.class.getName());
 
     private static final String  uiClassID = "DcListUI";
     private int columnsPerRow = 1;

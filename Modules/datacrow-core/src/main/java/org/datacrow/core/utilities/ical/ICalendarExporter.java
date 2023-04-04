@@ -33,14 +33,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.clients.IClient;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilterEntry;
 import org.datacrow.core.data.Operator;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
@@ -53,7 +52,7 @@ import org.datacrow.core.wf.tasks.SaveItemTask;
 
 public class ICalendarExporter extends Thread implements IClient {
     
-    private static Logger logger = DcLogManager.getLogger(ICalendarExporter.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ICalendarExporter.class.getName());
 
     private IClient client;
     

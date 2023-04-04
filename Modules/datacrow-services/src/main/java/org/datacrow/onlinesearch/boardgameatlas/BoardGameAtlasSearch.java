@@ -32,11 +32,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository.ExternalReferences;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.BoardGame;
@@ -56,7 +56,7 @@ import com.google.gson.internal.LinkedTreeMap;
 
 public class BoardGameAtlasSearch extends SearchTask {
     
-    private static Logger logger = DcLogManager.getLogger(BoardGameAtlasSearch.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(BoardGameAtlasSearch.class.getName());
 
 	private static final Gson gson = new Gson();
     private final String apiKey;

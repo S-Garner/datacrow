@@ -40,7 +40,6 @@ import java.util.zip.ZipOutputStream;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -48,13 +47,14 @@ import org.datacrow.client.console.components.DcFileField;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.Directory;
 
 public class SupportDialog extends DcDialog implements ActionListener {
     
-    private static Logger logger = DcLogManager.getLogger(SupportDialog.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SupportDialog.class.getName());
 
     private DcFileField fldTarget = ComponentFactory.getFileField(false, true);
     

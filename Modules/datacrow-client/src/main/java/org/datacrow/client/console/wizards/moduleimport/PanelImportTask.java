@@ -28,20 +28,19 @@ package org.datacrow.client.console.wizards.moduleimport;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.panels.TaskPanel;
 import org.datacrow.client.console.wizards.WizardException;
 import org.datacrow.client.console.wizards.itemimport.ItemImporterTaskPanel;
 import org.datacrow.core.clients.IModuleWizardClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.server.migration.modules.ModuleImporter;
 
 public class PanelImportTask extends ModuleImportWizardPanel implements IModuleWizardClient {
 
-    private static Logger logger = DcLogManager.getLogger(ItemImporterTaskPanel.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporterTaskPanel.class.getName());
     
     private TaskPanel tp = new TaskPanel(TaskPanel._DUPLICATE_PROGRESSBAR);
     

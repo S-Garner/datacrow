@@ -36,13 +36,13 @@ import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.clients.IBackupRestoreClient;
 import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.filerenamer.FilePatterns;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
@@ -57,7 +57,7 @@ import org.datacrow.server.db.DatabaseManager;
  */
 public class Backup extends Thread {
     
-    private static Logger logger = DcLogManager.getLogger(Backup.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Backup.class.getName());
     
     private File directory;
     private IBackupRestoreClient client;

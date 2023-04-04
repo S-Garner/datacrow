@@ -29,10 +29,9 @@ import java.awt.Image;
 import java.io.File;
 import java.net.URL;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.utilities.CoreUtilities;
 
@@ -47,7 +46,7 @@ public class Picture extends DcObject {
 
 	private static final long serialVersionUID = 1L;
 
-    private transient static Logger logger = DcLogManager.getLogger(Picture.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(Picture.class.getName());
     
     public static final int _A_OBJECTID = 1;
     public static final int _B_FIELD = 2;

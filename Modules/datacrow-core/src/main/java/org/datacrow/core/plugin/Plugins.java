@@ -30,10 +30,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
 import org.datacrow.core.utilities.Directory;
@@ -44,7 +43,7 @@ import org.datacrow.core.utilities.Directory;
  */
 public class Plugins {
 
-    private static Logger logger = DcLogManager.getLogger(Plugins.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Plugins.class.getName());
     private static Plugins instance = new Plugins();
     private final Pattern pattern = Pattern.compile("[\\\\\\/]");
 

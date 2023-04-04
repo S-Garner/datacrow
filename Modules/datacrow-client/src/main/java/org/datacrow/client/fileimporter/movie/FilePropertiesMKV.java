@@ -27,17 +27,17 @@ package org.datacrow.client.fileimporter.movie;
 
 import java.io.RandomAccessFile;
 
-import org.apache.logging.log4j.Logger;
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.ebml.io.FileDataSource;
 import org.ebml.matroska.MatroskaFile;
 import org.ebml.matroska.MatroskaFileTrack;
 import org.ebml.matroska.MatroskaFileTrack.TrackType;
-import org.datacrow.core.log.DcLogManager;
-import org.datacrow.core.utilities.CoreUtilities;
 
 class FilePropertiesMKV extends FileProperties {
     
-    private static Logger logger = DcLogManager.getLogger(FilePropertiesMKV.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FilePropertiesMKV.class.getName());
 
     @Override
 	protected void process(RandomAccessFile raf, String filename) throws Exception {

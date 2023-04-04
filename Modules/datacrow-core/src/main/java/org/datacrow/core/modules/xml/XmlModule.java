@@ -35,9 +35,9 @@ import javax.swing.KeyStroke;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcAssociateModule;
 import org.datacrow.core.modules.DcMediaModule;
 import org.datacrow.core.modules.DcModule;
@@ -64,7 +64,7 @@ import org.xml.sax.InputSource;
  */
 public class XmlModule extends XmlObject {
     
-    private transient static Logger logger = DcLogManager.getLogger(XmlModule.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(XmlModule.class.getName());
     
     private static final long serialVersionUID = 1L;
 

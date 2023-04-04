@@ -30,9 +30,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -52,7 +52,7 @@ public final class SecuredUser implements Serializable {
     
     private static final long serialVersionUID = 1L;
 
-    private transient static Logger logger = DcLogManager.getLogger(SecuredUser.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(SecuredUser.class.getName());
     
     private Map<Integer, ModulePermission> modulePermissions = new HashMap<Integer, ModulePermission>();
     private Map<String, PluginPermission> pluginPermissions = new HashMap<String, PluginPermission>();

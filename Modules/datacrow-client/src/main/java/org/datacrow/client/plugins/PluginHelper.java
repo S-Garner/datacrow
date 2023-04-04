@@ -32,12 +32,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JRootPane;
 import javax.swing.JToolBar;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.UserMode;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
 import org.datacrow.core.plugin.InvalidPluginException;
@@ -53,7 +52,7 @@ import org.datacrow.core.server.Connector;
  */
 public class PluginHelper {
     
-    private static Logger logger = DcLogManager.getLogger(PluginHelper.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PluginHelper.class.getName());
 
     public static void registerKey(JRootPane pane, String key) {
         registerKey(pane, key, -1, -1, -1);

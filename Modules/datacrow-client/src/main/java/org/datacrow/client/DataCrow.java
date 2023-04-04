@@ -33,8 +33,6 @@ import java.nio.file.FileSystems;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.connector.ClientToServerConnector;
 import org.datacrow.client.connector.DirectConnector;
 import org.datacrow.client.console.ComponentFactory;
@@ -72,6 +70,8 @@ import org.datacrow.core.data.Operator;
 import org.datacrow.core.drivemanager.DriveManager;
 import org.datacrow.core.fileimporter.FileImporters;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogSystem4j;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.Loan;
@@ -89,7 +89,7 @@ import com.formdev.flatlaf.FlatLightLaf;
  */
 public class DataCrow implements IStarterClient {
 
-    private static Logger logger;
+    private static DcLogger logger;
 
     private boolean userDirAsParameter = false;
 
@@ -98,9 +98,12 @@ public class DataCrow implements IStarterClient {
     private static String[] args;
 
     public static void main(String[] args) {
+    	
         DataCrow.args = args;
 
         DataCrow dc = new DataCrow();
+        
+        DcLogManager.getInstance().setLogSystem(new DcLogSystem4j());
 
         String installationDir = "";
         String dataDir = "";
@@ -217,7 +220,7 @@ public class DataCrow implements IStarterClient {
             
         dcc.setInstallationDir(installationDir);
         dcc.setDataDir(dataDir);
-
+        
         if (CoreUtilities.isEmpty(serverAddress) && !client)
             dcc.setOperatingMode(DcConfig._OPERATING_MODE_STANDALONE);
         else
@@ -409,8 +412,8 @@ public class DataCrow implements IStarterClient {
     }
 
     @Override
-    public void configureLog4j(boolean debug) {
-        DcLogManager.configureLog4j(debug ? Level.DEBUG : Level.INFO, debug);
+    public void intializeLogger(boolean debug) {
+    	DcLogManager.getInstance().initialize(debug);
     }
     
     private void installFonts() {
@@ -491,8 +494,8 @@ public class DataCrow implements IStarterClient {
     }
 
     @Override
-    public void notifyLog4jConfigured() {
-        logger = DcLogManager.getLogger(DataCrow.class.getName());
+    public void notifyLoggerConfigured() {
+        logger = DcLogManager.getInstance().getLogger(DataCrow.class.getName());
     }
 
     @Override

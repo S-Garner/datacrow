@@ -73,7 +73,6 @@ import javax.swing.event.AncestorListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.components.AwsKeyRequestDialog;
 import org.datacrow.client.console.components.DcButton;
 import org.datacrow.client.console.components.DcCheckBox;
@@ -132,6 +131,7 @@ import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcLookAndFeel;
@@ -148,7 +148,7 @@ import net.jacksum.JacksumAPI;
  */
 public final class ComponentFactory extends UIComponents {
 
-    private static Logger logger = DcLogManager.getLogger(ComponentFactory.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ComponentFactory.class.getName());
     
     private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
     

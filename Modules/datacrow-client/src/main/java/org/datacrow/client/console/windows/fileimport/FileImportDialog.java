@@ -41,8 +41,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -56,6 +54,7 @@ import org.datacrow.core.IconLibrary;
 import org.datacrow.core.clients.IFileImportClient;
 import org.datacrow.core.fileimporter.FileImporter;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
@@ -72,7 +71,7 @@ import org.datacrow.core.utilities.filefilters.FileNameFilter;
 
 public class FileImportDialog extends DcFrame implements ActionListener {
 
-	private static Logger logger = DcLogManager.getLogger(FileImportDialog.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FileImportDialog.class.getName());
     
     private boolean cancelled = false;
     

@@ -33,11 +33,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.synchronizers.FileSynchronizer;
@@ -55,7 +54,7 @@ public class DriveManager {
     public static final int _PRECISION_MEDIUM = 1;
     public static final int _PRECISION_HIGHEST = 2;
     
-    private static Logger logger = DcLogManager.getLogger(DriveManager.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DriveManager.class.getName());
 
     private static DriveManager instance = new DriveManager();
     

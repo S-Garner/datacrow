@@ -38,7 +38,6 @@ import javax.swing.JTextField;
 import javax.swing.JToolTip;
 import javax.swing.filechooser.FileFilter;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -46,12 +45,13 @@ import org.datacrow.client.console.components.fileselection.FileSelectPreviewPan
 import org.datacrow.client.console.windows.BrowserDialog;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class DcFileField extends JComponent implements IComponent, ActionListener {
 
-    private static Logger logger = DcLogManager.getLogger(DcFileField.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcFileField.class.getName());
     
     private JTextField text;
     private JButton button;

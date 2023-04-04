@@ -25,11 +25,10 @@
 
 package org.datacrow.client.console.windows.onlinesearch;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.util.PollerTask;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.SearchTask;
@@ -40,7 +39,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class OnlineItemRetriever extends Thread {
 
-    private static Logger logger = DcLogManager.getLogger(OnlineItemRetriever.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(OnlineItemRetriever.class.getName());
 
     private SearchTask task;
     private DcObject dco;

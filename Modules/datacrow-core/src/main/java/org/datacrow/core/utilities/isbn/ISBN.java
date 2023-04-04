@@ -28,13 +28,13 @@ package org.datacrow.core.utilities.isbn;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class ISBN {
     
-    private static Logger logger = DcLogManager.getLogger(ISBN.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ISBN.class.getName());
     
     private static String CheckDigits = new String("0123456789X0");
     

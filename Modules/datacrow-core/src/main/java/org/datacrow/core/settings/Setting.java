@@ -33,10 +33,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Vector;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcLookAndFeel;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.StringUtils;
@@ -56,7 +56,7 @@ public class Setting implements Serializable {
     
 	private static final long serialVersionUID = 1L;
 
-	private transient static Logger logger = DcLogManager.getLogger(Setting.class.getName());
+	private transient static DcLogger logger = DcLogManager.getInstance().getLogger(Setting.class.getName());
 
     private int dataType;
     private String key;

@@ -27,11 +27,11 @@ package org.datacrow.core.modules.xml;
 
 import java.io.Serializable;
 
-import org.apache.logging.log4j.Logger;
-import org.w3c.dom.Element;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.InvalidValueException;
 import org.datacrow.core.utilities.XMLParser;
+import org.w3c.dom.Element;
 
 /**
  * Representation of a XML structure.
@@ -43,7 +43,7 @@ import org.datacrow.core.utilities.XMLParser;
  */
 public abstract class XmlObject implements Serializable {
     
-    private transient static Logger logger = DcLogManager.getLogger(XmlObject.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(XmlObject.class.getName());
     
     private static final long serialVersionUID = 1L;
 

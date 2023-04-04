@@ -29,9 +29,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcImageIcon;
@@ -50,7 +50,7 @@ import org.jaudiotagger.tag.images.Artwork;
  */
 public class MusicFile implements IOnlineSearchClient {
     
-    private static Logger logger = DcLogManager.getLogger(MusicFile.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(MusicFile.class.getName());
     
     private String album;
     private String artist;

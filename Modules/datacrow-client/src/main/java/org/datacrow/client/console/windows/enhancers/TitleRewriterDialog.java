@@ -40,8 +40,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -56,6 +54,7 @@ import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.enhancers.TitleRewriter;
 import org.datacrow.core.enhancers.ValueEnhancers;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -66,7 +65,7 @@ import org.datacrow.core.server.Connector;
 
 public class TitleRewriterDialog extends DcDialog implements ActionListener {
 
-    private static Logger logger = DcLogManager.getLogger(TitleRewriterDialog.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(TitleRewriterDialog.class.getName());
     
     private boolean canceled = false;
     

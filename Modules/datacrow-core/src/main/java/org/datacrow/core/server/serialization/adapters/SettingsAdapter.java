@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.server.serialization.SerializationHelper;
 import org.datacrow.core.settings.DcModuleSettings;
@@ -49,7 +49,7 @@ import com.google.gson.JsonSerializer;
 
 public class SettingsAdapter implements JsonDeserializer<Settings>, JsonSerializer<Settings> {
 
-    private static Logger logger = DcLogManager.getLogger(SettingsAdapter.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SettingsAdapter.class.getName());
     
     private static final String _CLASSNAME = "CLASSNAME";
     

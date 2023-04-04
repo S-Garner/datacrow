@@ -25,18 +25,17 @@
 
 package org.datacrow.core.wf.tasks;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.clients.IClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.server.Connector;
 
 public class SaveItemTask extends DcTask {
 	
-	private static Logger logger = DcLogManager.getLogger(SaveItemTask.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SaveItemTask.class.getName());
 	
     public SaveItemTask() {
         super("Save-Items-Task");

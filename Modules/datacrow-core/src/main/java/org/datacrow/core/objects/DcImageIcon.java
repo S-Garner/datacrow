@@ -31,9 +31,9 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
@@ -41,7 +41,7 @@ public class DcImageIcon extends ImageIcon {
 
 	private static final long serialVersionUID = 1L;
 
-    private transient static Logger logger = DcLogManager.getLogger(DcImageIcon.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcImageIcon.class.getName());
 
     public static int _TYPE_JPEG = 0;
     public static int _TYPE_PNG = 1;

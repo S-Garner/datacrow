@@ -41,8 +41,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -60,6 +58,7 @@ import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilterEntry;
 import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
@@ -67,7 +66,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class FilterDialog extends DcFrame implements ActionListener {
     
-    private static Logger logger = DcLogManager.getLogger(FilterDialog.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FilterDialog.class.getName());
 
     private final DcModule module;
     

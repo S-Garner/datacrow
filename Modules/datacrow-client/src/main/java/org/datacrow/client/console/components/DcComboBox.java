@@ -33,18 +33,17 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JToolTip;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.renderers.ComboBoxRenderer;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.settings.DcSettings;
 
 public class DcComboBox extends JComboBox<Object> implements IComponent {
 
-	private static Logger logger = DcLogManager.getLogger(DcComboBox.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcComboBox.class.getName());
     
     public DcComboBox(DefaultComboBoxModel<Object> model) {
         super(model);

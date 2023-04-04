@@ -28,8 +28,8 @@ package org.datacrow.web;
 import java.io.IOException;
 import java.io.Serializable;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.web.bean.LoginBean;
 
 import jakarta.enterprise.inject.Instance;
@@ -47,7 +47,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebFilter
 public class LoginFilter implements Filter, Serializable {
     
-    private transient static Logger logger = DcLogManager.getLogger(ReferencesCache.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(ReferencesCache.class.getName());
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}

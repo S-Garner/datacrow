@@ -29,13 +29,12 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.loan.LoanForm;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.console.IView;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
@@ -46,7 +45,7 @@ public class Loan extends Plugin {
 
 	private static final long serialVersionUID = 1L;
 
-	private static Logger logger = DcLogManager.getLogger(Loan.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Loan.class.getName());
     
     public Loan(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

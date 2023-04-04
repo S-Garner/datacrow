@@ -32,8 +32,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcPluginField;
 import org.datacrow.client.console.wizards.Wizard;
@@ -41,6 +39,7 @@ import org.datacrow.client.console.wizards.WizardException;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.fileimporter.FileImporters;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.plugin.InvalidPluginException;
@@ -51,7 +50,7 @@ import org.datacrow.core.server.Connector;
 
 public class ToolSelectPanel extends ToolSelectBasePanel implements ActionListener {
 
-    private static Logger logger = DcLogManager.getLogger(ToolSelectPanel.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ToolSelectPanel.class.getName());
     
     public ToolSelectPanel(Wizard wizard) {
         super(wizard);

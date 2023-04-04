@@ -36,8 +36,6 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.menu.DcEditorMouseListener;
@@ -50,6 +48,7 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.data.DcIconCache;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMapping;
@@ -59,7 +58,7 @@ import org.datacrow.core.settings.DcSettings;
 
 public class DcHtmlEditorPane extends JEditorPane implements HyperlinkListener, IItemFormListener {
 
-	private static Logger logger = DcLogManager.getLogger(DcHtmlEditorPane.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcHtmlEditorPane.class.getName());
     
     private final HTMLEditorKit kit = new HTMLEditorKit();
     private final HTMLDocument document = new HTMLDocument();

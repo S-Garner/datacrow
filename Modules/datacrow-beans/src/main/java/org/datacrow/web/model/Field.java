@@ -33,10 +33,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcAssociate;
@@ -61,7 +61,7 @@ import jakarta.faces.convert.Converter;
  */
 public class Field extends DcBean {
 
-    private static Logger logger = DcLogManager.getLogger(Field.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Field.class.getName());
 
     public static final int _CHECKBOX = 0;
     public static final int _TEXTFIELD = 1;

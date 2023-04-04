@@ -27,13 +27,12 @@ package org.datacrow.core.objects;
 
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilterEntry;
 import org.datacrow.core.data.Operator;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.template.Templates;
 import org.datacrow.core.server.Connector;
 
@@ -44,7 +43,7 @@ import org.datacrow.core.server.Connector;
  */
 public class DcTemplate extends DcObject {
 	
-	private transient static Logger logger = DcLogManager.getLogger(DcTemplate.class.getName());
+	private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcTemplate.class.getName());
 
 	private static final long serialVersionUID = 1L;
 

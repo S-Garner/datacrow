@@ -39,7 +39,6 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -53,6 +52,7 @@ import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilterEntry;
 import org.datacrow.core.data.Operator;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -68,7 +68,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class MergeItemsDialog extends DcDialog implements ActionListener, IClient {
     
-    private static Logger logger = DcLogManager.getLogger(MergeItemsDialog.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(MergeItemsDialog.class.getName());
 
     private JTextArea textLog = ComponentFactory.getTextArea();
     

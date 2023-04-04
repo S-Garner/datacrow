@@ -42,8 +42,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -59,6 +57,7 @@ import org.datacrow.core.IconLibrary;
 import org.datacrow.core.clients.IClient;
 import org.datacrow.core.console.IWindow;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.Loan;
@@ -69,7 +68,7 @@ import org.datacrow.core.server.Connector;
 
 public class LoanPanel extends JPanel implements ActionListener, IClient {
 
-	private static Logger logger = DcLogManager.getLogger(LoanPanel.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(LoanPanel.class.getName());
     
     private DcObject dco;
     

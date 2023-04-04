@@ -36,11 +36,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.xml.XmlModule;
 import org.datacrow.core.modules.xml.XmlModuleWriter;
 import org.datacrow.core.objects.DcImageIcon;
@@ -54,7 +53,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class ModuleJar {
 
-    private transient static Logger logger = DcLogManager.getLogger(ModuleJar.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(ModuleJar.class.getName());
     
     private String filename;
     private XmlModule module;

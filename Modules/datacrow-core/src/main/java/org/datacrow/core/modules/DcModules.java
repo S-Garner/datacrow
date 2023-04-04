@@ -35,11 +35,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.itemimport.CsvImporter;
 import org.datacrow.core.migration.itemimport.ItemImporterHelper;
 import org.datacrow.core.modules.security.PermissionModule;
@@ -131,7 +131,7 @@ public class DcModules implements Serializable {
 	
     private static boolean loaded = false;
     
-    private transient static Logger logger = DcLogManager.getLogger(DcModules.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcModules.class.getName());
     private static final Map<Integer, DcPropertyModule> propertyBaseModules = new HashMap<Integer, DcPropertyModule>();
     private static final Map<Integer, DcModule> modules = new LinkedHashMap<Integer, DcModule>();
     
@@ -596,8 +596,6 @@ public class DcModules implements Serializable {
                     register(pm);
                 }
             }
-            
-
             
             // register the mapping module using the derived index.
             if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {

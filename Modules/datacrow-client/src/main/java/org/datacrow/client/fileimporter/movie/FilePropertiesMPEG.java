@@ -28,12 +28,12 @@ package org.datacrow.client.fileimporter.movie;
 import java.io.RandomAccessFile;
 import java.util.Arrays;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 class FilePropertiesMPEG extends FileProperties {
 
-    private static Logger logger = DcLogManager.getLogger(FilePropertiesMPEG.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FilePropertiesMPEG.class.getName());
     
     private final int[] SEQUENCE_HEADER_CODE = { 0x00, 0x00, 0x01, 0xb3 };
     private final int[] PACK_HEADER = { 0x00, 0x00, 0x01, 0xba };

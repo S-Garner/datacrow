@@ -28,19 +28,18 @@ package org.datacrow.client.console.wizards.itemexport;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.panels.TaskPanel;
 import org.datacrow.client.console.wizards.WizardException;
 import org.datacrow.core.clients.IItemExporterClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.itemexport.ItemExporter;
 import org.datacrow.core.resources.DcResources;
 
 public class ItemExporterTaskPanel extends ItemExporterWizardPanel implements IItemExporterClient  {
 
-	private static Logger logger = DcLogManager.getLogger(ItemExporterTaskPanel.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemExporterTaskPanel.class.getName());
 	
 	private TaskPanel tp = new TaskPanel(TaskPanel._SINGLE_PROGRESSBAR);
 	

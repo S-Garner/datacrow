@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.data.DataFilter;
@@ -43,6 +42,7 @@ import org.datacrow.core.data.Operator;
 import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.enhancers.ValueEnhancers;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -71,7 +71,7 @@ import org.datacrow.server.security.SecurityCenter;
  */
 public class LocalServerConnector extends Connector {
 	
-	private static Logger logger = DcLogManager.getLogger(LocalServerConnector.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(LocalServerConnector.class.getName());
 	
 	private SecuredUser su;
 	

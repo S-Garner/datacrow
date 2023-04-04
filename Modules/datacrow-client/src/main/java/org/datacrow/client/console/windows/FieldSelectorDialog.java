@@ -35,13 +35,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcFieldSelectorField;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.resources.DcResources;
@@ -49,7 +48,7 @@ import org.datacrow.core.resources.DcResources;
 public class FieldSelectorDialog extends DcDialog implements ActionListener { 
     
     private static final FlowLayout layout = new FlowLayout(FlowLayout.RIGHT);
-    private static Logger logger = DcLogManager.getLogger(FieldSelectorDialog.class.getName());    
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FieldSelectorDialog.class.getName());    
     
     private final int modIdx;
     private DcFieldSelectorField fs;

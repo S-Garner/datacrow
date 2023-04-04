@@ -34,7 +34,6 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.client.console.windows.DcFrame;
@@ -42,6 +41,7 @@ import org.datacrow.client.util.launcher.URLLauncher;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.console.IWindow;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
 import org.datacrow.core.plugin.Plugin;
@@ -51,7 +51,7 @@ public class Help extends Plugin {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private static Logger logger = DcLogManager.getLogger(Help.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Help.class.getName());
 	
 	private static final String baseUrl = "https://datacrow.org/docs/";
 

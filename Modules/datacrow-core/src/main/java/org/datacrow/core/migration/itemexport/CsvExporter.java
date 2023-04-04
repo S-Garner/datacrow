@@ -30,12 +30,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcThread;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcAssociate;
@@ -48,7 +47,7 @@ import org.datacrow.core.server.Connector;
 
 public class CsvExporter extends ItemExporter {
     
-    private static Logger logger = DcLogManager.getLogger(CsvExporter.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(CsvExporter.class.getName());
     
     public CsvExporter(
     		int moduleIdx, 

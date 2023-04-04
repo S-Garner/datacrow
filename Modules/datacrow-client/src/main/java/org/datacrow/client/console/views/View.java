@@ -48,8 +48,6 @@ import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -65,6 +63,7 @@ import org.datacrow.core.console.IView;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.plugin.InvalidPluginException;
@@ -84,7 +83,7 @@ import org.datacrow.core.wf.tasks.SaveItemTask;
  */
 public class View extends DcPanel implements ListSelectionListener, IView {
 
-    private static Logger logger = DcLogManager.getLogger(View.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(View.class.getName());
     
     public static final int _TYPE_SEARCH = 0;
     public static final int _TYPE_INSERT = 1;

@@ -41,8 +41,6 @@ import javax.swing.JTextArea;
 import javax.swing.JToolTip;
 import javax.swing.filechooser.FileFilter;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -53,6 +51,7 @@ import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.clients.IBackupRestoreClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.server.backup.Backup;
@@ -60,7 +59,7 @@ import org.datacrow.server.backup.Restore;
 
 public class BackupDialog extends DcDialog implements ActionListener, IBackupRestoreClient {
 
-    private static Logger logger = DcLogManager.getLogger(BackupDialog.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(BackupDialog.class.getName());
     
     private DcFileField fileFieldTarget;
     private DcFileField fileFieldSource;

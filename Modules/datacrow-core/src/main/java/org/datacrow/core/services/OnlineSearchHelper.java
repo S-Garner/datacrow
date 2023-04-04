@@ -30,10 +30,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.fileimporter.FileImporter;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
@@ -49,7 +49,7 @@ import org.datacrow.core.utilities.StringUtils;
  */
 public class OnlineSearchHelper implements IOnlineSearchClient {
     
-    private static Logger logger = DcLogManager.getLogger(OnlineSearchHelper.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(OnlineSearchHelper.class.getName());
     
     private final int module;
     

@@ -37,10 +37,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.modules.xml.XmlField;
@@ -54,7 +53,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class Conversions {
 
-    private static Logger logger = DcLogManager.getLogger(Conversions.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Conversions.class.getName());
 
     private Collection<Conversion> conversions = new ArrayList<Conversion>();
     private String filename = DcConfig.getInstance().getUpgradeDir() + "conversions.properties";

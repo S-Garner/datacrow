@@ -28,18 +28,17 @@ package org.datacrow.client.util.launcher;
 import java.awt.Desktop;
 import java.net.URL;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class URLLauncher extends Launcher {
 
-	private static Logger logger = DcLogManager.getLogger(URLLauncher.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(URLLauncher.class.getName());
 	
 	private URL url;
 	

@@ -42,8 +42,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.table.TableColumn;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcMenuBar;
@@ -51,6 +49,7 @@ import org.datacrow.client.console.components.renderers.CheckBoxTableCellRendere
 import org.datacrow.client.console.components.tables.DcTable;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -62,7 +61,7 @@ import org.datacrow.core.server.Connector;
 
 public class FieldPermissionPanel extends JPanel implements ActionListener {
 
-	private static Logger logger = DcLogManager.getLogger(FieldPermissionPanel.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FieldPermissionPanel.class.getName());
     
     private static final int _COLUMN_MODULE = 0;
     private static final int _COLUMN_LABEL = 1;

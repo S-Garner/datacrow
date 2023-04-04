@@ -27,13 +27,12 @@ package org.datacrow.client.console.windows.drivemanager;
 
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.util.PollerTask;
 import org.datacrow.core.drivemanager.DriveManager;
 import org.datacrow.core.drivemanager.FileInfo;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
 
@@ -42,7 +41,7 @@ import org.datacrow.core.resources.DcResources;
  */
 public class DriveManagerSingleItemMatcher extends Thread {
 
-    private static Logger logger = DcLogManager.getLogger(DriveManagerSingleItemMatcher.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DriveManagerSingleItemMatcher.class.getName());
     
     private int precision;
     private DcObject dco;

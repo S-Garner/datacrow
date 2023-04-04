@@ -36,16 +36,16 @@ import java.util.zip.ZipFile;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcLongTextField;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class BackupFilePreviewPanel extends FileSelectPreviewPanel {
     
-    private static Logger logger = DcLogManager.getLogger(BackupFilePreviewPanel.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(BackupFilePreviewPanel.class.getName());
     
     private DcLongTextField preview = ComponentFactory.getLongTextField();
     

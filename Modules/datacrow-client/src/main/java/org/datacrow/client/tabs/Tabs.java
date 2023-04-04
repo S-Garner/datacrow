@@ -35,10 +35,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcImageIcon;
@@ -51,7 +51,7 @@ import org.datacrow.core.utilities.definitions.Definition;
 
 public class Tabs {
 	
-	private static Logger logger = DcLogManager.getLogger(Tabs.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Tabs.class.getName());
 	
 	private static final Map<Integer, LinkedList<Tab>> moduleTabs = new LinkedHashMap<Integer, LinkedList<Tab>>();
 	private static final Tabs instance;

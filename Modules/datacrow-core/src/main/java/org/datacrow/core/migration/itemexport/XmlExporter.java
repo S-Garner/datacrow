@@ -29,11 +29,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcThread;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
@@ -48,7 +47,7 @@ import org.datacrow.core.server.Connector;
  */
 public class XmlExporter extends ItemExporter {
     
-    private static Logger logger = DcLogManager.getLogger(XmlExporter.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(XmlExporter.class.getName());
     
     public XmlExporter(
     		int moduleIdx, 

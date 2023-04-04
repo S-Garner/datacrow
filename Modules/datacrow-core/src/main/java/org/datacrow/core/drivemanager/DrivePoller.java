@@ -29,8 +29,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.CoreUtilities;
 
@@ -40,7 +40,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class DrivePoller {
     
-    private static Logger logger = DcLogManager.getLogger(DrivePoller.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DrivePoller.class.getName());
     
     private Task task;
     

@@ -29,12 +29,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.console.ISimpleItemView;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcPropertyModule;
 import org.datacrow.core.objects.DcObject;
@@ -46,7 +45,7 @@ public class ManageItem extends Plugin {
     
 	private static final long serialVersionUID = 1L;
 
-	private static Logger logger = DcLogManager.getLogger(ManageItem.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ManageItem.class.getName());
     
 	private String title;
     

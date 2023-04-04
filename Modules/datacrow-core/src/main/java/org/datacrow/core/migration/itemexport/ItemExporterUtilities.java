@@ -27,17 +27,16 @@ package org.datacrow.core.migration.itemexport;
 
 import java.io.File;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class ItemExporterUtilities {
 
-    private static Logger logger = DcLogManager.getLogger(ItemExporterUtilities.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemExporterUtilities.class.getName());
     
     private ItemExporterSettings settings;
     private String exportName;

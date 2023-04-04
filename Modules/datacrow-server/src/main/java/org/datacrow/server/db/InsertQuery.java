@@ -35,9 +35,9 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
@@ -46,7 +46,7 @@ import org.datacrow.core.security.SecuredUser;
 
 public class InsertQuery extends Query {
     
-    private final static Logger logger = DcLogManager.getLogger(InsertQuery.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(InsertQuery.class.getName());
     
     private DcObject dco;
     

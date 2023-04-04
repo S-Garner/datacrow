@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.security.LoginDialog;
 import org.datacrow.client.tabs.Tabs;
@@ -50,6 +49,7 @@ import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.enhancers.ValueEnhancers;
 import org.datacrow.core.filerenamer.FilePatterns;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.modules.security.PermissionModule;
@@ -101,7 +101,7 @@ import org.datacrow.core.wf.tasks.DcTask;
 
 public class ClientToServerConnector extends Connector {
 
-	private static Logger logger = DcLogManager.getLogger(ClientToServerConnector.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ClientToServerConnector.class.getName());
 	
 	private static final ClientToServerConnector si = new ClientToServerConnector();
 	

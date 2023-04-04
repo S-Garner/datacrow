@@ -32,17 +32,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilterConverter;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.server.data.DataManager;
 
 public class SelectQuery extends Query {
     
-    private final static Logger logger = DcLogManager.getLogger(SelectQuery.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(SelectQuery.class.getName());
     
     private int[] fields;
     private DataFilter df;

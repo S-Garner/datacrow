@@ -43,8 +43,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.table.TableColumn;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -56,6 +54,7 @@ import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.clients.IClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.Directory;
@@ -64,7 +63,7 @@ import org.datacrow.core.utilities.filefilters.FileNameFilter;
 
 public class FileImportFileSelectPanelSimple extends JPanel implements ActionListener, IClient {
 
-	private static Logger logger = DcLogManager.getLogger(FileImportFileSelectPanelSimple.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FileImportFileSelectPanelSimple.class.getName());
     
     private JTextArea textLog = ComponentFactory.getTextArea();
     private DcCheckBox cbRecursive = ComponentFactory.getCheckBox(DcResources.getText("lblRecursive"));

@@ -29,9 +29,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.clients.IClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 
 /**
@@ -40,7 +40,7 @@ import org.datacrow.core.resources.DcResources;
  */
 public class Directory {
 
-    private static Logger logger = DcLogManager.getLogger(Directory.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Directory.class.getName());
     
     private IClient client;
     

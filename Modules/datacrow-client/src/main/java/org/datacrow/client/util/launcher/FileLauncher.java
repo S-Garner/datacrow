@@ -31,13 +31,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
@@ -46,7 +45,7 @@ import org.datacrow.core.utilities.definitions.ProgramDefinitions;
 
 public class FileLauncher extends Launcher {
 
-	private static Logger logger = DcLogManager.getLogger(FileLauncher.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FileLauncher.class.getName());
 	
     private String filename;
     private File file;

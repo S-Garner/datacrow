@@ -32,9 +32,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
@@ -54,7 +54,7 @@ import com.google.gson.JsonSerializer;
 
 public class DcFieldValueAdapter implements JsonDeserializer<DcFieldValue>, JsonSerializer<DcFieldValue> {
 
-    private transient static Logger logger = DcLogManager.getLogger(DcFieldValueAdapter.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcFieldValueAdapter.class.getName());
     
     @SuppressWarnings("unchecked")
     public JsonElement serialize(

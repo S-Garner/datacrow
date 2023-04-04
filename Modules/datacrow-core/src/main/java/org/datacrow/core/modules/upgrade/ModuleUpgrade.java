@@ -35,14 +35,9 @@ import java.util.Collection;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.logging.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.ModuleJar;
 import org.datacrow.core.modules.ModuleUpgradeException;
 import org.datacrow.core.modules.xml.XmlField;
@@ -51,6 +46,10 @@ import org.datacrow.core.modules.xml.XmlObject;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.XMLParser;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 /**
  * Upgrades the actual module jar file. Fields can be added, removed or altered.
@@ -61,7 +60,7 @@ public class ModuleUpgrade extends XmlObject {
     
 	private static final long serialVersionUID = 1L;
 
-    private transient static Logger logger = DcLogManager.getLogger(ModuleUpgrade.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(ModuleUpgrade.class.getName());
     
     private File add;
     private File alter;

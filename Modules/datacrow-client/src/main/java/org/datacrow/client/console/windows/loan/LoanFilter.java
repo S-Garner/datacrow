@@ -33,8 +33,6 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.console.IWindow;
@@ -42,6 +40,7 @@ import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilterEntry;
 import org.datacrow.core.data.Operator;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
@@ -52,7 +51,7 @@ import org.datacrow.core.utilities.comparators.DcObjectComparator;
 
 public class LoanFilter extends Thread {
     
-    private static Logger logger = DcLogManager.getLogger(LoanFilter.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(LoanFilter.class.getName());
 
     public static final int _CURRENT_LOANS = 0;
     public static final int _HISTORIC_LOANS = 1;

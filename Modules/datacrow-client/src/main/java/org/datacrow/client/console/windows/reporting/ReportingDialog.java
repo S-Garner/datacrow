@@ -43,8 +43,6 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -55,6 +53,7 @@ import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.clients.IItemExporterClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.reporting.Report;
 import org.datacrow.core.reporting.ReportGenerator;
@@ -68,7 +67,7 @@ import org.datacrow.core.settings.DcSettings;
  */
 public class ReportingDialog extends DcFrame implements IItemExporterClient, ActionListener {
 
-    private static Logger logger = DcLogManager.getLogger(ReportingDialog.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ReportingDialog.class.getName());
     
     private JButton buttonRun = ComponentFactory.getButton(DcResources.getText("lblRun"));
     private JButton buttonStop = ComponentFactory.getButton(DcResources.getText("lblStop"));

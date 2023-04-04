@@ -32,10 +32,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.StringUtils;
 
@@ -46,7 +45,7 @@ import org.datacrow.core.utilities.StringUtils;
  */
 public class FilePatterns {
 
-    private static Logger logger = DcLogManager.getLogger(FilePatterns.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FilePatterns.class.getName());
     
     private static final Map<Integer, Collection<FilePattern>> patterns = new HashMap<Integer, Collection<FilePattern>>();
     private static final File file = new File(DcConfig.getInstance().getApplicationSettingsDir(), "filepatterns.xml");

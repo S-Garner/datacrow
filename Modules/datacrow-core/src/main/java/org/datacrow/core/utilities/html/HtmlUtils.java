@@ -32,17 +32,17 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.logging.log4j.Logger;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 public class HtmlUtils {
     
-    private static Logger logger = DcLogManager.getLogger(HtmlUtils.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(HtmlUtils.class.getName());
     
     public static Document getDocument(URL url, Charset charset) throws Exception {
         return getDocument(getHtmlCleaned(url, charset, 0));

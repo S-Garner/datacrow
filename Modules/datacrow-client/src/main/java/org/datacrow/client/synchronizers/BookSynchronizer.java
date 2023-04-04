@@ -25,8 +25,8 @@
 
 package org.datacrow.client.synchronizers;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Book;
@@ -38,7 +38,7 @@ import org.datacrow.core.utilities.isbn.InvalidBarCodeException;
 
 public class BookSynchronizer extends DefaultSynchronizer {
 
-    private static Logger logger = DcLogManager.getLogger(BookSynchronizer.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(BookSynchronizer.class.getName());
     
     public BookSynchronizer() {
         super(DcResources.getText("lblMassItemUpdate", DcModules.get(DcModules._BOOK).getObjectName()),

@@ -31,7 +31,6 @@ import java.util.Properties;
 
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.VersionCheckerDialog;
 import org.datacrow.client.util.Utilities;
@@ -41,13 +40,14 @@ import org.datacrow.core.Version;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.Servers;
 import org.datacrow.core.settings.DcSettings;
 
 public class VersionChecker extends Thread {
 
-    private static Logger logger = DcLogManager.getLogger(VersionChecker.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(VersionChecker.class.getName());
 
     private static final String file = "https://www.datacrow.org/version.properties"; 
     

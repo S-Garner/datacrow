@@ -30,8 +30,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -42,7 +42,7 @@ import org.datacrow.core.objects.helpers.ExternalReference;
 
 public class CreateQuery extends Query {
 
-    private final static Logger logger = DcLogManager.getLogger(CreateQuery.class.getName());
+    private final transient static DcLogger logger = DcLogManager.getInstance().getLogger(CreateQuery.class.getName());
     
     public CreateQuery(int module) {
         super(null, module);

@@ -38,8 +38,8 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 
 /**
@@ -50,7 +50,7 @@ import org.datacrow.core.resources.DcResources;
  */
 public abstract class DcRepository {
 	
-	private static Logger logger = DcLogManager.getLogger(DcRepository.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcRepository.class.getName());
 
     /**
      * The keys for module specific settings.

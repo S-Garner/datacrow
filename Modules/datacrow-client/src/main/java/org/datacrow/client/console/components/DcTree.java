@@ -33,17 +33,16 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.renderers.DcTreeRenderer;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.settings.DcSettings;
 
 public class DcTree extends JTree {
 	
-    private static Logger logger = DcLogManager.getLogger(DcTree.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcTree.class.getName());
     
     public DcTree(DefaultMutableTreeNode node) {
         super(node);

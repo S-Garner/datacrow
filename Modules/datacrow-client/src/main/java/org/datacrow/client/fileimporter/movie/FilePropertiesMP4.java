@@ -30,8 +30,8 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.mp4parser.IsoFile;
 import org.mp4parser.boxes.iso14496.part1.objectdescriptors.AudioSpecificConfig;
 import org.mp4parser.boxes.iso14496.part1.objectdescriptors.DecoderConfigDescriptor;
@@ -50,7 +50,7 @@ import org.mp4parser.boxes.sampleentry.VisualSampleEntry;
 
 public class FilePropertiesMP4 extends FileProperties {
 
-    private static Logger logger = DcLogManager.getLogger(FilePropertiesMP4.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FilePropertiesMP4.class.getName());
 
     private IsoFile isoFile = null;
     private RandomAccessFile ds;

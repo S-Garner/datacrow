@@ -32,13 +32,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcThread;
 import org.datacrow.core.clients.IItemImporterClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
@@ -47,11 +46,11 @@ import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CSVReader;
 
 public class CsvImporter extends ItemImporter {
+	
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(CsvImporter.class.getName());
     
     public static final String _SEPERATOR = "seperator";
     public static final String _CHARACTER_SET = "character_set";
-    
-    private static Logger logger = DcLogManager.getLogger(CsvImporter.class.getName());
     
     public CsvImporter(
     		int moduleIdx, 

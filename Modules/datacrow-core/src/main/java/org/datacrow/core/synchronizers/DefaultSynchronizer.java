@@ -27,12 +27,11 @@ package org.datacrow.core.synchronizers;
 
 import java.util.Collection;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.clients.ISynchronizerClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.ValidationException;
@@ -50,7 +49,7 @@ public abstract class DefaultSynchronizer extends Synchronizer {
 
 	private static final long serialVersionUID = 1L;
 
-    private transient static Logger logger = DcLogManager.getLogger(DefaultSynchronizer.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DefaultSynchronizer.class.getName());
     
     protected DcObject dco;
     

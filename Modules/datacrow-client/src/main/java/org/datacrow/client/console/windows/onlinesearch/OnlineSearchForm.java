@@ -50,7 +50,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -66,6 +65,7 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -86,7 +86,7 @@ import org.datacrow.core.utilities.cuecat.CueCatDecoder;
 
 public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, ActionListener, MouseListener, ChangeListener {
 
-    private static Logger logger = DcLogManager.getLogger(OnlineSearchForm.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(OnlineSearchForm.class.getName());
     
     private int module;
     private String ID;

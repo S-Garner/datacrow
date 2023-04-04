@@ -40,13 +40,6 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.Logger;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -56,16 +49,22 @@ import org.datacrow.core.DcThread;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.data.DcResultSet;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 public class ChartPanel extends JPanel implements ActionListener {
     
-    private static Logger logger = DcLogManager.getLogger(ChartPanel.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ChartPanel.class.getName());
     
     private JComboBox<Object> comboFields;
     private JComboBox<Object> comboTypes;

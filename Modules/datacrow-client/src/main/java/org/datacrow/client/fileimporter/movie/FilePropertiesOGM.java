@@ -28,12 +28,12 @@ package org.datacrow.client.fileimporter.movie;
 import java.io.RandomAccessFile;
 import java.util.StringTokenizer;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 class FilePropertiesOGM extends FileProperties {
 
-    private static Logger logger = DcLogManager.getLogger(FilePropertiesOGM.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FilePropertiesOGM.class.getName());
     
     private final int End = 0x0373;
     private final int vide = 0x65646976;

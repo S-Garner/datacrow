@@ -32,11 +32,11 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.Base64;
@@ -54,7 +54,7 @@ public class DcValue implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-    private transient static Logger logger = DcLogManager.getLogger(DcValue.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcValue.class.getName());
     
     private boolean changed = false;
     private Object value = null;

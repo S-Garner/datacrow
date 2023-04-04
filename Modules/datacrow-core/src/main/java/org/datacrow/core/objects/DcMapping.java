@@ -25,10 +25,9 @@
 
 package org.datacrow.core.objects;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.utilities.CoreUtilities;
 
@@ -40,7 +39,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class DcMapping extends DcObject {
     
-    private transient static Logger logger = DcLogManager.getLogger(DcMapping.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcMapping.class.getName());
     
     private static final long serialVersionUID = 1L;
     

@@ -32,9 +32,9 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.data.DcResultSet;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.security.SecuredUser;
@@ -73,7 +73,7 @@ import org.datacrow.server.security.SecurityCenter;
 
 public class DcServerSessionRequestHandler extends Thread {
 		
-	private static Logger logger = DcLogManager.getLogger(DcServerSessionRequestHandler.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcServerSessionRequestHandler.class.getName());
 	
 	protected Socket socket;
 	protected boolean canceled = false;

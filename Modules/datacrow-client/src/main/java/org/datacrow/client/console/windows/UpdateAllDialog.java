@@ -37,8 +37,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -51,6 +49,7 @@ import org.datacrow.core.console.IView;
 import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.enhancers.ValueEnhancers;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
@@ -60,7 +59,7 @@ import org.datacrow.core.settings.DcSettings;
 
 public class UpdateAllDialog extends DcFrame implements ActionListener {
 
-    private static Logger logger = DcLogManager.getLogger(UpdateAllDialog.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(UpdateAllDialog.class.getName());
     
     private JButton buttonApply;
     private JButton buttonClose;

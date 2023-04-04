@@ -33,9 +33,9 @@ import java.io.ObjectInputStream;
 
 import javax.swing.KeyStroke;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcSimpleValue;
@@ -86,7 +86,7 @@ import com.google.gson.GsonBuilder;
 
 public class SerializationHelper {
     
-    private static Logger logger = DcLogManager.getLogger(SerializationHelper.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SerializationHelper.class.getName());
 
     private static SerializationHelper instance;
     

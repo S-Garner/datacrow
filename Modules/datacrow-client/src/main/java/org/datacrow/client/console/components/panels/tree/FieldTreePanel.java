@@ -35,8 +35,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.menu.FieldTreePanelMenuBar;
 import org.datacrow.client.util.PollerTask;
@@ -46,6 +44,7 @@ import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.data.DcIconCache;
 import org.datacrow.core.data.DcResultSet;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -59,7 +58,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class FieldTreePanel extends TreePanel {
 
-	private static Logger logger = DcLogManager.getLogger(FieldTreePanel.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FieldTreePanel.class.getName());
     private int[] fields;
     private String empty = DcResources.getText("lblEmpty");
     

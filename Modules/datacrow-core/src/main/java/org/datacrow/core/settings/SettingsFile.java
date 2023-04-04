@@ -30,8 +30,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 /**
  * Reads and saves data to the Settings File
@@ -40,7 +40,7 @@ import org.datacrow.core.log.DcLogManager;
  */
 public class SettingsFile {
 
-    private transient static Logger logger = DcLogManager.getLogger(SettingsFile.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(SettingsFile.class.getName());
     
     /**
      * Save the settings file

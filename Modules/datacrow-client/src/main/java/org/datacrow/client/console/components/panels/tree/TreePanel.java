@@ -45,8 +45,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcTree;
@@ -57,13 +55,14 @@ import org.datacrow.core.console.ITreePanel;
 import org.datacrow.core.console.IView;
 import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 
 public abstract class TreePanel extends JPanel implements TreeSelectionListener, ITreePanel {
     
-	private static Logger logger = DcLogManager.getLogger(TreePanel.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(TreePanel.class.getName());
     
     protected DcTree tree;
     private JScrollPane scroller;

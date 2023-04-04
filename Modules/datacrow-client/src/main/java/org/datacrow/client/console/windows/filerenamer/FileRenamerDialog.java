@@ -48,8 +48,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -66,6 +64,7 @@ import org.datacrow.core.filerenamer.FilePatterns;
 import org.datacrow.core.filerenamer.FileRenamer;
 import org.datacrow.core.filerenamer.IFileRenamerListener;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
@@ -78,7 +77,7 @@ public class FileRenamerDialog extends DcFrame implements ActionListener, IFileR
     private static final int _ALL = 0;
     private static final int _SELECTED = 1;
     
-    private static Logger logger = DcLogManager.getLogger(FileRenamerDialog.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FileRenamerDialog.class.getName());
     
     private final DcFilePatternField patternFld;
     

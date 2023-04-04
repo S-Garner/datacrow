@@ -38,11 +38,10 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.clients.IModuleWizardClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.itemimport.ItemImporterHelper;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
@@ -65,7 +64,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class ModuleImporter {
     
-    private static Logger logger = DcLogManager.getLogger(ModuleImporter.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ModuleImporter.class.getName());
 
 	private File file;
 	private Importer importer;

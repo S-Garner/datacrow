@@ -34,11 +34,11 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.Version;
 import org.datacrow.core.clients.IBackupRestoreClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.server.db.DatabaseManager;
@@ -52,7 +52,7 @@ import org.datacrow.server.db.DatabaseManager;
  */
 public class Restore extends Thread {
     
-    private static Logger logger = DcLogManager.getLogger(Restore.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Restore.class.getName());
     
     private Version version;
     private IBackupRestoreClient client;

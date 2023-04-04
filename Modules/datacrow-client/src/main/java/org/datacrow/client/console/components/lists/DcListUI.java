@@ -49,14 +49,13 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.ListUI;
 import javax.swing.plaf.basic.BasicListUI;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.components.lists.elements.DcListElement;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 public class DcListUI extends BasicListUI {
     
-    private static Logger logger = DcLogManager.getLogger(DcListUI.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcListUI.class.getName());
     
     protected final static int columnsPerRowChanged = cellRendererChanged << 1;
     protected int columnsPerRow = 1;

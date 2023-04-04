@@ -34,13 +34,12 @@ import javax.swing.JTextPane;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.wizards.Wizard;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.modules.xml.XmlModule;
@@ -48,7 +47,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class PanelDeletionDetails extends ModuleWizardPanel {
 
-    private static Logger logger = DcLogManager.getLogger(PanelDeletionDetails.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PanelDeletionDetails.class.getName());
     
     private JTextPane details = ComponentFactory.getTextPane();
     private HTMLEditorKit kit = new HTMLEditorKit();

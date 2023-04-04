@@ -40,8 +40,6 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JToolTip;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -49,11 +47,12 @@ import org.datacrow.client.console.windows.datepicker.DatePickerDialog;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.settings.DcSettings;
 
 public class DcDateField extends JComponent implements IComponent, ActionListener {
 
-    private static Logger logger = DcLogManager.getLogger(DcDateField.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcDateField.class.getName());
     
     private JTextField text;
     private JButton button;

@@ -33,13 +33,13 @@ import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.Version;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 public class ServicesFile {
     
-    private static Logger logger = DcLogManager.getLogger(ServicesFile.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ServicesFile.class.getName());
 
     private Version version;
     private File file;

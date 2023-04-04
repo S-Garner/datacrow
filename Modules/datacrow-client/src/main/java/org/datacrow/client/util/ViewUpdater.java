@@ -27,14 +27,13 @@ package org.datacrow.client.util;
 
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.views.IViewComponent;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 public class ViewUpdater extends Thread {
     
-    private static Logger logger = DcLogManager.getLogger(ViewUpdater.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ViewUpdater.class.getName());
     
     private boolean canceled = false;
     

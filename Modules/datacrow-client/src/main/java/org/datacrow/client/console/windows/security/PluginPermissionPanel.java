@@ -39,14 +39,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.table.TableColumn;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.renderers.CheckBoxTableCellRenderer;
 import org.datacrow.client.console.components.tables.DcTable;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.ValidationException;
@@ -58,7 +57,7 @@ import org.datacrow.core.server.Connector;
 
 public class PluginPermissionPanel extends JPanel implements ActionListener {
 
-	private static Logger logger = DcLogManager.getLogger(PluginPermissionPanel.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PluginPermissionPanel.class.getName());
     
     private static final int _COLUMN_LABEL = 0;
     private static final int _COLUMN_AUTHORIZED = 1;

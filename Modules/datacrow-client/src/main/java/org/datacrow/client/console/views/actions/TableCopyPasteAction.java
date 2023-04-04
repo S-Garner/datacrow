@@ -33,11 +33,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.StringTokenizer;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.views.IViewComponent;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
@@ -46,7 +45,7 @@ public class TableCopyPasteAction implements ActionListener {
     
     private static final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
     
-    private static Logger logger = DcLogManager.getLogger(TableCopyPasteAction.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(TableCopyPasteAction.class.getName());
     
     public TableCopyPasteAction() {
     }

@@ -29,12 +29,12 @@ import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 public class FilePropertiesMovie  {
     
-    private static Logger logger = DcLogManager.getLogger(FilePropertiesMovie.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FilePropertiesMovie.class.getName());
     
     private static final int[][] MAGIC_BYTES = { 
         { 0x00, 0x00, 0x01, 0xb3 }, // MPEG (video)

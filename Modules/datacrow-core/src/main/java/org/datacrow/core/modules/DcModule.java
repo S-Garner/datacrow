@@ -37,13 +37,13 @@ import java.util.Set;
 
 import javax.swing.KeyStroke;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.console.IMasterView;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.upgrade.ModuleUpgradeResult;
 import org.datacrow.core.modules.xml.XmlField;
 import org.datacrow.core.modules.xml.XmlModule;
@@ -95,7 +95,7 @@ public class DcModule implements Comparable<DcModule>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient static Logger logger = DcLogManager.getLogger(DcModule.class.getName());
+	private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcModule.class.getName());
     
     public static final int _TYPE_MODULE = 0;
     public static final int _TYPE_PROPERTY_MODULE = 1;

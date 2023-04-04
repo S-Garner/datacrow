@@ -57,8 +57,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.DcLoginNameField;
@@ -89,6 +87,7 @@ import org.datacrow.core.console.IView;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -107,7 +106,7 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinitions;
 
 public class DcTable extends JTable implements IViewComponent, MouseListener {
 
-    private static Logger logger = DcLogManager.getLogger(DcTable.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcTable.class.getName());
 
     private final DcModule module;
     private final Hashtable<String, DcObject> cache = new Hashtable<String, DcObject>();

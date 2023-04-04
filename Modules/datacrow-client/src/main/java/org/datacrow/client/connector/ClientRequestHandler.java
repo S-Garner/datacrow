@@ -30,9 +30,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.SocketException;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.server.DcServerConnection;
 import org.datacrow.core.server.requests.ClientRequest;
@@ -41,7 +41,7 @@ import org.datacrow.core.server.serialization.SerializationHelper;
 
 public class ClientRequestHandler {
 	
-    private transient static Logger logger = DcLogManager.getLogger(ClientRequestHandler.class);
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(ClientRequestHandler.class);
 
 	private ClientRequest cr;
     

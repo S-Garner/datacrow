@@ -28,9 +28,9 @@ package org.datacrow.core.data;
 import java.io.File;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.utilities.CoreUtilities;
@@ -40,7 +40,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class DcIconCache {
     
-    private static Logger logger = DcLogManager.getLogger(DcIconCache.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcIconCache.class.getName());
 
 	private static final DcIconCache is = new DcIconCache();
 	

@@ -29,15 +29,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.clients.IItemImporterClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.ItemMigrater;
 import org.datacrow.core.objects.DcObject;
 
 public class ItemImporterHelper implements IItemImporterClient {
 
-    private static Logger logger = DcLogManager.getLogger(ItemImporterHelper.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporterHelper.class.getName());
     
     private Collection<DcObject> items = new ArrayList<DcObject>();
     private File file;

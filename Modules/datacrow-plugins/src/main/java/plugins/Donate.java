@@ -31,11 +31,10 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.util.launcher.URLLauncher;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
 import org.datacrow.core.plugin.Plugin;
@@ -45,7 +44,7 @@ public class Donate extends Plugin {
 
 	private static final long serialVersionUID = 1L;
 
-	private static Logger logger = DcLogManager.getLogger(Donate.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Donate.class.getName());
 	
     public Donate(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

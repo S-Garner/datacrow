@@ -25,7 +25,6 @@
 
 package org.datacrow.client.connector;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.security.LoginDialog;
 import org.datacrow.client.tabs.Tabs;
@@ -40,6 +39,7 @@ import org.datacrow.core.drivemanager.DriveManager;
 import org.datacrow.core.enhancers.ValueEnhancers;
 import org.datacrow.core.filerenamer.FilePatterns;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.modules.upgrade.ModuleUpgrade;
 import org.datacrow.core.modules.upgrade.ModuleUpgradeResult;
@@ -55,7 +55,7 @@ import org.datacrow.server.security.SecurityCenter;
 
 public class DirectConnector extends LocalServerConnector {
 	
-	private static Logger logger = DcLogManager.getLogger(DirectConnector.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DirectConnector.class.getName());
 
 	public DirectConnector() {
 		super();

@@ -32,8 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 /**
  * Represents the resources for a language (labels and messages).
@@ -42,7 +42,8 @@ import org.datacrow.core.log.DcLogManager;
  */
 public class DcLanguageResource {
 
-    private static Logger logger = DcLogManager.getLogger(DcLanguageResource.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcLanguageResource.class.getName());
+    
     public static String suffix = "resources.properties";
     private Map<String, String> resources = new HashMap<String, String>();
     

@@ -38,15 +38,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.logging.log4j.Logger;
-import org.hsqldb.error.ErrorCode;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.Version;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilterConverter;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
@@ -59,6 +57,7 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 import org.datacrow.server.data.DataManager;
 import org.datacrow.server.security.SecurityCenter;
 import org.datacrow.server.upgrade.SystemUpgradeException;
+import org.hsqldb.error.ErrorCode;
 
 /**
  * The database manager is responsible for all databases.
@@ -68,7 +67,7 @@ import org.datacrow.server.upgrade.SystemUpgradeException;
  */
 public class DatabaseManager {
 
-    private static Logger logger = DcLogManager.getLogger(DatabaseManager.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DatabaseManager.class.getName());
     
     private static DatabaseManager instance = new DatabaseManager();
     

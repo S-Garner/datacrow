@@ -27,12 +27,12 @@ package org.datacrow.server;
 
 import java.net.Socket;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 public class DcServerSession {
 	
-	private transient static Logger logger = DcLogManager.getLogger(DcServerSession.class.getName());
+	private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcServerSession.class.getName());
 	
 	protected Socket socket;
 	protected DcServerSessionRequestHandler ct;
@@ -45,7 +45,6 @@ public class DcServerSession {
 		
 		ct = new DcServerSessionRequestHandler(this);
 		ct.start();
-
 	}
 	
 	public DcServerSession() {} 

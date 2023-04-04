@@ -29,12 +29,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 public class ItemExporterSettings {
 
-    private static Logger logger = DcLogManager.getLogger(ItemExporterSettings.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemExporterSettings.class.getName());
     
     public static final String _COPY_IMAGES = "copy_images";
     public static final String _SCALE_IMAGES = "scale_images";

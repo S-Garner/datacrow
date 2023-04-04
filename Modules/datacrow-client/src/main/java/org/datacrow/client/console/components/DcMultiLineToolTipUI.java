@@ -36,16 +36,15 @@ import javax.swing.plaf.basic.BasicToolTipUI;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.utilities.StringUtils;
 
 public class DcMultiLineToolTipUI extends BasicToolTipUI {
 
-    private static Logger logger = DcLogManager.getLogger(DcMultiLineToolTipUI.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcMultiLineToolTipUI.class.getName());
     
     private final static DcMultiLineToolTipUI sharedInstance = new DcMultiLineToolTipUI();
     private CellRendererPane rendererPane;

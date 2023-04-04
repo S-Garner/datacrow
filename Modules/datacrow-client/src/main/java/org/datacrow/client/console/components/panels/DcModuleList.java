@@ -45,14 +45,13 @@ import javax.swing.ListCellRenderer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.DcList;
 import org.datacrow.client.console.components.DcMultiLineToolTip;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -61,7 +60,7 @@ import org.datacrow.core.settings.DcSettings;
 public class DcModuleList extends DcList implements ListSelectionListener {
 
     private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
-    private static Logger logger = DcLogManager.getLogger(DcModuleList.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcModuleList.class.getName());
     
     protected int currentIndex = -1;
     protected boolean listenForChanges = true;

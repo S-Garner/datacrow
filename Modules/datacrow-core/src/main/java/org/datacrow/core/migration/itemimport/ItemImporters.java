@@ -30,13 +30,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.ItemMigrater;
 
 public class ItemImporters {
 
-	private static Logger logger = DcLogManager.getLogger(ItemImporters.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporters.class.getName());
 	
     private static ItemImporters instance;
     private Map<String, Class<?>> importers = new HashMap<String, Class<?>>(); 

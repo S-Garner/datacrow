@@ -28,9 +28,9 @@ package org.datacrow.core.utilities;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.settings.DcSettings;
 
@@ -40,7 +40,7 @@ import net.jacksum.algorithms.AbstractChecksum;
 
 public class Hash {
     
-    private static Logger logger = DcLogManager.getLogger(Hash.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Hash.class.getName());
     private static Hash instance;
     private AbstractChecksum checksum;
     

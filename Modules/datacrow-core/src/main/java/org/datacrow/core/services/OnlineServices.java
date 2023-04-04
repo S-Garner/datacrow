@@ -30,9 +30,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcMediaObject;
@@ -55,7 +55,7 @@ public class OnlineServices implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-    private static Logger logger = DcLogManager.getLogger(OnlineServices.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(OnlineServices.class.getName());
     
     private static final int _SERVICE_NAME = 0;
     private static final int _REGION_CODE = 1;

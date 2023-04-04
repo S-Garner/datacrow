@@ -31,18 +31,17 @@ import java.util.List;
 
 import javax.swing.event.ListSelectionEvent;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.components.panels.DcModuleList;
 import org.datacrow.client.console.windows.security.ModulePermissionPanel;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 
 public class SecurityModuleList extends DcModuleList {
 	
-	private static Logger logger = DcLogManager.getLogger(SecurityModuleList.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SecurityModuleList.class.getName());
 	
 	private ModulePermissionPanel modulePermissionPanel;
 	

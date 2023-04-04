@@ -36,7 +36,6 @@ import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.DcMenuItem;
@@ -57,6 +56,7 @@ import org.datacrow.core.drivemanager.FileInfo;
 import org.datacrow.core.fileimporter.FileImporter;
 import org.datacrow.core.fileimporter.FileImporters;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.modules.DcPropertyModule;
@@ -74,7 +74,7 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 public class ViewPopupMenu extends DcPopupMenu implements ActionListener, IMergeItemsListener {
 
-    private static Logger logger = DcLogManager.getLogger(ViewPopupMenu.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ViewPopupMenu.class.getName());
     
     private DcObject dco;
     private final int viewIdx;

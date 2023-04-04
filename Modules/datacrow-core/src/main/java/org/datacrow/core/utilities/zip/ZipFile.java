@@ -34,12 +34,12 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 public class ZipFile {
 
-	private static Logger logger = DcLogManager.getLogger(ZipFile.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ZipFile.class.getName());
 	
 	private ZipOutputStream zout;
 	private FileOutputStream fos;

@@ -32,10 +32,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.plugin.IServer;
@@ -60,7 +60,7 @@ import org.datacrow.core.services.plugin.IServer;
  */
 public abstract class SearchTask extends Thread {
 	
-	private static Logger logger = DcLogManager.getLogger(SearchTask.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SearchTask.class.getName());
 
 	protected final String userAgent = "DataCrow/" + DcConfig.getInstance().getVersion().toString() +  " +https://datacrow.org";
 	

@@ -34,8 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.console.UIComponents;
@@ -43,6 +41,7 @@ import org.datacrow.core.data.DcIconCache;
 import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.enhancers.ValueEnhancers;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.helpers.ExternalReference;
@@ -81,7 +80,7 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     
 	private static final long serialVersionUID = 1L;
 
-    private transient static Logger logger = DcLogManager.getLogger(DcObject.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcObject.class.getName());
 
     protected final int module;
     

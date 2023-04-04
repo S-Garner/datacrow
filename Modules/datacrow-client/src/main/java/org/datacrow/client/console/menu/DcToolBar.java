@@ -44,7 +44,6 @@ import javax.swing.JToolBar;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.DcComboBox;
@@ -61,6 +60,7 @@ import org.datacrow.core.console.IMasterView;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.plugin.Plugin;
 import org.datacrow.core.plugin.Plugins;
@@ -71,7 +71,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class DcToolBar extends JToolBar implements ActionListener, MouseListener, KeyListener {
     
-    private static Logger logger = DcLogManager.getLogger(DcToolBar.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcToolBar.class.getName());
     
     private DcShortTextField fldFilter = ComponentFactory.getShortTextField(255);
     private DcComboBox comboFilters = ComponentFactory.getComboBox();

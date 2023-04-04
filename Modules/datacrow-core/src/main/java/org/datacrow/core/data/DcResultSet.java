@@ -31,14 +31,14 @@ import java.sql.ResultSetMetaData;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 public class DcResultSet implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-    private transient static Logger logger = DcLogManager.getLogger(DcResultSet.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcResultSet.class.getName());
 	
 	private Map<String, String> columns;
 	private Map<Integer, Object[]> data;

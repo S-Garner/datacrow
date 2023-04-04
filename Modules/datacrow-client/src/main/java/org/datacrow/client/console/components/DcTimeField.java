@@ -32,16 +32,15 @@ import java.util.Calendar;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 
 public class DcTimeField extends JComponent implements IComponent {
 	
-    private static Logger logger = DcLogManager.getLogger(DcTimeField.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcTimeField.class.getName());
     
     private DcNumberField fldMinutes = ComponentFactory.getNumberField();
     private DcNumberField fldSeconds = ComponentFactory.getNumberField();

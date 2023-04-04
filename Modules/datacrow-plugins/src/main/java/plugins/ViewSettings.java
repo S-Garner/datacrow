@@ -32,8 +32,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.settings.CardViewSettingsDialog;
 import org.datacrow.client.console.windows.settings.TableViewSettingsDialog;
@@ -41,6 +39,7 @@ import org.datacrow.core.IconLibrary;
 import org.datacrow.core.console.IMasterView;
 import org.datacrow.core.console.IView;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
 import org.datacrow.core.plugin.Plugin;
@@ -48,7 +47,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class ViewSettings extends Plugin {
 
-	private static Logger logger = DcLogManager.getLogger(ViewSettings.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ViewSettings.class.getName());
 	
 	private static final long serialVersionUID = 1L;
 

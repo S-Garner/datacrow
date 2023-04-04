@@ -39,8 +39,6 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -54,6 +52,7 @@ import org.datacrow.core.enhancers.AssociateNameRewriter;
 import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.enhancers.ValueEnhancers;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcAssociate;
@@ -64,7 +63,7 @@ import org.datacrow.core.server.Connector;
 
 public class AssociateNameRewriterDialog extends DcDialog implements ActionListener {
 
-    private static Logger logger = DcLogManager.getLogger(AssociateNameRewriterDialog.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(AssociateNameRewriterDialog.class.getName());
     
     private boolean canceled = false;
     

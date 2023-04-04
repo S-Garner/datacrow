@@ -36,8 +36,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcLongTextField;
@@ -45,6 +43,7 @@ import org.datacrow.client.util.launcher.URLLauncher;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 
@@ -55,7 +54,7 @@ import org.datacrow.core.settings.DcSettings;
  */
 public class DonateDialog extends DcFrame implements ActionListener {
 
-    private static Logger logger = DcLogManager.getLogger(DonateDialog.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DonateDialog.class.getName());
     
     public DonateDialog() {
         super(DcResources.getText("lblDonate"), IconLibrary._icoDonate);

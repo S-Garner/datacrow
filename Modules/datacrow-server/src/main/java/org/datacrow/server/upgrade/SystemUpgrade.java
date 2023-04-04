@@ -36,12 +36,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.Version;
 import org.datacrow.core.console.IPollerTask;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcAssociate;
@@ -75,7 +75,7 @@ import org.datacrow.server.db.DatabaseManager;
  */
 public class SystemUpgrade {
     
-    private static Logger logger = DcLogManager.getLogger(SystemUpgrade.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SystemUpgrade.class.getName());
     
     private boolean dbInitialized;
     

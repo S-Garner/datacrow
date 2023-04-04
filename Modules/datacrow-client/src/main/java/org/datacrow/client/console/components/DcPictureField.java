@@ -53,7 +53,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JToolTip;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.fileselection.ImageFilePreviewPanel;
@@ -65,6 +64,7 @@ import org.datacrow.client.util.Utilities;
 import org.datacrow.client.util.filefilters.PictureFileFilter;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.resources.DcResources;
@@ -75,7 +75,7 @@ import org.datacrow.core.utilities.filefilters.DcFileFilter;
 
 public class DcPictureField extends JComponent implements IComponent, ActionListener, MouseListener {
 
-    private static Logger logger = DcLogManager.getLogger(DcPictureField.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcPictureField.class.getName());
     
     private boolean changed = false;
     private boolean scaled = true;

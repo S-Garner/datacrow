@@ -36,9 +36,9 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.utilities.Directory;
 
 /**
@@ -47,7 +47,7 @@ import org.datacrow.core.utilities.Directory;
  */
 public class ServiceClassLoader extends ClassLoader {
 
-    private static Logger logger = DcLogManager.getLogger(ServiceClassLoader.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ServiceClassLoader.class.getName());
     
     protected final Collection<File> jarFiles = new ArrayList<File>();
     protected final Map<String, Class<?>> cache = new HashMap<String, Class<?>>();

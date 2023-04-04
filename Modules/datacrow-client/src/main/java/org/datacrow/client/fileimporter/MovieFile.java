@@ -29,8 +29,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 /**
  * Movie file representation.
@@ -39,7 +39,7 @@ import org.datacrow.core.log.DcLogManager;
  */
 public class MovieFile {
 
-    private static Logger logger = DcLogManager.getLogger(MovieFile.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(MovieFile.class.getName());
     
     private RandomAccessFile raf;
 

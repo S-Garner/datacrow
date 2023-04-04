@@ -36,12 +36,12 @@ import java.security.NoSuchProviderException;
 
 import javax.crypto.NoSuchPaddingException;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 public class DcServerConnection {
 
-    private transient static Logger logger = DcLogManager.getLogger(DcServerConnection.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcServerConnection.class.getName());
     
     private boolean isAvailable = true;
     

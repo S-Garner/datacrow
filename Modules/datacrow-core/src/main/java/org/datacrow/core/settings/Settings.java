@@ -35,8 +35,8 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcLookAndFeel;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.definitions.IDefinitions;
@@ -45,7 +45,7 @@ public class Settings implements Serializable {
     
 	private static final long serialVersionUID = 1L;
 
-	private static Logger logger = DcLogManager.getLogger(Settings.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Settings.class.getName());
 
     private File settingsFile;
     private LinkedHashMap<String, SettingsGroup> groups = new LinkedHashMap<String, SettingsGroup>();

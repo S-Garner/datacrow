@@ -34,7 +34,6 @@ import javax.swing.JList;
 import javax.swing.JViewport;
 import javax.swing.event.ListSelectionListener;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.components.lists.elements.DcCardObjectListElement;
 import org.datacrow.client.console.components.lists.elements.DcMusicTrackListElement;
 import org.datacrow.client.console.components.lists.elements.DcObjectListElement;
@@ -46,13 +45,14 @@ import org.datacrow.client.console.views.IViewComponent;
 import org.datacrow.client.console.views.View;
 import org.datacrow.client.util.ViewUpdater;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 
 public class DcObjectList extends DcList implements IViewComponent {
     
-	private static Logger logger = DcLogManager.getLogger(DcObjectList.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcObjectList.class.getName());
 
     private int style = _CARDS;
 

@@ -28,8 +28,6 @@ package org.datacrow.client.console.wizards.itemimport;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.panels.TaskPanel;
 import org.datacrow.client.console.wizards.WizardException;
@@ -37,6 +35,7 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.clients.IItemImporterClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.itemimport.ItemImporter;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.ValidationException;
@@ -46,7 +45,7 @@ import org.datacrow.core.settings.DcSettings;
 
 public class ItemImporterTaskPanel extends ItemImporterWizardPanel implements IItemImporterClient  {
 
-	private static Logger logger = DcLogManager.getLogger(ItemImporterTaskPanel.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporterTaskPanel.class.getName());
 	
 	private int created = 0;
 	private int updated = 0;

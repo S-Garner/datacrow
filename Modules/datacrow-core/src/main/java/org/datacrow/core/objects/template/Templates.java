@@ -29,10 +29,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
@@ -41,7 +40,7 @@ import org.datacrow.core.server.Connector;
 
 public class Templates {
     
-    private transient static Logger logger = DcLogManager.getLogger(Templates.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(Templates.class.getName());
     
     private static final Collection<DcTemplate> templates = new ArrayList<DcTemplate>();
     

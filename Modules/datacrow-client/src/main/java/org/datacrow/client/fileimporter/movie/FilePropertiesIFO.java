@@ -27,13 +27,13 @@ package org.datacrow.client.fileimporter.movie;
 
 import java.io.RandomAccessFile;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.utilities.CoreUtilities;
 
 class FilePropertiesIFO extends FileProperties {
 
-    private static Logger logger = DcLogManager.getLogger(FilePropertiesIFO.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FilePropertiesIFO.class.getName());
     
 	private final int DVDVIDEO_VTS = 0x535456; /* 'VTS' */
 	private final int SIZE = 100000;

@@ -33,7 +33,6 @@ import java.awt.Insets;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -41,12 +40,13 @@ import org.datacrow.client.console.components.DcPictureField;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class AboutDialog extends DcDialog {
 
-    private static Logger logger = DcLogManager.getLogger(AboutDialog.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(AboutDialog.class.getName());
     
     public AboutDialog() {
         super(GUI.getInstance().getRootFrame());

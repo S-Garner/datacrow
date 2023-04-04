@@ -81,7 +81,7 @@ public class ImageFilePreviewPanel extends FileSelectPreviewPanel {
 
     /*
     
-    private static Logger logger = DcLogManager.getLogger(ImageFilePreviewPanel.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ImageFilePreviewPanel.class.getName());
     
     private DcPictureField preview = ComponentFactory.getPictureField(true, false);
     

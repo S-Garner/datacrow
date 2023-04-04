@@ -30,8 +30,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.Servers;
 import org.datacrow.core.settings.DcSettings;
@@ -45,7 +45,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class DcStarter {
     
-    private static Logger logger;
+    private static DcLogger logger;
     
     private IStarterClient client;
     
@@ -88,10 +88,10 @@ public class DcStarter {
                 createClientDirectories();
             }
             
-            client.configureLog4j(dcc.isDebug());
-            logger = DcLogManager.getLogger(DcStarter.class.getName());
+            client.intializeLogger(dcc.isDebug());
+            logger = DcLogManager.getInstance().getLogger(DcStarter.class.getName());
             logger.info("Logger enabled");
-            client.notifyLog4jConfigured();             
+            client.notifyLoggerConfigured();             
             
             printConfiguration();
             

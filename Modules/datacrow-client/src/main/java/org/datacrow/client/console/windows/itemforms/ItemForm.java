@@ -55,7 +55,6 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.text.JTextComponent;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -82,6 +81,7 @@ import org.datacrow.core.console.ISimpleItemView;
 import org.datacrow.core.fileimporter.FileImporter;
 import org.datacrow.core.fileimporter.FileImporters;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -105,7 +105,7 @@ import org.datacrow.core.wf.tasks.SaveItemTask;
 
 public class ItemForm extends DcFrame implements ActionListener, IClient {
 
-	private static Logger logger = DcLogManager.getLogger(ItemForm.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemForm.class.getName());
     
     protected DcTask task;
     

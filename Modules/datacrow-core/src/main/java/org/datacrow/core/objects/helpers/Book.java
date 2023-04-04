@@ -25,8 +25,8 @@
 
 package org.datacrow.core.objects.helpers;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.ValidationException;
@@ -38,7 +38,7 @@ public class Book extends DcMediaObject {
 
 	private static final long serialVersionUID = 1L;
 
-    private transient static Logger logger = DcLogManager.getLogger(Book.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(Book.class.getName());
     
     public static final int _F_PUBLISHER  = 1;
     public static final int _G_AUTHOR = 2;

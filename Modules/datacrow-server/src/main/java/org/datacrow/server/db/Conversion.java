@@ -32,11 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcMapping;
@@ -52,7 +52,7 @@ import org.datacrow.server.security.SecurityCenter;
  */
 public class Conversion {
 
-    private static Logger logger = DcLogManager.getLogger(Conversion.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Conversion.class.getName());
     
     private int moduleIdx;
     

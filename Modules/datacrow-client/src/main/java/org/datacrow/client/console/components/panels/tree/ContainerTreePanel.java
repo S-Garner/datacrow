@@ -35,8 +35,6 @@ import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultTreeModel;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.menu.ContainerTreePanelMenuBar;
 import org.datacrow.client.util.PollerTask;
 import org.datacrow.core.DcConfig;
@@ -46,6 +44,7 @@ import org.datacrow.core.data.DataFilterConverter;
 import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.data.DcResultSet;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcImageIcon;
@@ -63,7 +62,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class ContainerTreePanel extends TreePanel {
 	
-    private final static Logger logger = DcLogManager.getLogger(ContainerTreePanel.class.getName());
+    private final static DcLogger logger = DcLogManager.getInstance().getLogger(ContainerTreePanel.class.getName());
 	
     private TreeHugger treeHugger;
     

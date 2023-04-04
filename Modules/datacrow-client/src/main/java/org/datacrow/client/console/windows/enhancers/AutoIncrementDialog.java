@@ -41,8 +41,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -55,6 +53,7 @@ import org.datacrow.core.data.DcResultSet;
 import org.datacrow.core.enhancers.AutoIncrementer;
 import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -65,7 +64,7 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 public class AutoIncrementDialog extends DcDialog implements ActionListener {
 
-    private static Logger logger = DcLogManager.getLogger(AutoIncrementDialog.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(AutoIncrementDialog.class.getName());
     
     private AutoIncrementSettingsPanel pSettings = new AutoIncrementSettingsPanel();
     

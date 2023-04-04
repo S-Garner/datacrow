@@ -31,12 +31,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 public abstract class Launcher {
 
-	private static Logger logger = DcLogManager.getLogger(Launcher.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Launcher.class.getName());
 	
 	public abstract void launch();
 	

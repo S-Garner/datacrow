@@ -27,8 +27,8 @@ package org.datacrow.server.db;
 
 import java.util.LinkedList;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 /**
  * Queries are queued here awaiting to be executed. The query queue manages the 
@@ -39,7 +39,7 @@ import org.datacrow.core.log.DcLogManager;
  */
 public class QueryQueue extends Thread {
 
-    private static Logger logger = DcLogManager.getLogger(QueryQueue.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(QueryQueue.class.getName());
 
     private final LinkedList<Query> lQueryQueue = new LinkedList<Query>();
     private boolean isLazy = true;

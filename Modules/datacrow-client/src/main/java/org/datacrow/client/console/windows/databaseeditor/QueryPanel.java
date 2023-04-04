@@ -45,8 +45,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.ToolTipManager;
 import javax.swing.table.TableColumn;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -55,12 +53,13 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.data.DcResultSet;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 
 public class QueryPanel extends JPanel implements ActionListener, ItemListener {
 
-    private static Logger logger = DcLogManager.getLogger(QueryPanel.class.getName());    
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(QueryPanel.class.getName());    
     
     private JEditorPane textInput;
 	private JButton buttonRunSql;

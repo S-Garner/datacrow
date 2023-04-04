@@ -26,9 +26,9 @@
 package org.datacrow.web.util;
 
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.Picture;
@@ -40,7 +40,7 @@ import jakarta.faces.context.FacesContext;
 
 public abstract class WebUtilities {
     
-    private transient static Logger logger = DcLogManager.getLogger(WebUtilities.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(WebUtilities.class.getName());
     
     public static String getValue(DcObject dco, Field f, Object value) {
         return getValue(dco, f.getIndex(), f.getMaxTextLength(), value);

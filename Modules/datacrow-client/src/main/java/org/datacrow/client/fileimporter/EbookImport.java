@@ -30,7 +30,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -42,6 +41,7 @@ import org.apache.tika.parser.ParseContext;
 import org.apache.tika.sax.BodyContentHandler;
 import org.datacrow.core.fileimporter.FileImporter;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
@@ -57,7 +57,7 @@ import org.datacrow.core.utilities.isbn.ISBN;
  */
 public class EbookImport extends FileImporter {
 
-    private static Logger logger = DcLogManager.getLogger(EbookImport.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(EbookImport.class.getName());
     
     public EbookImport() {
         super(DcModules._BOOK);

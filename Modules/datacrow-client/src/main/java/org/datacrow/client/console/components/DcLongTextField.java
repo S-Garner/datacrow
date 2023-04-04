@@ -38,16 +38,16 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.actions.TextFieldActions;
 import org.datacrow.client.console.menu.DcEditorMouseListener;
 import org.datacrow.client.console.windows.TextDialog;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 public class DcLongTextField extends JTextArea implements ITextComponent, MouseListener {
 
-    private static Logger logger = DcLogManager.getLogger(DcLongTextField.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcLongTextField.class.getName());
     
     private TextFieldActions textFieldActions;
     

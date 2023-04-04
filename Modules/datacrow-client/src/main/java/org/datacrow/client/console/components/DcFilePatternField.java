@@ -35,18 +35,17 @@ import java.io.File;
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.menu.DcFileRenamerPopupMenu;
 import org.datacrow.client.console.windows.filerenamer.InsertTextDialog;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 
 public class DcFilePatternField extends DcLongTextField implements KeyListener, ActionListener {
     
-    private static Logger logger = DcLogManager.getLogger(DcFilePatternField.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcFilePatternField.class.getName());
     
     private final int module;
     

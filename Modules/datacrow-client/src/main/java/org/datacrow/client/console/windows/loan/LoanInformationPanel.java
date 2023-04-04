@@ -37,8 +37,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcPanel;
 import org.datacrow.client.console.components.DcProgressBar;
@@ -46,6 +44,7 @@ import org.datacrow.client.console.components.tables.DcTable;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.console.ISimpleItemView;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
@@ -57,7 +56,7 @@ import org.datacrow.core.server.Connector;
 
 public class LoanInformationPanel extends DcPanel implements ISimpleItemView, MouseListener {
 	
-	private static Logger logger = DcLogManager.getLogger(LoanInformationPanel.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(LoanInformationPanel.class.getName());
     
     private DcTable table = new DcTable(DcModules.get(DcModules._ITEM), true, false);
     private DcObject person;

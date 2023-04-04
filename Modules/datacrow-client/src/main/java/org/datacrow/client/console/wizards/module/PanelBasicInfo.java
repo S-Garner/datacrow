@@ -34,8 +34,6 @@ import java.io.FileOutputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcCheckBox;
@@ -47,6 +45,7 @@ import org.datacrow.client.console.wizards.WizardException;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcAssociateModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.modules.DcPropertyModule;
@@ -57,7 +56,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class PanelBasicInfo extends ModuleWizardPanel {
 
-    private static Logger logger = DcLogManager.getLogger(PanelBasicInfo.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PanelBasicInfo.class.getName());
     
     private DcIconSelectField pic32;
     private DcIconSelectField pic16;

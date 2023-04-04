@@ -34,18 +34,12 @@ import java.util.Collection;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.logging.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcThread;
 import org.datacrow.core.clients.IItemImporterClient;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -53,10 +47,15 @@ import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.Converter;
 import org.datacrow.core.utilities.CoreUtilities;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 public class XmlImporter extends ItemImporter {
     
-    private static Logger logger = DcLogManager.getLogger(XmlImporter.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(XmlImporter.class.getName());
     
     public XmlImporter(int moduleIdx, int mode) throws Exception {
         super(DcConfig.getInstance().getConnector().getUser(), moduleIdx, "XML", mode);

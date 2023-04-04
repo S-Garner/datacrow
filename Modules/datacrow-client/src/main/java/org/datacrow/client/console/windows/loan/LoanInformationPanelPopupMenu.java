@@ -31,8 +31,6 @@ import java.util.List;
 
 import javax.swing.JMenuItem;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.DcPopupMenu;
@@ -40,6 +38,7 @@ import org.datacrow.client.console.windows.itemforms.ItemForm;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
@@ -47,7 +46,7 @@ import org.datacrow.core.server.Connector;
 
 public class LoanInformationPanelPopupMenu extends DcPopupMenu implements ActionListener {
 
-	private static Logger logger = DcLogManager.getLogger(LoanInformationPanelPopupMenu.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(LoanInformationPanelPopupMenu.class.getName());
     
     private DcObject dco;
     private List<DcObject> items;

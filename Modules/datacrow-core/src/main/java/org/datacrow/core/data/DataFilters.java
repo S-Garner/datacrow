@@ -32,12 +32,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -52,7 +51,7 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinition;
  */
 public class DataFilters {
     
-    private transient static Logger logger = DcLogManager.getLogger(DataFilters.class.getName());
+    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DataFilters.class.getName());
     
     private static final Map<Integer, Collection<DataFilter>> filters = 
         new HashMap<Integer, Collection<DataFilter>>(); 

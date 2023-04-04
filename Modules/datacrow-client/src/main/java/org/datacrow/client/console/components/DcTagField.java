@@ -44,14 +44,13 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.components.painter.RectanglePainter;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilterEntry;
 import org.datacrow.core.data.Operator;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
@@ -60,7 +59,7 @@ import org.datacrow.core.server.Connector;
 
 public class DcTagField extends JTextArea implements IComponent, KeyListener, MouseListener {
     
-    private static Logger logger = DcLogManager.getLogger(DcTagField.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcTagField.class.getName());
     private static final RectanglePainter highlighter = new RectanglePainter(new Color(153, 204, 255));
     
     private Collection<DcObject> references = new ArrayList<DcObject>();

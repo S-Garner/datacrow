@@ -38,8 +38,6 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 
-import org.apache.logging.log4j.Logger;
-
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -50,6 +48,7 @@ import org.datacrow.core.DcRepository;
 import org.datacrow.core.clients.IClient;
 import org.datacrow.core.console.IView;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
@@ -59,7 +58,7 @@ import org.datacrow.core.settings.DcSettings;
 
 public class FindReplaceTaskDialog extends DcDialog implements ActionListener, IClient {
 
-	private static Logger logger = DcLogManager.getLogger(FindReplaceTaskDialog.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FindReplaceTaskDialog.class.getName());
     
     private JProgressBar pb = new DcProgressBar();
     

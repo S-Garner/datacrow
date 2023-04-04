@@ -25,8 +25,8 @@
 
 package org.datacrow.core.services;
 
-import org.apache.logging.log4j.Logger;
 import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Book;
@@ -35,7 +35,7 @@ import org.datacrow.core.utilities.isbn.InvalidBarCodeException;
 
 public abstract class SearchTaskUtilities {
 
-    private static Logger logger = DcLogManager.getLogger(SearchTaskUtilities.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SearchTaskUtilities.class.getName());
     
     public static final void checkForIsbn(SearchTask task) {
 
