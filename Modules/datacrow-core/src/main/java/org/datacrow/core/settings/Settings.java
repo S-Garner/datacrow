@@ -37,8 +37,8 @@ import java.util.List;
 
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
-import org.datacrow.core.objects.DcLookAndFeel;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.settings.objects.DcLookAndFeel;
 import org.datacrow.core.utilities.definitions.IDefinitions;
 
 public class Settings implements Serializable {

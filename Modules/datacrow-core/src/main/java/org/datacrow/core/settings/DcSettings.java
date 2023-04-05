@@ -31,7 +31,7 @@ import java.awt.Font;
 
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
-import org.datacrow.core.objects.DcLookAndFeel;
+import org.datacrow.core.settings.objects.DcLookAndFeel;
 import org.datacrow.core.utilities.definitions.IDefinitions;
 
 /**

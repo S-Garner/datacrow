@@ -23,7 +23,7 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.core.objects;
+package org.datacrow.core.settings.objects;
 
 import java.io.Serializable;
 

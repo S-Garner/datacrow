@@ -43,9 +43,9 @@ import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.core.DcRepository;
-import org.datacrow.core.objects.DcLookAndFeel;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.settings.objects.DcLookAndFeel;
 
 public class DcLookAndFeelSelector extends JComponent implements IComponent, ActionListener {
     

@@ -38,7 +38,7 @@ import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
-import org.datacrow.core.objects.DcLookAndFeel;
+import org.datacrow.core.settings.objects.DcLookAndFeel;
 import org.datacrow.core.synchronizers.Synchronizer;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.definitions.ProgramDefinitions;
