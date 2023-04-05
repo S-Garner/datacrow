@@ -40,12 +40,18 @@ import org.datacrow.core.utilities.definitions.IDefinitions;
  */
 public class DcSettings {
 
-    private static DcApplicationSettings applicationSettings;
+    protected static DcApplicationSettings applicationSettings;
 
+    private static ISettingsValueConverter converter;
+    
     public DcSettings() {}
     
     public static void initialize() {
         applicationSettings = new DcApplicationSettings();
+    }
+    
+    public static void setConverter(ISettingsValueConverter c) {
+    	converter = c;
     }
     
     /**
@@ -66,7 +72,7 @@ public class DcSettings {
     }
     
     public static void set(String key, Object value) {
-        applicationSettings.set(key, value);
+        applicationSettings.set(key, converter.convert(value));
     }    
 
     public static IDefinitions getDefinitions(String key) {

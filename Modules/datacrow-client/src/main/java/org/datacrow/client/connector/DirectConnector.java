@@ -27,6 +27,7 @@ package org.datacrow.client.connector;
 
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.security.LoginDialog;
+import org.datacrow.client.settings.GuiSettingsConverter;
 import org.datacrow.client.tabs.Tabs;
 import org.datacrow.client.util.PollerTask;
 import org.datacrow.core.DcConfig;
@@ -108,6 +109,7 @@ public class DirectConnector extends LocalServerConnector {
 			DcModules.load();
 			DcModules.updateModuleSetting(mur);
 			
+			DcSettings.setConverter(new GuiSettingsConverter());
 			DcSettings.initialize();
 			
             DcSettings.set(DcRepository.Settings.stConnectionString, "dc");
