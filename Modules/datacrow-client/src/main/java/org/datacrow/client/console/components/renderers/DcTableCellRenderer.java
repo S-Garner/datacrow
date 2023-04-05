@@ -87,10 +87,10 @@ public class DcTableCellRenderer extends DefaultTableCellRenderer {
             }
         }
         
-        Color colorOddRow = DcSettings.getColor(DcRepository.Settings.stOddRowColor);
-        Color colorEvenRow = DcSettings.getColor(DcRepository.Settings.stEvenRowColor);
-        Color colorRowSelection = DcSettings.getColor(DcRepository.Settings.stSelectionColor);
-        Font font = DcSettings.getFont(DcRepository.Settings.stSystemFontNormal);
+        Color colorOddRow = ComponentFactory.getColor(DcRepository.Settings.stOddRowColor);
+        Color colorEvenRow = ComponentFactory.getColor(DcRepository.Settings.stEvenRowColor);
+        Color colorRowSelection = ComponentFactory.getColor(DcRepository.Settings.stSelectionColor);
+        Font font = ComponentFactory.getStandardFont();
         setFont(font);
         setForeground(ComponentFactory.getCurrentForegroundColor());
         

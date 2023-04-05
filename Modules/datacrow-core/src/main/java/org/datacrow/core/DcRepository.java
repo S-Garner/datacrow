@@ -216,8 +216,8 @@ public abstract class DcRepository {
         public static final String stItemWizardFormSize = "item_wizard_form_size";
         public static final String stShowMenuBarLabels = "show_menubar_labels";
         public static final String stShowModuleList = "show_module_list";
-        public static final String stSystemFontNormal = "system_font_normal";
-        public static final String stSystemFontBold = "system_font_bold";
+        public static final String stStandardFont = "system_font_normal";
+        public static final String stSystemFont = "system_font_bold";
         public static final String stTableHeaderColor = "table_header_color";
         public static final String stOddRowColor = "odd_row_color";
         public static final String stEvenRowColor = "even_row_color";

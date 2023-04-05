@@ -34,9 +34,9 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.border.Border;
 
+import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.lists.elements.DcObjectListElement;
 import org.datacrow.core.DcRepository;
-import org.datacrow.core.settings.DcSettings;
 
 public class DcListRenderer<V> extends DefaultListCellRenderer  {
 
@@ -59,16 +59,16 @@ public class DcListRenderer<V> extends DefaultListCellRenderer  {
     		JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
     	
         Component component = (Component) value;
-        component.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontNormal));
+        component.setFont(ComponentFactory.getStandardFont());
         setElementColor(isSelected, component, index);
         return component;
     }
 
     protected void setElementColor(boolean isSelected, Component component, int index) {
         if (evenOddColors) {
-            Color colorOddRow = DcSettings.getColor(DcRepository.Settings.stOddRowColor);
-            Color colorEvenRow = DcSettings.getColor(DcRepository.Settings.stEvenRowColor);
-            Color colorRowSelection = DcSettings.getColor(DcRepository.Settings.stSelectionColor);
+            Color colorOddRow = ComponentFactory.getColor(DcRepository.Settings.stOddRowColor);
+            Color colorEvenRow = ComponentFactory.getColor(DcRepository.Settings.stEvenRowColor);
+            Color colorRowSelection = ComponentFactory.getColor(DcRepository.Settings.stSelectionColor);
             
             if (!isSelected) {
                 if ((index % 2) == 0)

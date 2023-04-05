@@ -25,7 +25,6 @@
 
 package org.datacrow.client.console.windows;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -174,9 +173,7 @@ public class QuickViewSettingsDialog extends DcDialog implements ActionListener 
         pack();
 
         Settings settings = DcModules.getCurrent().getSettings();
-        Dimension dim = settings.getDimension(DcRepository.ModuleSettings.stQuickViewSettingsDialogSize);
-        setSize(dim);
-
+        setSize(settings.getDimension(DcRepository.ModuleSettings.stQuickViewSettingsDialogSize));
         setCenteredLocation();
     }
 

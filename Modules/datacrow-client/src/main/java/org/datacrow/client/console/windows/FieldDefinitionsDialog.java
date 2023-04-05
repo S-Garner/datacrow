@@ -25,7 +25,6 @@
 
 package org.datacrow.client.console.windows;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -167,9 +166,7 @@ public class FieldDefinitionsDialog extends DcDialog implements ActionListener {
         pack();
 
         Settings settings = module.getSettings();
-        Dimension dim = settings.getDimension(DcRepository.ModuleSettings.stFieldSettingsDialogSize);
-        setSize(dim);
-
+        setSize(settings.getDimension(DcRepository.ModuleSettings.stFieldSettingsDialogSize));
         setCenteredLocation();
     }
 

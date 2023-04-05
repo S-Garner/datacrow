@@ -25,7 +25,6 @@
 
 package org.datacrow.client.console.windows.itemformsettings;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -164,9 +163,7 @@ public class ItemFormSettingsDialog extends DcFrame implements ActionListener, C
                  new Insets( 5, 5, 5, 12), 0, 0));
 
         pack();
-        
-        Dimension size = DcSettings.getDimension(DcRepository.Settings.stItemFormSettingsDialogSize);
-        setSize(size);
+        setSize(DcSettings.getDimension(DcRepository.Settings.stItemFormSettingsDialogSize));
         setCenteredLocation();
     }
 

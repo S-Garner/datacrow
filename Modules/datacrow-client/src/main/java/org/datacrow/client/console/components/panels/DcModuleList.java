@@ -256,7 +256,7 @@ public class DcModuleList extends DcList implements ListSelectionListener {
                 component.setToolTipText(DcModules.get(module).getDescription());
             }
             
-            Color selectionColor = DcSettings.getColor(DcRepository.Settings.stSelectionColor);
+            Color selectionColor = ComponentFactory.getColor(DcRepository.Settings.stSelectionColor);
             component.setBackground(isSelected ? selectionColor : Color.WHITE);
             return component;
         }

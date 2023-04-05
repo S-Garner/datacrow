@@ -34,11 +34,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.panels.tree.NodeElement;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
-import org.datacrow.core.settings.DcSettings;
 
 public class DcTreeRenderer extends DefaultTreeCellRenderer {
 
@@ -52,10 +52,10 @@ public class DcTreeRenderer extends DefaultTreeCellRenderer {
         try {
             super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
         
-            setBackgroundSelectionColor(DcSettings.getColor(DcRepository.Settings.stSelectionColor));
+            setBackgroundSelectionColor(ComponentFactory.getColor(DcRepository.Settings.stSelectionColor));
             setForeground(Color.BLACK);
             setBorder(border);
-            setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontBold));
+            setFont(ComponentFactory.getSystemFont());
             
             if (value instanceof DefaultMutableTreeNode) {
                 Object o = ((DefaultMutableTreeNode) value).getUserObject();

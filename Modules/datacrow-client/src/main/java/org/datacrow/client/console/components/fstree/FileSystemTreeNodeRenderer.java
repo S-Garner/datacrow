@@ -32,8 +32,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellRenderer;
 
+import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.core.DcRepository;
-import org.datacrow.core.settings.DcSettings;
 
 class FileSystemTreeNodeRenderer implements TreeCellRenderer {
 
@@ -57,7 +57,7 @@ class FileSystemTreeNodeRenderer implements TreeCellRenderer {
         leafRenderer.setEnabled(tree.isEnabled());
 
         if (selected)
-            leafRenderer.setBackground(DcSettings.getColor(DcRepository.Settings.stSelectionColor));
+            leafRenderer.setBackground(ComponentFactory.getColor(DcRepository.Settings.stSelectionColor));
         else
             leafRenderer.setBackground(Color.WHITE);
 

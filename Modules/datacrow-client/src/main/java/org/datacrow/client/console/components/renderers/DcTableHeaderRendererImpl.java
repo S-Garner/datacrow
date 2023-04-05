@@ -36,7 +36,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcMultiLineToolTip;
 import org.datacrow.core.DcRepository;
-import org.datacrow.core.settings.DcSettings;
 
 public abstract class DcTableHeaderRendererImpl extends DefaultTableCellRenderer {
 
@@ -45,9 +44,11 @@ public abstract class DcTableHeaderRendererImpl extends DefaultTableCellRenderer
     protected DcTableHeaderRendererImpl() {}
     
     public void applySettings() {
-        button.setBorder(BorderFactory.createLineBorder(DcSettings.getColor(DcRepository.Settings.stTableHeaderColor)));
-        button.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontBold));
-        button.setBackground(DcSettings.getColor(DcRepository.Settings.stTableHeaderColor));
+        button.setBorder(BorderFactory.createLineBorder(
+        		ComponentFactory.getColor(DcRepository.Settings.stTableHeaderColor)));
+        button.setFont(ComponentFactory.getSystemFont());
+        button.setBackground(
+        		ComponentFactory.getColor(DcRepository.Settings.stTableHeaderColor));
     }
     
     public JButton getButton() {

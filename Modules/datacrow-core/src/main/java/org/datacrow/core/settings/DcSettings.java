@@ -25,12 +25,11 @@
 
 package org.datacrow.core.settings;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.settings.objects.DcColor;
+import org.datacrow.core.settings.objects.DcDimension;
+import org.datacrow.core.settings.objects.DcFont;
 import org.datacrow.core.settings.objects.DcLookAndFeel;
 import org.datacrow.core.utilities.definitions.IDefinitions;
 
@@ -82,7 +81,7 @@ public class DcSettings {
         return applicationSettings.getIntArray(key);
     }
 
-    public static Font getFont(String key) {
+    public static DcFont getFont(String key) {
         return applicationSettings.getFont(key);
     }
 
@@ -102,11 +101,11 @@ public class DcSettings {
         return applicationSettings.getBoolean(key);
     }
 
-    public static Color getColor(String key) {
+    public static DcColor getColor(String key) {
         return applicationSettings.getColor(key);
     }
 
-    public static Dimension getDimension(String key) {
+    public static DcDimension getDimension(String key) {
         return applicationSettings.getDimension(key);
     }
 

@@ -33,12 +33,11 @@ import java.util.Collection;
 
 import javax.swing.JPanel;
 
+import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcLabel;
-import org.datacrow.core.DcRepository;
 import org.datacrow.core.objects.DcTemplate;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.resources.DcResources;
-import org.datacrow.core.settings.DcSettings;
 
 public class DcTemplateListElement extends DcObjectListElement {
 
@@ -73,7 +72,7 @@ public class DcTemplateListElement extends DcObjectListElement {
         
         DcLabel lbl = new DcLabel(label);
         lbl.setPreferredSize(new Dimension(800, fieldHeight));
-        lbl.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontNormal));
+        lbl.setFont(ComponentFactory.getStandardFont());
         
         panelInfo = getPanel();
         panelInfo.add(lbl);

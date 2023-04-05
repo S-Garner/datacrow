@@ -68,6 +68,7 @@ import org.datacrow.core.objects.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.settings.objects.DcFont;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.StringUtils;
 import org.datacrow.core.utilities.definitions.DcFieldDefinition;
@@ -223,7 +224,8 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
                           "</body> </html>";
             
             descriptionPane.setHtml(html);
-            descriptionPane.setBackground(DcSettings.getColor(DcRepository.Settings.stQuickViewBackgroundColor));
+            descriptionPane.setBackground(
+            		ComponentFactory.getColor(DcRepository.Settings.stQuickViewBackgroundColor));
             
             try {
                 descriptionPane.setCaretPosition(0);
@@ -281,7 +283,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     }
     
     private String getDescriptionTable(DcObject dco) {
-        Font font = DcSettings.getFont(DcRepository.Settings.stSystemFontNormal);
+        DcFont font = DcSettings.getFont(DcRepository.Settings.stStandardFont);
         
         String table = "<div " + Utilities.getHtmlStyle("margin-bottom: 10pt;", null, font, font.getSize() + 4) + ">" +
         		"<b>" + dco.toString() + "</b><br></div>";
@@ -340,11 +342,11 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         if (children == null || children.size() == 0)
             return "";
         
-        Font font = DcSettings.getFont(DcRepository.Settings.stSystemFontNormal);
+        Font font = ComponentFactory.getStandardFont();
         font = font.deriveFont(Font.BOLD);
 
-
-        String table = "<p " + Utilities.getHtmlStyle(null, null, font, font.getSize() + 4) + ">" +
+        String table = "<p " + Utilities.getHtmlStyle(null, null, 
+        		new DcFont(font.getName(), font.getStyle(), font.getSize()), font.getSize() + 4) + ">" +
                 "<b>" + module.getObjectNamePlural()  + "</b></p>";
         
         table += "<table " + Utilities.getHtmlStyle(DcSettings.getColor(DcRepository.Settings.stQuickViewBackgroundColor)) + ">\n";
@@ -394,7 +396,9 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         if (	dco.isEnabled(index) && // field must be enabled
         		(dco.getField(index).getFieldType() != ComponentFactory._PICTUREFIELD || showInlineImages)) {
         	
-            Font fText = DcSettings.getFont(DcRepository.Settings.stSystemFontNormal);
+            Font f = ComponentFactory.getStandardFont();
+            DcFont fText = new DcFont(f.getName(), f.getStyle(), f.getSize());
+            
             boolean horizontal = direction.equals(_DIRECTION_HORIZONTAL) || direction.toLowerCase().equals("horizontal");
 
             if (!CoreUtilities.isEmpty(dco.getValue(index))) {
@@ -501,7 +505,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     
     private void buildPanel() {
         // description panel
-    	tabbedPane.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontBold));
+    	tabbedPane.setFont(ComponentFactory.getSystemFont());
     	
         descriptionPane = ComponentFactory.getHtmlEditorPane();
         descriptionPane.addMouseListener(this);

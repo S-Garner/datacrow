@@ -30,6 +30,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcPictureField;
 import org.datacrow.client.console.components.DcTextPane;
 import org.datacrow.core.DcRepository;
@@ -37,7 +38,6 @@ import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.Picture;
-import org.datacrow.core.settings.DcSettings;
 
 public class DcCardObjectListElement extends DcObjectListElement {
 
@@ -164,7 +164,7 @@ public class DcCardObjectListElement extends DcObjectListElement {
         addPicture(getPictures());
         add(fldTitle);
           
-        super.setBackground(DcSettings.getColor(DcRepository.Settings.stCardViewBackgroundColor));
+        super.setBackground(ComponentFactory.getColor(DcRepository.Settings.stCardViewBackgroundColor));
     }
     
     @Override

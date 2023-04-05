@@ -25,7 +25,6 @@
 
 package org.datacrow.client.console.windows;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -153,8 +152,7 @@ public class ItemTypeDialog extends DcDialog implements ActionListener {
                                   new Insets( 5, 5, 5, 5), 0, 0));
 
         pack();
-        Dimension size = DcSettings.getDimension(DcRepository.Settings.stModuleSelectDialogSize);
-        setSize(size);
+        setSize(DcSettings.getDimension(DcRepository.Settings.stModuleSelectDialogSize));
         setCenteredLocation();
     }
 

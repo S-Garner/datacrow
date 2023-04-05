@@ -62,7 +62,6 @@ import org.datacrow.core.IconLibrary;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
-import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class ModuleListPanel extends JPanel {
@@ -159,7 +158,8 @@ public class ModuleListPanel extends JPanel {
             borderDefault = BorderFactory.createTitledBorder(
                     BorderFactory.createLineBorder(Color.LIGHT_GRAY, 0));
             borderSelected = BorderFactory.createTitledBorder(
-                    BorderFactory.createLineBorder(DcSettings.getColor(DcRepository.Settings.stSelectionColor), 3));
+                    BorderFactory.createLineBorder(
+                    		ComponentFactory.getColor(DcRepository.Settings.stSelectionColor), 3));
             
             setBorder(borderDefault);
             setLayout(Layout.getGBL());
@@ -245,7 +245,7 @@ public class ModuleListPanel extends JPanel {
             components.add(mb);
             
             this.module = module;
-            this.selectedColor = DcSettings.getColor(DcRepository.Settings.stSelectionColor);
+            this.selectedColor = ComponentFactory.getColor(DcRepository.Settings.stSelectionColor);
             this.normalColor = super.getBackground();
             
             setBorder(null);
@@ -339,7 +339,7 @@ public class ModuleListPanel extends JPanel {
             this.module = module;
             setBorder(null);
             setRolloverEnabled(false);
-            setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontBold));
+            setFont(ComponentFactory.getSystemFont());
             
             setMinimumSize(new Dimension(50, 35));
             setPreferredSize(new Dimension(50, 35));

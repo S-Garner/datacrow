@@ -650,13 +650,13 @@ public class View extends DcPanel implements ListSelectionListener, IView {
     
     @Override
     public void applySettings() {
-        setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontNormal));
+        setFont(ComponentFactory.getStandardFont());
         
         vc.applySettings();
         
         if (quickView != null) {
         	quickView.refresh();
-            quickView.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontBold));
+            quickView.setFont(ComponentFactory.getSystemFont());
             quickView.setVisible(DcSettings.getBoolean(DcRepository.Settings.stShowQuickView));
         }
         
@@ -670,7 +670,7 @@ public class View extends DcPanel implements ListSelectionListener, IView {
             else 
             	groupingPane.updateView();
             
-            groupingPane.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontBold));
+            groupingPane.setFont(ComponentFactory.getSystemFont());
         }
         
         if (childView != null)

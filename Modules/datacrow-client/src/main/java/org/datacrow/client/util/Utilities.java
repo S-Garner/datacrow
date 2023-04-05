@@ -206,6 +206,10 @@ public class Utilities {
         return getHtmlStyle(additionalStyleInfo, null, font, font == null ? 0 : font.getSize());
     }
     
+//    public static String getHtmlStyle(String additionalStyleInfo, DcColor bg, Font f, int fSize) {
+//    	return getHtmlStyle(additionalStyleInfo, bg, new DcFont(f.getName(), f.getStyle(), f.getStyle()), fSize);
+//    }
+    
     public static String getHtmlStyle(String additionalStyleInfo, DcColor bg, DcFont f, int fSize) {
         Color color = ComponentFactory.getCurrentForegroundColor();
         

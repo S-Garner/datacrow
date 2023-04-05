@@ -25,7 +25,6 @@
 
 package org.datacrow.client.console.windows.reporting;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -347,9 +346,7 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
         this.setResizable(true);
         this.pack();
         
-        Dimension size = DcSettings.getDimension(DcRepository.Settings.stReportingDialogSize);
-        setSize(size);
-
+        setSize(DcSettings.getDimension(DcRepository.Settings.stReportingDialogSize));
         setCenteredLocation();
     }
 

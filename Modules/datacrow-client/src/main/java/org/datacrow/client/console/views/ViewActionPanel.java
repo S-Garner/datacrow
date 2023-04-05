@@ -27,6 +27,7 @@ package org.datacrow.client.console.views;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -39,11 +40,9 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.plugins.PluginHelper;
 import org.datacrow.core.DcConfig;
-import org.datacrow.core.DcRepository;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
-import org.datacrow.core.settings.DcSettings;
 
 public class ViewActionPanel extends JPanel implements ActionListener {
 
@@ -74,12 +73,13 @@ public class ViewActionPanel extends JPanel implements ActionListener {
     }
     
     public void applySettings() {
-        panelActionsLeft.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontNormal));
-        panelActionsRight.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontNormal));
-        buttonSave.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontNormal));
-        buttonClear.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontNormal));
-        buttonCancel.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontNormal));
-        buttonRemove.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontNormal));
+    	Font f = ComponentFactory.getStandardFont();
+        panelActionsLeft.setFont(f);
+        panelActionsRight.setFont(f);
+        buttonSave.setFont(f);
+        buttonClear.setFont(f);
+        buttonCancel.setFont(f);
+        buttonRemove.setFont(f);
     }
     
     private void build() {

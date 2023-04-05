@@ -117,7 +117,7 @@ public class DcHtmlEditorPane extends JEditorPane implements HyperlinkListener, 
 
         
         sb.append("<span ");
-        sb.append(Utilities.getHtmlStyle(DcSettings.getFont(DcRepository.Settings.stSystemFontNormal)));
+        sb.append(Utilities.getHtmlStyle(DcSettings.getFont(DcRepository.Settings.stStandardFont)));
         sb.append(">");
         sb.append(description); 
         sb.append("</span>");

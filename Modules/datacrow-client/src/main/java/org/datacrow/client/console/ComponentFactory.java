@@ -162,6 +162,9 @@ public final class ComponentFactory extends UIComponents {
     public static final Cursor _CURSOR_NORMAL = new Cursor(Cursor.DEFAULT_CURSOR);
     public static final Cursor _CURSOR_WAIT = new Cursor(Cursor.WAIT_CURSOR);    
     
+    private static Font systemFont;
+    private static Font standardFont;
+    
     private static LookAndFeel defaultLaf;
 
     /**
@@ -1004,16 +1007,29 @@ public final class ComponentFactory extends UIComponents {
         return color == null ? Color.BLACK : color;
     }
     
-    public static final Font getStandardFont() {
-    	DcFont font = DcSettings.getFont(DcRepository.Settings.stSystemFontNormal);
+    public static final Color getColor(String settingsKey) {
+    	DcColor c = DcSettings.getColor(settingsKey);
+    	return new Color(c.getR(), c.getG(), c.getB());
+    }
+    
+    public static final Font getFont(String settingsKey) {
+    	DcFont font = DcSettings.getFont(settingsKey);
     	Font f = new Font(font.getName(), font.getStyle(), font.getSize());
         return DcSettings.getSettings() != null ? f : Font.getFont(Font.SANS_SERIF);
     }
+    
+    public static final Font getStandardFont() {
+    	if (standardFont == null)
+    		standardFont = getFont(DcRepository.Settings.stStandardFont);
+    	
+        return standardFont;
+    }
 
     public static final Font getSystemFont() {
-    	DcFont font = DcSettings.getFont(DcRepository.Settings.stSystemFontBold);
-    	Font f = new Font(font.getName(), font.getStyle(), font.getSize());
-        return DcSettings.getSettings() != null ? f : Font.getFont(Font.SANS_SERIF);
+    	if (systemFont == null)
+    		systemFont = getFont(DcRepository.Settings.stSystemFont);
+    	
+        return systemFont;
     }
 
     public static final Font getUnreadableFont() {

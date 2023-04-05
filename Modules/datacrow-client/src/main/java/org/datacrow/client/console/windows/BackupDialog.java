@@ -25,7 +25,6 @@
 
 package org.datacrow.client.console.windows;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -316,10 +315,7 @@ public class BackupDialog extends DcDialog implements ActionListener, IBackupRes
                                  ,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE,
                                   new Insets( 5, 5, 5, 10), 0, 0));
         pack();
-
-        Dimension size = DcSettings.getDimension(DcRepository.Settings.stBackupDialogSize);
-        setSize(size);
-
+        setSize(DcSettings.getDimension(DcRepository.Settings.stBackupDialogSize));
         setCenteredLocation();
     }
     

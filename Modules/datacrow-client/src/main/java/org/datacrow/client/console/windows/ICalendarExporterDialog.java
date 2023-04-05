@@ -25,7 +25,6 @@
 
 package org.datacrow.client.console.windows;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -219,10 +218,7 @@ public class ICalendarExporterDialog extends DcDialog implements ActionListener,
                  new Insets( 5, 5, 5, 10), 0, 0));
         
         pack();
-
-        Dimension size = DcSettings.getDimension(DcRepository.Settings.stICalendarExportDialogSize);
-        setSize(size);
-
+        setSize(DcSettings.getDimension(DcRepository.Settings.stICalendarExportDialogSize));
         setCenteredLocation();
     }
 

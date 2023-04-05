@@ -38,8 +38,8 @@ import javax.swing.JPanel;
 import javax.swing.JToolTip;
 import javax.swing.ListCellRenderer;
 
+import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.core.DcRepository;
-import org.datacrow.core.settings.DcSettings;
 
 public class DcList extends JList<Object> {
 
@@ -68,12 +68,14 @@ public class DcList extends JList<Object> {
     
     @Override
     public void setFont(Font font) {
-        super.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontBold));
+    	Font f = ComponentFactory.getSystemFont();
+    	
+        super.setFont(f);
         Component[] components;
         for (JPanel panel : getData()) {
             components = panel.getComponents();
             for (int j = 0; j < components.length; j++)
-                components[j].setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontBold));
+                components[j].setFont(f);
         }
     }     
     
@@ -83,7 +85,7 @@ public class DcList extends JList<Object> {
                 JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             
             JComponent component = (JComponent) value;
-            Color selectionColor = DcSettings.getColor(DcRepository.Settings.stSelectionColor);
+            Color selectionColor = ComponentFactory.getColor(DcRepository.Settings.stSelectionColor);
             component.setBackground(isSelected ? selectionColor : Color.WHITE);
             return component;
         }

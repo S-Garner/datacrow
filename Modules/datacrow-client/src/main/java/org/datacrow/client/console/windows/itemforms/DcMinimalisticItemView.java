@@ -79,7 +79,6 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
-import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.Settings;
 import org.datacrow.core.wf.tasks.DcTask;
 import org.datacrow.core.wf.tasks.DeleteItemTask;
@@ -320,8 +319,8 @@ public class DcMinimalisticItemView extends DcFrame
 
     @Override
     public void setFont(Font font) {
-        Font fontNormal = DcSettings.getFont(DcRepository.Settings.stSystemFontNormal);
-        Font fontSystem = DcSettings.getFont(DcRepository.Settings.stSystemFontBold);
+        Font fontNormal = ComponentFactory.getStandardFont();
+        Font fontSystem = ComponentFactory.getSystemFont();
 
         super.setFont(fontNormal);
         if (panel != null) {

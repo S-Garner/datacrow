@@ -34,6 +34,7 @@ import java.util.Collection;
 
 import javax.swing.JPanel;
 
+import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
@@ -42,7 +43,6 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.server.Connector;
-import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.Settings;
 
 /**
@@ -154,10 +154,10 @@ public abstract class DcObjectListElement extends DcListElement {
     protected DcLabel getLabel(int field, boolean label, int width) {
         DcLabel lbl = new DcLabel();
         if (label) {
-            lbl.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontBold));
+            lbl.setFont(ComponentFactory.getSystemFont());
             lbl.setText(dco.getLabel(field));
         } else {
-            lbl.setFont(DcSettings.getFont(DcRepository.Settings.stSystemFontNormal));
+            lbl.setFont(ComponentFactory.getStandardFont());
             lbl.setText(dco.getDisplayString(field));
         }
         

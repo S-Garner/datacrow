@@ -584,7 +584,7 @@ public class DcApplicationSettings extends Settings {
                             true, -1)); 
         addSetting(_Font,
                 new Setting(DcRepository.ValueTypes._FONT,
-                            DcRepository.Settings.stSystemFontNormal,
+                            DcRepository.Settings.stStandardFont,
                             new Font("Arial", Font.PLAIN, 12),
                             UIComponents._FONTSELECTOR,
                             "tpFont",
@@ -593,7 +593,7 @@ public class DcApplicationSettings extends Settings {
                             true, -1));
         addSetting(_Font,
                 new Setting(DcRepository.ValueTypes._FONT,
-                            DcRepository.Settings.stSystemFontBold,
+                            DcRepository.Settings.stSystemFont,
                             new Font("Arial", Font.PLAIN, 12),
                             UIComponents._FONTSELECTOR,
                             "tpFont",
