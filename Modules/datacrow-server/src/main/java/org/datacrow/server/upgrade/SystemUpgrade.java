@@ -30,6 +30,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -306,12 +307,16 @@ public class SystemUpgrade {
             DcField fld = m.getIconField();
             
             if (fld != null) {
+            	
+            	Statement stmt = null;
+            	ResultSet rs = null;
+            	
                 try {
-                    Statement stmt = conn.createStatement();
-                    
                     String sql = "SELECT ID, " + fld.getDatabaseFieldName() + " FROM " + 
-                                 m.getTableName() + " WHERE " + fld.getDatabaseFieldName() + " IS NOT NULL AND LENGTH(" + fld.getDatabaseFieldName() + ") > 1"; 
-                    ResultSet rs = stmt.executeQuery(sql);
+                                 m.getTableName() + " WHERE " + fld.getDatabaseFieldName() + " IS NOT NULL AND LENGTH(" + fld.getDatabaseFieldName() + ") > 1";
+                    
+                    stmt = conn.createStatement();
+                    rs = stmt.executeQuery(sql);
                     
                     while (rs.next()) {
                         ID = rs.getString(1);
@@ -322,6 +327,13 @@ public class SystemUpgrade {
                     }
                 } catch (Exception e) {
                     logger.error("Could not save icons for module " + m, e);
+                } finally {
+                	try {
+                		if (rs != null) rs.close();
+                		if (stmt != null) stmt.close();
+                	} catch (Exception e) {
+                		logger.error(e);
+                	}
                 }
             }
         }
@@ -740,6 +752,13 @@ public class SystemUpgrade {
                 } catch (Exception e) {
                     logger.error("Error while inserting Audio CD external reference. Skipping.");
                 }
+            }
+            
+            try {
+            	if (ps != null) ps.close();
+            	if (rs != null) rs.close();
+            } catch (SQLException se) {
+            	logger.error(se);
             }
             
             logger.info("Migrated the music album external references successfully");

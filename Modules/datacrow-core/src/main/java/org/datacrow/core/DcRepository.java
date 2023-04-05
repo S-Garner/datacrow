@@ -26,6 +26,7 @@
 package org.datacrow.core;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -301,10 +302,13 @@ public abstract class DcRepository {
     	@SuppressWarnings("unchecked")
 		public static Map<String, String> getLanguages() {
     		
+    		InputStream is = null;
+    		
     		if (languages.size() == 0) {
 	    		try {
 		    		Properties p = new Properties();
-		            p.load(DcResources.class.getResourceAsStream("Language.properties"));
+		    		is = DcResources.class.getResourceAsStream("Language.properties");
+		            p.load(is);
 		            
 		            Enumeration<?> enums = p.propertyNames();
 		            while (enums.hasMoreElements()) {
@@ -335,6 +339,12 @@ public abstract class DcRepository {
 		            }
 	    		} catch (IOException ioe) {
 	    			logger.error("Could not load languages file", ioe);
+	    		} finally {
+	    			try {
+	    				if (is != null) is.close();
+	    			} catch (Exception e) {
+	    				logger.error(e);
+	    			}
 	    		}
     		}
     		

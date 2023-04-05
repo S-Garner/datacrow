@@ -213,14 +213,18 @@ public class Restore extends Thread {
                     throw new Exception(msg, e);
                 }
                 
-                InputStream is = null;
-                
                 if (    !zipEntry.getName().endsWith("/") && 
                         !zipEntry.getName().endsWith("\\") && 
                         !zipEntry.getName().equals("version.txt")) {
                     
-                    is = zipFile.getInputStream(zipEntry);
+                	InputStream is = zipFile.getInputStream(zipEntry);
                     Files.copy(is, Paths.get(filename));
+                    
+                    try {
+                    	is.close();
+                    } catch (Exception e) {
+                    	logger.error("Could not close input stream", e);
+                    }
                 }
 
                 sleep(10);

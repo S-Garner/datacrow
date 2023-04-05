@@ -177,9 +177,9 @@ public class AutoIncrementer implements IValueEnhancer {
         
         String s3 = tmp;
         
-        enabled = Boolean.valueOf(s1);
-        fillGaps = Boolean.valueOf(s2);
-        step = Integer.valueOf(s3);
+        enabled = Boolean.valueOf(s1).booleanValue();
+        fillGaps = Boolean.valueOf(s2).booleanValue();
+        step = Integer.valueOf(s3).intValue();
     }
 
     @Override

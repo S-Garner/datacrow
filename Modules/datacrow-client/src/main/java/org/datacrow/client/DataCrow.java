@@ -28,6 +28,7 @@ package org.datacrow.client;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 
 import javax.swing.SwingUtilities;
@@ -208,8 +209,15 @@ public class DataCrow implements IStarterClient {
         }
 
         if (installationDir.length() == 0) {
-            installationDir = FileSystems.getDefault().getPath(".").toAbsolutePath().getParent().toString();
+        	FileSystem fs = FileSystems.getDefault();
+            installationDir = fs.getPath(".").toAbsolutePath().getParent().toString();
             installationDir = !installationDir.endsWith("/") && !installationDir.endsWith("\\") ? installationDir + File.separatorChar : installationDir;
+            
+            try {
+            	fs.close();
+            } catch (Exception e) {
+            	e.printStackTrace(); // logger has not yet been activated
+            }
         }
         
         if (dataDir.length() > 0)

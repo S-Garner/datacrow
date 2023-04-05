@@ -176,8 +176,8 @@ public class Backup extends Thread {
             client.notifyWarning(DcResources.getText("msgBackupFinishedUnsuccessful"));
         } finally {
             try {
-                zipOut.close();
-                fos.close();
+                if (zipOut != null) zipOut.close();
+                if (fos != null) fos.close();
             } catch (Exception ignore) {}
         }
         

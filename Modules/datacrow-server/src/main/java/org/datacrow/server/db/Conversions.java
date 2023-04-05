@@ -160,7 +160,9 @@ public class Conversions {
         }
         
         try {
-            properties.store(new FileOutputStream(new File(filename)), "");
+        	FileOutputStream fos = new FileOutputStream(new File(filename));
+            properties.store(fos, "");
+            fos.close();
         } catch (IOException e) {
             logger.error("Failed to persist database column conversion scripts", e);
         }            

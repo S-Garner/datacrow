@@ -79,6 +79,7 @@ public class FilePropertiesMP4 extends FileProperties {
     public void close() {
         try {
             if (isoFile != null) isoFile.close();
+            if (ds != null) ds.close();
         } catch (Exception e) {
             logger.error("An error occurred while closing the iso file", e);
         }
