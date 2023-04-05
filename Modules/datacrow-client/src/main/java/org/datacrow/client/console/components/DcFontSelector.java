@@ -42,6 +42,7 @@ import javax.swing.JToolTip;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.settings.objects.DcFont;
 
 public class DcFontSelector extends JComponent implements IComponent, ActionListener {
     
@@ -123,15 +124,11 @@ public class DcFontSelector extends JComponent implements IComponent, ActionList
      */
     @Override
     public Object getValue() {
-        return getFont();
+    	Font font = getSelectedFont();
+        return new DcFont(font.getName(), font.getStyle(), font.getSize());
     }
     
-    /**
-     * Returns the selected Font (with the chosen size, thickness).
-     * Unless the user has chosen otherwise, Arial font size 11 is returned.  
-     */    
-    @Override
-    public Font getFont() {
+    private Font getSelectedFont() {
     	Font font = new JTextField().getFont();
         if (comboFontName.getSelectedIndex() != -1) {
             String fontName = comboFontName.getSelectedItem().toString();
@@ -143,7 +140,8 @@ public class DcFontSelector extends JComponent implements IComponent, ActionList
 
             FontStyle style = (FontStyle) comboFontStyle.getSelectedItem();
             font = new Font(fontName, style.getIndex(), fontSize);
-        } 
+        }
+        
         return font;
     }
     
@@ -158,7 +156,9 @@ public class DcFontSelector extends JComponent implements IComponent, ActionList
      */
     @Override
     public void setValue(Object o) {
-        Font font = (Font) o;
+        DcFont f = (DcFont) o;
+        Font font = new Font(f.getName(), f.getStyle(), f.getSize());
+        
         try {
             if (font.isBold())
                 comboFontStyle.setSelectedIndex(1);
@@ -194,7 +194,7 @@ public class DcFontSelector extends JComponent implements IComponent, ActionList
      * Applies the selected values on a sample text
      */
     private void setSampleText() {
-        textField.setFont(getFont());
+        textField.setFont(getSelectedFont());
     }
     
     private void applySystemFont() {

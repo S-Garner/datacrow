@@ -162,9 +162,6 @@ public final class ComponentFactory extends UIComponents {
     public static final Cursor _CURSOR_NORMAL = new Cursor(Cursor.DEFAULT_CURSOR);
     public static final Cursor _CURSOR_WAIT = new Cursor(Cursor.WAIT_CURSOR);    
     
-    private static Font systemFont;
-    private static Font standardFont;
-    
     private static LookAndFeel defaultLaf;
 
     /**
@@ -1019,17 +1016,11 @@ public final class ComponentFactory extends UIComponents {
     }
     
     public static final Font getStandardFont() {
-    	if (standardFont == null)
-    		standardFont = getFont(DcRepository.Settings.stStandardFont);
-    	
-        return standardFont;
+    	return getFont(DcRepository.Settings.stStandardFont);
     }
 
     public static final Font getSystemFont() {
-    	if (systemFont == null)
-    		systemFont = getFont(DcRepository.Settings.stSystemFont);
-    	
-        return systemFont;
+    	return getFont(DcRepository.Settings.stSystemFont);
     }
 
     public static final Font getUnreadableFont() {

@@ -32,6 +32,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.settings.objects.DcColor;
 
 public class DcColorSelector extends JColorChooser implements IComponent, ChangeListener {
     
@@ -46,12 +47,13 @@ public class DcColorSelector extends JColorChooser implements IComponent, Change
 
     @Override
     public Object getValue() {
-        return color;
+        return new DcColor(color.getRed(), color.getGreen(), color.getBlue());
     }
 
     @Override
     public void setValue(Object o) {
-        color = (Color) o;
+    	DcColor c = (DcColor) o;
+        color = new Color(c.getR(), c.getG(), c.getB());
         setColor(color);
     }
 

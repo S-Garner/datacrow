@@ -54,6 +54,10 @@ public class DcSettings {
     	converter = c;
     }
     
+    public static ISettingsValueConverter getConverter() {
+    	return converter;
+    }
+    
     /**
      * Saves all settings to file.
      */

@@ -54,6 +54,7 @@ import org.datacrow.client.fileimporter.ImageImporter;
 import org.datacrow.client.fileimporter.MovieImporter;
 import org.datacrow.client.fileimporter.MusicAlbumImporter;
 import org.datacrow.client.fileimporter.SoftwareImporter;
+import org.datacrow.client.settings.GuiSettingsConverter;
 import org.datacrow.client.synchronizers.AssociateSynchronizer;
 import org.datacrow.client.synchronizers.BookSynchronizer;
 import org.datacrow.client.synchronizers.MovieSynchronizer;
@@ -104,6 +105,7 @@ public class DataCrow implements IStarterClient {
 
         DataCrow dc = new DataCrow();
         
+		DcSettings.setConverter(new GuiSettingsConverter());
         DcLogManager.getInstance().setLogSystem(new DcLogSystem4j());
 
         String installationDir = "";

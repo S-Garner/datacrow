@@ -108,8 +108,6 @@ public class DirectConnector extends LocalServerConnector {
 	    	ModuleUpgradeResult mur = new ModuleUpgrade().upgrade();
 			DcModules.load();
 			DcModules.updateModuleSetting(mur);
-			
-			DcSettings.setConverter(new GuiSettingsConverter());
 			DcSettings.initialize();
 			
             DcSettings.set(DcRepository.Settings.stConnectionString, "dc");

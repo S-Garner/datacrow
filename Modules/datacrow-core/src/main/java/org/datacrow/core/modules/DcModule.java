@@ -60,6 +60,8 @@ import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.services.Servers;
 import org.datacrow.core.settings.DcModuleSettings;
+import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.settings.ISettingsValueConverter;
 import org.datacrow.core.settings.Settings;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.definitions.DcFieldDefinition;
@@ -872,7 +874,9 @@ public class DcModule implements Comparable<DcModule>, Serializable {
      * @param value The value to set.
      */
     public void setSetting(String key, Object value) {
-        settings.set(key, value);
+    	ISettingsValueConverter converter = DcSettings.getConverter();
+    	Object o = converter != null ? converter.convert(value) : value;
+        settings.set(key, o);
     }
 
     /**
