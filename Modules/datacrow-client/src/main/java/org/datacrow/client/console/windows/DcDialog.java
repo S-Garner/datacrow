@@ -25,6 +25,7 @@
 
 package org.datacrow.client.console.windows;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -43,6 +44,7 @@ import org.datacrow.client.plugins.PluginHelper;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.settings.objects.DcDimension;
 
 public class DcDialog extends JDialog implements IDialog {
 
@@ -79,6 +81,10 @@ public class DcDialog extends JDialog implements IDialog {
     @Override
     public void setModal(AtomicBoolean active) {
         this.active = active;
+    }
+    
+    public void setSize(DcDimension d) {
+    	setSize(new Dimension(d.getWidth(), d.getHeight()));
     }
  
     @Override

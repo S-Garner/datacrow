@@ -25,9 +25,6 @@
 
 package org.datacrow.core.settings;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +35,9 @@ import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.settings.objects.DcColor;
+import org.datacrow.core.settings.objects.DcDimension;
+import org.datacrow.core.settings.objects.DcFont;
 import org.datacrow.core.settings.objects.DcLookAndFeel;
 import org.datacrow.core.utilities.StringUtils;
 import org.datacrow.core.utilities.definitions.DcFieldDefinitions;
@@ -187,27 +187,27 @@ public class Setting implements Serializable {
 	        	for (Definition definition : definitions.getDefinitions()) {
                     toString += "{" + definition.toSettingValue() + "}";
 	        	}
-            } else if (dataType == DcRepository.ValueTypes._DIMENSION && value instanceof Dimension) {
-                int x = (int) ((Dimension) value).getWidth();
-                int y = (int) ((Dimension) value).getHeight();
+            } else if (dataType == DcRepository.ValueTypes._DIMENSION && value instanceof DcDimension) {
+                int x = (int) ((DcDimension) value).getWidth();
+                int y = (int) ((DcDimension) value).getHeight();
 
                 toString = "" + x + '/' + y;
-            } else if (dataType == DcRepository.ValueTypes._FONT && value instanceof Font) {
+            } else if (dataType == DcRepository.ValueTypes._FONT && value instanceof DcFont) {
                 toString =  toString +
-                            ((Font) value).getName() + '/' +
-                            ((Font) value).getSize() + '/' +
-                            ((Font) value).getStyle();
+                            ((DcFont) value).getName() + '/' +
+                            ((DcFont) value).getSize() + '/' +
+                            ((DcFont) value).getStyle();
             } else if (dataType == DcRepository.ValueTypes._LOOKANDFEEL && value instanceof DcLookAndFeel) {
                 toString =  toString +
                             ((DcLookAndFeel) value).getClassName() + "%%" +
                             ((DcLookAndFeel) value).getFileName() + "%%" +
                             ((DcLookAndFeel) value).getName() + "%%" +
                             ((DcLookAndFeel) value).getType();
-            } else if (dataType == DcRepository.ValueTypes._COLOR && value instanceof Color) {
+            } else if (dataType == DcRepository.ValueTypes._COLOR && value instanceof DcColor) {
                 toString =  toString +
-                            ((Color) value).getRed() + '/' +
-                            ((Color) value).getGreen() + '/' +
-                            ((Color) value).getBlue();
+                            ((DcColor) value).getR() + '/' +
+                            ((DcColor) value).getG() + '/' +
+                            ((DcColor) value).getB();
             } else if (dataType == DcRepository.ValueTypes._STRINGARRAY && value instanceof String[]) {
                 String[] array = (String[]) value;
                 for (int i = 0; i < array.length; i++) {
@@ -278,21 +278,21 @@ public class Setting implements Serializable {
                     int x = Integer.valueOf(testX).intValue();
                     int y = Integer.valueOf(testY).intValue();
 
-                    value = new Dimension(x, y);
+                    value = new DcDimension(x, y);
                     break;
                 case DcRepository.ValueTypes._COLOR:
                     String[] colorValue = StringUtils.getListElements(sValue, "/");
                     int red = Integer.valueOf(colorValue[0]).intValue();
                     int green = Integer.valueOf(colorValue[1]).intValue();
                     int blue = Integer.valueOf(colorValue[2]).intValue();
-                    value = new Color(red, green, blue);
+                    value = new DcColor(red, green, blue);
                     break;
                 case DcRepository.ValueTypes._FONT:
                     String[] fontValues = StringUtils.getListElements(sValue, "/");
                     String fontName = fontValues[0];
                     int size = Integer.valueOf(fontValues[1]).intValue();
                     int style = Integer.valueOf(fontValues[2]).intValue();
-                	value = new Font(fontName, style, size);
+                	value = new DcFont(fontName, style, size);
                     break;
                 case DcRepository.ValueTypes._LOOKANDFEEL:  
                     String[] lafValues =  StringUtils.getListElements(sValue, "%%");

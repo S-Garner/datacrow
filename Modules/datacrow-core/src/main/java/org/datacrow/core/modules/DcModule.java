@@ -508,6 +508,7 @@ public class DcModule implements Comparable<DcModule>, Serializable {
     /**
      * The keys combination associated with this module.
      */
+    // TODO: remove
     public KeyStroke getKeyStroke() {
         return keyStroke;
     }    

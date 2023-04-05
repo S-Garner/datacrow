@@ -57,12 +57,12 @@ import java.util.regex.Pattern;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.MainFrame;
-import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
-import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.settings.objects.DcColor;
+import org.datacrow.core.settings.objects.DcFont;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.StringUtils;
@@ -194,22 +194,28 @@ public class Utilities {
         return getHtmlStyle(null, null, null, 0);
     }
     
-    public static String getHtmlStyle(Font font) {
+    public static String getHtmlStyle(DcFont font) {
         return getHtmlStyle(null, null, font, font.getSize());
     }
     
-    public static String getHtmlStyle(Color bg) {
+    public static String getHtmlStyle(DcColor bg) {
         return getHtmlStyle(null, bg, null, 0);
     }
     
-    public static String getHtmlStyle(String additionalStyleInfo, Font font) {
+    public static String getHtmlStyle(String additionalStyleInfo, DcFont font) {
         return getHtmlStyle(additionalStyleInfo, null, font, font == null ? 0 : font.getSize());
     }
     
-    public static String getHtmlStyle(String additionalStyleInfo, Color bg, Font f, int fSize) {
+    public static String getHtmlStyle(String additionalStyleInfo, DcColor bg, DcFont f, int fSize) {
         Color color = ComponentFactory.getCurrentForegroundColor();
-        String foreground = Utilities.getHexColor(color);
-        Font font = f == null ? DcSettings.getFont(DcRepository.Settings.stSystemFontNormal) : f;
+        
+        String foreground = Utilities.getHexColor(
+        		new DcColor(color.getRed(), color.getGreen(), color.getBlue()));
+        
+        Font font = f == null ? 
+        		ComponentFactory.getStandardFont() : 
+        			new Font(f.getName(), f.getStyle(), f.getStyle());
+        
         int fontSize = fSize <= 0 ? font.getSize() : fSize;
         
         StringBuffer sb = new StringBuffer();
@@ -375,10 +381,10 @@ public class Utilities {
         bos.close();
     }   
 
-    public static String getHexColor(Color color) {
-        String hexColor = "#" + Integer.toHexString(color.getRed());
-        hexColor += Integer.toHexString(color.getGreen());
-        hexColor += Integer.toHexString(color.getBlue()); 
+    public static String getHexColor(DcColor color) {
+        String hexColor = "#" + Integer.toHexString(color.getR());
+        hexColor += Integer.toHexString(color.getG());
+        hexColor += Integer.toHexString(color.getB()); 
         return hexColor.toUpperCase();
     }
     

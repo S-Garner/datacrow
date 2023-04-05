@@ -30,5 +30,26 @@ package org.datacrow.core.settings.objects;
  *
  */
 public class DcFont {
+	
+	private String name;
+	private int style;
+	private int size;
+	
+	public DcFont(String name, int style, int size) {
+		this.name = name;
+		this.style = style;
+		this.size = size;
+	}
 
+	public String getName() {
+		return name;
+	}
+
+	public int getStyle() {
+		return style;
+	}
+
+	public int getSize() {
+		return size;
+	}
 }

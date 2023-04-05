@@ -31,8 +31,8 @@ package org.datacrow.core.settings.objects;
  */
 public class DcDimension {
 	
-	public int width = 0;
-	public int height = 0;
+	private int width = 0;
+	private int height = 0;
 	
 	public DcDimension(int width, int height) {
 		this.width = width;

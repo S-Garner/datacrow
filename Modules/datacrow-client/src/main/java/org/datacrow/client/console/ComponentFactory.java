@@ -137,6 +137,8 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.plugin.Plugin;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.settings.objects.DcColor;
+import org.datacrow.core.settings.objects.DcFont;
 import org.datacrow.core.settings.objects.DcLookAndFeel;
 
 import net.jacksum.JacksumAPI;
@@ -984,8 +986,9 @@ public final class ComponentFactory extends UIComponents {
     }
     
     public static final TitledBorder getSelectionBorder() {
-        Color color = DcSettings.getColor(DcRepository.Settings.stSelectionColor);
-        TitledBorder border = new DcTitledBorder(BorderFactory.createLineBorder(color, 1), "");
+        DcColor color = DcSettings.getColor(DcRepository.Settings.stSelectionColor);
+        Color c = new Color(color.getR(), color.getG(), color.getB());
+        TitledBorder border = new DcTitledBorder(BorderFactory.createLineBorder(c, 1), "");
         border.setTitleFont(getSystemFont());
         return border;
     }
@@ -1002,11 +1005,15 @@ public final class ComponentFactory extends UIComponents {
     }
     
     public static final Font getStandardFont() {
-        return DcSettings.getSettings() != null ? DcSettings.getFont(DcRepository.Settings.stSystemFontNormal) : Font.getFont(Font.SANS_SERIF);
+    	DcFont font = DcSettings.getFont(DcRepository.Settings.stSystemFontNormal);
+    	Font f = new Font(font.getName(), font.getStyle(), font.getSize());
+        return DcSettings.getSettings() != null ? f : Font.getFont(Font.SANS_SERIF);
     }
 
     public static final Font getSystemFont() {
-        return DcSettings.getSettings() != null ? DcSettings.getFont(DcRepository.Settings.stSystemFontBold) : Font.getFont(Font.SANS_SERIF);
+    	DcFont font = DcSettings.getFont(DcRepository.Settings.stSystemFontBold);
+    	Font f = new Font(font.getName(), font.getStyle(), font.getSize());
+        return DcSettings.getSettings() != null ? f : Font.getFont(Font.SANS_SERIF);
     }
 
     public static final Font getUnreadableFont() {

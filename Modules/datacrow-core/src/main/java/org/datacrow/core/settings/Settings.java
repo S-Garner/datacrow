@@ -25,9 +25,6 @@
 
 package org.datacrow.core.settings;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -38,6 +35,9 @@ import java.util.List;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.settings.objects.DcColor;
+import org.datacrow.core.settings.objects.DcDimension;
+import org.datacrow.core.settings.objects.DcFont;
 import org.datacrow.core.settings.objects.DcLookAndFeel;
 import org.datacrow.core.utilities.definitions.IDefinitions;
 
@@ -158,8 +158,8 @@ public class Settings implements Serializable {
         return (IDefinitions) getValue(key);
     }      
     
-    public Font getFont(String key) {
-        return (Font) getValue(key);
+    public DcFont getFont(String key) {
+        return (DcFont) getValue(key);
     }    
 
     public DcLookAndFeel getLookAndFeel(String key) {
@@ -177,12 +177,12 @@ public class Settings implements Serializable {
     /**
      * Returns the value of the setting as a color object
      */
-    public Color getColor(String key) {
-        return (Color) getValue(key);
+    public DcColor getColor(String key) {
+        return (DcColor) getValue(key);
     }
     
-    public Dimension getDimension(String key) {
-        return (Dimension) getValue(key);
+    public DcDimension getDimension(String key) {
+        return (DcDimension) getValue(key);
     }
 
     public String getString(String key) {

@@ -47,6 +47,7 @@ import org.datacrow.client.util.Utilities;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.console.IWindow;
 import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.settings.objects.DcDimension;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class DcFrame extends JFrame implements WindowFocusListener, IWindow {
@@ -158,6 +159,10 @@ public class DcFrame extends JFrame implements WindowFocusListener, IWindow {
     protected void setCenteredLocation() {
         setLocation(Utilities.getCenteredWindowLocation(getSize(), false));
     }
+    
+    public void setSize(DcDimension d) {
+    	setSize(new Dimension(d.getWidth(), d.getHeight()));
+    }
 
     @Override
     public void windowGainedFocus(WindowEvent e) {
@@ -172,37 +177,4 @@ public class DcFrame extends JFrame implements WindowFocusListener, IWindow {
     public void paint(Graphics g) {
         super.paint(GUI.getInstance().setRenderingHint(g));
     }
-    
-//    @Override
-//    public void notifyTaskSize(int size) {}
-//
-//    @Override
-//    public void notify(String msg) {
-//        GUI.getInstance().displayMessage(msg);
-//    }
-//
-//    @Override
-//    public void notifyError(Throwable t) {
-//        GUI.getInstance().displayErrorMessage(t.getMessage());
-//        logger.error(t, t);
-//    }
-//
-//    @Override
-//    public void notifyWarning(String msg) {
-//        GUI.getInstance().displayWarningMessage(msg);
-//    }
-//
-//    @Override
-//    public void notifyTaskFinished(boolean success, String taskID) {}
-//
-//    @Override
-//    public void notifyTaskStarted() {}
-//
-//    @Override
-//    public void notifyProcessed() {}
-//
-//    @Override
-//    public boolean isStopped() {
-//        return false;
-//    }   
 }
