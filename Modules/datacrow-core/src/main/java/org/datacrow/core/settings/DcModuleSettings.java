@@ -25,7 +25,6 @@
 
 package org.datacrow.core.settings;
 
-import java.awt.Dimension;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,6 +48,7 @@ import org.datacrow.core.objects.helpers.Movie;
 import org.datacrow.core.objects.helpers.MusicAlbum;
 import org.datacrow.core.objects.helpers.Software;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.settings.objects.DcDimension;
 import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 import org.datacrow.core.utilities.definitions.DcFieldDefinitions;
 import org.datacrow.core.utilities.definitions.QuickViewFieldDefinition;
@@ -476,7 +476,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stOnlineSearchFormSize,
-                            new Dimension(700, 600),
+                            new DcDimension(700, 600),
                             -1,
                             "",
                             "",
@@ -494,7 +494,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stItemFormSize,
-                            new Dimension(700, 600),
+                            new DcDimension(700, 600),
                             -1,
                             "",
                             "",
@@ -503,7 +503,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stFilterDialogSize,
-                            new Dimension(700, 400),
+                            new DcDimension(700, 400),
                             -1,
                             "",
                             "",
@@ -512,7 +512,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stFieldSettingsDialogSize,
-                            new Dimension(500, 300),
+                            new DcDimension(500, 300),
                             -1,
                             "",
                             "",
@@ -521,7 +521,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stCardViewSettingsDialogSize,
-                            new Dimension(500, 400),
+                            new DcDimension(500, 400),
                             -1,
                             "",
                             "",
@@ -530,7 +530,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stTableViewSettingsDialogSize,
-                            new Dimension(500, 400),
+                            new DcDimension(500, 400),
                             -1,
                             "",
                             "",
@@ -548,7 +548,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stQuickViewSettingsDialogSize,
-                            new Dimension(500, 300),
+                            new DcDimension(500, 300),
                             -1,
                             "",
                             "",
@@ -557,7 +557,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stLoanFormSize,
-                            new Dimension(500, 500),
+                            new DcDimension(500, 500),
                             -1,
                             "",
                             "",
@@ -566,7 +566,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                new Setting(DcRepository.ValueTypes._DIMENSION,
                            DcRepository.ModuleSettings.stImportCDDialogSize,
-                           new Dimension(600, 900),
+                           new DcDimension(600, 900),
                            -1,
                            "",
                            "",
@@ -593,7 +593,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stFileImportDialogSize,
-                            new Dimension(550, 600),
+                            new DcDimension(550, 600),
                             -1,
                             "",
                             "",
@@ -602,7 +602,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stSynchronizerDialogSize,
-                            new Dimension(550, 600),
+                            new DcDimension(550, 600),
                             -1,
                             "",
                             "",
@@ -611,7 +611,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stFieldSettingsDialogSize,
-                            new Dimension(500, 300),
+                            new DcDimension(500, 300),
                             -1,
                             "",
                             "",
@@ -620,7 +620,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stOnlineSearchFormSize,
-                            new Dimension(700, 600),
+                            new DcDimension(700, 600),
                             -1,
                             "",
                             "",
@@ -629,7 +629,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stSimpleItemViewSize,
-                            new Dimension(450, 550),
+                            new DcDimension(450, 550),
                             -1,
                             "",
                             "",
@@ -638,7 +638,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stSimpleItemFormSize,
-                            new Dimension(450, 550),
+                            new DcDimension(450, 550),
                             -1,
                             "",
                             "",
@@ -647,7 +647,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stOnlineSearchFieldSettingsDialogSize,
-                            new Dimension(600, 450),
+                            new DcDimension(600, 450),
                             -1,
                             "",
                             "",
@@ -720,7 +720,7 @@ public class DcModuleSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.ModuleSettings.stOnlineSearchFieldSettingsDialogSize,
-                            new Dimension(600, 450),
+                            new DcDimension(600, 450),
                             -1,
                             "",
                             "",
