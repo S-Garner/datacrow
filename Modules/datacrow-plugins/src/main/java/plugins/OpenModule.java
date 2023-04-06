@@ -28,7 +28,6 @@ package plugins;
 import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
-import javax.swing.KeyStroke;
 
 import org.datacrow.client.console.GUI;
 import org.datacrow.core.modules.DcModules;
@@ -62,11 +61,6 @@ public class OpenModule extends Plugin {
                 GUI.getInstance().getMainFrame().changeModule(getModule().getIndex());
             }
         }
-    }
-    
-    @Override
-    public KeyStroke getKeyStroke() {
-        return getModule().getKeyStroke();
     }
     
     @Override

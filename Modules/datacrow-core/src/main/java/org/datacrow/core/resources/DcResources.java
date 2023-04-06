@@ -147,14 +147,18 @@ public class DcResources {
      * A language file has the following name: &lt;language&gt;_resources.properties.
      */
     public static Collection<String> getLanguages() {
-        String[] files = new File(DcConfig.getInstance().getResourcesDir()).list();
-        Collection<String> languages = new ArrayList<String>();
-        if (files != null) {
-            for (String file : files) {
-                if (file.toLowerCase().endsWith("resources.properties") && file.length() > "resources.properties".length() + 1)
-                    languages.add(file.substring(0, file.toLowerCase().indexOf("resources.properties") - 1));
-            }
-        }
+    	Collection<String> languages = new ArrayList<String>();
+    	
+    	if (DcConfig.getInstance().getResourcesDir() != null) {
+	        String[] files = new File(DcConfig.getInstance().getResourcesDir()).list();
+	        
+	        if (files != null) {
+	            for (String file : files) {
+	                if (file.toLowerCase().endsWith("resources.properties") && file.length() > "resources.properties".length() + 1)
+	                    languages.add(file.substring(0, file.toLowerCase().indexOf("resources.properties") - 1));
+	            }
+	        }
+    	}
         
         if (!languages.contains("English"))
             languages.add("English");

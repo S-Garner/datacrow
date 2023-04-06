@@ -339,20 +339,13 @@ public class DcStarter {
      * @param name  the name of the folder, for logging purposes.
      */
     private void createDirectory(File dir, String name) {
-
         dir.mkdirs();
-        Platform pf = DcConfig.getInstance().getPlatform();
         
         if (!dir.exists()) {
             String message = "Data Crow was unable to create the " + name + " directory (" + dir + "). " +
                 "This indicates that the user running Data Crow has insufficient permissions. " +
                 "The user running Data Crow must have full control over the Data Crow folder " +
                 "and all if its sub directories.";
-
-            if (pf.isVista()) {
-                message += " For Windows Vista it is best to install Data Crow to another directory" +
-                           " then the Program Files folder.";
-            }
 
             client.notifyFatalError(message);
         }
@@ -372,9 +365,6 @@ public class DcStarter {
                 "The user running Data Crow must have full control over the Data Crow folder and all of its sub folders. " +
                 "Please correct this before starting Data Crow again (see the documentation of your operating system).";
 
-            if (pf.isVista())
-                message += " For Windows Vista it is best to install Data Crow to another directory then the Program Files folder.";
-            
             client.notifyFatalError(message);
         } finally {
             file.delete();
@@ -403,7 +393,7 @@ public class DcStarter {
         
         Platform pf = DcConfig.getInstance().getPlatform();
         boolean alreadyChecked = DcSettings.getBoolean(DcRepository.Settings.stCheckedForJavaVersion);
-        if ((!pf.isJavaSun() && !pf.isJavaOracle()) && !alreadyChecked && !pf.isJava16()) {
+        if ((!pf.isJavaSun() && !pf.isJavaOracle()) && !alreadyChecked) {
             
             client.notifyWarning(
                     "Data Crow has only been tested on Java from Oracle & Sun (version 1.6 or higher). " +

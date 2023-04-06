@@ -76,7 +76,8 @@ public class DcSettings {
     }
     
     public static void set(String key, Object value) {
-        applicationSettings.set(key, converter.convert(value));
+    	Object o = converter != null ? converter.convert(value) : value;
+        applicationSettings.set(key, o);
     }    
 
     public static IDefinitions getDefinitions(String key) {

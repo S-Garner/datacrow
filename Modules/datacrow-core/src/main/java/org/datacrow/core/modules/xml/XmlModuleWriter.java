@@ -60,7 +60,6 @@ public class XmlModuleWriter {
         writeLine("<label>" + getString(module.getLabel()) + "</label>" , level);
         writeLine("<name>" + getString(module.getName()) + "</name>" , level);
         writeLine("<description>" + getString(module.getDescription()) + "</description>" , level);
-        writeLine("<key-stroke>" + module.getKeyStroke() + "</key-stroke>" , level);
         writeLine("<enabled>" + module.isEnabled() + "</enabled>" , level);
         writeLine("<can-be-lended>" + module.canBeLend() + "</can-be-lended>" , level);
         writeLine("<icon-16>" + getString(module.getIcon16Filename()) + "</icon-16>" , level);

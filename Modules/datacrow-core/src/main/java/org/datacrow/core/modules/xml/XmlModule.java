@@ -31,7 +31,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.swing.KeyStroke;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -82,7 +81,6 @@ public class XmlModule extends XmlObject {
     private String label;
     private String name;
     private String description;
-    private KeyStroke keyStroke;
     
     private String productVersion;
     
@@ -282,7 +280,6 @@ public class XmlModule extends XmlObject {
         if (XMLParser.getString(element, "default-sort-field-index") != null)
             defaultSortFieldIdx = XMLParser.getInt(module, "default-sort-field-index");
 
-        keyStroke = XMLParser.getKeyStroke(module, "key-stroke");
         icon16Filename = XMLParser.getString(module, "icon-16");
         icon32Filename = XMLParser.getString(module, "icon-32");
         hasDependingModules = XMLParser.getBoolean(module, "has-depending-modules");
@@ -387,13 +384,6 @@ public class XmlModule extends XmlObject {
      */
     public int getIndex() {
         return index;
-    }
-
-    /**
-     * The key combination associated with this module.
-     */
-    public KeyStroke getKeyStroke() {
-        return keyStroke;
     }
 
     /**
@@ -582,14 +572,6 @@ public class XmlModule extends XmlObject {
      */
     public void setIndex(int index) {
         this.index = index;
-    }
-
-    /**
-     * Set the key combination to activate this module.
-     * @param keyStroke
-     */
-    public void setKeyStroke(KeyStroke keyStroke) {
-        this.keyStroke = keyStroke;
     }
 
     /**

@@ -35,8 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.KeyStroke;
-
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.console.IMasterView;
@@ -155,8 +153,6 @@ public class DcModule implements Comparable<DcModule>, Serializable {
     private Map<Integer, DcField> systemFields = new LinkedHashMap<Integer, DcField>();
     
     private Collection<DcField> sortedFields;
-
-    private KeyStroke keyStroke;
     
     private boolean hasOnlineServices = false;
     private boolean canBeLended = false;
@@ -297,7 +293,6 @@ public class DcModule implements Comparable<DcModule>, Serializable {
         isContainerManaged = module.isContainerManaged();
         hasInsertView = module.hasInsertView();
         hasSearchView = module.hasSearchView();
-        keyStroke = module.getKeyStroke();
         hasDependingModules = module.hasDependingModules();
         
         objectClassName = module.getObjectClass().getCanonicalName();
@@ -506,15 +501,6 @@ public class DcModule implements Comparable<DcModule>, Serializable {
         return systemObjectNamePlural;
     }
     
-    
-    /**
-     * The keys combination associated with this module.
-     */
-    // TODO: remove
-    public KeyStroke getKeyStroke() {
-        return keyStroke;
-    }    
-
     /**
      * Sets the small icon used to represent this module.
      * @param icon16

@@ -27,7 +27,6 @@ package org.datacrow.client.connector;
 
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.security.LoginDialog;
-import org.datacrow.client.settings.GuiSettingsConverter;
 import org.datacrow.client.tabs.Tabs;
 import org.datacrow.client.util.PollerTask;
 import org.datacrow.core.DcConfig;

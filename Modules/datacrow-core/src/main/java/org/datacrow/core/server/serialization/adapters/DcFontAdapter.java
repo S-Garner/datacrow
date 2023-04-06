@@ -29,6 +29,8 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.lang.reflect.Type;
 
+import org.datacrow.core.settings.objects.DcFont;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -37,19 +39,19 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class AwtFontAdapter implements JsonDeserializer<Font>, JsonSerializer<Font> {
+public class DcFontAdapter implements JsonDeserializer<DcFont>, JsonSerializer<DcFont> {
 
     public JsonElement serialize(
-            Font src, 
+            DcFont src, 
             Type typeOfSrc, 
             JsonSerializationContext context) {
         
         JsonObject jdco = new JsonObject();
-        jdco.addProperty("fontname", src.getFontName());
+        jdco.addProperty("fontname", src.getName());
         return jdco;
     }
     
-    public Font deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext)
+    public DcFont deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext)
             throws JsonParseException {
 
         JsonObject jsonObject = json.getAsJsonObject();
@@ -62,7 +64,7 @@ public class AwtFontAdapter implements JsonDeserializer<Font>, JsonSerializer<Fo
             if (font.getFontName().equals(fontName))
                 result = font;
         }
-        
-        return result;
+
+        return result != null ? new DcFont(result.getName(), result.getStyle(), result.getSize()) : null;
     }
 }

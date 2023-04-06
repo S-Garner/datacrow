@@ -25,10 +25,9 @@
 
 package org.datacrow.core.server.serialization.adapters;
 
-import java.awt.AWTKeyStroke;
 import java.lang.reflect.Type;
 
-import javax.swing.KeyStroke;
+import org.datacrow.core.settings.objects.DcColor;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -38,25 +37,27 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public class AwtKeyStrokeAdapter implements JsonDeserializer<AWTKeyStroke>, JsonSerializer<AWTKeyStroke> {
+public class DcColorAdapter implements JsonDeserializer<DcColor>, JsonSerializer<DcColor> {
 
     public JsonElement serialize(
-            AWTKeyStroke src, 
+    		DcColor src, 
             Type typeOfSrc, 
             JsonSerializationContext context) {
         
         JsonObject jdco = new JsonObject();
-        jdco.addProperty("keycode", src.getKeyCode());
-        jdco.addProperty("modifiers", src.getModifiers());
+        jdco.addProperty("red", src.getR());
+        jdco.addProperty("green", src.getG());
+        jdco.addProperty("blue", src.getB());
         return jdco;
     }
-
-    public KeyStroke deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext)
+    
+    public DcColor deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext)
             throws JsonParseException {
 
         JsonObject jsonObject = json.getAsJsonObject();
-        int keyCode = jsonObject.get("keycode").getAsInt();
-        int modifiers = jsonObject.get("modifiers").getAsInt();
-        return KeyStroke.getKeyStroke(keyCode, modifiers);
+        int r = jsonObject.get("red").getAsInt();
+        int g = jsonObject.get("green").getAsInt();
+        int b = jsonObject.get("blue").getAsInt();
+        return new DcColor(r, g, b);
     }
 }

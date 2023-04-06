@@ -46,23 +46,20 @@
     </dependencyManagement>
 
     <dependencies>
+		
+		<!-- Data Crow modules -->
         <dependency>
             <groupId>org.datacrow</groupId>
             <artifactId>datacrow-core</artifactId>
             <version>${project.version}</version>
         </dependency>
 
+		<!-- HSQLDB -->
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
         </dependency>
         
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>2.0.6</version>
-		</dependency>
-
         <!-- JSON serializer -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -97,6 +94,13 @@
             <artifactId>jetty-cdi</artifactId>
             <version>${jetty.version}</version>
         </dependency>
+        
+        <!-- Logger for Jetty web server -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>2.0.6</version>
+		</dependency>        
 
         <!-- primefaces 12 -->
         <dependency>

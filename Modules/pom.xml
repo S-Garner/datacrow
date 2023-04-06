@@ -17,6 +17,7 @@
 	</properties>
 	<modules>
 		<module>datacrow-core</module>
+		<module>datacrow-simple-core</module>
 		<module>datacrow-services</module>
 		<module>datacrow-server</module>
 		<module>datacrow-client</module>

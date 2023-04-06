@@ -25,13 +25,9 @@
 
 package org.datacrow.core.server.serialization;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-
-import javax.swing.KeyStroke;
 
 import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.log.DcLogManager;
@@ -67,19 +63,20 @@ import org.datacrow.core.server.response.ServerResponse;
 import org.datacrow.core.server.response.ServerSQLResponse;
 import org.datacrow.core.server.response.ServerSimpleValuesResponse;
 import org.datacrow.core.server.response.ServerValueEnhancersRequestResponse;
-import org.datacrow.core.server.serialization.adapters.AwtColorAdapter;
-import org.datacrow.core.server.serialization.adapters.AwtFontAdapter;
+import org.datacrow.core.server.serialization.adapters.DcColorAdapter;
+import org.datacrow.core.server.serialization.adapters.DcFontAdapter;
 import org.datacrow.core.server.serialization.adapters.DcFieldValueAdapter;
 import org.datacrow.core.server.serialization.adapters.DcObjectAdapter;
 import org.datacrow.core.server.serialization.adapters.DcSimpleValueAdapter;
 import org.datacrow.core.server.serialization.adapters.FileAdapter;
 import org.datacrow.core.server.serialization.adapters.InterfaceAdapter;
-import org.datacrow.core.server.serialization.adapters.KeyStrokeAdapter;
 import org.datacrow.core.server.serialization.adapters.PictureAdapter;
 import org.datacrow.core.server.serialization.adapters.SettingsAdapter;
 import org.datacrow.core.server.serialization.helpers.DcFieldValue;
 import org.datacrow.core.settings.DcModuleSettings;
 import org.datacrow.core.settings.Settings;
+import org.datacrow.core.settings.objects.DcColor;
+import org.datacrow.core.settings.objects.DcFont;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -119,9 +116,8 @@ public class SerializationHelper {
                 .registerTypeAdapter(DcFieldValue.class, new DcFieldValueAdapter())
                 .registerTypeAdapter(DcSimpleValue.class, new DcSimpleValueAdapter())
                 .registerTypeAdapter(File.class, new FileAdapter())
-                .registerTypeAdapter(Color.class, new AwtColorAdapter())
-                .registerTypeAdapter(Font.class, new AwtFontAdapter())
-                .registerTypeAdapter(KeyStroke.class, new KeyStrokeAdapter())
+                .registerTypeAdapter(DcColor.class, new DcColorAdapter())
+                .registerTypeAdapter(DcFont.class, new DcFontAdapter())
                 .registerTypeAdapter(IValueEnhancer.class, new InterfaceAdapter())
                 .registerTypeAdapter(DcModule.class, new InterfaceAdapter())
                 .registerTypeAdapter(Settings.class, new SettingsAdapter())
@@ -134,9 +130,8 @@ public class SerializationHelper {
                 .registerTypeAdapter(DcFieldValue.class, new DcFieldValueAdapter())
                 .registerTypeAdapter(DcSimpleValue.class, new DcSimpleValueAdapter())
                 .registerTypeAdapter(File.class, new FileAdapter())
-                .registerTypeAdapter(Color.class, new AwtColorAdapter())
-                .registerTypeAdapter(Font.class, new AwtFontAdapter())
-                .registerTypeAdapter(KeyStroke.class, new KeyStrokeAdapter())
+                .registerTypeAdapter(DcColor.class, new DcColorAdapter())
+                .registerTypeAdapter(DcFont.class, new DcFontAdapter())
                 .registerTypeAdapter(DcModuleSettings.class, new SettingsAdapter())
                 .registerTypeAdapter(Settings.class, new SettingsAdapter())
                 .registerTypeAdapter(IValueEnhancer.class, new InterfaceAdapter())
