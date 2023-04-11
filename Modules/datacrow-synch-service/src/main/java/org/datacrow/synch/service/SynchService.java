@@ -30,113 +30,123 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.LinkedBlockingDeque;
 
+import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.resources.DcResources;
 
-public class SynchService implements Runnable {
+public class SynchService {
 	
-	private static DcLogger logger;
-
-	protected final String name;
-	protected final int port;
-	protected final String ip;
+	private static DcLogger logger = DcLogManager.getInstance().getLogger(SynchService.class.getName());
+    private Task task;
+    private ISynchServiceListener listener;
+    
+    private final String name;
+    private final int port;
+    
+	public SynchService(String name, int port) {
+    	this.name = name;
+    	this.port = port;
+	}
 	
-    protected ServerSocket socket = null;
-    protected boolean isStopped = false;
-    protected Thread runningThread = null;
+    public boolean start() {
+        if (task == null || !task.isAlive()) {
+            task = new Task();
+            task.start();
+            return true;
+        }
+        return false;
+    }
     
-    private LinkedBlockingDeque<SynchServiceSession> sessions = new  LinkedBlockingDeque<SynchServiceSession>();
+    public void shutdown() {
+    	if (task != null)
+    		task.shutdown();
+    }
     
-	public SynchService(String name, String ip, int port) {
-		this.name = name;
-		this.ip = ip;
-		this.port = port;
+    public void setListener(ISynchServiceListener listener) {
+    	this.listener = listener;
+    }
+	
+	private class Task extends Thread {
 		
-		startService();
+		private LinkedBlockingDeque<SynchServiceSession> sessions = new  LinkedBlockingDeque<SynchServiceSession>();
+		
+		protected boolean isStopped = false;
+		
+	    protected ServerSocket socket = null;
+	    
+	    protected Task() {}
+	    
+		@Override
+		public void run() {
+	    	
+	        openServerSocket();
+	        
+	        while(!isStopped()){
+	            Socket clientSocket = null;
+	            
+	            try {
+	            	listener.addMessage(DcResources.getText("msgSynchServiceWaiting"));
+	            	
+	                clientSocket = this.socket.accept();
+	                clientSocket.setKeepAlive(true);
+	                
+	                listener.addMessage(
+	                		DcResources.getText("msgSynchServiceClientConnected", 
+	                		clientSocket.getInetAddress().getHostAddress()));
+	                
+	            } catch (IOException e) {
+	            	
+	                if (clientSocket != null) {
+	                    try {
+	                    	clientSocket.close();
+	                    } catch (Exception e2) {
+	                        logger.debug("Error closing client socket after Exception was thrown: " + e, e2);
+	                    }
+	                }
+	                
+	                if (isStopped()) {
+	                    logger.info("Server Stopped.");
+	                    return;
+	                } else {
+	                	listener.addError(e.getMessage(), e);
+	                	throw new RuntimeException("Error accepting client connection", e);
+	                }
+	            }
+	            
+	            SynchServiceSession session = new SynchServiceSession(clientSocket);
+	            sessions.add(session);
+	        }
+	        
+	        listener.addMessage(DcResources.getText("msgSynchServiceStopped"));
+	    }
+		
+		
+	    private synchronized boolean isStopped() {
+	        return this.isStopped;
+	    }
+
+	    public void shutdown(){
+	        this.isStopped = true;
+	        
+	        try {
+	        	for (SynchServiceSession session : sessions) {
+	        		session.closeSession();
+	        	}
+	        	
+	        	if (this.socket != null)
+	        	    this.socket.close();
+	        	
+	        } catch (IOException e) {
+	            throw new RuntimeException("Error closing server", e);
+	        }
+	    }
+
+	    private void openServerSocket() {
+	        try {
+	            this.socket = new ServerSocket(port);
+	        } catch (IOException e) {
+	            throw new RuntimeException("Cannot open port " + port, e);
+	        }
+	    }
 	}
-	
-	private void startService() {
-        Thread st = new Thread(this);
-        st.start();
-
-        
-        try {
-        	st.join();
-        } catch (InterruptedException e) {
-            logger.error(e, e);
-        }
-
-        logger.info("Service has been stopped");
-        shutdown();
-	}
-	
-    private synchronized boolean isStopped() {
-        return this.isStopped;
-    }
-
-    public void shutdown(){
-        this.isStopped = true;
-        
-        try {
-        	for (SynchServiceSession session : sessions) {
-        		session.closeSession();
-        	}
-        	
-        	if (this.socket != null)
-        	    this.socket.close();
-        	
-        } catch (IOException e) {
-            throw new RuntimeException("Error closing server", e);
-        }
-    }
-
-    private void openServerSocket() {
-        try {
-            this.socket = new ServerSocket(port);
-        } catch (IOException e) {
-            throw new RuntimeException("Cannot open port " + port, e);
-        }
-    }
-	
-	@Override
-	public void run() {
-    	
-        synchronized(this) {
-            this.runningThread = Thread.currentThread();
-        }
-        
-        openServerSocket();
-        
-        while(!isStopped()){
-            Socket clientSocket = null;
-            
-            try {
-                clientSocket = this.socket.accept();
-                clientSocket.setKeepAlive(true);
-                
-                logger.info("A client has connected (" + clientSocket.getInetAddress() + ")");
-                
-            } catch (IOException e) {
-            	
-                if (clientSocket != null) {
-                    try {
-                    	clientSocket.close();
-                    } catch (Exception e2) {
-                        logger.debug("Error closing client socket after Exception was thrown: " + e, e2);
-                    }
-                }
-                
-                if (isStopped()) {
-                    logger.info("Server Stopped.");
-                    return;
-                } else {
-                	throw new RuntimeException("Error accepting client connection", e);
-                }
-            }
-            
-            SynchServiceSession session = new SynchServiceSession(clientSocket);
-            sessions.add(session);
-        }
-        
-        logger.info("Server Stopped.");
-    }
 }

@@ -41,7 +41,6 @@ import org.datacrow.core.server.requests.IClientRequest;
 import org.datacrow.core.server.response.IServerResponse;
 import org.datacrow.core.server.response.ServerLoginResponse;
 import org.datacrow.core.server.serialization.SerializationHelper;
-import org.datacrow.server.LocalServerConnector;
 import org.datacrow.server.security.SecurityCenter;
 
 public class SynchServiceSessionRequestHandler extends Thread {
@@ -85,8 +84,6 @@ public class SynchServiceSessionRequestHandler extends Thread {
 	        os = new ObjectOutputStream(socket.getOutputStream());
 	        is = new ObjectInputStream(socket.getInputStream());
 
-            context = new LocalServerConnector();
-            
             while (!socket.isClosed()) {
                 try {
                     cr = SerializationHelper.getInstance().deserializeClientRequest(is);

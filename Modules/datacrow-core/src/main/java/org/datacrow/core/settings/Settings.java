@@ -196,7 +196,9 @@ public class Settings implements Serializable {
     public void setValue(String key, Object value) {
         Setting setting = getSetting(key);
         if (setting != null) {
-            setting.setValue(value);
+        	ISettingsValueConverter converter = DcSettings.getConverter();
+        	Object o = converter != null ? converter.convert(value) : value;
+        	setting.setValue(o);
         }
     }
 

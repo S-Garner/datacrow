@@ -244,6 +244,9 @@ public class MainFrameMenuBar extends org.datacrow.client.console.components.DcM
         else if (module.getChild() != null && module.getChild().isFileBacked())
             PluginHelper.add(menuTools, "FileRenamer",module.getChild().getIndex());
         
+        menuTools.addSeparator();
+        PluginHelper.add(menuTools, "SynchService", module.getIndex());
+        
         // item information menu
         menuAdministration.addSeparator();
         PluginHelper.add(menuAdministration, "LoanInformation");
