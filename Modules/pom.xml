@@ -18,6 +18,7 @@
 	<modules>
 		<module>datacrow-core</module>
 		<module>datacrow-services</module>
+		<module>datacrow-synch-service</module>
 		<module>datacrow-server</module>
 		<module>datacrow-client</module>
 		<module>datacrow-plugins</module>

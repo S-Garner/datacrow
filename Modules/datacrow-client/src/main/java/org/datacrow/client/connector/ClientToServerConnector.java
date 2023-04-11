@@ -621,4 +621,20 @@ public class ClientToServerConnector extends Connector {
 
         System.exit(0);
     }
+    
+    @Override
+    public void setUser(SecuredUser su) {
+    	this.su = su;
+    }
+    
+    @Override
+    public Connector clone() {
+    	ClientToServerConnector ctsc = new ClientToServerConnector();
+    	ctsc.setApplicationServerPort(getApplicationServerPort());
+    	ctsc.setImageServerPort(getImageServerPort());
+    	ctsc.setPassword(getPassword());
+    	ctsc.setUser(getUser());
+    	ctsc.setUsername(getUsername());
+    	return ctsc;
+    }
 }

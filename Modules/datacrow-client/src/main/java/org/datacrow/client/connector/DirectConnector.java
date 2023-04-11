@@ -45,6 +45,7 @@ import org.datacrow.core.modules.upgrade.ModuleUpgrade;
 import org.datacrow.core.modules.upgrade.ModuleUpgradeResult;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
+import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.SystemMonitor;
@@ -234,4 +235,15 @@ public class DirectConnector extends LocalServerConnector {
         
         System.exit(0);
     }
+    
+    @Override
+    public Connector clone() {
+    	DirectConnector dc = new DirectConnector();
+    	dc.setApplicationServerPort(getApplicationServerPort());
+    	dc.setImageServerPort(getImageServerPort());
+    	dc.setPassword(getPassword());
+    	dc.setUser(getUser());
+    	dc.setUsername(getUsername());
+    	return dc;
+    }       
 }

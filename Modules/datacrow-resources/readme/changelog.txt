@@ -1,4 +1,13 @@
 -----------------------------------------------------------------------------------------
+Data Crow version 4.9.0                                            Released on 2023-xx-xx
+-----------------------------------------------------------------------------------------
+
+[Fixed]
+- NPE exception during the set up of the user folder due to the logger not having been
+  initialized yet. This issue will hide the real underlying issue.
+
+
+-----------------------------------------------------------------------------------------
 Data Crow version 4.8.1                                            Released on 2023-03-28
 -----------------------------------------------------------------------------------------
 With version 4.8.0 I mistakingly made a structure change to the states for the various

@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>org.datacrow</groupId>
-            <artifactId>datacrow-server</artifactId>
+            <artifactId>datacrow-synch-service</artifactId>
             <version>${project.version}</version>
             <exclusions>
                 <exclusion>

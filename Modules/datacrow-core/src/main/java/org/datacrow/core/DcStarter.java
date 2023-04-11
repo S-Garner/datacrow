@@ -219,7 +219,10 @@ public class DcStarter {
                 }
             }
         } catch (Exception e) {
-            logger.error(e, e);
+        	if (logger == null)
+        		logger.error(e, e);
+        	else
+        		e.printStackTrace();
         }     
         
         return initialized;

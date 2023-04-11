@@ -189,4 +189,8 @@ public abstract class Connector {
 	public abstract List<DcObject> getItems(DataFilter df, int fields[]);
 	
 	public abstract Map<DcField, Collection<IValueEnhancer>> getValueEnhancers();
+	
+	public abstract Connector clone();
+	
+	public abstract void setUser(SecuredUser su);
 }

@@ -347,4 +347,15 @@ public class LocalServerConnector extends Connector {
         
         DatabaseManager.getInstance().closeDatabases(false);
     }
+    
+    @Override
+    public Connector clone() {
+    	LocalServerConnector lsc = new LocalServerConnector();
+    	lsc.setApplicationServerPort(getApplicationServerPort());
+    	lsc.setImageServerPort(getImageServerPort());
+    	lsc.setPassword(getPassword());
+    	lsc.setUser(getUser());
+    	lsc.setUsername(getUsername());
+    	return lsc;
+    }    
 }
