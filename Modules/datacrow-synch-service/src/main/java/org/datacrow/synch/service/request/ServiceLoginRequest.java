@@ -23,19 +23,15 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.core.server.requests;
+package org.datacrow.synch.service.request;
 
-import java.io.Serializable;
+/**
+ * @author RJ
+ *
+ */
+public class ServiceLoginRequest extends ServiceRequest {
 
-public interface IClientRequest extends Serializable {
-
-	public String getUsername();
-	
-	public String getPassword();
-	
-	public String getClientKey();
-	
-	public int getType();
-	
-	public void close();
+	public ServiceLoginRequest(String username, String password) {
+		super(ServiceRequestType.LOGIN, username, password);
+	}
 }

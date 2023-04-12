@@ -50,8 +50,8 @@ public class DcServerConnection {
     private ObjectInputStream is;
     private ObjectOutputStream os;
     
-    public DcServerConnection(Connector conn) throws IOException, SocketException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException {
-        socket = new Socket(conn.getServerAddress(), conn.getApplicationServerPort());
+    public DcServerConnection(String address, int port) throws IOException, SocketException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException {
+        socket = new Socket(address, port);
         socket.setKeepAlive(true);
         
         is = new ObjectInputStream(socket.getInputStream());

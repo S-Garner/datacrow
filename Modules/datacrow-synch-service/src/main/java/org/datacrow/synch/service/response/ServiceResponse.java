@@ -23,19 +23,22 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.core.server.requests;
+package org.datacrow.synch.service.response;
 
-import java.io.Serializable;
+import org.datacrow.core.server.response.IServerResponse;
 
-public interface IClientRequest extends Serializable {
+public class ServiceResponse implements IServerResponse {
 
-	public String getUsername();
+	private static final long serialVersionUID = 1L;
 	
-	public String getPassword();
+    private int type;
+    
+    public ServiceResponse(ServiceResponseType type) {
+        this.type = type.getValue();
+    }	
 	
-	public String getClientKey();
-	
-	public int getType();
-	
-	public void close();
+	@Override
+	public int getType() {
+		return type;
+	}
 }

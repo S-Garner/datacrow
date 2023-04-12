@@ -132,7 +132,7 @@ public class ClientToServerConnector extends Connector {
             }
         }
 	    
-	    DcServerConnection connection = new DcServerConnection(this);
+	    DcServerConnection connection = new DcServerConnection(getServerAddress(), getApplicationServerPort());
 	    connections.add(connection);
 	    return connection;
 	}

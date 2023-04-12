@@ -23,19 +23,22 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.core.server.requests;
+package org.datacrow.synch.service.request;
 
-import java.io.Serializable;
+/**
+ * @author RJ
+ *
+ */
+public enum ServiceRequestType {
 
-public interface IClientRequest extends Serializable {
+	LOGIN(1),
+	MODULES(2);
+	
+    private final int value;
 
-	public String getUsername();
-	
-	public String getPassword();
-	
-	public String getClientKey();
-	
-	public int getType();
-	
-	public void close();
+    ServiceRequestType(final int newValue) {
+        value = newValue;
+    }
+
+    public int getValue() { return value; }	
 }

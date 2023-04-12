@@ -23,19 +23,51 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.core.server.requests;
+package org.datacrow.synch.service.request;
 
-import java.io.Serializable;
+import org.datacrow.core.server.requests.IClientRequest;
 
-public interface IClientRequest extends Serializable {
+/**
+ * @author RJ
+ *
+ */
+public class ServiceRequest implements IClientRequest {
+	
+	private static final long serialVersionUID = 1L;
 
-	public String getUsername();
+	private final int type;
 	
-	public String getPassword();
+	private final String username;
+	private final String password;
 	
-	public String getClientKey();
+	private String clientKey;
 	
-	public int getType();
+	public ServiceRequest(ServiceRequestType type,  String username, String password) {
+		this.type = type.getValue();
+		this.username = username;
+		this.password = password;
+	}
 	
-	public void close();
+	@Override
+	public String getUsername() {
+		return username;
+	}
+
+	@Override
+	public String getPassword() {
+		return password;
+	}
+
+	@Override
+	public String getClientKey() {
+		return clientKey;
+	}
+
+	@Override
+	public int getType() {
+		return type;
+	}
+
+	@Override
+	public void close() {}	
 }
