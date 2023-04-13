@@ -37,7 +37,6 @@ import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
 import org.datacrow.server.security.SecurityCenter;
 import org.datacrow.synch.service.request.ServiceRequest;
-import org.datacrow.synch.service.request.ServiceRequestType;
 import org.datacrow.synch.service.response.ServiceLoginResponse;
 import org.datacrow.synch.service.response.ServiceResponse;
 import org.datacrow.synch.service.serialization.ServiceSerializationHelper;
