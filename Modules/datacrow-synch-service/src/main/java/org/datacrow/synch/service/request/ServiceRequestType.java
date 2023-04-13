@@ -31,8 +31,8 @@ package org.datacrow.synch.service.request;
  */
 public enum ServiceRequestType {
 
-	LOGIN(1),
-	MODULES(2);
+	LOGIN_REQUEST(1),
+	MODULE_REQUEST(2);
 	
     private final int value;
 

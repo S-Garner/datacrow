@@ -35,13 +35,12 @@ import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
-import org.datacrow.core.server.requests.ClientRequestLogin;
-import org.datacrow.core.server.requests.ClientRequestUser;
-import org.datacrow.core.server.requests.IClientRequest;
-import org.datacrow.core.server.response.IServerResponse;
-import org.datacrow.core.server.response.ServerLoginResponse;
-import org.datacrow.core.server.serialization.SerializationHelper;
 import org.datacrow.server.security.SecurityCenter;
+import org.datacrow.synch.service.request.ServiceRequest;
+import org.datacrow.synch.service.request.ServiceRequestType;
+import org.datacrow.synch.service.response.ServiceLoginResponse;
+import org.datacrow.synch.service.response.ServiceResponse;
+import org.datacrow.synch.service.serialization.ServiceSerializationHelper;
 
 public class SynchServiceSessionRequestHandler extends Thread {
 		
@@ -51,7 +50,7 @@ public class SynchServiceSessionRequestHandler extends Thread {
 	protected boolean canceled = false;
 	
 	protected Connector context;
-	protected IClientRequest cr;
+	protected ServiceRequest request;
 	
 	protected final SynchServiceSession session;
 	
@@ -86,18 +85,12 @@ public class SynchServiceSessionRequestHandler extends Thread {
 
             while (!socket.isClosed()) {
                 try {
-                    cr = SerializationHelper.getInstance().deserializeClientRequest(is);
-                    
-					if (	!(cr instanceof ClientRequestLogin) && 
-							!(cr instanceof ClientRequestUser)) {
-						
-						SecuredUser su = SecurityCenter.getInstance().login(
-								cr.getClientKey(),
-								cr.getUsername(),
-								cr.getPassword());
-
-						context.setUser(su);
-					}                    
+                	request = ServiceSerializationHelper.getInstance().deserializeClientRequest(is);
+					SecuredUser su = SecurityCenter.getInstance().login(
+							request.getClientKey(),
+							request.getUsername(),
+							request.getPassword());
+					context.setUser(su);
                     
                     processRequest(os);
                 } catch (IOException e) {
@@ -109,19 +102,19 @@ public class SynchServiceSessionRequestHandler extends Thread {
                 }
             }
 		} catch (Exception e) {
-		    logger.error("Error while processing request " + cr + " for client " + (cr != null ? cr.getClientKey() : " null"), e);
+		    logger.error("Error while processing request " + request + " for client " + (request != null ? request.getClientKey() : " null"), e);
 		} finally {
         	try {
-        		if (cr != null) cr.close();
+        		if (request != null) request.close();
         	} catch (Exception e) {
         	    logger.debug("An error occured while closing resources", e);
         	}
         }
     }
 	
-	private IServerResponse processLoginRequest(ClientRequestLogin lr) {
-		SecuredUser su = context.login(lr.getUsername(), lr.getPassword());
-		return new ServerLoginResponse(su);
+	private ServiceResponse processLoginRequest(ServiceRequest request) {
+		SecuredUser su = context.login(request.getUsername(), request.getPassword());
+		return new ServiceLoginResponse(su.getUser().getID());
 	}	
 	
 	/**
@@ -130,26 +123,23 @@ public class SynchServiceSessionRequestHandler extends Thread {
 	 */
 	private void processRequest(ObjectOutputStream os) throws Exception {
         try {
-            IServerResponse sr = null;
-	        switch (cr.getType()) {
-	        case SynchServiceClientRequest._REQUEST_LOGIN:
-	        	sr = processLoginRequest((ClientRequestLogin) cr);
+        	ServiceResponse response = null;
+	        switch (request.getType()) {
+	        case LOGIN_REQUEST:
+	        	response = processLoginRequest(request);
 	        	break;	        
-            case SynchServiceClientRequest._REQUEST_MODULES:
-//                sr = processModulesRequest((ClientRequestModules) cr);
-                break;
             default:
-                logger.error("No handler found for " + cr);
+                logger.error("No handler found for " + request);
 	        }
 	        
-	        if (sr != null) {
-	            String json = SerializationHelper.getInstance().serialize(sr);
+	        if (response != null) {
+	            String json = ServiceSerializationHelper.getInstance().serialize(response);
 	            os.writeObject(json);
 	            os.flush();
 		        
 		        logger.debug("Send object to client");
 	        } else {
-	        	logger.error("Could not complete the request. The request type was unknown to the server. " + cr);
+	        	logger.error("Could not complete the request. The request type was unknown to the server. " + request);
 	        }
         } catch (IOException ioe) {
         	logger.error("Communication error between server and client", ioe);

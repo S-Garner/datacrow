@@ -52,11 +52,9 @@ import org.datacrow.core.settings.objects.DcColor;
 import org.datacrow.core.settings.objects.DcFont;
 import org.datacrow.synch.service.request.ServiceLoginRequest;
 import org.datacrow.synch.service.request.ServiceRequest;
-import org.datacrow.synch.service.request.ServiceRequestType;
 import org.datacrow.synch.service.response.ServiceErrorResponse;
 import org.datacrow.synch.service.response.ServiceLoginResponse;
 import org.datacrow.synch.service.response.ServiceResponse;
-import org.datacrow.synch.service.response.ServiceResponseType;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -132,31 +130,35 @@ public class ServiceSerializationHelper {
         String json = getJson(is);
         Gson gson = getGson();
         
-        ServiceResponse sr = gson.fromJson(json, ServiceResponse.class);
-        int type = sr.getType();
-
-        if (type == ServiceResponseType.ERROR.getValue())
-            sr = gson.fromJson(json, ServiceErrorResponse.class);
-        else if (type == ServiceResponseType.LOGIN.getValue())
-            sr = gson.fromJson(json, ServiceLoginResponse.class);
-        else
-            logger.fatal("No server response implementation found for type [" + type + "]");
+        ServiceResponse reponse = gson.fromJson(json, ServiceResponse.class);
         
-        return sr;
+        switch (reponse.getType()) {
+        case ERROR_REPONSE:
+        	reponse = gson.fromJson(json, ServiceErrorResponse.class);
+        	break;
+        case LOGIN_REPONSE:        	
+        	reponse = gson.fromJson(json, ServiceLoginResponse.class);
+        default:
+            logger.fatal("No server response implementation found for type [" + reponse.getType() + "]");
+        }
+        
+        return reponse;
     }
     
     public ServiceRequest deserializeClientRequest(ObjectInputStream is) throws IOException, ClassNotFoundException {
         String json = getJson(is);
         Gson gson = getGson();
         
-        ServiceRequest sr = gson.fromJson(json, ServiceRequest.class);
-        int type = sr.getType();
+        ServiceRequest request = gson.fromJson(json, ServiceRequest.class);
         
-        if (type == ServiceRequestType.LOGIN.getValue())
-        	sr = gson.fromJson(json, ServiceLoginRequest.class);
-        else
-            logger.fatal("No client request implementation found for type [" + type + "]");
-            
-        return sr;
+        switch (request.getType()) {
+        case LOGIN_REQUEST:
+        	request = gson.fromJson(json, ServiceLoginRequest.class);
+        	break;
+        default:
+        	logger.fatal("No client request implementation found for type [" + request.getType() + "]");
+        }
+
+        return request;
     }
 }

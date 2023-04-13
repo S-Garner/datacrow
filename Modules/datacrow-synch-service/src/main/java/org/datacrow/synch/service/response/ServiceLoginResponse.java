@@ -34,7 +34,7 @@ public class ServiceLoginResponse extends ServiceResponse {
 	private final String clientKey;
 	
 	public ServiceLoginResponse(String clientKey) {
-		super(ServiceResponseType.LOGIN);
+		super(ServiceResponseType.LOGIN_REPONSE);
 		this.clientKey = clientKey;
 	}
 	

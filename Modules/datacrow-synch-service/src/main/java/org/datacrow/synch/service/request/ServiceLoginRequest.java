@@ -32,6 +32,6 @@ package org.datacrow.synch.service.request;
 public class ServiceLoginRequest extends ServiceRequest {
 
 	public ServiceLoginRequest(String username, String password) {
-		super(ServiceRequestType.LOGIN, username, password);
+		super(ServiceRequestType.LOGIN_REQUEST, username, password);
 	}
 }

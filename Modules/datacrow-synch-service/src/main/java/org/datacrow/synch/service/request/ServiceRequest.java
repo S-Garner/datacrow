@@ -25,17 +25,17 @@
 
 package org.datacrow.synch.service.request;
 
-import org.datacrow.core.server.requests.IClientRequest;
+import java.io.Serializable;
 
 /**
  * @author RJ
  *
  */
-public class ServiceRequest implements IClientRequest {
+public class ServiceRequest implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	private final int type;
+	private final ServiceRequestType type;
 	
 	private final String username;
 	private final String password;
@@ -43,31 +43,26 @@ public class ServiceRequest implements IClientRequest {
 	private String clientKey;
 	
 	public ServiceRequest(ServiceRequestType type,  String username, String password) {
-		this.type = type.getValue();
+		this.type = type;
 		this.username = username;
 		this.password = password;
 	}
 	
-	@Override
 	public String getUsername() {
 		return username;
 	}
 
-	@Override
 	public String getPassword() {
 		return password;
 	}
 
-	@Override
 	public String getClientKey() {
 		return clientKey;
 	}
 
-	@Override
-	public int getType() {
+	public ServiceRequestType getType() {
 		return type;
 	}
 
-	@Override
 	public void close() {}	
 }

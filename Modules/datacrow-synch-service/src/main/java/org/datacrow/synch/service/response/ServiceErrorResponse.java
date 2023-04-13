@@ -34,7 +34,7 @@ public class ServiceErrorResponse extends ServiceResponse {
 	private final String msg;
 	
 	public ServiceErrorResponse(String msg) {
-		super(ServiceResponseType.ERROR);
+		super(ServiceResponseType.ERROR_REPONSE);
 		this.msg = msg;
 	}
 	

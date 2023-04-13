@@ -25,20 +25,19 @@
 
 package org.datacrow.synch.service.response;
 
-import org.datacrow.core.server.response.IServerResponse;
+import java.io.Serializable;
 
-public class ServiceResponse implements IServerResponse {
+public class ServiceResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-    private int type;
+    private ServiceResponseType type;
     
     public ServiceResponse(ServiceResponseType type) {
-        this.type = type.getValue();
+        this.type = type;
     }	
 	
-	@Override
-	public int getType() {
+	public ServiceResponseType getType() {
 		return type;
 	}
 }

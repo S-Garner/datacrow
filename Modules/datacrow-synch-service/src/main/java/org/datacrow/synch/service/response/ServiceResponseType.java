@@ -31,9 +31,9 @@ package org.datacrow.synch.service.response;
  */
 public enum ServiceResponseType {
 
-	ERROR(0),
-	LOGIN(1),
-	MODULES(2);
+	ERROR_REPONSE(0),
+	LOGIN_REPONSE(1),
+	MODULE_RESPONSE(2);
 	
     private final int value;
 
