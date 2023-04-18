@@ -91,11 +91,11 @@ public class DcModules implements Serializable {
     public static final int _MUSIC_ALBUM = 68;
     public static final int _MUSIC_TRACK = 69;
     public static final int _BOARDGAME = 70;
+    public static final int _COMIC = 71;
     
     public static final int _CATEGORY = 10000;
     public static final int _STORAGEMEDIA = 11000;
     public static final int _PLATFORM = 12000;
-    public static final int _TEMPLATE = 13000;
     public static final int _MUSICGENRE = 14000;
     public static final int _STATE = 15000;
     public static final int _GENRE = 16000;
@@ -103,6 +103,10 @@ public class DcModules implements Serializable {
     public static final int _TAG = 19000;
     public static final int _BOARDGAMECATEGORIES = 20000;
     public static final int _BOARDGAMEMECHANICS = 21000;
+    public static final int _COMICSERIES = 22000;
+    public static final int _COMICFROMAT = 23000;
+    public static final int _COMICISSUETYPE = 24000;
+    public static final int _COMICICATEGORIES = 25000;
     
     public static final int _ACTOR = 30000;
     public static final int _DIRECTOR = 31000;
@@ -117,6 +121,8 @@ public class DcModules implements Serializable {
     public static final int _BOARDGAMEARTIST = 40000;
     public static final int _BOARDGAMEDESIGNER = 41000;
     public static final int _TRANSLATOR = 42000;
+    public static final int _COMICCHARACTER = 43000;
+    public static final int _COMICARTIST = 44000;
     
     public static final int _COUNTRY = 1000000;
     public static final int _LANGUAGE = 1100000;
@@ -127,7 +133,8 @@ public class DcModules implements Serializable {
     public static final int _MOVIE_ASPECT_RATIO = 1600000;
     public static final int _LICENSE = 1700000;
     
-    public static final int _MAPPING = 50000;
+    public static final int _MAPPING  = 500000000;
+    public static final int _TEMPLATE = 600000000;
 	
     private static boolean loaded = false;
     
@@ -323,7 +330,19 @@ public class DcModules implements Serializable {
         
         DcPropertyModule boardGameMechanicModule = new DcPropertyModule(DcModules._BOARDGAMEMECHANICS, "Machanics", "boardgame_mechanics", "bome", "Game Mechanic", "Game Mechanics");
         boardGameMechanicModule.setServingMultipleModules(false);
-        propertyBaseModules.put(DcModules._BOARDGAMEMECHANICS, boardGameMechanicModule);         
+        propertyBaseModules.put(DcModules._BOARDGAMEMECHANICS, boardGameMechanicModule);
+        
+        DcPropertyModule comicFormatsModule = new DcPropertyModule(DcModules._COMICFROMAT, "Formats", "comic_formats", "cofo", "Format", "Formats");
+        comicFormatsModule.setServingMultipleModules(false);
+        propertyBaseModules.put(DcModules._COMICFROMAT, comicFormatsModule);
+        
+        DcPropertyModule comicCategoriesModule = new DcPropertyModule(DcModules._COMICICATEGORIES, "Categories", "comic_categories", "coca", "Category", "Categories");
+        comicCategoriesModule.setServingMultipleModules(false);
+        propertyBaseModules.put(DcModules._COMICICATEGORIES, comicCategoriesModule);
+        
+        DcPropertyModule comicIssueTypeModule = new DcPropertyModule(DcModules._COMICISSUETYPE, "Issue Type", "comic_issue_type", "cois", "Issue Type", "Issue Types");
+        comicIssueTypeModule.setServingMultipleModules(false);
+        propertyBaseModules.put(DcModules._COMICISSUETYPE, comicIssueTypeModule);           
     }
     
     /**
