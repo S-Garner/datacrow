@@ -631,7 +631,8 @@ public class DcModule implements Comparable<DcModule>, Serializable {
             if (definition.isDescriptive())
                 return definition.getIndex();
         }
-        return getDefaultSortFieldIdx();
+        
+        return getNameFieldIdx() == 0 ? getDefaultSortFieldIdx() : getNameFieldIdx();
     }
     
     public int[] getMinimalFields(Collection<Integer> include) {
