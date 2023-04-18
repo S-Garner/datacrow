@@ -6,6 +6,7 @@ Data Crow version 4.9.0                                            Released on 2
 - NPE exception during the set up of the user folder due to the logger not having been
   initialized yet. This issue will hide the real underlying issue.
 - Fixed an error on startup for MacOS.
+- Fixed an error on startup for OpenJDK.
 
 [Changed]
 - Internal structural changes have been made to allow the Data Crow core libray to be
