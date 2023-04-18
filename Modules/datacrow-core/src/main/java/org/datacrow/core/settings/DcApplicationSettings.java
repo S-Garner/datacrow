@@ -25,11 +25,7 @@
 
 package org.datacrow.core.settings;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.io.File;
-
-import javax.swing.JFrame;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
@@ -37,7 +33,9 @@ import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.settings.objects.DcColor;
 import org.datacrow.core.settings.objects.DcDimension;
+import org.datacrow.core.settings.objects.DcFont;
 import org.datacrow.core.settings.objects.DcLookAndFeel;
 import org.datacrow.core.synchronizers.Synchronizer;
 import org.datacrow.core.utilities.CoreUtilities;
@@ -493,7 +491,7 @@ public class DcApplicationSettings extends Settings {
         addSetting(_SelectionColor,
                 new Setting(DcRepository.ValueTypes._COLOR,
                             DcRepository.Settings.stSelectionColor,
-                            new Color(255, 255, 153),
+                            new DcColor(255, 255, 153),
                             UIComponents._COLORSELECTOR,
                             "",
                             "",
@@ -502,7 +500,7 @@ public class DcApplicationSettings extends Settings {
         addSetting(_SelectionColor,
                 new Setting(DcRepository.ValueTypes._COLOR,
                             DcRepository.Settings.stQuickViewBackgroundColor,
-                            Color.WHITE,
+                            new DcColor(255, 255, 255),
                             UIComponents._COLORSELECTOR,
                             "",
                             "",
@@ -511,7 +509,7 @@ public class DcApplicationSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._COLOR,
                             DcRepository.Settings.stCardViewBackgroundColor,
-                            Color.WHITE,
+                            new DcColor(255, 255, 255),
                             UIComponents._COLORSELECTOR,
                             "",
                             "",
@@ -520,7 +518,7 @@ public class DcApplicationSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._COLOR,
                             DcRepository.Settings.stOddRowColor,
-                            new Color(227, 226, 226),
+                            new DcColor(227, 226, 226),
                             -1,
                             "",
                             "",
@@ -529,7 +527,7 @@ public class DcApplicationSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._COLOR,
                             DcRepository.Settings.stEvenRowColor,
-                            new Color(236, 236, 237),
+                            new DcColor(236, 236, 237),
                             -1,
                             "",
                             "",
@@ -538,7 +536,7 @@ public class DcApplicationSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._COLOR,
                             DcRepository.Settings.stTableHeaderColor,
-                            new Color(204, 204, 204),
+                            new DcColor(204, 204, 204),
                             -1,
                             "",
                             "",
@@ -585,7 +583,7 @@ public class DcApplicationSettings extends Settings {
         addSetting(_Font,
                 new Setting(DcRepository.ValueTypes._FONT,
                             DcRepository.Settings.stStandardFont,
-                            new Font("Arial", Font.PLAIN, 12),
+                            new DcFont("Arial", DcFont.PLAIN, 12),
                             UIComponents._FONTSELECTOR,
                             "tpFont",
                             "lblFontNormal",
@@ -594,7 +592,7 @@ public class DcApplicationSettings extends Settings {
         addSetting(_Font,
                 new Setting(DcRepository.ValueTypes._FONT,
                             DcRepository.Settings.stSystemFont,
-                            new Font("Arial", Font.PLAIN, 12),
+                            new DcFont("Arial", DcFont.PLAIN, 12),
                             UIComponents._FONTSELECTOR,
                             "tpFont",
                             "lblFontBold",
@@ -931,7 +929,7 @@ public class DcApplicationSettings extends Settings {
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._LONG,
                             DcRepository.Settings.stMainViewState,
-                            JFrame.NORMAL,
+                            0,
                             -1,
                             "",
                             "",

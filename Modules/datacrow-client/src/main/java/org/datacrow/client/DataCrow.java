@@ -217,9 +217,7 @@ public class DataCrow implements IStarterClient {
             
             try {
             	fs.close();
-            } catch (Exception e) {
-            	e.printStackTrace(); // logger has not yet been activated
-            }
+            } catch (Exception ignore) {}
         }
         
         if (dataDir.length() > 0)

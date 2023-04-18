@@ -35,6 +35,10 @@ public class DcFont {
 	private int style;
 	private int size;
 	
+    public static final int PLAIN = 0;
+    public static final int BOLD = 1;
+    public static final int ITALIC = 2;
+	
 	public DcFont(String name, int style, int size) {
 		this.name = name;
 		this.style = style;
