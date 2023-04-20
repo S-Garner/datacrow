@@ -7,7 +7,7 @@
 
     <info>
         <appname>Data Crow</appname>
-        <appversion>@{myproduct.version}</appversion>
+        <appversion>@{datacrow.version}</appversion>
         <authors>
             <author name="Robert Jan van der Waals" email="info@datacrow.org"/>
         </authors>
@@ -16,7 +16,7 @@
     </info>
     
     <variables>
-    	<variable name="myproduct.version.variable" value="@{myproduct.version}"/>
+    	<variable name="datacrow.version.variable" value="@{datacrow.version}"/>
     </variables>
     
     <guiprefs width="600" height="400" resizable="no"/>
@@ -52,9 +52,9 @@
     <packs>
         <pack name="Data Crow" required="yes" preselected="yes">
             <description>Data Crow</description>
-			<file src="datacrow-build/staging/dc-client/lib/datacrow-core-@{myproduct.version}.jar" targetdir="$INSTALL_PATH/lib"/>
-            <file src="datacrow-build/staging/dc-client/lib/datacrow-server-@{myproduct.version}.jar" targetdir="$INSTALL_PATH/lib"/>
-			<file src="datacrow-build/staging/dc-client/datacrow-client-@{myproduct.version}.jar" targetdir="$INSTALL_PATH"/>
+			<file src="datacrow-build/staging/dc-client/lib/datacrow-core-@{datacrow.version}.jar" targetdir="$INSTALL_PATH/lib"/>
+            <file src="datacrow-build/staging/dc-client/lib/datacrow-server-@{datacrow.version}.jar" targetdir="$INSTALL_PATH/lib"/>
+			<file src="datacrow-build/staging/dc-client/datacrow-client-@{datacrow.version}.jar" targetdir="$INSTALL_PATH"/>
 			<file src="datacrow-build/staging/dc-client/datacrow.exe" targetdir="$INSTALL_PATH"/>
             <fileset dir="datacrow-build/staging/dc-client/fonts" targetdir="$INSTALL_PATH/fonts"/>
             <fileset dir="datacrow-build/staging/dc-client/readme" targetdir="$INSTALL_PATH/readme"/>

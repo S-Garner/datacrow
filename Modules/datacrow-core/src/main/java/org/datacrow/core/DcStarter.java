@@ -34,7 +34,6 @@ import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.Servers;
-import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
 /**
@@ -393,18 +392,5 @@ public class DcStarter {
         logger.info("Java version: " + System.getProperty("java.version"));
         logger.info("Java vendor: " + System.getProperty("java.vendor"));
         logger.info("Operating System: " + System.getProperty("os.name"));
-        
-        Platform pf = DcConfig.getInstance().getPlatform();
-        boolean alreadyChecked = DcSettings.getBoolean(DcRepository.Settings.stCheckedForJavaVersion);
-        if ((!pf.isJavaSun() && !pf.isJavaOracle()) && !alreadyChecked) {
-            
-            client.notifyWarning(
-                    "Data Crow has only been tested on Java from Oracle & Sun (version 1.6 or higher). " +
-                    "Make sure the latest Java version from Sun has been installed. You are currently using the Java version from " + System.getProperty("java.vendor") + " " +
-                    "Data Crow will now continue and will not display this message again. Upgrade your Java version in case Data Crow does not continue (hangs) or " +
-                    "if you experience any other kind of malfunction.");
-
-            DcSettings.set(DcRepository.Settings.stCheckedForJavaVersion, Boolean.TRUE);
-        }
     }
 }

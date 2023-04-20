@@ -32,12 +32,9 @@ package org.datacrow.core;
  */
 public final class Platform {
 	
-	private boolean isWin;
-	private boolean isMac; 
-	private boolean isLinux; 
-	
-	private boolean isJavaSun;
-	private boolean isJavaOracle;
+	private boolean isWin = false;
+	private boolean isMac = false; 
+	private boolean isLinux = false; 
 	
 	/**
 	 * Creates a new instance and will gather all the necessary information 
@@ -45,30 +42,14 @@ public final class Platform {
 	 */
 	public Platform() {
 		String os = System.getProperty("os.name");
-		isWin = os.startsWith("Windows");
-		isMac = !isWin && os.startsWith("Mac");
-		isLinux = os.startsWith("Linux");
 		
-		isJavaSun = System.getProperty("java.vendor").toLowerCase().indexOf("sun") > -1;
-		isJavaOracle = System.getProperty("java.vendor").toLowerCase().indexOf("oracle") > -1;
+		if (os != null) {
+			isWin = os.startsWith("Windows");
+			isMac = !isWin && os.startsWith("Mac");
+			isLinux = os.startsWith("Linux");
+		}
 	}
 	
-	/**
-	 * Indicates if the Java version is from Sun
-     * @return  is Java Sun y/n
-	 */
-    public final boolean isJavaSun() {
-        return isJavaSun;
-    }
-    
-    /**
-     * Indicates if the Java version is from Oracle
-     * @return  is Java Oracle y/n
-     */
-    public final boolean isJavaOracle() {
-        return isJavaOracle;
-    }
-    
     public final boolean isWin() {
     	return isWin;
     }

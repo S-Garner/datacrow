@@ -159,7 +159,6 @@ public abstract class DcRepository {
         public static final String stDirectoriesAsDrives = "directories_as_drives";
         public static final String stLanguage = "language";
         public static final String stDatabaseLanguage = "database_language";
-        public static final String stCheckedForJavaVersion = "checked_for_java_version";
         public static final String stSelectItemDialogSize = "select_item_dialog_size";
         public static final String stInputFieldHeight = "input_field_height";
         public static final String stButtonHeight = "button_height";

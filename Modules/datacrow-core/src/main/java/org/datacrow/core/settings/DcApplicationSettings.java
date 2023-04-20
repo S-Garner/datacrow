@@ -272,15 +272,6 @@ public class DcApplicationSettings extends Settings {
                             "lblDateFormat",
                             true,
                             true, -1));
-        addSetting(_Regional,
-                new Setting(DcRepository.ValueTypes._BOOLEAN,
-                            DcRepository.Settings.stCheckedForJavaVersion,
-                            Boolean.FALSE,
-                            -1,
-                            "",
-                            "",
-                            false,
-                            false, -1));            
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._BOOLEAN,
                             DcRepository.Settings.stGracefulShutdown,
