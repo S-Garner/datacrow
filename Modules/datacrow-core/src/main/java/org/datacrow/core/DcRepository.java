@@ -261,9 +261,6 @@ public abstract class DcRepository {
      * Online Services to register external IDs. 
      */
     public static final class ExternalReferences {
-        
-        public static final Collection<String> types = new ArrayList<String>();
-        
         public static final String _DISCID = "DISCID";
         public static final String _TMDB = "TMDB";
         public static final String _MOBYGAMES = "MOBYGAMES";
@@ -277,21 +274,6 @@ public abstract class DcRepository {
         public static final String _IMDB = "IMDB";
         public static final String _BOARDGAMEATLAS = "BOARDGAMEATLAS";
         public static final String _COMICVINE = "COMICVINE";
-        
-        static {
-            types.add(_MOBYGAMES);
-            types.add(_PDCR);
-            types.add(_DISCID);
-            types.add(_GOOGLE);
-            types.add(_TMDB);
-            types.add(_DISCOGS);
-            types.add(_ITUNES);
-            types.add(_ARCHIVEORG);
-            types.add(_OPENLIBRARY);
-            types.add(_MOVIEMETER);
-            types.add(_IMDB);
-            types.add(_BOARDGAMEATLAS);
-        }
     }
     
     /**
