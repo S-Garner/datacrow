@@ -533,7 +533,7 @@ public class DatabaseManager {
             DcObject dco = o.getModule().getItem();
 
             for (DcFieldDefinition def : o.getModule().getFieldDefinitions().getDefinitions()) {
-                if (def.isUnique()) {
+                if (def.isUnique() && o.isFilled(def.getIndex())) {
                     dco.setValue(def.getIndex(), o.getValue(def.getIndex()));
                     hasUniqueFields = true;
                 }

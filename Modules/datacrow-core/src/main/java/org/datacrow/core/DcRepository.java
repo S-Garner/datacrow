@@ -276,6 +276,7 @@ public abstract class DcRepository {
         public static final String _MOVIEMETER = "MOVIEMETER";
         public static final String _IMDB = "IMDB";
         public static final String _BOARDGAMEATLAS = "BOARDGAMEATLAS";
+        public static final String _COMICVINE = "COMICVINE";
         
         static {
             types.add(_MOBYGAMES);
