@@ -132,6 +132,8 @@ public class DcModules implements Serializable {
     public static final int _MOVIE_COLOR = 1500000;
     public static final int _MOVIE_ASPECT_RATIO = 1600000;
     public static final int _LICENSE = 1700000;
+    public static final int _GENDER = 1800000;
+    public static final int _COMICTEAM = 1900000;
     
     public static final int _MAPPING  = 500000000;
     public static final int _TEMPLATE = 600000000;
@@ -319,6 +321,18 @@ public class DcModules implements Serializable {
         licenseModule.setIcon16(IconLibrary._icoLicense16);
         licenseModule.setIcon32(IconLibrary._icoLicense32);
         propertyBaseModules.put(DcModules._LICENSE, licenseModule);
+        
+        DcPropertyModule genderModule = new DcPropertyModule(DcModules._GENDER, "Gender", "gender", "gender", "Gender", "Genders");
+        genderModule.setServingMultipleModules(true);
+        genderModule.setIcon16(IconLibrary._icoModuleTypeProperty16);
+        genderModule.setIcon32(IconLibrary._icoModuleTypeProperty32);
+        propertyBaseModules.put(DcModules._GENDER, genderModule);        
+        
+        DcPropertyModule comicTeamModule = new DcPropertyModule(DcModules._COMICTEAM, "Team", "comic_team", "comic_team", "Team", "Teams");
+        comicTeamModule.setServingMultipleModules(true);
+        comicTeamModule.setIcon16(IconLibrary._icoTeam16);
+        comicTeamModule.setIcon32(IconLibrary._icoTeam32);
+        propertyBaseModules.put(DcModules._COMICTEAM, comicTeamModule);
         
         DcPropertyModule editionModule = new DcPropertyModule(DcModules._EDITIONTYPE, "Edition Type", "editiontype", "edty", "Edition type", "Edition types");
         editionModule.setServingMultipleModules(true);

@@ -230,7 +230,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
             try {
                 descriptionPane.setCaretPosition(0);
             } catch (Exception exp) {}
-
+            
             if (dco.getModule().getSettings().getBoolean(DcRepository.ModuleSettings.stShowPicturesInSeparateTabs))
                 createImageTabs(dco);
             

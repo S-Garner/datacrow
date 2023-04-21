@@ -29,6 +29,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.datacrow.core.DcRepository.ExternalReferences;
@@ -46,7 +47,6 @@ import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.Servers;
 import org.datacrow.core.services.plugin.IServer;
-import org.datacrow.onlinesearch.boardgameatlas.BoardGameAtlasSearchResult;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
@@ -92,6 +92,23 @@ public class ComicVineSearch extends SearchTask {
         Map<?, ?> result = gson.fromJson(json, Map.class);
     	
         return dco;
+    }
+    
+    private void setCharacters(Map<?, ?> map, DcObject dco) {
+        if (map.containsKey("character_credits")) {
+            List<Map<?, ?>> characters = (List<Map<?, ?>>) map.get("character_credits");
+            
+//            for (Map<?, ?> character : characters) {
+//                dco.createReference(Comic._O_CHARACTERS, character.get("name"));
+//                // TODO: add URL field
+//            }
+//            
+//            String name = (String) designer.get("name");
+//            
+//            if (!CoreUtilities.isEmpty(name)) {
+//                dco.createReference(BoardGame._H_DESIGNERS, name);
+//            }
+        }
     }
     
     @Override

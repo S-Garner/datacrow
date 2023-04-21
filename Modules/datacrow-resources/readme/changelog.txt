@@ -24,6 +24,8 @@ Data Crow version 4.9.0                                            Released on 2
   completely decoupled from the code as such that it can be registered by the 
   application/app using the core library. Other major changes have been made to 
   significantly reduce the references to the AWT and Swing libraries (GUI).
+- The module wizard now allows you to create references to the same module multiple
+  times.
 
 [To Do]
 - Create a DMG file (code signed) for MacOS users (severely lacking at this moment, 
@@ -31,6 +33,8 @@ Data Crow version 4.9.0                                            Released on 2
 - Add online services for comic books (Marvel and Comic Vine).
 - Add translations for comic book module
 - Adjust settings for the comic book module.
+- Default values for: gender, ..
+- Change icon for gender
 
 
 -----------------------------------------------------------------------------------------
