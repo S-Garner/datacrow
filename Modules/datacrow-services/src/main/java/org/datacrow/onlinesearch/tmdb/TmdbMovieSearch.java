@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcRepository.ExternalReferences;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionException;
@@ -259,7 +258,6 @@ public class TmdbMovieSearch extends SearchTask {
     			
     			person = dco.createReference(fieldIdx, (String) castmember.get("name"));
     			if (person.isNew() &&
-                    DcModules.get(DcModules._MOVIE).getSettings().getBoolean(DcRepository.ModuleSettings.stOnlineSearchSubItems) &&
                     !CoreUtilities.isEmpty(castmember.get("profile_path"))) {
 
     				try {

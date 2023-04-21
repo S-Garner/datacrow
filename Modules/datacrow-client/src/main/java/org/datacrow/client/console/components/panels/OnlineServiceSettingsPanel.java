@@ -53,8 +53,6 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
     private JButton buttonSettings = ComponentFactory.getButton(IconLibrary._icoSettings16);
     private JCheckBox checkOverwrite;
     private JCheckBox checkAutoAdd;
-    private JCheckBox checkOnlineSearchSubItems;
-    private JCheckBox checkQueryFullDetails;
     private JCheckBox checkUseOriginalSettings;
     private JCheckBox checkAlwaysUseFirstResult;
     
@@ -89,8 +87,6 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
         
         Settings settings = DcModules.get(module).getSettings();
         setOverwrite(settings.getBoolean(DcRepository.ModuleSettings.stOnlineSearchOverwrite));
-        setOnlineSearchSubItems(settings.getBoolean(DcRepository.ModuleSettings.stOnlineSearchSubItems));
-        setQueryFullDetails(settings.getBoolean(DcRepository.ModuleSettings.stOnlineSearchQueryFullDetailsInitially));
         setUseOriginalSettings(settings.getBoolean(DcRepository.ModuleSettings.stMassUpdateUseOriginalServiceSettings));
         setAlwaysUseFirstSettings(settings.getBoolean(DcRepository.ModuleSettings.stMassUpdateAlwaysUseFirst));
         
@@ -105,8 +101,6 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
         Settings settings = DcModules.get(module).getSettings();
         settings.set(DcRepository.ModuleSettings.stOnlineSearchOverwrite, checkOverwrite.isSelected());
         settings.set(DcRepository.ModuleSettings.stAutoAddPerfectMatch, checkAutoAdd.isSelected());
-        settings.set(DcRepository.ModuleSettings.stOnlineSearchSubItems, checkOnlineSearchSubItems.isSelected());
-        settings.set(DcRepository.ModuleSettings.stOnlineSearchQueryFullDetailsInitially, checkQueryFullDetails.isSelected());
         settings.set(DcRepository.ModuleSettings.stMassUpdateUseOriginalServiceSettings, checkUseOriginalSettings.isSelected());
         settings.set(DcRepository.ModuleSettings.stMassUpdateAlwaysUseFirst, checkAlwaysUseFirstResult.isSelected());
     }
@@ -119,14 +113,6 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
         return checkOverwrite.isSelected();
     }
     
-    public boolean isOnlineSearchSubItems() {
-        return checkOnlineSearchSubItems.isSelected();
-    }
-    
-    private void setOnlineSearchSubItems(boolean b) {
-        checkOnlineSearchSubItems.setSelected(b);
-    }
-    
     private void setAutoAdd(boolean b) {
         checkAutoAdd.setSelected(b);
     }
@@ -135,10 +121,6 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
         return checkAutoAdd.isSelected();
     }   
     
-    private void setQueryFullDetails(boolean b) {
-        checkQueryFullDetails.setSelected(b);
-    }
-
     private void setUseOriginalSettings(boolean b) {
         checkUseOriginalSettings.setSelected(b);
     }
@@ -147,16 +129,10 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
         checkAlwaysUseFirstResult.setSelected(b);
     }
     
-    public boolean isQueryFullDetails() {
-        return checkQueryFullDetails.isSelected();
-    }
-    
     public void clear() {
         buttonSettings = null;
         checkOverwrite = null;
-        checkOnlineSearchSubItems = null;
         checkAutoAdd = null;
-        checkQueryFullDetails = null;
         checkUseOriginalSettings = null;
         checkAlwaysUseFirstResult = null;
         parent = null;
@@ -186,12 +162,6 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
             checkOverwrite.setActionCommand("toggleSettings");
         }
         
-        checkOnlineSearchSubItems = ComponentFactory.getCheckBox(DcResources.getText("lblOnlineSearchSubItems"));
-        checkOnlineSearchSubItems.setToolTipText(DcResources.getText("tpOnlineSearchSubItems"));
-        
-        checkQueryFullDetails  = ComponentFactory.getCheckBox(DcResources.getText("lblOnlineSearchQueryFullDetails"));
-        checkOnlineSearchSubItems.setToolTipText(DcResources.getText("tpOnlineSearchQueryFullDetails"));
-        
         buttonSettings.setMnemonic('S');
         buttonSettings.setMaximumSize(new Dimension(25, 22));
         buttonSettings.setMinimumSize(new Dimension(25, 22));
@@ -210,17 +180,6 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
            ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
             new Insets(0, 0, 0, 0), 0, 0));
 
-        if (allowQueryModeSelection)
-            add(checkQueryFullDetails, Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
-                    ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(0, 5, 0, 0), 0, 0));            
-
-        
-        add(checkOnlineSearchSubItems, Layout.getGBC( 0, 2, 1, 1, 1.0, 1.0
-           ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-            new Insets(0, 5, 0, 0), 0, 0));
-        
-        
         if (allowAutoAddSelection)
             add(checkAutoAdd, Layout.getGBC( 0, 3, 1, 1, 1.0, 1.0
                ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,

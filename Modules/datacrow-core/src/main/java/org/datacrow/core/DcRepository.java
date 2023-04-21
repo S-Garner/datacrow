@@ -96,8 +96,7 @@ public abstract class DcRepository {
         public static final String stOnlineSearchDefaultServer = "online_search_default_server";
         public static final String stOnlineSearchDefaultRegion = "online_search_default_region";
         public static final String stOnlineSearchDefaultMode = "online_search_default_mode";
-        public static final String stOnlineSearchSubItems = "online_search_ub_items";
-        public static final String stOnlineSearchQueryFullDetailsInitially = "online_search_query_full_details_initially";
+//        public static final String stOnlineSearchSubItems = "online_search_ub_items";
         public static final String stLoanFormSize = "loan_form_size";
         public static final String stFileImportDialogSize = "file_import_dialog_size";
         public static final String stSimpleItemViewSize = "simple_item_view_size";

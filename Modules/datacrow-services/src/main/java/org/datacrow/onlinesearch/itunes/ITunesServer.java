@@ -69,11 +69,6 @@ public class ITunesServer implements IServer {
     }
     
     @Override
-    public boolean isFullModeOnly() {
-        return false;
-    }
-    
-    @Override
     public Collection<FilterField> getFilterFields() {
         return new ArrayList<>();
     }

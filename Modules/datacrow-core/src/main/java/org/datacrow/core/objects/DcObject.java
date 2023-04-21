@@ -50,9 +50,6 @@ import org.datacrow.core.objects.helpers.Software;
 import org.datacrow.core.objects.template.Templates;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
-import org.datacrow.core.services.OnlineSearchHelper;
-import org.datacrow.core.services.SearchTask;
-import org.datacrow.core.services.Servers;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.CoreUtilities;
@@ -1456,22 +1453,10 @@ public class DcObject implements Comparable<DcObject>, Serializable {
             if (ref == null && fieldIdx != DcObject._SYS_EXTERNAL_REFERENCES) {
                 ref = module.getItem();
                 
-                // will not be used for the server
-                boolean onlinesearch = false;
-                if (module.getType() == DcModule._TYPE_ASSOCIATE_MODULE) {
+                if (module.getType() == DcModule._TYPE_ASSOCIATE_MODULE)
                     ref.setValue(DcAssociate._A_NAME, name);
-                    onlinesearch = Servers.getInstance().hasOnlineService(ref.getModule().getIndex()) &&
-                                   getModule().getSettings().getBoolean(DcRepository.ModuleSettings.stOnlineSearchSubItems);  
-                } else {
+                else
                     ref.setValue(ref.getSystemDisplayFieldIdx(), name);
-                }
-                
-                if (onlinesearch) {
-                    OnlineSearchHelper osh = new OnlineSearchHelper(moduleIdx, SearchTask._ITEM_MODE_FULL);
-                    DcObject queried = osh.query(ref, name, new int[] {module.getSystemDisplayFieldIdx()});
-                    ref = queried != null ? queried : ref;
-                    osh.clear();
-                }
                 
                 ref.setIDs();
             }

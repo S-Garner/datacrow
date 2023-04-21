@@ -105,11 +105,6 @@ public class MobyGamesServer implements IServer {
     }
     
     @Override
-    public boolean isFullModeOnly() {
-        return false;
-    }
-    
-    @Override
     public String getName() {
         return "Mobygames.com";
     }

@@ -90,24 +90,22 @@ public class ComicVineSearch extends SearchTask {
         conn.close();
         
         Map<?, ?> result = gson.fromJson(json, Map.class);
+        result = (Map<?, ?>) result.get("results");
+        
+        setCharacters(result, dco);
     	
         return dco;
     }
     
+    @SuppressWarnings("unchecked")
     private void setCharacters(Map<?, ?> map, DcObject dco) {
         if (map.containsKey("character_credits")) {
             List<Map<?, ?>> characters = (List<Map<?, ?>>) map.get("character_credits");
             
-//            for (Map<?, ?> character : characters) {
-//                dco.createReference(Comic._O_CHARACTERS, character.get("name"));
-//                // TODO: add URL field
-//            }
-//            
-//            String name = (String) designer.get("name");
-//            
-//            if (!CoreUtilities.isEmpty(name)) {
-//                dco.createReference(BoardGame._H_DESIGNERS, name);
-//            }
+            for (Map<?, ?> character : characters) {
+                dco.createReference(Comic._O_CHARACTERS, character.get("name"));
+                // TODO: set other fields as well
+            }
         }
     }
     

@@ -66,11 +66,6 @@ public class MovieMeterServer implements IServer {
     }
     
     @Override
-    public boolean isFullModeOnly() {
-        return false;
-    }
-    
-    @Override
     public String getName() {
         return "MovieMeter.nl";
     }

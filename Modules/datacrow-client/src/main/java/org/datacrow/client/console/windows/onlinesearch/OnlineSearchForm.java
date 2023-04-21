@@ -178,9 +178,7 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
             table.add(dco);
             items.add(dco);
             
-            boolean full = panelService.getServer().isFullModeOnly();
-            
-            loadedItems.put(items.indexOf(dco), full || Boolean.valueOf(panelSettings.isQueryFullDetails()));
+            loadedItems.put(items.indexOf(dco), true);
             
             resultCount++;
             
@@ -516,7 +514,7 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
                 this, mode, panelService.getRegion(), query, additionalFilters, client);
         
         task.setPriority(Thread.NORM_PRIORITY);
-        task.setItemMode(panelSettings.isQueryFullDetails() ? SearchTask._ITEM_MODE_FULL : SearchTask._ITEM_MODE_SIMPLE);
+        task.setItemMode(SearchTask._ITEM_MODE_FULL);
         task.start();
     }     
 

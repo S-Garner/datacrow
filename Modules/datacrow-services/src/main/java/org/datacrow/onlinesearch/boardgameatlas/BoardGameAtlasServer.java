@@ -66,11 +66,6 @@ public class BoardGameAtlasServer implements IServer {
     }
     
     @Override
-    public boolean isFullModeOnly() {
-        return false;
-    }
-    
-    @Override
     public String getName() {
         return "Board Game Atlas";
     }

@@ -437,15 +437,6 @@ public class DcModuleSettings extends Settings {
                             "",
                             false,
                             false, module.getIndex()));
-        addSetting(_General,        
-                new Setting(DcRepository.ValueTypes._BOOLEAN,
-                            DcRepository.ModuleSettings.stOnlineSearchQueryFullDetailsInitially,
-                            Boolean.TRUE,
-                            -1,
-                            "",
-                            "",
-                            false,
-                            false, module.getIndex()));        
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._STRING,
                             DcRepository.ModuleSettings.stImportLocalArtFrontKeywords,
@@ -662,15 +653,6 @@ public class DcModuleSettings extends Settings {
                             "",
                             false,
                             false, module.getIndex()));           
-        addSetting(_General,
-                new Setting(DcRepository.ValueTypes._BOOLEAN,
-                            DcRepository.ModuleSettings.stOnlineSearchSubItems,
-                            Boolean.FALSE,
-                            UIComponents._CHECKBOX,
-                            DcResources.getText("tpOnlineSearchSubItems"),
-                            DcResources.getText("lblOnlineSearchSubItems"),
-                            false,
-                            false, module.getIndex()));
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._STRING,
                             DcRepository.ModuleSettings.stOnlineSearchDefaultServer,

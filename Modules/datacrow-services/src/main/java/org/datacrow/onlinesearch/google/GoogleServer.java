@@ -64,12 +64,7 @@ public class GoogleServer implements IServer {
     public boolean isEnabled() {
         return true;
     }
-    
-    @Override
-    public boolean isFullModeOnly() {
-        return false;
-    }
-    
+
     @Override
     public Collection<FilterField> getFilterFields() {
         return new ArrayList<>();

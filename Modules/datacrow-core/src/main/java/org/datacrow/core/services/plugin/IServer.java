@@ -89,8 +89,6 @@ public interface IServer extends Serializable {
      */
     Collection<Setting> getSettings();
     
-    boolean isFullModeOnly();
-    
     /**
      * The URL of the main server.
      */

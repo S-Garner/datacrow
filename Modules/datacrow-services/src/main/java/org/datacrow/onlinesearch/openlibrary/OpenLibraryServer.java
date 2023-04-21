@@ -82,12 +82,7 @@ public class OpenLibraryServer implements IServer {
     public boolean isEnabled() {
         return true;
     }
-    
-    @Override
-    public boolean isFullModeOnly() {
-        return false;
-    }
-    
+
     @Override
     public String getName() {
         return "Open Library";
