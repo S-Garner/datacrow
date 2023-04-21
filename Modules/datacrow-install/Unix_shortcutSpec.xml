@@ -14,7 +14,7 @@
      startMenu="yes"
      startup="no"
      target="java"
-     commandLine="-jar $INSTALL_PATH/datacrow-client-${datacrow.version.variable}.jar -dir:$INSTALL_PATH"
+     commandLine="-jar &apos;$INSTALL_PATH/datacrow-client-${datacrow.version.variable}.jar&apos;"
      workingDirectory="$INSTALL_PATH"
      description="Data Crow"
      iconFile="$INSTALL_PATH/icons/icon-black.png"
