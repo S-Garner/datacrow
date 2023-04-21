@@ -31,8 +31,19 @@ import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 public class JsonHelper {
+    
+    public static void setHtmlAsString(Map<?, ?> map, String tag, DcObject dco, int fieldIdx) {
+        Object o = map.get(tag);
+        if (!CoreUtilities.isEmpty(o)) {
+            String s = o instanceof String ? (String) o : o.toString();
+            Document doc = Jsoup.parse(s);
+            dco.setValue(fieldIdx, doc.text().trim());
+        }
+    }
 	
     public static void setString(Map<?, ?> map, String tag, DcObject dco, int fieldIdx) {
     	

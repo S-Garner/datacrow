@@ -38,6 +38,7 @@ import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.objects.helpers.BoardGame;
 import org.datacrow.core.objects.helpers.Comic;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
@@ -47,6 +48,8 @@ import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.Servers;
 import org.datacrow.core.services.plugin.IServer;
+import org.datacrow.core.utilities.StringUtils;
+import org.datacrow.onlinesearch.util.JsonHelper;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
@@ -93,8 +96,22 @@ public class ComicVineSearch extends SearchTask {
         result = (Map<?, ?>) result.get("results");
         
         setCharacters(result, dco);
-    	
+        setImage(result, dco);
+        
+        JsonHelper.setHtmlAsString(result, "description", dco, Comic._B_DESCRIPTION);
+        
         return dco;
+    }
+    
+    private void setImage(Map<?, ?> map, DcObject dco) {
+        if (map.containsKey("image")) {
+            Map<?, ?> images = (Map<?, ?>) map.get("image");
+            
+            if (images.containsKey("original_url")) {
+                byte[] img = getImageBytes((String) images.get("original_url"));
+                dco.setValue(Comic._U_PICTURE1, img);
+            }   
+        }
     }
     
     @SuppressWarnings("unchecked")
