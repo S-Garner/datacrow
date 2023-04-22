@@ -236,6 +236,16 @@ public class DcApplicationSettings extends Settings {
                             "lblMobyGamesApiKey",
                             true,
                             false, -1));
+        
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._STRING,
+                            DcRepository.Settings.stComicVineApiKey,
+                            "",
+                            UIComponents._SHORTTEXTFIELD,
+                            "lblComicVineApiKeyHelp",
+                            "lblComicVineApiKey",
+                            true,
+                            false, -1));
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._BOOLEAN,
                             DcRepository.Settings.stHighRenderingQuality,

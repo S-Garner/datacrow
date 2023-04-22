@@ -42,14 +42,15 @@ public class Comic extends DcMediaObject {
     public static final int _M_URL2 = 8;
     public static final int _N_URL3 = 9;
     public static final int _O_CHARACTERS = 10;
-    public static final int _P_PUBLISHERS = 11;
-    public static final int _Q_ARTISTS = 12;
-    public static final int _R_AUTHOR = 13;
-    public static final int _S_CATEGORIES = 14;
-    public static final int _T_PUBLISHEDON = 15;
-    public static final int _U_PICTURE1 = 16;
-    public static final int _V_PICTURE2 = 17;
-    public static final int _W_PICTURE3 = 18;
+    public static final int _P_TEAMS = 11;
+    public static final int _Q_PUBLISHERS = 12;
+    public static final int _R_ARTISTS = 13;
+    public static final int _S_AUTHOR = 14;
+    public static final int _T_CATEGORIES = 15;
+    public static final int _U_PUBLISHEDON = 16;
+    public static final int _V_PICTURE1 = 17;
+    public static final int _W_PICTURE2 = 18;
+    public static final int _X_PICTURE3 = 19;
     
     public Comic() {
        super(DcModules._COMIC);

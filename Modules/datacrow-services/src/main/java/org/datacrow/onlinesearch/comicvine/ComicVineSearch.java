@@ -32,13 +32,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcRepository.ExternalReferences;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.helpers.BoardGame;
 import org.datacrow.core.objects.helpers.Comic;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
@@ -48,7 +48,8 @@ import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.Servers;
 import org.datacrow.core.services.plugin.IServer;
-import org.datacrow.core.utilities.StringUtils;
+import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.onlinesearch.util.JsonHelper;
 
 import com.google.gson.Gson;
@@ -70,7 +71,16 @@ public class ComicVineSearch extends SearchTask {
             Map<String, Object> additionalFilters) {
         
         super(listener, server, region, mode, query, additionalFilters);
-        apiKey = Servers.getInstance().getApiKey("comicvine");
+        apiKey = !CoreUtilities.isEmpty(DcSettings.getString(DcRepository.Settings.stComicVineApiKey)) ?
+                DcSettings.getString(DcRepository.Settings.stComicVineApiKey) :
+                Servers.getInstance().getApiKey("comicvine");
+
+        // TODO: encourage users to request their own API key
+//        String msg = DcResources.getText("msgMobyGamesNoApiKeyDefined");
+//        msg = "<html>" + msg + "<br><u><a href=\"https://www.mobygames.com/info/api\">https://www.mobygames.com/info/api</a></u></html>";
+//        
+//        throw new OnlineSearchUserError(msg);
+        
     }
     
 	@Override
@@ -97,10 +107,80 @@ public class ComicVineSearch extends SearchTask {
         
         setCharacters(result, dco);
         setImage(result, dco);
+        setPersons(result, dco);
+        setTeams(result, dco);
+        
+        String volumeUrl = setSeries(result, dco);
+        
+        if (volumeUrl != null) {
+            waitBetweenRequest();
+            setVolumeDetails(volumeUrl + "?api_key=" + apiKey + "&format=json", dco);
+        }
         
         JsonHelper.setHtmlAsString(result, "description", dco, Comic._B_DESCRIPTION);
+        JsonHelper.setYear(result, "cover_date", dco);
         
         return dco;
+    }
+    
+    private void setVolumeDetails(String url, DcObject dco) {
+        try {
+            HttpConnection conn = new HttpConnection(new URL(url), userAgent);
+            String json = conn.getString(StandardCharsets.UTF_8);
+            conn.close();
+            
+            Map<?, ?> result = gson.fromJson(json, Map.class);
+            result = (Map<?, ?>) result.get("results");
+            
+            if (result.containsKey("publisher")) {
+                Map<?, ?> publisher =  (Map<?, ?>) result.get("publisher");
+                dco.createReference(Comic._Q_PUBLISHERS, publisher.get("name"));
+            }
+        } catch (Exception e) {
+            logger.error("Could not retrieve volume details from " + url, e);
+            listener.addError("Could not retrieve volume details: " + e.getMessage());
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void setTeams(Map<?, ?> map, DcObject dco) {
+        if (map.containsKey("team_credits")) {
+            List<Map<?, ?>> teams = (List<Map<?, ?>>) map.get("team_credits");
+            for (Map<?, ?> team : teams)
+                dco.createReference(Comic._P_TEAMS, team.get("name"));
+        }
+    }
+    
+    private String setSeries(Map<?, ?> map, DcObject dco) {
+        if (map.containsKey("volume")) {
+            Map<?, ?> volume = (Map<?, ?>) map.get("volume");
+            dco.createReference(Comic._H_SERIES, volume.get("name"));    
+        
+            return (String) volume.get("api_detail_url");
+        }
+        
+        return null;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void setPersons(Map<?, ?> map, DcObject dco) {
+        if (map.containsKey("person_credits")) {
+            List<Map<?, ?>> persons = (List<Map<?, ?>>) map.get("person_credits");
+            
+            String role;
+            String name;
+            
+            for (Map<?, ?> person : persons) {
+                role = (String) person.get("role");
+                name = (String) person.get("name");
+                
+                if (role.equals("writer")) {
+                    dco.createReference(Comic._S_AUTHOR, name);
+                } else {
+                    dco.createReference(Comic._R_ARTISTS, name);
+                }
+            }
+        }
     }
     
     private void setImage(Map<?, ?> map, DcObject dco) {
@@ -109,7 +189,7 @@ public class ComicVineSearch extends SearchTask {
             
             if (images.containsKey("original_url")) {
                 byte[] img = getImageBytes((String) images.get("original_url"));
-                dco.setValue(Comic._U_PICTURE1, img);
+                dco.setValue(Comic._V_PICTURE1, img);
             }   
         }
     }
@@ -120,9 +200,26 @@ public class ComicVineSearch extends SearchTask {
             List<Map<?, ?>> characters = (List<Map<?, ?>>) map.get("character_credits");
             
             for (Map<?, ?> character : characters) {
-                dco.createReference(Comic._O_CHARACTERS, character.get("name"));
-                // TODO: set other fields as well
+                DcObject ref = dco.createReference(Comic._O_CHARACTERS, character.get("name"));
+             
+                if (   !isCancelled() &&
+                        character.containsKey("api_detail_url") && 
+                       (ref.isNew() || ref.getExternalReference(DcRepository.ExternalReferences._COMICVINE) == null)) {
+                    
+                    waitBetweenRequest();
+                    setCharacterDetails((String) character.get("api_detail_url") + "?api_key=" + apiKey + "&format=json", ref);
+                }
             }
+        }
+    }
+    
+    private void setCharacterDetails(String url, DcObject dco) {
+        try {
+            ComicVineCharacterSearchHelper characterSearch = new ComicVineCharacterSearchHelper(dco, userAgent, url);
+            characterSearch.search();
+        } catch (Exception e) {
+            logger.error("Could not retrieve character details from " + url, e);
+            listener.addError("Could not retrieve character details: " + e.getMessage());
         }
     }
     

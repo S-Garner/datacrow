@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.services.FilterField;
@@ -37,6 +38,7 @@ import org.datacrow.core.services.Region;
 import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.plugin.IServer;
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.Setting;
 
 public class ComicVineServer implements IServer {
@@ -62,7 +64,9 @@ public class ComicVineServer implements IServer {
     
     @Override
     public Collection<Setting> getSettings() {
-        return null;
+        Collection<Setting> settings = new ArrayList<>();
+        settings.add(DcSettings.getSetting(DcRepository.Settings.stComicVineApiKey));
+        return settings;
     }
     
     @Override
