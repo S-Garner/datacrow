@@ -459,6 +459,8 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
     	
         items.clear();
         textLog.setText("");
+        qvCard.clear();
+        qvTable.clear();
         panelService.setFocus();
     }
 

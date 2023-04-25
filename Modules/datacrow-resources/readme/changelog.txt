@@ -18,6 +18,7 @@ Data Crow version 4.9.0                                            Released on 2
 - Uniqueness check not working correctly if one of the fields is a key field but not
   a required field.
 - The online search breaks the uniqueness check, causing duplicate items to be added.
+- Clear on online search form did not clear the quick view panel.
 
 [Changed]
 - Internal structural changes have been made to allow the Data Crow core library to be
@@ -31,11 +32,9 @@ Data Crow version 4.9.0                                            Released on 2
 [To Do]
 - Create a DMG file (code signed) for MacOS users (severely lacking at this moment, 
   Data Crow can only be run from the terminal at this moment).
-- Add online services for comic books (Marvel and Comic Vine).
+- Add online service for comic books (Comic Vine).
 - Add translations for comic book module
 - Adjust settings for the comic book module.
-- Default values for: gender, ..
-- Change icon for gender
 
 
 -----------------------------------------------------------------------------------------

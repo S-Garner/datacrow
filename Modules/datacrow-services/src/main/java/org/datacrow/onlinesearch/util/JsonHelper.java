@@ -40,8 +40,19 @@ public class JsonHelper {
         Object o = map.get(tag);
         if (!CoreUtilities.isEmpty(o)) {
             String s = o instanceof String ? (String) o : o.toString();
+            
+            s = s.replace("p>", "p>.,.");
+            s = s.replace("<br>", "<br>.,.");
+            s = s.replace("h1>", "h1>.,.");
+            s = s.replace("h2>", "h2>.,.");
+            s = s.replace("h3>", "h3>.,.");
+            
             Document doc = Jsoup.parse(s);
-            dco.setValue(fieldIdx, doc.text().trim());
+            String text = doc.text();
+            
+            text = text.replace(".,.", "\r\n");
+            
+            dco.setValue(fieldIdx, text);
         }
     }
 	

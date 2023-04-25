@@ -337,8 +337,8 @@ public class DcModules implements Serializable {
         
         DcPropertyModule comicPowerModule = new DcPropertyModule(DcModules._COMICPOWER, "Power", "comic_power", "comic_power", "Power", "Powers");
         comicPowerModule.setServingMultipleModules(true);
-        comicPowerModule.setIcon16(IconLibrary._icoTeam16);
-        comicPowerModule.setIcon32(IconLibrary._icoTeam32);
+        comicPowerModule.setIcon16(IconLibrary._icoPower16);
+        comicPowerModule.setIcon32(IconLibrary._icoPower32);
         propertyBaseModules.put(DcModules._COMICPOWER, comicPowerModule);
         
         DcPropertyModule editionModule = new DcPropertyModule(DcModules._EDITIONTYPE, "Edition Type", "editiontype", "edty", "Edition type", "Edition types");
