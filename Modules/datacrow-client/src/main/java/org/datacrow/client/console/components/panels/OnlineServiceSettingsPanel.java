@@ -63,12 +63,10 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
     private boolean updateMode = false;
 
     private boolean allowAutoAddSelection = true;
-    private boolean allowQueryModeSelection = true;
     private boolean allowOriginalSettingsSelection = true;
     private boolean allowFirstIsBestMode = true;
     
-    public OnlineServiceSettingsPanel(JFrame parent, 
-                                      boolean allowQueryModeSelection,
+    public OnlineServiceSettingsPanel(JFrame parent,
                                       boolean allowAutoAddSelection,
                                       boolean updateMode,
                                       boolean allowOriginalSettingsSelection,
@@ -80,7 +78,6 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
         
         this.allowOriginalSettingsSelection = allowOriginalSettingsSelection;
         this.allowAutoAddSelection = allowAutoAddSelection;
-        this.allowQueryModeSelection = allowQueryModeSelection;
         this.allowFirstIsBestMode = allowFirstIsBestMode;
         
         build(updateMode);

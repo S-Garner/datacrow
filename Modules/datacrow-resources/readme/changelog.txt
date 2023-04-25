@@ -17,6 +17,7 @@ Data Crow version 4.9.0                                            Released on 2
 - Icon not showing for the shortcut created on Linux.
 - Uniqueness check not working correctly if one of the fields is a key field but not
   a required field.
+- The online search breaks the uniqueness check, causing duplicate items to be added.
 
 [Changed]
 - Internal structural changes have been made to allow the Data Crow core library to be

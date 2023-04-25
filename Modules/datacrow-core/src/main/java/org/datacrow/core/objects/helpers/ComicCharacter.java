@@ -33,15 +33,16 @@ public class ComicCharacter extends DcObject {
 	private static final long serialVersionUID = 1L;
     
     public static final int _A_NAME = 1;
-    public static final int _B_REALNAME = 2;
-    public static final int _C_DESCRIPTION = 3;
-    public static final int _D_URL = 4;
-    public static final int _E_ENEMIES = 5;
-    public static final int _F_FRIENDS = 6;
-    public static final int _G_GENDER = 7;
+    public static final int _B_ALIASES = 2;
+    public static final int _C_REALNAME = 3;
+    public static final int _D_DESCRIPTION = 4;
+    public static final int _E_URL = 5;
+    public static final int _F_ENEMIES = 6;
+    public static final int _G_FRIENDS = 7;
     public static final int _H_MOVIES = 8;
     public static final int _I_TEAMS = 9;
-    public static final int _J_PICTURE = 10;
+    public static final int _J_POWERS = 10;
+    public static final int _K_PICTURE = 11;
     
     public ComicCharacter() {
        super(DcModules._COMICCHARACTER);

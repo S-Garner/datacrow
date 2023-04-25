@@ -435,10 +435,11 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
                                             clone.setIDs();
                                             
                                             try {
-                                                clone.setValidate(false);
+                                                clone.setValidate(true);
                                                 if (connector.saveItem(clone))
                                                     GUI.getInstance().getSearchView(module).add(clone);
                                             } catch (Exception e) {
+                                            	GUI.getInstance().displayErrorMessage(e.getMessage());
                                                 logger.error(e, e);
                                             }
                                         }
@@ -587,7 +588,7 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
         
         JTabbedPane tp = ComponentFactory.getTabbedPane();
         
-        panelSettings = new OnlineServiceSettingsPanel(this, true, true, ID != null, false, false, module);
+        panelSettings = new OnlineServiceSettingsPanel(this, true, ID != null, false, false, module);
         
         
         JPanel panel2 = new JPanel();

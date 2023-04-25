@@ -248,6 +248,15 @@ public class DcApplicationSettings extends Settings {
                             false, -1));
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._BOOLEAN,
+                            DcRepository.Settings.stComicVineAddEnemiesAndFriends,
+                            Boolean.FALSE,
+                            UIComponents._CHECKBOX,
+                            "lblComicVineQueryEnemiesAndFriendsHelp",
+                            "lblComicVineQueryEnemiesAndFriends",
+                            false,
+                            false, -1));
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._BOOLEAN,
                             DcRepository.Settings.stHighRenderingQuality,
                             Boolean.TRUE,
                             UIComponents._CHECKBOX,

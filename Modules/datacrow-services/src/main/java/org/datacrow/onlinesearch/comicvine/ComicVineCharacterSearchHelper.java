@@ -27,54 +27,99 @@ package org.datacrow.onlinesearch.comicvine;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcRepository.ExternalReferences;
 import org.datacrow.core.http.HttpConnection;
+import org.datacrow.core.http.HttpConnectionUtil;
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.ComicCharacter;
+import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.services.IOnlineSearchClient;
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.onlinesearch.util.JsonHelper;
 
 import com.google.gson.Gson;
 
 public class ComicVineCharacterSearchHelper {
     
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ComicVineCharacterSearchHelper.class.getName());
+    
     private static final Gson gson = new Gson();
     
-	private final DcObject dco;
-	private final String url;
-	private final String userAgent;
-	
-    public ComicVineCharacterSearchHelper(DcObject dco, String userAgent, String url) {
-        this.dco = dco;
-        this.url = url;
-        this.userAgent = userAgent;
+    private final Map<String, DcObject> characters = new HashMap<>();
+    private final IOnlineSearchClient listener;
+    
+    protected ComicVineCharacterSearchHelper(IOnlineSearchClient listener) {
+        this.listener = listener;
     }
     
-    public void search() throws Exception {
-        HttpConnection conn = new HttpConnection(new URL(url), userAgent);
-        String json = conn.getString(StandardCharsets.UTF_8);
-        conn.close();
+    public void search(DcObject dco, String userAgent, String url) throws Exception {
         
-        Map<?, ?> result = gson.fromJson(json, Map.class);
-        result = (Map<?, ?>) result.get("results");
-        
-        String id = String.valueOf(((Number) result.get("id")).intValue());
-        dco.addExternalReference(ExternalReferences._COMICVINE, id);
-        
-        JsonHelper.setHtmlAsString(result, "description", dco, ComicCharacter._C_DESCRIPTION);
-        JsonHelper.setString(result, "real_name", dco, ComicCharacter._B_REALNAME);
-        JsonHelper.setString(result, "site_detail_url", dco, ComicCharacter._D_URL);
-        
-        setEnemies(result, dco);
-        setFriends(result, dco);
-        
-        if (!dco.isNew()) {
-            Connector connector = DcConfig.getInstance().getConnector();
-            connector.saveItem(dco);
+        if (characters.containsKey(url)) {
+            dco = characters.get(url);
+            
+        } else {
+            
+            listener.addMessage(DcResources.getText("msgComicVineSearchingForCharacter", dco.toString()));
+            
+            HttpConnection conn = new HttpConnection(new URL(url), userAgent);
+            String json = conn.getString(StandardCharsets.UTF_8);
+            conn.close();
+            
+            Map<?, ?> result = gson.fromJson(json, Map.class);
+            result = (Map<?, ?>) result.get("results");
+            
+            String id = String.valueOf(((Number) result.get("id")).intValue());
+            dco.addExternalReference(ExternalReferences._COMICVINE, id);
+            
+            JsonHelper.setHtmlAsString(result, "description", dco, ComicCharacter._D_DESCRIPTION);
+            JsonHelper.setString(result, "real_name", dco, ComicCharacter._C_REALNAME);
+            JsonHelper.setString(result, "site_detail_url", dco, ComicCharacter._E_URL);
+            JsonHelper.setString(result, "aliases", dco, ComicCharacter._B_ALIASES);
+            
+            if (DcSettings.getBoolean(DcRepository.Settings.stComicVineAddEnemiesAndFriends)) {
+                setEnemies(result, dco);
+                setFriends(result, dco);
+            }
+            
+            setPowers(result, dco);
+            setImage(result, dco);
+            
+            if (!dco.isNew()) {
+                Connector connector = DcConfig.getInstance().getConnector();
+                connector.saveItem(dco);
+            }
+            
+            characters.put(url, dco);
+        }
+    }
+    
+    private void setImage(Map<?, ?> map, DcObject dco) {
+        if (map.containsKey("image")) {
+            Map<?, ?> images = (Map<?, ?>) map.get("image");
+            
+            if (images.containsKey("original_url")) {
+                byte[] img = getImageBytes((String) images.get("original_url"));
+                dco.setValue(ComicCharacter._K_PICTURE, img);
+            }   
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void setPowers(Map<?, ?> map, DcObject dco) {
+        if (map.containsKey("character_enemies")) {
+            List<Map<?, ?>> powers = (List<Map<?, ?>>) map.get("powers");
+            
+            for (Map<?, ?> power : powers)
+                dco.createReference(ComicCharacter._J_POWERS, power.get("name"));
         }
     }
     
@@ -84,7 +129,7 @@ public class ComicVineCharacterSearchHelper {
             List<Map<?, ?>> enemies = (List<Map<?, ?>>) map.get("character_enemies");
             
             for (Map<?, ?> enemy : enemies)
-                dco.createReference(ComicCharacter._E_ENEMIES, enemy.get("name"));
+                dco.createReference(ComicCharacter._F_ENEMIES, enemy.get("name"));
         }
     }
     
@@ -94,7 +139,21 @@ public class ComicVineCharacterSearchHelper {
             List<Map<?, ?>> friends = (List<Map<?, ?>>) map.get("character_friends");
             
             for (Map<?, ?> friend : friends)
-                dco.createReference(ComicCharacter._F_FRIENDS, friend.get("name"));
+                dco.createReference(ComicCharacter._G_FRIENDS, friend.get("name"));
         }
+    }
+    
+    private byte[] getImageBytes(String url) {
+        url = url.replace("http://", "https://");
+        try {
+            if (url != null && url.length() > 0) {
+                byte[] b = HttpConnectionUtil.retrieveBytes(url);
+                if (b != null && b.length > 50)
+                    return b;
+            }
+        } catch (Exception e) {
+            logger.debug("Cannot download image from [" + url + "]", e);
+        }
+        return null;
     }
 }

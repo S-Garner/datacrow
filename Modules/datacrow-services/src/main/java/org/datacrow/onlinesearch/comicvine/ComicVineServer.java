@@ -66,6 +66,7 @@ public class ComicVineServer implements IServer {
     public Collection<Setting> getSettings() {
         Collection<Setting> settings = new ArrayList<>();
         settings.add(DcSettings.getSetting(DcRepository.Settings.stComicVineApiKey));
+        settings.add(DcSettings.getSetting(DcRepository.Settings.stComicVineAddEnemiesAndFriends));
         return settings;
     }
     

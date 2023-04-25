@@ -124,7 +124,7 @@ public abstract class DcRepository {
      * The keys for application level settings.
      */
     public static final class Settings {
-        // public static final String stMobyGamesDefaultPlatform = "mobygames_default_platform";
+    	public static final String stComicVineAddEnemiesAndFriends = "comicvine_add_enemies_and_friends";
         public static final String stMobyGamesApiKey = "mobygames_api_key";
         public static final String stComicVineApiKey = "comicvine_api_key";
         public static final String stServerAddress = "server_address";

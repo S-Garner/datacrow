@@ -57,6 +57,8 @@ public abstract class IconLibrary {
     public static final DcImageIcon _icoModuleTypeProperty32 = new DcImageIcon(picPath + "property32.png");
     public static final DcImageIcon _icoTeam16 = new DcImageIcon(picPath + "team16.png");
     public static final DcImageIcon _icoTeam32 = new DcImageIcon(picPath + "team32.png");
+    public static final DcImageIcon _icoPower16 = new DcImageIcon(picPath + "power16.png");
+    public static final DcImageIcon _icoPower32 = new DcImageIcon(picPath + "power32.png");
     public static final DcImageIcon _icoModuleTypePlain = new DcImageIcon(picPath + "moduletype_other.png");
     public static final DcImageIcon _icoModuleTypeMedia = new DcImageIcon(picPath + "moduletype_media.png");
     public static final DcImageIcon _icoModuleTypeAssociate = new DcImageIcon(picPath + "moduletype_associate.png");

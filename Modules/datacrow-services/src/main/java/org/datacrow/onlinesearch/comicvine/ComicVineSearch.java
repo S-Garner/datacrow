@@ -40,13 +40,14 @@ import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Comic;
+import org.datacrow.core.objects.helpers.ComicCharacter;
+import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
 import org.datacrow.core.services.OnlineServiceError;
 import org.datacrow.core.services.Region;
 import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
-import org.datacrow.core.services.Servers;
 import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
@@ -62,6 +63,8 @@ public class ComicVineSearch extends SearchTask {
 	private static final Gson gson = new Gson();
     private final String apiKey;
     
+    private final ComicVineCharacterSearchHelper characterSearchHelper;
+    
     public ComicVineSearch(
             IOnlineSearchClient listener, 
             IServer server, 
@@ -71,16 +74,8 @@ public class ComicVineSearch extends SearchTask {
             Map<String, Object> additionalFilters) {
         
         super(listener, server, region, mode, query, additionalFilters);
-        apiKey = !CoreUtilities.isEmpty(DcSettings.getString(DcRepository.Settings.stComicVineApiKey)) ?
-                DcSettings.getString(DcRepository.Settings.stComicVineApiKey) :
-                Servers.getInstance().getApiKey("comicvine");
-
-        // TODO: encourage users to request their own API key
-//        String msg = DcResources.getText("msgMobyGamesNoApiKeyDefined");
-//        msg = "<html>" + msg + "<br><u><a href=\"https://www.mobygames.com/info/api\">https://www.mobygames.com/info/api</a></u></html>";
-//        
-//        throw new OnlineSearchUserError(msg);
-        
+        apiKey = DcSettings.getString(DcRepository.Settings.stComicVineApiKey).trim();
+        characterSearchHelper = new ComicVineCharacterSearchHelper(listener);
     }
     
 	@Override
@@ -202,10 +197,14 @@ public class ComicVineSearch extends SearchTask {
             
             for (Map<?, ?> character : characters) {
                 DcObject ref = dco.createReference(Comic._O_CHARACTERS, character.get("name"));
+                
+                if (!ref.isNew())
+                    ref.initializeReferences(ComicCharacter._SYS_EXTERNAL_REFERENCES, true);
              
+                // only query characters in case the character is new, or, the character has not been searched for before.
                 if (   !isCancelled() &&
                         character.containsKey("api_detail_url") && 
-                       (ref.isNew() || ref.getExternalReference(DcRepository.ExternalReferences._COMICVINE) == null)) {
+                        ref.isNew() || dco.getExternalReference(DcRepository.ExternalReferences._COMICVINE) == null) {
                     
                     waitBetweenRequest();
                     setCharacterDetails((String) character.get("api_detail_url") + "?api_key=" + apiKey + "&format=json", ref);
@@ -216,16 +215,27 @@ public class ComicVineSearch extends SearchTask {
     
     private void setCharacterDetails(String url, DcObject dco) {
         try {
-            ComicVineCharacterSearchHelper characterSearch = new ComicVineCharacterSearchHelper(dco, userAgent, url);
-            characterSearch.search();
+            characterSearchHelper.search(dco, userAgent, url);
         } catch (Exception e) {
             logger.error("Could not retrieve character details from " + url, e);
             listener.addError("Could not retrieve character details: " + e.getMessage());
         }
     }
     
+    private void checkApiKey() throws OnlineSearchUserError {
+        if (CoreUtilities.isEmpty(apiKey)) {
+            String msg = DcResources.getText("msgComicVineNoApiKeyDefined");
+            msg = "<html>" + msg + "<br><u><a href=\"https://comicvine.gamespot.com/api\">https://comicvine.gamespot.com/api</a></u></html>";
+            
+            throw new OnlineSearchUserError(msg);
+        }
+    }
+    
     @Override
     protected Collection<Object> getItemKeys() throws OnlineSearchUserError, OnlineServiceError {
+        
+        checkApiKey();
+        
         Collection<Object> results = new ArrayList<>();
         
         try {
