@@ -120,6 +120,8 @@ public class ComicVineSearch extends SearchTask {
         JsonHelper.setHtmlAsString(result, "description", dco, Comic._B_DESCRIPTION);
         JsonHelper.setYear(result, "cover_date", dco);
         
+        set URL
+        
         return dco;
     }
     
