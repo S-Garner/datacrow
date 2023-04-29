@@ -61,7 +61,7 @@ public class ComicVineCharacterSearchHelper {
         this.listener = listener;
     }
     
-    public void search(DcObject dco, String userAgent, String url) throws Exception {
+    public void search(DcObject dco, String userAgent, String url, boolean saveMode) throws Exception {
         
         if (characters.containsKey(url)) {
             dco = characters.get(url);
@@ -93,7 +93,7 @@ public class ComicVineCharacterSearchHelper {
             setPowers(result, dco);
             setImage(result, dco);
             
-            if (!dco.isNew()) {
+            if (!dco.isNew() && saveMode) {
                 Connector connector = DcConfig.getInstance().getConnector();
                 connector.saveItem(dco);
             }

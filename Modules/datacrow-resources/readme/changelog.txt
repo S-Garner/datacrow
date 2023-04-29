@@ -5,8 +5,11 @@ Data Crow version 4.9.0                                            Released on 2
 [New]
 - Data Crow synchronization service for external (to Data Crow) devices. This service
   allows both module and data to be synchronized. At the current stage, it's a one way 
-  synchronization going from Data Crow to the external device.
+  synchronization going from Data Crow to the external device. This is the build up
+  for something great(er) in the near future.
 - New module: comics
+- New online search for comics: Comic Vine
+- New online search for comic book characters: Comic Vine
 
 [Fixed]
 - NPE exception during the set up of the user folder due to the logger not having been
@@ -25,14 +28,14 @@ Data Crow version 4.9.0                                            Released on 2
   incorporated in other applications. Most importantly the logging mechanism is now 
   completely decoupled from the code as such that it can be registered by the 
   application/app using the core library. Other major changes have been made to 
-  significantly reduce the references to the AWT and Swing libraries (GUI).
+  significantly reduce the references to the AWT and Swing libraries (GUI) from the 
+  Data Crow core library.
 - The module wizard now allows you to create references to the same module multiple
   times.
 
 [To Do]
 - Create a DMG file (code signed) for MacOS users (severely lacking at this moment, 
   Data Crow can only be run from the terminal at this moment).
-- Add online service for comic books (Comic Vine).
 - Add translations for comic book module
 - Adjust settings for the comic book module.
 

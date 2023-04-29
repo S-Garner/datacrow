@@ -32,18 +32,18 @@ import org.datacrow.core.objects.DcObject;
 public class ComicVineSearchResult {
 
 	private DcObject dco;
-	private Map<?, ?> comicData;
+	private Map<?, ?> data;
     
 	public ComicVineSearchResult(DcObject dco) {
         this.dco = dco;
     }
     
     public Map<?, ?> getComicData() {
-        return comicData;
+        return data;
     }
 
-    public void setComicData(Map<?, ?> comicData) {
-        this.comicData = comicData;
+    public void setData(Map<?, ?> data) {
+        this.data = data;
     }
 
     public DcObject getDco() {

@@ -56,16 +56,16 @@ import org.datacrow.onlinesearch.util.JsonHelper;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
-public class ComicVineSearch extends SearchTask {
+public class ComicVineComicSearch extends SearchTask {
     
-    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ComicVineSearch.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ComicVineComicSearch.class.getName());
 
 	private static final Gson gson = new Gson();
     private final String apiKey;
     
     private final ComicVineCharacterSearchHelper characterSearchHelper;
     
-    public ComicVineSearch(
+    public ComicVineComicSearch(
             IOnlineSearchClient listener, 
             IServer server, 
             Region region,
@@ -215,7 +215,7 @@ public class ComicVineSearch extends SearchTask {
     
     private void setCharacterDetails(String url, DcObject dco) {
         try {
-            characterSearchHelper.search(dco, userAgent, url);
+            characterSearchHelper.search(dco, userAgent, url, true);
         } catch (Exception e) {
             logger.error("Could not retrieve character details from " + url, e);
             listener.addError("Could not retrieve character details: " + e.getMessage());
@@ -267,7 +267,7 @@ public class ComicVineSearch extends SearchTask {
                 comic.addExternalReference(ExternalReferences._COMICVINE, id);
                 
                 cvsr = new ComicVineSearchResult(comic);
-                cvsr.setComicData(src);
+                cvsr.setData(src);
                 results.add(cvsr);
                 
                 count++;

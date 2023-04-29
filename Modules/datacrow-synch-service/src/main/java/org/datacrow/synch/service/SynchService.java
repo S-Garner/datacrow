@@ -40,11 +40,11 @@ public class SynchService {
     private Task task;
     private ISynchServiceListener listener;
     
-    private final String name;
+    // private final String name;
     private final int port;
     
 	public SynchService(String name, int port) {
-    	this.name = name;
+    	// this.name = name;
     	this.port = port;
 	}
 	

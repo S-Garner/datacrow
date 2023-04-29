@@ -41,14 +41,14 @@ import org.datacrow.core.services.plugin.IServer;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.Setting;
 
-public class ComicVineServer implements IServer {
+public class ComicVineComicServer implements IServer {
     
     private static final long serialVersionUID = 1L;
 
     private Collection<SearchMode> modes = new ArrayList<SearchMode>();
     private Collection<Region> regions = new ArrayList<Region>();
 
-    public ComicVineServer() {
+    public ComicVineComicServer() {
     	regions.add(new Region("en", "English", "https://comicvine.gamespot.com/api/issues/"));
     }
 
@@ -99,7 +99,7 @@ public class ComicVineServer implements IServer {
             Map<String, Object> additionalFilters,
             DcObject client) {
         
-        ComicVineSearch task = new ComicVineSearch(listener, this, region, mode, query, additionalFilters);
+        ComicVineComicSearch task = new ComicVineComicSearch(listener, this, region, mode, query, additionalFilters);
         task.setClient(client);
         return task;
     }
