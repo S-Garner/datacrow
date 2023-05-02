@@ -5,10 +5,30 @@
 	<version>4.9.0</version>
 	<packaging>pom</packaging>
 	<organization>
-		<name>Robert Jan van der Waals</name>
+		<name>Van der Waals BV</name>
 	</organization>
+	
+	<developers>
+		<developer>
+			<id>rwaals</id>
+			<name>Robert Jan van der Waals</name>
+			<email>info@datacrow.org</email>
+			<url>https://datacrow.org</url>
+			<organization>Van der Waals BV</organization>
+			<organizationUrl>https://datacrow.org</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>Europe/Berlin</timezone>
+		</developer>
+	</developers>
+	
 	<name>main-project</name>
 	<url>https://www.datacrow.org/</url>
+	<inceptionYear>2002</inceptionYear>
+	<description>The ultimate cataloger</description>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.target>11</maven.compiler.target>
