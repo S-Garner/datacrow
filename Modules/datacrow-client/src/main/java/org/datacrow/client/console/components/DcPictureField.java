@@ -62,13 +62,11 @@ import org.datacrow.client.console.windows.OpenFromUrlDialog;
 import org.datacrow.client.console.windows.PictureDialog;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.client.util.filefilters.PictureFileFilter;
-import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.resources.DcResources;
-import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.filefilters.DcFileFilter;
@@ -314,9 +312,6 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
                 
                 initialize();
                 changed = true;
-                
-                if (DcSettings.getBoolean(DcRepository.Settings.stDeleteImageFileAfterImport)) 
-                    file.delete();
             }
         } catch (Exception e) {
             logger.error("An error occured while reading the image", e);

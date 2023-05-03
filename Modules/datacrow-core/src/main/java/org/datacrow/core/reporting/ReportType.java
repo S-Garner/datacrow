@@ -32,7 +32,6 @@ public enum ReportType {
 	
 	PDF("pdf", DcResources.getText("lblReportTypePDF")),
 	HTML("html",DcResources.getText("lblReportTypeHTML")),
-//	XHTML("xhtml",DcResources.getText("lblReportTypeXHTML")),
 	RTF("rtf", DcResources.getText("lblReportTypeRTF")),
 	DOCX("docx", DcResources.getText("lblReportTypeDOCX")),
 	XLSX("xlsx", DcResources.getText("lblReportTypeXLSX")),

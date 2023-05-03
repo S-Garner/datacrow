@@ -244,8 +244,34 @@ public class DcModuleSettings extends Settings {
                             "",
                             "",
                             false,
-                            false, module.getIndex()));          
-     
+                            false, module.getIndex()));
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._STRING,
+                            DcRepository.ModuleSettings.stReportFile,
+                            "",
+                            -1,
+                            "",
+                            "",
+                            false,
+                            false, -1));
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._STRING,
+                            DcRepository.ModuleSettings.stReportType,
+                            "",
+                            -1,
+                            "",
+                            "",
+                            false,
+                            false, -1));
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._STRING,
+                            DcRepository.ModuleSettings.stSelectedReport,
+                            "",
+                            -1,
+                            "",
+                            "",
+                            false,
+                            false, -1));
     }
     
     protected void createSettings(DcModule module) {

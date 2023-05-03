@@ -32,6 +32,9 @@ Data Crow version 4.9.0                                            Released on 2
   Data Crow core library.
 - The module wizard now allows you to create references to the same module multiple
   times.
+- Removed setting: "delete picture file after adding it to an item"
+- Report dialog now remembers selected target file per module and additionally also
+  remembers the selected report and report format.
 
 [To Do]
 - Create a DMG file (code signed) for MacOS users (severely lacking at this moment, 

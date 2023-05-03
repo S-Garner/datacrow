@@ -96,7 +96,9 @@ public abstract class DcRepository {
         public static final String stOnlineSearchDefaultServer = "online_search_default_server";
         public static final String stOnlineSearchDefaultRegion = "online_search_default_region";
         public static final String stOnlineSearchDefaultMode = "online_search_default_mode";
-//        public static final String stOnlineSearchSubItems = "online_search_ub_items";
+        public static final String stReportFile = "report_file";
+        public static final String stReportType = "report_type";
+        public static final String stSelectedReport = "selected_report";
         public static final String stLoanFormSize = "loan_form_size";
         public static final String stFileImportDialogSize = "file_import_dialog_size";
         public static final String stSimpleItemViewSize = "simple_item_view_size";
@@ -117,7 +119,6 @@ public abstract class DcRepository {
         public static final String stContainerTreePanelFlat = "container_tree_panel_flat";
         public static final String stWebItemFormFields = "web_item_form_fields";
         public static final String stWebOverviewFields = "web_overview_fields";
-        
     }
     
     /**
@@ -183,7 +184,6 @@ public abstract class DcRepository {
         public static final String stModuleSettings = "module_settings";
         public static final String stShowGroupingPanel = "show_grouping_panel";
         public static final String stShowToolbar = "show_toolbar";
-        public static final String stReportFile = "report_file";
     	public static final String stShowQuickFilterBar = "show_quick_filter_bar";
         public static final String stGarbageCollectionIntervalMs = "gargabe_collection_interval_milliseconds";
         public static final String stFontRendering = "font_rendering";
@@ -204,7 +204,6 @@ public abstract class DcRepository {
         public static final String stReferencesDialogSize = "references_dialog_size";
         public static final String stModuleSelectDialogSize = "module_select_dialog_size";
         public static final String stResourcesEditorViewSize = "resources_editor_view_size";
-        public static final String stDeleteImageFileAfterImport = "delete_images_after_import";
         public static final String stShowQuickView = "show_quick_view";
         public static final String stBackupDialogSize = "backup_dialog_size";
         public static final String stICalendarExportDialogSize = "icalendar_export_dialog_size";

@@ -53,6 +53,7 @@ import org.datacrow.core.IconLibrary;
 import org.datacrow.core.clients.IItemExporterClient;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.reporting.Report;
 import org.datacrow.core.reporting.ReportGenerator;
@@ -60,6 +61,7 @@ import org.datacrow.core.reporting.ReportType;
 import org.datacrow.core.reporting.Reports;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.utilities.CoreUtilities;
 
 /**
  * @author Robert Jan van der Waals
@@ -68,32 +70,33 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ReportingDialog.class.getName());
     
-    private JButton buttonRun = ComponentFactory.getButton(DcResources.getText("lblRun"));
-    private JButton buttonStop = ComponentFactory.getButton(DcResources.getText("lblStop"));
-    private JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
-    private JButton buttonResults = ComponentFactory.getButton(DcResources.getText("lblOpenReport"));
+    private final JButton buttonRun = ComponentFactory.getButton(DcResources.getText("lblRun"));
+    private final JButton buttonStop = ComponentFactory.getButton(DcResources.getText("lblStop"));
+    private final JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
+    private final JButton buttonResults = ComponentFactory.getButton(DcResources.getText("lblOpenReport"));
 
-    private JComboBox<Object> cbReports = ComponentFactory.getComboBox();
-    private JComboBox<Object> cbReportType = ComponentFactory.getComboBox();
+    private final JComboBox<Object> cbReports = ComponentFactory.getComboBox();
+    private final JComboBox<Object> cbReportType = ComponentFactory.getComboBox();
 
-    private JTextArea textLog = ComponentFactory.getTextArea();
-    private JProgressBar progressBar = new JProgressBar();
-    private DcFileField fileField;
+    private final DcFileField fileField = ComponentFactory.getFileField(false, false, null);
+    
+    private final JTextArea textLog = ComponentFactory.getTextArea();
+    private final JProgressBar progressBar = new JProgressBar();
+    
+    private final List<String> items;
+    
+    private final Reports reports = new Reports();
     
     private boolean canceled = false;
-    private List<String> items;
-
+    
     public ReportingDialog(List<String> items) {
         super(DcResources.getText("lblCreateReport"), IconLibrary._icoReport);
 
+        this.items = items;
+        setHelpIndex("dc.reports");
+        
         try {
-            this.items = items;
-            
-            setHelpIndex("dc.reports");
-    
-            fileField = ComponentFactory.getFileField(false, false, null);
             buildDialog();
-
         } catch (Exception exp) {
             logger.error(DcResources.getText("msgFailedToOpen", exp.getMessage()), exp);
             GUI.getInstance().displayErrorMessage(DcResources.getText("msgFailedToOpen", exp.getMessage()));
@@ -102,7 +105,36 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
 
     private void saveDefaults() {
         DcSettings.set(DcRepository.Settings.stReportingDialogSize, getSize());
-        DcSettings.set(DcRepository.Settings.stReportFile, fileField.getFilename());
+        
+        DcModule module = DcModules.getCurrent();
+        module.setSetting(DcRepository.ModuleSettings.stReportFile, fileField.getFilename());
+        
+        ReportType reportType = (ReportType) cbReportType.getSelectedItem();
+        module.setSetting(DcRepository.ModuleSettings.stReportType, reportType.getExtension());
+        
+        Report report = (Report) cbReports.getSelectedItem();
+        module.setSetting(DcRepository.ModuleSettings.stSelectedReport, report.getName());
+    }
+    
+    private void setDefaults() {
+    	DcModule module = DcModules.getCurrent();
+    	fileField.setValue(module.getSettings().getString(DcRepository.ModuleSettings.stReportFile));
+
+    	String selectedReport = (String) module.getSetting(DcRepository.ModuleSettings.stSelectedReport);
+    	if (!CoreUtilities.isEmpty(selectedReport)) {
+    		for (Report report : reports.getReports(DcModules.getCurrent().getIndex())) {
+    			if (report.getName().equals(selectedReport))
+    				cbReports.setSelectedItem(report);
+    		}
+    	}
+    	
+    	String reportTypeExt = (String) module.getSetting(DcRepository.ModuleSettings.stReportType);
+    	if (!CoreUtilities.isEmpty(reportTypeExt)) {
+    		for (ReportType rt : ReportType.values()) {
+    			if (rt.getExtension().equals(reportTypeExt))
+    				cbReportType.setSelectedItem(rt);
+    		}
+    	}
     }
     
     @Override
@@ -198,27 +230,15 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
         saveDefaults();
         
         cancel();
-
-        if (items != null) { 
-            items.clear();
-            items = null;
-        }
         
-        buttonRun = null;
-        buttonStop = null;
-        buttonClose = null;
-        buttonResults = null;
-        cbReports = null;
-        cbReportType = null;
-        textLog = null;
-        progressBar = null;
-        fileField = null;
+        if (items != null) items.clear();
         
         super.close();
     }
     
     private void buildDialog() {
-        //**********************************************************
+        
+    	//**********************************************************
         //Input Panel
         //**********************************************************
         JPanel panelInput = new JPanel();
@@ -226,8 +246,6 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
         panelInput.add(fileField,  Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
                       ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                        new Insets( 5, 5, 5, 5), 0, 0));
-        
-        fileField.setValue(DcSettings.getString(DcRepository.Settings.stReportFile));
         
         panelInput.setBorder(ComponentFactory.getTitleBorder(DcResources.getText("lblTargetFile")));        
         
@@ -240,9 +258,10 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
         for (ReportType rt : ReportType.values())
             cbReportType.addItem(rt);
 
-        Reports reports = new Reports();
         for (Report report : reports.getReports(DcModules.getCurrent().getIndex()))
             cbReports.addItem(report);
+        
+        cbReports.setSelectedItem(reports);
         
         JLabel lblReportFormat = ComponentFactory.getLabel(DcResources.getText("lblReportFormat"));
         JLabel lblReports = ComponentFactory.getLabel(DcResources.getText("lblReport"));
@@ -342,6 +361,8 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
                 panelLog,       Layout.getGBC( 0, 5, 1, 1, 40.0, 40.0
                ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                 new Insets( 0, 5, 0, 5), 0, 0));
+        
+        setDefaults();
         
         this.setResizable(true);
         this.pack();

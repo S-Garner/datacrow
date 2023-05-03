@@ -88,7 +88,7 @@ public class DcReferencesDialog extends DcDialog implements ActionListener, KeyL
             reference = mapping.getReferencedObject();
             if (reference != null) {
                 sv = new DcSimpleValue(reference.getID(), 
-                         String.valueOf(reference.getValue(reference.getSystemDisplayFieldIdx())), 
+                         reference.toString(), 
                          reference.getIcon());
                 
                 selected.add(sv);
@@ -97,6 +97,9 @@ public class DcReferencesDialog extends DcDialog implements ActionListener, KeyL
         }
         
         Connector connector = DcConfig.getInstance().getConnector();
+        
+        // TODO: fix me!
+        
         Collection<DcSimpleValue> all = connector.getSimpleValues(mappingModule.getReferencedModIdx(), true);
         for (DcSimpleValue value : all) {
             if (!selected.contains(value))
