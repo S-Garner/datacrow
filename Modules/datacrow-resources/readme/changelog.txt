@@ -7,7 +7,7 @@ Data Crow version 4.9.0                                            Released on 2
   allows both module and data to be synchronized. At the current stage, it's a one way 
   synchronization going from Data Crow to the external device. This is the build up
   for something great(er) in the near future.
-- New module: comics
+- New module: comic books.
 - New online search for comics: Comic Vine
 - New online search for comic book characters: Comic Vine
 
@@ -41,10 +41,6 @@ Data Crow version 4.9.0                                            Released on 2
 - Removed setting: "delete picture file after adding it to an item"
 - Report dialog now remembers selected target file per module and additionally also
   remembers the selected report and report format.
-
-[To Do]
-- Add translations for comic book module
-- Adjust settings for the comic book module.
 
 
 -----------------------------------------------------------------------------------------
