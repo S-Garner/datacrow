@@ -121,7 +121,7 @@ public class DirectConnector extends LocalServerConnector {
 			    notifyDatabaseFailure(die.getMessage());
 			}
 			
-			SecurityCenter.getInstance().initialize();
+			SecurityCenter.getInstance().initialize(getUsername(), getPassword());
 	        login(getUsername(), getPassword());	        
 	        
 	        DatabaseManager.getInstance().initialize();

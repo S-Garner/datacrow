@@ -351,7 +351,7 @@ public class DcServer implements Runnable, IStarterClient, IClient {
     			    System.exit(0);
     			}
     
-                SecurityCenter.getInstance().initialize();
+                SecurityCenter.getInstance().initialize(username, password);
                 
         	    LocalServerConnector connector = new LocalServerConnector();
         	    SecuredUser su = connector.login(username, password);

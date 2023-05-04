@@ -161,6 +161,8 @@ public class DcDatabase {
         // Set the database privileges for the current user. This avoids errors for upgraded modules and such. 
         DatabaseManager.getInstance().setPriviliges(DcConfig.getInstance().getConnector().getUser().getUser());
         DatabaseManager.getInstance().setPriviliges("DC_ADMIN", true);
+        
+        
     }
     
     /**

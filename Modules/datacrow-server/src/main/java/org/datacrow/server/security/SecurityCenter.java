@@ -49,6 +49,7 @@ import org.datacrow.core.plugin.RegisteredPlugin;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.security.SecurityException;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.server.data.DataManager;
 import org.datacrow.server.db.CreateQuery;
 import org.datacrow.server.db.DatabaseManager;
@@ -236,13 +237,13 @@ public class SecurityCenter {
                 logger.info(e, e);
             }
         }
-    }   
+    }
     
     /**
      * Creates the default user. This user reflects the default SA account of the
      * HSQL database. No additional privileges need to be set.
      */
-    private void createDefaultUser() {
+    private void createDefaultUser(String username, String password) {
         // default system administrator
         Connection connection = DatabaseManager.getInstance().getConnection("DC_ADMIN", "UK*SOCCER*96");
         if (connection == null) {
@@ -261,7 +262,7 @@ public class SecurityCenter {
         
         User user = new User();
         user.setIDs();
-        user.setValue(User._A_LOGINNAME, "SA");
+        user.setValue(User._A_LOGINNAME, username);
         user.setValue(User._B_ENABLED, Boolean.TRUE);
         user.setValue(User._L_ADMIN, Boolean.TRUE);
         user.setValue(User._C_NAME, "Administrator");
@@ -269,15 +270,20 @@ public class SecurityCenter {
         
         for (Permission permission : getDefaultPermissions())
             user.addChild(permission);
+
+        // SA is the default user; only create the user if it is not equal to SA
+        if (!username.equals("SA"))
+        	DatabaseManager.getInstance().createUser(user, password);
+        else if (!CoreUtilities.isEmpty(password))
+        	DatabaseManager.getInstance().changePassword(user, password);
         
         try {
             user.setIDs();
             
-            // Use the admin user
+            // Use the default administrator user
             User admin = new User();
             admin.setIDs();
             admin.setValue(User._A_LOGINNAME, "DC_ADMIN");
-            
             SecuredUser su = new SecuredUser(admin , "UK*SOCCER*96");
             
             InsertQuery query = new InsertQuery(su, user);
@@ -349,7 +355,7 @@ public class SecurityCenter {
         return users;
     }
     
-    public void initialize() {
+    public void initialize(String username, String password) {
         
         if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT)
             return;
@@ -359,7 +365,7 @@ public class SecurityCenter {
             try {
                 createTables();
                 if (getUserCount() == 0) // no user. create default.
-                    createDefaultUser();
+                    createDefaultUser(username, password);
                 
             } catch (Exception e) {
                 logger.error(e, e);

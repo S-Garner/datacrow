@@ -22,6 +22,12 @@ Data Crow version 4.9.0                                            Released on 2
   a required field.
 - The online search breaks the uniqueness check, causing duplicate items to be added.
 - Clear on online search form did not clear the quick view panel.
+- References field, selection dialog, did not adhere to "descriptive" setting of the
+  module.
+- Now if you supply credentials when creating a new Data Crow instance, Data Crow will 
+  create a user with these credentials. This is true for both the client and the server
+  edition if the parameter -credentials has been supplied 
+  (see: https://datacrow.org/docs/starting-data-crow/)
 
 [Changed]
 - Internal structural changes have been made to allow the Data Crow core library to be
@@ -37,8 +43,6 @@ Data Crow version 4.9.0                                            Released on 2
   remembers the selected report and report format.
 
 [To Do]
-- Create a DMG file (code signed) for MacOS users (severely lacking at this moment, 
-  Data Crow can only be run from the terminal at this moment).
 - Add translations for comic book module
 - Adjust settings for the comic book module.
 

@@ -35,6 +35,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -51,6 +52,8 @@ import org.datacrow.client.console.components.renderers.SimpleValueTableCellRend
 import org.datacrow.client.console.components.tables.DcTable;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.data.DataFilter;
+import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.modules.MappingModule;
 import org.datacrow.core.objects.DcMapping;
@@ -87,9 +90,7 @@ public class DcReferencesDialog extends DcDialog implements ActionListener, KeyL
             mapping = (DcMapping) dco;
             reference = mapping.getReferencedObject();
             if (reference != null) {
-                sv = new DcSimpleValue(reference.getID(), 
-                         reference.toString(), 
-                         reference.getIcon());
+                sv = new DcSimpleValue(reference.getID(), reference.toString(), reference.getIcon());
                 
                 selected.add(sv);
                 tblSelectedItems.addRow(new DcSimpleValue[] {sv});
@@ -98,18 +99,17 @@ public class DcReferencesDialog extends DcDialog implements ActionListener, KeyL
         
         Connector connector = DcConfig.getInstance().getConnector();
         
-        // TODO: fix me!
+        DcModule m = DcModules.get(mappingModule.getReferencedModIdx());
+        List<DcObject> all =  connector.getItems(new DataFilter(m.getIndex()), m.getMinimalFields(null));
         
-        Collection<DcSimpleValue> all = connector.getSimpleValues(mappingModule.getReferencedModIdx(), true);
-        for (DcSimpleValue value : all) {
-            if (!selected.contains(value))
-                availableItems.add(value);
+        for (DcObject dco : all) {
+            sv = new DcSimpleValue(dco.getID(), dco.toString(), dco.getIcon());
+            
+            if (!selected.contains(sv)) {
+            	availableItems.add(sv);
+            	tblAvailableItems.addRow(new DcSimpleValue[] {sv});
+            }
         }
-
-        int row = 0;
-        tblAvailableItems.setRowCount(availableItems.size());
-        for (DcSimpleValue value : availableItems)
-            tblAvailableItems.setValueAt(value, row++, 0);
         
         pack();
         
