@@ -292,14 +292,14 @@ public class DcServer implements Runnable, IStarterClient, IClient {
         System.out.println("Specify the login credentials to start the Data Crow server (default user is SA with a blank password");
         System.out.println("Example (username and password): java -jar datacrow-server.jar -credentials:SA/12345");                
         System.out.println("Example (username without a password): java -jar datacrow-server.jar -credentials:SA");
-        System.out.println("Note that it is also possible to supply the credentials in the datacrow.credentials file. Create the file and supply the credentials there: username/password");
+        System.out.println("Note that it is also possible to supply the credentials in the datacrow.credentials file. Create the file and put the credentials within: username/password");
         System.out.println("");
         System.out.println("-userdir:<userdir>");
         System.out.println("Specifies the user directory. Start the name with a dot (.) to make the path relative to the installation folder.");
         System.out.println("Example: java -jar datacrow-server.jar -userdir:d:/datacrow-data");
         System.out.println("");                    
         System.out.println("-db:<databasename>");
-        System.out.println("Forces Data Crow to use an alternative database.");
+        System.out.println("OPTIONAL: Forces Data Crow to use an alternative database.");
         System.out.println("Example: java -jar datacrow-server.jar -db:testdb");
         System.out.println("");
         System.out.println("-port:<port number>");
@@ -311,17 +311,17 @@ public class DcServer implements Runnable, IStarterClient, IClient {
         System.out.println("Example: java -jar datacrow-server.jar -imageserverport:9001");
         System.out.println("");
         System.out.println("-webserverport:<port number>");
-        System.out.println("specifies the port to use for the web server. If not supplied, the web server module will not be started.");
+        System.out.println("OPTIONAL: specifies the port to use for the web server. If not supplied, the web server module will not be started.");
         System.out.println("Example: -webserverport:8080");
         System.out.println("");
         System.out.println("-debug");
-        System.out.println("Debug mode for additional system event information.");
+        System.out.println("OPTIONAL: Debug mode for additional system event information.");
         System.out.println("Example: java -jar datacrow-server.jar -debug");   
         System.out.println("");            
         System.out.println("-ip:<server IP address>");
         System.out.println("Specifies the IP address used by the server. The server will use this IP address to point to resources such as images.");
         System.out.println("Example: java -jar datacrow-server.jar -ip:192.168.178.10");
-        System.out.println("make sure to use an external IP address if users will be connecting not attached to your network.");          
+        System.out.println("Make sure to use an external IP address if users will be connecting not attached to your network.");          
 	}
 	
 	public boolean initialize(String username, String password, String db) {

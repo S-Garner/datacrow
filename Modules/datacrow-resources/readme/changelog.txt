@@ -1,6 +1,11 @@
 -----------------------------------------------------------------------------------------
 Data Crow version 4.9.0                                            Released on 2023-05-xx
 -----------------------------------------------------------------------------------------
+Version 4.9 brings you a whole new module to register Comic Books. It is supported by
+the invaluable online source that is https://comicvine.gamespot.com.
+
+I have not yet created a DMG for MacOS, I am planning on creation and uploading this 
+package, as part of this release, within the next few days.
 
 [New]
 - Data Crow synchronization service for external (to Data Crow) devices. This service
@@ -30,14 +35,15 @@ Data Crow version 4.9.0                                            Released on 2
   (see: https://datacrow.org/docs/starting-data-crow/)
 - Mass update for board games was not working.
 - Mass update incorrectly causing warnings on item uniqueness.
+- Mass update for books did not correctly check on the ISBN field.
 
 [Changed]
 - Internal structural changes have been made to allow the Data Crow core library to be
   incorporated in other applications. Most importantly the logging mechanism is now 
-  completely decoupled from the code as such that it can be registered by the 
-  application/app using the core library. Other major changes have been made to 
+  completely decoupled from the code as such that any other logging mechanism can be
+  be used, suitable for the targeted platform. Other major changes have been made to 
   significantly reduce the references to the AWT and Swing libraries (GUI) from the 
-  Data Crow core library.
+  Data Crow core library. The exception to the latter are the image classes.
 - The module wizard now allows you to create references to the same module multiple
   times.
 - Removed setting: "delete picture file after adding it to an item"
