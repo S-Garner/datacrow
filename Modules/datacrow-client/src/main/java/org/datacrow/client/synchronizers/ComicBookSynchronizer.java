@@ -29,30 +29,30 @@ import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.helpers.Book;
+import org.datacrow.core.objects.helpers.Comic;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.synchronizers.DefaultSynchronizer;
 import org.datacrow.core.synchronizers.Synchronizer;
 import org.datacrow.core.utilities.isbn.ISBN;
 import org.datacrow.core.utilities.isbn.InvalidBarCodeException;
 
-public class BookSynchronizer extends DefaultSynchronizer {
+public class ComicBookSynchronizer extends DefaultSynchronizer {
 
-    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(BookSynchronizer.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ComicBookSynchronizer.class.getName());
     
-    public BookSynchronizer() {
-        super(DcResources.getText("lblMassItemUpdate", DcModules.get(DcModules._BOOK).getObjectName()),
-              DcModules._BOOK);
+    public ComicBookSynchronizer() {
+        super(DcResources.getText("lblMassItemUpdate", DcModules.get(DcModules._COMIC).getObjectName()),
+              DcModules._COMIC);
     }
     
     @Override
 	public Synchronizer getInstance() {
-		return new BookSynchronizer();
+		return new ComicBookSynchronizer();
 	}
     
     @Override
     public String getHelpText() {
-        return DcResources.getText("msgBookMassUpdateHelp");
+        return DcResources.getText("msgComicBookMassUpdateHelp");
     }
 
     @Override
@@ -60,9 +60,9 @@ public class BookSynchronizer extends DefaultSynchronizer {
         boolean matches = false;
         
         try {
+            
             ISBN isbnInput = null;
             ISBN isbnSearch = null;
-            
             try {
                 // check if the search string is an ISBN
             	isbnInput = new ISBN(searchString);
@@ -72,21 +72,16 @@ public class BookSynchronizer extends DefaultSynchronizer {
             
             try {
                 // check if the book contains a valid ISBN
-                if (dco.isFilled(Book._N_ISBN13) || dco.isFilled(Book._J_ISBN10) ) {
-                	isbnSearch = new ISBN(
-                            dco.isFilled(Book._N_ISBN13) ? (String) dco.getValue(Book._N_ISBN13) : 
-                           (String) dco.getValue(Book._J_ISBN10));
+                if (dco.isFilled(Comic._I_ISBN)) {
+                	isbnSearch = new ISBN((String) dco.getValue(Comic._I_ISBN));
                 }
             } catch (InvalidBarCodeException ibce) {
-                logger.debug("The existing ISBN/EAN is invalid [" + 
-                        (dco.isFilled(Book._N_ISBN13) ? (String) dco.getValue(Book._N_ISBN13) : 
-                        (String) dco.getValue(Book._J_ISBN10)) + "]");
+                logger.debug("The existing ISBN/EAN is invalid [" + dco.getValue(Comic._I_ISBN) + "]");
             }
             
-            if (isbnSearch != null && isbnInput != null) {
-                matches = isbnSearch.getIsbn13().equals(isbnInput.getIsbn13());
+            if (isbnInput != null && isbnSearch != null) {
+                matches = isbnInput.getIsbn13().equals(isbnSearch.getIsbn13());
             }
-
         } catch (Exception e) {
             logger.error(e, e);
         }

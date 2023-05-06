@@ -105,8 +105,13 @@ public abstract class Synchronizer implements Serializable{
         if (target.getField(DcObject._SYS_EXTERNAL_REFERENCES) != null)
             target.setValue(DcObject._SYS_EXTERNAL_REFERENCES, queried.getValue(DcObject._SYS_EXTERNAL_REFERENCES));
         
-        for (int field : queried.getFieldIndices())
+        for (int field : queried.getFieldIndices()) {
+        	
+        	if (field == DcObject._ID)
+        		continue;
+        	
             setValue(target, field, queried.getValue(field));
+        }
     }
     
     public void synchronize(ISynchronizerClient client) {

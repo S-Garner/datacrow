@@ -119,11 +119,16 @@ public class OnlineSearchHelper implements IOnlineSearchClient {
         task = server.getSearchTask(this, getSearchMode(server), region, null, null, item);
         task.setItemMode(SearchTask._ITEM_MODE_FULL);
         
-        try {
-            return task.getItem(new URL((String) item.getValue(DcObject._SYS_SERVICEURL)));
-        } catch (Exception e) {
-            logger.error(e, e);
-            return item;
+        
+        if (item.isFilled(DcObject._SYS_SERVICEURL)) {
+	        try {
+	            return task.getItem(new URL((String) item.getValue(DcObject._SYS_SERVICEURL)));
+	        } catch (Exception e) {
+	            logger.error(e, e);
+	            return item;
+	        }
+        } else {
+        	return item;
         }
     }
     

@@ -56,7 +56,10 @@ import org.datacrow.client.fileimporter.MusicAlbumImporter;
 import org.datacrow.client.fileimporter.SoftwareImporter;
 import org.datacrow.client.settings.GuiSettingsConverter;
 import org.datacrow.client.synchronizers.AssociateSynchronizer;
+import org.datacrow.client.synchronizers.BoardGameSynchronizer;
 import org.datacrow.client.synchronizers.BookSynchronizer;
+import org.datacrow.client.synchronizers.ComicBookCharacterSynchronizer;
+import org.datacrow.client.synchronizers.ComicBookSynchronizer;
 import org.datacrow.client.synchronizers.MovieSynchronizer;
 import org.datacrow.client.synchronizers.MusicAlbumSynchronizer;
 import org.datacrow.client.synchronizers.SoftwareSynchronizer;
@@ -454,6 +457,9 @@ public class DataCrow implements IStarterClient {
         synchronizers.register(new MovieSynchronizer(), DcModules._MOVIE);
         synchronizers.register(new MusicAlbumSynchronizer(), DcModules._MUSIC_ALBUM);
         synchronizers.register(new SoftwareSynchronizer(), DcModules._SOFTWARE);
+        synchronizers.register(new ComicBookSynchronizer(), DcModules._COMIC);
+        synchronizers.register(new ComicBookCharacterSynchronizer(), DcModules._COMICCHARACTER);
+        synchronizers.register(new BoardGameSynchronizer(), DcModules._BOARDGAME);
     }
     
     private void initFileImporters() {

@@ -28,6 +28,8 @@ Data Crow version 4.9.0                                            Released on 2
   create a user with these credentials. This is true for both the client and the server
   edition if the parameter -credentials has been supplied 
   (see: https://datacrow.org/docs/starting-data-crow/)
+- Mass update for board games was not working.
+- Mass update incorrectly causing warnings on item uniqueness.
 
 [Changed]
 - Internal structural changes have been made to allow the Data Crow core library to be
