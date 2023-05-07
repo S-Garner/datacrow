@@ -179,7 +179,7 @@ public class DcServer implements Runnable, IStarterClient, IClient {
                 password = index > -1 ? credentials.substring(index + 1) : "";
                 
             } catch (IOException ioe) {
-                System.out.println("The " + file + " could not be read");
+                System.out.println("File [" + file + "] could not be read");
             }
         }
         
