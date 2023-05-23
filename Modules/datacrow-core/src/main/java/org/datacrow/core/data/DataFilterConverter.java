@@ -43,6 +43,7 @@ import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
+import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 public class DataFilterConverter {
 	
@@ -146,6 +147,9 @@ public class DataFilterConverter {
         return sql.toString();
     }
     
+    /**
+     * TODO: refactor this - this is getting crazy long
+     */
 	private void addEntries(StringBuffer sql, DcModule module) {
     	boolean hasConditions = false;
         DcModule entryModule; 
@@ -275,16 +279,27 @@ public class DataFilterConverter {
                         sql.append(" IN (");
                     }
                     
-                    DcModule referenceMod =  DcModules.get(field.getReferenceIdx());
-                    sql.append("SELECT ");
-                    sql.append(referenceMod.getField(DcObject._ID).getDatabaseFieldName());
-                    sql.append(" FROM ");
-                    sql.append(referenceMod.getTableName());
-                    sql.append(" WHERE UPPER(");
-                    sql.append(referenceMod.getField(referenceMod.getDisplayFieldIdx()).getDatabaseFieldName());
-                    sql.append(") LIKE UPPER('%");
-                    sql.append(queryValue);
-                    sql.append("%'))");
+                    DcModule referencedMod =  DcModules.get(field.getReferenceIdx());
+                    subFilter = new DataFilter(referencedMod.getIndex());
+                    
+                    boolean critFound= false;
+                    for (DcFieldDefinition fieldDef : referencedMod.getFieldDefinitions().getDefinitions()) {
+                    	
+                    	// looking for a descriptive field of type text
+                    	if (   (fieldDef.isDescriptive() || fieldDef.isUnique()) && 
+                    			referencedMod.getField(fieldDef.getIndex()).getValueType() == DcRepository.ValueTypes._STRING) {
+                    		critFound = true;
+                    		subFilter.addEntry( new DataFilterEntry(DataFilterEntry._OR, referencedMod.getIndex(), fieldDef.getIndex(), Operator.CONTAINS, queryValue));
+                    	}
+                    }
+                    
+                    if (!critFound) {
+                    	// adding a bogus lookup to avoid having no criteria due to missing descriptive field (of type string)
+                    	subFilter.addEntry(new DataFilterEntry(referencedMod.getIndex(), DcObject._ID, Operator.CONTAINS, queryValue));
+                    }
+
+                    sql.append(new DataFilterConverter(subFilter).toSQL(new int[] {DcObject._ID}, false, false));
+                    sql.append(")");
 
                     if (mapping != null)
                         sql.append(")");

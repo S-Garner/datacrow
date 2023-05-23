@@ -1152,8 +1152,13 @@ public class DcObject implements Comparable<DcObject>, Serializable {
             	    
             	    setValue(field, newMappings);
             	} else if (o != null && getField(field).getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) { 
-            	    setValue(field, ((DcObject) o).clone());
-            	    
+            		
+            		if (o instanceof DcObject) {
+            			setValue(field, ((DcObject) o).clone());
+            		} else {
+            			// bypass cloning of object in case string is set (ID) - see DcValue - set _DCOBJECTREFERENCE value)
+            			setValue(field, o);
+            		}
                 } else {
                     setValue(field, o);    
                 }
