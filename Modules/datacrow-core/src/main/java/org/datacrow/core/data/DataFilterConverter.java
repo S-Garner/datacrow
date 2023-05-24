@@ -294,8 +294,8 @@ public class DataFilterConverter {
                     }
                     
                     if (!critFound) {
-                    	// adding a bogus lookup to avoid having no criteria due to missing descriptive field (of type string)
-                    	subFilter.addEntry(new DataFilterEntry(referencedMod.getIndex(), DcObject._ID, Operator.CONTAINS, queryValue));
+                    	// adding the default field if not overwritten by sessings
+                    	subFilter.addEntry(new DataFilterEntry(referencedMod.getIndex(), referencedMod.getDisplayFieldIdx(), Operator.CONTAINS, queryValue));
                     }
 
                     sql.append(new DataFilterConverter(subFilter).toSQL(new int[] {DcObject._ID}, false, false));
