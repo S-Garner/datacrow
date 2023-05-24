@@ -48,6 +48,7 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcProperty;
 import org.datacrow.core.objects.Picture;
@@ -174,6 +175,33 @@ public class SystemUpgrade {
                 "if the error persists";
             throw new SystemUpgradeException(msg);
         }
+    }
+    
+    // TODO: finish the self referencing items correction
+    private void removeSelfReferencingItems() {
+    	
+    	String sql;
+    	DcModule mappingMod;
+    	
+    	for (DcModule module : DcModules.getAllModules()) {
+    	
+    		for (DcField field : module.getFields()) {
+    			
+    			if ((field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE ||
+    			     field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) &&
+    				field.getReferenceIdx() == module.getIndex()) {
+    				
+    				if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
+	    				sql = "UPDATE " + module.getTableName() + " SET " + 
+	    						field.getDatabaseFieldName() + " = NULL WHERE " + field.getDatabaseFieldName() + " = ID";
+    				} else {
+    					mappingMod = DcModules.get(DcModules.getMappingModIdx(module.getIndex(), module.getIndex(), field.getIndex()));
+    					sql = "DELETE FROM " + mappingMod.getTableName() + 
+    							" WHERE " + mappingMod.getField(DcMapping._B_REFERENCED_ID) + " = " + mappingMod.getField(DcMapping._A_PARENT_ID);
+    				}
+    			}
+    		}
+    	}
     }
     
     private void renameRecordLabel() {

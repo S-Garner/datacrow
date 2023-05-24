@@ -164,8 +164,11 @@ public class DcValue implements Serializable {
                         setValueNative(null, field);
                     } else if (o instanceof DcObject) {
                         setValueNative(o, field);
-                    } else if (!CoreUtilities.isEmpty(o) && field.getReferenceIdx() != field.getModule()) {
-                        setValueNative(DcConfig.getInstance().getConnector().getItem(field.getReferenceIdx(), (String) o), field);
+                    } else if (!CoreUtilities.isEmpty(o)) {
+                        setValueNative(DcConfig.getInstance().getConnector().getItem(
+                        		field.getReferenceIdx(), 
+                        		(String) o, 
+                        		DcModules.get(field.getReferenceIdx()).getMinimalFields(null)), field);
                     }
 
                     if (getValue() == null && !CoreUtilities.isEmpty(o)) {

@@ -266,14 +266,16 @@ public class DataCrow implements IStarterClient {
         	p.load(fis);
         	String value = (String) p.get(DcRepository.Settings.stUIScaling);
         	
-        	if (value.length() == 3) {
-        		value = value.substring(0, 1) + "." + value.substring(1, 3);
-        	} else {
-        		value = "0." + value;
+        	if (value != null && value.length() > 0) {
+	        	if (value.length() == 3) {
+	        		value = value.substring(0, 1) + "." + value.substring(1, 3);
+	        	} else {
+	        		value = "0." + value;
+	        	}
+	
+	        	System.setProperty("sun.java2d.uiScale", value);
         	}
-
-        	System.setProperty("sun.java2d.uiScale", value);
-        	
+	        	
         	fis.close();
         	
         } catch (Exception e) {

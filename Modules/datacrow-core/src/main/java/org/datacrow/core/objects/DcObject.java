@@ -1015,6 +1015,46 @@ public class DcObject implements Comparable<DcObject>, Serializable {
 
         if (DcSettings.getBoolean(DcRepository.Settings.stCheckUniqueness))
             isUnique();
+        
+        checkForSelfReferencing();
+    }
+    
+    @SuppressWarnings("unchecked")
+	private void checkForSelfReferencing() throws ValidationException {
+
+    	DcObject reference;
+    	Collection<DcMapping> mappings;
+    	
+    	boolean isSelfReferencing = false;
+    	String fields = "";
+    	
+    	for (DcField field : getFields()) {
+    		if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
+    			reference = (DcObject) getValue(field.getIndex());
+    			
+    			if (reference != null && reference.getID().equals(getID())) {
+    				fields += (fields.length() > 0 ? ", " : "") + field.getLabel();
+    				isSelfReferencing = true;
+    			}
+ 			
+    		}
+
+    		if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
+    			mappings = (Collection<DcMapping>) getValue(field.getIndex());
+    			
+    			if (mappings != null) {
+    				for (DcMapping mapping : mappings) {
+    					if (mapping.getValue(DcMapping._B_REFERENCED_ID).equals(getID())) {
+    	    				fields += (fields.length() > 0 ? ", " : "") + field.getLabel();
+    	    				isSelfReferencing = true;
+    					}
+    				}
+    			}
+    		}
+    	}
+
+    	if (isSelfReferencing)
+    		throw new ValidationException(DcResources.getText("msgItemCannotReferenceItself", fields));
     }
 
     /**

@@ -8,9 +8,20 @@ Data Crow version 4.10.0                                           Released on 2
 - Fixed an issue where quick search is not working when the item holds a reference to 
   an item of module with having the first numeric field set as descriptive.
 - Settings not saved on exit when Data Crow asks for a restart.
+- When an item has a self referencing field it caused the item form to always say there
+  are unsaved changes regardless of having made changes.
+- Values present in self referencing fields were exported to XML with their ID only.
+- Item was able to referencing itself. This causes all kinds of issues; now, when trying
+  to save an item that references itself, the system will prevent you from doing so.
+  Note that it was not possible to filter them from the various fields, this would trigger
+  a rewrite of the way fields are generated. Maybe something for later.
+  The upgrade will remove self referencing values if present (silently).
 
 [Changed]
 - Added UI scaling option to the Look and Feel settings (25% to 300%)
+
+[TODO]
+On upgrade: remove self referencing item references..
 
 
 -----------------------------------------------------------------------------------------
