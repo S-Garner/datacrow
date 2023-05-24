@@ -191,8 +191,9 @@ public class DirectConnector extends LocalServerConnector {
     }
 
     @Override
-    public void shutdown(boolean saveChanges) {
+    public void shutdown(boolean checkForChanges) {
         DcConfig dcc = DcConfig.getInstance();
+        dcc.getClientSettings().setUiScaling();
         dcc.getClientSettings().save();
 
         DriveManager.getInstance().stopScanners();
@@ -201,7 +202,7 @@ public class DirectConnector extends LocalServerConnector {
         
         logger.info(DcResources.getText("msgApplicationStops"));
         
-        if (saveChanges) {
+        if (checkForChanges) {
             boolean unsavedChanges = false;
             for (IMasterView mv : GUI.getInstance().getViews()) {
                 mv.saveSettings();
@@ -219,12 +220,10 @@ public class DirectConnector extends LocalServerConnector {
         
         DcIconCache.getInstance().deleteIcons();
         
-        if (saveChanges) {
-            DataFilters.save();
-            FilePatterns.save();
-            DcSettings.save();
-            DcModules.save();
-        }
+        DataFilters.save();
+        FilePatterns.save();
+        DcSettings.save();
+        DcModules.save();
         
         DatabaseManager.getInstance().closeDatabases(false);
         

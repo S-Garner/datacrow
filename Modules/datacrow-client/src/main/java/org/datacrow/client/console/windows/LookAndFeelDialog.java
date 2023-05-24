@@ -42,6 +42,8 @@ import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 
 public class LookAndFeelDialog extends DcDialog implements ActionListener  {
+	
+	private final DcLookAndFeelSelector lafSelector;
     
     public LookAndFeelDialog() {
         super(GUI.getInstance().getMainFrame());
@@ -51,7 +53,7 @@ public class LookAndFeelDialog extends DcDialog implements ActionListener  {
         
         getContentPane().setLayout(Layout.getGBL());
         
-        DcLookAndFeelSelector lafSelector = ComponentFactory.getLookAndFeelSelector();
+        lafSelector = ComponentFactory.getLookAndFeelSelector();
         lafSelector.setParent(this);
         lafSelector.setValue(DcSettings.getLookAndFeel(DcRepository.Settings.stLookAndFeel));
         
@@ -74,6 +76,14 @@ public class LookAndFeelDialog extends DcDialog implements ActionListener  {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
+    	
+    	if (lafSelector.isRestartRequired()) {
+    		if (GUI.getInstance().displayQuestion("msgRestart")) {
+                GUI.getInstance().getMainFrame().setOnExitCheckForChanges(false);
+                GUI.getInstance().getMainFrame().close();    			
+    		}
+    	}
+    	
         close();
     }
 }

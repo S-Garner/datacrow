@@ -121,6 +121,7 @@ import org.datacrow.client.console.components.DcTimeField;
 import org.datacrow.client.console.components.DcTitledBorder;
 import org.datacrow.client.console.components.DcToolBarButton;
 import org.datacrow.client.console.components.DcTree;
+import org.datacrow.client.console.components.DcUIScaleComboBox;
 import org.datacrow.client.console.components.DcUrlField;
 import org.datacrow.client.console.components.IComponent;
 import org.datacrow.client.console.components.renderers.AvailabilityComboBoxRenderer;
@@ -511,6 +512,10 @@ public final class ComponentFactory extends UIComponents {
     public static final DcIconSizeComboBox getIconSizeCombo() {
         return new DcIconSizeComboBox();
     }
+    
+    public static final DcUIScaleComboBox getUIScaleCombo() {
+        return new DcUIScaleComboBox();
+    }    
     
     public static final DcComboBox getCollationCombo() {
     	return new DcCollationComboBox();

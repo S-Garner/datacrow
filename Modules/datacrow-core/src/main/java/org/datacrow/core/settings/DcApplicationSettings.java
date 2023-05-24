@@ -617,8 +617,15 @@ public class DcApplicationSettings extends Settings {
                             "lblLookAndFeel",
                             false,
                             false, -1));
-        
-        
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._LONG,
+                            DcRepository.Settings.stUIScaling,
+                            100,
+                            UIComponents._UISCALECOMBO,
+                            "",
+                            "lblUIScaling",
+                            false,
+                            false, -1));
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._LONG,
                             DcRepository.Settings.stIconSize,

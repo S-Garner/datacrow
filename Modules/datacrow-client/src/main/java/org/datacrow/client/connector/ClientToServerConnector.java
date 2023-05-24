@@ -581,8 +581,9 @@ public class ClientToServerConnector extends Connector {
     }
 
     @Override
-    public void shutdown(boolean saveChanges) {
+    public void shutdown(boolean checkForChanges) {
         DcConfig dcc = DcConfig.getInstance();
+        dcc.getClientSettings().setUiScaling();
         dcc.getClientSettings().save();
         dcc.getConnector().close();
 
@@ -592,7 +593,7 @@ public class ClientToServerConnector extends Connector {
         
         logger.info(DcResources.getText("msgApplicationStops"));
         
-        if (saveChanges) {
+        if (checkForChanges) {
             boolean unsavedChanges = false;
             for (IMasterView mv : GUI.getInstance().getViews()) {
                 mv.saveSettings();
@@ -610,12 +611,10 @@ public class ClientToServerConnector extends Connector {
         
         DcIconCache.getInstance().deleteIcons();
         
-        if (saveChanges) {
-            DataFilters.save();
-            FilePatterns.save();
-            DcSettings.save();
-            DcModules.save();
-        }
+        DataFilters.save();
+        FilePatterns.save();
+        DcSettings.save();
+        DcModules.save();
         
         GUI.getInstance().getMainFrame().setVisible(false);
 

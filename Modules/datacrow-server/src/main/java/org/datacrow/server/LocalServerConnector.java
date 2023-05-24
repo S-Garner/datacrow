@@ -330,7 +330,7 @@ public class LocalServerConnector extends Connector {
     }
 
     @Override
-    public void shutdown(boolean saveChanges) {
+    public void shutdown(boolean checkForChanges) {
         DcConfig dcc = DcConfig.getInstance();
         dcc.getClientSettings().save();
         dcc.getConnector().close();

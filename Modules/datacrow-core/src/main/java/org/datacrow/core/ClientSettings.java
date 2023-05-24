@@ -31,6 +31,7 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 import java.util.UUID;
 
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
 /**
@@ -92,6 +93,12 @@ public class ClientSettings {
         } catch (Exception e) {
             e.printStackTrace(); // logger not yet available at this stage
         }  
+    }
+    
+    public void setUiScaling() {
+        properties.setProperty(
+        		DcRepository.Settings.stUIScaling, 
+        		String.valueOf(DcSettings.getLong(DcRepository.Settings.stUIScaling)));
     }
     
     /**

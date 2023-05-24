@@ -7,6 +7,11 @@ Data Crow version 4.10.0                                           Released on 2
   item.
 - Fixed an issue where quick search is not working when the item holds a reference to 
   an item of module with having the first numeric field set as descriptive.
+- Settings not saved on exit when Data Crow asks for a restart.
+
+[Changed]
+- Added UI scaling option to the Look and Feel settings (25% to 300%)
+
 
 -----------------------------------------------------------------------------------------
 Data Crow version 4.9.0                                            Released on 2023-05-09

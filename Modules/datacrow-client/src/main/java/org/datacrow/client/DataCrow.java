@@ -28,8 +28,10 @@ package org.datacrow.client;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.io.FileInputStream;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
+import java.util.Properties;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -106,6 +108,8 @@ public class DataCrow implements IStarterClient {
     	
         DataCrow.args = args;
 
+        applySystemProperties();
+        
         DataCrow dc = new DataCrow();
         
 		DcSettings.setConverter(new GuiSettingsConverter());
@@ -245,6 +249,35 @@ public class DataCrow implements IStarterClient {
             
             dc.initializeConnector(serverAddress, applicationServerPort, imageServerPort, username, password);
             dc.start();            
+        }
+    }
+    
+    private static void applySystemProperties() {
+    	
+    	// set UI scaling
+    	
+        try {
+        	File file = new File(System.getProperty("user.home"), "datacrow.properties");
+        	Properties p = new Properties();
+        	
+        	
+        	FileInputStream fis = new FileInputStream(file);
+        	
+        	p.load(fis);
+        	String value = (String) p.get(DcRepository.Settings.stUIScaling);
+        	
+        	if (value.length() == 3) {
+        		value = value.substring(0, 1) + "." + value.substring(1, 3);
+        	} else {
+        		value = "0." + value;
+        	}
+
+        	System.setProperty("sun.java2d.uiScale", value);
+        	
+        	fis.close();
+        	
+        } catch (Exception e) {
+        	e.printStackTrace();
         }
     }
 
