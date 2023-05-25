@@ -27,11 +27,16 @@ package org.datacrow.client.console.components;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.data.DataFilter;
+import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 public class DcObjectComboBox extends DcComboBox {
 
@@ -105,7 +110,12 @@ public class DcObjectComboBox extends DcComboBox {
             addItem(dco);
 
         Connector connector = DcConfig.getInstance().getConnector();
-        for (DcObject dco : connector.getItems(module, DcModules.get(module).getMinimalFields(null)))
+        
+        DataFilter df = new DataFilter(module);
+        df.setOrder(DcModules.get(module).getDescriptiveFields());
+        
+        List<DcObject> items = connector.getItems(df, DcModules.get(module).getMinimalFields(null));
+        for (DcObject dco : items)
             addItem(dco);
 
         if (o != null)

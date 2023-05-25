@@ -569,12 +569,16 @@ public class DcModule implements Comparable<DcModule>, Serializable {
      * Tells if the module is created by a user.
      */
     public boolean isCustomModule() {
+    	
+    	if (getIndex() == 10000000)
+    		System.out.println();
+    	
         return ((getIndex() < 50 ||
-                (getIndex() >= 20000 && getIndex() <= 30000)) ||
-                 getIndex() >= 10000000) &&
+                //(getIndex() >= 20000 && getIndex() <= 30000)) ||
+                 getIndex() >= 10000000)) &&
                 getType() != DcModule._TYPE_TEMPLATE_MODULE && 
-                getType() != DcModule._TYPE_MAPPING_MODULE &&
-                DcModules.getPropertyBaseModule(getIndex()) == null;
+                getType() != DcModule._TYPE_MAPPING_MODULE; //&&
+                //DcModules.getPropertyBaseModule(getIndex()) == null;
     } 
     
     /**
@@ -617,14 +621,29 @@ public class DcModule implements Comparable<DcModule>, Serializable {
         }
         
         return null;
-   }
+    }
+    
+    public Collection<DcField> getDescriptiveFields() {
+    	Collection<DcField> fields = new ArrayList<>();
+    	
+    	for (DcFieldDefinition df : getFieldDefinitions().getDefinitions()) {
+    		if (df.isDescriptive())
+    			fields.add(getField(df.getIndex()));
+    	}
+    	
+    	if (fields.size() == 0) 
+    		fields.add(getField(getDisplayFieldIdx()));
+    	
+    	return fields;
+    }
+    
     
     public int getSystemDisplayFieldIdx() {
         return getDisplayFieldIdx();
     }
     
     /**
-     * Educated guess..
+     * @deprecated should use {@link #getDescriptiveFields()} instead
      */
     public int getDisplayFieldIdx() {
         for (DcFieldDefinition definition : getFieldDefinitions().getDefinitions()) {
@@ -1357,20 +1376,14 @@ public class DcModule implements Comparable<DcModule>, Serializable {
         if (this instanceof DcPropertyModule && getXmlModule() != null && !getXmlModule().isServingMultipleModules()) {
             // We are (or might be) working on a property base module with a calculated tablename
             DcModule module = DcModules.get(getName());
-            
-            try {
+
+        	// check if we are dealing with a registered module as else the table will not exist (yet)            
+        	if (DcModules.get(getIndex()) != null)
             	conn.executeSQL("DROP TABLE " + module.getTableName());
-            } catch (Exception e) {
-                // happens for property base modules
-                logger.debug("Table does not exist, no need to drop " + module.getTableName(), e);
-            }
         } else {
-            try {
-            	conn.executeSQL("DROP TABLE " + getTableName());
-            } catch (Exception e) {
-                // happens for property base modules
-                logger.debug("Table does not exist, no need to drop " + getTableName(), e);
-            }
+        	// check if we are dealing with a registered module as else the table will not exist (yet)
+        	if (DcModules.get(getIndex()) != null)
+        		conn.executeSQL("DROP TABLE " + getTableName());
                 
             if (getTemplateModule() != null)
                 getTemplateModule().delete();

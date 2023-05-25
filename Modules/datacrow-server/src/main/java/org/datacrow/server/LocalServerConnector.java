@@ -147,7 +147,13 @@ public class LocalServerConnector extends Connector {
     @Override
     public void deleteModule(int moduleIdx) {
     	try {
-    		DcModules.get(moduleIdx).delete();
+    		
+    		if (DcModules.get(moduleIdx) == null) {
+    			DcModules.getPropertyBaseModule(moduleIdx).delete();
+    		} else {
+    			DcModules.get(moduleIdx).delete();	
+    		}
+    		
     	} catch (Exception e) {
     		logger.error("An error occurred while deleting module " + DcModules.get(moduleIdx), e);
     	}

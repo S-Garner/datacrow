@@ -55,6 +55,7 @@ import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
+import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 public class FieldTreePanel extends TreePanel {
 
@@ -276,10 +277,8 @@ public class FieldTreePanel extends TreePanel {
 	                            joins.append(main.getField(DcMapping._A_PARENT_ID).getDatabaseFieldName());
 	                            joins.append(" as parentID, ");
 	                            
+	                            joins.append(getCombinedFieldName(reference, reference.getTableName()));
 	                            
-	                            joins.append(reference.getTableName());
-	                            joins.append(".");
-	                            joins.append(reference.getField(reference.getSystemDisplayFieldIdx()).getDatabaseFieldName());
 	                            joins.append(" as name,");
 	                            
 	                            if (reference.getIconField() != null) {
@@ -311,11 +310,7 @@ public class FieldTreePanel extends TreePanel {
 	                            joins.append(".ID ");
 	
 	                        } else {
-	                            
-	                            columns.append("subselect");
-                                columns.append(fieldCounter);
-                                columns.append(".");
-                                columns.append(reference.getField(reference.getSystemDisplayFieldIdx()).getDatabaseFieldName());
+	                        	columns.append(getCombinedFieldName(reference, "subselect" + fieldCounter));
                                 columns.append(" as name,");
                           
                                 if (reference.getIconField() != null) {
@@ -400,6 +395,32 @@ public class FieldTreePanel extends TreePanel {
             	}
             }
             createTree(sql.toString());
+        }
+        
+        private String getCombinedFieldName(DcModule m, String prefix) {
+        	
+        	StringBuffer sb = new StringBuffer();
+        	
+            Collection<DcField> subFields = m.getDescriptiveFields();
+            if (subFields.size() > 1)
+            	sb.append("(");
+            
+            int counter = 1;
+            for (DcField fld : subFields) {
+            	if (counter > 1)
+            		sb.append(" + ', '  + ");
+            	
+            	sb.append(prefix);
+            	sb.append(".");
+            	sb.append(fld.getDatabaseFieldName());
+            	
+            	counter++;
+            }
+            
+            if (subFields.size() > 1)
+            	sb.append(")");
+            
+            return sb.toString();
         }
         
         /**

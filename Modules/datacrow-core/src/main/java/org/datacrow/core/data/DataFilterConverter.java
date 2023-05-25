@@ -43,7 +43,6 @@ import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
-import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 public class DataFilterConverter {
 	
@@ -281,21 +280,11 @@ public class DataFilterConverter {
                     
                     DcModule referencedMod =  DcModules.get(field.getReferenceIdx());
                     subFilter = new DataFilter(referencedMod.getIndex());
-                    
-                    boolean critFound= false;
-                    for (DcFieldDefinition fieldDef : referencedMod.getFieldDefinitions().getDefinitions()) {
-                    	
-                    	// looking for a descriptive field of type text
-                    	if (   (fieldDef.isDescriptive() || fieldDef.isUnique()) && 
-                    			referencedMod.getField(fieldDef.getIndex()).getValueType() == DcRepository.ValueTypes._STRING) {
-                    		critFound = true;
-                    		subFilter.addEntry( new DataFilterEntry(DataFilterEntry._OR, referencedMod.getIndex(), fieldDef.getIndex(), Operator.CONTAINS, queryValue));
-                    	}
-                    }
-                    
-                    if (!critFound) {
-                    	// adding the default field if not overwritten by sessings
-                    	subFilter.addEntry(new DataFilterEntry(referencedMod.getIndex(), referencedMod.getDisplayFieldIdx(), Operator.CONTAINS, queryValue));
+
+                    // check all descriptive fields
+                    for (DcField fld : referencedMod.getDescriptiveFields()) {
+                    	if (fld.getValueType() == DcRepository.ValueTypes._STRING)
+                    		subFilter.addEntry(new DataFilterEntry(DataFilterEntry._OR, referencedMod.getIndex(), fld.getIndex(), Operator.CONTAINS, queryValue));
                     }
 
                     sql.append(new DataFilterConverter(subFilter).toSQL(new int[] {DcObject._ID}, false, false));
