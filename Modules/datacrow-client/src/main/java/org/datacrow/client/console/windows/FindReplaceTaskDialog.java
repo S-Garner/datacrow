@@ -127,6 +127,11 @@ public class FindReplaceTaskDialog extends DcDialog implements ActionListener, I
     public void notifyWarning(String msg) {
     	logger.warn(msg);
     }
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
+    }
 
     @Override
     public void notifyTaskCompleted(boolean success, String taskID) {

@@ -445,6 +445,11 @@ public abstract class FileImporter {
         public void notifyError(Throwable e) {
             client.notifyError(e);
         }
+        
+        @Override
+        public boolean askQuestion(String msg) {
+            return false;
+        }
 
         @Override
         public void notifyTaskCompleted(boolean success, String taskID) {

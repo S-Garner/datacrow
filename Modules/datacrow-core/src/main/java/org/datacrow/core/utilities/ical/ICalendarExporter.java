@@ -263,6 +263,11 @@ public class ICalendarExporter extends Thread implements IClient {
 	public void notifyWarning(String msg) {
 		logger.warn(msg);
 	}
+	
+    @Override
+    public boolean askQuestion(String msg) {
+        return false;
+    }
 
 	@Override
 	public void notifyTaskCompleted(boolean success, String taskID) {

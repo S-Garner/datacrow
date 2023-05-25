@@ -174,6 +174,10 @@ public class BackupDialog extends DcDialog implements ActionListener, IBackupRes
         logger.error(t, t);
     }
     
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
+    }
 
     @Override
     public void notifyWarning(String msg) {

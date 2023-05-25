@@ -503,6 +503,11 @@ public class DcServer implements Runnable, IStarterClient, IClient {
         else
             System.out.println(msg);
     }
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return false;
+    }
 
     @Override
     public void notifyError(String msg) {

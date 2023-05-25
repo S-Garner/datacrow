@@ -112,6 +112,8 @@ public class MergeItemsDialog extends DcDialog implements ActionListener, IClien
         if (items.contains(target)) {
             GUI.getInstance().displayWarningMessage(DcResources.getText("msgMergeTargetSameAsSource"));
         } else {
+        	buttonApply.setEnabled(false);
+        	
             MergeTask task = new MergeTask(this, items, target);
             task.start();
         }
@@ -138,11 +140,14 @@ public class MergeItemsDialog extends DcDialog implements ActionListener, IClien
     public void notifyWarning(String msg) {
         notify(msg);
     }
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
+    }
 
     @Override
     public void notifyTaskCompleted(boolean success, String taskID) {
-        buttonApply.setEnabled(true);
-        cbItems.setEnabled(true);
         progressBar.setValue(progressBar.getMaximum());
         
         notifyListeners();

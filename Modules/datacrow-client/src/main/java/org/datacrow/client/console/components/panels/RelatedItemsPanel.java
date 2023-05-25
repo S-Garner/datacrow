@@ -48,6 +48,7 @@ import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
 import org.datacrow.client.console.ComponentFactory;
+import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcPanel;
 import org.datacrow.client.console.components.DcPopupMenu;
@@ -170,6 +171,11 @@ public class RelatedItemsPanel extends DcPanel implements MouseListener, ISimple
     @Override
     public void notifyWarning(String msg) {
         logger.warn(msg);
+    }
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
     }
     
     @Override

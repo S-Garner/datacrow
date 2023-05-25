@@ -156,6 +156,8 @@ public abstract class Connector {
 	
 	public abstract boolean deleteItem(DcObject dco) throws ValidationException;
 	
+	public abstract void removeReferencesTo(int moduleIdx, String ID);
+	
 	public abstract boolean saveItem(DcObject dco) throws ValidationException;
 	
 	public abstract Collection<Picture> getPictures(String parentID);

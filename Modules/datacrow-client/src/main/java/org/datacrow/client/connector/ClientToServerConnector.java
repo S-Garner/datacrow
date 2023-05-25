@@ -98,6 +98,7 @@ import org.datacrow.core.settings.Setting;
 import org.datacrow.core.settings.Settings;
 import org.datacrow.core.utilities.SystemMonitor;
 import org.datacrow.core.wf.tasks.DcTask;
+import org.datacrow.server.data.DataManager;
 
 public class ClientToServerConnector extends Connector {
 
@@ -306,6 +307,12 @@ public class ClientToServerConnector extends Connector {
         return response != null ? response.getEnhancers() : null;
     }
 
+    @Override
+    public void removeReferencesTo(int moduleIdx, String ID) {
+    	ClientRequestReferencingItems crrri = new ClientRequestReferencingItems(su, moduleIdx, ID);
+    	processClientRequest(crrri);
+    }
+	
     @Override
 	public Collection<DcObject> getReferences(int mappingModuleIdx, String parentKey, boolean full) {
 		ClientRequestItems cr = new ClientRequestItems(getUser());

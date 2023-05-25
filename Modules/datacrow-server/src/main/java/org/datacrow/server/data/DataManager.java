@@ -30,6 +30,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -123,13 +124,56 @@ public class DataManager {
         return count;
     }
     
+    public void removeReferencesTo(SecuredUser su, int moduleIdx, String ID) {
+    	
+    	Connection conn = DatabaseManager.getInstance().getConnection(su);
+    	Statement stmt = null;
+    	
+    	DcModule mappingMod;
+    	String sql = "";
+    	
+    	try {
+    		stmt = conn.createStatement();
+    		
+	    	for (DcModule module : DcModules.getActualReferencingModules(moduleIdx)) {
+	    		 
+	    		 for (DcField field : module.getFields()) {
+	    			 
+	    			 if ((field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE ||
+    					  field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) &&
+    					 field.getReferenceIdx() == moduleIdx &&
+    					!module.isAbstract() &&
+    					 module.getType() != DcModule._TYPE_MAPPING_MODULE &&
+    					 module.getType() != DcModule._TYPE_TEMPLATE_MODULE) {
+	    				 
+	    				if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
+	    					sql = "UPDATE " + module.getTableName() + " SET " + 
+			    						field.getDatabaseFieldName() + " = NULL WHERE " + field.getDatabaseFieldName() + " = '" + ID + "'";
+	    				} else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
+	    					mappingMod = DcModules.get(DcModules.getMappingModIdx(module.getIndex(), field.getReferenceIdx(), field.getIndex()));
+	    					sql = "DELETE FROM " + mappingMod.getTableName() + 
+	    						  " WHERE " + mappingMod.getField(DcMapping._B_REFERENCED_ID).getDatabaseFieldName() + " = '" + ID + "'";
+	    				}
+		    				
+	 		            stmt.execute(sql);
+	    			 }
+	    		 }
+	    	 }
+    	} catch (SQLException se) {
+    		logger.error("Failed to delete references. Query: " + sql, se);
+    	} finally {
+        	try { if (stmt != null) stmt.close(); } catch (Exception e) {};
+    	}	    	
+    }
+    
     public List<DcObject> getReferencingItems(SecuredUser su, int moduleIdx, String ID) {
         List<DcObject> items = new ArrayList<DcObject>();
         
         DataFilter df;
         for (DcModule module : DcModules.getActualReferencingModules(moduleIdx)) {
             if (module.getType() != DcModule._TYPE_MAPPING_MODULE &&   
-                module.getType() != DcModule._TYPE_TEMPLATE_MODULE) {
+                module.getType() != DcModule._TYPE_TEMPLATE_MODULE &&
+               !module.isAbstract()) {
                 
                 for (DcField field : module.getFields()) {
                     

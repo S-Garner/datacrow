@@ -75,6 +75,11 @@ public class UIClient implements IClient {
 
     @Override
     public void notifyError(Throwable e) {}
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
+    }
 
     @Override
     public void notifyTaskCompleted(

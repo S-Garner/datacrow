@@ -29,9 +29,12 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.clients.IClient;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.ValidationException;
+import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 
 public class DeleteItemTask extends DcTask {
+	
+	private boolean cascade = false;
 
     public DeleteItemTask() {
         super("Delete-Items-Task");
@@ -41,7 +44,7 @@ public class DeleteItemTask extends DcTask {
 	public int getType() {
 		return _TYPE_DELETE_TASK;
 	}
-
+    
 	@Override
     public void run() {
         try {
@@ -50,7 +53,25 @@ public class DeleteItemTask extends DcTask {
             
         	Connector connector = DcConfig.getInstance().getConnector();
         	
+        	boolean askedForCascade = false;
+        	boolean hasReferences = false;
+        	
             for (DcObject dco : items) {
+
+            	// only check for references if not asked before if we need to or when we are doing a cascade delete
+            	if (!askedForCascade || cascade) {
+            		hasReferences = connector.getReferencingItems(dco.getModuleIdx(), dco.getID()).size() > 0;
+            	
+            		// has references, but cascade not enabled: let's ask the user what to do!
+            		if (hasReferences && !cascade) {
+            			askedForCascade = true;
+            			cascade = notifyClients(IClient._QUESTION, DcResources.getText("msgDeleteCascade"));
+            		}
+            		
+            		// remove references if we are allowed to:
+            		if (cascade)
+            			connector.removeReferencesTo(dco.getModuleIdx(), dco.getID());
+            	}
             	
             	if (isCanceled()) break;
             	
@@ -59,7 +80,8 @@ public class DeleteItemTask extends DcTask {
             		success = true;
             	} catch (ValidationException ve) {
             		success = false;
-                	notifyClients(IClient._WARNING, ve.getMessage());
+            		// skip this as we already asked the user how to handle this.
+                	// notifyClients(IClient._WARNING, ve.getMessage());
                 }
                 
                 try {

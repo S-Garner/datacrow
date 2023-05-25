@@ -22,9 +22,12 @@ Data Crow version 4.10.0                                           Released on 2
 - Collation issues in the tree view in case the first descriptive field is a numeric
   field.
 - Tree view did not always adhere to the descriptive settings.
+- Apply button will now remain disabled when a merge has been completed.
 
 [Changed]
 - Added UI scaling option to the Look and Feel settings (25% to 300%)
+- Introduction of cascade delete; when you delete properties / referenced items Data
+  Crow will ask you to delete the references to this item as well.
 
 
 -----------------------------------------------------------------------------------------

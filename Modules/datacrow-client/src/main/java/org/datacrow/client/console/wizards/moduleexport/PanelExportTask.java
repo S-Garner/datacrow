@@ -29,6 +29,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.io.File;
 
+import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.panels.TaskPanel;
 import org.datacrow.client.console.wizards.WizardException;
@@ -164,6 +165,11 @@ public class PanelExportTask extends ModuleExportWizardPanel implements IModuleW
     @Override
     public void notifyWarning(String msg) {
         notify(msg);   
+    }
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
     }
 
     @Override

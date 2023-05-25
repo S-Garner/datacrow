@@ -89,6 +89,11 @@ public class ItemImporterHelper implements IItemImporterClient {
 	@Override
 	public void notifyError(Throwable e) {}
 
+    @Override
+    public boolean askQuestion(String msg) {
+        return false;
+    }
+	
 	@Override
 	public void notifyTaskCompleted(boolean success, String taskID) {}
 

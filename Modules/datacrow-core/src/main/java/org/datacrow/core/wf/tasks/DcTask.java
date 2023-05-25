@@ -98,7 +98,9 @@ public abstract class DcTask implements Runnable {
     	}
     }
     
-    protected void notifyClients(int type, String msg) {
+    protected boolean notifyClients(int type, String msg) {
+    	boolean result = false;
+    	
         for (IClient client : clients) {
 	    	if (type == IClient._ERROR)
 	    	    client.notifyError(new Exception(msg));
@@ -106,7 +108,11 @@ public abstract class DcTask implements Runnable {
 	    	    client.notifyWarning(msg);
 	    	else if (type == IClient._INFO)
 	    	    client.notify(msg);
-    	}		
+	    	else if (type == IClient._QUESTION)
+	    		result |= client.askQuestion(msg);
+    	}
+        
+        return result;
     }
     
     public void addItems(Collection<DcObject> items) {

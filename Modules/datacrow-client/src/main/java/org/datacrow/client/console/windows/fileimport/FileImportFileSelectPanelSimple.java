@@ -195,6 +195,11 @@ public class FileImportFileSelectPanelSimple extends JPanel implements ActionLis
     }
     
     @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
+    }
+    
+    @Override
     public void notifyTaskCompleted(boolean success, String taskID) {
         dlg.initProgressBar(100);
         btStart.setEnabled(true);

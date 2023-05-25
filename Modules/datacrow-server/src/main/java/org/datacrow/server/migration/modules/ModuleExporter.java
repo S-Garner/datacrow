@@ -43,8 +43,8 @@ import org.datacrow.core.modules.xml.XmlModule;
 import org.datacrow.core.reporting.Reports;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
-import org.datacrow.core.utilities.Directory;
 import org.datacrow.core.utilities.CoreUtilities;
+import org.datacrow.core.utilities.Directory;
 import org.datacrow.core.utilities.zip.ZipFile;
 import org.datacrow.server.data.DataManager;
 
@@ -278,6 +278,11 @@ public class ModuleExporter {
         public void notifyTaskStarted(int count) {
 		    client.notifyStartedSubProcess(count);
 		}
+		
+	    @Override
+	    public boolean askQuestion(String msg) {
+	        return false;
+	    }
 
 		private void exportData(int module) throws Exception {
 		    

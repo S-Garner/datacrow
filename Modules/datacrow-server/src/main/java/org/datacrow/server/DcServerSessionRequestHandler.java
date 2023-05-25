@@ -49,6 +49,7 @@ import org.datacrow.core.server.requests.ClientRequestLogin;
 import org.datacrow.core.server.requests.ClientRequestModuleSettings;
 import org.datacrow.core.server.requests.ClientRequestModules;
 import org.datacrow.core.server.requests.ClientRequestReferencingItems;
+import org.datacrow.core.server.requests.ClientRequestRemoveReferenceTo;
 import org.datacrow.core.server.requests.ClientRequestSimpleValues;
 import org.datacrow.core.server.requests.ClientRequestUser;
 import org.datacrow.core.server.requests.ClientRequestValueEnhancers;
@@ -192,7 +193,10 @@ public class DcServerSessionRequestHandler extends Thread {
                 break;
             case ClientRequest._REQUEST_MODULE_SETTINGS:
                 sr = processModuleSettingsRequest((ClientRequestModuleSettings) cr);
-                break;                   
+                break;
+            case ClientRequest._REQUEST_REMOVE_REFERENCES_TO:
+                sr = processRemoveReferenceToRequest((ClientRequestRemoveReferenceTo) cr);
+                break;
             default:
                 logger.error("No handler found for " + cr);
 	        }
@@ -271,6 +275,11 @@ public class DcServerSessionRequestHandler extends Thread {
     private ServerResponse processValueEnhancersRequest(ClientRequestValueEnhancers cras) throws Exception {
         return new ServerValueEnhancersRequestResponse();
     }
+    
+    private DefaultServerResponse processRemoveReferenceToRequest(ClientRequestRemoveReferenceTo crrrt) {
+    	context.removeReferencesTo(crrrt.getModuleIdx(), crrrt.getId());
+        return new DefaultServerResponse();
+    } 
     
     private ServerModulesSettingsResponse processModuleSettingsRequest(ClientRequestModuleSettings crms) {
         return new ServerModulesSettingsResponse();

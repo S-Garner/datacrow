@@ -190,6 +190,11 @@ public class AttachFileInfo extends Plugin implements IFileImportClient {
     public void notifyWarning(String msg) {
         logger.warn(msg);
     }
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
+    }
 
     @Override
     public DcObject getContainer() {

@@ -28,6 +28,7 @@ package org.datacrow.client.console.wizards.itemimport;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.panels.TaskPanel;
 import org.datacrow.client.console.wizards.WizardException;
@@ -219,6 +220,11 @@ public class ItemImporterTaskPanel extends ItemImporterWizardPanel implements II
 
     @Override
     public void notifyProcessed() {}
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
+    }
 
     @Override
     public boolean isCancelled() {

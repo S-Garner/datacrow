@@ -644,6 +644,11 @@ public class FileImportDialog extends DcFrame implements ActionListener {
         }
         
         @Override
+        public boolean askQuestion(String msg) {
+            return GUI.getInstance().displayQuestion(msg);
+        }
+        
+        @Override
         public void notifyError(Throwable e) {
             dlg.addError(e);
         }

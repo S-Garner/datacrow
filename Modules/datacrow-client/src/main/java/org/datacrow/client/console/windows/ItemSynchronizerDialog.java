@@ -453,6 +453,11 @@ public class ItemSynchronizerDialog extends DcDialog implements ActionListener {
         public void notifyWarning(String msg) {
             addMessage(msg);
         }
+        
+        @Override
+        public boolean askQuestion(String msg) {
+            return GUI.getInstance().displayQuestion(msg);
+        }
 
         @Override
         public void notifyError(Throwable e) {

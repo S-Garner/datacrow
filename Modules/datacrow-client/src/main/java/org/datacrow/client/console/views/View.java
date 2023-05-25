@@ -978,6 +978,11 @@ public class View extends DcPanel implements ListSelectionListener, IView {
     	logger.warn(msg);
     	GUI.getInstance().displayWarningMessage(msg);
     }
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
+    }
 
     @Override
     public void notifyTaskCompleted(boolean success, String taskID) {}

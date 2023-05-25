@@ -173,6 +173,11 @@ public class LocalServerConnector extends Connector {
     public List<DcObject> getReferencingItems(int moduleIdx, String ID) {
         return DataManager.getInstance().getReferencingItems(getUser(), moduleIdx, ID);
     }
+    
+    @Override
+    public void removeReferencesTo(int moduleIdx, String ID) {
+    	DataManager.getInstance().removeReferencesTo(getUser(), moduleIdx, ID);
+    }
 
     @Override
     public boolean checkUniqueness(DcObject dco, boolean exitingItem) {

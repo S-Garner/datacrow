@@ -118,6 +118,11 @@ public class ICalendarExporterDialog extends DcDialog implements ActionListener,
     public void notifyWarning(String msg) {
         notify(msg);
     }
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
+    }
 
     @Override
     public void notifyTaskCompleted(boolean success, String taskID) {

@@ -28,6 +28,7 @@ package org.datacrow.client.console.wizards.moduleimport;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.panels.TaskPanel;
 import org.datacrow.client.console.wizards.WizardException;
@@ -148,6 +149,11 @@ public class PanelImportTask extends ModuleImportWizardPanel implements IModuleW
     public void notifyError(Throwable e) {
         logger.error(e, e);
         notify(DcResources.getText("msgModuleImportError", e.toString()));
+    }
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
     }
 
     @Override

@@ -38,13 +38,17 @@ public interface IClient {
     /** An error message type */
     static final int _ERROR = 2;
     /** An informative message type */
-    static final int _INFO = 2;
+    static final int _INFO = 3;
+    /** A question message type */
+    static final int _QUESTION = 4;
 
     /**
      * The client is notified on a informative message.
      * @param msg   received message
      */
     void notify(String msg);
+    
+    boolean askQuestion(String msg);
     
     /**
      * The client is notified of a warning.

@@ -311,6 +311,11 @@ public class DataDirSetupDialog extends NativeDialog implements ActionListener, 
     public void notifyWarning(String msg) {
         new NativeMessageBox("Warning", msg);
     }
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
+    }
 
     @Override
     public void notifyError(Throwable t) {

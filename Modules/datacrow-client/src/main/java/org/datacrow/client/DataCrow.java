@@ -272,8 +272,9 @@ public class DataCrow implements IStarterClient {
 	        	} else {
 	        		value = "0." + value;
 	        	}
-	
-	        	System.setProperty("sun.java2d.uiScale", value);
+	        	
+	        	if (!value.equals("1.00"))
+	        		System.setProperty("sun.java2d.uiScale", value);
         	}
 	        	
         	fis.close();

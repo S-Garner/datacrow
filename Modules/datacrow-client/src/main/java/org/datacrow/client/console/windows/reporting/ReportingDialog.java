@@ -394,6 +394,11 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
         notify(e.getMessage());
         logger.error(e, e);
     }
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
+    }
 
     @Override
     public void notifyTaskCompleted(boolean success, String taskID) {

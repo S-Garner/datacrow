@@ -228,6 +228,11 @@ public class DcMinimalisticItemView extends DcFrame
     public void notifyWarning(String msg) {
         notify(msg);
     }
+    
+    @Override
+    public boolean askQuestion(String msg) {
+        return GUI.getInstance().displayQuestion(msg);
+    }
 
     @Override
     public void notifyTaskCompleted(boolean success, String taskID) {
@@ -430,8 +435,7 @@ public class DcMinimalisticItemView extends DcFrame
     
     private void delete(Collection<DcObject> items) {
         if (items.size() > 0) {
-            
-            if (isTaskRunning() || !GUI.getInstance().displayQuestion("msgDeleteQuestion")) 
+        	if (isTaskRunning() || !GUI.getInstance().displayQuestion("msgDeleteQuestion")) 
                 return;
             
             task = new DeleteItemTask();

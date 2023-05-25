@@ -25,60 +25,30 @@
 
 package org.datacrow.core.server.requests;
 
-import java.io.Serializable;
-
 import org.datacrow.core.security.SecuredUser;
 
-public class ClientRequest implements Serializable, IClientRequest {
+public class ClientRequestRemoveReferenceTo extends ClientRequest {
 
 	private static final long serialVersionUID = 1L;
 	
-	public static final int _REQUEST_LOGIN = 0;
-	public static final int _REQUEST_ITEMS = 1;
-	public static final int _REQUEST_ITEM = 2;
-	public static final int _REQUEST_ITEM_KEYS = 3;
-	public static final int _REQUEST_USER_MGT = 4;
-	public static final int _REQUEST_EXECUTE_SQL = 5;
-	public static final int _REQUEST_ITEM_ACTION = 6;
-	public static final int _REQUEST_SIMPLE_VALUES = 7;
-	public static final int _REQUEST_REFERENCING_ITEMS = 8;
-	public static final int _REQUEST_MODULES = 9;
-	public static final int _REQUEST_APPLICATION_SETTINGS = 10;
-	public static final int _REQUEST_VALUE_ENHANCERS_SETTINGS = 11;
-	public static final int _REQUEST_MODULE_SETTINGS = 12;
-	public static final int _REQUEST_REMOVE_REFERENCES_TO = 13;
+	private final String id;
+	private final int moduleIdx;
 
-	private int type;
-	
-	private String clientKey;
-	protected String username;
-	protected String password;
-	
-	public ClientRequest(int type, SecuredUser su) {
-		this.type = type;
-		
-		if (su != null) {
-			this.clientKey = su.getUser().getID();
-			this.username = su.getUsername();
-			this.password = su.getPassword();
-		}
+    public ClientRequestRemoveReferenceTo(SecuredUser su, int moduleIdx, String id) {
+        super(ClientRequest._REQUEST_REMOVE_REFERENCES_TO, su);
+        
+        this.moduleIdx = moduleIdx;
+        this.id = id;
+    }
+    
+	public String getId() {
+		return id;
 	}
-	
-	public String getUsername() {
-	    return username;
+
+	public int getModuleIdx() {
+		return moduleIdx;
 	}
-	
-	public String getPassword() {
-		return password;
-	}
-	
-	public String getClientKey() {
-		return clientKey;
-	}
-	
-	public int getType() {
-		return type;
-	}
-	
+
+	@Override
 	public void close() {}
 }
