@@ -100,21 +100,20 @@ public class SystemUpgrade {
             if (!dbInitialized)
                 moveImages();
             
-            if (!dbInitialized) {
+            if (!dbInitialized)
             	renameRecordLabel();
-            }
             
-            if (dbInitialized && v.isOlder(new Version(4, 0, 2, 0))) {
+            if (dbInitialized && v.isOlder(new Version(4, 10, 0, 0)))
+            	removeSelfReferencingItems();
+            
+            if (dbInitialized && v.isOlder(new Version(4, 0, 2, 0)))
                 renumberMusicTracks();
-            }
             
-            if (dbInitialized && v.isOlder(new Version(4, 1, 1, 0))) {
+            if (dbInitialized && v.isOlder(new Version(4, 1, 1, 0)))
                 saveIcons();
-            }
             
-            if (dbInitialized && v.isOlder(new Version(4, 0, 5, 0))) {
+            if (dbInitialized && v.isOlder(new Version(4, 0, 5, 0)))
                 new File(DcConfig.getInstance().getModuleSettingsDir(), "record label.properties").delete();
-            }
             
             if (dbInitialized && v.isOlder(DcConfig.getInstance().getVersion())) {
                 File installDirRes = new File(DcConfig.getInstance().getInstallationDir(), "resources/");
@@ -177,30 +176,48 @@ public class SystemUpgrade {
         }
     }
     
-    // TODO: finish the self referencing items correction
     private void removeSelfReferencingItems() {
+    	
+    	Connection conn = DatabaseManager.getInstance().getAdminConnection();
+        Connector connector = DcConfig.getInstance().getConnector();
+        Statement stmt = null;
     	
     	String sql;
     	DcModule mappingMod;
     	
-    	for (DcModule module : DcModules.getAllModules()) {
-    	
-    		for (DcField field : module.getFields()) {
-    			
-    			if ((field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE ||
-    			     field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) &&
-    				field.getReferenceIdx() == module.getIndex()) {
-    				
-    				if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
-	    				sql = "UPDATE " + module.getTableName() + " SET " + 
-	    						field.getDatabaseFieldName() + " = NULL WHERE " + field.getDatabaseFieldName() + " = ID";
-    				} else {
-    					mappingMod = DcModules.get(DcModules.getMappingModIdx(module.getIndex(), module.getIndex(), field.getIndex()));
-    					sql = "DELETE FROM " + mappingMod.getTableName() + 
-    							" WHERE " + mappingMod.getField(DcMapping._B_REFERENCED_ID) + " = " + mappingMod.getField(DcMapping._A_PARENT_ID);
-    				}
-    			}
-    		}
+    	try {
+    		
+    		stmt = conn.createStatement();
+    		
+	    	for (DcModule module : DcModules.getAllModules()) {
+	    	
+	    		for (DcField field : module.getFields()) {
+	    			
+	    			// check if the field is a reference field which references itself
+	    			if ((field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE ||
+	    			     field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) &&
+	    				 field.getReferenceIdx() == module.getIndex()) {
+	    				
+	    				if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
+		    				sql = "UPDATE " + module.getTableName() + " SET " + 
+		    						field.getDatabaseFieldName() + " = NULL WHERE " + field.getDatabaseFieldName() + " = ID";
+	    				} else {
+	    					mappingMod = DcModules.get(DcModules.getMappingModIdx(module.getIndex(), module.getIndex(), field.getIndex()));
+	    					sql = "DELETE FROM " + mappingMod.getTableName() + 
+	    						  " WHERE " + mappingMod.getField(DcMapping._B_REFERENCED_ID).getDatabaseFieldName() + " = " + 
+	    							mappingMod.getField(DcMapping._A_PARENT_ID).getDatabaseFieldName();
+	    				}
+	    				
+    		            stmt.execute(sql);
+	    			}
+	    		}
+	    	}
+    	} catch (SQLException se) {
+    		logger.error("Failed to establish a connection to the database. The upgrade has failed.", se);
+            connector.displayError("Upgrade failed; could not correct the self referencing items.");
+            System.exit(0); 
+    	} finally {
+        	try { if (stmt != null) stmt.close(); } catch (Exception e) {};
     	}
     }
     
@@ -267,7 +284,6 @@ public class SystemUpgrade {
             System.exit(0);
         } finally {
         	try { if (stmt != null) stmt.close(); } catch (Exception e) {};
-        	try { if (stmt != null) conn.close(); } catch (Exception e) {};
         }
     }
     
