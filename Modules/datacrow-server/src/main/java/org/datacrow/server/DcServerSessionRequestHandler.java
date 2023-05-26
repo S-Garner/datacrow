@@ -276,8 +276,8 @@ public class DcServerSessionRequestHandler extends Thread {
         return new ServerValueEnhancersRequestResponse();
     }
     
-    private DefaultServerResponse processRemoveReferenceToRequest(ClientRequestRemoveReferenceTo crrrt) {
-    	context.removeReferencesTo(crrrt.getModuleIdx(), crrrt.getId());
+    private DefaultServerResponse processRemoveReferenceToRequest(ClientRequestRemoveReferenceTo cr) {
+    	context.removeReferencesTo(cr.getModuleIdx(), cr.getId());
         return new DefaultServerResponse();
     } 
     

@@ -63,7 +63,7 @@ public class DeleteItemTask extends DcTask {
             		hasReferences = connector.getReferencingItems(dco.getModuleIdx(), dco.getID()).size() > 0;
             	
             		// has references, but cascade not enabled: let's ask the user what to do!
-            		if (hasReferences && !cascade) {
+            		if (hasReferences && !cascade && !askedForCascade) {
             			askedForCascade = true;
             			cascade = notifyClients(IClient._QUESTION, DcResources.getText("msgDeleteCascade"));
             		}

@@ -29,21 +29,21 @@ public class ServerErrorResponse extends ServerResponse {
 
 	private static final long serialVersionUID = 1L;
 
-	private Throwable t;
 	private String msg;
+	private String error;
 	
 	public ServerErrorResponse(Throwable t, String msg) {
 	    super(_RESPONSE_ERROR);
 	    
-		this.t = t;
 		this.msg = msg;
+		this.error = t.getMessage();
 	}
 	
-	public Throwable getError() {
-		return t;
+	public String getMessage() {
+		return msg;
 	}
 	
 	public String getErrorMessage() {
-		return msg;
+		return error;
 	}
 }

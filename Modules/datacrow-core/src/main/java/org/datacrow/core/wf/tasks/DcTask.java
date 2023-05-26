@@ -101,6 +101,7 @@ public abstract class DcTask implements Runnable {
     protected boolean notifyClients(int type, String msg) {
     	boolean result = false;
     	
+    	boolean questionAsked = false;
         for (IClient client : clients) {
 	    	if (type == IClient._ERROR)
 	    	    client.notifyError(new Exception(msg));
@@ -108,8 +109,10 @@ public abstract class DcTask implements Runnable {
 	    	    client.notifyWarning(msg);
 	    	else if (type == IClient._INFO)
 	    	    client.notify(msg);
-	    	else if (type == IClient._QUESTION)
+	    	else if (type == IClient._QUESTION && !questionAsked) {
 	    		result |= client.askQuestion(msg);
+	    		questionAsked = true;
+	    	}
     	}
         
         return result;

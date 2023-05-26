@@ -47,6 +47,7 @@ import org.datacrow.core.server.requests.ClientRequestLogin;
 import org.datacrow.core.server.requests.ClientRequestModuleSettings;
 import org.datacrow.core.server.requests.ClientRequestModules;
 import org.datacrow.core.server.requests.ClientRequestReferencingItems;
+import org.datacrow.core.server.requests.ClientRequestRemoveReferenceTo;
 import org.datacrow.core.server.requests.ClientRequestSimpleValues;
 import org.datacrow.core.server.requests.ClientRequestValueEnhancers;
 import org.datacrow.core.server.response.DefaultServerResponse;
@@ -219,6 +220,8 @@ public class SerializationHelper {
             cr = gson.fromJson(json, ClientRequestValueEnhancers.class); 
         else if (type == ClientRequest._REQUEST_MODULE_SETTINGS)
             cr = gson.fromJson(json, ClientRequestModuleSettings.class);
+        else if (type == ClientRequest._REQUEST_REMOVE_REFERENCES_TO)
+            cr = gson.fromJson(json, ClientRequestRemoveReferenceTo.class);
         else
             logger.fatal("No client request implementation found for type [" + type + "]");
             

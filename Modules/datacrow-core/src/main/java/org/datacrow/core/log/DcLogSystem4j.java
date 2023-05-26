@@ -75,6 +75,11 @@ public class DcLogSystem4j extends DcLogSystem {
 		public void error(String msg, Throwable t) {
 			logger.error(msg, t);	
 		}
+		
+		@Override
+		public void error(String msg, String error) {
+			logger.error(msg, error);	
+		}
 
 		@Override
 		public void error(Throwable t) {

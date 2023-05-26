@@ -23,6 +23,7 @@ Data Crow version 4.9.1                                            Released on 2
   field.
 - Tree view did not always adhere to the descriptive settings.
 - Apply button will now remain disabled when a merge has been completed.
+- Server error response was not correctly send to connected clients.
 
 [Changed]
 - Added UI scaling option to the Look and Feel settings (25% to 300%)

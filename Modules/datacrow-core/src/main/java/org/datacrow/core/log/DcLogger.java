@@ -10,6 +10,8 @@ public abstract class DcLogger {
 	
 	public abstract void error(String msg, Throwable t);
 	
+	public abstract void error(String msg, String error);
+	
 	public abstract void error(Throwable t);
 	
 	public abstract void error(Throwable t1, Throwable t2);

@@ -77,6 +77,7 @@ import org.datacrow.core.server.requests.ClientRequestLogin;
 import org.datacrow.core.server.requests.ClientRequestModuleSettings;
 import org.datacrow.core.server.requests.ClientRequestModules;
 import org.datacrow.core.server.requests.ClientRequestReferencingItems;
+import org.datacrow.core.server.requests.ClientRequestRemoveReferenceTo;
 import org.datacrow.core.server.requests.ClientRequestSimpleValues;
 import org.datacrow.core.server.requests.ClientRequestUser;
 import org.datacrow.core.server.requests.ClientRequestValueEnhancers;
@@ -98,7 +99,6 @@ import org.datacrow.core.settings.Setting;
 import org.datacrow.core.settings.Settings;
 import org.datacrow.core.utilities.SystemMonitor;
 import org.datacrow.core.wf.tasks.DcTask;
-import org.datacrow.server.data.DataManager;
 
 public class ClientToServerConnector extends Connector {
 
@@ -196,7 +196,7 @@ public class ClientToServerConnector extends Connector {
 			if (sr instanceof ServerErrorResponse) {
 				ServerErrorResponse ser = (ServerErrorResponse) sr;
 				logger.error("The server has encountered an error while processing the request: " + 
-						ser.getErrorMessage(), ser.getError());
+						ser.getMessage(), ser.getErrorMessage());
 				
 				GUI.getInstance().displayErrorMessage(ser.getErrorMessage());
 				
@@ -309,8 +309,8 @@ public class ClientToServerConnector extends Connector {
 
     @Override
     public void removeReferencesTo(int moduleIdx, String ID) {
-    	ClientRequestReferencingItems crrri = new ClientRequestReferencingItems(su, moduleIdx, ID);
-    	processClientRequest(crrri);
+    	ClientRequestRemoveReferenceTo cr = new ClientRequestRemoveReferenceTo(su, moduleIdx, ID);
+    	processClientRequest(cr);
     }
 	
     @Override
