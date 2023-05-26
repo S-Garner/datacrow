@@ -103,7 +103,7 @@ public class SystemUpgrade {
             if (!dbInitialized)
             	renameRecordLabel();
             
-            if (dbInitialized && v.isOlder(new Version(4, 10, 0, 0)))
+            if (dbInitialized && v.isOlder(new Version(4, 9, 1, 0)))
             	removeSelfReferencingItems();
             
             if (dbInitialized && v.isOlder(new Version(4, 0, 2, 0)))
