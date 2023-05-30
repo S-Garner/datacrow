@@ -7,7 +7,6 @@
 	<organization>
 		<name>Van der Waals BV</name>
 	</organization>
-	
 	<developers>
 		<developer>
 			<id>rwaals</id>
@@ -23,12 +22,10 @@
 			<timezone>Europe/Berlin</timezone>
 		</developer>
 	</developers>
-	
 	<name>main-project</name>
 	<url>https://www.datacrow.org/</url>
 	<inceptionYear>2002</inceptionYear>
 	<description>The ultimate cataloger</description>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.target>11</maven.compiler.target>
@@ -182,7 +179,17 @@
 			<dependency>
 				<groupId>net.sf.jasperreports</groupId>
 				<artifactId>jasperreports</artifactId>
-				<version>6.20.0</version>
+				<version>6.20.5</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.jasperreports</groupId>
+				<artifactId>jasperreports-functions</artifactId>
+				<version>6.20.5</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.jasperreports</groupId>
+				<artifactId>jasperreports-fonts</artifactId>
+				<version>6.20.5</version>
 			</dependency>
 			<dependency>
 				<groupId>xalan</groupId>

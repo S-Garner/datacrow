@@ -25,6 +25,8 @@ Data Crow version 4.9.1                                            Released on 2
 - Apply button will now remain disabled when a merge has been completed.
 - Server error response was not correctly send to connected clients.
 - Editing an item in the table view could result in loss of multi-reference values.
+- JasperReports dependencies were missing causing in functions to fail when generating
+  the report.
 
 [Changed]
 - Added UI scaling option to the Look and Feel settings (25% to 300%)
