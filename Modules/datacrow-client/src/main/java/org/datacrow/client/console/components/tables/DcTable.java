@@ -832,15 +832,20 @@ public class DcTable extends JTable implements IViewComponent, MouseListener {
                     field.getIndex(), ComponentFactory._SHORTTEXTFIELD, field.getLabel(), field.getMaximumLength());
         } else if (field.getFieldType() == ComponentFactory._REFERENCEFIELD) {
             c = ComponentFactory.getObjectCombo(field.getReferenceIdx());
+        } else if (field.getFieldType() == ComponentFactory._REFERENCESFIELD) {
+            c = ComponentFactory.getObjectCombo(field.getReferenceIdx());
+            c.setEnabled(false);
         } else {
             c = ComponentFactory.getComponent(module.getIndex(),
                     field.getReferenceIdx(), field.getIndex(), field.getFieldType(), field.getLabel(), field.getMaximumLength());
         }
+        
         c.setAutoscrolls(false);
         c.setBorder(null);
         c.setIgnoreRepaint(false);
         c.setVerifyInputWhenFocusTarget(false);
         c.setEnabled(!field.isReadOnly() && !readonly);
+        
         return c;
     }
 
@@ -1308,7 +1313,6 @@ public class DcTable extends JTable implements IViewComponent, MouseListener {
     
     private void sort(TableColumn column) {
         try {
-        	
 
             if (column == null) return;
             
@@ -1366,9 +1370,7 @@ public class DcTable extends JTable implements IViewComponent, MouseListener {
     public void mousePressed(MouseEvent e) {}
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-        
-    }
+    public void mouseReleased(MouseEvent e) {}
 
     @Override
     public void mouseEntered(MouseEvent e) {}
