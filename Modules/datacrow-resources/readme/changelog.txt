@@ -27,6 +27,9 @@ Data Crow version 4.9.1                                            Released on 2
 - Editing an item in the table view could result in loss of multi-reference values.
 - JasperReports dependencies were missing causing in functions to fail when generating
   the report.
+- Stop button for report generation did not work. It now stops the exporting process.
+  Known issue is that the report generation process of Jasper Reports can not be stopped.
+- Stop button is for report generation is only active when a process is running.
 
 [Changed]
 - Added UI scaling option to the Look and Feel settings (25% to 300%)

@@ -89,6 +89,8 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
     
     private boolean canceled = false;
     
+    private ReportGenerator rg;
+    
     public ReportingDialog(List<String> items) {
         super(DcResources.getText("lblCreateReport"), IconLibrary._icoReport);
 
@@ -152,8 +154,10 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
 
     public void allowActions(boolean b) {
         if (buttonRun != null) {
+        	buttonClose.setEnabled(b);
             buttonRun.setEnabled(b);
             buttonResults.setEnabled(b);
+            buttonStop.setEnabled(!b);
         }
     }
 
@@ -207,7 +211,7 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
                 }
             }
             
-            ReportGenerator rg = new ReportGenerator(this, items, target, report, reportType);
+            rg = new ReportGenerator(this, items, target, report, reportType);
             rg.start();
             
             allowActions(false);
@@ -221,7 +225,9 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
     
     private void cancel() {
         canceled = true;
-        allowActions(true);
+        
+        if (rg != null)
+        	rg.cancel();
     }
 
     @Override
@@ -292,6 +298,8 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
         buttonRun.addActionListener(this);
         buttonStop.setActionCommand("cancel");
         buttonStop.addActionListener(this);
+        buttonStop.setEnabled(false);
+        
         buttonResults.setActionCommand("showResults");
         buttonResults.addActionListener(this);
         buttonClose.setActionCommand("close");

@@ -27,6 +27,7 @@ package org.datacrow.core.reporting;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +45,6 @@ import org.datacrow.core.resources.DcResources;
 import org.w3c.dom.Document;
 
 import net.sf.jasperreports.engine.JRAbstractExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -56,8 +56,9 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
-@SuppressWarnings("deprecation")
 public class ReportGenerator {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ReportGenerator.class.getName());
@@ -76,6 +77,8 @@ public class ReportGenerator {
     private ReportType reportType;
 
     protected boolean canceled = false;
+    
+    private boolean success = false;
 
     public ReportGenerator(
             IItemExporterClient client, 
@@ -113,9 +116,11 @@ public class ReportGenerator {
     	// future implementation
     }
 
-    @SuppressWarnings("incomplete-switch")
+    @SuppressWarnings({ "incomplete-switch", "unchecked" })
 	private void createReport() throws Exception {
         try {
+        	success = false;
+        	
             Map<String, Object> params = new HashMap<String, Object>();
             Document document;
 
@@ -162,16 +167,25 @@ public class ReportGenerator {
                     break;            	
                 }
             	
-                exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
-                exporter.setParameter(JRExporterParameter.OUTPUT_FILE, target);
+                exporter.setExporterInput(
+                		new SimpleExporterInput(print));
+                exporter.setExporterOutput(
+                		new SimpleOutputStreamExporterOutput(new FileOutputStream(target)));
+
                 exporter.exportReport();
         	}
 
             logger.debug("Reporting: export has finished. Exported file " + target + ". Exists: " + target.exists());
             
+            success = true;
+            
         } catch (Exception e) {
             client.notifyError(e);
         }
+    }
+    
+    protected boolean isSuccess() {
+    	return success;
     }
     
     protected void setSettings(ItemExporterSettings properties) {
@@ -219,7 +233,8 @@ public class ReportGenerator {
                     createReport();
                     logger.debug("Reporting: report process has been completed");
                     
-                    client.notify(DcResources.getText("msgTransformationSuccessful", target.toString()));
+                    if (success)
+                    	client.notify(DcResources.getText("msgTransformationSuccessful", target.toString()));
                 } else {
                 	logger.debug("Reporting: process has been cancelled or extract was unsuccessful");
                 }

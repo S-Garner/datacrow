@@ -193,7 +193,9 @@ public class CsvExporter extends ItemExporter {
             }
             
             bos.close();
-            client.notify(DcResources.getText("lblExportHasFinished"));
+            
+            if (!isCanceled())
+            	client.notify(DcResources.getText("lblExportHasFinished"));
         }        
     }       
 }

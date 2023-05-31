@@ -175,7 +175,9 @@ public class XmlExporter extends ItemExporter {
             }
             
             writer.endDocument();
-            client.notify(DcResources.getText("lblExportHasFinished"));
+            
+            if (!isCanceled())
+            	client.notify(DcResources.getText("lblExportHasFinished"));
         }
     }    
 }
