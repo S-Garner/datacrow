@@ -57,6 +57,8 @@ public class SaveItemTask extends DcTask {
             	
                 for (DcObject dco : items) {
                 	
+                	notifyClientsProcessed();
+                	
                 	if (isCanceled()) break;
                 	
                 	try {

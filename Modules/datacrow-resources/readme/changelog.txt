@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------
-Data Crow version 4.9.1                                            Released on 2023-xx-xx
+Data Crow version 4.9.1                                            Released on 2023-06-xx
 -----------------------------------------------------------------------------------------
 
 [Fixed]
@@ -35,6 +35,9 @@ Data Crow version 4.9.1                                            Released on 2
 - Added UI scaling option to the Look and Feel settings (25% to 300%)
 - Introduction of cascade delete; when you delete properties / referenced items Data
   Crow will ask you to delete the references to this item as well.
+
+[Not yet finished]
+- A status bar has been added to the view(s).
 
 
 -----------------------------------------------------------------------------------------

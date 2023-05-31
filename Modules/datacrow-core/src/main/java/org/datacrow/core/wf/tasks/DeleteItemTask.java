@@ -58,6 +58,9 @@ public class DeleteItemTask extends DcTask {
         	
             for (DcObject dco : items) {
 
+            	notifyClientsProcessed();
+            	
+            	
             	// only check for references if not asked before if we need to or when we are doing a cascade delete
             	if (!askedForCascade || cascade) {
             		hasReferences = connector.getReferencingItems(dco.getModuleIdx(), dco.getID()).size() > 0;
@@ -83,7 +86,9 @@ public class DeleteItemTask extends DcTask {
             		// skip this as we already asked the user how to handle this.
                 	// notifyClients(IClient._WARNING, ve.getMessage());
                 }
-                
+
+            	
+            	
                 try {
                     Thread.sleep(10);
                 } catch (Exception ignore) {}

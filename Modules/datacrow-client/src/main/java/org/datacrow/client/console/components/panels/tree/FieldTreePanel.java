@@ -55,7 +55,6 @@ import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
-import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 public class FieldTreePanel extends TreePanel {
 
@@ -407,6 +406,10 @@ public class FieldTreePanel extends TreePanel {
             
             int counter = 1;
             for (DcField fld : subFields) {
+            	
+            	if (fld.isUiOnly())
+            		continue;
+            	
             	if (counter > 1)
             		sb.append(" + ', '  + ");
             	

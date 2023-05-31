@@ -38,14 +38,13 @@ public abstract class DcTask implements Runnable {
 
     public static int _TYPE_DELETE_TASK = 0;
 	public static int _TYPE_SAVE_TASK = 1;
-	public static int _TYPE_LOAD_TASK = 2;
     
     private int moduleIdx;
 
     private boolean executing = false;
     private boolean canceled = false;
     
-    private Collection<IClient> clients = new ArrayList<IClient>();
+    protected Collection<IClient> clients = new ArrayList<IClient>();
 
     protected Collection<DcObject> items = new ArrayList<DcObject>();
 
@@ -79,6 +78,12 @@ public abstract class DcTask implements Runnable {
     
     public void removeClient(IClient client) {
     	clients.remove(client);
+    }
+    
+    protected void notifyClientsProcessed() {
+        for (IClient client : clients) {
+            client.notifyProcessed();
+        }
     }
     
     protected void notifyClients(boolean success) {

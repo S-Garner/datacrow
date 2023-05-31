@@ -55,6 +55,7 @@ import org.datacrow.client.console.clients.UIClient;
 import org.datacrow.client.console.components.DcPanel;
 import org.datacrow.client.console.components.DcViewDivider;
 import org.datacrow.client.console.components.panels.QuickViewPanel;
+import org.datacrow.client.console.components.panels.StatusBar;
 import org.datacrow.client.console.windows.itemforms.ItemForm;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
@@ -97,6 +98,8 @@ public class View extends DcPanel implements ListSelectionListener, IView {
     
     private IGroupingPane groupingPane;
     protected QuickViewPanel quickView;
+    
+    private StatusBar statusBar;;
     
     protected boolean updateQuickView = true;
     private boolean checkForChanges = true;
@@ -477,6 +480,13 @@ public class View extends DcPanel implements ListSelectionListener, IView {
             add(c, Layout.getGBC( 0, 1, 3, 1, 100.0, 100.0
                ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                 new Insets(5, 5, 5, 5), 0, 0)); 
+            
+            
+            statusBar = new StatusBar();
+            
+            add(statusBar, Layout.getGBC( 0, 2, 3, 1, 100.0, 0.0
+                    ,GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL,
+                     new Insets(5, 5, 5, 5), 0, 0));
             
             c.revalidate();
             
@@ -948,6 +958,15 @@ public class View extends DcPanel implements ListSelectionListener, IView {
         
         if (vc.getSelectedIndex() == -1) return;
         
+        
+        if (vc.getSelectedIndices().length > 1) {
+        	statusBar.setMessage("" + vc.getSelectedIndices().length + " items selected");	
+        } else {
+        	statusBar.setMessage("" + vc.getSelectedIndices().length + " item selected");
+        }
+        
+        
+        
         if (actionsAllowed)
             afterSelect(vc.getSelectedIndex());
     }
@@ -985,13 +1004,24 @@ public class View extends DcPanel implements ListSelectionListener, IView {
     }
 
     @Override
-    public void notifyTaskCompleted(boolean success, String taskID) {}
+    public void notifyTaskCompleted(boolean success, String taskID) {
+    	statusBar.setTaskMessage("");
+    	statusBar.setMessage("");
+    }
 
     @Override
     public void notifyTaskStarted(int taskSize) {}
 
     @Override
-    public void notifyProcessed() {}
+    public void notifyProcessed() {
+		if (task == null)
+			return;
+
+		if (task.getType() == DcTask._TYPE_SAVE_TASK)
+			statusBar.setTaskMessage("Busy saving Items");
+		else if (task.getType() == DcTask._TYPE_DELETE_TASK)
+			statusBar.setTaskMessage("Busy deleting Items");
+    }
 
     @Override
     public boolean isCancelled() {
