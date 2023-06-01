@@ -479,14 +479,14 @@ public class View extends DcPanel implements ListSelectionListener, IView {
             
             add(c, Layout.getGBC( 0, 1, 3, 1, 100.0, 100.0
                ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-                new Insets(5, 5, 5, 5), 0, 0)); 
+                new Insets(5, 5, 0, 5), 0, 0)); 
             
             
             statusBar = new StatusBar();
             
             add(statusBar, Layout.getGBC( 0, 2, 3, 1, 100.0, 1.0
                     ,GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL,
-                     new Insets(0, 5, 0, 5), 0, 0));
+                     new Insets(0, 7, 0, 0), 0, 0));
             
             c.revalidate();
             
@@ -955,17 +955,15 @@ public class View extends DcPanel implements ListSelectionListener, IView {
     
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        
-        if (vc.getSelectedIndex() == -1) return;
-        
-        
-        if (vc.getSelectedIndices().length > 1) {
-        	statusBar.setMessage("" + vc.getSelectedIndices().length + " items selected");	
-        } else {
-        	statusBar.setMessage("" + vc.getSelectedIndices().length + " item selected");
+        if (vc.getSelectedIndex() == -1) {
+        	statusBar.setMessage("");
+        	return;
         }
         
-        
+        if (vc.getSelectedIndices().length > 1)
+        	statusBar.setMessage(DcResources.getText("msgItemsSelected", String.valueOf(vc.getSelectedIndices().length)));
+        else
+        	statusBar.setMessage(DcResources.getText("msgItemSelected"));
         
         if (actionsAllowed)
             afterSelect(vc.getSelectedIndex());
@@ -1019,9 +1017,9 @@ public class View extends DcPanel implements ListSelectionListener, IView {
 			return;
 
 		if (task.getType() == DcTask._TYPE_SAVE_TASK)
-			statusBar.setTaskMessage("Busy saving Items");
+			statusBar.setTaskMessage(DcResources.getText("msgBusySavingItems"));
 		else if (task.getType() == DcTask._TYPE_DELETE_TASK)
-			statusBar.setTaskMessage("Busy deleting Items");
+			statusBar.setTaskMessage(DcResources.getText("msgBusyDeletingItems"));
     }
 
     @Override

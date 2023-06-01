@@ -1,6 +1,6 @@
 package org.datacrow.client.console.components.panels;
 
-import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
@@ -12,12 +12,14 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.core.IconLibrary;
+import org.datacrow.core.resources.DcResources;
 
 public class StatusBar extends JPanel {
 	
 	private final DcLabel lblMessage = ComponentFactory.getLabel("");
 	private final DcLabel lblTaskRunning = ComponentFactory.getLabel("");
 	
+	private final DcLabel icoWhite = ComponentFactory.getLabel(IconLibrary._icoBulletWhite);
 	private final DcLabel icoGreen = ComponentFactory.getLabel(IconLibrary._icoBulletGreen);
 	private final DcLabel icoRed = ComponentFactory.getLabel(IconLibrary._icoBulletRed);
 	
@@ -35,18 +37,35 @@ public class StatusBar extends JPanel {
                  new Insets( 0, 0, 0, 0), 0, 0));
 		
 		lblTaskRunning.setHorizontalTextPosition(SwingConstants.RIGHT);
-		lblTaskRunning.setPreferredSize(new Dimension(200, 15));
-		lblTaskRunning.setMinimumSize(new Dimension(200, 15));
+
+		JPanel panelIcons = new JPanel();
+		panelIcons.setLayout(Layout.getGBL());
+		panelIcons.add(icoGreen, Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.EAST, GridBagConstraints.NONE,
+                 new Insets( 0, 0, 5, 0), 0, 0));
+		panelIcons.add(icoRed,   Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.EAST, GridBagConstraints.NONE,
+                 new Insets( 0, 0, 5, 0), 0, 0));
+		panelIcons.add(icoWhite, Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.EAST, GridBagConstraints.NONE,
+                 new Insets( 0, 0, 5, 0), 0, 0));
 		
-		add(lblTaskRunning, Layout.getGBC( 1, 0, 1, 1, 1.0, 1.0
+		panelIcons.setBorder(null);
+
+		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout (FlowLayout.TRAILING, 2, 0));
+
+		panel.add(lblTaskRunning);
+		panel.add(panelIcons);
+		
+		add(panel, Layout.getGBC( 1, 0, 1, 1, 1.0, 1.0
                 ,GridBagConstraints.EAST, GridBagConstraints.NONE,
                  new Insets( 0, 0, 0, 0), 0, 0));
-		add(icoGreen, Layout.getGBC( 2, 0, 1, 1, 1.0, 1.0
-                ,GridBagConstraints.EAST, GridBagConstraints.NONE,
-                 new Insets( 0, 0, 0, 0), 0, 0));
-		add(icoRed, Layout.getGBC( 2, 0, 1, 1, 1.0, 1.0
-                ,GridBagConstraints.EAST, GridBagConstraints.NONE,
-                 new Insets( 0, 0, 0, 0), 0, 0));				
+		
+		icoGreen.setVisible(false);
+		icoRed.setVisible(false);
+		icoWhite.setVisible(true);
+		
 	}
 	
 	public void setMessage(String s) {
@@ -96,9 +115,10 @@ public class StatusBar extends JPanel {
 	
 	private void processTaskStatus(boolean taskRunning) {
 		if (!taskRunning) {
-			icoGreen.setVisible(true);
+			icoGreen.setVisible(false);
 			icoRed.setVisible(false);
-			lblTaskRunning.setText("Completed!");
+			icoWhite.setVisible(true);
+			lblTaskRunning.setText(DcResources.getText("msgCompleted"));
 			lblMessage.setText("");
 			iconChangeThread.cancel();
 		}
@@ -129,9 +149,11 @@ public class StatusBar extends JPanel {
 	                        @Override
 	                        public void run() {
 	                           	if (icoRed.isVisible()) {
+	                           		icoWhite.setVisible(false);
 	                        		icoGreen.setVisible(true);
 	                        		icoRed.setVisible(false);
 	                        	} else {
+	                        		icoWhite.setVisible(false);
 	                        		icoGreen.setVisible(false);
 	                        		icoRed.setVisible(true);
 	                        	}                               
@@ -145,8 +167,9 @@ public class StatusBar extends JPanel {
                     new Thread(new Runnable() { 
                         @Override
                         public void run() {
-                        	icoGreen.setVisible(true);
-                    		icoRed.setVisible(false);                           
+                        	icoGreen.setVisible(false);
+                    		icoRed.setVisible(false);
+                    		icoWhite.setVisible(true);
                         }
                     }));
 		}
