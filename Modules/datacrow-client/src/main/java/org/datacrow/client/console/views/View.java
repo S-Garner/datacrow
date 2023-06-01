@@ -484,9 +484,9 @@ public class View extends DcPanel implements ListSelectionListener, IView {
             
             statusBar = new StatusBar();
             
-            add(statusBar, Layout.getGBC( 0, 2, 3, 1, 100.0, 0.0
+            add(statusBar, Layout.getGBC( 0, 2, 3, 1, 100.0, 1.0
                     ,GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL,
-                     new Insets(5, 5, 5, 5), 0, 0));
+                     new Insets(0, 5, 0, 5), 0, 0));
             
             c.revalidate();
             
@@ -1005,12 +1005,13 @@ public class View extends DcPanel implements ListSelectionListener, IView {
 
     @Override
     public void notifyTaskCompleted(boolean success, String taskID) {
-    	statusBar.setTaskMessage("");
-    	statusBar.setMessage("");
+    	statusBar.setTaskRunning(false);
     }
 
     @Override
-    public void notifyTaskStarted(int taskSize) {}
+    public void notifyTaskStarted(int taskSize) {
+    	statusBar.setTaskRunning(true);
+    }
 
     @Override
     public void notifyProcessed() {

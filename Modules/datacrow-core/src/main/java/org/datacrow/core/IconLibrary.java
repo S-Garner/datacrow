@@ -105,6 +105,8 @@ public abstract class IconLibrary {
     public static final DcImageIcon _icoBackup = new DcImageIcon(picPath + "backup.png");
     public static final DcImageIcon _icoClose = new DcImageIcon(picPath + "close.png");
     public static final DcImageIcon _icoRemove = new DcImageIcon(picPath + "remove.png");
+    public static final DcImageIcon _icoBulletGreen = new DcImageIcon(picPath + "bullet_green.png");
+    public static final DcImageIcon _icoBulletRed = new DcImageIcon(picPath + "bullet_red.png");
     public static final DcImageIcon _icoStart = new DcImageIcon(picPath + "start.png");
     public static final DcImageIcon _icoStop = new DcImageIcon(picPath + "stop.png");
     public static final DcImageIcon _icoOpenApplication = new DcImageIcon(picPath + "openapplication.png");
