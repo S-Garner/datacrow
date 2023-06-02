@@ -56,8 +56,11 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.util.JRXmlUtils;
+import net.sf.jasperreports.export.ExporterOutput;
+import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 public class ReportGenerator {
     
@@ -118,6 +121,9 @@ public class ReportGenerator {
 
     @SuppressWarnings({ "incomplete-switch", "unchecked" })
 	private void createReport() throws Exception {
+    	
+    	FileOutputStream fos = null;
+    	
         try {
         	success = false;
         	
@@ -151,27 +157,30 @@ public class ReportGenerator {
             	JasperExportManager.exportReportToHtmlFile(print, target.toString());
             	break;
             default:
+            	
+            	fos = new FileOutputStream(target);
+            	
             	@SuppressWarnings("rawtypes") JRAbstractExporter exporter = null;
             	switch (reportType) {
                 case RTF:
                     exporter = new JRRtfExporter();
+                    exporter.setExporterOutput(new SimpleWriterExporterOutput(fos));
                     break;
                 case DOCX:
                     exporter = new JRDocxExporter();
+                    exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(fos));
                     break;            	
                 case XLSX:
                     exporter = new JRXlsxExporter();
+                    exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(fos));
                     break;            	
                 case XLS:
                     exporter = new JRXlsExporter();
+                    exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(fos));
                     break;            	
                 }
             	
-                exporter.setExporterInput(
-                		new SimpleExporterInput(print));
-                exporter.setExporterOutput(
-                		new SimpleOutputStreamExporterOutput(new FileOutputStream(target)));
-
+                exporter.setExporterInput(new SimpleExporterInput(print));
                 exporter.exportReport();
         	}
 
@@ -181,6 +190,12 @@ public class ReportGenerator {
             
         } catch (Exception e) {
             client.notifyError(e);
+        } finally {
+        	if (fos != null) {
+        		try {
+        			fos.close();
+        		} catch (IOException ignore) {}
+        	}
         }
     }
     
