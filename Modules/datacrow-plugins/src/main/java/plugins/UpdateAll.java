@@ -67,10 +67,10 @@ public class UpdateAll extends Plugin {
     @Override
     public void actionPerformed(ActionEvent e) {
         IView view;
-        if (getViewType() == _VIEWTYPE_SEARCH)
-            view = GUI.getInstance().getSearchView(getModuleIdx()).getCurrent();      
+        if (getViewType() == _VIEWTYPE_INSERT)
+        	view = GUI.getInstance().getInsertView(getModuleIdx()).getCurrent();
         else
-            view = GUI.getInstance().getInsertView(getModuleIdx()).getCurrent();
+            view = GUI.getInstance().getSearchView(getModuleIdx()).getCurrent();      
         
         UpdateAllDialog dlg = GUI.getInstance().getUpdateAllDialog(view);
         dlg.setVisible(true);

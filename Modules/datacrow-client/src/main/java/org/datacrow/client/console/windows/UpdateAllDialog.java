@@ -57,7 +57,7 @@ import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 
-public class UpdateAllDialog extends DcFrame implements ActionListener {
+public class UpdateAllDialog extends DcDialog implements ActionListener {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(UpdateAllDialog.class.getName());
     
@@ -75,7 +75,10 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
 
     public UpdateAllDialog(IView view) {
 
-        super(DcResources.getText("lblUpdateAll"), IconLibrary._icoUpdateAll);
+    	super();
+    	
+    	setTitle(DcResources.getText("lblUpdateAll"));
+    	setIconImage(IconLibrary._icoUpdateAll.getImage());
         
         this.view = view;
         this.module = view.getModule();
@@ -152,11 +155,11 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
 	                
                     if (item.isChanged()) {
                         try {
-                            if (view.getType() == View._TYPE_SEARCH) {
-                                item.setUpdateGUI(false);
+                            if (view.getType() == View._TYPE_INSERT) {
+                            	view.update(item.getID(), item);
+                            } else {
+                            	item.setUpdateGUI(false);
                                 connector.saveItem(item);
-                            } else if (view.getType() == View._TYPE_INSERT) {
-                                view.update(item.getID(), item);
                             }
                         } catch (Exception e) {
                             // warn the user of the event that occurred (for example an incorrect parent for a container)

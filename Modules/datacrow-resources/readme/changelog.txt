@@ -19,6 +19,7 @@ Data Crow version 4.9.1                      Released on 2023-06-xx
 - JasperReports dependencies were missing causing in functions to fail when generating the report.
 - Stop button for report generation did not work. It now stops the exporting process. Known issue is that the report generation process of Jasper Reports can not be stopped.
 - Stop button is for report generation is only active when a process is running.
+- Update All dialog could be opened multiple times. Now it blocks access to the view and therefore also blocks the selection of items as made on opening this tool.
 
 [Changed]
 - Added UI scaling option to the Look and Feel settings (25% to 300%)

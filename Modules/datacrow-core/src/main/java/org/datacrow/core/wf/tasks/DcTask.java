@@ -52,6 +52,7 @@ public abstract class DcTask implements Runnable {
     
     private String name;
     private String id;
+    private boolean silent = false;
     
     public DcTask(String name) {
     	this.name = name;
@@ -59,6 +60,14 @@ public abstract class DcTask implements Runnable {
     }
     
     public abstract int getType();
+    
+    public void setSilent(boolean b) {
+    	this.silent = b;
+    }
+    
+    public boolean isSilent() {
+    	return silent;
+    }
     
     public String getName() {
     	return name;
@@ -97,7 +106,7 @@ public abstract class DcTask implements Runnable {
 	    	if (type == IClient._ERROR)
 	    		client.notifyError(t);
 	    	else if (type == IClient._WARNING)
-	    	    client.notifyWarning(t.getMessage());
+	    		if (!silent) client.notifyWarning(t.getMessage());
 	    	else if (type == IClient._INFO)
 	    	    client.notify(t.getMessage());
     	}
@@ -115,7 +124,12 @@ public abstract class DcTask implements Runnable {
 	    	else if (type == IClient._INFO)
 	    	    client.notify(msg);
 	    	else if (type == IClient._QUESTION && !questionAsked) {
-	    		result |= client.askQuestion(msg);
+	    		if (!silent) {
+		    		result |= client.askQuestion(msg);
+	    		} else {
+	    			result = false; // in silent mode we assume a negative response from the user
+	    		}
+	    		
 	    		questionAsked = true;
 	    	}
     	}

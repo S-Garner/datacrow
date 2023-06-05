@@ -433,14 +433,15 @@ public class DcMinimalisticItemView extends DcFrame
         }
     }
     
-    private void delete(Collection<DcObject> items) {
+    private void delete(Collection<DcObject> items, boolean silent) {
         if (items.size() > 0) {
-        	if (isTaskRunning() || !GUI.getInstance().displayQuestion("msgDeleteQuestion")) 
+        	if (isTaskRunning() || (!silent && !GUI.getInstance().displayQuestion("msgDeleteQuestion"))) 
                 return;
             
             task = new DeleteItemTask();
             task.addItems(items);
             task.addClient(this);
+            task.setSilent(silent);
             task.setModule(getModuleIdx());
             
             Connector connector = DcConfig.getInstance().getConnector();
@@ -456,13 +457,13 @@ public class DcMinimalisticItemView extends DcFrame
             return;
         
         Collection<DcObject> objects = list.getItems();
-        delete(objects);
+        delete(objects, true);
     }
     
     public void delete() {
         cancelled = false;
         Collection<DcObject> objects = list.getSelectedItems();
-        delete(objects);
+        delete(objects, false);
     }  
     
     @Override
