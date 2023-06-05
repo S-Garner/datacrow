@@ -166,7 +166,7 @@ public class UpdateAllDialog extends DcDialog implements ActionListener {
                             GUI.getInstance().displayErrorMessage(e.getMessage());
                         }
                     }
-
+                    
 	                updateProgressBar(count);
 
 	                try {

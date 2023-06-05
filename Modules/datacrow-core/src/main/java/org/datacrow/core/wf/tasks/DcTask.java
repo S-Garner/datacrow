@@ -104,11 +104,11 @@ public abstract class DcTask implements Runnable {
     protected void notifyClients(int type, Throwable t) {
     	for (IClient client : clients) {
 	    	if (type == IClient._ERROR)
-	    		client.notifyError(t);
+	    		client.notifyError(t); // always report errors
 	    	else if (type == IClient._WARNING)
 	    		if (!silent) client.notifyWarning(t.getMessage());
 	    	else if (type == IClient._INFO)
-	    	    client.notify(t.getMessage());
+	    		if (!silent) client.notify(t.getMessage());
     	}
     }
     
