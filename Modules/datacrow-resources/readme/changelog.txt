@@ -1,6 +1,7 @@
 --------------------------------------------------------------------
-Data Crow version 4.9.1                      Released on 2023-06-xx
+Data Crow version 4.9.1                      Released on 2023-06-08
 --------------------------------------------------------------------
+Many thanks to Ariel Chyłek for all the translation work and to SandBird for the extensive testing.
 
 [Fixed]
 - Issue with self referencing items; right-click menu not showing in view for referenced item.
@@ -24,8 +25,6 @@ Data Crow version 4.9.1                      Released on 2023-06-xx
 [Changed]
 - Added UI scaling option to the Look and Feel settings (25% to 300%)
 - Introduction of cascade delete; when you delete properties / referenced items Data Crow will ask you to delete the references to this item as well.
-
-[Not yet finished]
 - A status bar has been added to the view(s).
 
 

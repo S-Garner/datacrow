@@ -31,12 +31,9 @@ import java.util.List;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.data.DataFilter;
-import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
-import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.server.Connector;
-import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 public class DcObjectComboBox extends DcComboBox {
 
