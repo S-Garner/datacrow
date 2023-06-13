@@ -17,7 +17,7 @@ Many thanks to Ariel Chyłek for all the translation work and to SandBird for th
 - Apply button will now remain disabled when a merge has been completed.
 - Server error response was not correctly send to connected clients.
 - Editing an item in the table view could result in loss of multi-reference values.
-- JasperReports dependencies were missing causing in functions to fail when generating the report.
+- JasperReports dependencies were missing causing functions to fail when generating the report.
 - Stop button for report generation did not work. It now stops the exporting process. Known issue is that the report generation process of Jasper Reports can not be stopped.
 - Stop button is for report generation is only active when a process is running.
 - Update All dialog could be opened multiple times. Now it blocks access to the view and therefore also blocks the selection of items as made on opening this tool.
@@ -83,7 +83,7 @@ The help has been moved to the website (https://datacrow.org/docs) and the appli
 - Added online search: Board Games Atlas.
 - Added merge option to other modules beside the property modules. This means you can now merge artists, developers and other (sub) module items. It allows you to select the duplicated items and select an existing target item. The process will the update all references from the duplicated items to the new target item. When that's done, the selected duplicated items are removed from the database completely. The merge dialog has been improved a bit as well.
 - Added componists module and added a componists field to the music album module.
-- Added moviemeter.nl online search (Dutch movie site).
+- Added moviemeter.nl online search (Dutch movies site).
 - Database language setting added. This determines how items are sorted. For most languages, the default will work. But if you find the sorting is not correct, please change the setting in Settings > Regional Settings > Database Language.
 
 [Changed]
@@ -152,6 +152,7 @@ Data Crow 4.7 brings an much better look and feel, new online services (archive.
 - Icon size can now be changed: Settings > Look and Feel > Icon Size Note that currently all icons as part of the Data Crow data are stored at a size of 16x16. If you change an icon it will be stored at 128*128 (if the original size allows for it) so it can adjust to any selected icon size. The maximum is currently 40*40. All UI elements have been optimized to allow displaying the larger icons.
 - Selecting clear for the online search will now only clear the results, not the search terms.
 - Look and Feel: removed CDE/Motif and Windows Classic - outdated. 
+
 [Fixed]
 - Errors for Data Crow client in case the server was not responding when logging on.
 - Filtering on references didn't work (sometimes).
@@ -218,7 +219,10 @@ This means the web module can now be fully supported again and makes it possible
 - Discogs.com online search for music albums has been added. Reintroduced after it was removed in version 4.3 as it was no longer working in 4.2.2. It has been completely rewritten.
 
 [Fixed]
-- Fixes since Data Crow 4.2.2 for web module: ~ logging off was not correctly implemented ~ messages were not being displayed on the web item form. ~ tags were not saved when editing an item
+- Fixes since Data Crow 4.2.2 for web module: 
+  ~ logging off was not correctly implemented 
+  ~ messages were not being displayed on the web item form.
+  ~ tags were not saved when editing an item
 - Server could not allow parameters for the underlying web service to be passed (-D..)
 - Sometimes (discovered when working on the web module) picture are not correctly deleted. This was currently not effecting the Java client, only web client, but would / could have caused issues for new developments.
 - The layout of the main screen was not correctly saved on exiting Data Crow.
