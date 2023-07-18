@@ -56,12 +56,11 @@ public class AttachmentManager {
 		return instance;
 	}
 	
-	public byte[] loadAttachment(Attachment attachment) {
+	public void loadAttachment(Attachment attachment) {
 		try {
-			return CoreUtilities.readFile(attachment.getStorageFile());
+			attachment.setData(CoreUtilities.readFile(attachment.getStorageFile()));
 		} catch (IOException e) {
 			logger.error("Could not load contents for " + attachment.getStorageFile(), e);
-			return null;
 		}
 	}
 	

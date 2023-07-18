@@ -156,7 +156,6 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
 	    	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
 	    		DcConfig.getInstance().getConnector().loadAttachment(attachment);
 	    		
-	    		
 	    		String tmpdir = System.getProperty("java.io.tmpdir");
 	    		File file = new File(tmpdir, attachment.getObjectID() + "_" + attachment.getName());
 	    		
