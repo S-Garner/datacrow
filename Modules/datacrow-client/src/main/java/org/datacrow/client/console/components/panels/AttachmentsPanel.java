@@ -1,0 +1,261 @@
+/******************************************************************************
+ *                                     __                                     *
+ *                              <-----/@@\----->                              *
+ *                             <-< <  \\//  > >->                             *
+ *                               <-<-\ __ /->->                               *
+ *                               Data /  \ Crow                               *
+ *                                   ^    ^                                   *
+ *                              info@datacrow.org                             *
+ *                                                                            *
+ *                       This file is part of Data Crow.                      *
+ *       Data Crow is free software; you can redistribute it and/or           *
+ *        modify it under the terms of the GNU General Public                 *
+ *       License as published by the Free Software Foundation; either         *
+ *              version 3 of the License, or any later version.               *
+ *                                                                            *
+ *        Data Crow is distributed in the hope that it will be useful,        *
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.             *
+ *           See the GNU General Public License for more details.             *
+ *                                                                            *
+ *        You should have received a copy of the GNU General Public           *
+ *  License along with this program. If not, see http://www.gnu.org/licenses  *
+ *                                                                            *
+ ******************************************************************************/
+
+package org.datacrow.client.console.components.panels;
+
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
+
+import org.datacrow.client.console.ComponentFactory;
+import org.datacrow.client.console.Layout;
+import org.datacrow.client.console.components.DcPanel;
+import org.datacrow.client.console.components.DcPopupMenu;
+import org.datacrow.client.console.components.DcShortTextField;
+import org.datacrow.client.console.components.lists.DcAttachmentList;
+import org.datacrow.client.console.components.lists.DcListModel;
+import org.datacrow.client.console.components.lists.elements.DcListElement;
+import org.datacrow.client.console.components.lists.elements.DcObjectListElement;
+import org.datacrow.client.console.menu.DcAttachmentPanelMenu;
+import org.datacrow.client.util.launcher.FileLauncher;
+import org.datacrow.core.DcConfig;
+import org.datacrow.core.IconLibrary;
+import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.server.Connector;
+
+/**
+ * @author RJ
+ *
+ */
+public class AttachmentsPanel extends DcPanel implements MouseListener, ActionListener, KeyListener {
+    
+	private final String objectID;
+	
+    private List<DcListElement> elementsAll = new ArrayList<DcListElement>();
+    private List<DcListElement> elementsCurrent = new ArrayList<DcListElement>();
+    
+    private final DcAttachmentList list = new DcAttachmentList();
+    
+    public AttachmentsPanel(String objectID) {
+        this.objectID = objectID;
+        this.list.setModel(new DcListModel<Object>());
+        
+        setTitle(DcResources.getText("lblAttachments"));
+        
+        build();
+    }
+
+    private void deleteAttachment() {
+    	// TODO
+    }
+    
+    private void addAttachment() {
+    	// TODO
+    }
+    
+    public void openAttachment() {
+        new FileLauncher(list.getSelectedAttachment().getLocalFile()).launch();
+    }
+    
+    private void load() {
+        SwingUtilities.invokeLater(
+                new Thread(new Runnable() { 
+                    @Override
+                    public void run() {
+                    	Connector conn = DcConfig.getInstance().getConnector();
+                    	conn.getAttachmentsList(objectID);
+                    	
+                    	
+//                        list.clear();
+//                        all.clear();
+//                        
+//                        Connector connector = DcConfig.getInstance().getConnector();
+//                        List<DcObject> items = connector.getReferencingItems(dco.getModuleIdx(), dco.getID());
+//                        setData(items);
+                    }
+                }));
+    }
+    
+    // TODO: implement
+    private boolean allowActions() {
+    	return true;
+    }
+    
+    @Override
+    public void clear() {
+        if (elementsAll != null) elementsAll.clear();
+        if (elementsCurrent != null) elementsCurrent.clear();
+        
+        elementsAll = null;
+        elementsCurrent = null;
+        
+        super.clear();
+    }
+
+    private void build() {
+        list.addMouseListener(this);
+        
+        JScrollPane scroller = new JScrollPane(list);
+        scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroller.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+        scroller.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        
+        setLayout(Layout.getGBL());
+        
+        JTextField txtFilter = ComponentFactory.getShortTextField(255);
+        txtFilter.addKeyListener(this);        
+
+        JPanel panel = new JPanel();
+        panel.setLayout(Layout.getGBL());
+        
+        
+        if (allowActions()) {
+        	DcAttachmentPanelMenu menu = new DcAttachmentPanelMenu(this);
+            this.add(menu, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
+                     GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                     new Insets(4, 5, 0, 5), 0, 0));
+        }
+        
+        panel.add(ComponentFactory.getLabel(DcResources.getText("lblFilter")), 
+        		 Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                 new Insets( 0, 0, 0, 0), 0, 0));
+        panel.add(txtFilter, Layout.getGBC( 1, 0, 1, 1, 100.0, 1.0
+                ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                 new Insets( 0, 0, 0, 0), 0, 0));
+        
+        add(panel, Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                 new Insets( 10, 5, 0, 5), 0, 0));
+        add(scroller,  Layout.getGBC( 0, 2, 1, 1, 100.0, 100.0
+                ,GridBagConstraints.NORTH, GridBagConstraints.BOTH,
+                 new Insets(5, 5, 5, 5), 0, 0));
+        add(getProgressPanel(), Layout.getGBC( 0, 3, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL,
+                 new Insets(5, 5, 5, 5), 0, 0));
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        DcAttachmentList list = (DcAttachmentList) e.getSource();
+        
+        if (SwingUtilities.isRightMouseButton(e)) {
+            if (list.getSelectedIndex() == -1) {
+                int index = list.locationToIndex(e.getPoint());
+                list.setSelectedIndex(index);
+            }
+            
+            if (list.getSelectedIndex() > -1) {
+                JPopupMenu menu = new AttachmentPopupMenu(this);                
+                menu.setInvoker(list);
+                menu.show(list, e.getX(), e.getY());
+            }
+        }
+        
+        if (e.getClickCount() == 2 && list.getSelectedIndex() > -1) 
+            openAttachment();
+    }
+        
+    @Override
+    public void mouseEntered(MouseEvent e) {}
+    @Override
+    public void mouseExited(MouseEvent e) {}
+    @Override
+    public void mousePressed(MouseEvent e) {}
+    @Override
+    public void mouseClicked(MouseEvent e) {}
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    	if (e.getActionCommand().equals("open"))
+            openAttachment();
+        else if (e.getActionCommand().equals("delete"))
+            deleteAttachment();
+        else if (e.getActionCommand().equals("add"))
+            addAttachment();
+    }
+    
+    @Override
+    public void keyReleased(KeyEvent e) {
+        DcShortTextField txtFilter = (DcShortTextField) e.getSource();
+        String filter = txtFilter.getText();
+        
+        if (filter.trim().length() == 0) {
+            ((DcListModel<Object>) list.getModel()).clear();
+            list.addElements(elementsAll);
+        } else {
+            List<DcListElement> filtered = new ArrayList<DcListElement>();
+            for (DcListElement el : elementsAll) {
+                DcObjectListElement element = (DcObjectListElement) el;
+                if (element.getDcObject().toString().toLowerCase().contains(filter.toLowerCase()))
+                    filtered.add(el);
+            }
+        
+            ((DcListModel<Object>) list.getModel()).clear();
+            list.addElements(filtered);
+        }
+    }  
+    
+    private class AttachmentPopupMenu extends DcPopupMenu {
+        
+		public AttachmentPopupMenu(AttachmentsPanel ap) {
+
+            JMenuItem menuOpen = new JMenuItem(DcResources.getText("lblOpen", ""), IconLibrary._icoOpen);
+            JMenuItem menuDelete = new JMenuItem(DcResources.getText("lblDelete", ""), IconLibrary._icoDelete);
+            
+            menuOpen.addActionListener(ap);
+            menuOpen.setActionCommand("open");
+            
+            menuDelete.addActionListener(ap);
+            menuDelete.setActionCommand("delete");
+            
+            add(menuOpen);
+            add(menuDelete);
+        }
+    }
+
+	@Override
+	public void keyTyped(KeyEvent e) {}
+
+	@Override
+	public void keyPressed(KeyEvent e) {}
+}

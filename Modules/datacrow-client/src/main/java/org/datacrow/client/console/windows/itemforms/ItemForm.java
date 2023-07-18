@@ -59,11 +59,11 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.clients.UIClient;
-import org.datacrow.client.console.components.DcAttachmentField;
 import org.datacrow.client.console.components.DcCheckBox;
 import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.client.console.components.DcLongTextField;
 import org.datacrow.client.console.components.DcPictureField;
+import org.datacrow.client.console.components.panels.AttachmentsPanel;
 import org.datacrow.client.console.components.panels.LoanPanel;
 import org.datacrow.client.console.components.panels.RelatedItemsPanel;
 import org.datacrow.client.console.windows.DcFrame;
@@ -928,19 +928,16 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     }
     
     protected void addAttachmentsPanel() {
+    	JPanel component = new AttachmentsPanel(dco.getID());
     	
     	JPanel panel = new JPanel();
-        panel.setLayout(Layout.getGBL());
-        
-        DcAttachmentField c = new DcAttachmentField();
-
-        panel.add(c, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0
-                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-                  new Insets(5, 5, 5, 5), 0, 0));
+    	panel.setLayout(Layout.getGBL());
     	
+        panel.add(component, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                 new Insets(5, 5, 5, 0), 0, 0));
     	
-    	tabbedPane.addTab("Attachments", null, panel);	
-    		
+    	tabbedPane.addTab(DcResources.getText("lblAttachments"), IconLibrary._icoAttachments, panel);	
     }
 
     protected void addLoanTab() {

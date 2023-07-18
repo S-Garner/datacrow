@@ -212,7 +212,7 @@ public class RelatedItemsPanel extends DcPanel implements MouseListener, ISimple
         JPanel panel = new JPanel();
         panel.setLayout(Layout.getGBL());
         panel.add(ComponentFactory.getLabel(DcResources.getText("lblFilter")), Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
-                ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+                ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                  new Insets( 0, 0, 0, 0), 0, 0));
         panel.add(txtFilter, Layout.getGBC( 1, 0, 1, 1, 100.0, 100.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
