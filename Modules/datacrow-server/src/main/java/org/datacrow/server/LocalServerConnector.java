@@ -34,6 +34,7 @@ import java.util.Map;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.attachments.Attachment;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilterEntry;
 import org.datacrow.core.data.DcIconCache;
@@ -61,6 +62,7 @@ import org.datacrow.core.server.response.ServerModulesRequestResponse;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.Settings;
 import org.datacrow.core.wf.tasks.DcTask;
+import org.datacrow.server.data.AttachmentManager;
 import org.datacrow.server.data.DataManager;
 import org.datacrow.server.db.DatabaseManager;
 import org.datacrow.server.security.SecurityCenter;
@@ -368,5 +370,30 @@ public class LocalServerConnector extends Connector {
     	lsc.setUser(getUser());
     	lsc.setUsername(getUsername());
     	return lsc;
-    }    
+    }
+
+	@Override
+	public Collection<Attachment> getAttachmentsList(String objectID) {
+		return AttachmentManager.getInstance().getAttachments(objectID);
+	}
+
+	@Override
+	public void deleteAttachment(Attachment attachment) {
+		AttachmentManager.getInstance().deleteAttachment(attachment);
+	}
+
+	@Override
+	public void deleteAttachments(String ObjectID) {
+		AttachmentManager.getInstance().deleteAttachments(ObjectID);
+	}
+
+	@Override
+	public void saveAttachment(Attachment attachment) {
+		AttachmentManager.getInstance().saveAttachment(attachment);
+	}
+
+	@Override
+	public void loadAttachment(Attachment attachment) {
+		AttachmentManager.getInstance().loadAttachment(attachment);
+	}
 }

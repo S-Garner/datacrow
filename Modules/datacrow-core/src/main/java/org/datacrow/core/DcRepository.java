@@ -411,6 +411,7 @@ public abstract class DcRepository {
         public static final String _FIELDBOOLEAN = "boolean";
         public static final String _FIELDNUMERIC = "numeric";
 
+        // TODO: does not work
         public static final String _PREDEFINEDQRY =
             "SELECT * FROM software WHERE category IS NOT NULL \n";
     }

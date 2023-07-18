@@ -398,7 +398,7 @@ public class DcObject implements Comparable<DcObject>, Serializable {
      * when reloading an object.
      */
     public void initializeImages() {
-        // Remove all the old picture. This makes sure no weird stuff happens.
+        // Remove all the old pictures. This makes sure no weird stuff happens.
         for (DcField field : getFields()) {
             if (field.getValueType() == DcRepository.ValueTypes._PICTURE)
                 setValueLowLevel(field.getIndex(), null);

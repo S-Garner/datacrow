@@ -59,6 +59,7 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.clients.UIClient;
+import org.datacrow.client.console.components.DcAttachmentField;
 import org.datacrow.client.console.components.DcCheckBox;
 import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.client.console.components.DcLongTextField;
@@ -224,6 +225,10 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         addChildrenPanel();
         addPictureTabs();
         addRelationPanel();
+        
+        if (module.isTopModule()) {
+        	addAttachmentsPanel();
+        }
         
         if (module.canBeLend() && connector.getUser().isAuthorized("Loan") && update && !readonly) {
             addLoanTab();
@@ -920,6 +925,22 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
 	            panelLoans.load();
 	        }
     	}
+    }
+    
+    protected void addAttachmentsPanel() {
+    	
+    	JPanel panel = new JPanel();
+        panel.setLayout(Layout.getGBL());
+        
+        DcAttachmentField c = new DcAttachmentField();
+
+        panel.add(c, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0
+                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                  new Insets(5, 5, 5, 5), 0, 0));
+    	
+    	
+    	tabbedPane.addTab("Attachments", null, panel);	
+    		
     }
 
     protected void addLoanTab() {

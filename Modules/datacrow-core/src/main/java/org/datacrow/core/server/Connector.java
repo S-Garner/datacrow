@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.datacrow.core.attachments.Attachment;
 import org.datacrow.core.console.IPollerTask;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DcResultSet;
@@ -159,6 +160,16 @@ public abstract class Connector {
 	public abstract void removeReferencesTo(int moduleIdx, String ID);
 	
 	public abstract boolean saveItem(DcObject dco) throws ValidationException;
+	
+	public abstract Collection<Attachment> getAttachmentsList(String objectID);
+	
+	public abstract void deleteAttachment(Attachment attachment);
+
+	public abstract void deleteAttachments(String ObjectID);
+	
+	public abstract void saveAttachment(Attachment attachment);
+	
+	public abstract void loadAttachment(Attachment attachment);
 	
 	public abstract Collection<Picture> getPictures(String parentID);
 

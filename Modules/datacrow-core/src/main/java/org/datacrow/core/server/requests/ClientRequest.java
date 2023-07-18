@@ -47,6 +47,9 @@ public class ClientRequest implements Serializable, IClientRequest {
 	public static final int _REQUEST_VALUE_ENHANCERS_SETTINGS = 11;
 	public static final int _REQUEST_MODULE_SETTINGS = 12;
 	public static final int _REQUEST_REMOVE_REFERENCES_TO = 13;
+	public static final int _REQUEST_ATTACHMENT_ACTION = 14;
+	public static final int _REQUEST_ATTACHMENTS_LIST = 15;
+	public static final int _REQUEST_ATTACHMENTS_DELETE = 16;
 
 	private int type;
 	

@@ -199,6 +199,7 @@ public class DcStarter {
                 dcc.setApplicationSettingsDir(installDir + "data/");
                 dcc.setImageDir(installDir + "images/");
                 dcc.setIconsDir(installDir + "images/icons/");
+                dcc.setAttachmentDir(installDir + "attachments/");
                 
                 client.requestDataDirSetup(selectedUserDir);
                 dcc.setInstallationDir(installDir);
@@ -295,7 +296,9 @@ public class DcStarter {
         dcc.setApplicationSettingsDir(userDir + "settings/application/");
         dcc.setUpgradeDir(userDir + "upgrade/");
         dcc.setServicesDir(userDir + "services/");
+        dcc.setAttachmentDir(userDir + "attachments/");
         
+        createDirectory(new File(dcc.getAttachmentDir()), "attachments");
         createDirectory(new File(dcc.getModuleDir()), "modules");
         createDirectory(new File(dcc.getDatabaseDir()), "database");
         createDirectory(new File(dcc.getImageDir()), "images");
@@ -325,7 +328,9 @@ public class DcStarter {
         dcc.setPluginsDir(installDir + "plugins/");
         dcc.setServicesDir(userDir + "services/");
         dcc.setIconsDir(userDir + "images/icons/");
+        dcc.setAttachmentDir(userDir + "attachments/");
         
+        createDirectory(new File(dcc.getAttachmentDir()), "attachments");
         createDirectory(new File(dcc.getIconsDir()), "icons");
         createDirectory(new File(dcc.getReportDir()), "reports");
         createDirectory(new File(dcc.getModuleDir()), "modules");

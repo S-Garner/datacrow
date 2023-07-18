@@ -1,5 +1,13 @@
 --------------------------------------------------------------------
-Data Crow version 4.9.1                      Released on 2023-06-08
+Data Crow version 4.9.2                       Released on 2023-07-xx
+--------------------------------------------------------------------
+
+[Changed]
+- Data Crow will no longer close windows or exit when pressing the escape key. This has been changed to CTRL/COMMAND+ESC.
+
+
+--------------------------------------------------------------------
+Data Crow version 4.9.1                       Released on 2023-06-08
 --------------------------------------------------------------------
 Many thanks to Ariel Chyłek for all the translation work and to SandBird for the extensive testing.
 
@@ -29,7 +37,7 @@ Many thanks to Ariel Chyłek for all the translation work and to SandBird for th
 
 
 --------------------------------------------------------------------
-Data Crow version 4.9.0                      Released on 2023-05-09
+Data Crow version 4.9.0                       Released on 2023-05-09
 --------------------------------------------------------------------
 Version 4.9 brings you a whole new module to register Comic Books. It is supported by the invaluable online source that is https://comicvine.gamespot.com.
 I have not yet created a DMG for MacOS, I am planning on creation and uploading this package, as part of this release, within the next few days.
@@ -63,7 +71,7 @@ I have not yet created a DMG for MacOS, I am planning on creation and uploading 
 
 
 --------------------------------------------------------------------
-Data Crow version 4.8.1                      Released on 2023-03-28
+Data Crow version 4.8.1                       Released on 2023-03-28
 --------------------------------------------------------------------
 With version 4.8.0 I mistakingly made a structure change to the states for the various modules. This fix reverts back that change after which you'll have all the features of version 4.8.0 without having to deal with this pesky issue.
 Luckily a user quickly notified me allowing me to fix this issue swiftly. Not many of you will have had the version 4.8 installed but I thought it to be better to create this release rather than trying to retract version 4.8 and re-release it.
@@ -73,7 +81,7 @@ Luckily a user quickly notified me allowing me to fix this issue swiftly. Not ma
 
 
 --------------------------------------------------------------------
-Data Crow version 4.8.0                      Released on 2023-03-28
+Data Crow version 4.8.0                       Released on 2023-03-28
 --------------------------------------------------------------------
 With each release there's more available in Data Crow. This time there's a completely new module; Board Games. It includes online search support using the magnificent site BoardGamesAtlas.com. On the Movie front a new online search has been added; MovieMeter.nl
 The help has been moved to the website (https://datacrow.org/docs) and the applications help has been linked to the website.
@@ -132,7 +140,7 @@ The help has been moved to the website (https://datacrow.org/docs) and the appli
 
 
 --------------------------------------------------------------------
-Data Crow version 4.7.0                      Released on 2023-03-02
+Data Crow version 4.7.0                       Released on 2023-03-02
 --------------------------------------------------------------------
 Data Crow 4.7 brings an much better look and feel, new online services (archive.org and OpenLibrary.org) and a very much improved handling of item to item relationships.
 

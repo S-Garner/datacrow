@@ -59,6 +59,7 @@ public class DcConfig {
     private String resourcesDir;
     private String upgradeDir;
     private String webDir;
+    private String attachmentDir;
     
     private int operatingMode;
     
@@ -201,6 +202,7 @@ public class DcConfig {
       	setResourcesDir(null);
       	setUpgradeDir(null);
       	setWebDir(null);
+      	setAttachmentDir(null);
 	}
 
 	/**
@@ -358,6 +360,14 @@ public class DcConfig {
 	 */
 	public void setReportDir(String reportDir) {
 		this.reportDir = reportDir;
+	}
+	
+	public void setAttachmentDir(String dir) {
+		this.attachmentDir = dir;
+	}
+	
+	public String getAttachmentDir() {
+		return attachmentDir;
 	}
 
 	/**

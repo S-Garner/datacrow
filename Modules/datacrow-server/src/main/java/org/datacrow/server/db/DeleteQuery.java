@@ -44,6 +44,7 @@ import org.datacrow.core.objects.Loan;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.utilities.CoreUtilities;
+import org.datacrow.server.data.AttachmentManager;
 
 public class DeleteQuery extends Query {
     
@@ -140,40 +141,8 @@ public class DeleteQuery extends Query {
                     }
                 }
                 
-                File file;
-                boolean deleted;
-                for (DcField field : dco.getFields()) {
-                    
-                    if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-                        file = new File(DcConfig.getInstance().getImageDir(), dco.getID() + "_" + field.getDatabaseFieldName() + ".jpg");
-                        if (file.exists()) {
-                            deleted = file.delete();
-                            logger.debug("Delete file " + file + " [success = " + deleted + "]");
-                        }
-                        
-                        file = new File(DcConfig.getInstance().getImageDir(), dco.getID() + "_" + field.getDatabaseFieldName() + "_small.jpg");
-                        if (file.exists()) {
-                            deleted = file.delete();
-                            logger.debug("Delete file " + file + " [success = " + deleted + "]");
-                        }
-                    }
-                    
-                    if (field.getValueType() == DcRepository.ValueTypes._ICON) {
-                        file = new File(DcConfig.getInstance().getImageDir(), "icon_" + dco.getID() + ".jpg");
-                        if (file.exists()) {
-                            deleted = file.delete();
-                            logger.debug("Delete icon file " + file + " [success = " + deleted + "]");
-                        }
-                    }
-                    
-                    if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
-                    	DcModule m = DcModules.get(DcModules.getMappingModIdx(field.getModule(), field.getReferenceIdx(), field.getIndex()));
-                        stmt.execute("DELETE FROM " + m.getTableName() + " WHERE " + m.getField(DcMapping._A_PARENT_ID).getDatabaseFieldName() + " = '" + dco.getID() + "'");
-                    }   
-                }
-                
-                stmt.execute("DELETE FROM " + DcModules.get(DcModules._PICTURE).getTableName() + " WHERE " +
-                             DcModules.get(DcModules._PICTURE).getField(Picture._A_OBJECTID).getDatabaseFieldName() + " = '" + dco.getID() + "'");
+                deleteImages(stmt);
+                deleteAttachments(dco.getID());
                 
                 setSuccess(true);
             }
@@ -190,5 +159,47 @@ public class DeleteQuery extends Query {
         }
         
         return null;
+    }
+    
+    private void deleteAttachments(String ID) {
+    	AttachmentManager.getInstance().deleteAttachments(ID);
+    }
+    
+    private void deleteImages(Statement stmt) throws SQLException {
+    	File file;
+        boolean deleted;
+        
+        for (DcField field : dco.getFields()) {
+            
+            if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
+                file = new File(DcConfig.getInstance().getImageDir(), dco.getID() + "_" + field.getDatabaseFieldName() + ".jpg");
+                if (file.exists()) {
+                    deleted = file.delete();
+                    logger.debug("Delete file " + file + " [success = " + deleted + "]");
+                }
+                
+                file = new File(DcConfig.getInstance().getImageDir(), dco.getID() + "_" + field.getDatabaseFieldName() + "_small.jpg");
+                if (file.exists()) {
+                    deleted = file.delete();
+                    logger.debug("Delete file " + file + " [success = " + deleted + "]");
+                }
+            }
+            
+            if (field.getValueType() == DcRepository.ValueTypes._ICON) {
+                file = new File(DcConfig.getInstance().getImageDir(), "icon_" + dco.getID() + ".jpg");
+                if (file.exists()) {
+                    deleted = file.delete();
+                    logger.debug("Delete icon file " + file + " [success = " + deleted + "]");
+                }
+            }
+            
+            if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
+            	DcModule m = DcModules.get(DcModules.getMappingModIdx(field.getModule(), field.getReferenceIdx(), field.getIndex()));
+                stmt.execute("DELETE FROM " + m.getTableName() + " WHERE " + m.getField(DcMapping._A_PARENT_ID).getDatabaseFieldName() + " = '" + dco.getID() + "'");
+            }   
+        }
+        
+        stmt.execute("DELETE FROM " + DcModules.get(DcModules._PICTURE).getTableName() + " WHERE " +
+                     DcModules.get(DcModules._PICTURE).getField(Picture._A_OBJECTID).getDatabaseFieldName() + " = '" + dco.getID() + "'");
     }
 }

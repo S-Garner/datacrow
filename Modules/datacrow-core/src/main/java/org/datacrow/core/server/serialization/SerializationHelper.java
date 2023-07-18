@@ -38,6 +38,9 @@ import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.server.requests.ClientRequest;
 import org.datacrow.core.server.requests.ClientRequestApplicationSettings;
+import org.datacrow.core.server.requests.ClientRequestAttachmentAction;
+import org.datacrow.core.server.requests.ClientRequestAttachmentsDelete;
+import org.datacrow.core.server.requests.ClientRequestAttachmentsList;
 import org.datacrow.core.server.requests.ClientRequestExecuteSQL;
 import org.datacrow.core.server.requests.ClientRequestItem;
 import org.datacrow.core.server.requests.ClientRequestItemAction;
@@ -53,6 +56,8 @@ import org.datacrow.core.server.requests.ClientRequestValueEnhancers;
 import org.datacrow.core.server.response.DefaultServerResponse;
 import org.datacrow.core.server.response.ServerActionResponse;
 import org.datacrow.core.server.response.ServerApplicationSettingsRequestResponse;
+import org.datacrow.core.server.response.ServerAttachmentActionResponse;
+import org.datacrow.core.server.response.ServerAttachmentsListResponse;
 import org.datacrow.core.server.response.ServerErrorResponse;
 import org.datacrow.core.server.response.ServerItemKeysRequestResponse;
 import org.datacrow.core.server.response.ServerItemRequestResponse;
@@ -65,8 +70,8 @@ import org.datacrow.core.server.response.ServerSQLResponse;
 import org.datacrow.core.server.response.ServerSimpleValuesResponse;
 import org.datacrow.core.server.response.ServerValueEnhancersRequestResponse;
 import org.datacrow.core.server.serialization.adapters.DcColorAdapter;
-import org.datacrow.core.server.serialization.adapters.DcFontAdapter;
 import org.datacrow.core.server.serialization.adapters.DcFieldValueAdapter;
+import org.datacrow.core.server.serialization.adapters.DcFontAdapter;
 import org.datacrow.core.server.serialization.adapters.DcObjectAdapter;
 import org.datacrow.core.server.serialization.adapters.DcSimpleValueAdapter;
 import org.datacrow.core.server.serialization.adapters.FileAdapter;
@@ -183,6 +188,10 @@ public class SerializationHelper {
             sr = gson.fromJson(json, ServerValueEnhancersRequestResponse.class);
         else if (type == ServerResponse._RESPONSE_MODULE_SETTINGS)
             sr = gson.fromJson(json, ServerModulesSettingsResponse.class);
+        else if (type == ServerResponse._RESPONSE_ATTACHMENT_ACTION)
+            sr = gson.fromJson(json, ServerAttachmentActionResponse.class);
+        else if (type == ServerResponse._RESPONSE_ATTACHMENTS_LIST)
+            sr = gson.fromJson(json, ServerAttachmentsListResponse.class);
         else
             logger.fatal("No server response implementation found for type [" + type + "]");
         
@@ -222,6 +231,12 @@ public class SerializationHelper {
             cr = gson.fromJson(json, ClientRequestModuleSettings.class);
         else if (type == ClientRequest._REQUEST_REMOVE_REFERENCES_TO)
             cr = gson.fromJson(json, ClientRequestRemoveReferenceTo.class);
+        else if (type == ClientRequest._REQUEST_ATTACHMENT_ACTION)
+            cr = gson.fromJson(json, ClientRequestAttachmentAction.class);
+        else if (type == ClientRequest._REQUEST_ATTACHMENTS_DELETE)
+            cr = gson.fromJson(json, ClientRequestAttachmentsDelete.class);
+        else if (type == ClientRequest._REQUEST_ATTACHMENTS_LIST)
+            cr = gson.fromJson(json, ClientRequestAttachmentsList.class);
         else
             logger.fatal("No client request implementation found for type [" + type + "]");
             

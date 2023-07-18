@@ -84,7 +84,7 @@ public class CloseWindow extends Plugin {
     
     @Override
     public KeyStroke getKeyStroke() {
-        return KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+        return KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, KeyEvent.ALT_DOWN_MASK, false);
     }
     
     @Override

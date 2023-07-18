@@ -36,6 +36,7 @@ import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.security.LoginDialog;
 import org.datacrow.client.tabs.Tabs;
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.attachments.Attachment;
 import org.datacrow.core.console.IMasterView;
 import org.datacrow.core.console.IView;
 import org.datacrow.core.data.DataFilter;
@@ -68,6 +69,9 @@ import org.datacrow.core.server.Connector;
 import org.datacrow.core.server.DcServerConnection;
 import org.datacrow.core.server.requests.ClientRequest;
 import org.datacrow.core.server.requests.ClientRequestApplicationSettings;
+import org.datacrow.core.server.requests.ClientRequestAttachmentAction;
+import org.datacrow.core.server.requests.ClientRequestAttachmentsDelete;
+import org.datacrow.core.server.requests.ClientRequestAttachmentsList;
 import org.datacrow.core.server.requests.ClientRequestExecuteSQL;
 import org.datacrow.core.server.requests.ClientRequestItem;
 import org.datacrow.core.server.requests.ClientRequestItemAction;
@@ -83,6 +87,8 @@ import org.datacrow.core.server.requests.ClientRequestUser;
 import org.datacrow.core.server.requests.ClientRequestValueEnhancers;
 import org.datacrow.core.server.response.ServerActionResponse;
 import org.datacrow.core.server.response.ServerApplicationSettingsRequestResponse;
+import org.datacrow.core.server.response.ServerAttachmentActionResponse;
+import org.datacrow.core.server.response.ServerAttachmentsListResponse;
 import org.datacrow.core.server.response.ServerErrorResponse;
 import org.datacrow.core.server.response.ServerItemKeysRequestResponse;
 import org.datacrow.core.server.response.ServerItemRequestResponse;
@@ -500,6 +506,49 @@ public class ClientToServerConnector extends Connector {
 	public void dropUser(User user) {
     	ClientRequestUser cr = new ClientRequestUser(ClientRequestUser._ACTIONTYPE_DROP, getUser(), user, null);
         processClientRequest(cr);
+	}
+	
+	@Override
+	public Collection<Attachment> getAttachmentsList(String objectID) {
+		ClientRequestAttachmentsList cr = new ClientRequestAttachmentsList(su, objectID);
+		ServerAttachmentsListResponse response = (ServerAttachmentsListResponse) processClientRequest(cr);
+		return response.getAttachments();
+	}
+
+	@Override
+	public void deleteAttachments(String ObjectID) {
+		ClientRequestAttachmentsDelete cr = new ClientRequestAttachmentsDelete(su, ObjectID);
+		processClientRequest(cr);	
+	}
+	
+	@Override
+	public void deleteAttachment(Attachment attachment) {
+		ClientRequestAttachmentAction cr = new ClientRequestAttachmentAction(
+				su, 
+				ClientRequestAttachmentAction._ACTION_DELETE_ATTACHMENT,
+				attachment);
+		processClientRequest(cr);
+	}
+
+	@Override
+	public void saveAttachment(Attachment attachment) {
+		ClientRequestAttachmentAction cr = new ClientRequestAttachmentAction(
+				su, 
+				ClientRequestAttachmentAction._ACTION_SAVE_ATTACHMENT,
+				attachment);
+		processClientRequest(cr);		
+	}
+
+	@Override
+	public void loadAttachment(Attachment attachment) {
+		ClientRequestAttachmentAction cr = new ClientRequestAttachmentAction(
+				su, 
+				ClientRequestAttachmentAction._ACTION_LOAD_ATTACHMENT,
+				attachment);
+		ServerAttachmentActionResponse response = (ServerAttachmentActionResponse) processClientRequest(cr);
+		attachment.setData(response.getAttachment().getData());
+		
+		// TODO: store doc locally in temp folder and set link
 	}
 	
     @Override

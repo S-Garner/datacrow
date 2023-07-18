@@ -29,9 +29,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.datacrow.core.attachments.Attachment;
 import org.datacrow.core.data.DcResultSet;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
@@ -40,6 +42,9 @@ import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.requests.ClientRequest;
 import org.datacrow.core.server.requests.ClientRequestApplicationSettings;
+import org.datacrow.core.server.requests.ClientRequestAttachmentAction;
+import org.datacrow.core.server.requests.ClientRequestAttachmentsDelete;
+import org.datacrow.core.server.requests.ClientRequestAttachmentsList;
 import org.datacrow.core.server.requests.ClientRequestExecuteSQL;
 import org.datacrow.core.server.requests.ClientRequestItem;
 import org.datacrow.core.server.requests.ClientRequestItemAction;
@@ -58,6 +63,8 @@ import org.datacrow.core.server.response.DefaultServerResponse;
 import org.datacrow.core.server.response.IServerResponse;
 import org.datacrow.core.server.response.ServerActionResponse;
 import org.datacrow.core.server.response.ServerApplicationSettingsRequestResponse;
+import org.datacrow.core.server.response.ServerAttachmentActionResponse;
+import org.datacrow.core.server.response.ServerAttachmentsListResponse;
 import org.datacrow.core.server.response.ServerErrorResponse;
 import org.datacrow.core.server.response.ServerItemKeysRequestResponse;
 import org.datacrow.core.server.response.ServerItemRequestResponse;
@@ -197,6 +204,15 @@ public class DcServerSessionRequestHandler extends Thread {
             case ClientRequest._REQUEST_REMOVE_REFERENCES_TO:
                 sr = processRemoveReferenceToRequest((ClientRequestRemoveReferenceTo) cr);
                 break;
+            case ClientRequest._REQUEST_ATTACHMENT_ACTION:
+                sr = processAttachmentActionRequest((ClientRequestAttachmentAction) cr);
+                break;
+            case ClientRequest._REQUEST_ATTACHMENTS_LIST:
+                sr = processListAttachmentsRequest((ClientRequestAttachmentsList) cr);
+                break;
+            case ClientRequest._REQUEST_ATTACHMENTS_DELETE:
+                sr = processDeleteAttachmentsRequest((ClientRequestAttachmentsDelete) cr);
+                break;
             default:
                 logger.error("No handler found for " + cr);
 	        }
@@ -275,6 +291,30 @@ public class DcServerSessionRequestHandler extends Thread {
     private ServerResponse processValueEnhancersRequest(ClientRequestValueEnhancers cras) throws Exception {
         return new ServerValueEnhancersRequestResponse();
     }
+    
+    private DefaultServerResponse processDeleteAttachmentsRequest(ClientRequestAttachmentsDelete cr) {
+    	context.deleteAttachments(cr.getObjectID());
+    	return new DefaultServerResponse();
+    }
+    
+    private ServerAttachmentsListResponse processListAttachmentsRequest(ClientRequestAttachmentsList cr) {
+    	Collection<Attachment> attachments = context.getAttachmentsList(cr.getObjectID());
+    	return new ServerAttachmentsListResponse(attachments);
+    }    
+
+    private ServerAttachmentActionResponse processAttachmentActionRequest(ClientRequestAttachmentAction cr) {
+    	
+    	switch (cr.getActionType()) {
+	    	case ClientRequestAttachmentAction._ACTION_DELETE_ATTACHMENT:
+	    		context.deleteAttachment(cr.getAttachment());
+	    	case ClientRequestAttachmentAction._ACTION_SAVE_ATTACHMENT:
+	    		context.saveAttachment(cr.getAttachment());
+	    	case ClientRequestAttachmentAction._ACTION_LOAD_ATTACHMENT:
+	    		context.loadAttachment(cr.getAttachment());
+    	}
+    	
+    	return new ServerAttachmentActionResponse(cr.getAttachment());
+    }    
     
     private DefaultServerResponse processRemoveReferenceToRequest(ClientRequestRemoveReferenceTo cr) {
     	context.removeReferencesTo(cr.getModuleIdx(), cr.getId());
