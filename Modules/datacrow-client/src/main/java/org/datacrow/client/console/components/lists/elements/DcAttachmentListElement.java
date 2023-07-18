@@ -36,8 +36,8 @@ import org.datacrow.core.attachments.Attachment;
 public class DcAttachmentListElement extends DcListElement {
     
     private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
-    private static final Dimension dim = new Dimension(360, 30);
-    private static final Dimension dimLabel = new Dimension(360, 30);
+    private static final Dimension dim = new Dimension(1200, 30);
+    private static final Dimension dimLabel = new Dimension(1200, 30);
     
     private Attachment attachment;
     

@@ -102,6 +102,13 @@ public class AttachmentManager {
 	}
 	
 	public Collection<Attachment> getAttachments(String ID) {
-		return new ArrayList<>();
+		File itemAttachmentDir = new File(dir, ID);
+		
+		Collection<Attachment> attachments = new ArrayList<>();
+		
+		for (String filename : itemAttachmentDir.list())
+			attachments.add(new Attachment(ID, filename));
+		
+		return attachments;
 	}
 }

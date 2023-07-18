@@ -33,7 +33,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -46,6 +48,7 @@ import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
 import org.datacrow.client.console.ComponentFactory;
+import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcPanel;
 import org.datacrow.client.console.components.DcPopupMenu;
@@ -55,17 +58,24 @@ import org.datacrow.client.console.components.lists.DcListModel;
 import org.datacrow.client.console.components.lists.elements.DcListElement;
 import org.datacrow.client.console.components.lists.elements.DcObjectListElement;
 import org.datacrow.client.console.menu.DcAttachmentPanelMenu;
+import org.datacrow.client.console.windows.BrowserDialog;
 import org.datacrow.client.util.launcher.FileLauncher;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.IconLibrary;
+import org.datacrow.core.attachments.Attachment;
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.utilities.CoreUtilities;
 
 /**
  * @author RJ
  *
  */
 public class AttachmentsPanel extends DcPanel implements MouseListener, ActionListener, KeyListener {
+	
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(AttachmentsPanel.class.getName());
     
 	private final String objectID;
 	
@@ -74,25 +84,93 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     
     private final DcAttachmentList list = new DcAttachmentList();
     
-    public AttachmentsPanel(String objectID) {
+    private final boolean readonly;
+    
+    public AttachmentsPanel(String objectID, boolean readonly) {
         this.objectID = objectID;
         this.list.setModel(new DcListModel<Object>());
+        this.readonly = readonly;
         
         setTitle(DcResources.getText("lblAttachments"));
         
         build();
+        load();
     }
 
     private void deleteAttachment() {
-    	// TODO
+    	Attachment attachment = list.getSelectedAttachment();
+    	deleteAttachment(attachment);
     }
     
+    private void deleteAttachment(Attachment attachment) {
+    	if (attachment != null) {
+    		DcConfig.getInstance().getConnector().deleteAttachment(attachment);
+    		SwingUtilities.invokeLater(new Thread(new Runnable() { 
+                    @Override
+                    public void run() {
+                    	list.remove(attachment);
+                    }
+                }));
+    	}
+    }    
+    
     private void addAttachment() {
-    	// TODO
+    	BrowserDialog dlg = new BrowserDialog(DcResources.getText("lblSelectFile"));
+    	File file = dlg.showOpenFileDialog(this, null);
+    	
+    	if (file != null) {
+    		try {
+	    		Attachment attachment = new Attachment(objectID, file.getName());
+	    		
+	    		// check if file has not already been attached - allow user to overwrite the existing attachment
+	    		if (list.getAttachments().contains(attachment)) {
+	    			if (GUI.getInstance().displayQuestion("msgAttachmentAlreadyExistsOverwrite"))
+	    				deleteAttachment();
+	    			else 
+	    				return;
+	    		} 
+	    		
+	    		attachment.setData(CoreUtilities.readFile(file));
+	    		
+	    		DcConfig.getInstance().getConnector().saveAttachment(attachment);
+	    		
+	    		SwingUtilities.invokeLater(new Thread(new Runnable() { 
+                    @Override
+                    public void run() {
+                    	list.add(attachment);
+                    }
+                }));
+	    		
+    		} catch (Exception e) {
+    			GUI.getInstance().displayErrorMessage(DcResources.getText("msgCouldNotReadAttachment"));
+    			logger.error(e, e);
+    		}
+    	}
     }
     
     public void openAttachment() {
-        new FileLauncher(list.getSelectedAttachment().getLocalFile()).launch();
+    	try {
+	    	
+	    	Attachment attachment = list.getSelectedAttachment();
+	    	
+	    	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
+	    		DcConfig.getInstance().getConnector().loadAttachment(attachment);
+	    		
+	    		
+	    		String tmpdir = System.getProperty("java.io.tmpdir");
+	    		File file = new File(tmpdir, attachment.getObjectID() + "_" + attachment.getName());
+	    		
+	    		CoreUtilities.writeToFile(attachment.getData(), file);
+	    		attachment.setLocalFile(file);
+	    		
+	    		file.deleteOnExit();
+	    	}
+	    	
+	        new FileLauncher(attachment.getLaunchableFile()).launch();
+    	} catch (Exception e) {
+    		GUI.getInstance().displayErrorMessage(e.getMessage());
+    		logger.error(e, e);
+    	}
     }
     
     private void load() {
@@ -100,23 +178,23 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
                 new Thread(new Runnable() { 
                     @Override
                     public void run() {
+                    	
+                    	list.clear();
+                    	elementsAll.clear();
+                    	
                     	Connector conn = DcConfig.getInstance().getConnector();
-                    	conn.getAttachmentsList(objectID);
+                    	Collection<Attachment> attachments = conn.getAttachmentsList(objectID);
                     	
-                    	
-//                        list.clear();
-//                        all.clear();
-//                        
-//                        Connector connector = DcConfig.getInstance().getConnector();
-//                        List<DcObject> items = connector.getReferencingItems(dco.getModuleIdx(), dco.getID());
-//                        setData(items);
+                    	for (Attachment attachment : attachments) {
+                    		list.add(attachment);
+                    	}
                     }
                 }));
     }
     
-    // TODO: implement
+    // TODO: implement security
     private boolean allowActions() {
-    	return true;
+    	return !readonly;
     }
     
     @Override

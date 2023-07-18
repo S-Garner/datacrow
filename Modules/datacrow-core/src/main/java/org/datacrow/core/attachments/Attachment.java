@@ -67,6 +67,14 @@ public class Attachment {
 		data = null;
 	}
 	
+	public File getLaunchableFile() {
+		return localFile != null ? localFile : storageFile;
+	}
+	
+	public void setLocalFile(File localFile) {
+		this.localFile = localFile;
+	}
+	
 	public File getLocalFile() {
 		return localFile;
 	}

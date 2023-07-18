@@ -226,7 +226,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         addPictureTabs();
         addRelationPanel();
         
-        if (module.isTopModule()) {
+        if (module.isTopModule() && update) {
         	addAttachmentsPanel();
         }
         
@@ -928,7 +928,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     }
     
     protected void addAttachmentsPanel() {
-    	JPanel component = new AttachmentsPanel(dco.getID());
+    	JPanel component = new AttachmentsPanel(dco.getID(), readonly);
     	
     	JPanel panel = new JPanel();
     	panel.setLayout(Layout.getGBL());
