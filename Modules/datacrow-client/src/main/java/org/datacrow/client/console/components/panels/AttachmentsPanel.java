@@ -61,12 +61,14 @@ import org.datacrow.client.console.menu.DcAttachmentPanelMenu;
 import org.datacrow.client.console.windows.BrowserDialog;
 import org.datacrow.client.util.launcher.FileLauncher;
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.attachments.Attachment;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
 /**
@@ -119,31 +121,39 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     	File file = dlg.showOpenFileDialog(this, null);
     	
     	if (file != null) {
-    		try {
-	    		Attachment attachment = new Attachment(objectID, file.getName());
-	    		
-	    		// check if file has not already been attached - allow user to overwrite the existing attachment
-	    		if (list.getAttachments().contains(attachment)) {
-	    			if (GUI.getInstance().displayQuestion("msgAttachmentAlreadyExistsOverwrite"))
-	    				deleteAttachment();
-	    			else 
-	    				return;
-	    		} 
-	    		
-	    		attachment.setData(CoreUtilities.readFile(file));
-	    		
-	    		DcConfig.getInstance().getConnector().saveAttachment(attachment);
-	    		
-	    		SwingUtilities.invokeLater(new Thread(new Runnable() { 
-                    @Override
-                    public void run() {
-                    	list.add(attachment);
-                    }
-                }));
-	    		
-    		} catch (Exception e) {
-    			GUI.getInstance().displayErrorMessage(DcResources.getText("msgCouldNotReadAttachment"));
-    			logger.error(e, e);
+    		
+    		long maxSize = DcSettings.getLong(DcRepository.Settings.stMaximumAttachmentFileSize);
+    		
+    		if (file.length() > maxSize * 1000) {
+    			GUI.getInstance().displayWarningMessage(DcResources.getText("msgFileIsTooLarge", 
+    					new String[] {String.valueOf(maxSize), String.valueOf(file.length() / 1000)}));
+    		} else {
+	    		try {
+		    		Attachment attachment = new Attachment(objectID, file.getName());
+		    		
+		    		// check if file has not already been attached - allow user to overwrite the existing attachment
+		    		if (list.getAttachments().contains(attachment)) {
+		    			if (GUI.getInstance().displayQuestion("msgAttachmentAlreadyExistsOverwrite"))
+		    				deleteAttachment();
+		    			else 
+		    				return;
+		    		} 
+		    		
+		    		attachment.setData(CoreUtilities.readFile(file));
+		    		
+		    		DcConfig.getInstance().getConnector().saveAttachment(attachment);
+		    		
+		    		SwingUtilities.invokeLater(new Thread(new Runnable() { 
+	                    @Override
+	                    public void run() {
+	                    	list.add(attachment);
+	                    }
+	                }));
+		    		
+	    		} catch (Exception e) {
+	    			GUI.getInstance().displayErrorMessage(DcResources.getText("msgCouldNotReadAttachment"));
+	    			logger.error(e, e);
+	    		}
     		}
     	}
     }
@@ -191,9 +201,9 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
                 }));
     }
     
-    // TODO: implement security
     private boolean allowActions() {
-    	return !readonly;
+    	return !readonly && 
+    			DcConfig.getInstance().getConnector().getUser().isAuthorized("AttachmentsPanel");
     }
     
     @Override

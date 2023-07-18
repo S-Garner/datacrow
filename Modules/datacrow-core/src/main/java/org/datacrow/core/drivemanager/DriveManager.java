@@ -293,7 +293,7 @@ public class DriveManager {
     private String getHash(File file) {
         String hash = hashes.get(file);
         
-        if (file.length() < DcSettings.getInt(DcRepository.Settings.stHashMaxFileSizeKb)) 
+        if (file.length() < DcSettings.getLong(DcRepository.Settings.stHashMaxFileSizeKb) * 1000) 
             hash = hash == null ? Hash.getInstance().calculateHash(file.toString()) : hash;
             
         return hash;

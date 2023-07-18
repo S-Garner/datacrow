@@ -12,8 +12,7 @@ Data Crow version 4.9.2                       Released on 2023-07-xx
 - Incorrect alignment of the filter label on the related items tab.
 
 TODO:
-- Attachments: security
-- Attachments: max size (1, 2, 5, 10 MB)
+- Adjust setting for max size for hashing (divide by 1000)
 
 
 --------------------------------------------------------------------

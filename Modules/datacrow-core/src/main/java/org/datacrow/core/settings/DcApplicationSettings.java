@@ -56,6 +56,7 @@ public class DcApplicationSettings extends Settings {
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcApplicationSettings.class.getName());
     
     public static final String _General = "lblGroupGeneral";
+    public static final String _SizeLimits = "lblSizeLimits";
     public static final String _FileHashing = "lblFileHashing";
     public static final String _Regional = "lblGroupRegional";
     public static final String _Module = "lblModuleSettings";
@@ -96,6 +97,7 @@ public class DcApplicationSettings extends Settings {
     protected void createGroups() {
         SettingsGroup generalGroup = new SettingsGroup(_General, "dc.settings.general");
         SettingsGroup regionalGroup = new SettingsGroup(_Regional, "dc.settings.regional");
+        SettingsGroup sizeLimits = new SettingsGroup(_SizeLimits, "dc.settings.sizelimits");
         SettingsGroup colorGroup = new SettingsGroup(_SelectionColor, "dc.settings.colors");
         SettingsGroup http = new SettingsGroup(_HTTP, "dc.settings.http");
         SettingsGroup fileHandlers = new SettingsGroup(_FileHandlers, "dc.settings.fileassociations");
@@ -108,6 +110,7 @@ public class DcApplicationSettings extends Settings {
         addGroup(_Module, moduleGroup);
         addGroup(_Regional, regionalGroup);
         addGroup(_General, generalGroup);
+        addGroup(_SizeLimits, sizeLimits);
         addGroup(_Font, fontGroup);
         addGroup(_HTTP, http);
         addGroup(_SelectionColor, colorGroup);
@@ -118,6 +121,15 @@ public class DcApplicationSettings extends Settings {
     }
 
     protected void createSettings() {
+        addSetting(_SizeLimits,
+                new Setting(DcRepository.ValueTypes._LONG,
+                            DcRepository.Settings.stMaximumAttachmentFileSize,
+                            Long.valueOf(5000),
+                            UIComponents._FILESIZEFIELD,
+                            "",
+                            "lblMaximumAttachFileSize",
+                            true,
+                            true, -1));
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._BOOLEAN,
                             DcRepository.Settings.stDrivePollerRunOnStartup,
@@ -420,7 +432,7 @@ public class DcApplicationSettings extends Settings {
         addSetting(_FileHashing,
                 new Setting(DcRepository.ValueTypes._LONG,
                             DcRepository.Settings.stHashMaxFileSizeKb,
-                            Long.valueOf(500000000),
+                            Long.valueOf(500000),
                             UIComponents._FILESIZEFIELD,
                             "",
                             "lblFileHashMaxFileSize",

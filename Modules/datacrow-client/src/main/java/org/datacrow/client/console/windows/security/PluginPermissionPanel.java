@@ -59,9 +59,10 @@ public class PluginPermissionPanel extends JPanel implements ActionListener {
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PluginPermissionPanel.class.getName());
     
-    private static final int _COLUMN_LABEL = 0;
-    private static final int _COLUMN_AUTHORIZED = 1;
-    private static final int _COLUMN_PERMISSION = 2;
+    private static final int _COLUMN_KEY = 0;
+    private static final int _COLUMN_NAME = 1;
+    private static final int _COLUMN_AUTHORIZED = 2;
+    private static final int _COLUMN_PERMISSION = 3;
     
     private DcTable table;
     private DcObject user;
@@ -121,7 +122,8 @@ public class PluginPermissionPanel extends JPanel implements ActionListener {
                 } 
             }
             
-            Object[] row = new Object[] {plugin.getKey(), 
+            Object[] row = new Object[] {plugin.getKey(),
+            							 plugin.getLabel(),
                                          permission.getValue(Permission._D_VIEW), 
                                          permission};
             table.addRow(row);
@@ -139,10 +141,13 @@ public class PluginPermissionPanel extends JPanel implements ActionListener {
         setLayout(Layout.getGBL());
 
         table = ComponentFactory.getDCTable(false, false);
-        table.setColumnCount(3);
+        table.setColumnCount(4);
 
-        TableColumn cModule = table.getColumnModel().getColumn(_COLUMN_LABEL);
-        cModule.setHeaderValue(DcResources.getText("lblPlugin"));
+        TableColumn cPluginKey = table.getColumnModel().getColumn(_COLUMN_KEY);
+        cPluginKey.setHeaderValue(DcResources.getText("lblPlugin"));
+
+        TableColumn cPluginName = table.getColumnModel().getColumn(_COLUMN_NAME);
+        cPluginName.setHeaderValue(DcResources.getText("lblName"));
         
         TableColumn cView = table.getColumnModel().getColumn(_COLUMN_AUTHORIZED);
         JCheckBox cbView = ComponentFactory.getCheckBox("");

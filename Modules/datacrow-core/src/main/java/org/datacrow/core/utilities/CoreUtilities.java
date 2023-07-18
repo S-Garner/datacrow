@@ -417,7 +417,7 @@ public class CoreUtilities {
 
         DecimalFormat format = new DecimalFormat("###,###", symbols);
         format.setGroupingSize(3);
-        return format.format(l) + " bytes";
+        return format.format(l) + " KB";
     }
     
     public static String toString(Double d) {

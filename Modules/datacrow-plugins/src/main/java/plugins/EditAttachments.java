@@ -23,82 +23,73 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.core.plugin;
+package plugins;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.awt.event.ActionEvent;
 
+import javax.swing.ImageIcon;
+
+import org.datacrow.client.console.windows.itemforms.ItemForm;
+import org.datacrow.core.DcConfig;
+import org.datacrow.core.IconLibrary;
+import org.datacrow.core.UserMode;
+import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
+import org.datacrow.core.objects.Picture;
+import org.datacrow.core.plugin.Plugin;
+import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.server.Connector;
 
-/**
- * A plugin which has been loaded by Data Crow.
- * 
- * @author Robert Jan van der Waals
- */
-public class RegisteredPlugin {
+public class EditAttachments extends Plugin {
+
+	private static final long serialVersionUID = 1L;
+
+	public EditAttachments(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
+        super(dco, template, viewIdx, moduleIdx, viewType);
+    } 
     
-    private Class<?> clazz;
-    
-    private Plugin base;
-    private String label;
-    
-    private Collection<Plugin> cache = new ArrayList<Plugin>();
-
-    /**
-     * Creates a new instance.
-     * @param clazz
-     * @param base
-     */
-    public RegisteredPlugin(Class<?> clazz, Plugin base) {
-        super();
-        this.clazz = clazz;
-        this.base = base;
-    }
-
-    public Class<?> getClazz() {
-        return clazz;
-    }
-
-    public String getKey() {
-        return clazz.getSimpleName();
-    }
-
+    @Override
     public boolean isAdminOnly() {
-        return base.isAdminOnly();
+        return false;
     }
     
-    public boolean isSystemPlugin() {
-        return base.isSystemPlugin();
-    }
-
+    @Override
     public boolean isAuthorizable() {
-        return base.isAuthorizable();
+        return true;
+    }    
+    
+    @Override
+	public boolean isEnabled() {
+        Connector connector = DcConfig.getInstance().getConnector();
+		return connector.getUser().isEditingAllowed(getModule());
+	} 
+    
+    @Override
+    public int getXpLevel() {
+        return UserMode._XP_BEGINNER;
     }
     
-    public Plugin get(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
-        if (dco != null) return null;
-
-        for (Plugin plugin : new ArrayList<Plugin>(cache)) {
-            if (plugin.getTemplate() == template &&
-                plugin.getViewIdx() == viewIdx &&
-                plugin.getModuleIdx() == moduleIdx &&
-                plugin.getViewType() == viewType)
-                return plugin;
-        }
-        return null;
+    @Override
+    public void actionPerformed(ActionEvent ae) {}
+    
+    @Override
+    public ImageIcon getIcon() {
+        return IconLibrary._icoAttachments;
     }
     
-    public void add(Plugin plugin) {
-        if (plugin.getItem() == null)
-            cache.add(plugin);
+    @Override
+    public boolean isSystemPlugin() {
+        return true;
     }
 
+    @Override
     public String getLabel() {
-        return base.getLabel();
+        return DcResources.getText("lblEditAttachments");
     }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
+    
+    @Override
+    public String getHelpText() {
+        return DcResources.getText("lblEditAttachments");
+    }      
 }

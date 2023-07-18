@@ -96,7 +96,7 @@ public class Hash {
                 
                 dco.setValue(DcObject._SYS_FILESIZE, fileSize);
                 
-                long max = DcSettings.getLong(DcRepository.Settings.stHashMaxFileSizeKb);
+                long max = DcSettings.getLong(DcRepository.Settings.stHashMaxFileSizeKb) * 1000;
                 // check if the hash should be changed
                 if ( (max == 0 || fileSize <= max) &&
                     ((currentHash == null || (dco.isChanged(DcObject._SYS_FILENAME)  && 

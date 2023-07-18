@@ -105,8 +105,10 @@ public class AttachmentManager {
 		
 		Collection<Attachment> attachments = new ArrayList<>();
 		
-		for (String filename : itemAttachmentDir.list())
-			attachments.add(new Attachment(ID, filename));
+		if (itemAttachmentDir.list() != null) {
+			for (String filename : itemAttachmentDir.list())
+				attachments.add(new Attachment(ID, filename));
+		}
 		
 		return attachments;
 	}

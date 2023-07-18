@@ -125,6 +125,8 @@ public abstract class DcRepository {
      * The keys for application level settings.
      */
     public static final class Settings {
+    	
+    	public static final String stMaximumAttachmentFileSize = "max_attachment_file_size";
     	public static final String stUIScaling = "ui_scaling";
     	public static final String stComicVineAddEnemiesAndFriends = "comicvine_add_enemies_and_friends";
         public static final String stMobyGamesApiKey = "mobygames_api_key";
