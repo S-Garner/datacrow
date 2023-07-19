@@ -34,7 +34,6 @@ public class Attachment {
 	private final String name;
 	private final String objectID;
 	
-	private File storageFile;
 	private File localFile;
 	
 	private byte[] data;
@@ -42,9 +41,6 @@ public class Attachment {
 	public Attachment(String objectID, String name) {
 		this.objectID = objectID;
 		this.name = name;
-		
-		this.storageFile = new File(DcConfig.getInstance().getAttachmentDir(), objectID);
-		this.storageFile = new File(storageFile, name);
 	}
 	
 	public void setData(byte[] data) {
@@ -76,6 +72,7 @@ public class Attachment {
 	}
 	
 	public File getStorageFile() {
-		return storageFile;
+		File storageFile = new File(DcConfig.getInstance().getAttachmentDir(), objectID);
+		return new File(storageFile, name);
 	}	
 }

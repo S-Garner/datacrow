@@ -307,10 +307,13 @@ public class DcServerSessionRequestHandler extends Thread {
     	switch (cr.getActionType()) {
 	    	case ClientRequestAttachmentAction._ACTION_DELETE_ATTACHMENT:
 	    		context.deleteAttachment(cr.getAttachment());
+	    		break;
 	    	case ClientRequestAttachmentAction._ACTION_SAVE_ATTACHMENT:
 	    		context.saveAttachment(cr.getAttachment());
+	    		break;
 	    	case ClientRequestAttachmentAction._ACTION_LOAD_ATTACHMENT:
 	    		context.loadAttachment(cr.getAttachment());
+	    		break;
     	}
     	
     	return new ServerAttachmentActionResponse(cr.getAttachment());
