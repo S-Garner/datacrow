@@ -23,42 +23,22 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.core.settings.objects;
+package org.datacrow.client.console.components;
 
-/**
- * @author RJ
- *
- */
-public class DcDimension {
-	
-	private int width = 0;
-	private int height = 0;
-	
-	public DcDimension(int width, int height) {
-		this.width = width;
-		this.height = height;
-	}
+import org.datacrow.core.settings.objects.DcDimension;
 
-	public int getWidth() {
-		return width;
-	}
+public class DcResolutionComboBox extends DcComboBox {
 
-	public int getHeight() {
-		return height;
-	}
-	
-	@Override
-	public String toString() {
-		return String.valueOf(width) + "x" + String.valueOf(height);
-	}
-	
-	@Override
-	public int hashCode() {
-		return toString().hashCode();
-	}
-	
-	@Override
-	public boolean equals(Object o) {
-		return o != null ? o.hashCode() == hashCode() : false;
-	}
+	public DcResolutionComboBox() {
+        super();
+        
+        addItem("");
+        addItem(new DcDimension(800, 600));
+        addItem(new DcDimension(1366, 768));
+        addItem(new DcDimension(1440, 768));
+        addItem(new DcDimension(1800, 1600));
+    	addItem(new DcDimension(1920, 1080));
+    	addItem(new DcDimension(2560, 1440));
+    	addItem(new DcDimension(3840, 2160));
+    }
 }

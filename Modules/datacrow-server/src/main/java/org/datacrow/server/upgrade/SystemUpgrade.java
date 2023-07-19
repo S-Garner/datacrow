@@ -103,6 +103,12 @@ public class SystemUpgrade {
             if (!dbInitialized)
             	renameRecordLabel();
             
+            if (dbInitialized && v.isOlder(new Version(4, 9, 2, 0))) {
+            	// currently set as bytes but should be KB
+            	long size = DcSettings.getLong(DcRepository.Settings.stHashMaxFileSizeKb); 
+            	DcSettings.set(DcRepository.Settings.stHashMaxFileSizeKb, size / 1000);
+            }
+            
             if (dbInitialized && v.isOlder(new Version(4, 9, 1, 0)))
             	removeSelfReferencingItems();
             

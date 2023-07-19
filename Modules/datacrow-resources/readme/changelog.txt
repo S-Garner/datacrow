@@ -1,18 +1,16 @@
 --------------------------------------------------------------------
-Data Crow version 4.9.2                       Released on 2023-07-xx
+Data Crow version 4.9.2                       Released on 2023-08-xx
 --------------------------------------------------------------------
 
 [Changed]
 - Data Crow will no longer close windows or exit when pressing the escape key. This has been changed to CTRL/COMMAND+ESC.
 
 [New]
-- Attachments can now be added to items. These documents are stored within the Data Crow data set.
+- Attachments can now be added to items. These documents are stored within the Data Crow data set in a compressed format.
+  All main modules allow for attachments to be added.
 
 [Fixed]
 - Incorrect alignment of the filter label on the related items tab.
-
-TODO:
-- Adjust setting for max size for hashing (divide by 1000)
 
 
 --------------------------------------------------------------------

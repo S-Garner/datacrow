@@ -113,6 +113,7 @@ import org.datacrow.client.console.components.DcRadioButton;
 import org.datacrow.client.console.components.DcRatingComboBox;
 import org.datacrow.client.console.components.DcReferenceField;
 import org.datacrow.client.console.components.DcReferencesField;
+import org.datacrow.client.console.components.DcResolutionComboBox;
 import org.datacrow.client.console.components.DcShortTextField;
 import org.datacrow.client.console.components.DcTabbedPane;
 import org.datacrow.client.console.components.DcTagField;
@@ -421,6 +422,8 @@ public final class ComponentFactory extends UIComponents {
                 return getIconSizeCombo();
             case _COLLATIONCOMBO:
             	return getCollationCombo();
+            case _RESOLUTIONCOMBO:
+            	return getResolutionCombo();
             default:
                 return getShortTextField(maxTextLength);
         }
@@ -520,6 +523,10 @@ public final class ComponentFactory extends UIComponents {
     public static final DcComboBox getCollationCombo() {
     	return new DcCollationComboBox();
     }
+    
+    public static final DcComboBox getResolutionCombo() {
+    	return new DcResolutionComboBox();
+    }    
 
     public static final JComboBox<Object> getDateFormatCombo() {
         return new DcDateFormatComboBox();

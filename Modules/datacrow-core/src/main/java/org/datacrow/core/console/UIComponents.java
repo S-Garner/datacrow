@@ -68,4 +68,5 @@ public class UIComponents {
     public static final int _ICONSIZECOMBO = 40;
     public static final int _COLLATIONCOMBO = 41;
     public static final int _UISCALECOMBO = 42;
+    public static final int _RESOLUTIONCOMBO = 43;
 }

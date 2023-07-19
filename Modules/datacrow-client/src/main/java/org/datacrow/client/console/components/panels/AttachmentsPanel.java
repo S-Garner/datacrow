@@ -57,7 +57,6 @@ import org.datacrow.client.console.components.lists.DcAttachmentList;
 import org.datacrow.client.console.components.lists.DcListModel;
 import org.datacrow.client.console.components.lists.elements.DcAttachmentListElement;
 import org.datacrow.client.console.components.lists.elements.DcListElement;
-import org.datacrow.client.console.components.lists.elements.DcObjectListElement;
 import org.datacrow.client.console.menu.DcAttachmentPanelMenu;
 import org.datacrow.client.console.windows.BrowserDialog;
 import org.datacrow.client.util.launcher.FileLauncher;
@@ -72,10 +71,6 @@ import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
-/**
- * @author RJ
- *
- */
 public class AttachmentsPanel extends DcPanel implements MouseListener, ActionListener, KeyListener {
 	
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(AttachmentsPanel.class.getName());

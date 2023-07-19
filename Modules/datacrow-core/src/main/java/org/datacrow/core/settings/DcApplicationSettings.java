@@ -130,6 +130,15 @@ public class DcApplicationSettings extends Settings {
                             "lblMaximumAttachFileSize",
                             true,
                             true, -1));
+        addSetting(_SizeLimits,
+                new Setting(DcRepository.ValueTypes._DIMENSION,
+                            DcRepository.Settings.stMaximumImageResolution,
+                            null,
+                            UIComponents._RESOLUTIONCOMBO,
+                            "tpMaximumImageResolution",
+                            "lblMaximumImageResolution",
+                            true,
+                            true, -1));
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._BOOLEAN,
                             DcRepository.Settings.stDrivePollerRunOnStartup,
@@ -701,7 +710,6 @@ public class DcApplicationSettings extends Settings {
                             "",
                             false,
                             false, -1));
-        
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.Settings.stSynchServiceDialogSize,
