@@ -830,6 +830,12 @@ public class CoreUtilities {
         return result.toString(StandardCharsets.UTF_8);
     }
     
+    public static byte[] readBytesFromStream(InputStream is) throws IOException {
+        byte[] content = new byte[is.available()];
+        is.read(content);
+        return content;
+    }    
+    
     public static void downloadFile(String fromUrl, String localFileName) throws IOException {
         File localFile = new File(localFileName);
         if (localFile.exists()) {

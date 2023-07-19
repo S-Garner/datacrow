@@ -26,9 +26,14 @@
 package org.datacrow.server.data;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.zip.Deflater;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.attachments.Attachment;
@@ -57,11 +62,31 @@ public class AttachmentManager {
 	}
 	
 	public void loadAttachment(Attachment attachment) {
+		File storageFile = attachment.getStorageFile();
+		storageFile.getParentFile().mkdirs();
+
+		File zippedFile = new File(storageFile.getAbsolutePath() + ".zip");
+		ZipFile zipFile = null;
+		InputStream is = null;
+		
 		try {
-			attachment.setData(CoreUtilities.readFile(attachment.getStorageFile()));
-		} catch (IOException e) {
+			zipFile = new ZipFile(zippedFile);
+			ZipEntry zipEntry = zipFile.getEntry(attachment.getName());
+            
+            if (zipEntry != null) {
+            	is = zipFile.getInputStream(zipEntry);
+                byte[] data = CoreUtilities.readBytesFromStream(is);
+                attachment.setData(data);
+            }			
+			
+		} catch (Exception e) {
 			logger.error("Could not load contents for " + attachment.getStorageFile(), e);
-		}
+        } finally {
+            try {
+            	is.close();
+                zipFile.close();
+            } catch (Exception ignore) {}
+        }
 	}
 	
 	/**
@@ -79,7 +104,8 @@ public class AttachmentManager {
 	}
 	
 	public void deleteAttachment(Attachment attachment) {
-		delete(attachment.getStorageFile());
+		File file = new File(attachment.getStorageFile().getAbsolutePath() + ".zip");
+		delete(file);
 	}
 	
 	private void delete(File file) {
@@ -90,16 +116,39 @@ public class AttachmentManager {
 	}
 	
 	public void saveAttachment(Attachment attachment) {
-		File storageFile = attachment.getStorageFile();
-		storageFile.getParentFile().mkdirs();
-		
-		try {
-			CoreUtilities.writeToFile(attachment.getData(), storageFile);
-		} catch (Exception e) {
-			logger.error("Could not store attachment " + storageFile, e);
-		}
+		storeAttachment(attachment);
 	}
 	
+	private void storeAttachment(Attachment attachment) {
+		File storageFile = attachment.getStorageFile();
+		storageFile.getParentFile().mkdirs();
+
+		File zippedFile = new File(storageFile.getAbsolutePath() + ".zip");
+		
+		FileOutputStream fos = null;
+        ZipOutputStream zipOut = null;
+        
+        try {
+            fos = new FileOutputStream(zippedFile);
+            zipOut = new ZipOutputStream(fos);
+            zipOut.setLevel(Deflater.BEST_COMPRESSION);
+            
+            // add the version and add the comment entered by the customer
+            zipOut.putNextEntry(new ZipEntry(attachment.getName()));
+            zipOut.write(attachment.getData());
+            zipOut.closeEntry();
+            
+            // add all the file
+        } catch (Exception e) {
+        	logger.error("Could not store attachment " + storageFile, e);
+        } finally {
+            try {
+                if (zipOut != null) zipOut.close();
+                if (fos != null) fos.close();
+            } catch (Exception ignore) {}
+        }
+	}
+		
 	public Collection<Attachment> getAttachments(String ID) {
 		File itemAttachmentDir = new File(dir, ID);
 		
@@ -107,7 +156,7 @@ public class AttachmentManager {
 		
 		if (itemAttachmentDir.list() != null) {
 			for (String filename : itemAttachmentDir.list())
-				attachments.add(new Attachment(ID, filename));
+				attachments.add(new Attachment(ID, filename.substring(0, filename.length() - 4)));
 		}
 		
 		return attachments;

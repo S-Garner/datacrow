@@ -55,6 +55,7 @@ import org.datacrow.client.console.components.DcPopupMenu;
 import org.datacrow.client.console.components.DcShortTextField;
 import org.datacrow.client.console.components.lists.DcAttachmentList;
 import org.datacrow.client.console.components.lists.DcListModel;
+import org.datacrow.client.console.components.lists.elements.DcAttachmentListElement;
 import org.datacrow.client.console.components.lists.elements.DcListElement;
 import org.datacrow.client.console.components.lists.elements.DcObjectListElement;
 import org.datacrow.client.console.menu.DcAttachmentPanelMenu;
@@ -147,6 +148,8 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
 	                    @Override
 	                    public void run() {
 	                    	list.add(attachment);
+	                    	elementsAll.clear();
+	                    	elementsAll.addAll(list.getElements());
 	                    }
 	                }));
 		    		
@@ -160,22 +163,22 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     
     public void openAttachment() {
     	try {
-	    	
 	    	Attachment attachment = list.getSelectedAttachment();
 	    	
-	    	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
-	    		DcConfig.getInstance().getConnector().loadAttachment(attachment);
-	    		
-	    		String tmpdir = System.getProperty("java.io.tmpdir");
-	    		File file = new File(tmpdir, attachment.getObjectID() + "_" + attachment.getName());
-	    		
-	    		CoreUtilities.writeToFile(attachment.getData(), file);
-	    		attachment.setLocalFile(file);
-	    		
-	    		file.deleteOnExit();
-	    	}
+    		DcConfig.getInstance().getConnector().loadAttachment(attachment);
+    		
+    		String tmpdir = System.getProperty("java.io.tmpdir");
+    		File file = new File(tmpdir, attachment.getObjectID() + "_" + attachment.getName());
+    		
+    		CoreUtilities.writeToFile(attachment.getData(), file);
+    		attachment.setLocalFile(file);
+    		
+    		file.deleteOnExit();
 	    	
-	        new FileLauncher(attachment.getLaunchableFile()).launch();
+	        new FileLauncher(attachment.getLocalFile()).launch();
+	        
+	        attachment.clear();
+	        
     	} catch (Exception e) {
     		GUI.getInstance().displayErrorMessage(e.getMessage());
     		logger.error(e, e);
@@ -194,16 +197,17 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
                     	Connector conn = DcConfig.getInstance().getConnector();
                     	Collection<Attachment> attachments = conn.getAttachmentsList(objectID);
                     	
-                    	for (Attachment attachment : attachments) {
+                    	for (Attachment attachment : attachments)
                     		list.add(attachment);
-                    	}
+                    	
+                    	elementsAll.addAll(list.getElements());
                     }
                 }));
     }
     
     private boolean allowActions() {
     	return !readonly && 
-    			DcConfig.getInstance().getConnector().getUser().isAuthorized("AttachmentsPanel");
+    			DcConfig.getInstance().getConnector().getUser().isAuthorized("EditAttachments");
     }
     
     @Override
@@ -312,8 +316,8 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
         } else {
             List<DcListElement> filtered = new ArrayList<DcListElement>();
             for (DcListElement el : elementsAll) {
-                DcObjectListElement element = (DcObjectListElement) el;
-                if (element.getDcObject().toString().toLowerCase().contains(filter.toLowerCase()))
+            	DcAttachmentListElement element = (DcAttachmentListElement) el;
+                if (element.getAttachment().getName().toLowerCase().contains(filter.toLowerCase()))
                     filtered.add(el);
             }
         

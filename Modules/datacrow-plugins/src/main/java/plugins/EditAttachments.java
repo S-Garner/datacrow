@@ -29,14 +29,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
-import org.datacrow.client.console.windows.itemforms.ItemForm;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.UserMode;
-import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.plugin.Plugin;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
