@@ -88,6 +88,12 @@ public class SystemUpgrade {
     public void start() throws SystemUpgradeException {
         try {
             Version v = DatabaseManager.getInstance().getVersion();
+
+            // mark the system as upgraded / older in the settings
+            if (dbInitialized && v.isOlder(DcConfig.getInstance().getVersion())) { 
+            	DcSettings.set(DcRepository.Settings.stIsUpgraded, Boolean.TRUE);
+            }
+            
             if (!dbInitialized && v.isOlder(new Version(4, 0, 0, 0))) {
                 Connector connector = DcConfig.getInstance().getConnector();
                 connector.displayMessage("Make sure you have NOT installed Data Crow on top of an "

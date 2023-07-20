@@ -74,5 +74,20 @@ public class Attachment {
 	public File getStorageFile() {
 		File storageFile = new File(DcConfig.getInstance().getAttachmentDir(), objectID);
 		return new File(storageFile, name);
-	}	
+	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
+	
+	@Override
+	public int hashCode() {
+		return toString().hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		return o != null ? o.hashCode() == hashCode() : false;
+	}
 }

@@ -42,6 +42,7 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.MainFrame;
 import org.datacrow.client.console.windows.ChangeUserFolderQuestionBox;
+import org.datacrow.client.console.windows.ConvertImageSizesDialog;
 import org.datacrow.client.console.windows.DataDirSetupDialog;
 import org.datacrow.client.console.windows.DonateDialog;
 import org.datacrow.client.console.windows.SelectLanguageDialog;
@@ -371,6 +372,15 @@ public class DataCrow implements IStarterClient {
             if (DcSettings.getBoolean(DcRepository.Settings.stShowTipsOnStartup)) {
                 TipOfTheDayDialog dlg = new TipOfTheDayDialog();
                 dlg.setVisible(true);
+            }
+            
+            if (!DcSettings.getBoolean(DcRepository.Settings.stMaximumImageResolutionAsked) &&
+            	!DcSettings.getBoolean(DcRepository.Settings.stMaximumImageResolutionConvertOnStartup) &&
+                 DcSettings.getBoolean(DcRepository.Settings.stIsUpgraded)) {
+            	
+            	// display GUI for image conversion
+            	ConvertImageSizesDialog dlg = new ConvertImageSizesDialog();
+            	dlg.setVisible(true);
             }
 
             if (DcSettings.getBoolean(DcRepository.Settings.stShowToolSelectorOnStartup)) {

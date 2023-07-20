@@ -27,6 +27,14 @@ package org.datacrow.client.console.components.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -71,7 +79,7 @@ import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
-public class AttachmentsPanel extends DcPanel implements MouseListener, ActionListener, KeyListener {
+public class AttachmentsPanel extends DcPanel implements MouseListener, ActionListener, KeyListener, DropTargetListener {
 	
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(AttachmentsPanel.class.getName());
     
@@ -93,11 +101,16 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
         
         build();
         load();
+        
+        new DropTarget(this, DnDConstants.ACTION_COPY, this);
     }
 
-    private void deleteAttachment() {
-    	Attachment attachment = list.getSelectedAttachment();
-    	deleteAttachment(attachment);
+    private void deleteAttachments() {
+    	List<Attachment> attachments = list.getSelectedAttachments();
+    	for (Attachment attachment : attachments)
+    		deleteAttachment(attachment);
+    	
+    	list.clearSelection();
     }
     
     private void deleteAttachment(Attachment attachment) {
@@ -110,50 +123,61 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
                     }
                 }));
     	}
-    }    
+    }
+    
+    private void addAttachments(List<File> files) {
+    	
+    	for (File file : files) {
+    		if (file.isFile())
+    			addAttachment(file);
+    	}
+    }
     
     private void addAttachment() {
     	BrowserDialog dlg = new BrowserDialog(DcResources.getText("lblSelectFile"));
     	File file = dlg.showOpenFileDialog(this, null);
     	
-    	if (file != null) {
+    	addAttachment(file);
+    }
+    
+    private void addAttachment(File file) {
+    	if (file == null) return;
     		
-    		long maxSize = DcSettings.getLong(DcRepository.Settings.stMaximumAttachmentFileSize);
-    		
-    		if (file.length() > maxSize * 1000) {
-    			GUI.getInstance().displayWarningMessage(DcResources.getText("msgFileIsTooLarge", 
-    					new String[] {String.valueOf(maxSize), String.valueOf(file.length() / 1000)}));
-    		} else {
-	    		try {
-		    		Attachment attachment = new Attachment(objectID, file.getName());
-		    		
-		    		// check if file has not already been attached - allow user to overwrite the existing attachment
-		    		if (list.getAttachments().contains(attachment)) {
-		    			if (GUI.getInstance().displayQuestion("msgAttachmentAlreadyExistsOverwrite"))
-		    				deleteAttachment();
-		    			else 
-		    				return;
-		    		} 
-		    		
-		    		attachment.setData(CoreUtilities.readFile(file));
-		    		
-		    		DcConfig.getInstance().getConnector().saveAttachment(attachment);
-		    		
-		    		SwingUtilities.invokeLater(new Thread(new Runnable() { 
-	                    @Override
-	                    public void run() {
-	                    	list.add(attachment);
-	                    	elementsAll.clear();
-	                    	elementsAll.addAll(list.getElements());
-	                    }
-	                }));
-		    		
-	    		} catch (Exception e) {
-	    			GUI.getInstance().displayErrorMessage(DcResources.getText("msgCouldNotReadAttachment"));
-	    			logger.error(e, e);
-	    		}
+		long maxSize = DcSettings.getLong(DcRepository.Settings.stMaximumAttachmentFileSize);
+		
+		if (file.length() > maxSize * 1000) {
+			GUI.getInstance().displayWarningMessage(DcResources.getText("msgFileIsTooLarge", 
+					new String[] {String.valueOf(maxSize), String.valueOf(file.length() / 1000)}));
+		} else {
+    		try {
+	    		Attachment attachment = new Attachment(objectID, file.getName());
+	    		
+	    		// check if file has not already been attached - allow user to overwrite the existing attachment
+	    		if (list.getAttachments().contains(attachment)) {
+	    			if (GUI.getInstance().displayQuestion("msgAttachmentAlreadyExistsOverwrite"))
+	    				deleteAttachment(attachment);
+	    			else 
+	    				return;
+	    		} 
+	    		
+	    		attachment.setData(CoreUtilities.readFile(file));
+	    		
+	    		DcConfig.getInstance().getConnector().saveAttachment(attachment);
+	    		
+	    		SwingUtilities.invokeLater(new Thread(new Runnable() { 
+                    @Override
+                    public void run() {
+                    	list.add(attachment);
+                    	elementsAll.clear();
+                    	elementsAll.addAll(list.getElements());
+                    }
+                }));
+	    		
+    		} catch (Exception e) {
+    			GUI.getInstance().displayErrorMessage(DcResources.getText("msgCouldNotReadAttachment"));
+    			logger.error(e, e);
     		}
-    	}
+		}
     }
     
     public void openAttachment() {
@@ -295,7 +319,7 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     	if (e.getActionCommand().equals("open"))
             openAttachment();
         else if (e.getActionCommand().equals("delete"))
-            deleteAttachment();
+            deleteAttachments();
         else if (e.getActionCommand().equals("add"))
             addAttachment();
     }
@@ -339,9 +363,56 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
         }
     }
 
+    private void checkDragAction(DropTargetDragEvent dtde) {
+        if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+            dtde.acceptDrag(DnDConstants.ACTION_COPY);
+        } else {
+            dtde.rejectDrag();
+        }
+    }
+    
 	@Override
 	public void keyTyped(KeyEvent e) {}
 
 	@Override
 	public void keyPressed(KeyEvent e) {}
+
+	@Override
+	public void dragEnter(DropTargetDragEvent dtde) {
+		checkDragAction(dtde);		
+	}
+
+	@Override
+	public void dragOver(DropTargetDragEvent dtde) {
+		checkDragAction(dtde);
+	}
+
+	@Override
+	public void dropActionChanged(DropTargetDragEvent dtde) {
+		checkDragAction(dtde);
+	}
+
+	@Override
+	public void dragExit(DropTargetEvent dte) {}
+
+	@SuppressWarnings("unchecked")
+    @Override
+    public void drop(DropTargetDropEvent dtde) {
+        Transferable transferable = dtde.getTransferable();
+        if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+            dtde.acceptDrop(dtde.getDropAction());
+            try {
+                List<File> transferData = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
+                if (transferData != null && transferData.size() > 0) {
+                	
+                	addAttachments(transferData);
+                    dtde.dropComplete(true);
+                }
+            } catch (Exception e) {
+                logger.error(e, e);
+            }
+        } else {
+            dtde.rejectDrop();
+        }
+    }	
 }

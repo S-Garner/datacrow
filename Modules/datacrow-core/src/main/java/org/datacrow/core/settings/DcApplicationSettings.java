@@ -121,6 +121,15 @@ public class DcApplicationSettings extends Settings {
     }
 
     protected void createSettings() {
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._BOOLEAN,
+                            DcRepository.Settings.stIsUpgraded,
+                            Boolean.FALSE,
+                            -1,
+                            "",
+                            "",
+                            true,
+                            false, -1));
         addSetting(_SizeLimits,
                 new Setting(DcRepository.ValueTypes._LONG,
                             DcRepository.Settings.stMaximumAttachmentFileSize,
@@ -130,6 +139,25 @@ public class DcApplicationSettings extends Settings {
                             "lblMaximumAttachFileSize",
                             true,
                             true, -1));
+        
+        addSetting(_SizeLimits,
+                new Setting(DcRepository.ValueTypes._BOOLEAN,
+                            DcRepository.Settings.stMaximumImageResolutionAsked,
+                            Boolean.FALSE,
+                            -1,
+                            "",
+                            "",
+                            true,
+                            false, -1));
+        addSetting(_SizeLimits,
+                new Setting(DcRepository.ValueTypes._BOOLEAN,
+                            DcRepository.Settings.stMaximumImageResolutionConvertOnStartup,
+                            Boolean.FALSE,
+                            -1,
+                            "",
+                            "",
+                            true,
+                            false, -1));          
         addSetting(_SizeLimits,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.Settings.stMaximumImageResolution,
