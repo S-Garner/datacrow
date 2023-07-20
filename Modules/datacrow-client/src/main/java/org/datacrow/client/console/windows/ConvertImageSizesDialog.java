@@ -76,11 +76,11 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
         
         JButton buttonYes = ComponentFactory.getButton(DcResources.getText("lblYes"));
         buttonYes.addActionListener(this);
-        buttonYes.setActionCommand("restart");
+        buttonYes.setActionCommand("start");
 
         JButton buttonNo = ComponentFactory.getButton(DcResources.getText("lblNo"));
         buttonNo.addActionListener(this);
-        buttonNo.setActionCommand("close");
+        buttonNo.setActionCommand("cancel");
         
         getContentPane().add(ComponentFactory.getLabel(IconLibrary._icoAbout),  
                              Layout.getGBC( 0, 0, 1, 1, 0.0, 0.0
