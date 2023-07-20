@@ -33,6 +33,14 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.color.ColorSpace;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -48,6 +56,7 @@ import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
@@ -71,7 +80,7 @@ import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.filefilters.DcFileFilter;
 
-public class DcPictureField extends JComponent implements IComponent, ActionListener, MouseListener {
+public class DcPictureField extends JComponent implements IComponent, ActionListener, MouseListener, DropTargetListener {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcPictureField.class.getName());
     
@@ -93,14 +102,18 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
     
     public DcPictureField(boolean scaled, boolean allowActions) {
         this.setLayout(Layout.getGBL());
+        
         if (allowActions) {
+        	
         	this.menu = new DcPictureFieldMenu(this);
             this.add(menu, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                      new Insets(5, 5, 5, 5), 0, 0));
+            
+            addMouseListener(this);
+            
+            new DropTarget(this, DnDConstants.ACTION_COPY, this);
         }
-        
-        if (allowActions) addMouseListener(this);
         
         this.add(new PicturePane(), Layout.getGBC(0, 1, 1, 1, 80.0, 80.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
@@ -505,4 +518,60 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
     
     @Override
     public void refresh() {}
+
+    private void checkDragAction(DropTargetDragEvent dtde) {
+        if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+            dtde.acceptDrag(DnDConstants.ACTION_COPY);
+        } else {
+            dtde.rejectDrag();
+        }
+    }
+    
+	@Override
+	public void dragEnter(DropTargetDragEvent dtde) {
+		checkDragAction(dtde);		
+	}
+
+	@Override
+	public void dragOver(DropTargetDragEvent dtde) {
+		checkDragAction(dtde);
+	}
+
+	@Override
+	public void dropActionChanged(DropTargetDragEvent dtde) {
+		checkDragAction(dtde);
+	}
+
+	@Override
+	public void dragExit(DropTargetEvent dte) {}
+	
+	@SuppressWarnings("unchecked")
+    @Override
+    public void drop(DropTargetDropEvent dtde) {
+        Transferable transferable = dtde.getTransferable();
+        if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+            dtde.acceptDrop(dtde.getDropAction());
+            try {
+            	
+            	PictureFileFilter filter = new PictureFileFilter();
+            	
+                List<File> transferData = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
+                if (transferData != null && transferData.size() > 0) {
+                	
+                	File file = transferData.get(0);
+                	if (file.isFile() && filter.accept(file)) {
+                		picture = new DcImageIcon(CoreUtilities.readFile(file));
+                        initialize();
+                        changed = true;
+                	}
+                	
+                    dtde.dropComplete(true);
+                }
+            } catch (Exception e) {
+                logger.error(e, e);
+            }
+        } else {
+            dtde.rejectDrop();
+        }
+    }	
 }

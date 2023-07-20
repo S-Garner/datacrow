@@ -26,11 +26,25 @@
 package org.datacrow.client.console.windows;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
+
+import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
+import org.datacrow.client.console.Layout;
 import org.datacrow.core.IconLibrary;
+import org.datacrow.core.resources.DcResources;
 
-public class ConvertImageSizesDialog extends DcDialog {
+public class ConvertImageSizesDialog extends DcDialog implements ActionListener {
 
 //    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ConvertImageSizesDialog.class.getName());
     
@@ -47,37 +61,54 @@ public class ConvertImageSizesDialog extends DcDialog {
     }
 
     private void buildDialog() {
-//        JTabbedPane tabbedPane = ComponentFactory.getTabbedPane();
-//
-//        //**********************************************************
-//        //About panel
-//        //**********************************************************
-//        JPanel panelAbout = new JPanel();
-//        panelAbout.setLayout(Layout.getGBL());
-//
-//        DcPictureField about = ComponentFactory.getPictureField(false, false);
-//        try {
-//        	Image icon = CoreUtilities.getScaledImage(
-//        			new DcImageIcon(DcConfig.getInstance().getInstallationDir() + "icons/credits.png"), 430, 430);
-//            about.setValue(new DcImageIcon(icon));
-//            panelAbout.add(about, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
-//            GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-//            new Insets(5, 5, 5, 5), 0, 0));
-//        } catch (Exception e) {
-//            logger.error("Could not load the about image", e);
-//        }
-//
-//        //**********************************************************
-//        //Main panel
-//        //**********************************************************
-//        tabbedPane.addTab(DcConfig.getInstance().getVersion().getFullString(), IconLibrary._icoAbout, panelAbout);
-//
-//        getContentPane().setLayout(Layout.getGBL());
-//        getContentPane().add(tabbedPane,   Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
-//                                           GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-//                                           new Insets(5, 5, 5, 5), 0, 0));
-//
-//        pack();
-        setSize(new Dimension(510,580));
+    	getContentPane().setLayout(Layout.getGBL());
+
+        JTextArea textMessage = ComponentFactory.getTextArea();
+        textMessage.setEditable(false);
+        
+        textMessage.setText(DcResources.getText("msgConvertImages"));
+        
+        JScrollPane scrollIn = new JScrollPane(textMessage);
+        scrollIn.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollIn.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollIn.setPreferredSize(new Dimension(350,50));
+        scrollIn.setBorder(null);
+        
+        JButton buttonYes = ComponentFactory.getButton(DcResources.getText("lblYes"));
+        buttonYes.addActionListener(this);
+        buttonYes.setActionCommand("restart");
+
+        JButton buttonNo = ComponentFactory.getButton(DcResources.getText("lblNo"));
+        buttonNo.addActionListener(this);
+        buttonNo.setActionCommand("close");
+        
+        getContentPane().add(ComponentFactory.getLabel(IconLibrary._icoAbout),  
+                             Layout.getGBC( 0, 0, 1, 1, 0.0, 0.0
+                            ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+                             new Insets(5, 5, 5, 5), 0, 0));
+        getContentPane().add(scrollIn,      Layout.getGBC( 1, 0, 2, 3, 90.0, 90.0
+                            ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                             new Insets(5, 5, 5, 5), 0, 0));
+        
+        JPanel panelActions = new JPanel();
+        panelActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelActions.add(buttonNo);
+        panelActions.add(buttonYes);
+        
+        textMessage.setBackground(panelActions.getBackground());
+        
+        getContentPane().add(panelActions,  Layout.getGBC( 2, 3, 1, 1, 0.0, 0.0
+                            ,GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE,
+                             new Insets(5, 5, 5, 5), 0, 0));
     }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("restart")) {
+            GUI.getInstance().getMainFrame().setOnExitCheckForChanges(false);
+            GUI.getInstance().getMainFrame().close();
+        } else if (e.getActionCommand().equals("close")) {
+            close();
+        }
+    }     
 }

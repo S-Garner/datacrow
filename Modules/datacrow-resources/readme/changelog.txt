@@ -4,6 +4,7 @@ Data Crow version 4.9.2                       Released on 2023-08-xx
 
 [Changed]
 - Data Crow will no longer close windows or exit when pressing the escape key. This has been changed to CTRL/COMMAND+ESC.
+- Added drag and drop support for pictures (from file)
 
 [New]
 - Attachments can now be added to items. These documents are stored within the Data Crow data set in a compressed format.

@@ -409,7 +409,7 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
                     dtde.dropComplete(true);
                 }
             } catch (Exception e) {
-                logger.error(e, e);
+                logger.warn("Dragged item is not supported, could not be dropped", e);
             }
         } else {
             dtde.rejectDrop();
