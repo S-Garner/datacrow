@@ -39,7 +39,7 @@ public class DcAttachmentListElement extends DcListElement {
     private static final Dimension dim = new Dimension(1200, 30);
     private static final Dimension dimLabel = new Dimension(1200, 30);
     
-    private Attachment attachment;
+    private final Attachment attachment;
     
     public DcAttachmentListElement(Attachment attachment) {
         this.attachment = attachment;
@@ -69,8 +69,6 @@ public class DcAttachmentListElement extends DcListElement {
 		
 		if (attachment != null)
 			attachment.clear();
-		
-		attachment = null;
 	}
 
     @Override
@@ -84,6 +82,7 @@ public class DcAttachmentListElement extends DcListElement {
             Attachment attachment2 = ((DcAttachmentListElement) obj).getAttachment();
             return attachment2 != null && attachment2.equals(attachment);
         }
+        
         return false;
     }
 }

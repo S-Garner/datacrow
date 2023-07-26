@@ -40,7 +40,7 @@ public class DcTabListElement extends DcListElement {
     private static final Dimension dimIcon = new Dimension(30, 30);
     private static final Dimension dimLabel = new Dimension(320, 30);
     
-    private Tab tab;
+    private final Tab tab;
     
     public DcTabListElement(Tab tab) {
         this.tab = tab;
@@ -71,12 +71,6 @@ public class DcTabListElement extends DcListElement {
         add(labelIcon);
         add(labelField);
     }
-
-	@Override
-	public void clear() {
-		super.clear();
-		tab = null;
-	}
 
     @Override
     public int hashCode() {

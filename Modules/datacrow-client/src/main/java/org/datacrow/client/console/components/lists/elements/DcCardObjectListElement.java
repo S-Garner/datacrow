@@ -154,8 +154,8 @@ public class DcCardObjectListElement extends DcObjectListElement {
     public void build() {
         build = true;
         
-        fldPicture = DcObjectListComponents.getPictureField();
-        fldTitle = DcObjectListComponents.getTextPane();
+        fldPicture = ComponentFactory.getPictureField(false, false);
+        fldTitle = ComponentFactory.getTextPane();
         fldTitle.setText(getDescription());
         fldTitle.setPreferredSize(dimTxt);
         fldTitle.setMinimumSize(dimTxt);
@@ -173,11 +173,7 @@ public class DcCardObjectListElement extends DcObjectListElement {
         
         removeAll();
         
-        if (fldPicture != null) {
-            fldPicture.clear();
-            DcObjectListComponents.release(fldPicture);
-            DcObjectListComponents.release(fldTitle);
-        }
+        if (fldPicture != null) fldPicture.clear();
             
         fldPicture = null;
         fldTitle = null;

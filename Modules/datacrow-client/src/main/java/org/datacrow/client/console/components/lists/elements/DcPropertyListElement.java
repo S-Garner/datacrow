@@ -25,7 +25,6 @@
 
 package org.datacrow.client.console.components.lists.elements;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
@@ -45,18 +44,10 @@ import org.datacrow.core.settings.DcSettings;
 public class DcPropertyListElement extends DcObjectListElement {
 
 	private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
-    private JPanel panelInfo;
 
     public DcPropertyListElement(int module) {
         super(module);
     }
-    
-    @Override
-    public void setBackground(Color color) {
-        super.setBackground(color);
-        if (panelInfo != null)
-            panelInfo.setBackground(color);
-    }     
     
     @Override
     public Collection<Picture> getPictures() {
@@ -77,7 +68,7 @@ public class DcPropertyListElement extends DcObjectListElement {
     @Override
     public void build() {
         setLayout(layout);
-        panelInfo = getPanel();
+        JPanel panelInfo = getPanel();
         
         JLabel label = ComponentFactory.getLabel(dco.toString());
 
@@ -93,10 +84,4 @@ public class DcPropertyListElement extends DcObjectListElement {
         panelInfo.setPreferredSize(new Dimension(800, height));
         add(panelInfo);
     } 
-    
-	@Override
-	public void clear() {
-		super.clear();
-		panelInfo = null;
-	}
 }

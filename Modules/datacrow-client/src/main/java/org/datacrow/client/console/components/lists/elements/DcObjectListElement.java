@@ -54,8 +54,10 @@ public abstract class DcObjectListElement extends DcListElement {
 
 	private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT, 0, 0);
     protected static final int fieldHeight = 21;
+    
+    protected final int module;
+    
     protected String key;
-    protected int module;
     protected DcObject dco;
     
     public DcObjectListElement(int module) {
@@ -176,8 +178,7 @@ public abstract class DcObjectListElement extends DcListElement {
     
     @Override
     public void clear() {
-        // DO NOT DESTROY THE COMPONENTS. This component is re-used!
-        // DO NOT ENABLE THIS: super.clear(); 
+    	super.clear();
         
         removeAll();
         
