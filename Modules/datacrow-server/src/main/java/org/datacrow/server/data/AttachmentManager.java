@@ -94,9 +94,12 @@ public class AttachmentManager {
 	 */
 	public void deleteAttachments(String ID) {
 		File itemAttachmentDir = new File(dir, ID);
+		String[] files = itemAttachmentDir.list();
+		
+		if (files == null) return;
 		
 		File file;
-		for (String filename : itemAttachmentDir.list()) {
+		for (String filename : files) {
 			file = new File(itemAttachmentDir, filename);
 			delete(file);
 		}	

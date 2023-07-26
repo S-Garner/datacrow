@@ -77,7 +77,7 @@ public class DcDatabase {
 
     /**
      * Retrieves the current version of the database. In case the database does not have
-     * a version number asigned an undetermined version number is returned.
+     * a version number assigned an undetermined version number is returned.
      * @param connection
      */
     protected Version getVersion(Connection connection) {

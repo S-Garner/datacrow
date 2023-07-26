@@ -315,19 +315,24 @@ public class DcList extends JList<Object> implements ComponentListener {
     }
     
     public void remove() {
-        if (getDcModel().size() == 1 && getSelectedIndex() != -1)
-            getDcModel().setSize(0);
-        else 
-            getDcModel().remove(getSelectedIndex());
+        if (getSelectedIndex() != -1)
+        	removeElement(getSelectedIndex());
     }
 
     public void remove(int[] indices) {
-        for (int i = indices.length; i > 0; i--) {
-            try {
-                getDcModel().removeElementAt(indices[i - 1]);
-            } catch (Exception e) {}
-        }
+        for (int i = indices.length; i > 0; i--)
+        	removeElement(indices[i - 1]);
     }    
+    
+    private void removeElement(int idx) {
+        try {
+	    	Object o = getDcModel().getElementAt(idx);
+			((DcListElement) o).clear();
+	        getDcModel().remove(getSelectedIndex());
+        } catch (Exception e) {
+        	logger.debug("Error removing element at position [" + idx + "]");
+        }
+    }
     
     public void clear() {
         for (DcListElement e : getElements()) 
