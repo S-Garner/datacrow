@@ -189,11 +189,4 @@ public abstract class DcObjectListElement extends DcListElement {
         revalidate();
         repaint();
     }
-    
-	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-        dco = null;
-        key = null;
-	}
 }

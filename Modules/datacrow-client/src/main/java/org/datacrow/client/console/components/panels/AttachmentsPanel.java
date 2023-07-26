@@ -233,6 +233,7 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     public void clear() {
         if (elementsAll != null) elementsAll.clear();
         if (elementsCurrent != null) elementsCurrent.clear();
+        if (list != null) list.clear();
         
         elementsAll = null;
         elementsCurrent = null;

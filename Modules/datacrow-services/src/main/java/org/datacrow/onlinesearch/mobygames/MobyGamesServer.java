@@ -25,6 +25,7 @@
 
 package org.datacrow.onlinesearch.mobygames;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -64,9 +65,12 @@ public class MobyGamesServer implements IServer {
         regions.add(new Region("en", "English", "https://mobygames.com/"));
         platforms.add(new MobyGamesPlatform("", ""));
         
+        InputStream is = null;
+        
         try {
             Properties p = new Properties();
-            p.load(DcResources.class.getResourceAsStream("MobyGamesPlatforms.properties"));
+            is = DcResources.class.getResourceAsStream("MobyGamesPlatforms.properties");
+            p.load(is);
             
             Enumeration<?> enums = p.propertyNames();
             while (enums.hasMoreElements()) {
@@ -79,7 +83,9 @@ public class MobyGamesServer implements IServer {
         
         } catch (Exception e) {
             logger.error(e);
-        }   
+        } finally {
+        	try { if (is != null) is.close(); } catch (Exception e) {logger.error("Could not close moby platforms file input stream");}
+        }
     }
 
     @Override

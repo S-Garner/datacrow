@@ -183,9 +183,4 @@ public class DcCardObjectListElement extends DcObjectListElement {
         fldTitle = null;
         build = false;
     }
-    
-	@Override
-	protected void finalize() throws Throwable {
-		clear();
-	}
 }

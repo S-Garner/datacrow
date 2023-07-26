@@ -29,6 +29,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -120,7 +121,9 @@ public class ReportGenerator {
     @SuppressWarnings({ "incomplete-switch", "unchecked" })
 	private void createReport() throws Exception {
     	
-    	FileOutputStream fos = null;
+    	@SuppressWarnings("resource")
+		FileOutputStream fos = null;
+    	InputStream is = null;
     	
         try {
         	success = false;
@@ -131,7 +134,8 @@ public class ReportGenerator {
             translate();
            
             logger.debug("Reporting: start reading XML document");
-            document = JRXmlUtils.parse(JRLoader.getLocationInputStream(source.toString()));
+            is = JRLoader.getLocationInputStream(source.toString());
+            document = JRXmlUtils.parse(is);
             logger.debug("Reporting: XML document has been read successfully");
             
             params.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);
@@ -189,11 +193,8 @@ public class ReportGenerator {
         } catch (Exception e) {
             client.notifyError(e);
         } finally {
-        	if (fos != null) {
-        		try {
-        			fos.close();
-        		} catch (IOException ignore) {}
-        	}
+        	try { if (fos != null) fos.close(); } catch (Exception e) {logger.error("Could not close resource");}
+        	try { if (is != null) is.close(); } catch (Exception e) {logger.error("Could not close resource");}
         }
     }
     

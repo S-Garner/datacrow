@@ -41,7 +41,6 @@ public class RegisteredPlugin {
     private Class<?> clazz;
     
     private Plugin base;
-    private String label;
     
     private Collection<Plugin> cache = new ArrayList<Plugin>();
 
@@ -96,9 +95,5 @@ public class RegisteredPlugin {
 
     public String getLabel() {
         return base.getLabel();
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
     }
 }

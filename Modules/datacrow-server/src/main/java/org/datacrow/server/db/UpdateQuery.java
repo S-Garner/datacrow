@@ -65,8 +65,8 @@ public class UpdateQuery extends Query {
         dco = null;
     }
     
-    @SuppressWarnings("unchecked")
-    @Override
+    @SuppressWarnings({ "unchecked", "resource" })
+	@Override
     public List<DcObject> run() {
         
         Collection<Picture> pictures = new ArrayList<Picture>();
@@ -185,7 +185,7 @@ public class UpdateQuery extends Query {
             }
 
             if (dco.getDeleteExistingChildren()) {
-                DatabaseManager.getInstance().executeSQL(getUser(),
+                DatabaseManager.getInstance().execute(getUser(),
                         "DELETE FROM " + dco.getModule().getChild().getTableName() + " WHERE " + 
                         dco.getModule().getChild().getField(dco.getModule().getChild().getParentReferenceFieldIndex()).getDatabaseFieldName() + " = '" + dco.getID() + "'");
             }

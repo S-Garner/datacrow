@@ -64,6 +64,7 @@ public class DeleteQuery extends Query {
     }
     
     @Override
+    @SuppressWarnings("resource")
     public List<DcObject> run() {
         Connection conn = null;
         Statement stmt = null;

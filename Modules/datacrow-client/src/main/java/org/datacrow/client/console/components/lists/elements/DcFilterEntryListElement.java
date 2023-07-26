@@ -97,8 +97,8 @@ public class DcFilterEntryListElement extends DcListElement {
     }
     
 	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
+	public void clear() {
+		super.clear();
 		entry = null;
 	}
 } 

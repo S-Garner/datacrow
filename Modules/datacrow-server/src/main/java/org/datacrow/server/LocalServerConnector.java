@@ -102,7 +102,8 @@ public class LocalServerConnector extends Connector {
 
     	try {
 	    	if (sql.trim().startsWith("select") || sql.trim().startsWith("SELECT") || sql.trim().startsWith("Select")) {
-	    	    ResultSet rs = DatabaseManager.getInstance().executeSQL(getUser(), sql);
+	    	    @SuppressWarnings("resource")
+				ResultSet rs = DatabaseManager.getInstance().executeSQL(getUser(), sql);
 	    	    data.fill(rs);
 	    	} else {
 	    		DatabaseManager.getInstance().execute(getUser(), sql);

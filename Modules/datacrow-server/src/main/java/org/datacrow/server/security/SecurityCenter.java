@@ -133,7 +133,8 @@ public class SecurityCenter {
      * @return
      * @throws SecurityException
      */
-    public SecuredUser login(String clientKey, String username, String password) throws SecurityException {
+    @SuppressWarnings("resource")
+	public SecuredUser login(String clientKey, String username, String password) throws SecurityException {
     	SecuredUser su = users.get(clientKey);
     	
     	if (su == null) {
@@ -171,7 +172,8 @@ public class SecurityCenter {
      * @return
      * @throws SecurityException
      */
-    public SecuredUser login(String username, String password) throws SecurityException {
+    @SuppressWarnings("resource")
+	public SecuredUser login(String username, String password) throws SecurityException {
         Connection connection = DatabaseManager.getInstance().getConnection(username, password);
         
         if (connection == null) 
@@ -327,7 +329,8 @@ public class SecurityCenter {
         return permissions;
     }
     
-    private int getUserCount() {
+    @SuppressWarnings("resource")
+	private int getUserCount() {
         Connection connection = null;
         Statement stmt = null;
         ResultSet rs = null;

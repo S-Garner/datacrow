@@ -18,7 +18,8 @@ public class DcLogSystem4j extends DcLogSystem {
 	public void initialize(boolean debug) {
 		isDebug(debug);
 		
-	    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+	    @SuppressWarnings("resource")
+		LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
 	    Configuration config = ctx.getConfiguration();
 
 	    LoggerConfig loggerConfig = config.getLoggerConfig(LogManager.ROOT_LOGGER_NAME); 

@@ -58,7 +58,8 @@ public class FilePropertiesMP4 extends FileProperties {
     
     private boolean valid = false;
     
-    public FilePropertiesMP4(RandomAccessFile ds, String filename) {
+    @SuppressWarnings("resource")
+	public FilePropertiesMP4(RandomAccessFile ds, String filename) {
         this.ds = ds;
         this.filename = filename;
         
@@ -91,7 +92,8 @@ public class FilePropertiesMP4 extends FileProperties {
     protected void process() throws Exception {
         ds.seek(0);
 
-        FileChannel fc = ds.getChannel();
+        @SuppressWarnings("resource")
+		FileChannel fc = ds.getChannel();
         this.isoFile = new org.mp4parser.IsoFile(fc);
 
         FileTypeBox ftypBox = isoFile.getBoxes(FileTypeBox.class).get(0);

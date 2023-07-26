@@ -66,6 +66,7 @@ public class SelectQuery extends Query {
     }
     
     @Override
+    @SuppressWarnings("resource")
     public List<DcObject> run()  {
         Connection conn = null;
         Statement stmt = null;
@@ -88,12 +89,8 @@ public class SelectQuery extends Query {
             logger.error("Error (" + e +") while executing query: " + sql, e);
             setSuccess(false);
         } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                logger.error("Error while closing connection", e);
-            }
+        	try { if (rs != null) rs.close(); } catch (Exception e) {logger.error("Could not close resource");}
+        	try { if (stmt != null) stmt.close(); } catch (Exception e) {logger.error("Could not close resource");}
         }
         
         return items;

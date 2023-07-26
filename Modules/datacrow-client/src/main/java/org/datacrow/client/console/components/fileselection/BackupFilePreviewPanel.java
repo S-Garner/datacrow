@@ -54,7 +54,8 @@ public class BackupFilePreviewPanel extends FileSelectPreviewPanel {
         preview.setEnabled(false);
     }
     
-    @Override
+    @SuppressWarnings("resource")
+	@Override
     public void propertyChange(PropertyChangeEvent e) {
         String propertyName = e.getPropertyName();
         
@@ -82,10 +83,8 @@ public class BackupFilePreviewPanel extends FileSelectPreviewPanel {
             } catch (Exception exp) {
                 logger.error(exp, exp);
             } finally {
-                try {
-                    if (zipFile != null) zipFile.close();
-                    if (is != null) is.close();
-                } catch (Exception ignore) {}
+            	try { if (zipFile != null) zipFile.close(); } catch (Exception ex) {logger.error("Could not close resource");}
+            	try { if (is != null) is.close(); } catch (Exception ex) {logger.error("Could not close resource");}
             }
         }
     }

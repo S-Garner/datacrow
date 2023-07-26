@@ -75,7 +75,8 @@ public class DataManager {
     	return instance;
     }
     
-    public int getCount(SecuredUser su, int module, int field, Object value) {
+    @SuppressWarnings("resource")
+	public int getCount(SecuredUser su, int module, int field, Object value) {
         int count = 0;
         
         ResultSet rs = null;
@@ -100,8 +101,8 @@ public class DataManager {
                 	      mapping.getField(DcMapping._A_PARENT_ID).getDatabaseFieldName() + " from " + mapping.getTableName() + " where " +
                 	      mapping.getField(DcMapping._A_PARENT_ID).getDatabaseFieldName() + " = MAINTABLE.ID)"; 
                 }
-            }
-                
+            }   
+            
             ps = DatabaseManager.getInstance().getConnection(su).prepareStatement(sql);
             
             if (f != null && value != null) 
@@ -126,7 +127,8 @@ public class DataManager {
     
     public void removeReferencesTo(SecuredUser su, int moduleIdx, String ID) {
     	
-    	Connection conn = DatabaseManager.getInstance().getConnection(su);
+    	@SuppressWarnings("resource")
+		Connection conn = DatabaseManager.getInstance().getConnection(su);
     	Statement stmt = null;
     	
     	DcModule mappingMod;
@@ -196,6 +198,7 @@ public class DataManager {
         return items;
     }    
     
+    @SuppressWarnings("resource")
     public DcObject getItemByExternalID(SecuredUser su, int moduleIdx, String type, String externalID) {
         DcModule module =  DcModules.get(moduleIdx);
        
@@ -210,6 +213,7 @@ public class DataManager {
         DcObject result = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
+        PreparedStatement ps2 = null;
         
         try {
             ps = conn.prepareStatement(sql);
@@ -221,7 +225,7 @@ public class DataManager {
             String referenceID;
             DcModule mappingMod;
             int idx;
-            PreparedStatement ps2 = null;
+            
             
             List<DcObject> items;
             while (rs.next()) {
@@ -247,14 +251,11 @@ public class DataManager {
         } catch (SQLException se) {
             logger.error(se, se);
         } finally {
-            try {
-                if (ps != null) ps.close();
-                if (rs != null) rs.close();
-            } catch (Exception e) {
-                logger.debug("Failed to release database resources", e);
-            }
-            
+            try { if (ps != null) ps.close(); } catch (Exception e) { logger.debug("Failed to release database resources", e);}
+            try { if (ps2 != null) ps2.close(); } catch (Exception e) { logger.debug("Failed to release database resources", e);}
+            try { if (rs != null) rs.close(); } catch (Exception e) { logger.debug("Failed to release database resources", e);}
         }
+        
         return result;
     }
     
@@ -321,11 +322,14 @@ public class DataManager {
      * @param s The display value.
      * @return Either the item or null. 
      */
+    @SuppressWarnings("resource")
     public DcObject getItemByDisplayValue(SecuredUser su, int moduleIdx, String s) {
         DcModule module = DcModules.get(moduleIdx);
 
         Collection<String> values = new ArrayList<String>();
         values.add(s);
+        
+        PreparedStatement ps = null;
         
         try {
         	String columns = module.getIndex() + " AS MODULEIDX";
@@ -357,18 +361,22 @@ public class DataManager {
                 values.add(s.indexOf(":") > -1 ? s.substring(s.indexOf(":") + 2) : s);
             }
             
-            PreparedStatement ps = DatabaseManager.getInstance().getConnection(su).prepareStatement(query);
+            ps = DatabaseManager.getInstance().getConnection(su).prepareStatement(query);
             int idx = 1;
             for (String value : values)
                 ps.setString(idx++, value.toUpperCase());
             
             List<DcObject> items = convert(ps.executeQuery(), new int[] {DcObject._ID});
-            ps.close();
-            
             return items.size() > 0 ? items.get(0) : null;
             
         } catch (SQLException e) {
             logger.error(e, e);
+        } finally {
+        	try {
+                if (ps != null) ps.close();
+            } catch (Exception e) {
+                logger.debug("Failed to release database resources", e);
+            }
         }
         
         return null;

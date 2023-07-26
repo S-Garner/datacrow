@@ -330,7 +330,10 @@ public class DcList extends JList<Object> implements ComponentListener {
     }    
     
     public void clear() {
-        getDcModel().clear();
+        for (DcListElement e : getElements()) 
+        	e.clear();
+        
+    	getDcModel().clear();
         getSelectionModel().clearSelection();
     }
     

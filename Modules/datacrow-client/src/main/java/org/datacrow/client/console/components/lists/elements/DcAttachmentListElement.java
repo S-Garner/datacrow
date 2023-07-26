@@ -64,8 +64,12 @@ public class DcAttachmentListElement extends DcListElement {
     }
 
 	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
+	public void clear() {
+		super.clear();
+		
+		if (attachment != null)
+			attachment.clear();
+		
 		attachment = null;
 	}
 

@@ -66,6 +66,7 @@ public class AttachmentManager {
 		storageFile.getParentFile().mkdirs();
 
 		File zippedFile = new File(storageFile.getAbsolutePath() + ".zip");
+		@SuppressWarnings("resource")
 		ZipFile zipFile = null;
 		InputStream is = null;
 		
@@ -82,10 +83,8 @@ public class AttachmentManager {
 		} catch (Exception e) {
 			logger.error("Could not load contents for " + attachment.getStorageFile(), e);
         } finally {
-            try {
-            	is.close();
-                zipFile.close();
-            } catch (Exception ignore) {}
+        	try { if (zipFile != null) zipFile.close(); } catch (Exception e) {logger.error("Could not close resource");}
+        	try { if (is != null) is.close(); } catch (Exception e) {logger.error("Could not close resource");}
         }
 	}
 	
@@ -125,6 +124,7 @@ public class AttachmentManager {
 
 		File zippedFile = new File(storageFile.getAbsolutePath() + ".zip");
 		
+		@SuppressWarnings("resource")
 		FileOutputStream fos = null;
         ZipOutputStream zipOut = null;
         
@@ -142,10 +142,8 @@ public class AttachmentManager {
         } catch (Exception e) {
         	logger.error("Could not store attachment " + storageFile, e);
         } finally {
-            try {
-                if (zipOut != null) zipOut.close();
-                if (fos != null) fos.close();
-            } catch (Exception ignore) {}
+        	try { if (fos != null) fos.close(); } catch (Exception e) {logger.error("Could not close resource");}
+        	try { if (zipOut != null) zipOut.close(); } catch (Exception e) {logger.error("Could not close resource");}
         }
 	}
 		

@@ -1,5 +1,5 @@
 --------------------------------------------------------------------
-Data Crow version 4.9.2                       Released on 2023-08-xx
+Data Crow version 4.10                        Released on 2023-08-xx
 --------------------------------------------------------------------
 
 [Changed]
@@ -12,6 +12,11 @@ Data Crow version 4.9.2                       Released on 2023-08-xx
 
 [Fixed]
 - Incorrect alignment of the filter label on the related items tab.
+
+[Main things TODO]
+- File upload - also add info to the zip file: file size, file date
+- Image sizes - maximum image size
+- Store images to temp folder for online searches to prevent high memory usage (byte[] stored in memory)
 
 
 --------------------------------------------------------------------

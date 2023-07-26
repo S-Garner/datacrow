@@ -83,8 +83,8 @@ public class DcShortObjectListElement extends DcObjectListElement {
     } 
     
 	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
+	public void clear() {
+		super.clear();
 		panelInfo = null;
 	}
 }

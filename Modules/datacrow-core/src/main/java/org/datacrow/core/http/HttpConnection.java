@@ -78,12 +78,16 @@ public class HttpConnection {
      * Checks if the URL is valid.
      * @return
      */
-    public boolean exists() {
+    @SuppressWarnings("resource")
+	public boolean exists() {
+    	InputStream is = null;
         try {
-            uc.getInputStream();
+        	is = uc.getInputStream();
             return true;
         } catch (Exception e) {
             return false;
+        } finally {
+        	try { if (is != null) is.close(); } catch (Exception e) {}
         }
     }
 
@@ -124,11 +128,17 @@ public class HttpConnection {
      * Retrieves the underlying bytes and closes the connection.
      * @throws IOException
      */
-    public final byte[] getBytes() throws HttpConnectionException {
+    @SuppressWarnings("resource")
+	public final byte[] getBytes() throws HttpConnectionException {
+    	
+    	ByteArrayOutputStream bais = null;
+    	InputStream is = null;
+    	BufferedInputStream bis = null;
+    	
         try {
-            ByteArrayOutputStream bais = new ByteArrayOutputStream();
-            InputStream is = uc.getInputStream();
-            BufferedInputStream bis  = new BufferedInputStream(is);
+            bais = new ByteArrayOutputStream();
+            is = uc.getInputStream();
+            bis  = new BufferedInputStream(is);
             while (true) {
                 int i = bis.read();
                 if (i == -1) break;
@@ -144,6 +154,10 @@ public class HttpConnection {
             return b;
         } catch (IOException ie) {
             throw new HttpConnectionException(ie);
+        } finally {
+        	try { if (bais != null) bais.close(); } catch (Exception e) {}
+        	try { if (is != null) is.close(); } catch (Exception e) {}
+        	try { if (bis != null) bis.close(); } catch (Exception e) {}
         }
     }    
     
