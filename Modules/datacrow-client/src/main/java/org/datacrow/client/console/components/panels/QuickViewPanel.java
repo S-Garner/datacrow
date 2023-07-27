@@ -81,21 +81,21 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     
     public static final String _DIRECTION_HORIZONTAL = DcResources.getText("lblHorizontal");
     public static final String _DIRECTION_VERTICAL = DcResources.getText("lblVertical");  
+
+    private final LinkedList<Picture> pictures = new LinkedList<Picture>();
+    private final LinkedList<JPanel> imagePanels = new LinkedList<JPanel>();
+    private final JTabbedPane tabbedPane = ComponentFactory.getTabbedPane();
     
     private final boolean showInlineImages;
+
+    private DcHtmlEditorPane descriptionPane;
     
 	private DcObject dco;
     
     private String key;
     private int moduleIdx;
     
-    private LinkedList<Picture> pictures = new LinkedList<Picture>();
-    private LinkedList<JPanel> imagePanels = new LinkedList<JPanel>();
-
-    private DcHtmlEditorPane descriptionPane;
-    
     private JScrollPane scroller;
-    private final JTabbedPane tabbedPane = ComponentFactory.getTabbedPane();
     private boolean isAllowPopup = true;
     
     public QuickViewPanel(boolean showInlineImages) {
@@ -258,6 +258,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
 
         descriptionPane.setHtml("<html><body " + 
                 Utilities.getHtmlStyle(DcSettings.getColor(DcRepository.Settings.stQuickViewBackgroundColor)) + ">\n</body> </html>");
+        
     	clearImages();
     }
     

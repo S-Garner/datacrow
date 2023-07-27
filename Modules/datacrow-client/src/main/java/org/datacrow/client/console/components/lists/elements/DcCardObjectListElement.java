@@ -45,13 +45,16 @@ public class DcCardObjectListElement extends DcObjectListElement {
     private static final Dimension dimTxt = new Dimension(250, 45);
     private static final Dimension dimPicLbl = new Dimension(250, 200);
 
-    private DcTextPane fldTitle;
-    private DcPictureField fldPicture;
+    private final DcTextPane fldTitle;
+    private final DcPictureField fldPicture;
     
     private boolean build = false;
 
     public DcCardObjectListElement(int module) {
         super(module);
+        
+        fldPicture = ComponentFactory.getPictureField(false, false);
+        fldTitle = ComponentFactory.getTextPane();
         
         setPreferredSize(size);
         setMaximumSize(size);
@@ -149,13 +152,11 @@ public class DcCardObjectListElement extends DcObjectListElement {
         add(fldPicture);
     }
     
-    
     @Override
     public void build() {
         build = true;
         
-        fldPicture = ComponentFactory.getPictureField(false, false);
-        fldTitle = ComponentFactory.getTextPane();
+
         fldTitle.setText(getDescription());
         fldTitle.setPreferredSize(dimTxt);
         fldTitle.setMinimumSize(dimTxt);
@@ -174,9 +175,7 @@ public class DcCardObjectListElement extends DcObjectListElement {
         removeAll();
         
         if (fldPicture != null) fldPicture.clear();
-            
-        fldPicture = null;
-        fldTitle = null;
+
         build = false;
     }
 }

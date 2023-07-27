@@ -59,9 +59,10 @@ import org.datacrow.core.utilities.CoreUtilities;
 public class FieldTreePanel extends TreePanel {
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FieldTreePanel.class.getName());
-    private int[] fields;
-    private String empty = DcResources.getText("lblEmpty");
     
+	private final String empty = DcResources.getText("lblEmpty");
+	
+	private int[] fields;
     private TreeHugger treeHugger;
     
     public FieldTreePanel(GroupingPane gp) {

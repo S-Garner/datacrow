@@ -49,15 +49,15 @@ import org.datacrow.core.settings.objects.DcLookAndFeel;
 
 public class DcLookAndFeelSelector extends JComponent implements IComponent, ActionListener {
     
-    private DcComboBox cbFieldHeight = ComponentFactory.getComboBox();
-    private DcComboBox cbButtonHeight = ComponentFactory.getComboBox();
-    private DcComboBox cbTreeNodeHeight = ComponentFactory.getComboBox();
-    private DcComboBox cbTableRowHeight = ComponentFactory.getComboBox();
-    private DcComboBox cbIconSize = ComponentFactory.getIconSizeCombo();
-    private DcComboBox cbUIScale = ComponentFactory.getUIScaleCombo();
-    private JCheckBox checkNoLF = ComponentFactory.getCheckBox(DcResources.getText("lblNoLF"));
-    private JCheckBox checkSystemLF = ComponentFactory.getCheckBox(DcResources.getText("lblLaf"));
-    private JComboBox<Object> comboSystemLF = ComponentFactory.getComboBox();
+    private final DcComboBox<?> cbFieldHeight = ComponentFactory.getComboBox();
+    private final DcComboBox<?> cbButtonHeight = ComponentFactory.getComboBox();
+    private final DcComboBox<?> cbTreeNodeHeight = ComponentFactory.getComboBox();
+    private final DcComboBox<?> cbTableRowHeight = ComponentFactory.getComboBox();
+    private final DcIconSizeComboBox cbIconSize = ComponentFactory.getIconSizeCombo();
+    private final DcUIScaleComboBox cbUIScale = ComponentFactory.getUIScaleCombo();
+    private final JCheckBox checkNoLF = ComponentFactory.getCheckBox(DcResources.getText("lblNoLF"));
+    private final JCheckBox checkSystemLF = ComponentFactory.getCheckBox(DcResources.getText("lblLaf"));
+    private final JComboBox<Object> comboSystemLF = ComponentFactory.getComboBox();
     
     private DcDialog parent;
     
@@ -77,9 +77,13 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
     
     @Override
     public void clear() {
-        checkNoLF = null;
-        checkSystemLF = null;
-        comboSystemLF = null;
+    	cbFieldHeight.clear();
+    	cbButtonHeight.clear();
+    	cbTreeNodeHeight.clear();
+    	cbTableRowHeight.clear();
+    	cbIconSize.clear();
+    	cbUIScale.clear();
+    	
         parent = null;
     }
     

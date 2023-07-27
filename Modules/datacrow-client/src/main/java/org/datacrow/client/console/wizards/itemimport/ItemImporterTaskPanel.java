@@ -70,7 +70,6 @@ public class ItemImporterTaskPanel extends ItemImporterWizardPanel implements II
     public void destroy() {
     	if (importer != null) importer.cancel();
     	importer = null;
-        if (tp != null) tp.destroy();
         tp = null;
     	wizard = null;
     }

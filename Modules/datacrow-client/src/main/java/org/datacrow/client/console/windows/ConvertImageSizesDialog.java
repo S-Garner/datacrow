@@ -46,8 +46,6 @@ import org.datacrow.core.resources.DcResources;
 
 public class ConvertImageSizesDialog extends DcDialog implements ActionListener {
 
-//    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ConvertImageSizesDialog.class.getName());
-    
     public ConvertImageSizesDialog() {
         super(GUI.getInstance().getRootFrame());
 

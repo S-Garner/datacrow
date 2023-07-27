@@ -51,8 +51,8 @@ public class FieldSelectorDialog extends DcDialog implements ActionListener {
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FieldSelectorDialog.class.getName());    
     
     private final int modIdx;
-    private DcFieldSelectorField fs;
-    private String settingsKey;
+    private final String settingsKey;
+    private final DcFieldSelectorField fs;
     
     public FieldSelectorDialog(JFrame parent, int modIdx, String settingsKey) {
         
@@ -60,6 +60,7 @@ public class FieldSelectorDialog extends DcDialog implements ActionListener {
         
         this.modIdx = modIdx;
         this.settingsKey = settingsKey;
+        this.fs = new DcFieldSelectorField(modIdx, false, true);
         
         setTitle(DcResources.getText("lblOnlineUpdateFieldSettings"));
         
@@ -84,7 +85,6 @@ public class FieldSelectorDialog extends DcDialog implements ActionListener {
     @Override
     public void close() {
         getModule().getSettings().set(DcRepository.ModuleSettings.stOnlineSearchFieldSettingsDialogSize, getSize());
-        fs = null;
         super.close();
     }
 
@@ -96,7 +96,7 @@ public class FieldSelectorDialog extends DcDialog implements ActionListener {
     private void build() {
         getContentPane().setLayout(Layout.getGBL());
         
-        fs = new DcFieldSelectorField(modIdx, false, true);
+        
         
         getContentPane().add(fs, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0
                             ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,

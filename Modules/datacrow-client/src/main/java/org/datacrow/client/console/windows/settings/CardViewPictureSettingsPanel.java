@@ -111,10 +111,6 @@ public class CardViewPictureSettingsPanel extends JPanel {
 	
     protected void clear() {
         table = null;
-        
-        if (panelNav != null) {
-        	panelNav.clear();
-        	panelNav = null;
-        }
+    	panelNav = null;
     }
 }

@@ -25,7 +25,7 @@
 
 package org.datacrow.client.console.components;
 
-public class DcCollationComboBox extends DcComboBox {
+public class DcCollationComboBox extends DcComboBox<String> {
 
 	public DcCollationComboBox() {
         super();

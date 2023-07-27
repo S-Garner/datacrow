@@ -38,8 +38,9 @@ import org.datacrow.core.plugin.Plugin;
 
 public class DcPluginField extends JComponent implements ActionListener {
     
+	private final Plugin plugin;
+	
     private DcButton bt;
-    private Plugin plugin;
     
     public DcPluginField(Plugin plugin) {
         this.plugin = plugin;

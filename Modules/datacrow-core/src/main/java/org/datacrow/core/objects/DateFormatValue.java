@@ -23,22 +23,27 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.client.console.components;
+package org.datacrow.core.objects;
 
-import org.datacrow.core.settings.objects.DcDimension;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
-public class DcResolutionComboBox extends DcComboBox<DcDimension> {
-
-	public DcResolutionComboBox() {
-        super();
+public class DateFormatValue {
         
-        addItem("");
-        addItem(new DcDimension(800, 600));
-        addItem(new DcDimension(1366, 768));
-        addItem(new DcDimension(1440, 768));
-        addItem(new DcDimension(1800, 1600));
-    	addItem(new DcDimension(1920, 1080));
-    	addItem(new DcDimension(2560, 1440));
-    	addItem(new DcDimension(3840, 2160));
+    private String name;
+    private String format;
+    
+    public DateFormatValue(String format) {
+        Calendar cal = Calendar.getInstance();
+        this.name = new SimpleDateFormat(format).format(cal.getTime());
+        this.format = format;
+    }
+    
+    public String getFormat() {
+        return format;
+    }
+    
+    public String toString() {
+        return name;
     }
 }

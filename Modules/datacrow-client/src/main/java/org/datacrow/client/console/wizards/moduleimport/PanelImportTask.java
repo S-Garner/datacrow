@@ -62,10 +62,6 @@ public class PanelImportTask extends ModuleImportWizardPanel implements IModuleW
             importer.cancel();
         
         importer = null;
-        
-        if (tp != null)
-            tp.destroy();
-        
         tp = null;
     }
 

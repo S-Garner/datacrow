@@ -25,10 +25,9 @@
 
 package org.datacrow.client.console.components;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import org.datacrow.core.objects.DateFormatValue;
 
-public class DcDateFormatComboBox extends DcComboBox {
+public class DcDateFormatComboBox extends DcComboBox<DateFormatValue> {
 
     public DcDateFormatComboBox() {
         super();
@@ -86,26 +85,6 @@ public class DcDateFormatComboBox extends DcComboBox {
         DateFormatValue dfv = (DateFormatValue) getSelectedItem();
         return dfv.getFormat();
     }
-    
-    private class DateFormatValue {
-    
-        private String name;
-        private String format;
-        
-        public DateFormatValue(String format) {
-            Calendar cal = Calendar.getInstance();
-            this.name = new SimpleDateFormat(format).format(cal.getTime());
-            this.format = format;
-        }
-        
-        public String getFormat() {
-            return format;
-        }
-        
-        public String toString() {
-            return name;
-        }
-    }    
 }
 
     

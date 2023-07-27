@@ -36,8 +36,9 @@ import org.datacrow.core.settings.objects.DcColor;
 
 public class DcColorSelector extends JColorChooser implements IComponent, ChangeListener {
     
+    private final String settingsKey;
+    
     private Color color;
-    private String settingsKey;
 
     public DcColorSelector(String settingsKey) {
         super();
@@ -59,8 +60,7 @@ public class DcColorSelector extends JColorChooser implements IComponent, Change
 
     @Override
     public void clear() {
-        color = null;
-        settingsKey = null;        
+        color = null;        
     }
     
     @Override

@@ -47,8 +47,10 @@ public class DcMultiLineToolTipUI extends BasicToolTipUI {
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcMultiLineToolTipUI.class.getName());
     
     private final static DcMultiLineToolTipUI sharedInstance = new DcMultiLineToolTipUI();
-    private CellRendererPane rendererPane;
     private static DcTextPane textPane;
+    
+    private CellRendererPane rendererPane;
+
     private boolean containsText = true;
 
     public DcMultiLineToolTipUI() {

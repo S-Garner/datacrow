@@ -53,13 +53,13 @@ import org.datacrow.core.server.Connector;
 
 public class CreateMultipleItemsDialog extends DcDialog implements ActionListener {
     
-	private DcTable table;
+	private final int moduleIdx;
 	
-	private int moduleIdx;
+	private final DcTable table;
 	
-	private JButton buttonAdd = ComponentFactory.getButton(DcResources.getText("lblAdd"));
-    private JButton buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
-    private JButton buttonCancel = ComponentFactory.getButton(DcResources.getText("lblClose"));
+	private final JButton buttonAdd = ComponentFactory.getButton(DcResources.getText("lblAdd"));
+    private final JButton buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
+    private final JButton buttonCancel = ComponentFactory.getButton(DcResources.getText("lblClose"));
 	
 	private SavingTask task;
 	
@@ -108,12 +108,11 @@ public class CreateMultipleItemsDialog extends DcDialog implements ActionListene
 	@Override
     public void close() {
 		if (task == null || !task.isAlive()) {
-			buttonAdd = null;
-			buttonSave = null;
-			buttonCancel = null;
 			task = null;
 			super.close();
 		}
+		
+		table.clear();
     }
 
 	private void build() {

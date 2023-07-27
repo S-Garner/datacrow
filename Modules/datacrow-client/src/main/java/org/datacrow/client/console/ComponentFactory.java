@@ -140,6 +140,7 @@ import org.datacrow.core.plugin.Plugin;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.objects.DcColor;
+import org.datacrow.core.settings.objects.DcDimension;
 import org.datacrow.core.settings.objects.DcFont;
 import org.datacrow.core.settings.objects.DcLookAndFeel;
 
@@ -508,7 +509,7 @@ public final class ComponentFactory extends UIComponents {
         return cb;
     }
 
-    public static final JComboBox<Object> getFontRenderingCombo() {
+    public static final DcComboBox<String> getFontRenderingCombo() {
         return new DcFontRenderingComboBox();
     }
     
@@ -520,11 +521,11 @@ public final class ComponentFactory extends UIComponents {
         return new DcUIScaleComboBox();
     }    
     
-    public static final DcComboBox getCollationCombo() {
+    public static final DcComboBox<String> getCollationCombo() {
     	return new DcCollationComboBox();
     }
     
-    public static final DcComboBox getResolutionCombo() {
+    public static final DcComboBox<DcDimension> getResolutionCombo() {
     	return new DcResolutionComboBox();
     }    
 
@@ -584,13 +585,14 @@ public final class ComponentFactory extends UIComponents {
         return ref;
     }
     
-    public static final DcComboBox getAvailabilityCombo() {
-        DcComboBox comboBox = new DcComboBox();
-        comboBox.setFont(getStandardFont());
-        comboBox.setRenderer(AvailabilityComboBoxRenderer.getInstance());
-        comboBox.addItem(Boolean.TRUE);
-        comboBox.addItem(Boolean.FALSE);
-        return comboBox;
+    public static final DcComboBox<Boolean> getAvailabilityCombo() {
+        DcComboBox<Boolean> cb = new DcComboBox<>();
+        cb.setFont(getStandardFont());
+        cb.setRenderer(AvailabilityComboBoxRenderer.getInstance());
+
+        cb.addItem(Boolean.TRUE);
+        cb.addItem(Boolean.FALSE);
+        return cb;
     }
     
     public static final DcRadioButton getRadioButton(String label, ImageIcon icon, String command) {
@@ -678,21 +680,23 @@ public final class ComponentFactory extends UIComponents {
         return new DcRatingComboBox();
     }
 
-    public static final DcComboBox getMP3GenreComboBox() {
-        DcComboBox genreComboBox = getComboBox();
-        genreComboBox.addItem("");
-        genreComboBox.setSelectedIndex(0);
-        genreComboBox.setFont(getStandardFont());
+    public static final DcComboBox<String> getMP3GenreComboBox() {
+        DcComboBox<String> cb = new DcComboBox<>();
+        cb.setFont(getStandardFont());
+        cb.setRenderer(ComboBoxRenderer.getInstance());
+        
+        cb.addItem("");
+        cb.setSelectedIndex(0);
+        cb.setFont(getStandardFont());
 
-        for (int i = 0; i < DcRepository.Collections.colMusicGenres.length; i++) {
-            genreComboBox.addItem(DcRepository.Collections.colMusicGenres[i]);
-        }
+        for (String genre : DcRepository.Collections.colMusicGenres)
+        	cb.addItem(genre);
 
-        return genreComboBox;
+        return cb;
     }
 
-    public static final DcComboBox getComboBox(Object[] items) {
-        DcComboBox comboBox = new DcComboBox(items);
+    public static final DcComboBox<Object> getComboBox(Object[] items) {
+        DcComboBox<Object> comboBox = new DcComboBox<>(items);
         comboBox.setFont(getStandardFont());
         comboBox.setRenderer(ComboBoxRenderer.getInstance());
         return comboBox;
@@ -706,15 +710,15 @@ public final class ComponentFactory extends UIComponents {
         return new DcImageLabel(icon);
     }
     
-    public static final DcComboBox getComboBox() {
-        DcComboBox comboBox = new DcComboBox();
+    public static final DcComboBox<Object> getComboBox() {
+        DcComboBox<Object> comboBox = new DcComboBox<>();
         comboBox.setFont(getStandardFont());
         comboBox.setRenderer(ComboBoxRenderer.getInstance());
         return comboBox;
     }
 
-    public static final DcComboBox getComboBox(DefaultComboBoxModel<Object> model) {
-        DcComboBox comboBox = new DcComboBox(model);
+    public static final DcComboBox<Object> getComboBox(DefaultComboBoxModel<Object> model) {
+        DcComboBox<Object> comboBox = new DcComboBox<>(model);
         comboBox.setFont(getStandardFont());
         comboBox.setRenderer(ComboBoxRenderer.getInstance());
         return comboBox;

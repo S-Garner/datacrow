@@ -66,10 +66,6 @@ public class PanelExportTask extends ModuleExportWizardPanel implements IModuleW
             exporter.cancel();
         
         exporter = null;
-        
-        if (tp != null)
-            tp.destroy();
-        
         tp = null;
     }
 

@@ -31,8 +31,9 @@ public class DcSimpleValue implements Serializable {
     
 	private static final long serialVersionUID = 1L;
 
-    private String name;
-    private String ID;
+    private final String name;
+    private final String ID;
+    
     private DcImageIcon icon;
     
     public DcSimpleValue(String ID, String name) {

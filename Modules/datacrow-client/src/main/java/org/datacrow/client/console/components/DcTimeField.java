@@ -42,9 +42,9 @@ public class DcTimeField extends JComponent implements IComponent {
 	
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcTimeField.class.getName());
     
-    private DcNumberField fldMinutes = ComponentFactory.getNumberField();
-    private DcNumberField fldSeconds = ComponentFactory.getNumberField();
-    private DcNumberField fldHours = ComponentFactory.getNumberField();
+    private final DcNumberField fldMinutes = ComponentFactory.getNumberField();
+    private final DcNumberField fldSeconds = ComponentFactory.getNumberField();
+    private final DcNumberField fldHours = ComponentFactory.getNumberField();
     
     public DcTimeField() {
     	buildComponent();
@@ -85,11 +85,7 @@ public class DcTimeField extends JComponent implements IComponent {
     }
     
     @Override
-    public void clear() {
-        fldHours = null;
-        fldMinutes = null;
-        fldSeconds = null;
-    }
+    public void clear() {}
     
     /**
      * Retrieves the value as seconds

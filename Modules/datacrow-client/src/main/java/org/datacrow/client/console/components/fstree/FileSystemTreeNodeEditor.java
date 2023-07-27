@@ -38,7 +38,7 @@ import javax.swing.tree.TreeCellEditor;
 
 class FileSystemTreeNodeEditor extends AbstractCellEditor implements TreeCellEditor {
 
-    private FileSystemTreeNodeRenderer renderer = new FileSystemTreeNodeRenderer();
+    private final FileSystemTreeNodeRenderer renderer = new FileSystemTreeNodeRenderer();
     
     public FileSystemTreeNodeEditor() {}
 

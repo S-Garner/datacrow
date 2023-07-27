@@ -54,6 +54,7 @@ public class DcList extends JList<Object> implements ComponentListener {
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcList.class.getName());
 
     private static final String  uiClassID = "DcListUI";
+    
     private int columnsPerRow = 1;
     private int visibleColumnCount = 1;
     

@@ -40,15 +40,11 @@ import org.datacrow.core.IconLibrary;
 
 public class NavigationPanel extends JPanel implements ActionListener {
     
-    private ISortableComponent component;
+    private final ISortableComponent component;
     
     public NavigationPanel(ISortableComponent sc) {
         this.component = sc; 
         build();
-    }
-    
-    public void clear() {
-    	component = null; 
     }
     
     private void build() {

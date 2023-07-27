@@ -25,6 +25,7 @@
 
 package org.datacrow.client.console.components;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -50,14 +51,9 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class DcDriveMappingField extends JComponent implements IComponent, ActionListener {
     
-    private DcTable mappingTable = ComponentFactory.getDCTable(true, false);
-    private DcShortTextField fldDrive = ComponentFactory.getShortTextField(255);
-    private DcShortTextField fldMapsTo = ComponentFactory.getShortTextField(255);
-    
-    private JLabel lblDriveLetter = ComponentFactory.getLabel(DcResources.getText("lblDriveLetter"));
-    private JLabel lblMapsTo = ComponentFactory.getLabel(DcResources.getText("lblMapsTo"));
-    private JButton buttonAdd = ComponentFactory.getButton(DcResources.getText("lblAdd"));
-    private JButton buttonRemove = ComponentFactory.getButton(DcResources.getText("lblRemove"));
+    private final DcTable mappingTable = ComponentFactory.getDCTable(true, false);
+    private final DcShortTextField fldDrive = ComponentFactory.getShortTextField(255);
+    private final DcShortTextField fldMapsTo = ComponentFactory.getShortTextField(255);
 
     /**
      * Initializes this field
@@ -68,25 +64,15 @@ public class DcDriveMappingField extends JComponent implements IComponent, Actio
     
     @Override
     public void setFont(Font font) {
-        fldDrive.setFont(ComponentFactory.getStandardFont());
-        fldMapsTo.setFont(ComponentFactory.getStandardFont());
+        super.setFont(font);
         
-        lblDriveLetter.setFont(ComponentFactory.getSystemFont());
-        lblMapsTo.setFont(ComponentFactory.getSystemFont());
-        buttonAdd.setFont(ComponentFactory.getSystemFont());
-        buttonRemove.setFont(ComponentFactory.getSystemFont());
+        for (Component c : getComponents())
+        	c.setFont(font);
     }    
     
     @Override
     public void clear() {
         mappingTable.clear();
-        mappingTable = null;
-        fldDrive = null;
-        fldMapsTo = null;
-        lblDriveLetter = null;
-        lblMapsTo = null;
-        buttonAdd = null;
-        buttonRemove = null;
     }     
     
     /**
@@ -141,6 +127,11 @@ public class DcDriveMappingField extends JComponent implements IComponent, Actio
      * Builds this component
      */
     private void buildComponent() {
+    	JLabel lblDriveLetter = ComponentFactory.getLabel(DcResources.getText("lblDriveLetter"));
+        JLabel lblMapsTo = ComponentFactory.getLabel(DcResources.getText("lblMapsTo"));
+        JButton buttonAdd = ComponentFactory.getButton(DcResources.getText("lblAdd"));
+        JButton buttonRemove = ComponentFactory.getButton(DcResources.getText("lblRemove"));
+    	
         setLayout(Layout.getGBL());
         
         //**********************************************************
@@ -214,7 +205,6 @@ public class DcDriveMappingField extends JComponent implements IComponent, Actio
         add(scroller,        Layout.getGBC( 0, 2, 2, 1, 10.0, 10.0
                             ,GridBagConstraints.SOUTHWEST, GridBagConstraints.BOTH,
                              new Insets( 0, 0, 0, 0), 0, 0));
-        
     }
     
     @Override
@@ -226,7 +216,6 @@ public class DcDriveMappingField extends JComponent implements IComponent, Actio
             addMapping(fldDrive.getText(), fldMapsTo.getText());
         else if (e.getActionCommand().equals("remove"))
             remove();
-            
     }
     
     @Override

@@ -41,7 +41,7 @@ public class DcPropertyViewPopupMenu extends DcPopupMenu  implements ActionListe
     public static final int _INSERT = 0;
     public static final int _SEARCH = 1;
     
-    private DcMinimalisticItemView form;
+    private final DcMinimalisticItemView form;
     
     public DcPropertyViewPopupMenu(DcMinimalisticItemView form) {
         this.form = form;

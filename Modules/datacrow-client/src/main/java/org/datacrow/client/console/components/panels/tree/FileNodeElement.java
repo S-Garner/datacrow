@@ -32,7 +32,7 @@ import org.datacrow.core.objects.DcImageIcon;
 
 public class FileNodeElement extends NodeElement {
     
-    private File file;
+    private final File file;
     
     public FileNodeElement(String key, File file) {
     	super(key, key, null);
@@ -66,12 +66,6 @@ public class FileNodeElement extends NodeElement {
             return getDisplayValue() + " (" + String.valueOf(count) + ")";    
     }
 
-	@Override
-    public void clear() {
-		super.clear();
-		file = null;
-    }
-	
     @Override
     public boolean equals(Object o) {
         if (getKey() == null || o == null || !(o instanceof FileNodeElement))

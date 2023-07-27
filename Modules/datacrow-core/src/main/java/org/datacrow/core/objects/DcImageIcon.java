@@ -106,10 +106,6 @@ public class DcImageIcon extends ImageIcon {
         }
     }
     
-    public void setBytes(byte[] bytes) {
-        this.bytes = bytes;
-    }
-    
     public boolean exists() {
         return file == null ? false : file.exists();
     }

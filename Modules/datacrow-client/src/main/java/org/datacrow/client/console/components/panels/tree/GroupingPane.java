@@ -50,13 +50,14 @@ import org.datacrow.core.settings.DcSettings;
 
 public class GroupingPane extends JPanel implements ChangeListener, IGroupingPane {
 
+	private final JTabbedPane tp = ComponentFactory.getTabbedPane();
+	
 	private List<ITreePanel> panels = new ArrayList<ITreePanel>();
     
+	private final int module;
+	private final MasterView view;
+	
 	private int current = 0;
-    private int module;
-    private MasterView view;
-    
-    private JTabbedPane tp;
     
     public GroupingPane(int module, MasterView view) {
         this.module = module;
@@ -265,7 +266,6 @@ public class GroupingPane extends JPanel implements ChangeListener, IGroupingPan
             remove(tp);
         }
         
-        tp = ComponentFactory.getTabbedPane();
         tp.addChangeListener(this);
         
         for (ITreePanel panel : panels)

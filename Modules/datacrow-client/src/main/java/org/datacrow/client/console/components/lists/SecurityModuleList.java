@@ -43,7 +43,7 @@ public class SecurityModuleList extends DcModuleList {
 	
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SecurityModuleList.class.getName());
 	
-	private ModulePermissionPanel modulePermissionPanel;
+	private final ModulePermissionPanel modulePermissionPanel;
 	
 	public SecurityModuleList(ModulePermissionPanel modulePermissionPanel) {
 		this.modulePermissionPanel = modulePermissionPanel;
@@ -52,7 +52,7 @@ public class SecurityModuleList extends DcModuleList {
 	@Override
 	public void clear() {
 	    super.clear();
-		modulePermissionPanel = null;
+		modulePermissionPanel.clear();
 	}
 	
 	private void setSelected() {

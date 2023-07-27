@@ -52,17 +52,17 @@ import org.datacrow.core.utilities.definitions.ProgramDefinitions;
 
 public class DcProgramDefinitionsField extends JComponent implements IComponent, ActionListener, MouseListener {
 	
-    private DcTable programTable = ComponentFactory.getDCTable(true, false);
-	private DcShortTextField extensionField = ComponentFactory.getShortTextField(10);
-	private DcFileField programField = ComponentFactory.getFileField(false, false);
-	private DcShortTextField parametersFields = ComponentFactory.getShortTextField(255);
+    private final DcTable programTable = ComponentFactory.getDCTable(true, false);
+	private final DcShortTextField extensionField = ComponentFactory.getShortTextField(10);
+	private final DcFileField programField = ComponentFactory.getFileField(false, false);
+	private final DcShortTextField parametersFields = ComponentFactory.getShortTextField(255);
 	
-    private JLabel labelExtention = ComponentFactory.getLabel(DcResources.getText("lblFileExtension"));
-    private JLabel labelProgram = ComponentFactory.getLabel(DcResources.getText("lblProgram"));
-    private JLabel labelParameters = ComponentFactory.getLabel(DcResources.getText("lblParameters"));
+    private final JLabel labelExtention = ComponentFactory.getLabel(DcResources.getText("lblFileExtension"));
+    private final JLabel labelProgram = ComponentFactory.getLabel(DcResources.getText("lblProgram"));
+    private final JLabel labelParameters = ComponentFactory.getLabel(DcResources.getText("lblParameters"));
     
-    private JButton buttonAdd = ComponentFactory.getButton(DcResources.getText("lblAdd"));
-    private JButton buttonRemove = ComponentFactory.getButton(DcResources.getText("lblRemove"));
+    private final JButton buttonAdd = ComponentFactory.getButton(DcResources.getText("lblAdd"));
+    private final JButton buttonRemove = ComponentFactory.getButton(DcResources.getText("lblRemove"));
     
     /**
      * Initializes this field
@@ -89,14 +89,6 @@ public class DcProgramDefinitionsField extends JComponent implements IComponent,
     @Override
     public void clear() {
         programTable.clear();
-        programTable = null;
-        extensionField = null;
-        programField = null;
-        
-        labelExtention = null;
-        labelProgram = null;
-        buttonAdd = null;
-        buttonRemove = null;
     }     
     
     /**

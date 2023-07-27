@@ -54,20 +54,18 @@ public class DcObjectList extends DcList implements IViewComponent {
     
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcObjectList.class.getName());
 
-    private int style = _CARDS;
-
-    private View view;
-    private DcModule module;
-    
     public static final int _CARDS = 1;
     public static final int _LISTING = 2;
+
+    private final DcObjectListRenderer renderer = new DcObjectListRenderer();
     
-    private DcObjectListRenderer renderer = new DcObjectListRenderer();
+    private final int style;
+    private final DcModule module;
     
-    private boolean autoScroll = true;
-    
+    private View view;
     private ViewUpdater vu;
-    
+
+    private boolean autoScroll = true;
     private boolean ignorePaintRequests = false;
 
     public DcObjectList(int style, boolean wrap, boolean evenOddColors) {

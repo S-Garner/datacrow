@@ -31,11 +31,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
+import org.datacrow.client.console.components.DcComboBox;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.OnlineServices;
 import org.datacrow.core.services.Region;
@@ -44,9 +44,9 @@ import org.datacrow.core.services.plugin.IServer;
 
 public class OnlineServicePanel extends JPanel implements ActionListener {
     
-	private JComboBox<Object> comboServers = ComponentFactory.getComboBox();
-    private JComboBox<Object> comboRegions = ComponentFactory.getComboBox();
-    private JComboBox<Object> comboModes = ComponentFactory.getComboBox();
+	private final DcComboBox<Object> comboServers = ComponentFactory.getComboBox();
+    private final DcComboBox<Object> comboRegions = ComponentFactory.getComboBox();
+    private final DcComboBox<Object> comboModes = ComponentFactory.getComboBox();
     
     private boolean modeSelectionAllowed = false;
     
@@ -126,10 +126,12 @@ public class OnlineServicePanel extends JPanel implements ActionListener {
     }    
     
     public void clear() {
-        comboServers = null;
-        comboRegions = null;
-        comboModes = null;
+        comboServers.clear();
+        comboRegions.clear();
+        comboModes.clear();
+        
         checkUseOnlineService = null;
+        
         removeAll();
     }
     

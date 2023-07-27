@@ -46,8 +46,6 @@ import org.datacrow.core.resources.DcResources;
 
 public class DcEditorPopupMenu extends DcPopupMenu implements ActionListener  {
 
-    private static final Toolkit tk = Toolkit.getDefaultToolkit();
-    
     private JTextComponent c;
     
     public DcEditorPopupMenu(JTextComponent c) {
@@ -81,7 +79,7 @@ public class DcEditorPopupMenu extends DcPopupMenu implements ActionListener  {
         else
             menuCopy.setEnabled(false);
         
-        Transferable content = tk.getSystemClipboard().getContents(null);
+        Transferable content = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
         if (isEditable && content.isDataFlavorSupported(DataFlavor.stringFlavor))
             menuPaste.addActionListener(this);
         else

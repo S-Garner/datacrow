@@ -50,21 +50,20 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
     
     private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
     
-    private JButton buttonSettings = ComponentFactory.getButton(IconLibrary._icoSettings16);
-    private JCheckBox checkOverwrite;
-    private JCheckBox checkAutoAdd;
-    private JCheckBox checkUseOriginalSettings;
-    private JCheckBox checkAlwaysUseFirstResult;
+    private final JButton buttonSettings = ComponentFactory.getButton(IconLibrary._icoSettings16);
+    private final JCheckBox checkOverwrite = ComponentFactory.getCheckBox(DcResources.getText("lblOverwriteExistingValues"));
+    private final JCheckBox checkAutoAdd = ComponentFactory.getCheckBox(DcResources.getText("lblAutoAddPerfectMatch"));
+    private final JCheckBox checkUseOriginalSettings = ComponentFactory.getCheckBox(DcResources.getText("lblMassUpdateUseOriginalSettings"));
+    private final JCheckBox checkAlwaysUseFirstResult = ComponentFactory.getCheckBox(DcResources.getText("lblMassUpdateAlwaysUseFirst"));
     
-    private JFrame parent;
-    
-    private int module;
-    
-    private boolean updateMode = false;
+    private final int module;
 
-    private boolean allowAutoAddSelection = true;
-    private boolean allowOriginalSettingsSelection = true;
-    private boolean allowFirstIsBestMode = true;
+    private boolean updateMode = false;
+    private final boolean allowAutoAddSelection;
+    private final boolean allowOriginalSettingsSelection;
+    private final boolean allowFirstIsBestMode;
+
+    private JFrame parent;
     
     public OnlineServiceSettingsPanel(JFrame parent,
                                       boolean allowAutoAddSelection,
@@ -127,11 +126,6 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
     }
     
     public void clear() {
-        buttonSettings = null;
-        checkOverwrite = null;
-        checkAutoAdd = null;
-        checkUseOriginalSettings = null;
-        checkAlwaysUseFirstResult = null;
         parent = null;
         removeAll();
     }
@@ -142,16 +136,9 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
 
         setLayout(Layout.getGBL());
 
-        checkAutoAdd = ComponentFactory.getCheckBox(DcResources.getText("lblAutoAddPerfectMatch"));
         checkAutoAdd.setToolTipText(DcResources.getText("tpAutoAddPerfectMatch"));
-        
-        checkOverwrite = ComponentFactory.getCheckBox(DcResources.getText("lblOverwriteExistingValues"));
         checkOverwrite.setToolTipText(DcResources.getText("tpOverwriteExistingValues"));
-        
-        checkUseOriginalSettings = ComponentFactory.getCheckBox(DcResources.getText("lblMassUpdateUseOriginalSettings"));
         checkUseOriginalSettings.setToolTipText(DcResources.getText("tpMassUpdateUseOriginalSettings"));
-        
-        checkAlwaysUseFirstResult = ComponentFactory.getCheckBox(DcResources.getText("lblMassUpdateAlwaysUseFirst"));
         checkAlwaysUseFirstResult.setToolTipText(DcResources.getText("tpMassUpdateAlwaysUseFirst"));
         
         if (updateMode) {

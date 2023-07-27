@@ -36,7 +36,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -45,6 +44,7 @@ import javax.swing.SwingUtilities;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
+import org.datacrow.client.console.components.DcComboBox;
 import org.datacrow.client.console.components.DcDateField;
 import org.datacrow.client.console.components.DcHtmlEditorPane;
 import org.datacrow.client.console.components.tables.DcTable;
@@ -70,26 +70,26 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(LoanPanel.class.getName());
     
-    private DcObject dco;
-    
-    private List<DcObject> objects;
-    private Loan loan;
-    private DcFrame owner;
-    
-    private DcDateField inputEndDate = ComponentFactory.getDateField();    
-    private DcDateField inputStartDate = ComponentFactory.getDateField();
-    private DcDateField inputDueDate = ComponentFactory.getDateField();
-    private JComboBox<Object> comboPersons = ComponentFactory.getObjectCombo(DcModules._CONTACTPERSON);
-    
-    private DcTable tableLoans = ComponentFactory.getDCTable(DcModules.get(DcModules._LOAN), true, false);
-    
-    private JButton buttonLend = ComponentFactory.getButton(DcResources.getText("lblLendItem"));
-    private JButton buttonReturn = ComponentFactory.getButton(DcResources.getText("lblReturnItem"));
-    
-    private PanelLend panelLend = new PanelLend();
-    private PanelReturn panelReturn = new PanelReturn();
+    private final PanelLend panelLend = new PanelLend();
+    private final PanelReturn panelReturn = new PanelReturn();
 
-    private DcHtmlEditorPane descriptionPane = ComponentFactory.getHtmlEditorPane();
+    private final DcTable tableLoans = ComponentFactory.getDCTable(DcModules.get(DcModules._LOAN), true, false);
+    
+    private final DcDateField inputEndDate = ComponentFactory.getDateField();    
+    private final DcDateField inputStartDate = ComponentFactory.getDateField();
+    private final DcDateField inputDueDate = ComponentFactory.getDateField();
+    private final DcComboBox comboPersons = ComponentFactory.getObjectCombo(DcModules._CONTACTPERSON);
+    
+    private final JButton buttonLend = ComponentFactory.getButton(DcResources.getText("lblLendItem"));
+    private final JButton buttonReturn = ComponentFactory.getButton(DcResources.getText("lblReturnItem"));
+
+    private final List<DcObject> objects;
+
+    private DcFrame owner;
+    private DcObject dco;
+    private Loan loan;
+
+    private final DcHtmlEditorPane descriptionPane = ComponentFactory.getHtmlEditorPane();
     
     private boolean containerMode = false;
     
@@ -480,12 +480,10 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
     }
     
     public void close() {
-        this.descriptionPane = null;
         this.dco = null;
         this.loan = null;
-        this.comboPersons = null;
+        this.comboPersons.clear();
         this.objects.clear();
-        this.objects = null;
         
         if (owner instanceof LoanForm) { 
             ((LoanForm) owner).close();
@@ -494,18 +492,7 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
             owner.setVisible(false);
         }
         
-        panelLend = null;
-        panelReturn = null;
-        
-        buttonLend = null;
-        buttonReturn = null;
-        
-        inputEndDate = null;
-        inputDueDate = null;
-        inputStartDate = null;
-        
         this.tableLoans.clear();
-        this.tableLoans = null;
         
         this.owner = null;
     }

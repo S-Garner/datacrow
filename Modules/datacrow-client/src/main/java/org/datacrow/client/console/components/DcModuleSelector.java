@@ -42,8 +42,6 @@ import org.datacrow.core.modules.DcModules;
 
 public class DcModuleSelector extends JComponent implements IComponent {
 	
-    private JPanel panel = new JPanel();
-    
     public DcModuleSelector() {
         buildComponent();
     }
@@ -58,14 +56,14 @@ public class DcModuleSelector extends JComponent implements IComponent {
     }
     
     @Override
-    public void clear() {
-        panel = null;
-    } 
+    public void clear() {} 
     
     @Override
     public void setEditable(boolean b) {}
     
     private void buildComponent() {
+    	JPanel panel = new JPanel();
+    	
         setLayout(Layout.getGBL());
         panel.setLayout(Layout.getGBL());
 

@@ -61,11 +61,11 @@ import org.datacrow.core.server.Connector;
 public class MasterView implements IMasterView {
 
     private final Map<Integer, IView> views = new HashMap<Integer, IView>();
+
+    private final int module;
+    private final String defaultViewSettingsKey;
+    
     private IGroupingPane groupingPane;
-    
-    private String defaultViewSettingsKey;
-    
-    private int module;
     
     public MasterView(int module, String defaultViewSettingsKey) {
     	this.module = module;

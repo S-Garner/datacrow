@@ -44,7 +44,8 @@ import org.datacrow.core.settings.DcSettings;
 
 public class DirectoriesAsDrivesDialog extends DcDialog implements ActionListener {
 
-    private DcDirectoriesAsDrivesField mappingFld = ComponentFactory.getDirectoriesAsDrivesField();
+    private final DcDirectoriesAsDrivesField mappingFld = ComponentFactory.getDirectoriesAsDrivesField();
+    
     private boolean success = false;
     
     public DirectoriesAsDrivesDialog() {
@@ -73,9 +74,10 @@ public class DirectoriesAsDrivesDialog extends DcDialog implements ActionListene
     @Override
     public void close() {
         DcSettings.set(DcRepository.Settings.stDirectoriesAsDrivesDialogSize, getSize());
-        super.close();
+        
         mappingFld.clear();
-        mappingFld = null;
+        
+        super.close();
     }
 
     private void build() {

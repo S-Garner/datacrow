@@ -30,7 +30,7 @@ import java.awt.event.KeyListener;
 
 public class ViewKeyListener implements KeyListener {
 
-    private View view;
+    private final View view;
     
     private int rowFrom = -1;
     private int rowTo = -1;

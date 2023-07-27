@@ -32,8 +32,8 @@ import javax.swing.text.*;
  *  Implements a simple highlight painter that renders a rectangle around the
  *  area to be highlighted.
  */
-public class RectanglePainter extends
-    DefaultHighlighter.DefaultHighlightPainter {
+public class RectanglePainter extends DefaultHighlighter.DefaultHighlightPainter {
+	
     public RectanglePainter(Color color) {
         super(color);
     }

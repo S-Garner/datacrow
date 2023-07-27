@@ -37,7 +37,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class SortOrderPanel extends JPanel {
     
-    private JComboBox<Object> cbOrder = ComponentFactory.getComboBox();
+    private final JComboBox<Object> cbOrder = ComponentFactory.getComboBox();
     
     public SortOrderPanel() {
         build();

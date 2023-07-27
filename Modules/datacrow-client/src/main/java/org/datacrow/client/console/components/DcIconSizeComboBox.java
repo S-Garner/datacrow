@@ -25,7 +25,7 @@
 
 package org.datacrow.client.console.components;
 
-public class DcIconSizeComboBox extends DcComboBox {
+public class DcIconSizeComboBox extends DcComboBox<Object> {
 
 	public DcIconSizeComboBox() {
         super();

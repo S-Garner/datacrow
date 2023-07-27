@@ -76,7 +76,7 @@ public class FindReplaceDialog extends DcFrame implements ActionListener {
 
     private final DcEditableComboBox cbOld = new DcEditableComboBox();
     private final DcEditableComboBox cbNew = new DcEditableComboBox();
-    private final DcComboBox cbFields = ComponentFactory.getComboBox(new DefaultComboBoxModel<Object>());
+    private final DcComboBox<Object> cbFields = ComponentFactory.getComboBox(new DefaultComboBoxModel<Object>());
 
     public FindReplaceDialog(IView view) {
 
@@ -95,7 +95,7 @@ public class FindReplaceDialog extends DcFrame implements ActionListener {
         cbFields.setSelectedIndex(0);
     }
     
-    private void applySelectedField(DcField field, DcComboBox cb) {
+    private void applySelectedField(DcField field, DcComboBox<Object> cb) {
         JComponent c = ComponentFactory.getComponent(field.getModule(), field.getReferenceIdx(), field.getIndex(), field.getFieldType(), field.getLabel(), 255);
         
         if (c instanceof DcReferenceField) 

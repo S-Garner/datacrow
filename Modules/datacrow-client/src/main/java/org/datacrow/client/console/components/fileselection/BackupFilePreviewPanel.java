@@ -47,7 +47,7 @@ public class BackupFilePreviewPanel extends FileSelectPreviewPanel {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(BackupFilePreviewPanel.class.getName());
     
-    private DcLongTextField preview = ComponentFactory.getLongTextField();
+    private final DcLongTextField preview = ComponentFactory.getLongTextField();
     
     public BackupFilePreviewPanel() {
         build();

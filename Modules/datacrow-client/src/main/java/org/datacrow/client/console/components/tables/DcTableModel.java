@@ -35,6 +35,7 @@ public class DcTableModel extends DefaultTableModel {
     
     public DcTableModel(boolean readonly) {
         super();
+        
         this.readonly = readonly;
     }
     

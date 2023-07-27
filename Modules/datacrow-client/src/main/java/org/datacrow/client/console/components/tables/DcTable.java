@@ -132,12 +132,10 @@ public class DcTable extends JTable implements IViewComponent, MouseListener {
         super(new DcTableModel(readonly));
 
         this.readonly = readonly;
-
-        module = null;
+        this.module = null;
+        this.caching = caching;
 
         setProperties();
-
-        this.caching = caching;
     }
     
     public DcTable(DcModule module, boolean readonly, boolean caching) {

@@ -47,12 +47,8 @@ public class AvailabilityCheckBoxTableCellRenderer extends DcTableCellRenderer {
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         
-        JComponent c = (JComponent) super.getTableCellRendererComponent(table,  
-                                            value,
-                                            isSelected,
-                                            hasFocus,
-                                            row,
-                                            column);        
+        JComponent c = (JComponent) super.getTableCellRendererComponent(
+        		table, value, isSelected, hasFocus, row, column);        
         
         if (value != null) {
             setText("");
@@ -67,6 +63,7 @@ public class AvailabilityCheckBoxTableCellRenderer extends DcTableCellRenderer {
         } else {
             setIcon(IconLibrary._icoUnchecked);
         }
+        
         return c;
     }
 }

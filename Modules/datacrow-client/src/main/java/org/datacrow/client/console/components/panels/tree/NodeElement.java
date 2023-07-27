@@ -35,11 +35,12 @@ import org.datacrow.core.objects.DcImageIcon;
 
 public class NodeElement {
 
-    protected Object key;
+	private final Map<String, Integer> items = new LinkedHashMap<String, Integer>();
+	
+    protected final Object key;
+    
     protected String displayValue;
     protected DcImageIcon icon;
-    
-    private Map<String, Integer> items = new LinkedHashMap<String, Integer>();
     
     public NodeElement(Object key, String displayValue, DcImageIcon icon) {
         this.key = key;   
@@ -47,10 +48,6 @@ public class NodeElement {
         this.icon = icon != null ? icon.toIcon() : icon;
     }
     
-    public void setKey(Object key) {
-        this.key = key;
-    }
-
     public void setDisplayValue(String displayValue) {
         this.displayValue = displayValue;
     }
@@ -101,7 +98,8 @@ public class NodeElement {
     }
     
     public void setItems(Map<String, Integer> items) {
-    	this.items = items;
+    	this.items.clear();
+    	this.items.putAll(items);
     }
 
     public String getComparableKey() {
@@ -119,14 +117,10 @@ public class NodeElement {
     public void clear() {
         if (icon != null) icon.flush();
         
-        key = null;
         icon = null;
         displayValue = null;
         
-        if (items != null) {
-        	items.clear();
-        	items = null;
-        }
+    	items.clear();
     }
 
     @Override

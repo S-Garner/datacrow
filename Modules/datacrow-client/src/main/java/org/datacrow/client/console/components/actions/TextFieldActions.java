@@ -53,7 +53,7 @@ public class TextFieldActions {
     private final RedoAction redoAction;
     private final InsertTimeStampAction insertTimeStampAction;
     
-    private JTextComponent c;
+    private final JTextComponent c;
     
     public TextFieldActions(JTextComponent component) {
         

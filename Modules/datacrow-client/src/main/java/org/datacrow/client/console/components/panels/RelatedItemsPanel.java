@@ -76,8 +76,8 @@ public class RelatedItemsPanel extends DcPanel implements MouseListener, ISimple
     
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(RelatedItemsPanel.class.getName());
     
-    private DcObjectList list = new DcObjectList(DcObjectList._LISTING, false, true);
-    private List<DcListElement> all = new ArrayList<DcListElement>();
+    private final DcObjectList list = new DcObjectList(DcObjectList._LISTING, false, true);
+    private final List<DcListElement> all = new ArrayList<DcListElement>();
     
     private boolean cancelled = false;
     private DcObject dco;
@@ -188,8 +188,6 @@ public class RelatedItemsPanel extends DcPanel implements MouseListener, ISimple
         if (all != null) all.clear();
         if (list != null) list.clear();
         
-        all = null;
-        list = null;
         cancelled = true;
         
         super.clear();

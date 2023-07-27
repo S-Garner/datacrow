@@ -41,7 +41,7 @@ import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.settings.DcSettings;
 
-public class DcComboBox extends JComboBox<Object> implements IComponent {
+public class DcComboBox<E> extends JComboBox<Object> implements IComponent {
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcComboBox.class.getName());
     
