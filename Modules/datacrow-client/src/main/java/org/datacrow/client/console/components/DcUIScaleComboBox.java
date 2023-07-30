@@ -25,7 +25,7 @@
 
 package org.datacrow.client.console.components;
 
-public class DcUIScaleComboBox extends DcComboBox {
+public class DcUIScaleComboBox extends DcComboBox<org.datacrow.client.console.components.DcUIScaleComboBox.UIScale> {
 
 	public DcUIScaleComboBox() {
         super();
@@ -59,7 +59,7 @@ public class DcUIScaleComboBox extends DcComboBox {
         return us.getScale();
     }
     
-    private class UIScale {
+    public static class UIScale {
     
         private Long scale;
         private String name;

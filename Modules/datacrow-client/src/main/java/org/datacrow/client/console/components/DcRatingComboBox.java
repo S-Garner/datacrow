@@ -27,7 +27,7 @@ package org.datacrow.client.console.components;
 
 import org.datacrow.client.console.components.renderers.RatingComboBoxRenderer;
 
-public class DcRatingComboBox extends DcComboBox  {
+public class DcRatingComboBox extends DcComboBox<Long>  {
     
 	public DcRatingComboBox() {
         setRenderer(RatingComboBoxRenderer.getInstance());

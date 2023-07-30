@@ -271,7 +271,6 @@ public class Field extends DcBean {
     public StreamedContent getStreamedContent() {
         DefaultStreamedContent dsc = null;
         try {
-            @SuppressWarnings("resource")
             FileInputStream fis = new FileInputStream(file);
             String mimeType = FacesContext.getCurrentInstance().getExternalContext().getMimeType(value.toString());
             dsc = DefaultStreamedContent.builder().contentType(mimeType).name(file.getName()).stream(() -> fis).build();

@@ -143,7 +143,7 @@ public class LoanInformationForm extends DcFrame implements ActionListener {
     private class LoanFilterPanel extends JPanel {
         
         private DcObjectComboBox cbPersons = ComponentFactory.getObjectCombo(DcModules._CONTACTPERSON);
-        private DcComboBox cbModules = ComponentFactory.getComboBox();
+        private DcComboBox<Object> cbModules = ComponentFactory.getComboBox();
         
         private DcDateField dtDueFrom = ComponentFactory.getDateField();
         private DcDateField dtDueTo = ComponentFactory.getDateField();
@@ -151,7 +151,7 @@ public class LoanInformationForm extends DcFrame implements ActionListener {
         private DcDateField dtStartFrom = ComponentFactory.getDateField();
         private DcDateField dtStartTo = ComponentFactory.getDateField();
 
-        private DcComboBox cbLoans = ComponentFactory.getComboBox(); 
+        private DcComboBox<Object> cbLoans = ComponentFactory.getComboBox(); 
         
         private DcCheckBox cbOnlyTooLate = ComponentFactory.getCheckBox(""); 
         

@@ -230,7 +230,7 @@ public class DefineFilterEntryPanel extends JPanel implements MouseListener, Act
         
         if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
             
-            DcComboBox combo = ComponentFactory.getComboBox();
+            DcComboBox<Object> combo = ComponentFactory.getComboBox();
             c = combo;
             combo.addItem(" ");
 

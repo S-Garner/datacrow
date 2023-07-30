@@ -991,9 +991,11 @@ public final class ComponentFactory extends UIComponents {
         return menuBar;
     }
 
-    public static final DcComboBox getYesNoCombo() {
-        DcComboBox comboBox = getComboBox();
-        comboBox.addItem("");
+    public static final DcComboBox<String> getYesNoCombo() {
+    	DcComboBox<String> comboBox = new DcComboBox<>();
+        comboBox.setFont(getStandardFont());
+        comboBox.setRenderer(ComboBoxRenderer.getInstance());
+        
         comboBox.addItem(DcResources.getText("lblYes"));
         comboBox.addItem(DcResources.getText("lblNo"));
         comboBox.setFont(getStandardFont());

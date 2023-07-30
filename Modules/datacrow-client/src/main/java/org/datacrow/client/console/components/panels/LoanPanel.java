@@ -44,9 +44,9 @@ import javax.swing.SwingUtilities;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
-import org.datacrow.client.console.components.DcComboBox;
 import org.datacrow.client.console.components.DcDateField;
 import org.datacrow.client.console.components.DcHtmlEditorPane;
+import org.datacrow.client.console.components.DcObjectComboBox;
 import org.datacrow.client.console.components.tables.DcTable;
 import org.datacrow.client.console.windows.DcFrame;
 import org.datacrow.client.console.windows.loan.LoanForm;
@@ -66,19 +66,20 @@ import org.datacrow.core.objects.helpers.Container;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 
+//TODO: refactor - class structure is sub optimal
 public class LoanPanel extends JPanel implements ActionListener, IClient {
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(LoanPanel.class.getName());
     
-    private final PanelLend panelLend = new PanelLend();
-    private final PanelReturn panelReturn = new PanelReturn();
+    private final PanelLend panelLend;
+    private final PanelReturn panelReturn;
 
     private final DcTable tableLoans = ComponentFactory.getDCTable(DcModules.get(DcModules._LOAN), true, false);
     
     private final DcDateField inputEndDate = ComponentFactory.getDateField();    
     private final DcDateField inputStartDate = ComponentFactory.getDateField();
     private final DcDateField inputDueDate = ComponentFactory.getDateField();
-    private final DcComboBox comboPersons = ComponentFactory.getObjectCombo(DcModules._CONTACTPERSON);
+    private final DcObjectComboBox comboPersons = ComponentFactory.getObjectCombo(DcModules._CONTACTPERSON);
     
     private final JButton buttonLend = ComponentFactory.getButton(DcResources.getText("lblLendItem"));
     private final JButton buttonReturn = ComponentFactory.getButton(DcResources.getText("lblReturnItem"));
@@ -97,6 +98,9 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
         this.objects = new ArrayList<DcObject>();
         this.objects.add(dco);
         
+        this.panelLend = new PanelLend();
+        this.panelReturn = new PanelReturn();
+        
         if (dco.getModule().getIndex() == DcModules._CONTAINER) {
             this.objects.addAll(((Container) dco).getChildren());
             containerMode = true;
@@ -112,6 +116,9 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
     
     public LoanPanel(Collection<? extends DcObject> objects, DcFrame owner) throws Exception {
         this.objects = new ArrayList<DcObject>(objects);
+        
+        this.panelLend = new PanelLend();
+        this.panelReturn = new PanelReturn();
         
         for (DcObject dco : objects) {
             if (dco.getModule().getIndex() == DcModules._CONTAINER)
@@ -502,6 +509,7 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
         close();
     }
     
+ // TODO:rewrite
     private class PanelLend extends JPanel implements ActionListener {
         
 		public PanelLend() {
@@ -547,6 +555,7 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
         }
     }
     
+    // TODO:rewrite
     private class PanelReturn extends JPanel implements ActionListener {
         
 		public PanelReturn() {

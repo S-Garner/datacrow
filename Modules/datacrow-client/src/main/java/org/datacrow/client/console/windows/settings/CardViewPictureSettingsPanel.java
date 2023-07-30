@@ -48,11 +48,12 @@ import org.datacrow.core.resources.DcResources;
 public class CardViewPictureSettingsPanel extends JPanel {
 
 	private final int module;
-    private DcTable table;
-    private NavigationPanel panelNav;
+    private final DcTable table;
 	
 	public CardViewPictureSettingsPanel(int module) {
 		this.module = module;
+		this.table = ComponentFactory.getDCTable(false, false);
+		
 		build();
 	}
 	
@@ -68,7 +69,7 @@ public class CardViewPictureSettingsPanel extends JPanel {
 	private void build() {
         setLayout(Layout.getGBL());
         
-        table = ComponentFactory.getDCTable(false, false);
+        
         table.setColumnCount(1);
 
         TableColumn c = table.getColumnModel().getColumn(0);
@@ -110,7 +111,6 @@ public class CardViewPictureSettingsPanel extends JPanel {
 	}
 	
     protected void clear() {
-        table = null;
-    	panelNav = null;
+    	table.clear();
     }
 }

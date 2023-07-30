@@ -572,9 +572,7 @@ public class SystemUpgrade {
         rename.put("musictrack_state", "music_track_state");
         rename.put("musictrack_template", "music_track_template");
 
-        @SuppressWarnings("resource")
         Connection conn = DatabaseManager.getInstance().getAdminConnection();
-        
         Connector connector = DcConfig.getInstance().getConnector();
         
         connector.displayMessage("Data Crow will now upgrade the database. The Music Album module and the Audio CD module will be merged.");

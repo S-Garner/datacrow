@@ -52,7 +52,7 @@ public class GroupingPane extends JPanel implements ChangeListener, IGroupingPan
 
 	private final JTabbedPane tp = ComponentFactory.getTabbedPane();
 	
-	private List<ITreePanel> panels = new ArrayList<ITreePanel>();
+	private final List<ITreePanel> panels = new ArrayList<ITreePanel>();
     
 	private final int module;
 	private final MasterView view;
@@ -282,7 +282,9 @@ public class GroupingPane extends JPanel implements ChangeListener, IGroupingPan
 	public void stateChanged(ChangeEvent ce) {
         JTabbedPane pane = (JTabbedPane) ce.getSource();
         current = pane.getSelectedIndex();
-        panels.get(current).activate();
+        
+        if (current >= 0)
+        	panels.get(current).activate();
 	}
 
     /**
