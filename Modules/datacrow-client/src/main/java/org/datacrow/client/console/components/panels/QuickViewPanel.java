@@ -491,7 +491,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
                         value = StringUtils.concatUserFriendly(value, maxLength);
                 }
                 
-                value = value.replaceAll("<br><br>", "<br>");
+                //value = value.replaceAll("<br><br>", "<br>");
                 
                 table += value;
                 table += "</td></tr>";
