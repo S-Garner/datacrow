@@ -55,11 +55,11 @@ import org.datacrow.core.resources.DcResources;
 
 public class FieldSelectionPanel extends JPanel implements KeyListener {
 
-	private Vector<DcListElement> elements = new Vector<DcListElement>();
-    private DcFieldList<Object> listRight;
-    private DcFieldList<Object> listLeft;
+	private final Vector<DcListElement> elements = new Vector<DcListElement>();
+    private final DcFieldList<Object> listRight = new DcFieldList<Object>();
+    private final DcFieldList<Object> listLeft = new DcFieldList<Object>();
     
-    private DcModule module;
+    private final DcModule module;
     
     private IFieldSelectionListener listener;
     
@@ -154,18 +154,12 @@ public class FieldSelectionPanel extends JPanel implements KeyListener {
         if (listLeft != null)
             listLeft.clear();
         
-        listLeft = null;
-        
         if (listRight != null)
             listRight.clear();
-        
-        listRight = null;
         
         if (elements != null)
             elements.clear();
         
-        elements = null;
-        module = null;
         listener = null;
     }    
     
@@ -175,11 +169,9 @@ public class FieldSelectionPanel extends JPanel implements KeyListener {
         JTextField txtFilter = ComponentFactory.getShortTextField(255);
         txtFilter.addKeyListener(this);
 
-        listLeft = new DcFieldList<Object>();
         listLeft.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         listLeft.addMouseListener(new ListMouseListener(ListMouseListener._RIGHT));
 
-        listRight = new DcFieldList<Object>();
         listRight.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         listRight.addMouseListener(new ListMouseListener(ListMouseListener._LEFT));
 

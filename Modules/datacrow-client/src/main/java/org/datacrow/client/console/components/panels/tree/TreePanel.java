@@ -64,15 +64,15 @@ public abstract class TreePanel extends JPanel implements TreeSelectionListener,
     
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(TreePanel.class.getName());
     
-    protected DcTree tree;
+	protected final GroupingPane gp;
+	
     private JScrollPane scroller;
+    protected DcTree tree;
     protected DcDefaultMutableTreeNode top;
     
-    private boolean listenForSelection = true;
-    
-    protected GroupingPane gp;
     protected Object currentUserObject;
-    
+
+    private boolean listenForSelection = true;
     protected boolean activated = false;
     private boolean saveChanges = true;
     

@@ -51,7 +51,8 @@ public class XmlWriter extends XmlBaseWriter {
     private String schemaFile;
     private final int stepSize = 4;
     
-    public XmlWriter(String filename, String schemaFile, ItemExporterSettings properties) throws IOException {
+    @SuppressWarnings("resource")
+	public XmlWriter(String filename, String schemaFile, ItemExporterSettings properties) throws IOException {
         this(new BufferedOutputStream(new FileOutputStream(filename)), filename, schemaFile, properties);
     }
     

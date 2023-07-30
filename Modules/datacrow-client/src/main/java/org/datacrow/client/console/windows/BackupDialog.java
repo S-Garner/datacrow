@@ -60,21 +60,21 @@ public class BackupDialog extends DcDialog implements ActionListener, IBackupRes
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(BackupDialog.class.getName());
     
-    private DcFileField fileFieldTarget;
-    private DcFileField fileFieldSource;
+    private final DcFileField fileFieldTarget;
+    private final DcFileField fileFieldSource;
 
-    private JButton buttonBackup = ComponentFactory.getButton(DcResources.getText("lblBackup"));
-    private JButton buttonRestore = ComponentFactory.getButton(DcResources.getText("lblRestore"));
-    private JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
+    private final JButton buttonBackup = ComponentFactory.getButton(DcResources.getText("lblBackup"));
+    private final JButton buttonRestore = ComponentFactory.getButton(DcResources.getText("lblRestore"));
+    private final JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
     
-    private JCheckBox cbRestoreModules = ComponentFactory.getCheckBox(DcResources.getText("lblRestoreModules"));
-    private JCheckBox cbRestoreReports = ComponentFactory.getCheckBox(DcResources.getText("lblRestoreReports"));
-    private JCheckBox cbRestoreDatabase = ComponentFactory.getCheckBox(DcResources.getText("lblRestoreDatabase"));
+    private final JCheckBox cbRestoreModules = ComponentFactory.getCheckBox(DcResources.getText("lblRestoreModules"));
+    private final JCheckBox cbRestoreReports = ComponentFactory.getCheckBox(DcResources.getText("lblRestoreReports"));
+    private final JCheckBox cbRestoreDatabase = ComponentFactory.getCheckBox(DcResources.getText("lblRestoreDatabase"));
     
-    private JTextArea txtLog = ComponentFactory.getTextArea();
-    private JTextArea txtComment = ComponentFactory.getTextArea();
+    private final JTextArea txtLog = ComponentFactory.getTextArea();
+    private final JTextArea txtComment = ComponentFactory.getTextArea();
     
-    private JProgressBar pb = new JProgressBar();
+    private final JProgressBar pb = new JProgressBar();
     
     private boolean canBeClosed = true;
 
@@ -338,13 +338,6 @@ public class BackupDialog extends DcDialog implements ActionListener, IBackupRes
         DcSettings.set(DcRepository.Settings.stRestoreDatabase, cbRestoreDatabase.isSelected());
         DcSettings.set(DcRepository.Settings.stRestoreModules, cbRestoreModules.isSelected());
         DcSettings.set(DcRepository.Settings.stRestoreReports, cbRestoreReports.isSelected());
-        
-        fileFieldTarget = null;
-        fileFieldSource = null;
-        buttonBackup = null;
-        buttonRestore = null;
-        txtLog = null;
-        pb = null;
         
         super.close();
     }

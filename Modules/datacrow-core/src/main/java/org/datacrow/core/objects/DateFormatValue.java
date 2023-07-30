@@ -23,47 +23,27 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.client.console.components.lists.elements;
+package org.datacrow.core.objects;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
-import org.datacrow.client.console.ComponentFactory;
-import org.datacrow.client.console.components.DcPictureField;
-import org.datacrow.client.console.components.DcTextPane;
-
-public abstract class DcObjectListComponents {
-
-    private static final int _MAX_ITEMS = 25;
+public class DateFormatValue {
+        
+    private String name;
+    private String format;
     
-    private static List<DcTextPane> textPanes = new ArrayList<DcTextPane>();
-    private static List<DcPictureField> pictureFields = new ArrayList<DcPictureField>();
-    
-    public static DcTextPane getTextPane() {
-        DcTextPane tp = textPanes.size() > 0 ? textPanes.remove(0) : ComponentFactory.getTextPane();
-        tp.setFont(ComponentFactory.getStandardFont());
-        return tp;
-    }
-
-    public static DcPictureField getPictureField() {
-        return pictureFields.size() > 0 ? pictureFields.remove(0) : ComponentFactory.getPictureField(false, false);
+    public DateFormatValue(String format) {
+        Calendar cal = Calendar.getInstance();
+        this.name = new SimpleDateFormat(format).format(cal.getTime());
+        this.format = format;
     }
     
-    public static void release(DcPictureField picField) {
-        if (picField != null) {
-            picField.clear();
-            
-            if (pictureFields.size() < _MAX_ITEMS)
-                pictureFields.add(picField);
-        }
+    public String getFormat() {
+        return format;
     }
-
-    public static void release(DcTextPane textPane) {
-        if (textPane != null) {
-            textPane.setText("");
-            
-            if (textPanes.size() < _MAX_ITEMS)
-                textPanes.add(textPane);
-        }
+    
+    public String toString() {
+        return name;
     }
 }

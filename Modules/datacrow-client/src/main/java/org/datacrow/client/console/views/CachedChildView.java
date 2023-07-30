@@ -41,7 +41,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class CachedChildView extends View implements ActionListener {
 
-    private ArrayList<DcObject> children = new ArrayList<DcObject>();
+    private final ArrayList<DcObject> children = new ArrayList<DcObject>();
     
     public CachedChildView(MasterView mv, int type, IViewComponent vc, int index) {
         super(mv, type, vc, index);

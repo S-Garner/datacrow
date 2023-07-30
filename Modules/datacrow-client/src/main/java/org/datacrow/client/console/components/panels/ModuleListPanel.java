@@ -66,7 +66,8 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class ModuleListPanel extends JPanel {
     
-    private Collection<JComponent> components = new ArrayList<JComponent>();
+    private final Collection<JComponent> components = new ArrayList<JComponent>();
+    
     private static Border borderDefault;
     private static Border borderSelected;
     

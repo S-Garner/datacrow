@@ -56,7 +56,8 @@ public class ClientRequestHandler {
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-    public synchronized ServerResponse process() throws IOException, ClassNotFoundException {
+    @SuppressWarnings("resource")
+	public synchronized ServerResponse process() throws IOException, ClassNotFoundException {
 	    
         ServerResponse response = null;
         DcServerConnection connection = null;

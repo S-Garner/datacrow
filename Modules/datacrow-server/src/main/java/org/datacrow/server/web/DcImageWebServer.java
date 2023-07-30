@@ -45,7 +45,8 @@ public class DcImageWebServer {
 	 */
 	public DcImageWebServer(int port, String ip) {
 	    this.server = new Server();
-	    ServerConnector connector = new ServerConnector(server);
+	    @SuppressWarnings("resource")
+		ServerConnector connector = new ServerConnector(server);
 	    connector.setPort(port);
 	    connector.setHost(ip);
 	    connector.setIdleTimeout(30000);
@@ -74,7 +75,8 @@ public class DcImageWebServer {
 	public void start() throws Exception {
 	    
 	    // Create a ServerConnector to accept connections from clients.
-	    Connector connector = new ServerConnector(server);
+	    @SuppressWarnings("resource")
+		Connector connector = new ServerConnector(server);
 
 	    // Add the Connector to the Server
 	    server.addConnector(connector);

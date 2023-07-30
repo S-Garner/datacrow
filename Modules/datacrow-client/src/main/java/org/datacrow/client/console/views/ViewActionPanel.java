@@ -48,15 +48,11 @@ public class ViewActionPanel extends JPanel implements ActionListener {
 
     private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
     
-    protected JPanel panelActionsLeft = new JPanel();
-    protected JPanel panelActionsRight = new JPanel();
-    
-    private JButton buttonSave;
-    private JButton buttonClear;
-    private JButton buttonCancel;
-    
-    private JButton buttonRemove;
-    private JButton buttonAdd;
+   	private final JButton buttonAdd = ComponentFactory.getButton(DcResources.getText("lblAdd"));
+   	private final JButton buttonClear = ComponentFactory.getButton(DcResources.getText("lblClear"));
+   	private final JButton buttonCancel = ComponentFactory.getButton(DcResources.getText("lblCancel"));
+   	private final JButton buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
+    private final JButton buttonRemove = ComponentFactory.getButton(DcResources.getText("lblRemove"));
     
     private final View view;
     
@@ -74,8 +70,6 @@ public class ViewActionPanel extends JPanel implements ActionListener {
     
     public void applySettings() {
     	Font f = ComponentFactory.getStandardFont();
-        panelActionsLeft.setFont(f);
-        panelActionsRight.setFont(f);
         buttonSave.setFont(f);
         buttonClear.setFont(f);
         buttonCancel.setFont(f);
@@ -83,15 +77,11 @@ public class ViewActionPanel extends JPanel implements ActionListener {
     }
     
     private void build() {
+    	JPanel panelActionsLeft = new JPanel();
+        JPanel panelActionsRight = new JPanel();
+    	
         panelActionsLeft.setLayout(layout);
         panelActionsRight.setLayout(layout);
-    
-        // Create the components
-        buttonAdd = ComponentFactory.getButton(DcResources.getText("lblAdd"));
-        buttonClear = ComponentFactory.getButton(DcResources.getText("lblClear"));
-        buttonCancel = ComponentFactory.getButton(DcResources.getText("lblCancel"));
-        buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
-        buttonRemove = ComponentFactory.getButton(DcResources.getText("lblRemove"));
     
         buttonAdd.setToolTipText(DcResources.getText("tpAddRow"));
         buttonClear.setToolTipText(DcResources.getText("tpClear"));
@@ -131,6 +121,7 @@ public class ViewActionPanel extends JPanel implements ActionListener {
             panelActionsLeft.add(c);
         
         setLayout(Layout.getGBL());
+        
         add(panelActionsLeft, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.WEST,
             GridBagConstraints.NONE, new Insets(0, 5, 0, 5), 0, 0));
         add(panelActionsRight, Layout.getGBC(1, 0, 1, 1, 1.0, 1.0, GridBagConstraints.EAST,

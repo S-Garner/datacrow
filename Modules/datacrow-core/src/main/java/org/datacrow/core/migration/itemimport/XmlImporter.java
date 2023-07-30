@@ -172,7 +172,8 @@ public class XmlImporter extends ItemImporter {
         @Override
         public void run() {
             InputSource input = null;
-            InputStreamReader in = null;
+            @SuppressWarnings("resource")
+			InputStreamReader in = null;
             BufferedReader reader = null;
             
             try {
@@ -230,12 +231,8 @@ public class XmlImporter extends ItemImporter {
             } catch (Exception e) {
                 logger.error(e, e) ;
             } finally {
-                try {
-                    if (reader != null) reader.close();
-                    if (in != null) in.close();
-                } catch (Exception e) {
-                    logger.debug("Failed to close resource", e);
-                }
+            	try { if (reader != null) reader.close(); } catch (Exception e) {logger.error("Could not close resource");}
+            	try { if (in != null) in.close(); } catch (Exception e) {logger.error("Could not close resource");}
             }
         }
     }

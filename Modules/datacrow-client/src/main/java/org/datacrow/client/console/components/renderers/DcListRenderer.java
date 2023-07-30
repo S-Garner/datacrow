@@ -40,9 +40,10 @@ import org.datacrow.core.DcRepository;
 
 public class DcListRenderer<V> extends DefaultListCellRenderer  {
 
-	private boolean evenOddColors;
     private static final Border selectedBorder = BorderFactory.createLineBorder(Color.BLACK);
     private static final Border normalBorder = BorderFactory.createLineBorder(Color.WHITE);
+
+	private boolean evenOddColors;
     
     public DcListRenderer() {}
 

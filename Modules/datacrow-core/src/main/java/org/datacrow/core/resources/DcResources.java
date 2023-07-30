@@ -26,6 +26,7 @@
 package org.datacrow.core.resources;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -80,17 +81,24 @@ public class DcResources {
                 "English",
                 new File(DcConfig.getInstance().getResourcesDir(), "English" + "_resources.properties"));
         
-        
+        InputStream is1 = null;
+        InputStream is2 = null;
         for (String propertyFile : propertyFiles) {
             Properties p = new Properties();
             try {
-                p.load(getClass().getResourceAsStream(propertyFile));
+            	is1 = getClass().getResourceAsStream(propertyFile);
+                p.load(is1);
             } catch (Exception ignore) {
                 try {
-                    p.load(getClass().getResourceAsStream("org/datacrow/core/resources/" + propertyFile));
+                	is2 = getClass().getResourceAsStream("org/datacrow/core/resources/" + propertyFile);
+                    p.load(is2);
                 } catch (Exception e) {
                     logger.error("Could not load custom resource files. Falling back to the default resources.", e);
+                } finally {
+                	try { if (is2 != null) is2.close(); } catch (Exception e) {logger.error("Could not close language input stream");}	
                 }
+            } finally {
+            	try { if (is1 != null) is1.close(); } catch (Exception e) {logger.error("Could not close language input stream");}
             }
             
             for (Object o : p.keySet()) {

@@ -46,15 +46,15 @@ import org.datacrow.core.settings.objects.DcFont;
 
 public class DcFontSelector extends JComponent implements IComponent, ActionListener {
     
-    private JComboBox<Object> comboFontName = ComponentFactory.getComboBox();
-    private JComboBox<Object> comboFontSize = ComponentFactory.getComboBox();
-    private DcLongTextField textField = ComponentFactory.getLongTextField();
-    private JComboBox<Object> comboFontStyle = ComponentFactory.getComboBox();
+    private final JComboBox<Object> comboFontName = ComponentFactory.getComboBox();
+    private final JComboBox<Object> comboFontSize = ComponentFactory.getComboBox();
+    private final DcLongTextField textField = ComponentFactory.getLongTextField();
+    private final JComboBox<Object> comboFontStyle = ComponentFactory.getComboBox();
 
-    private JLabel labelFont = ComponentFactory.getLabel(DcResources.getText("lblFont"));
-    private JLabel labelFontSize = ComponentFactory.getLabel(DcResources.getText("lblFontSize"));
-    private JLabel labelExample = ComponentFactory.getLabel(DcResources.getText("lblPreview"));
-    private JLabel labelFontStyle = ComponentFactory.getLabel(DcResources.getText("lblFontStyle"));
+    private final JLabel labelFont = ComponentFactory.getLabel(DcResources.getText("lblFont"));
+    private final JLabel labelFontSize = ComponentFactory.getLabel(DcResources.getText("lblFontSize"));
+    private final JLabel labelExample = ComponentFactory.getLabel(DcResources.getText("lblPreview"));
+    private final JLabel labelFontStyle = ComponentFactory.getLabel(DcResources.getText("lblFontStyle"));
     
     /**
      * Initializes this field
@@ -108,14 +108,7 @@ public class DcFontSelector extends JComponent implements IComponent, ActionList
     
     @Override
     public void clear() {
-        comboFontName = null;
-        comboFontSize = null;
-        textField = null;
-        comboFontStyle = null;
-        labelFont = null;
-        labelFontSize = null;
-        labelExample = null;
-        labelFontStyle = null;        
+    	removeAll();
     }
     
     /**

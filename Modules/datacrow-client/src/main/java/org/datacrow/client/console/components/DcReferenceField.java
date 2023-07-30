@@ -48,11 +48,11 @@ import org.datacrow.core.server.Connector;
 
 public class DcReferenceField extends JComponent implements IComponent, ActionListener, IItemFormListener {
 
-    private DcObjectComboBox cb;
-    private JButton btCreate = ComponentFactory.getIconButton(IconLibrary._icoOpenNew);
-    
+    private final DcObjectComboBox cb;
+
+    private final JButton btCreate = ComponentFactory.getIconButton(IconLibrary._icoOpenNew);
     private final int referenceModIdx;
-    private boolean allowCreate;
+    private final boolean allowCreate;
     
     public DcReferenceField(int referenceModIdx) {
         super();
@@ -103,10 +103,8 @@ public class DcReferenceField extends JComponent implements IComponent, ActionLi
     
     @Override
     public void clear() {
-        btCreate = null;
-        cb = null;
-        
         removeAll();
+        cb.clear();
     }
     
     @Override

@@ -61,9 +61,9 @@ public class DcReferencesField extends JComponent implements IComponent, ActionL
 
     private DcHtmlEditorPane fld = new HtmlField();
 
-    private List<DcObject> references = new ArrayList<DcObject>();
-    private JButton btOpen = ComponentFactory.getIconButton(IconLibrary._icoOpen);
-    private JButton btCreate = ComponentFactory.getIconButton(IconLibrary._icoOpenNew);
+    private final List<DcObject> references = new ArrayList<DcObject>();
+    private final JButton btOpen = ComponentFactory.getIconButton(IconLibrary._icoOpen);
+    private final JButton btCreate = ComponentFactory.getIconButton(IconLibrary._icoOpenNew);
     
     private final int mappingModIdx;
     private final int referenceIdx;
@@ -140,9 +140,6 @@ public class DcReferencesField extends JComponent implements IComponent, ActionL
         
         if (references != null) references.clear();
         
-        references = null;
-        btOpen = null;
-        btCreate = null;
         removeAll();
     }
     

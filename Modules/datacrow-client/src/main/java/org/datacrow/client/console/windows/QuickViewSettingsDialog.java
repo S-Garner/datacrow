@@ -200,11 +200,7 @@ public class QuickViewSettingsDialog extends DcDialog implements ActionListener 
         protected void clear() {
             table = null;
             module = null;
-            
-            if (panelNav != null) {
-                panelNav.clear();
-                panelNav = null;
-            }
+            panelNav = null;
         }
 
         private void build() {

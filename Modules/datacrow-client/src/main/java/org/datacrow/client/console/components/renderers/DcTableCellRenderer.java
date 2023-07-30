@@ -44,9 +44,10 @@ import org.datacrow.core.settings.DcSettings;
 
 public class DcTableCellRenderer extends DefaultTableCellRenderer {
 
+	private static final EmptyBorder border = new EmptyBorder(0, 5, 0, 5);
     private static final DcTableCellRenderer instance = new DcTableCellRenderer();
+    
     private boolean disabled = false;
-    private static final EmptyBorder border = new EmptyBorder(0, 5, 0, 5);
 
     protected DcTableCellRenderer() {}
     

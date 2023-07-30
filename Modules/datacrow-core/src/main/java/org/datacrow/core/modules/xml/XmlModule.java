@@ -205,7 +205,8 @@ public class XmlModule extends XmlObject {
      * @param xml
      * @throws InvalidModuleXmlException
      */
-    private void initialize(byte[] xml) throws InvalidModuleXmlException {
+    @SuppressWarnings("resource")
+	private void initialize(byte[] xml) throws InvalidModuleXmlException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         InputStreamReader in = null;
         BufferedReader reader = null;
@@ -221,12 +222,8 @@ public class XmlModule extends XmlObject {
         } catch(Exception e) {
             throw new InvalidModuleXmlException(getName(), e);
         } finally {
-            try {
-                if (in != null) in.close();
-                if (reader != null) reader.close();
-            } catch (Exception e) {
-                logger.debug(e, e);
-            }
+        	try { if (in != null) in.close(); } catch (Exception e) {logger.error("Could not close resource");}
+        	try { if (reader != null) reader.close(); } catch (Exception e) {logger.error("Could not close resource");}
         }
     }
 

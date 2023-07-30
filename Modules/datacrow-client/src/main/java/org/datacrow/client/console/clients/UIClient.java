@@ -45,8 +45,9 @@ public class UIClient implements IClient {
     private boolean updateRelatedModules = false;
     private boolean updateCurrentView = false;
     
+    private final int type;
+    
     private DcObject dco;
-    private int type;
     
     public UIClient(
             int type,

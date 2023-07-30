@@ -84,9 +84,10 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcPictureField.class.getName());
     
-    private boolean changed = false;
     private boolean scaled = true;
-
+    
+    private boolean changed = false;
+    
     private Image img = null;
     private DcImageIcon picture;
     

@@ -55,15 +55,18 @@ import org.datacrow.core.utilities.filefilters.FileNameFilter;
 
 public abstract class FileSystemTreePanel extends JPanel implements ActionListener {
     
-    private Map<Drive, JScrollPane> scrollers = new HashMap<Drive, JScrollPane>();
-    private Map<Drive, FileSystemTreeModel> models = new HashMap<Drive, FileSystemTreeModel>();
-    private FileNameFilter filter;
+    private final Map<Drive, JScrollPane> scrollers = new HashMap<Drive, JScrollPane>();
+    private final Map<Drive, FileSystemTreeModel> models = new HashMap<Drive, FileSystemTreeModel>();
+    private final FileNameFilter filter;
     
     public FileSystemTreePanel(FileNameFilter filter) {
-        setFilter(filter);
+    	
+    	this.filter = filter;
+    	
+        applyFilter(filter);
     }
     
-    protected void setFilter(FileNameFilter filter) {
+    protected void applyFilter(FileNameFilter filter) {
         if (scrollers.size() > 0) {
             scrollers.clear();
             models.clear();
@@ -72,7 +75,6 @@ public abstract class FileSystemTreePanel extends JPanel implements ActionListen
             repaint();
         }
         
-        this.filter = filter;
         build();
     }
     
@@ -204,8 +206,6 @@ public abstract class FileSystemTreePanel extends JPanel implements ActionListen
     
     public void clear() {
         scrollers.clear();
-        scrollers = null;
         models.clear();
-        models = null;
     }
 }

@@ -42,7 +42,9 @@ import org.datacrow.core.log.DcLogger;
 
 public class DcTreeRenderer extends DefaultTreeCellRenderer {
 
-    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcTreeRenderer.class.getName());
+    private transient static final DcLogger logger = 
+    		DcLogManager.getInstance().getLogger(DcTreeRenderer.class.getName());
+    
     private static final EmptyBorder border = new EmptyBorder(2, 5, 2, 2);
     
     @Override

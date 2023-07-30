@@ -43,12 +43,9 @@ import org.datacrow.core.objects.DcObject;
 
 public class TableCopyPasteAction implements ActionListener {
     
-    private static final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-    
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(TableCopyPasteAction.class.getName());
     
-    public TableCopyPasteAction() {
-    }
+    public TableCopyPasteAction() {}
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -65,6 +62,8 @@ public class TableCopyPasteAction implements ActionListener {
         int[] fields = (int[]) vc.getModule().getSetting(DcRepository.ModuleSettings.stTableColumnOrder);
         
         try {
+        	Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        	
             String text = (String) (clipboard.getContents(this).getTransferData(DataFlavor.stringFlavor));
             StringTokenizer rowTokenizer = new StringTokenizer(text, "\n");
             while (rowTokenizer.hasMoreTokens()) {
@@ -125,6 +124,8 @@ public class TableCopyPasteAction implements ActionListener {
             }
             sb.append("\n");
         }
+        
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         StringSelection stSelection = new StringSelection(sb.toString());
         clipboard.setContents(stSelection, stSelection);        
     }

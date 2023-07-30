@@ -38,7 +38,7 @@ public class DcFieldListElement extends DcListElement {
 	private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
     private static final Dimension dim = new Dimension(360, 30);
     
-    private DcField field;
+    private final DcField field;
     
     public DcFieldListElement(DcField field) {
         this.field = field;
@@ -64,12 +64,6 @@ public class DcFieldListElement extends DcListElement {
         labelField.setPreferredSize(dim);
         add(labelField);
     }
-
-	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-		field = null;
-	}
 
     @Override
     public int hashCode() {

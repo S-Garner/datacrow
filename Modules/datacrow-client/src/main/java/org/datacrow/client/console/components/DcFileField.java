@@ -53,11 +53,11 @@ public class DcFileField extends JComponent implements IComponent, ActionListene
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcFileField.class.getName());
     
+    private FileFilter filter;
+    
     private JTextField text;
     private JButton button;
-
     private ActionListener al;
-    private FileFilter filter;
     
     private FileSelectPreviewPanel previewPanel;
 

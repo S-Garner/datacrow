@@ -127,7 +127,8 @@ public abstract class Query {
         }
     }
     
-    protected PreparedStatement getPreparedStament(String sql) throws SQLException {
+    @SuppressWarnings("resource")
+	protected PreparedStatement getPreparedStament(String sql) throws SQLException {
         return DatabaseManager.getInstance().getConnection(getUser()).prepareStatement(sql);
     }
     

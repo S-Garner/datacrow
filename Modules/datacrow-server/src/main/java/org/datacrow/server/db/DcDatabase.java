@@ -77,7 +77,7 @@ public class DcDatabase {
 
     /**
      * Retrieves the current version of the database. In case the database does not have
-     * a version number asigned an undetermined version number is returned.
+     * a version number assigned an undetermined version number is returned.
      * @param connection
      */
     protected Version getVersion(Connection connection) {
@@ -108,7 +108,8 @@ public class DcDatabase {
         return new Version(major, minor, build, patch);
     }
     
-    public boolean isNew() {
+    @SuppressWarnings("resource")
+	public boolean isNew() {
     	return getVersion(DatabaseManager.getInstance().getAdminConnection()).equals(new Version(0, 0, 0, 0));
     }
     
@@ -132,7 +133,8 @@ public class DcDatabase {
      * @param connection
      * @throws Exception
      */
-    protected void initiliaze() throws SystemUpgradeException, 
+    @SuppressWarnings("resource")
+	protected void initiliaze() throws SystemUpgradeException, 
     								   DatabaseInvalidException,
     								   DatabaseInitializationException,
     								   DatabaseVersionException	{
@@ -177,14 +179,16 @@ public class DcDatabase {
         
         String sql;
         ResultSet rs = null;
+        Statement stmt = null;
         ResultSetMetaData md;
         String columnName;
         boolean remove;
         
-        Connection c = DatabaseManager.getInstance().getAdminConnection();
+        @SuppressWarnings("resource")
+		Connection c = DatabaseManager.getInstance().getAdminConnection();
         
         try {
-        	Statement stmt = c.createStatement();
+        	stmt = c.createStatement();
         
 	        for (DcModule module : DcModules.getAllModules()) {
 	            
@@ -216,15 +220,13 @@ public class DcDatabase {
 	            } catch (Exception e) {
 	                logger.error("Error while trying to cleanup unused columns", e);
 	            } finally {
-	                try { 
-	                    if (rs != null) rs.close();
-	                } catch (Exception e) {
-	                    logger.debug("Error while closing database resources", e);
-	                }
+	            	try { if (rs != null) rs.close(); } catch (Exception e) {logger.error("Could not close database resource");}
 	            }
 	        }
         } catch (SQLException e) {
             logger.error("Error while trying to cleanup unused columns", e);
+        } finally {
+            try { if (stmt != null) stmt.close(); } catch (Exception e) {logger.error("Could not close database resource");}
         }
     }
 
@@ -320,7 +322,8 @@ public class DcDatabase {
         }
     }
     
-    private void initializeColumns(Connection connection, ResultSetMetaData metaData, DcModule module) throws SQLException {
+    @SuppressWarnings("resource")
+	private void initializeColumns(Connection connection, ResultSetMetaData metaData, DcModule module) throws SQLException {
         String tablename = module.getTableName();
         
         String column;
@@ -369,7 +372,8 @@ public class DcDatabase {
         }
     }
 
-    private void executeQuery(Connection connection, String sql) {
+    @SuppressWarnings("resource")
+	private void executeQuery(Connection connection, String sql) {
         try {
             executeQuery(connection.prepareStatement(sql));
         } catch (Exception e) {

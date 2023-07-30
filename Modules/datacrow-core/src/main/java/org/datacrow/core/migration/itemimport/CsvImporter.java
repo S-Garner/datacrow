@@ -85,7 +85,8 @@ public class CsvImporter extends ItemImporter {
     
     @Override
     protected void initialize() throws Exception {
-        InputStreamReader reader = new InputStreamReader(new FileInputStream(file), getCharacterSet());
+        @SuppressWarnings("resource")
+		InputStreamReader reader = new InputStreamReader(new FileInputStream(file), getCharacterSet());
         CSVReader csvReader = new CSVReader(reader, getSeperator());
         String[] headers = csvReader.readNext();
         
@@ -93,7 +94,9 @@ public class CsvImporter extends ItemImporter {
         for (String field : headers)
             fields.add(field);
 
-        csvReader.close();
+        try { if (csvReader != null) csvReader.close(); } catch (Exception e) {logger.error("Could not close resource");}
+        try { if (reader != null) reader.close(); } catch (Exception e) {logger.error("Could not close resource");}
+        
         mappings.setFields(moduleIdx, fields);
     }
 

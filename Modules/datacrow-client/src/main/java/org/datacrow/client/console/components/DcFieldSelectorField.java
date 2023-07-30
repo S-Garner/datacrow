@@ -55,7 +55,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class DcFieldSelectorField extends JComponent implements IComponent, ActionListener {
 
-	private Map<DcField, JCheckBox> componentMap = new LinkedHashMap<DcField, JCheckBox>();
+	private final Map<DcField, JCheckBox> componentMap = new LinkedHashMap<DcField, JCheckBox>();
     private final int module;
 
     public DcFieldSelectorField(int module, boolean includeID, boolean showMenu) {
@@ -84,7 +84,6 @@ public class DcFieldSelectorField extends JComponent implements IComponent, Acti
     @Override
     public void clear() {
         componentMap.clear();
-        componentMap = null;
     }    
 
     public void invertSelection() {

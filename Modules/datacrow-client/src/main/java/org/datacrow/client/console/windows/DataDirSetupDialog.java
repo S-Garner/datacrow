@@ -59,27 +59,26 @@ import org.datacrow.server.db.DatabaseManager;
 
 public class DataDirSetupDialog extends NativeDialog implements ActionListener, IClient {
     
-    private DcProgressBar progressBar = new DcProgressBar();
-    private DcFileField selectDir = ComponentFactory.getFileField(false, true); 
+    private final DcProgressBar progressBar = new DcProgressBar();
+    private final DcFileField selectDir = ComponentFactory.getFileField(false, true); 
     
-    private JTextArea textLog = ComponentFactory.getTextArea();
+    private final JTextArea textLog = ComponentFactory.getTextArea();
     
-    private DcCheckBox cbMoveFiles = ComponentFactory.getCheckBox("Move files from current to new user folder");
-    private JButton buttonStart = ComponentFactory.getButton("OK");
+    private final DcCheckBox cbMoveFiles = ComponentFactory.getCheckBox("Move files from current to new user folder");
+    private final JButton buttonStart = ComponentFactory.getButton("OK");
     
     private boolean success = false;
     private boolean shutdown = false;
     private boolean restart = true;
     private boolean moveEnabled = true;
     
-    private String[] args;
+    private final String[] args;
     private final String selectedDataDir;
     
     private boolean overwrite = false;
     
     static {
         // as the folder structure has not yet been setup, allow this method to initialize the settings
-        
         if (DcSettings.getSettings() == null)
             DcSettings.initialize();
     }

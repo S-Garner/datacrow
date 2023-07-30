@@ -76,6 +76,7 @@ public class SynchService {
 	    
 	    protected Task() {}
 	    
+		@SuppressWarnings("resource")
 		@Override
 		public void run() {
 	    	

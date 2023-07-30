@@ -176,12 +176,12 @@ public class PluginClassLoader extends ClassLoader {
      * Returns a resource from the path or JAR files as an InputStream
      * @param name a resource name.
      */
+	@SuppressWarnings("resource")
 	@Override
     public InputStream getResourceAsStream(String name) {
         // try the system loader first
         InputStream is = super.getSystemResourceAsStream(name);
-        if (is != null)
-            return is;
+        if (is != null) return is;
 
         File resFile;
 
@@ -189,10 +189,9 @@ public class PluginClassLoader extends ClassLoader {
         resFile = new File(path, name);
         try { // read the byte codes
             is = new FileInputStream(resFile);
-        } catch (Exception e) {
-        }
-        if (is != null)
-            return is;
+        } catch (Exception e) {}
+        
+        if (is != null) return is;
 
         // try sub directories
         resFile = new File(path);
@@ -208,8 +207,7 @@ public class PluginClassLoader extends ClassLoader {
                         logger.debug("Error while processing the plugin file", e);
                     }
                     
-                    if (is != null)
-                        return is;
+                    if (is != null) return is;
                 }
             }
         }

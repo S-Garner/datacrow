@@ -42,7 +42,7 @@ import org.datacrow.core.utilities.filefilters.FileNameFilter;
 
 public class FileSystemTreeModel extends DefaultTreeModel {
 
-    private Collection<TreeModelListener> listeners = new ArrayList<TreeModelListener>();
+    private final Collection<TreeModelListener> listeners = new ArrayList<TreeModelListener>();
     private FileNameFilter filter;
 
     public FileSystemTreeModel(File rootDirectory, FileNameFilter filter) {

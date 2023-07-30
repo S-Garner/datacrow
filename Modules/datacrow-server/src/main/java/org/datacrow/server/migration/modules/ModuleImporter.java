@@ -101,10 +101,10 @@ public class ModuleImporter {
 		
 		@Override
 		public void run() {
-            ZipFile zf = null;
+            @SuppressWarnings("resource")
+			ZipFile zf = null;
 		    
 		    try {
-		        
 		        client.notifyNewTask();
 		        
     		    zf = new ZipFile(file);

@@ -37,9 +37,9 @@ import org.datacrow.client.console.Layout;
 
 public class DcPanel extends JPanel {
 
-	private String helpIndex = "";
-
-    private DcProgressBar progress = new DcProgressBar();
+    private final DcProgressBar progress = new DcProgressBar();
+    
+    private String helpIndex = "";
     private String title;
     private ImageIcon icon;
 
@@ -129,7 +129,6 @@ public class DcPanel extends JPanel {
     
     public void clear() {
         helpIndex = null;
-        progress = null;
         title = null;
         icon = null;
     }

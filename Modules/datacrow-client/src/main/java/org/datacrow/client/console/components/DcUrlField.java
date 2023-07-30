@@ -49,10 +49,10 @@ import org.datacrow.core.IconLibrary;
 
 public class DcUrlField extends JComponent implements IComponent, ActionListener, MouseListener {
 
-    private DcShortTextField text;
+    private final DcShortTextField text;
 
     public DcUrlField(int maxLength) {
-        text = ComponentFactory.getShortTextField(maxLength);
+    	text = ComponentFactory.getShortTextField(maxLength);
         text.setForeground(new Color(120,120,255));
         
         setBounds(0,0,0,0);
@@ -73,9 +73,7 @@ public class DcUrlField extends JComponent implements IComponent, ActionListener
     }
     
     @Override
-    public void clear() {
-        text = null;
-    }
+    public void clear() {}
     
     @Override
     public Object getValue() {

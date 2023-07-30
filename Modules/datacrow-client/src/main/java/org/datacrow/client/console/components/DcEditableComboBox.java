@@ -29,7 +29,7 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.renderers.ComboBoxRenderer;
 import org.datacrow.core.resources.DcResources;
 
-public class DcEditableComboBox extends DcComboBox {
+public class DcEditableComboBox extends DcComboBox<Object> {
 
     public DcEditableComboBox() {
         super(new Object[] {DcResources.getText("lblIsFilled"),DcResources.getText("lblIsEmpty")});

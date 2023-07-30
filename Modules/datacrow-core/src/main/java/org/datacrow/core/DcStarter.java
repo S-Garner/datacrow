@@ -135,7 +135,7 @@ public class DcStarter {
             client.notifyWarning(
                     "The installation directory could not be determined. " +
                     "Please set the DATACROW_HOME environment variable or supply the -dir:<installation directory> parameter. " +
-                    "The DATACROW_HOME variable value should point to the Data Crow intallation directory.");
+                    "The DATACROW_HOME variable value should point to the Data Crow installation directory.");
             intialized = false;
         } else {
             installationDir = installationDir.replaceAll("\\\\", "/");

@@ -42,6 +42,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 public class DcIconSelectField extends DcImageLabel implements MouseListener {
 
     private final Dimension size;
+    
     private boolean changed = false;
     
     public DcIconSelectField(Dimension size) {

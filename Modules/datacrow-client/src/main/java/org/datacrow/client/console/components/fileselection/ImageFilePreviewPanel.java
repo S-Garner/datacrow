@@ -41,12 +41,12 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class ImageFilePreviewPanel extends FileSelectPreviewPanel {
 
-    private DcImageLabel preview = new DcImageLabel();
+    private final DcImageLabel preview = new DcImageLabel();
 
     public ImageFilePreviewPanel() {
         build();
-        preview.setEnabled(false);
         
+        preview.setEnabled(false);
         preview.setMinimumSize(new Dimension(250, 250));
         preview.setPreferredSize(new Dimension(250, 250));
     }
@@ -75,43 +75,5 @@ public class ImageFilePreviewPanel extends FileSelectPreviewPanel {
         add(panel, Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                  new Insets( 0, 5, 0, 5), 0, 0));        
-        
-        
     }    
-
-    /*
-    
-    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ImageFilePreviewPanel.class.getName());
-    
-    private DcPictureField preview = ComponentFactory.getPictureField(true, false);
-    
-    public ImageFilePreviewPanel() {
-        build();
-    }
-    
-    @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        String propertyName = e.getPropertyName();
-        
-        // Make sure we are responding to the right event.
-        if (propertyName.equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
-            preview.setValue(null);
-            
-            File selection = (File) e.getNewValue();
-
-            try {
-                DcImageIcon icon = new DcImageIcon(selection);
-                preview.setValue(icon);
-            } catch (Exception exp) {
-                logger.error(exp, exp);
-            }
-        }
-    }
-    
-    private void build() {
-        setLayout(Layout.getGBL());
-        add(preview, Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
-                ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-                 new Insets( 0, 5, 0, 5), 0, 0));
-    } */
 }

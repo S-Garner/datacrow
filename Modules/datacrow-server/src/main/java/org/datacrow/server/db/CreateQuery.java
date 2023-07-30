@@ -49,6 +49,7 @@ public class CreateQuery extends Query {
     }
 
     @Override
+    @SuppressWarnings("resource")
     public List<DcObject> run() {
         Connection conn = null;
         Statement stmt = null;
@@ -69,7 +70,7 @@ public class CreateQuery extends Query {
         
         String sql = "CREATE MEMORY TABLE " + module.getTableName() + "\r\n(" + columns + ");";
         
-        try { 
+        try {
             conn = DatabaseManager.getInstance().getAdminConnection();
             stmt = conn.createStatement();
             stmt.execute(sql);

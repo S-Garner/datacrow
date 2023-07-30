@@ -73,8 +73,8 @@ public class DcToolBar extends JToolBar implements ActionListener, MouseListener
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcToolBar.class.getName());
     
-    private DcShortTextField fldFilter = ComponentFactory.getShortTextField(255);
-    private DcComboBox comboFilters = ComponentFactory.getComboBox();
+    private final DcShortTextField fldFilter = ComponentFactory.getShortTextField(255);
+    private final DcComboBox<Object> comboFilters = ComponentFactory.getComboBox();
     
     private int moduleIdx;
 

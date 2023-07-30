@@ -101,7 +101,8 @@ public class DcWebServer {
         SslConnectionFactory tls = new SslConnectionFactory(sslContextFactory, http11.getProtocol());
 
         // The ServerConnector instance.
-        ServerConnector connector = new ServerConnector(server, tls, http11);
+        @SuppressWarnings("resource")
+		ServerConnector connector = new ServerConnector(server, tls, http11);
         connector.setPort(port);
         connector.setHost(ip);
         connector.setIdleTimeout(30000);

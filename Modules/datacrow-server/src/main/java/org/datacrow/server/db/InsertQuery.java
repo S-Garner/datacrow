@@ -63,6 +63,7 @@ public class InsertQuery extends Query {
     }
     
     @Override
+    @SuppressWarnings("resource")
     public List<DcObject> run() {
         Collection<Object> values = new ArrayList<Object>();
         StringBuffer columns = new StringBuffer();

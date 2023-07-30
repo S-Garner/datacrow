@@ -89,17 +89,19 @@ public class View extends DcPanel implements ListSelectionListener, IView {
     public static final int _TYPE_SEARCH = 0;
     public static final int _TYPE_INSERT = 1;
     
-    protected IViewComponent vc;
-    protected DcTask task;
+    protected final IViewComponent vc;
+
+    private final IGroupingPane groupingPane;
+    private final int type;
+    private final int index;
     
     protected DcViewDivider vdQuickPane;
     protected DcViewDivider vdGroupingPane;
     protected ViewActionPanel actionPanel;
     
-    private IGroupingPane groupingPane;
     protected QuickViewPanel quickView;
     
-    private StatusBar statusBar;;
+    private StatusBar statusBar;
     
     protected boolean updateQuickView = true;
     private boolean checkForChanges = true;
@@ -116,8 +118,7 @@ public class View extends DcPanel implements ListSelectionListener, IView {
     
     private String parentID;
     
-    private final int type;
-    private final int index;
+    protected DcTask task;
     
     private final ViewMouseListener vml = new ViewMouseListener();
     

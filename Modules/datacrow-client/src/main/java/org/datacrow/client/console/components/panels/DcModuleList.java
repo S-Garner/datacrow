@@ -62,10 +62,10 @@ public class DcModuleList extends DcList implements ListSelectionListener {
     private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcModuleList.class.getName());
     
+    protected final Map<Integer, List<ModulePanel>> elements;
+    
     protected int currentIndex = -1;
     protected boolean listenForChanges = true;
-    
-    protected Map<Integer, List<ModulePanel>> elements;
     
 	public DcModuleList() {
         super();
@@ -79,7 +79,6 @@ public class DcModuleList extends DcList implements ListSelectionListener {
 
 	public void clear() {
 	    elements.clear();
-	    elements = null;
 	}
 	
     @Override

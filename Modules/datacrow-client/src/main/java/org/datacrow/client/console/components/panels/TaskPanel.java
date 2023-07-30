@@ -42,20 +42,14 @@ public class TaskPanel extends JPanel {
     public static final int _DUPLICATE_PROGRESSBAR = 0;
     public static final int _SINGLE_PROGRESSBAR = 1;
     
-    private JTextArea textLog = ComponentFactory.getTextArea();
-    private JProgressBar pb = new JProgressBar();
-    private JProgressBar pb2 = new JProgressBar();
+    private final JTextArea textLog = ComponentFactory.getTextArea();
+    private final JProgressBar pb = new JProgressBar();
+    private final JProgressBar pb2 = new JProgressBar();
     
     public TaskPanel(int type) {
         build(type);
     }
     
-    public void destroy() {
-        pb = null;
-        pb2 = null;
-        textLog = null;
-    }
-
     private void build(int type) {
         setLayout(Layout.getGBL());
 

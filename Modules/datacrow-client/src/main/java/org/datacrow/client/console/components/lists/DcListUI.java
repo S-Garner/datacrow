@@ -58,6 +58,7 @@ public class DcListUI extends BasicListUI {
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcListUI.class.getName());
     
     protected final static int columnsPerRowChanged = cellRendererChanged << 1;
+    
     protected int columnsPerRow = 1;
     protected int[] cellWidths    = null;
 

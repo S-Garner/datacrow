@@ -76,8 +76,9 @@ public class ViewPopupMenu extends DcPopupMenu implements ActionListener, IMerge
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ViewPopupMenu.class.getName());
     
-    private DcObject dco;
     private final int viewIdx;
+    
+    private final DcObject dco;
     
     public ViewPopupMenu(DcObject dco, int viewType, int viewIdx, int moduleIdx) {
         

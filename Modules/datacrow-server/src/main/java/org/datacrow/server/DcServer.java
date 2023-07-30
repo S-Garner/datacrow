@@ -31,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.util.Date;
 import java.util.Properties;
@@ -165,8 +166,13 @@ public class DcServer implements Runnable, IStarterClient, IClient {
         }
         
         if (installationDir.length() == 0) {
-            installationDir = FileSystems.getDefault().getPath(".").toAbsolutePath().getParent().toString();
+        	@SuppressWarnings("resource")
+			FileSystem fs = FileSystems.getDefault();
+        	
+            installationDir = fs.getPath(".").toAbsolutePath().getParent().toString();
             installationDir = !installationDir.endsWith("/") && !installationDir.endsWith("\\") ? installationDir + File.separatorChar : installationDir;
+            
+            try { if (fs != null) fs.close(); } catch (Exception e) {logger.error("Could not close file system object");}
         }
         
         File file = new File(installationDir, "datacrow.credentials");
@@ -438,6 +444,7 @@ public class DcServer implements Runnable, IStarterClient, IClient {
         }
     }   
 	
+	@SuppressWarnings("resource")
 	@Override
 	public void run() {
     	

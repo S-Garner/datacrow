@@ -43,9 +43,4 @@ public abstract class DcListElement extends JPanel {
         if (getParent() != null)
             getParent().remove(this);
     }
-    
-	@Override
-	protected void finalize() throws Throwable {
-		clear();
-	}
 }

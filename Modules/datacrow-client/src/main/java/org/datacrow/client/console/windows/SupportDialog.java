@@ -78,7 +78,8 @@ public class SupportDialog extends DcDialog implements ActionListener {
             GUI.getInstance().displayWarningMessage(DcResources.getText("msgSelectTargetFolderFirst"));
         }
         
-        FileOutputStream fos = null;
+        @SuppressWarnings("resource")
+		FileOutputStream fos = null;
         ZipOutputStream zipOut = null;
         
         
@@ -102,10 +103,8 @@ public class SupportDialog extends DcDialog implements ActionListener {
             GUI.getInstance().displayErrorMessage(DcResources.getText("msgErrorCreatingSupportFile", e.getMessage()));
             logger.error(e, e);
         } finally {
-            try {
-                zipOut.close();
-                fos.close();
-            } catch (Exception ignore) {}
+        	try { if (fos != null) fos.close(); } catch (Exception e) {logger.error("Could not close resource");}
+        	try { if (zipOut != null) zipOut.close(); } catch (Exception e) {logger.error("Could not close resource");}
         }
     }
     

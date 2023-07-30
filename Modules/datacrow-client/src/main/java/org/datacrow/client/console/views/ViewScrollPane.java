@@ -35,7 +35,7 @@ import javax.swing.JScrollPane;
 
 public class ViewScrollPane extends JScrollPane implements AdjustmentListener {
 
-    private IViewComponent component;
+    private final IViewComponent component;
     
     public ViewScrollPane(View view) {
         super((JComponent) view.getViewComponent());

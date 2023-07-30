@@ -66,7 +66,7 @@ public class DcTagField extends JTextArea implements IComponent, KeyListener, Mo
     
     private static final String separator = "\t";
     
-    private int mappingModIdx;
+    private final int mappingModIdx;
     
     private List<DcObject> existingTags = new ArrayList<DcObject>();
     

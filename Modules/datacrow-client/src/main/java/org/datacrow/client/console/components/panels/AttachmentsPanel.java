@@ -85,9 +85,8 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     
 	private final String objectID;
 	
-    private List<DcListElement> elementsAll = new ArrayList<DcListElement>();
-    private List<DcListElement> elementsCurrent = new ArrayList<DcListElement>();
-    
+    private final List<DcListElement> elementsAll = new ArrayList<DcListElement>();
+    private final List<DcListElement> elementsCurrent = new ArrayList<DcListElement>();
     private final DcAttachmentList list = new DcAttachmentList();
     
     private final boolean readonly;
@@ -233,9 +232,7 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     public void clear() {
         if (elementsAll != null) elementsAll.clear();
         if (elementsCurrent != null) elementsCurrent.clear();
-        
-        elementsAll = null;
-        elementsCurrent = null;
+        if (list != null) list.clear();
         
         super.clear();
     }

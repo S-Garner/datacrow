@@ -190,7 +190,8 @@ public class SystemUpgrade {
     
     private void removeSelfReferencingItems() {
     	
-    	Connection conn = DatabaseManager.getInstance().getAdminConnection();
+    	@SuppressWarnings("resource")
+		Connection conn = DatabaseManager.getInstance().getAdminConnection();
         Connector connector = DcConfig.getInstance().getConnector();
         Statement stmt = null;
     	
@@ -234,6 +235,7 @@ public class SystemUpgrade {
     }
     
     private void renameRecordLabel() {
+    	@SuppressWarnings("resource")
         Connection conn = DatabaseManager.getInstance().getAdminConnection();
         Connector connector = DcConfig.getInstance().getConnector();
         Statement stmt = null;
@@ -353,6 +355,7 @@ public class SystemUpgrade {
     }
     
     private void saveIcons() {
+    	@SuppressWarnings("resource")
         Connection conn = DatabaseManager.getInstance().getAdminConnection();
         Connector connector = DcConfig.getInstance().getConnector();
         connector.displayMessage("Data Crow will now save all icons to the image folder");
@@ -396,6 +399,7 @@ public class SystemUpgrade {
     }
     
     private void renumberMusicTracks() {
+    	@SuppressWarnings("resource")
         Connection conn = DatabaseManager.getInstance().getAdminConnection();
         Connector connector = DcConfig.getInstance().getConnector();
         connector.displayMessage("Data Crow will now convert the Music Track numbers");
@@ -545,7 +549,8 @@ public class SystemUpgrade {
         }
     }
     
-    private void checkAudioTables() {
+    @SuppressWarnings("resource")
+	private void checkAudioTables() {
         Map<String, String> rename = new HashMap<String, String>();
         rename.put("x_musicalbum_artists", "x_music_album_artists");
         rename.put("x_musicalbum_container", "x_music_album_container");
@@ -567,6 +572,7 @@ public class SystemUpgrade {
         rename.put("musictrack_state", "music_track_state");
         rename.put("musictrack_template", "music_track_template");
 
+        @SuppressWarnings("resource")
         Connection conn = DatabaseManager.getInstance().getAdminConnection();
         
         Connector connector = DcConfig.getInstance().getConnector();
@@ -859,8 +865,8 @@ public class SystemUpgrade {
             	} catch (Exception e) {
             		logger.error("migration of " + targetTable + " has failed", e);
             	} finally {
-            		if (rs != null) rs.close();
-            		if (ps != null) ps.close();
+            		try { if (rs != null) rs.close(); } catch (Exception e) {logger.error("Could not close resource");}
+            		try { if (ps != null) ps.close(); } catch (Exception e) {logger.error("Could not close resource");}
             	}
             }
             

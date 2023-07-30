@@ -58,8 +58,8 @@ public class DcField implements Serializable {
     private int maximumLength;
     private int fieldType;
     private int valueType;
-    private int index;
-    private int module;
+    private final int index;
+    private final int module;
     private int sourceModuleIdx;
     private String databaseFieldName;
     private String resourceKey;
@@ -103,24 +103,23 @@ public class DcField implements Serializable {
                     boolean searchable,
                     int maximumLength,
                     int fieldType,
-                    int modRef,
+                    int sourceModuleIdx,
                     int valueType,
                     String databaseFieldName) {
 
         this.enabled = enabled;
-        
-        setIndex(index);
-        setModule(module);
-        setLabel(label);
-        setSystemName(label);
-        setReadOnly(readonly);
-        setSearchable(searchable);
-        setFieldType(fieldType);
-        setMaximumLength(maximumLength);
-        setValueType(valueType);
-        setDatabaseFieldName(databaseFieldName);
-        setUiOnly(uiOnly);
-        setSourceModuleIdx(modRef);
+        this.index = index;
+        this.module = module;
+        this.uiOnly = uiOnly;
+        this.databaseFieldName = databaseFieldName;
+        this.sourceModuleIdx = sourceModuleIdx;
+        this.label = label;
+        this.systemName = label;
+        this.readonly = readonly;
+        this.searchable = searchable;
+        this.fieldType = fieldType;
+        this.valueType = valueType;
+        this.maximumLength = maximumLength;
     }
     
     public boolean isLoanField() {
@@ -136,14 +135,6 @@ public class DcField implements Serializable {
             getIndex() == DcObject._SYS_LOANDURATION;
     }
     
-    /**
-     * Sets the source module index.
-     * @param modRef The module index.
-     */
-    public void setSourceModuleIdx(int modRef) {
-        this.sourceModuleIdx = modRef;
-    }
-
     /**
      * The source module index.
      */
@@ -163,14 +154,6 @@ public class DcField implements Serializable {
     }
     
     /**
-     * Sets the unique field index.
-     * @param index
-     */
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    /**
      * The unique field index.
      */
     public int getIndex() {
@@ -178,26 +161,10 @@ public class DcField implements Serializable {
     }
 
     /**
-     * Set the module to which this field belongs.
-     * @param module The module index.
-     */
-    public void setModule(int module) {
-        this.module = module;
-    }
-
-    /**
      * The module to which this field belongs.
      */
     public int getModule() {
         return module;
-    }
-
-    /**
-     * When a field is marked as UI only its value will not be stored in the database.
-     * @param uiOnly
-     */
-    public void setUiOnly(boolean uiOnly) {
-        this.uiOnly = uiOnly;
     }
 
     /**
@@ -242,14 +209,6 @@ public class DcField implements Serializable {
         
         // if the field definitions do not specify anything, the system default applies 
         return enabled;
-    }
-
-    /**
-     * Indicate if the user is allowed to search on this field.
-     * @param searchable
-     */
-    public void setSearchable(boolean searchable) {
-        this.searchable = searchable;
     }
 
     /**
@@ -382,60 +341,6 @@ public class DcField implements Serializable {
     	    maximumLength = getFieldType() == UIComponents._LONGTEXTFIELD ? 0 : 255;
     	
     	return maximumLength;
-    }
-
-    /**
-     * The display label.
-     */
-    private void setLabel(String s) {
-        label = s;
-    }
-
-    /**
-     * The system name.
-     */
-    private void setSystemName(String s) {
-        systemName = s;
-    }
-
-    /**
-     * Indicate if the value of this field can edited.
-     */
-    public void setReadOnly(boolean b) {
-        readonly = b;
-    }
-
-    /**
-     * The maximum length of the value of this field.
-     * @param i
-     */
-    public void setMaximumLength(int i) {
-        maximumLength = i;
-    }
-
-    /**
-     * Sets the component type.
-     * @param index
-     */
-    public void setFieldType(int index) {
-        fieldType = index;
-    }
-
-    /**
-     * Sets the value type.
-     * @see DcRepository.ValueTypes
-     * @param index
-     */
-    public void setValueType(int index) {
-        valueType = index;
-    }
-
-    /**
-     * Sets the database column name.
-     * @param s
-     */
-    public void setDatabaseFieldName(String s) {
-        databaseFieldName = s;
     }
 
     @Override

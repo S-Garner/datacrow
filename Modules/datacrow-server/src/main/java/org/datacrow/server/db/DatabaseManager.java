@@ -164,7 +164,8 @@ public class DatabaseManager {
      * @return The current version. If version information could not be found an undetermined
      * version is returned.
      */
-    public Version getVersion() {
+    @SuppressWarnings("resource")
+	public Version getVersion() {
         Connection c = getAdminConnection();
         return c != null ? db.getVersion(c) : new Version(0,0,0,0);
     }
@@ -179,14 +180,16 @@ public class DatabaseManager {
     /**
      * Apply settings on the databases. 
      */
-    public void applySettings() {
+    @SuppressWarnings("resource")
+	public void applySettings() {
         db.setDbProperies(getAdminConnection());
     }
     
     /**
      * Checks whether the database is available. It could be the database is locked.
      */
-    public boolean isLocked() {
+    @SuppressWarnings("resource")
+	public boolean isLocked() {
         return getAdminConnection() == null;
     }
     
@@ -251,6 +254,7 @@ public class DatabaseManager {
     /**
      * Returns a new connection to the database based on the logged on user.
      */
+	@SuppressWarnings("resource")
 	public Connection getConnection(SecuredUser su) {
     	
     	Connection connection = connections.get(su.getUser().getID());
@@ -278,6 +282,7 @@ public class DatabaseManager {
         return connection;
     }
 	
+	@SuppressWarnings("resource")
 	public void doDatabaseHealthCheck() throws DatabaseInvalidException {
         try {
             String name = db.getName();
@@ -289,6 +294,8 @@ public class DatabaseManager {
 	            
 	            Version v = getVersion();
 	            
+	            try { if (c != null) c.close(); } catch (Exception e) {logger.error("Could not close database resource");}
+	            
 	            if (v.isOlder(new Version(3, 12, 5, 0)))
 	            	throw new DatabaseInvalidException("The version of the database [" + v.toString() + "] " +
 	            			"is not supported by this version of Data Crow. First upgrade to version 3.12.5. " +
@@ -296,7 +303,7 @@ public class DatabaseManager {
 	            			"Data Crow. NOTE: It is always important to make backups; before and after upgrading " +
 	            			"to version 3.12.5 make a backup of Data Crow (Tools > Backup & Restore).");
 	            
-	            c.close();
+	            
             }
         } catch (SQLException e) {
             int errorCode = e.getErrorCode();
@@ -405,7 +412,8 @@ public class DatabaseManager {
      * @param log Indicates if information on the query should be logged.
      * @return The result set.
      */
-    public ResultSet executeSQL(SecuredUser su, String sql) throws SQLException {
+    @SuppressWarnings("resource")
+	public ResultSet executeSQL(SecuredUser su, String sql) throws SQLException {
         Connection c = getConnection(su);
         Statement stmt = c.createStatement();
         return stmt.executeQuery(sql);
@@ -421,7 +429,8 @@ public class DatabaseManager {
         boolean success = false;
         
         try {
-            Connection c = getConnection(su);
+            @SuppressWarnings("resource")
+			Connection c = getConnection(su);
             stmt = c.createStatement();
             success = stmt.execute(sql);
         } finally {
@@ -441,7 +450,8 @@ public class DatabaseManager {
      * @param log Indicates if information on the query should be logged.
      * @return The result set.
      */
-    public ResultSet executeQueryAsAdmin(String sql) throws SQLException {
+    @SuppressWarnings("resource")
+	public ResultSet executeQueryAsAdmin(String sql) throws SQLException {
         Connection c = getAdminConnection();
         Statement stmt = c.createStatement(); // can't close the Statement since this would close the rs as well.
         return stmt.executeQuery(sql);
@@ -453,7 +463,8 @@ public class DatabaseManager {
      * @param log Indicates if information on the query should be logged.
      * @return The result set.
      */
-    public void executeAsAdmin(String sql) throws SQLException {
+    @SuppressWarnings("resource")
+	public void executeAsAdmin(String sql) throws SQLException {
         Connection c = getAdminConnection();
         Statement stmt = null;
         
@@ -703,6 +714,7 @@ public class DatabaseManager {
      * @param user
      * @param admin
      */
+    @SuppressWarnings("resource")
     protected void setPriviliges(DcModule module, String user, boolean admin) {
 
        Connection c = null;

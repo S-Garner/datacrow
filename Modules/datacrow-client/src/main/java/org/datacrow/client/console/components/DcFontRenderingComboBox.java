@@ -27,7 +27,7 @@ package org.datacrow.client.console.components;
 
 import org.datacrow.core.resources.DcResources;
 
-public class DcFontRenderingComboBox extends DcComboBox {
+public class DcFontRenderingComboBox extends DcComboBox<String> {
 
     public DcFontRenderingComboBox() {
         super();

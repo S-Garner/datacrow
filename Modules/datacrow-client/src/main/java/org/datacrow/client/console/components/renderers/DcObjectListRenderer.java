@@ -38,8 +38,7 @@ public class DcObjectListRenderer extends DcListRenderer<Object>  {
 
 	private boolean render = true;
     
-    public DcObjectListRenderer() {
-    }
+    public DcObjectListRenderer() {}
 
     public DcObjectListRenderer(boolean evenOddColors) {
         super(evenOddColors);

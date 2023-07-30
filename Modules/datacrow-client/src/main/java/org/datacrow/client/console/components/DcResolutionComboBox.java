@@ -27,7 +27,7 @@ package org.datacrow.client.console.components;
 
 import org.datacrow.core.settings.objects.DcDimension;
 
-public class DcResolutionComboBox extends DcComboBox {
+public class DcResolutionComboBox extends DcComboBox<DcDimension> {
 
 	public DcResolutionComboBox() {
         super();

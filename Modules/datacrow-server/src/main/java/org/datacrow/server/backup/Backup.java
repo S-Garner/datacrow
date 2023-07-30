@@ -136,7 +136,8 @@ public class Backup extends Thread {
         File[] files = getFiles();
         client.notifyTaskStarted(files.length);
         
-        FileOutputStream fos = null;
+        @SuppressWarnings("resource")
+		FileOutputStream fos = null;
         ZipOutputStream zipOut = null;
         
         try {
@@ -175,10 +176,8 @@ public class Backup extends Thread {
             client.notifyError(e);
             client.notifyWarning(DcResources.getText("msgBackupFinishedUnsuccessful"));
         } finally {
-            try {
-                if (zipOut != null) zipOut.close();
-                if (fos != null) fos.close();
-            } catch (Exception ignore) {}
+        	try { if (fos != null) fos.close(); } catch (Exception e) {logger.error("Could not close resource");}
+        	try { if (zipOut != null) zipOut.close(); } catch (Exception e) {logger.error("Could not close resource");}
         }
         
         DcSettings.set(DcRepository.Settings.stBackupLocation, directory.toString());

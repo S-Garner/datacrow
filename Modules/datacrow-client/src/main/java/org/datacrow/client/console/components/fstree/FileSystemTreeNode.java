@@ -36,10 +36,11 @@ import org.datacrow.core.utilities.filefilters.FileNameFilter;
 
 public class FileSystemTreeNode extends DefaultMutableTreeNode {
 
-    private File file;
+	private final List<String> children = new ArrayList<String>();
+    private final File file;
+    private final FileNameFilter filter;
+    
     boolean selected;
-    private List<String> children = new ArrayList<String>();
-    private FileNameFilter filter;
 
     public FileSystemTreeNode(File file, FileNameFilter filter) {
         this.file = file;

@@ -37,7 +37,7 @@ import org.datacrow.core.DcRepository;
 
 class FileSystemTreeNodeRenderer implements TreeCellRenderer {
 
-    private JCheckBox leafRenderer = new JCheckBox();
+    private final JCheckBox leafRenderer = new JCheckBox();
     
     public FileSystemTreeNodeRenderer() {}
     
