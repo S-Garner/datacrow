@@ -17,9 +17,9 @@ Data Crow version 4.10                        Released on 2023-08-xx
 [Fixed]
 - Incorrect alignment of the filter label on the related items tab.
 - Update all dialog; could not create new reference using the icon for the reference / references field.
+- Create multiple items dialog; sometimes, for custom modules, no fields are displayed. Now, all enabled and editable fields are displayed. 
 
 [Main things TODO]
-- File upload - also add info to the zip file: file size, file date
 - Image sizes - maximum image size
 - Store images to temp folder for online searches to prevent high memory usage (byte[] stored in memory)
 

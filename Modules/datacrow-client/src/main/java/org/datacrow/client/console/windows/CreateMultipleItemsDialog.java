@@ -30,28 +30,40 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
+import org.datacrow.client.console.components.DcPopupMenu;
 import org.datacrow.client.console.components.tables.DcTable;
 import org.datacrow.client.console.windows.itemforms.ItemForm;
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.modules.DcPropertyModule;
+import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcProperty;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.objects.helpers.MusicTrack;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
-public class CreateMultipleItemsDialog extends DcDialog implements ActionListener {
+public class CreateMultipleItemsDialog extends DcDialog implements ActionListener, MouseListener {
     
 	private final int moduleIdx;
 	
@@ -68,6 +80,8 @@ public class CreateMultipleItemsDialog extends DcDialog implements ActionListene
 		
 		this.moduleIdx = moduleIdx;
 		this.table = new DcTable(DcModules.get(moduleIdx), false, false);
+		
+		table.addMouseListener(this);
 		
 		setTitle(DcResources.getText("lblAddMultiple"));
 		
@@ -115,6 +129,29 @@ public class CreateMultipleItemsDialog extends DcDialog implements ActionListene
 		table.clear();
     }
 
+	private int[] getFields() {
+		DcModule module = DcModules.get(moduleIdx);
+		
+		Collection<Integer> fields = new ArrayList<Integer>();
+		DcField field;
+        for (DcFieldDefinition definition : module.getFieldDefinitions().getDefinitions()) {
+        	field = module.getField(definition.getIndex());
+            if (	definition.isEnabled() && 
+            		!field.isReadOnly() && 
+            		!field.isUiOnly() && 
+            		field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION &&
+            		field.getValueType() != DcRepository.ValueTypes._BOOLEAN) 
+                fields.add(Integer.valueOf(definition.getIndex()));
+        }
+        
+        int[] result = new int[fields.size()];
+        int i = 0;
+        for (Integer fieldIdx : fields)
+            result[i++] = fieldIdx.intValue();
+        
+        return result;
+	}
+	
 	private void build() {
         JScrollPane sp = new JScrollPane(table);
         sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -132,6 +169,9 @@ public class CreateMultipleItemsDialog extends DcDialog implements ActionListene
                     MusicTrack._F_TRACKNUMBER, 
                     MusicTrack._A_TITLE,
                     MusicTrack._J_PLAYLENGTH});
+        } else {
+        	table.setIgnoreSettings(true);
+            table.setVisibleColumns(getFields());
         }
         
         getContentPane().setLayout(Layout.getGBL());
@@ -167,6 +207,8 @@ public class CreateMultipleItemsDialog extends DcDialog implements ActionListene
 			close();
 		else if (ae.getActionCommand().equals("add"))
 			add();
+		else if (ae.getActionCommand().equals("delete"))
+			table.remove(table.getSelectedRows());
     }
 	
 	private class SavingTask extends Thread {
@@ -174,6 +216,9 @@ public class CreateMultipleItemsDialog extends DcDialog implements ActionListene
 		public void run() {
 		    DcObject dco;
 		    Connector connector = DcConfig.getInstance().getConnector();
+		    
+		    StringBuffer sb = new StringBuffer();
+		    
 			for (int row = table.getRowCount(); row > 0; row--) {
 				dco = table.getItemAt(row - 1);
 				dco.setIDs();
@@ -186,9 +231,49 @@ public class CreateMultipleItemsDialog extends DcDialog implements ActionListene
 					
 					table.removeRow(row - 1);
 				} catch (ValidationException e) {
-				    GUI.getInstance().displayWarningMessage(e.getMessage());
+					
+					if (sb.length() > 0)
+						sb.append("\r\n");
+					
+					sb.append(e.getMessage());
 				}
 			}
+			
+			if (sb.length() > 0)
+				GUI.getInstance().displayWarningMessage(sb.toString());
 		}
-	}	
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if (table.getSelectedIndex() > -1 && SwingUtilities.isRightMouseButton(e)) {
+            JPopupMenu menu = new TablePopupMenu(this);                
+            menu.setInvoker(table);
+            menu.show(table, e.getX(), e.getY());
+        }
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+	
+	private static class TablePopupMenu extends DcPopupMenu {
+        
+		public TablePopupMenu(CreateMultipleItemsDialog dlg) {
+            JMenuItem menuDelete = new JMenuItem(DcResources.getText("lblDelete", ""), IconLibrary._icoDelete);
+            
+            menuDelete.addActionListener(dlg);
+            menuDelete.setActionCommand("delete");
+            
+            add(menuDelete);
+        }
+    }	
 }

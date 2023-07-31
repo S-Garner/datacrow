@@ -379,8 +379,8 @@ public class DataCrow implements IStarterClient {
                  DcSettings.getBoolean(DcRepository.Settings.stIsUpgraded)) {
             	
             	// display GUI for image conversion
-            	ConvertImageSizesDialog dlg = new ConvertImageSizesDialog();
-            	dlg.setVisible(true);
+//            	ConvertImageSizesDialog dlg = new ConvertImageSizesDialog();
+//            	dlg.setVisible(true);
             }
 
             if (DcSettings.getBoolean(DcRepository.Settings.stShowToolSelectorOnStartup)) {
