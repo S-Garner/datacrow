@@ -26,6 +26,7 @@
 package org.datacrow.core.attachments;
 
 import java.io.File;
+import java.util.Date;
 
 import org.datacrow.core.DcConfig;
 
@@ -34,9 +35,13 @@ public class Attachment {
 	private final String name;
 	private final String objectID;
 	
+	// this points to the temp folder / local folder of the client
 	private File localFile;
 	
 	private byte[] data;
+	
+	private Date created;
+	private long size;
 	
 	public Attachment(String objectID, String name) {
 		this.objectID = objectID;
@@ -74,6 +79,22 @@ public class Attachment {
 	public File getStorageFile() {
 		File storageFile = new File(DcConfig.getInstance().getAttachmentDir(), objectID);
 		return new File(storageFile, name);
+	}
+	
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public long getSize() {
+		return size;
+	}
+
+	public void setSize(long size) {
+		this.size = size;
 	}
 	
 	@Override

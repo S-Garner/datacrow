@@ -282,9 +282,8 @@ public class GroupingPane extends JPanel implements ChangeListener, IGroupingPan
 	public void stateChanged(ChangeEvent ce) {
         JTabbedPane pane = (JTabbedPane) ce.getSource();
         current = pane.getSelectedIndex();
-        
-        if (current >= 0)
-        	panels.get(current).activate();
+        current = current == -1 ? current = 0 : current;
+    	panels.get(current).activate();
 	}
 
     /**
