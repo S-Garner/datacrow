@@ -19,6 +19,7 @@ Data Crow version 4.10                        Released on 2023-08-xx
 - Update all dialog; could not create new reference using the icon for the reference / references field.
 - Create multiple items dialog; sometimes, for custom modules, no fields are displayed. Now, all enabled and editable fields are displayed. 
 - Item form settings; sometimes it does not show any fields available for assignment.
+- UI scaling session can get lost when switching between user folders.
 
 [Main things TODO]
 - Image sizes - maximum image size

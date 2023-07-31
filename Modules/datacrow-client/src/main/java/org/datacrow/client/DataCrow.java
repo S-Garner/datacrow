@@ -104,6 +104,8 @@ public class DataCrow implements IStarterClient {
     private static DcStarter starter;
 
     private static String[] args;
+    
+    private static String scaling;
 
     public static void main(String[] args) {
     	
@@ -246,10 +248,13 @@ public class DataCrow implements IStarterClient {
 
         if (starter.initialize()) {
             
+        	if (scaling != null)
+        		DcSettings.set(DcRepository.Settings.stUIScaling, Long.valueOf(scaling));
+        	
             GUI.getInstance().showSplashScreen();
             
             dc.initializeConnector(serverAddress, applicationServerPort, imageServerPort, username, password);
-            dc.start();            
+            dc.start();    
         }
     }
     
@@ -268,6 +273,9 @@ public class DataCrow implements IStarterClient {
         	String value = (String) p.get(DcRepository.Settings.stUIScaling);
         	
         	if (value != null && value.length() > 0) {
+        		
+        		scaling = value;
+        		
 	        	if (value.length() == 3) {
 	        		value = value.substring(0, 1) + "." + value.substring(1, 3);
 	        	} else {
@@ -277,7 +285,7 @@ public class DataCrow implements IStarterClient {
 	        	if (!value.equals("1.00"))
 	        		System.setProperty("sun.java2d.uiScale", value);
         	}
-	        	
+        	
         	fis.close();
         	
         } catch (Exception e) {
