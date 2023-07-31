@@ -284,6 +284,7 @@ public class DefineFilterEntryPanel extends JPanel implements MouseListener, Act
             comboOperators.addItem(operator);
         
         comboOperators.addActionListener(this);
+        comboOperators.setSelectedIndex(0);
     }    
         
     
