@@ -29,7 +29,8 @@ import org.datacrow.core.objects.DcObject;
 
 public class DiscogsSearchResult {
 
-	private DcObject dco;
+	private final DcObject dco;
+	
     private String coverUrl;
     private String detailsUrl;
     

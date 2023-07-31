@@ -52,6 +52,7 @@ public class OnlineSearchHelper implements IOnlineSearchClient {
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(OnlineSearchHelper.class.getName());
     
     private final int module;
+    private final int itemMode;
     
     private SearchTask task;
     
@@ -60,9 +61,9 @@ public class OnlineSearchHelper implements IOnlineSearchClient {
     private IServer server;
     private Region region;
     private SearchMode mode;
-    private int itemMode;
     
-    private Collection<DcObject> result = new ArrayList<DcObject>();
+    
+    private final Collection<DcObject> result = new ArrayList<DcObject>();
     
     /**
      * Creates a new instance.
@@ -279,7 +280,6 @@ public class OnlineSearchHelper implements IOnlineSearchClient {
         server = null;
         region = null;
         result.clear();
-        result = null;
     }
     
     @Override

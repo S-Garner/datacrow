@@ -31,7 +31,7 @@ public class ServerSQLResponse extends ServerResponse {
 
 	private static final long serialVersionUID = 1L;
 
-	private DcResultSet result;
+	private final DcResultSet result;
 	
 	public ServerSQLResponse(DcResultSet result) {
 	    super(_RESPONSE_SQL);

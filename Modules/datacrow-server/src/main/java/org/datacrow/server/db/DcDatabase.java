@@ -60,7 +60,7 @@ public class DcDatabase {
     private QueryQueue queue;
     private Version originalVersion;
 
-    private Conversions conversions = new Conversions();
+    private final Conversions conversions = new Conversions();
     
     public DcDatabase() {}
     

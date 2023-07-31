@@ -35,7 +35,7 @@ import org.datacrow.core.objects.DcField;
 
 public class ItemImporterFieldMappings {
 
-    private Map<String, DcField> mappings = new LinkedHashMap<String, DcField>();
+    private final Map<String, DcField> mappings = new LinkedHashMap<String, DcField>();
     
     public ItemImporterFieldMappings() {}
     

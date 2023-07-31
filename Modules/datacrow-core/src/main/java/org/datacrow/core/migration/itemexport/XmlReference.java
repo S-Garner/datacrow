@@ -27,8 +27,8 @@ package org.datacrow.core.migration.itemexport;
 
 public class XmlReference {
         
-    private String name;
-    private String reference;
+    private final String name;
+    private final String reference;
     
     public XmlReference(String name, String reference) {
         this.name = name;

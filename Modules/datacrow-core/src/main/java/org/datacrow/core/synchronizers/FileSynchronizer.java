@@ -45,9 +45,9 @@ import org.datacrow.core.server.Connector;
 
 public class FileSynchronizer {
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(FileSynchronizer.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FileSynchronizer.class.getName());
     private Task task;
-    private Collection<DcModule> modules = new ArrayList<DcModule>();
+    private final Collection<DcModule> modules = new ArrayList<DcModule>();
     
     public FileSynchronizer() {
         for (DcModule module : DcModules.getModules()) {

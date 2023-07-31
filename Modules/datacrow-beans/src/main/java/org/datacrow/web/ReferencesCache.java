@@ -41,7 +41,7 @@ import org.datacrow.web.model.Reference;
 
 public class ReferencesCache {
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(ReferencesCache.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ReferencesCache.class.getName());
     
     private Map<Integer, List<Reference>> references = new HashMap<Integer, List<Reference>>();
     private Map<Integer, Date> referencesDateStored = new HashMap<Integer, Date>();

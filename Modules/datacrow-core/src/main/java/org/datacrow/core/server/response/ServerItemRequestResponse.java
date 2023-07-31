@@ -31,7 +31,7 @@ public class ServerItemRequestResponse extends ServerResponse {
 
 	private static final long serialVersionUID = 1L;
 	
-	private DcObject dco;
+	private final DcObject dco;
 	
 	public ServerItemRequestResponse(DcObject dco) {
 	    super(_RESPONSE_ITEM_REQUEST);

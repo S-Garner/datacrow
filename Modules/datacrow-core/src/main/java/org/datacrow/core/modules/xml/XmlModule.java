@@ -63,7 +63,7 @@ import org.xml.sax.InputSource;
  */
 public class XmlModule extends XmlObject {
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(XmlModule.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(XmlModule.class.getName());
     
     private static final long serialVersionUID = 1L;
 

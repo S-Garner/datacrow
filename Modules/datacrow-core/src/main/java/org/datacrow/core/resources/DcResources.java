@@ -50,7 +50,8 @@ import org.datacrow.core.utilities.CoreUtilities;
 public class DcResources { 
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcResources.class.getName());
-    private static Map<String, DcLanguageResource> resources = new HashMap<String, DcLanguageResource>();
+    
+    private static final Map<String, DcLanguageResource> resources = new HashMap<String, DcLanguageResource>();
     
     private static boolean initialized = false;
     

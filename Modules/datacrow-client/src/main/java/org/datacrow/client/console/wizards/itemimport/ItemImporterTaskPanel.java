@@ -208,7 +208,7 @@ public class ItemImporterTaskPanel extends ItemImporterWizardPanel implements II
         
         tp.updateProgressTask();
         notify(DcResources.getText("msgImportedX", item.toString()));
-        item.destroy();
+        item.cleanup();
     }
 
     @Override

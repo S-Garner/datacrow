@@ -35,8 +35,9 @@ public class ClientRequestItemAction extends ClientRequest {
 	public static final int _ACTION_SAVE = 0;
     public static final int _ACTION_DELETE = 1;
     
+    private final DcObject item;
+ 
     private int action = _ACTION_SAVE;
-    private DcObject item;
     
     public ClientRequestItemAction(SecuredUser su, int action, DcObject item) {
         super(ClientRequest._REQUEST_ITEM_ACTION, su);
@@ -52,9 +53,4 @@ public class ClientRequestItemAction extends ClientRequest {
     public DcObject getItem() {
     	return item;
     }
-    
-	@Override
-	public void close() {
-		item = null;
-	}
 }

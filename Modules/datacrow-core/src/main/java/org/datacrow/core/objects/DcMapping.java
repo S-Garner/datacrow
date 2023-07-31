@@ -39,7 +39,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class DcMapping extends DcObject {
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcMapping.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcMapping.class.getName());
     
     private static final long serialVersionUID = 1L;
     
@@ -79,9 +79,9 @@ public class DcMapping extends DcObject {
     public void initializeReferences() {}
 
     @Override
-	public void destroy() {
+	public void cleanup() {
         reference = null;
-        super.destroy();
+        super.cleanup();
 	}
 
 	public void setReference(DcObject dco) {

@@ -31,9 +31,9 @@ public class ProgramDefinition extends Definition {
 
 	private static final long serialVersionUID = 1L;
 
-	private String extension = "";
-	private String program = "";
-	private String parameters = "";
+	private final String extension;
+	private final String program;
+	private final String parameters;
 	
 	public ProgramDefinition(String extension, String program, String parameters) {
 		this.extension = extension;

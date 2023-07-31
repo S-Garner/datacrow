@@ -47,7 +47,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebFilter
 public class LoginFilter implements Filter, Serializable {
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(ReferencesCache.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ReferencesCache.class.getName());
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}

@@ -50,19 +50,13 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class UpdateQuery extends Query {
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(UpdateQuery.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(UpdateQuery.class.getName());
     
-    private DcObject dco;
+    private final DcObject dco;
 
     public UpdateQuery(SecuredUser su, DcObject dco) {
         super(su, dco.getModule().getIndex());
         this.dco = dco;
-    }
-    
-    @Override
-    public void clear() {
-        super.clear();
-        dco = null;
     }
     
     @SuppressWarnings({ "unchecked", "resource" })

@@ -44,11 +44,12 @@ public class DcLanguageResource {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcLanguageResource.class.getName());
     
-    public static String suffix = "resources.properties";
-    private Map<String, String> resources = new HashMap<String, String>();
+    public static final String suffix = "resources.properties";
     
-    private File file;
-    private String language;
+    private final Map<String, String> resources = new HashMap<String, String>();
+    
+    private final File file;
+    private final String language;
     
     public DcLanguageResource(String language, File file) {
         this.language = language;

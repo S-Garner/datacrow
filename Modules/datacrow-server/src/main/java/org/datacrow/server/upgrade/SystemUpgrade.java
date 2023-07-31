@@ -79,7 +79,7 @@ public class SystemUpgrade {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SystemUpgrade.class.getName());
     
-    private boolean dbInitialized;
+    private final boolean dbInitialized;
     
     public SystemUpgrade(boolean dbInitialized) {
         this.dbInitialized = dbInitialized;
@@ -508,7 +508,7 @@ public class SystemUpgrade {
                         logger.warn(e, e);
                     }
                 }
-                p.destroy();
+                p.cleanup();
             } catch (Exception e) {
                 success = false;
                 String msg = e.toString() + ". Images could not be moved from the old (" + dir + ") to the new location (" +

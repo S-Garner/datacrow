@@ -38,11 +38,11 @@ import org.datacrow.core.objects.DcTemplate;
  */
 public class RegisteredPlugin {
     
-    private Class<?> clazz;
+    private final Class<?> clazz;
     
-    private Plugin base;
+    private final Plugin base;
     
-    private Collection<Plugin> cache = new ArrayList<Plugin>();
+    private final Collection<Plugin> cache = new ArrayList<Plugin>();
 
     /**
      * Creates a new instance.

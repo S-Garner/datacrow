@@ -50,7 +50,7 @@ import org.datacrow.core.utilities.Base64;
  */
 public class HttpConnection {
     
-    private HttpURLConnection uc;
+    private final HttpURLConnection uc;
 
     /**
      * Create a new connection.
@@ -200,7 +200,6 @@ public class HttpConnection {
      */
     public void close() {
     	uc.disconnect();
-        uc = null;
     }
 
     private HttpURLConnection connect(URL url, String userAgent) throws HttpConnectionException {

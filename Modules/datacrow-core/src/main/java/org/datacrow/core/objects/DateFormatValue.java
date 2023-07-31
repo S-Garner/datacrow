@@ -30,11 +30,12 @@ import java.util.Calendar;
 
 public class DateFormatValue {
         
-    private String name;
-    private String format;
+    private final String name;
+    private final String format;
     
     public DateFormatValue(String format) {
         Calendar cal = Calendar.getInstance();
+        
         this.name = new SimpleDateFormat(format).format(cal.getTime());
         this.format = format;
     }

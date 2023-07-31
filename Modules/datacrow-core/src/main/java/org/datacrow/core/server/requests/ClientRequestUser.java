@@ -37,9 +37,9 @@ public class ClientRequestUser extends ClientRequest {
 	public static final int _ACTIONTYPE_CHANGEPASSWORD = 2;
 	public static final int _ACTIONTYPE_CREATE = 2;
 	
-	private int actionType;
-	private User user;
-	private String password;
+	private final int actionType;
+	private final User user;
+	private final String password;
 	
 	public ClientRequestUser(int actionType, SecuredUser su, User user, String password) {
 		super(ClientRequest._REQUEST_USER_MGT, su);
@@ -60,11 +60,5 @@ public class ClientRequestUser extends ClientRequest {
 	@Override
 	public String getPassword() {
 		return password;
-	}
-
-	@Override
-	public void close() {
-		user = null;
-		password = null;
 	}
 }

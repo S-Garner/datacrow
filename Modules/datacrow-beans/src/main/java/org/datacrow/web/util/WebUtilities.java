@@ -40,7 +40,7 @@ import jakarta.faces.context.FacesContext;
 
 public abstract class WebUtilities {
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(WebUtilities.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(WebUtilities.class.getName());
     
     public static String getValue(DcObject dco, Field f, Object value) {
         return getValue(dco, f.getIndex(), f.getMaxTextLength(), value);

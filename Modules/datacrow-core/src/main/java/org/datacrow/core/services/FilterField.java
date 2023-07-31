@@ -29,8 +29,8 @@ import java.util.Collection;
 
 public class FilterField {
 
-    private Collection<?> options;
-    private String name;
+    private final Collection<?> options;
+    private final String name;
     
     public FilterField(String name, Collection<?> options) {
         this.options = options;

@@ -31,8 +31,8 @@ public class ClientRequestSimpleValues extends ClientRequest {
 
 	private static final long serialVersionUID = 1L;
 
-    private int module;
-    private boolean includeIcons;
+    private final int module;
+    private final boolean includeIcons;
     
     public ClientRequestSimpleValues(SecuredUser su, int module, boolean includeIcons) {
         super(ClientRequest._REQUEST_SIMPLE_VALUES, su);

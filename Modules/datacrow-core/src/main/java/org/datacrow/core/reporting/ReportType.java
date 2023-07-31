@@ -37,8 +37,8 @@ public enum ReportType {
 	XLSX("xlsx", DcResources.getText("lblReportTypeXLSX")),
 	XLS("xls", DcResources.getText("lblReportTypeXLS"));
 
-	private String extension;
-	private String name;
+	private final String extension;
+	private final String name;
 	
     ReportType(String extention, String name) {
     	this.extension = extention;

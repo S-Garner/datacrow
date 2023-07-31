@@ -46,7 +46,7 @@ public class Picture extends DcObject {
 
 	private static final long serialVersionUID = 1L;
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(Picture.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Picture.class.getName());
     
     public static final int _A_OBJECTID = 1;
     public static final int _B_FIELD = 2;
@@ -144,7 +144,7 @@ public class Picture extends DcObject {
     }
     
     @Override
-    public void destroy() {
+    public void cleanup() {
         unload();
         deleted = false;
         edited = false;

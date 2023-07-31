@@ -48,19 +48,13 @@ import org.datacrow.server.data.AttachmentManager;
 
 public class DeleteQuery extends Query {
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DeleteQuery.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DeleteQuery.class.getName());
     
-    private DcObject dco;
+    private final DcObject dco;
     
     public DeleteQuery(SecuredUser su, DcObject dco) {
         super(su, dco.getModule().getIndex());
         this.dco = dco;
-    }
-    
-    @Override
-    public void clear() {
-        super.clear();
-        dco = null;
     }
     
     @Override

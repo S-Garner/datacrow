@@ -51,7 +51,7 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinition;
  */
 public class DataFilters {
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DataFilters.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DataFilters.class.getName());
     
     private static final Map<Integer, Collection<DataFilter>> filters = 
         new HashMap<Integer, Collection<DataFilter>>(); 

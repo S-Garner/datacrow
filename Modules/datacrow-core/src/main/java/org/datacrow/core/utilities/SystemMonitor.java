@@ -41,7 +41,7 @@ public class SystemMonitor extends Thread {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SystemMonitor.class.getName());
     
-    private Runtime runtime;
+    private final Runtime runtime;
     
     public SystemMonitor() {
         runtime = Runtime.getRuntime();

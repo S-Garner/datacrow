@@ -35,8 +35,9 @@ import org.datacrow.core.objects.DcField;
 public class QueryOptions {
 
     private String[] ordering;
-    private boolean bPreciseSelect;
-    private boolean bComplyToAllConditions;
+    
+    private final boolean bPreciseSelect;
+    private final boolean bComplyToAllConditions;
 
     /**
      * Creates a new instance.

@@ -29,9 +29,9 @@ import java.nio.channels.SocketChannel;
 
 public class ServerDataEvent {
     
-	public DcServer server;
-	public SocketChannel socket;
-	public byte[] data;
+	public final DcServer server;
+	public final SocketChannel socket;
+	public final byte[] data;
 	
 	public ServerDataEvent(DcServer server, SocketChannel socket, byte[] data) {
 		this.server = server;

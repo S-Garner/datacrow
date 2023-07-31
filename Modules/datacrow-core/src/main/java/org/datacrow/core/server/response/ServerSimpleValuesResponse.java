@@ -33,7 +33,7 @@ public class ServerSimpleValuesResponse extends ServerResponse {
 
 	private static final long serialVersionUID = 1L;
 
-    private List<DcSimpleValue> values;
+    private final List<DcSimpleValue> values;
 	
 	public ServerSimpleValuesResponse(List<DcSimpleValue> values) {
 	    super(_RESPONSE_SIMPLE_VALUES);

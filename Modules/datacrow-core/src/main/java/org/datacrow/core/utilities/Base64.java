@@ -25,10 +25,15 @@
 
 package org.datacrow.core.utilities;
 
+/**
+ * TODO: refactor - not threadsafe
+ * @author RJ
+ *
+ */
 public class Base64 {
 
     // Mapping table from 6-bit nibbles to Base64 characters.
-    private static char[] map1 = new char[64];
+    private final static char[] map1 = new char[64];
 
     static {
         int i = 0;

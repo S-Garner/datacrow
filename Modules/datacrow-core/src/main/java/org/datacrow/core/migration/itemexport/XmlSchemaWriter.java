@@ -42,7 +42,7 @@ import org.datacrow.core.objects.DcProperty;
  */
 public class XmlSchemaWriter extends XmlBaseWriter {
     
-    private Collection<XmlReference> references = new ArrayList<XmlReference>();
+    private final Collection<XmlReference> references = new ArrayList<XmlReference>();
     
     private int[] fields;
     
@@ -62,7 +62,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
                     
                     DcObject tmp = module.getItem();
                     handle(tmp, handled);
-                    tmp.destroy();
+                    tmp.cleanup();
                 }
             }
         } else {

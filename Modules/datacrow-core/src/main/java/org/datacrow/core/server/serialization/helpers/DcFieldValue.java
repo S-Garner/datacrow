@@ -27,10 +27,10 @@ package org.datacrow.core.server.serialization.helpers;
 
 public class DcFieldValue {
     
-    private int fieldIndex;
-    private int moduleIndex;
-    private Object value;
-    private boolean changed;
+    private final int fieldIndex;
+    private final int moduleIndex;
+    private final Object value;
+    private final boolean changed;
     
     public DcFieldValue(int moduleIndex, int fieldIndex, Object value, boolean changed) {
         this.fieldIndex = fieldIndex;

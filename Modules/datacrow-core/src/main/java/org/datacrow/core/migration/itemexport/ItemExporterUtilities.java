@@ -38,9 +38,10 @@ public class ItemExporterUtilities {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemExporterUtilities.class.getName());
     
-    private ItemExporterSettings settings;
+    private final ItemExporterSettings settings;
+    private final String exportDir;
+    
     private String exportName;
-    private String exportDir;
     
     public ItemExporterUtilities(String exportFilename, ItemExporterSettings settings) {
         File file = new File(exportFilename);

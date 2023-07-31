@@ -31,7 +31,8 @@ import org.datacrow.core.objects.DcObject;
 
 public class ComicVineSearchResult {
 
-	private DcObject dco;
+	private final DcObject dco;
+	
 	private Map<?, ?> data;
     
 	public ComicVineSearchResult(DcObject dco) {

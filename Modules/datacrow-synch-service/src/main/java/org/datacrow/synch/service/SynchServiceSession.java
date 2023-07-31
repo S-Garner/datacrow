@@ -32,7 +32,7 @@ import org.datacrow.core.log.DcLogger;
 
 public class SynchServiceSession {
 	
-	private transient static DcLogger logger = DcLogManager.getInstance().getLogger(SynchServiceSession.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SynchServiceSession.class.getName());
 	
 	protected Socket socket;
 	protected SynchServiceSessionRequestHandler ct;

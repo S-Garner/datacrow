@@ -36,7 +36,7 @@ public class ISBN {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ISBN.class.getName());
     
-    private static String CheckDigits = new String("0123456789X0");
+    private static final String CheckDigits = new String("0123456789X0");
     
     private String isbn10 = "";
     private String isbn13 = "";

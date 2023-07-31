@@ -57,14 +57,13 @@ import org.datacrow.server.data.DataManager;
  */
 public class ModuleExporter {
 
-	private int module;
+	private final int module;
+	private final File path;
+	
+	private Exporter exporter;
 	
 	private boolean exportData = false;
 	private boolean exportDataRelatedMods = false;
-	
-	private File path;
-	
-	private Exporter exporter;
 	
 	/**
 	 * Creates a new instance for the specific module. 

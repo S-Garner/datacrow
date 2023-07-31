@@ -36,7 +36,8 @@ public final class PluginPermission implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String key;
+    private final String key;
+    
     private boolean authorized = true;
     
     /**

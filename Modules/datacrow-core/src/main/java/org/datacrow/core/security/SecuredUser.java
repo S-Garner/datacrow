@@ -52,12 +52,13 @@ public final class SecuredUser implements Serializable {
     
     private static final long serialVersionUID = 1L;
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(SecuredUser.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SecuredUser.class.getName());
     
-    private Map<Integer, ModulePermission> modulePermissions = new HashMap<Integer, ModulePermission>();
-    private Map<String, PluginPermission> pluginPermissions = new HashMap<String, PluginPermission>();
+    private final Map<Integer, ModulePermission> modulePermissions = new HashMap<Integer, ModulePermission>();
+    private final Map<String, PluginPermission> pluginPermissions = new HashMap<String, PluginPermission>();
     
-    private User user;
+    private final User user;
+    
     private String password;
     
     /**

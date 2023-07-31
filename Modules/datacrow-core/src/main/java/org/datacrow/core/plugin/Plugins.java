@@ -44,10 +44,16 @@ import org.datacrow.core.utilities.Directory;
 public class Plugins {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Plugins.class.getName());
-    private static Plugins instance = new Plugins();
+    private static final Plugins instance;
+    
     private final Pattern pattern = Pattern.compile("[\\\\\\/]");
 
     private final Collection<RegisteredPlugin> registered = new ArrayList<RegisteredPlugin>();
+    
+    
+    static {
+    	instance = new Plugins();
+    }
     
     public Plugins() {
         initialize();

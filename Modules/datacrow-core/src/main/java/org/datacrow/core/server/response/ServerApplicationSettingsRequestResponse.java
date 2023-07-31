@@ -32,7 +32,7 @@ public class ServerApplicationSettingsRequestResponse extends ServerResponse {
 
 	private static final long serialVersionUID = 1L;
     
-    private Settings settings;
+    private final Settings settings;
 
 	public ServerApplicationSettingsRequestResponse() {
 	    super(_RESPONSE_APPLICATION_SETTINGS);

@@ -35,9 +35,9 @@ public class DcLog {
     
     private static final DcLog me = new DcLog();
     
-    private Collection<ILogListener> listeners;
+    private final Collection<ILogListener> listeners;
     
-    private ArrayList<String> backlog = new ArrayList<String>();
+    private final ArrayList<String> backlog = new ArrayList<String>();
     
     public static DcLog getInstance() {
         return me;

@@ -43,8 +43,8 @@ public class MovieMeterServer implements IServer {
     
     private static final long serialVersionUID = 1L;
 
-    private Collection<SearchMode> modes = new ArrayList<SearchMode>();
-    private Collection<Region> regions = new ArrayList<Region>();
+    private final Collection<SearchMode> modes = new ArrayList<SearchMode>();
+    private final Collection<Region> regions = new ArrayList<Region>();
 
     public MovieMeterServer() {
     	regions.add(new Region("nl", "Dutch", "https://moviemeter.nl/"));

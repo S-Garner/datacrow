@@ -62,7 +62,7 @@ public class OnlineServices implements Serializable {
     private static final int _MODE_NAME = 2;
     private static final int _QUERY = 3;    
     
-    private Collection<IServer> servers = new ArrayList<IServer>();
+    private final Collection<IServer> servers = new ArrayList<IServer>();
     
     private final int module;
     

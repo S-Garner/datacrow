@@ -171,7 +171,7 @@ public class XmlExporter extends ItemExporter {
                 bos.flush();
                 
                 // release the object
-                dco.destroy();
+                dco.cleanup();
             }
             
             writer.endDocument();

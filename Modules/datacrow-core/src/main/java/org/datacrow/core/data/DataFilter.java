@@ -55,7 +55,7 @@ public class DataFilter implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DataFilter.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DataFilter.class.getName());
     
     private int module;
     private int resultLimit = 0;

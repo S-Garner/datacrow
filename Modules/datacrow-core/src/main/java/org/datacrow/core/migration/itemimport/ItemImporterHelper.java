@@ -39,9 +39,9 @@ public class ItemImporterHelper implements IItemImporterClient {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporterHelper.class.getName());
     
-    private Collection<DcObject> items = new ArrayList<DcObject>();
-    private File file;
-    private ItemImporter reader;
+    private final Collection<DcObject> items = new ArrayList<DcObject>();
+    private final File file;
+    private final ItemImporter reader;
     
     public ItemImporterHelper(String type, int moduleIdx, File file) throws Exception {
         this.file = file;
@@ -64,12 +64,6 @@ public class ItemImporterHelper implements IItemImporterClient {
     
     public Collection<DcObject> getItems() {
         return items;
-    }
-    
-    public void clear() {
-        items = null;
-        file = null;
-        reader = null;
     }
     
     @Override

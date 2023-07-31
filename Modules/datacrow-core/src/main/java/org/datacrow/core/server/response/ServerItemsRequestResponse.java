@@ -33,7 +33,7 @@ public class ServerItemsRequestResponse extends ServerResponse {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<DcObject> items;
+	private final List<DcObject> items;
 	
 	public ServerItemsRequestResponse(List<DcObject> items) {
 	    super(_RESPONSE_ITEMS_REQUEST);

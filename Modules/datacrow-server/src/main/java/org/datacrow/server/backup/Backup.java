@@ -59,9 +59,9 @@ public class Backup extends Thread {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Backup.class.getName());
     
-    private File directory;
-    private IBackupRestoreClient client;
-    private String comment;
+    private final File directory;
+    private final IBackupRestoreClient client;
+    private final String comment;
  
     /**
      * Creates a new instance.
@@ -186,9 +186,6 @@ public class Backup extends Thread {
         
         DatabaseManager.getInstance().initialize();
         client.notifyTaskCompleted(true, null);
-        
-        client = null;
-        directory = null;
     }
     
     private void zipDirectory(ZipOutputStream zipOut, File fileToZip, String parentDirectoryName) throws Exception

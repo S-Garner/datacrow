@@ -63,7 +63,7 @@ public abstract class ItemImporter extends ItemMigrater {
     protected ItemImporterFieldMappings mappings = new ItemImporterFieldMappings();
 
     // Local settings and properties > overrule the general settings
-    private Map<String, String> settings = new HashMap<String, String>(); 
+    private final Map<String, String> settings = new HashMap<String, String>(); 
 
     public ItemImporter(SecuredUser su,
     		 		    int moduleIdx, 

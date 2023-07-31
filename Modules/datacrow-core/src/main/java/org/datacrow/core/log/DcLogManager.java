@@ -27,7 +27,7 @@ package org.datacrow.core.log;
 
 public class DcLogManager {
 	
-	private static DcLogManager instance;
+	private static final DcLogManager instance;
 	
 	private DcLogSystem logSys;
 	

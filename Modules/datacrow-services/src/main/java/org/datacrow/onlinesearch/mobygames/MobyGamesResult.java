@@ -32,11 +32,11 @@ import org.datacrow.core.objects.DcObject;
 
 public class MobyGamesResult {
     
-    private DcObject dco;
+    private final DcObject dco;
     
+    private final Collection<String> screenshots = new ArrayList<>();
+
     private String cover;
-    
-    private Collection<String> screenshots = new ArrayList<>();
     
     public MobyGamesResult(DcObject dco) {
         this.dco = dco;

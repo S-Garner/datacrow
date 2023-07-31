@@ -30,7 +30,7 @@ import java.util.Collection;
 
 public class XmlModuleWriter {
     
-    private StringBuffer sb = new StringBuffer();
+    private final StringBuffer sb = new StringBuffer();
     
     public XmlModuleWriter(XmlModule module) {
         createXML(module);
@@ -44,10 +44,6 @@ public class XmlModuleWriter {
         }
     }
 
-    public void close() {
-        sb = null;
-    }
-    
     private void createXML(XmlModule module) {
         writeHeader();
         

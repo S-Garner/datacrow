@@ -64,10 +64,11 @@ import org.datacrow.server.data.DataManager;
  */
 public abstract class Query {
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(Query.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Query.class.getName());
+    
     private final int module;
     
-    private SecuredUser su;
+    private final SecuredUser su;
     
     private boolean success = true;
     private boolean log = true;
@@ -99,8 +100,6 @@ public abstract class Query {
     protected boolean isSuccess() {
         return success;
     }
-
-    public void clear() {}
     
     public boolean isLog() {
         return log;

@@ -46,7 +46,7 @@ public class ServerResponse implements Serializable, IServerResponse {
 	public static final int _RESPONSE_ATTACHMENTS_LIST = 14;
 	public static final int _RESPONSE_ATTACHMENTS_DELETE = 15;    
     
-    private int type;
+    private final int type;
     
     public ServerResponse(int type) {
         this.type = type;

@@ -35,8 +35,8 @@ import org.datacrow.core.clients.IClient;
 
 public class DataDirectoryCreator extends Thread {
 
-    private IClient client;
-    private File userDir;
+    private final IClient client;
+    private final File userDir;
     
     private boolean moveFiles = false;
     private boolean overwrite = false;

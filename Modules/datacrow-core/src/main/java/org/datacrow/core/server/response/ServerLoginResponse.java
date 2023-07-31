@@ -31,7 +31,7 @@ public class ServerLoginResponse extends ServerResponse {
 
 	private static final long serialVersionUID = 1L;
 
-	private SecuredUser su;
+	private final SecuredUser su;
 	
 	public ServerLoginResponse(SecuredUser su) {
 	    super(_RESPONSE_LOGIN);

@@ -31,7 +31,8 @@ import org.datacrow.core.objects.DcObject;
 
 public class BoardGameAtlasSearchResult {
 
-	private DcObject dco;
+	private final DcObject dco;
+	
 	private Map<?, ?> boardGameData;
     
 	public BoardGameAtlasSearchResult(DcObject dco) {

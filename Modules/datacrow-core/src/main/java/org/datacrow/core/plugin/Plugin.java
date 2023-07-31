@@ -53,8 +53,8 @@ public abstract class Plugin extends AbstractAction {
     private final int viewType;
     private final int moduleIdx;
     
-    private DcObject dco;
-    private DcTemplate template;
+    private final DcObject dco;
+    private final DcTemplate template;
 
     private String label = null;
     
@@ -163,17 +163,6 @@ public abstract class Plugin extends AbstractAction {
      */
     public String getLabel() {
         return label;
-    }
-
-    /**
-     * Free all resources.
-     */
-    public void clear() {
-        if (dco != null) {
-            // only clear when the action is item specific 
-            dco = null;
-            template = null;
-        }
     }
     
     /**

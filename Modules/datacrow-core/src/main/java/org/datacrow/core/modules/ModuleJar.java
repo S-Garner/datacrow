@@ -53,7 +53,7 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class ModuleJar {
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(ModuleJar.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ModuleJar.class.getName());
     
     private String filename;
     private XmlModule module;
@@ -114,8 +114,6 @@ public class ModuleJar {
             
             XmlModuleWriter writer = new XmlModuleWriter(module);
             byte[] xml  = writer.getXML();
-            
-            writer.close();
             
             zf.addEntry("module.xml", xml);
             zf.addEntry("icon16.png", icon16);

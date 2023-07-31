@@ -56,19 +56,17 @@ public class Setting implements Serializable {
     
 	private static final long serialVersionUID = 1L;
 
-	private transient static DcLogger logger = DcLogManager.getInstance().getLogger(Setting.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Setting.class.getName());
 
-    private int dataType;
-    private String key;
+    private final int dataType;
+    private final String key;
     private Object value;
 
-    private int settingsGroup = 0; 
-    private int parentGroup = -1; // no parent as default    
     private int componentType = UIComponents._SHORTTEXTFIELD;
     private String helpText = "";
     private boolean displayLabel = true; 
     private boolean showToUser = true;
-    private String labelText;
+    private final String labelText;
     
     private final int module;
     
@@ -142,13 +140,13 @@ public class Setting implements Serializable {
         return showToUser;   
     }
     
-    public int getSettingsGroup() {
-        return settingsGroup;   
-    }
-
-    public int getSettingsGroupParent() {
-        return parentGroup;   
-    }
+//    public int getSettingsGroup() {
+//        return settingsGroup;   
+//    }
+//
+//    public int getSettingsGroupParent() {
+//        return parentGroup;   
+//    }
     
     /**
      * The value type.

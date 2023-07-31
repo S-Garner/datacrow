@@ -43,8 +43,8 @@ public class BoardGameAtlasServer implements IServer {
     
     private static final long serialVersionUID = 1L;
 
-    private Collection<SearchMode> modes = new ArrayList<SearchMode>();
-    private Collection<Region> regions = new ArrayList<Region>();
+    private final Collection<SearchMode> modes = new ArrayList<SearchMode>();
+    private final Collection<Region> regions = new ArrayList<Region>();
 
     public BoardGameAtlasServer() {
     	regions.add(new Region("en", "English", "https://boardgameatlas.com/"));

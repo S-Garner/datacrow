@@ -55,8 +55,8 @@ public class Conversions {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Conversions.class.getName());
 
-    private Collection<Conversion> conversions = new ArrayList<Conversion>();
-    private String filename = DcConfig.getInstance().getUpgradeDir() + "conversions.properties";
+    private final Collection<Conversion> conversions = new ArrayList<Conversion>();
+    private final String filename = DcConfig.getInstance().getUpgradeDir() + "conversions.properties";
     
     public Conversions() {}
     

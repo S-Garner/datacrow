@@ -44,12 +44,12 @@ public class XmlWriter extends XmlBaseWriter {
     
     private ItemExporterSettings settings;
     
+    private final ItemExporterUtilities utilities;
+    private final String schemaFile;
+    private final int stepSize = 4;
+
     private int tagIdent;
     private int valueIdent;
-    
-    private ItemExporterUtilities utilities;
-    private String schemaFile;
-    private final int stepSize = 4;
     
     @SuppressWarnings("resource")
 	public XmlWriter(String filename, String schemaFile, ItemExporterSettings properties) throws IOException {

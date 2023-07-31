@@ -95,8 +95,6 @@ public class EditAsNew extends Plugin {
 
         ItemForm form = new ItemForm(false, false, dcoCopy, false);
         form.setVisible(true);
-        
-        clear();
     }
     
     @Override

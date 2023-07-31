@@ -38,7 +38,7 @@ public class DcResultSet implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcResultSet.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcResultSet.class.getName());
 	
 	private final Map<String, String> columns;
 	private final Map<Integer, Object[]> data;

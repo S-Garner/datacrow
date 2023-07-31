@@ -67,7 +67,7 @@ public class DataManager {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DataManager.class.getName());
     
-    private static DataManager instance = new DataManager();
+    private static final DataManager instance = new DataManager();
     
     private DataManager() {}
     
@@ -460,7 +460,6 @@ public class DataManager {
     public List<DcObject> getItems(SecuredUser su, DataFilter df, int[] fields) {
     	SelectQuery selectQuery =  new SelectQuery(su, df, fields);
 		List<DcObject> items = selectQuery.run();
-		selectQuery.clear();
 		return items;
     }
 

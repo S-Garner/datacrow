@@ -115,7 +115,6 @@ public class CreateQuery extends Query {
                 logger.error("Error while closing connection", e);
         }
 
-        clear();
         return null;
     }
 }

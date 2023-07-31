@@ -62,31 +62,31 @@ public abstract class SearchTask extends Thread {
 	
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SearchTask.class.getName());
 
-	protected final String userAgent = "DataCrow/" + DcConfig.getInstance().getVersion().toString() +  " +https://datacrow.org";
+	protected static final String userAgent = "DataCrow/" + DcConfig.getInstance().getVersion().toString() +  " +https://datacrow.org";
 	
     // retrieve minimal item details
     public static final int _ITEM_MODE_SIMPLE = 0;
     // retrieve full item details
-    public static final int _ITEM_MODE_FULL = 1; 
+    public static final int _ITEM_MODE_FULL = 1;
     
-    private boolean isCancelled = false;
-    
-    protected IOnlineSearchClient listener;
+    protected final IOnlineSearchClient listener;
     
     private int maximum = 20;
-    
-    private String input;
     protected String query;
-    private Map<String, Object> additionalFilters;
+    private boolean isCancelled = false;
+    
+    private final String input;
+    
+    private final Map<String, Object> additionalFilters;
     
     // The currently used URL or address
-    private String address;
+    private final String address;
     // The selected server
-    private IServer server;
+    private final IServer server;
     // The selected search mode
     private SearchMode searchMode;
     // The selected region (EN, US, NL, ..)
-    private Region region;
+    private final Region region;
     // The selected item retrieval mode
     private int itemMode = _ITEM_MODE_SIMPLE;
     

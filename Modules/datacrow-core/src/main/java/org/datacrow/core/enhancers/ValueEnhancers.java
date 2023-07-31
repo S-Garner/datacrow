@@ -51,7 +51,7 @@ import org.datacrow.core.server.Connector;
  */
 public class ValueEnhancers {
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(ValueEnhancers.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ValueEnhancers.class.getName());
     
     public static final int _AUTOINCREMENT = 0;
     public static final int _TITLEREWRITERS = 1;

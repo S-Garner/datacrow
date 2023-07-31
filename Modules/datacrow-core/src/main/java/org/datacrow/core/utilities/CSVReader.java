@@ -55,13 +55,15 @@ import java.util.List;
  */
 public class CSVReader {
 
-    private BufferedReader br;
-    private boolean hasNext = true;
-    private String separator;
-    private char quotechar= '"';
-    
     public static final char DEFAULT_QUOTE_CHARACTER = '\"';
     public static final int DEFAULT_SKIP_LINES = 0;
+	
+    private final BufferedReader br;
+    
+    private final String separator;
+    private final char quotechar= '"';
+    
+    private boolean hasNext = true;
 
     public CSVReader(Reader reader, String separator) {
         this.br = new BufferedReader(reader);

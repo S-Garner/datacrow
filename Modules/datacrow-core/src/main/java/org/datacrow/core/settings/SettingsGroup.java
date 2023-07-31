@@ -45,8 +45,8 @@ public class SettingsGroup implements Serializable {
 	private String helpIndex = "";
     private String key = "";
     
-    private LinkedHashMap<String, Setting> htSettings = new LinkedHashMap<String, Setting> ();
-    private Hashtable<String, SettingsGroup> htChildren = new Hashtable<String, SettingsGroup>();
+    private final LinkedHashMap<String, Setting> htSettings = new LinkedHashMap<String, Setting> ();
+    private final Hashtable<String, SettingsGroup> htChildren = new Hashtable<String, SettingsGroup>();
     
     /**
      * Creates a new settings group

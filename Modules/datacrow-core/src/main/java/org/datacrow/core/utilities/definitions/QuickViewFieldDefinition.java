@@ -31,11 +31,11 @@ public class QuickViewFieldDefinition extends Definition {
 
 	private static final long serialVersionUID = 1L;
 
-	private int module;
-    private int field;
-    private boolean enabled;
-    private String direction = "";
-    private int maxLength = 0;
+	private final int module;
+    private final int field;
+    private final boolean enabled;
+    private final String direction;
+    private final int maxLength;
     
     public QuickViewFieldDefinition(int module, int field, boolean enabled, String direction, int maxLength) {
         super();

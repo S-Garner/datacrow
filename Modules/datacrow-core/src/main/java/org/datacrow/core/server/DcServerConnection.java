@@ -41,14 +41,14 @@ import org.datacrow.core.log.DcLogger;
 
 public class DcServerConnection {
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcServerConnection.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcServerConnection.class.getName());
     
-    private boolean isAvailable = true;
-    
-    private Socket socket;
+    private final Socket socket;
 
-    private ObjectInputStream is;
-    private ObjectOutputStream os;
+    private final ObjectInputStream is;
+    private final ObjectOutputStream os;
+
+    private boolean isAvailable = true;
     
     public DcServerConnection(String address, int port) throws IOException, SocketException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException {
         socket = new Socket(address, port);

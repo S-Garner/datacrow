@@ -49,13 +49,16 @@ public class FileRenamer {
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FileRenamer.class.getName());
 
     private Task task;
-    private static FileRenamer instance;
+    private static final FileRenamer instance;
+    
+    static {
+    	instance = new FileRenamer();
+    }
     
     /**
      * Returns the instance.
      */
     public static FileRenamer getInstance() {
-        instance = instance == null ? new FileRenamer() : instance;
         return instance;
     }
 

@@ -42,10 +42,10 @@ import org.datacrow.server.data.DataManager;
 
 public class SelectQuery extends Query {
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(SelectQuery.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SelectQuery.class.getName());
     
-    private int[] fields;
-    private DataFilter df;
+    private final int[] fields;
+    private final DataFilter df;
     
     /**
      * Constructs a new Query object from a data filter.
@@ -94,12 +94,5 @@ public class SelectQuery extends Query {
         }
         
         return items;
-    }
-
-    @Override
-    public void clear() {
-        super.clear();
-        fields = null;
-        df = null;
     }
 }

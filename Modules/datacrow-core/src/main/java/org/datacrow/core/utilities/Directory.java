@@ -44,9 +44,10 @@ public class Directory {
     
     private IClient client;
     
-    private String path; 
-    private boolean recurse; 
-    private String[] extensions;
+    private String path;
+    
+    private final boolean recurse;
+    private final String[] extensions;
     
     public Directory(String path, 
                      boolean recurse, 

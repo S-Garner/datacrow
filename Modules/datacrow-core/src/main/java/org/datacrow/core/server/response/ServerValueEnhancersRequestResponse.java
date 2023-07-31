@@ -36,10 +36,11 @@ public class ServerValueEnhancersRequestResponse extends ServerResponse {
 
 	private static final long serialVersionUID = 1L;
 
-    private Map<DcField, Collection<IValueEnhancer>> enhancers;
+    private final Map<DcField, Collection<IValueEnhancer>> enhancers;
 
 	public ServerValueEnhancersRequestResponse() {
 	    super(_RESPONSE_VALUE_ENHANCERS);
+	    
 	    enhancers = new HashMap<DcField, Collection<IValueEnhancer>>();
 	}
 

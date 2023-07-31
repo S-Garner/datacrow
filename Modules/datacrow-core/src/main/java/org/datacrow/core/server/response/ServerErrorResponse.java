@@ -29,8 +29,8 @@ public class ServerErrorResponse extends ServerResponse {
 
 	private static final long serialVersionUID = 1L;
 
-	private String msg;
-	private String error;
+	private final String msg;
+	private final String error;
 	
 	public ServerErrorResponse(Throwable t, String msg) {
 	    super(_RESPONSE_ERROR);

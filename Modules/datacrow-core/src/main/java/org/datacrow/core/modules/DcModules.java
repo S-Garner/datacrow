@@ -72,6 +72,8 @@ import org.datacrow.core.utilities.filefilters.FileNameFilter;
  * @author Robert Jan van der Waals
  */
 public class DcModules implements Serializable {
+	
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcModules.class.getName());
     
 	private static final long serialVersionUID = 1L;
 
@@ -141,7 +143,6 @@ public class DcModules implements Serializable {
 	
     private static boolean loaded = false;
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcModules.class.getName());
     private static final Map<Integer, DcPropertyModule> propertyBaseModules = new HashMap<Integer, DcPropertyModule>();
     private static final Map<Integer, DcModule> modules = new LinkedHashMap<Integer, DcModule>();
     
@@ -1010,7 +1011,6 @@ public class DcModules implements Serializable {
         if (reader != null) {
             reader.start();
             items = reader.getItems();
-            reader.clear();
         }
         
         return items;

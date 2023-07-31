@@ -40,7 +40,7 @@ import org.datacrow.core.server.Connector;
 
 public class Templates {
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(Templates.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Templates.class.getName());
     
     private static final Collection<DcTemplate> templates = new ArrayList<DcTemplate>();
     

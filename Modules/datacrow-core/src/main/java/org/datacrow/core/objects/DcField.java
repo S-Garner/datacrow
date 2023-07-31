@@ -50,23 +50,26 @@ public class DcField implements Serializable {
 
 	private static final long serialVersionUID = 1L;
     
-    private String systemName;
-    private String label;
-    private boolean searchable;
-    private boolean readonly;
-    private boolean uiOnly;
-    private int maximumLength;
-    private int fieldType;
-    private int valueType;
+    private final String systemName;
+    private final String label;
+    private final boolean searchable;
+    private final boolean readonly;
+    private final boolean uiOnly;
+    
+    private final int fieldType;
+    private final int valueType;
     private final int index;
     private final int module;
-    private int sourceModuleIdx;
-    private String databaseFieldName;
+    private final int sourceModuleIdx;
+    private final String databaseFieldName;
+    
+    private final Collection<IValueEnhancer> enhancers = new ArrayList<IValueEnhancer>();
+
+    private int maximumLength;
     private String resourceKey;
+    
     private boolean enabled = true;
     
-    private Collection<IValueEnhancer> enhancers = new ArrayList<IValueEnhancer>();
-
     /**
      * Creates a new field based on a XML definition.
      * @param field XML definition.

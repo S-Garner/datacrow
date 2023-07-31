@@ -46,22 +46,16 @@ import org.datacrow.core.security.SecuredUser;
 
 public class InsertQuery extends Query {
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(InsertQuery.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(InsertQuery.class.getName());
     
-    private DcObject dco;
+    private final DcObject dco;
     
     public InsertQuery(SecuredUser su, DcObject dco) {
         super(su, dco.getModule().getIndex());
         this.dco = dco;
         this.dco.setIDs();
     }
-    
-    @Override
-    public void clear() {
-        super.clear();
-        dco = null;
-    }
-    
+
     @Override
     @SuppressWarnings("resource")
     public List<DcObject> run() {

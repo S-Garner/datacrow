@@ -33,7 +33,7 @@ public class ProgramDefinitions implements IDefinitions {
 
 	private static final long serialVersionUID = 1L;
 
-	Collection<ProgramDefinition> definitions = new ArrayList<ProgramDefinition>();
+	private final Collection<ProgramDefinition> definitions = new ArrayList<ProgramDefinition>();
     
     @Override
     public void add(Collection<Definition> c) {

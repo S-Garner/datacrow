@@ -54,7 +54,7 @@ import com.google.gson.JsonSerializer;
 
 public class DcFieldValueAdapter implements JsonDeserializer<DcFieldValue>, JsonSerializer<DcFieldValue> {
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcFieldValueAdapter.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcFieldValueAdapter.class.getName());
     
     @SuppressWarnings("unchecked")
     public JsonElement serialize(

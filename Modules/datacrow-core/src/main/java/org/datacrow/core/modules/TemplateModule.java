@@ -45,7 +45,7 @@ public class TemplateModule extends DcModule {
     
 	private static final long serialVersionUID = 1L;
 
-    private DcModule parent;
+    private final DcModule parent;
     
     /**
      * Creates a new instance based on the specified module. The fields of the provided module

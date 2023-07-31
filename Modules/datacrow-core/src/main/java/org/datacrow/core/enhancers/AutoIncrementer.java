@@ -51,7 +51,7 @@ public class AutoIncrementer implements IValueEnhancer {
 
 	private static final long serialVersionUID = 1L;
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(AutoIncrementer.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(AutoIncrementer.class.getName());
     
     private final int field;
     

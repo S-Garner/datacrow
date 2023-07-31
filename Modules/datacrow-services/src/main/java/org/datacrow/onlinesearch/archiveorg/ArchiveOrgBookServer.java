@@ -44,8 +44,8 @@ public class ArchiveOrgBookServer implements IServer {
     
 	private static final long serialVersionUID = 1L;
 
-    private Collection<Region> regions = new ArrayList<Region>();
-    private Collection<SearchMode> modes = new ArrayList<SearchMode>();
+    private final Collection<Region> regions = new ArrayList<Region>();
+    private final Collection<SearchMode> modes = new ArrayList<SearchMode>();
 
     public ArchiveOrgBookServer() {
         regions.add(new Region("en", "English", "https://www.archive.org/"));

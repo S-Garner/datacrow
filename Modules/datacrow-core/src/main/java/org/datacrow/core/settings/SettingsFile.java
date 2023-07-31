@@ -40,7 +40,7 @@ import org.datacrow.core.log.DcLogger;
  */
 public class SettingsFile {
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(SettingsFile.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SettingsFile.class.getName());
     
     /**
      * Save the settings file

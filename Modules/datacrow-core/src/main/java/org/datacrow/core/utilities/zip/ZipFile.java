@@ -41,9 +41,9 @@ public class ZipFile {
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ZipFile.class.getName());
 	
-	private ZipOutputStream zout;
-	private FileOutputStream fos;
-	private BufferedOutputStream bos;
+	private final ZipOutputStream zout;
+	private final FileOutputStream fos;
+	private final BufferedOutputStream bos;
 	
 	public ZipFile(String path, String filename) throws FileNotFoundException {
 		this(new File(path + filename));

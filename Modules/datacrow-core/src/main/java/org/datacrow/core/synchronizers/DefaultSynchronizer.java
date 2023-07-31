@@ -49,7 +49,7 @@ public abstract class DefaultSynchronizer extends Synchronizer {
 
 	private static final long serialVersionUID = 1L;
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DefaultSynchronizer.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DefaultSynchronizer.class.getName());
     
     protected DcObject dco;
     

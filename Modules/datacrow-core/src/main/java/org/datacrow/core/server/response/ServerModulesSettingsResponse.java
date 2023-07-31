@@ -35,7 +35,7 @@ public class ServerModulesSettingsResponse extends ServerResponse {
 
 	private static final long serialVersionUID = 1L;
 
-	private HashMap<Integer, Settings> settings = new HashMap<Integer, Settings>();
+	private final HashMap<Integer, Settings> settings = new HashMap<Integer, Settings>();
 
 	public ServerModulesSettingsResponse() {
 	    super(_RESPONSE_MODULE_SETTINGS);

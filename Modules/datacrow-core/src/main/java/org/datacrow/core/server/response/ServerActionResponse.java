@@ -29,7 +29,7 @@ public class ServerActionResponse extends ServerResponse {
 
 	private static final long serialVersionUID = 1L;
 
-	private boolean success;
+	private final boolean success;
 	
 	public ServerActionResponse(boolean success) {
 	    super(_RESPONSE_ACTION);

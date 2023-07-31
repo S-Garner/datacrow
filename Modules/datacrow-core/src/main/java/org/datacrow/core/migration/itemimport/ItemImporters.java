@@ -38,8 +38,13 @@ public class ItemImporters {
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporters.class.getName());
 	
-    private static ItemImporters instance;
-    private Map<String, Class<?>> importers = new HashMap<String, Class<?>>(); 
+    private static final ItemImporters instance;
+    
+    private final Map<String, Class<?>> importers = new HashMap<String, Class<?>>();
+    
+    static {
+    	instance = new ItemImporters();
+    }
     
     private ItemImporters() {
         importers.put("CSV", CsvImporter.class);
@@ -47,7 +52,6 @@ public class ItemImporters {
     }
 
     public static ItemImporters getInstance() {
-        instance = instance == null ? new ItemImporters() : instance;
         return instance;
     }
 

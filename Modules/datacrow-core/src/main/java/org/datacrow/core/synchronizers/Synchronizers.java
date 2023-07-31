@@ -32,7 +32,7 @@ public class Synchronizers {
 	
 	private static final Synchronizers instance;
 	
-	private Map<Integer, Synchronizer> synchronizers;
+	private final Map<Integer, Synchronizer> synchronizers;
 	
 	static {
 		instance = new Synchronizers();

@@ -27,8 +27,8 @@ package org.datacrow.onlinesearch.mobygames;
 
 public class MobyGamesPlatform {
     
-    private String id;
-    private String description;
+    private final String id;
+    private final String description;
     
     public MobyGamesPlatform(String id, String description) {
         this.id = id;

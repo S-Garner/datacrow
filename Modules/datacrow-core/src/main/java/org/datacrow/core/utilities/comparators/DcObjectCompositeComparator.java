@@ -35,7 +35,7 @@ import org.datacrow.core.objects.DcObject;
  */
 public class DcObjectCompositeComparator implements Comparator<DcObject> {
 
-    private Collection<DcObjectComparator> dcocs;
+    private final Collection<DcObjectComparator> dcocs;
 
     public DcObjectCompositeComparator(Collection<DcObjectComparator> dcocs) {
         this.dcocs = dcocs;

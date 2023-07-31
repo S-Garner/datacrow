@@ -29,8 +29,9 @@ import org.datacrow.core.objects.DcObject;
 
 public class ITunesSearchResult {
     
-    private DcObject dco;
-    private String id;
+    private final DcObject dco;
+    private final String id;
+    
     private String coverUrl;
     
     public ITunesSearchResult(DcObject dco, String id) {

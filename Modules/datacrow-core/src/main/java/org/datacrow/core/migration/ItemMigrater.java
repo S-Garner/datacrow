@@ -45,11 +45,12 @@ public abstract class ItemMigrater {
     protected final boolean processChildren;
     protected final int moduleIdx;
     protected final int mode;
-    protected String key;
+    protected final String key;
+    
     protected File file;
     protected DcThread task;
     
-    private SecuredUser su;
+    private final SecuredUser su;
     
     public ItemMigrater(SecuredUser su, int moduleIdx, String key, int mode, boolean processChildren) throws Exception {
         this.processChildren = processChildren;

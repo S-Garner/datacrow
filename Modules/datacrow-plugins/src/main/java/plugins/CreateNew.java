@@ -83,7 +83,6 @@ public class CreateNew extends Plugin {
             itemForm = new ItemForm(getTemplate(), false, false, dco, true);
 
         itemForm.setVisible(true);
-        clear();
     }
     
     @Override

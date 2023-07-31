@@ -48,7 +48,7 @@ public abstract class Synchronizer implements Serializable{
     public static final int _ALL = 0;
     public static final int _SELECTED = 1;
 
-    private String title;
+    private final String title;
     protected final int module;
     
     public Synchronizer(String title, int module) {

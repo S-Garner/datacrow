@@ -69,17 +69,17 @@ public class DatabaseManager {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DatabaseManager.class.getName());
     
-    private static DatabaseManager instance = new DatabaseManager();
+    private static final DatabaseManager instance = new DatabaseManager();
     
-    private DcDatabase db = new DcDatabase();
-
-    private boolean initialized = false;
+    private final DcDatabase db = new DcDatabase();
     
-    private ConcurrentHashMap<String, Connection> connections = new ConcurrentHashMap<String, Connection>();
+    private final ConcurrentHashMap<String, Connection> connections = new ConcurrentHashMap<String, Connection>();
     
     private Connection adminConnection;
     private Connection checkConnection;
-   
+
+    private boolean initialized = false;
+    
     /**
      * Retrieves the sole instance of this class
      */

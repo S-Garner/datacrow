@@ -66,7 +66,8 @@ public class ModuleImporter {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ModuleImporter.class.getName());
 
-	private File file;
+	private final File file;
+	
 	private Importer importer;
 	
 	public ModuleImporter(File file) {
@@ -335,7 +336,6 @@ public class ModuleImporter {
 		        ItemImporterHelper reader = new ItemImporterHelper("XML", moduleIdx, file);
                 reader.start();
                 Collection<DcObject> items = reader.getItems();
-                reader.clear();
                 
                 client.notifyStartedSubProcess(items.size());
                 

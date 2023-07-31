@@ -51,11 +51,6 @@ public class ClientRequestItem extends ClientRequest {
         this.module = module;
         this.searchType = searchType;
     }
-    
-	@Override
-	public void close() {
-		value = null;
-	}
 
 	public String getExternalKeyType() {
 		return externalKeyType;

@@ -35,8 +35,9 @@ public class DcTableSettings implements Serializable {
     
 	private static final long serialVersionUID = 1L;
 
-	private int module; 
-    private Map<Integer, Integer> columnWidths = new HashMap<Integer, Integer>();
+	private int module;
+	
+    private final Map<Integer, Integer> columnWidths = new HashMap<Integer, Integer>();
 
     /**
      * Creates a new, empty, definition

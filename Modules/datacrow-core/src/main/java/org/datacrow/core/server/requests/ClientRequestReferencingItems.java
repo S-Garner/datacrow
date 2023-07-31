@@ -31,8 +31,8 @@ public class ClientRequestReferencingItems extends ClientRequest {
 
 	private static final long serialVersionUID = 1L;
 
-	private int moduleIdx;
-	private String ID;
+	private final int moduleIdx;
+	private final String ID;
 
 	public ClientRequestReferencingItems(SecuredUser su, int moduleIdx, String ID) {
 		super(ClientRequest._REQUEST_REFERENCING_ITEMS, su);

@@ -43,7 +43,7 @@ import org.datacrow.core.server.Connector;
  */
 public class DcTemplate extends DcObject {
 	
-	private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcTemplate.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcTemplate.class.getName());
 
 	private static final long serialVersionUID = 1L;
 

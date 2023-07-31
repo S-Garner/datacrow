@@ -43,7 +43,7 @@ import org.w3c.dom.Element;
  */
 public abstract class XmlObject implements Serializable {
     
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(XmlObject.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(XmlObject.class.getName());
     
     private static final long serialVersionUID = 1L;
 

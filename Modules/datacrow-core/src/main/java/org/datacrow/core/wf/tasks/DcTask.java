@@ -44,14 +44,14 @@ public abstract class DcTask implements Runnable {
     private boolean executing = false;
     private boolean canceled = false;
     
-    protected Collection<IClient> clients = new ArrayList<IClient>();
-
-    protected Collection<DcObject> items = new ArrayList<DcObject>();
+    protected final Collection<IClient> clients = new ArrayList<IClient>();
+    protected final Collection<DcObject> items = new ArrayList<DcObject>();
 
     protected boolean success = false;
     
-    private String name;
-    private String id;
+    private final String name;
+    private final String id;
+    
     private boolean silent = false;
     
     public DcTask(String name) {
@@ -138,7 +138,8 @@ public abstract class DcTask implements Runnable {
     }
     
     public void addItems(Collection<DcObject> items) {
-    	this.items = items;
+    	this.items.clear();
+    	this.items.addAll(items);
     }
     
     public void setModule(int moduleIdx) {

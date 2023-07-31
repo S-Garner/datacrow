@@ -29,7 +29,8 @@ import org.datacrow.core.objects.DcObject;
 
 public class ArchiveOrgSearchResult {
 
-	private DcObject dco;
+	private final DcObject dco;
+	
     private String id;
     
     public ArchiveOrgSearchResult(DcObject dco) {

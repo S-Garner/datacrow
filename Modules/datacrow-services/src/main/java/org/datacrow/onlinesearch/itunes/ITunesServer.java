@@ -43,8 +43,8 @@ public class ITunesServer implements IServer {
     
     private static final long serialVersionUID = 1L;
 
-    private Collection<Region> regions = new ArrayList<Region>();
-    private Collection<SearchMode> modes = new ArrayList<SearchMode>();
+    private final Collection<Region> regions = new ArrayList<Region>();
+    private final Collection<SearchMode> modes = new ArrayList<SearchMode>();
 
     public ITunesServer() {
         regions.add(new Region("en", "English", "https://itunes.apple.com/"));

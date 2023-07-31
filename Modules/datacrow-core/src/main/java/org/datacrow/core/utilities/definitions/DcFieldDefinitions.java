@@ -38,7 +38,7 @@ public class DcFieldDefinitions implements IDefinitions {
     
 	private static final long serialVersionUID = 1L;
 
-	private java.util.List<DcFieldDefinition> definitions = new ArrayList<DcFieldDefinition>();
+	private final java.util.List<DcFieldDefinition> definitions = new ArrayList<DcFieldDefinition>();
     private final int module;
     
     public DcFieldDefinitions(int module) {

@@ -68,7 +68,7 @@ import org.datacrow.core.utilities.StringUtils;
  */
 public abstract class FileImporter {
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(FileImporter.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FileImporter.class.getName());
     
     private final int module;
     private IFileImportClient client;

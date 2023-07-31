@@ -67,7 +67,7 @@ public class DcModuleSettings extends Settings {
 
 	private String _General = "lblGroupGeneral";
 	
-	private int moduleIdx;
+	private final int moduleIdx;
     
     /**
      * Initializes and loads all module settings

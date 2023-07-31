@@ -54,7 +54,7 @@ public class DcValue implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcValue.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcValue.class.getName());
     
     private boolean changed = false;
     private Object value = null;
@@ -107,7 +107,7 @@ public class DcValue implements Serializable {
 
         if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
             if (o instanceof Picture) {
-                if (value != null) ((Picture) value).destroy();
+                if (value != null) ((Picture) value).cleanup();
 
                 setValueNative(o, field);   
             } else {

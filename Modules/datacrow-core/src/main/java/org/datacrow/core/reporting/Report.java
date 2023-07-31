@@ -29,8 +29,8 @@ import java.io.File;
 
 public class Report {
     
-    private String name;
-    private String filename;
+    private final String name;
+    private final String filename;
     
     public Report(String filename) {
         this.filename = filename;

@@ -77,19 +77,12 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     
 	private static final long serialVersionUID = 1L;
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcObject.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcObject.class.getName());
 
-    protected final int module;
-    
-    private Map<Integer, DcValue> values = new HashMap<Integer, DcValue>();
-    
-    protected transient List<DcObject> children = new ArrayList<DcObject>();
+    private final Map<Integer, DcValue> values = new HashMap<Integer, DcValue>();
+    protected transient final List<DcObject> children = new ArrayList<DcObject>();
 
-    private transient boolean validate = true;
-    private transient boolean updateGUI = true;
-    
     public static final int _ID = 0;
-    
     public static final int _SYS_MODULE = 201;
     public static final int _SYS_AVAILABLE = 202;
     public static final int _SYS_LENDBY = 203;
@@ -98,15 +91,12 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     public static final int _SYS_MODIFIED = 206;
     public static final int _SYS_SERVICE = 207;
     public static final int _SYS_SERVICEURL = 208;
-    
     public static final int _SYS_FILEHASH = 209;
     public static final int _SYS_FILESIZE = 210;
     public static final int _SYS_FILENAME = 211;
     public static final int _SYS_FILEHASHTYPE = 212;
-
     public static final int _SYS_CONTAINER = 213;
     public static final int _SYS_DISPLAYVALUE = 214;
-    
     public static final int _SYS_LOANDUEDATE = 215;
     public static final int _SYS_LOANSTATUSDAYS = 216;
     public static final int _SYS_LOANSTATUS = 219;
@@ -114,18 +104,17 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     public static final int _SYS_LOANENDDATE = 221;
     public static final int _SYS_TAGS = 222;
     public static final int _SYS_LOANALLOWED = 223;
-    
     public static final int _VALUE = 217;
-    
     public static final int _SYS_EXTERNAL_REFERENCES = 218;
     
-    private transient boolean loaded = false;
+    protected final int module;
     
     private boolean isNew = true;
-    
+    private transient boolean loaded = false;  
     private transient boolean lastInLine = true;
-    
     private transient boolean deleteExistingChildren = false;
+    private transient boolean validate = true;
+    private transient boolean updateGUI = true;
     
     /**
      * Creates a new instance.
@@ -497,12 +486,9 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     }  
 
     public void setChildren(Collection<DcObject> children) {
-        if (this.children == null) {
-            this.children = new ArrayList<DcObject>(children);
-        } else {
-            this.children.clear();
-            this.children.addAll(children);
-        }
+
+        this.children.clear();
+        this.children.addAll(children);
         
         for (DcObject child : children)
             child.setValue(child.getParentReferenceFieldIndex(), getID());
@@ -513,7 +499,6 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         	child.createReference(child.getParentReferenceFieldIndex(), this);
         } else {
             child.setValue(child.getParentReferenceFieldIndex(), getID());
-            this.children = children == null ? new ArrayList<DcObject>() : children;
             children.add(child);
         }
     }
@@ -1536,21 +1521,9 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         }
     }
     
-    public void destroy() {
-        try {
-            
-            if (children != null)
-                children.clear();
-            
-            if (values != null) {
-                values.clear();
-                values = null;
-            }
-            
-            children = null;
-            loaded = false;
-        } catch (Exception e) {
-            logger.error(e, e);
-        }
+    public void cleanup() {
+        children.clear();
+        values.clear();
+        loaded = false;
     }    
 }

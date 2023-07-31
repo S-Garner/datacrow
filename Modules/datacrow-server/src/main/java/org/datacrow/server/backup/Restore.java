@@ -55,8 +55,9 @@ public class Restore extends Thread {
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Restore.class.getName());
     
     private Version version;
-    private IBackupRestoreClient client;
-    private ZipFile zipFile;
+    
+    private final IBackupRestoreClient client;
+    private final ZipFile zipFile;
     
     /**
      * Creates a new instance.
@@ -121,7 +122,6 @@ public class Restore extends Thread {
     private void finish() {
         client.notifyTaskCompleted(true, null);
         version = null;
-        client = null;
         
         try {
             zipFile.close();

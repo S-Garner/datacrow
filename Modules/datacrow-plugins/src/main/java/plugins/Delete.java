@@ -65,7 +65,6 @@ public class Delete extends Plugin {
     @Override
     public void actionPerformed(ActionEvent e) {
     	GUI.getInstance().getSearchView(getModule().getIndex()).getCurrent().delete();
-        clear();
     }
     
     @Override

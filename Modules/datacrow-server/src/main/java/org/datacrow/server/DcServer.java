@@ -63,13 +63,13 @@ public class DcServer implements Runnable, IStarterClient, IClient {
 	
 	private static DcLogger logger;
 	
-	protected int port;
+	protected final int port;
 	
     protected ServerSocket socket = null;
     protected boolean isStopped = false;
     protected Thread runningThread = null;
     
-    private LinkedBlockingDeque<DcServerSession> sessions = new  LinkedBlockingDeque<DcServerSession>();
+    private final LinkedBlockingDeque<DcServerSession> sessions = new  LinkedBlockingDeque<DcServerSession>();
     
     private static DcServer server;
     private static DcImageWebServer imgServer;

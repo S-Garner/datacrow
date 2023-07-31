@@ -43,7 +43,7 @@ public final class ModulePermission implements Serializable {
 
 	private int moduleIdx;
     
-    private Map<Integer, Permission> fields = new HashMap<Integer, Permission>();
+    private final Map<Integer, Permission> fields = new HashMap<Integer, Permission>();
     
     /**
      * Creates a new instance

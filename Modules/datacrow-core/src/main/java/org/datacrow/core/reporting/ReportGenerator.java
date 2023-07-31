@@ -61,22 +61,28 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
+/**
+ * TODO: refactor - inner class structure
+ *
+ */
 public class ReportGenerator {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ReportGenerator.class.getName());
     
     private File source;
-    private File target;
-    private Report report;
     
-    private List<String> items;
-    private IItemExporterClient client;
+    private final File target;
+    private final Report report;
+    
+    private final List<String> items;
+    private final IItemExporterClient client;
+    
     private BufferedOutputStream bos;
     
     private GenerateReportTask rt;
     private ItemExporter exporter;
     
-    private ReportType reportType;
+    private final ReportType reportType;
 
     protected boolean canceled = false;
     
@@ -280,10 +286,6 @@ public class ReportGenerator {
                 }
                 
                 source = null;
-                report = null;
-                items = null;
-                target = null;
-                client = null;
                 exporter = null;
                 
                 try {
@@ -291,8 +293,6 @@ public class ReportGenerator {
                 } catch (IOException e) {
                     logger.debug("Error while closing resource", e);
                 }
-                
-                bos = null;                   
             }
         }
     }

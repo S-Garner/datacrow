@@ -93,7 +93,7 @@ public class DcModule implements Comparable<DcModule>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcModule.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcModule.class.getName());
     
     public static final int _TYPE_MODULE = 0;
     public static final int _TYPE_PROPERTY_MODULE = 1;
@@ -600,7 +600,7 @@ public class DcModule implements Comparable<DcModule>, Serializable {
     }  
 
     public void release(DcObject dco) {
-        dco.destroy();
+        dco.cleanup();
     }
     
     /**

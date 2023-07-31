@@ -36,7 +36,8 @@ public class DcFieldDefinition extends Definition {
 
 	private static final long serialVersionUID = 1L;
 	
-	private int module;
+	private final int module;
+	
     private int index;
     
     private boolean required;

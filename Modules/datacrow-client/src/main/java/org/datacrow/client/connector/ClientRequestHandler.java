@@ -41,7 +41,7 @@ import org.datacrow.core.server.serialization.SerializationHelper;
 
 public class ClientRequestHandler {
 	
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(ClientRequestHandler.class);
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ClientRequestHandler.class);
 
 	private ClientRequest cr;
     

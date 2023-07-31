@@ -31,7 +31,7 @@ public class ServerItemKeysRequestResponse extends ServerResponse {
 
 	private static final long serialVersionUID = 1L;
 
-	private Map<String, Integer> items;
+	private final Map<String, Integer> items;
 	
 	public ServerItemKeysRequestResponse(Map<String, Integer> items) {
 	    super(_RESPONSE_ITEM_KEYS);

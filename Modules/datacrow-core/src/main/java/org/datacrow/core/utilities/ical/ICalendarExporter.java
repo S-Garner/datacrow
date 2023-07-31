@@ -54,17 +54,18 @@ public class ICalendarExporter extends Thread implements IClient {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ICalendarExporter.class.getName());
 
-    private IClient client;
+    private final IClient client;
     
-    private Calendar cal = Calendar.getInstance();
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
-    private SimpleDateFormat sdf2 = new SimpleDateFormat("dd' 'MMM' 'yyyy");
-    private Date dt = new Date();
-    private boolean full = false;
+    private final Calendar cal = Calendar.getInstance();
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
+    private final SimpleDateFormat sdf2 = new SimpleDateFormat("dd' 'MMM' 'yyyy");
+    private final Date dt = new Date();
+    
+    private final File file;
+
+    private final boolean full;
     
     private DcTask task;
-    
-    private File file;
     
     public ICalendarExporter(IClient client, File file, boolean full) {
         this.client = client;

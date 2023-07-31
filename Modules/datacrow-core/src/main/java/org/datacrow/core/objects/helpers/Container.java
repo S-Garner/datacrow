@@ -117,13 +117,13 @@ public class Container extends DcObject {
 
             DataFilter df = new DataFilter(DcModules._ITEM);
             df.addEntry(new DataFilterEntry(DataFilterEntry._AND, DcModules._ITEM, DcObject._SYS_CONTAINER, Operator.EQUAL_TO, this));
-            children = DcConfig.getInstance().getConnector().getItems(df, new int[] {DcObject._ID});
+            
+            Collection<DcObject> c = DcConfig.getInstance().getConnector().getItems(df, new int[] {DcObject._ID});
+            children.addAll(c);
             
             // We need to have the minimum set of information available for sorting
             for (DcObject dco : children)
                 dco.load(dco.getModule().getMinimalFields(null));
-            
-            //Collections.sort(children, new DcObjectComparator(DcObject._SYS_DISPLAYVALUE));
         }
     } 
 }

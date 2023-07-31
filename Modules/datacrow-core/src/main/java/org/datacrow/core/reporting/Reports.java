@@ -38,7 +38,7 @@ import org.datacrow.core.utilities.Directory;
 
 public class Reports {
 
-    private Map<Integer, String> folders = new HashMap<Integer, String>();
+    private final Map<Integer, String> folders = new HashMap<Integer, String>();
     
     public Reports() {
         for (DcModule module : DcModules.getModules()) {

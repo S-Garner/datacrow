@@ -60,7 +60,7 @@ public class ModuleUpgrade extends XmlObject {
     
 	private static final long serialVersionUID = 1L;
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(ModuleUpgrade.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ModuleUpgrade.class.getName());
     
     private File add;
     private File alter;

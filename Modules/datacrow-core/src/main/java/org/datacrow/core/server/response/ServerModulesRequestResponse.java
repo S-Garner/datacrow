@@ -36,8 +36,8 @@ public class ServerModulesRequestResponse extends ServerResponse {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<DcModule> modules;
-	private List<DcPropertyModule> propertyBaseModules;
+	private final List<DcModule> modules;
+	private final List<DcPropertyModule> propertyBaseModules;
 
 	public ServerModulesRequestResponse() {
 	    super(_RESPONSE_MODULES);

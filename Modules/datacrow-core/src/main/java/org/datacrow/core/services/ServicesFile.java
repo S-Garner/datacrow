@@ -41,8 +41,8 @@ public class ServicesFile {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ServicesFile.class.getName());
 
-    private Version version;
-    private File file;
+    private final Version version;
+    private final File file;
     
     public ServicesFile(File file) throws IOException {
         this.file = file;

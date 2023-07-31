@@ -67,7 +67,7 @@ public class SecurityCenter {
     private static SecurityCenter instance = new SecurityCenter();
     
     // all logged on users
-    private Map<String, SecuredUser> users = new HashMap<String, SecuredUser>();
+    private final Map<String, SecuredUser> users = new HashMap<String, SecuredUser>();
     private SecuredUser admin;
     
     /**
@@ -290,9 +290,8 @@ public class SecurityCenter {
             
             InsertQuery query = new InsertQuery(su, user);
             query.run();
-            query.clear();
             
-            admin.destroy();
+            admin.cleanup();
         } catch (Exception e) {
             logger.error(e, e);
         }
@@ -387,7 +386,6 @@ public class SecurityCenter {
             CreateQuery query = new CreateQuery(DcModules._USER);
             query.setLog(false);
             query.run();
-            query.clear();
         } catch (Exception se) {
         	logger.debug(se, se);
         }
@@ -395,11 +393,9 @@ public class SecurityCenter {
         CreateQuery query = new CreateQuery(DcModules._PICTURE);
         query.setLog(false);
         query.run();
-        query.clear();
 
         query = new CreateQuery(DcModules._PERMISSION);
         query.setLog(false);
         query.run();
-        query.clear();
     }
 }

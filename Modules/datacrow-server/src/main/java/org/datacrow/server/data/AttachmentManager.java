@@ -48,11 +48,11 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class AttachmentManager {
 
-	private transient static DcLogger logger = DcLogManager.getInstance().getLogger(AttachmentManager.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(AttachmentManager.class.getName());
 	
-	private static AttachmentManager instance;
+	private static final AttachmentManager instance;
 	
-	private String dir = DcConfig.getInstance().getAttachmentDir();
+	private final String dir = DcConfig.getInstance().getAttachmentDir();
 	
 	static {
 		instance = new AttachmentManager();

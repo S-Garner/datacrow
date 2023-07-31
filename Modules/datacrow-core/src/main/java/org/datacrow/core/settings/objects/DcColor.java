@@ -31,9 +31,9 @@ package org.datacrow.core.settings.objects;
  */
 public class DcColor {
 	
-	private int r;
-	private int g;
-	private int b;
+	private final int r;
+	private final int g;
+	private final int b;
 	
 	public DcColor(int r, int g, int b) {
 		this.r = r;

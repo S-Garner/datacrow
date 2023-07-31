@@ -33,9 +33,9 @@ public class QuickViewFieldDefinitions implements IDefinitions {
 
 	private static final long serialVersionUID = 1L;
 
-	private Collection<QuickViewFieldDefinition> definitions = new ArrayList<QuickViewFieldDefinition>();
+	private final Collection<QuickViewFieldDefinition> definitions = new ArrayList<QuickViewFieldDefinition>();
     
-    private int module;
+    private final int module;
     
     public QuickViewFieldDefinitions(int module) {
         this.module = module;

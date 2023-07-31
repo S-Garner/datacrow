@@ -41,10 +41,10 @@ public class DcImageIcon extends ImageIcon {
 
 	private static final long serialVersionUID = 1L;
 
-    private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcImageIcon.class.getName());
+    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcImageIcon.class.getName());
 
-    public static int _TYPE_JPEG = 0;
-    public static int _TYPE_PNG = 1;
+    public static final int _TYPE_JPEG = 0;
+    public static final int _TYPE_PNG = 1;
     
 	private byte[] bytes;
 	private String filename;
