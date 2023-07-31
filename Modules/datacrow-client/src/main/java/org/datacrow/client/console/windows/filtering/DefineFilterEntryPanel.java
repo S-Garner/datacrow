@@ -138,16 +138,8 @@ public class DefineFilterEntryPanel extends JPanel implements MouseListener, Act
                                 operator.needsValue() ? value : null);
         
         list.add(entry);
-        setFields(module);
-
-        if (comboFields.getItemCount() > 0) {
-            comboFields.setSelectedIndex(0);
-        } else {
-            comboOperators.removeAllItems();
-            buttonAdd.setEnabled(false);
-        } 
-        
         list.clearSelection();
+
         setAndOr();
     }
     
