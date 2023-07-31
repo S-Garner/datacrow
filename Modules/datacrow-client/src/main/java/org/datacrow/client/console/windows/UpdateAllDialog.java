@@ -40,11 +40,13 @@ import javax.swing.SwingUtilities;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
+import org.datacrow.client.console.views.MasterView;
 import org.datacrow.client.console.views.View;
 import org.datacrow.client.console.windows.itemforms.ItemForm;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
+import org.datacrow.core.console.IMasterView;
 import org.datacrow.core.console.IView;
 import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.enhancers.ValueEnhancers;
@@ -53,6 +55,7 @@ import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
@@ -142,6 +145,9 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
             try {
                 DcObject item;
                 Connector connector = DcConfig.getInstance().getConnector();
+                
+                StringBuffer sb = new StringBuffer();
+                
 	            for (String key : keys) {
 	                
 	                if (!keepOnRunning) break;
@@ -156,12 +162,14 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
                             if (view.getType() == View._TYPE_INSERT) {
                             	view.update(item.getID(), item);
                             } else {
-                            	item.setUpdateGUI(false);
+                            	item.setUpdateGUI(true);
                                 connector.saveItem(item);
                             }
-                        } catch (Exception e) {
-                            // warn the user of the event that occurred (for example an incorrect parent for a container)
-                            GUI.getInstance().displayErrorMessage(e.getMessage());
+                        } catch (ValidationException ve) {
+        					if (sb.length() > 0)
+        						sb.append("\r\n");
+        					
+        					sb.append(item.toString() + ": " + ve.getMessage());
                         }
                     }
                     
@@ -175,6 +183,13 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
 	                
 	                count++;
 	            }
+	            
+	            IMasterView mv =  GUI.getInstance().getSearchView(dco.getModule().getIndex());
+	            mv.refresh();
+	            
+				if (sb.length() > 0)
+					GUI.getInstance().displayWarningMessage(sb.toString());
+				
             } finally {
                 buttonApply.setEnabled(true);
                 GUI.getInstance().getSearchView(module.getIndex()).refresh();

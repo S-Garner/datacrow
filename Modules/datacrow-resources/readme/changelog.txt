@@ -8,6 +8,7 @@ Data Crow version 4.10                        Released on 2023-08-xx
 - Added drag and drop support for pictures (from file).
 - Create multiple now allows for rows to be deleted.
 - Create multiple will only show one message when multiple items could not be saved.
+- Update All will now process all items and show a combined message on failures (due to constraints) rather then individual messages.
 
 [New]
 - New Russian translations has been added (not finalized) - major thanks to Ilya Sigidin.
