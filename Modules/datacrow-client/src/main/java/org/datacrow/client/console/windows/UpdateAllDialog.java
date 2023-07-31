@@ -57,7 +57,7 @@ import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 
-public class UpdateAllDialog extends DcDialog implements ActionListener {
+public class UpdateAllDialog extends DcFrame implements ActionListener {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(UpdateAllDialog.class.getName());
 
@@ -75,11 +75,8 @@ public class UpdateAllDialog extends DcDialog implements ActionListener {
     private ItemForm itemForm;
     
     public UpdateAllDialog(IView view) {
-
-    	super();
     	
-    	setTitle(DcResources.getText("lblUpdateAll"));
-    	setIconImage(IconLibrary._icoUpdateAll.getImage());
+    	super(DcResources.getText("lblUpdateAll"), IconLibrary._icoUpdateAll);
         
         this.view = view;
         this.module = view.getModule();
