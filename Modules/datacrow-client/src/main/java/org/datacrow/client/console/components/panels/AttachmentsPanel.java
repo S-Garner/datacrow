@@ -342,7 +342,7 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
         }
     }  
     
-    private class AttachmentPopupMenu extends DcPopupMenu {
+    private static class AttachmentPopupMenu extends DcPopupMenu {
         
 		public AttachmentPopupMenu(AttachmentsPanel ap) {
 

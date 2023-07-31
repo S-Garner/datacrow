@@ -5,7 +5,9 @@ Data Crow version 4.10                        Released on 2023-08-xx
 [Changed]
 - Portuguese translation has been updated - major thanks to Pedro Albuquerque.
 - Data Crow will no longer close windows or exit when pressing the escape key. This has been changed to CTRL/COMMAND+ESC.
-- Added drag and drop support for pictures (from file)
+- Added drag and drop support for pictures (from file).
+- Create multiple now allows for rows to be deleted.
+- Create multiple will only show one message when multiple items could not be saved.
 
 [New]
 - New Russian translations has been added (not finalized) - major thanks to Ilya Sigidin.
@@ -14,6 +16,7 @@ Data Crow version 4.10                        Released on 2023-08-xx
 
 [Fixed]
 - Incorrect alignment of the filter label on the related items tab.
+- Update all dialog; could not create new reference using the icon for the reference / references field.
 
 [Main things TODO]
 - File upload - also add info to the zip file: file size, file date
