@@ -35,9 +35,9 @@ public class ViewUpdater extends Thread {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ViewUpdater.class.getName());
     
+    private final IViewComponent vc;
+
     private boolean canceled = false;
-    
-    private IViewComponent vc;
     
     public ViewUpdater(IViewComponent vc) {
         this.vc = vc;

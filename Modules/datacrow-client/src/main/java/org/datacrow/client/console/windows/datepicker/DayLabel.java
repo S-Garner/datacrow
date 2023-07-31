@@ -37,7 +37,7 @@ import org.datacrow.client.console.components.DcLabel;
 
 public class DayLabel extends DcLabel implements MouseInputListener {
     
-    private DatePickerDialog parent;
+    private final DatePickerDialog parent;
     private Border oldBorder;
     
     public DayLabel(DatePickerDialog parent, int day) {

@@ -44,7 +44,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class PictureDialog extends DcDialog implements ActionListener {
 	
-    private DcPictureField pf = ComponentFactory.getPictureField(true, true);
+    private final DcPictureField pf = ComponentFactory.getPictureField(true, true);
     
     public PictureDialog(DcImageIcon ii) {
         super();
@@ -87,7 +87,6 @@ public class PictureDialog extends DcDialog implements ActionListener {
     
     @Override
     public void close() {
-        pf = null;
         super.close();
     }
     

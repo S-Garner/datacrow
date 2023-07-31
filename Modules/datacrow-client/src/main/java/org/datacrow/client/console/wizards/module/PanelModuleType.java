@@ -70,7 +70,7 @@ public class PanelModuleType extends ModuleWizardPanel {
     }
 
     @Override
-    public void destroy() {} 
+    public void cleanup() {} 
     
     @Override
     public Object apply() {

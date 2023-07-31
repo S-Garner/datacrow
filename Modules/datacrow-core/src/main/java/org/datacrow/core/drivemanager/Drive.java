@@ -31,8 +31,8 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class Drive {
 
-    private File path;
-    private String displayValue;
+    private final File path;
+    private final String displayValue;
     
     public Drive(File path) {
         this.path = path;

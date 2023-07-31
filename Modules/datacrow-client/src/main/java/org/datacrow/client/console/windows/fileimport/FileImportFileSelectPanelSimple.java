@@ -65,9 +65,9 @@ public class FileImportFileSelectPanelSimple extends JPanel implements ActionLis
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FileImportFileSelectPanelSimple.class.getName());
     
-    private JTextArea textLog = ComponentFactory.getTextArea();
-    private DcCheckBox cbRecursive = ComponentFactory.getCheckBox(DcResources.getText("lblRecursive"));
-    private JButton btAdd = ComponentFactory.getButton(DcResources.getText("lblAdd"), IconLibrary._icoAdd);
+    private final JTextArea textLog = ComponentFactory.getTextArea();
+    private final DcCheckBox cbRecursive = ComponentFactory.getCheckBox(DcResources.getText("lblRecursive"));
+    private final JButton btAdd = ComponentFactory.getButton(DcResources.getText("lblAdd"), IconLibrary._icoAdd);
 
     private FileNameFilter filter;
     private JButton btStart;

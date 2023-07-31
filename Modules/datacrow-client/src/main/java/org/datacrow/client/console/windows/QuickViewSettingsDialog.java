@@ -64,7 +64,8 @@ import org.datacrow.core.utilities.definitions.QuickViewFieldDefinitions;
 
 public class QuickViewSettingsDialog extends DcDialog implements ActionListener {
 
-    private JCheckBox cbShowPicturesInTabs = ComponentFactory.getCheckBox(DcResources.getText("lblShowPicturesInTabs"));
+    private final JCheckBox cbShowPicturesInTabs = ComponentFactory.getCheckBox(DcResources.getText("lblShowPicturesInTabs"));
+    
     private DefinitionPanel panelDefinitionsParent = null;
     private DefinitionPanel panelDefinitionsChild = null;
 

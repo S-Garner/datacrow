@@ -51,10 +51,10 @@ import org.datacrow.core.settings.DcSettings;
 
 public class TipOfTheDayDialog extends DcDialog implements ActionListener {
 
-    private DcHtmlEditorPane tipPane = ComponentFactory.getHtmlEditorPane();
-    private DcCheckBox checkShowTips = ComponentFactory.getCheckBox(DcResources.getText("lblShowTipsOnStartup"));
+    private final DcHtmlEditorPane tipPane = ComponentFactory.getHtmlEditorPane();
+    private final DcCheckBox checkShowTips = ComponentFactory.getCheckBox(DcResources.getText("lblShowTipsOnStartup"));
     
-    private List<String> tips = new LinkedList<String>();
+    private final List<String> tips = new LinkedList<String>();
     
     private int currentTip = 0;
     
@@ -133,11 +133,7 @@ public class TipOfTheDayDialog extends DcDialog implements ActionListener {
     
     @Override
     public void close() {
-        tipPane = null;
-        checkShowTips = null;
-        
         tips.clear();
-        tips = null;
         super.close();
     }    
     

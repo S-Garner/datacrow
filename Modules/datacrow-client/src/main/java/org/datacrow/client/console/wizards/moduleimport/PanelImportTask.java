@@ -43,7 +43,7 @@ public class PanelImportTask extends ModuleImportWizardPanel implements IModuleW
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporterTaskPanel.class.getName());
     
-    private TaskPanel tp = new TaskPanel(TaskPanel._DUPLICATE_PROGRESSBAR);
+    private final TaskPanel tp = new TaskPanel(TaskPanel._DUPLICATE_PROGRESSBAR);
     
     private ModuleImporter importer;
     
@@ -57,12 +57,11 @@ public class PanelImportTask extends ModuleImportWizardPanel implements IModuleW
     }
 
     @Override
-    public void destroy() {
+    public void cleanup() {
         if (importer != null) 
             importer.cancel();
         
         importer = null;
-        tp = null;
     }
 
     @Override

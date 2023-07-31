@@ -41,7 +41,7 @@ public class PanelSelectParentModule extends PanelSelectModule {
     }
     
     @Override
-    public void destroy() {} 
+    public void cleanup() {} 
     
     
     

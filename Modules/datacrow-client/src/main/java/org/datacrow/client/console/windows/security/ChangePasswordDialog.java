@@ -49,10 +49,9 @@ import org.datacrow.core.server.Connector;
 
 public class ChangePasswordDialog extends DcDialog implements ActionListener, KeyListener {
     
-    private DcPasswordField fldCurrentPassword = ComponentFactory.getPasswordField();
-    
-    private DcPasswordField fldNewPassword1 = ComponentFactory.getPasswordField();
-    private DcPasswordField fldNewPassword2 = ComponentFactory.getPasswordField();
+    private final DcPasswordField fldCurrentPassword = ComponentFactory.getPasswordField();
+    private final DcPasswordField fldNewPassword1 = ComponentFactory.getPasswordField();
+    private final DcPasswordField fldNewPassword2 = ComponentFactory.getPasswordField();
     
     private boolean canceled = false;
     
@@ -94,14 +93,6 @@ public class ChangePasswordDialog extends DcDialog implements ActionListener, Ke
         } else {
             GUI.getInstance().displayMessage("msgIncorrectOldPassword");
         }
-    }
-    
-    @Override
-    public void close() {
-        super.close();
-        fldCurrentPassword = null;
-        fldNewPassword1 = null;
-        fldNewPassword2 = null;
     }
 
     private void build() {

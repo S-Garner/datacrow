@@ -48,8 +48,8 @@ import org.datacrow.core.resources.DcResources;
 
 public class CreateLanguageDialog extends DcDialog implements ActionListener{
     
-    private DcShortTextField txtName = ComponentFactory.getShortTextField(25);
-    private JComboBox<Object> cbLanguages = ComponentFactory.getLanguageCombobox();
+    private final DcShortTextField txtName = ComponentFactory.getShortTextField(25);
+    private final JComboBox<Object> cbLanguages = ComponentFactory.getLanguageCombobox();
     
     private String language; 
     

@@ -65,18 +65,18 @@ public class AssociateNameRewriterDialog extends DcDialog implements ActionListe
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(AssociateNameRewriterDialog.class.getName());
     
+    private final JProgressBar progressBar = new JProgressBar();
+    
+    private final JButton buttonRun = ComponentFactory.getButton(DcResources.getText("lblRun"));
+    private final JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
+    private final JButton buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
+    
+    private final JCheckBox checkEnabled = ComponentFactory.getCheckBox(DcResources.getText("lblEnabled"));
+    private final JComboBox<Object> cbFormat = ComponentFactory.getComboBox();
+    private final DcModule module = DcModules.getCurrent();
+
     private boolean canceled = false;
     
-    private JProgressBar progressBar = new JProgressBar();
-    
-    private JButton buttonRun = ComponentFactory.getButton(DcResources.getText("lblRun"));
-    private JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
-    private JButton buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
-    
-    private JCheckBox checkEnabled = ComponentFactory.getCheckBox(DcResources.getText("lblEnabled"));
-    private JComboBox<Object> cbFormat = ComponentFactory.getComboBox();
-    private DcModule module = DcModules.getCurrent();
-
     public AssociateNameRewriterDialog() {
         super(GUI.getInstance().getMainFrame());
 
@@ -93,16 +93,6 @@ public class AssociateNameRewriterDialog extends DcDialog implements ActionListe
         canceled = true;
     }
     
-    @Override
-    public void close() {
-        checkEnabled = null;
-        cbFormat = null;
-        progressBar = null;
-        module = null;
-        
-        super.close();
-    }
-
     private AssociateNameRewriter getAssociateNameRewriter() throws Exception {
         return new AssociateNameRewriter(checkEnabled.isSelected(), cbFormat.getSelectedIndex());
     }

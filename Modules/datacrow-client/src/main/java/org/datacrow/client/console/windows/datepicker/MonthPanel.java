@@ -39,7 +39,7 @@ import org.datacrow.client.console.ComponentFactory;
 
 public class MonthPanel extends JPanel {
     
-    private DatePickerDialog parent;
+    private final DatePickerDialog parent;
 
     public MonthPanel(DatePickerDialog parent, Calendar c) {
         this.parent = parent;
@@ -73,7 +73,6 @@ public class MonthPanel extends JPanel {
     }
 
     public void clear() {
-        parent = null;
         ComponentFactory.clean(this);
     }
     

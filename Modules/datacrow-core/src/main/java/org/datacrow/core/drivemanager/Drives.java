@@ -33,7 +33,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class Drives {
 
-    private Collection<Drive> drives = new ArrayList<Drive>();
+    private final Collection<Drive> drives = new ArrayList<Drive>();
     
     public Drives() {
         initialize();

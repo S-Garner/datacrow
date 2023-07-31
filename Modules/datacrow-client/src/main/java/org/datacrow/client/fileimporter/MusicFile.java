@@ -52,6 +52,8 @@ public class MusicFile implements IOnlineSearchClient {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(MusicFile.class.getName());
     
+    private final Collection<DcObject> albums = new ArrayList<DcObject>();
+    
     private String album;
     private String artist;
     private String genre;
@@ -63,8 +65,6 @@ public class MusicFile implements IOnlineSearchClient {
     private int track;
     private int bitrate;
     private int length;
-    
-    private Collection<DcObject> albums = new ArrayList<DcObject>();
     
     public MusicFile() {}
     

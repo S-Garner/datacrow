@@ -44,8 +44,8 @@ import org.datacrow.core.settings.DcSettings;
 
 public class VersionCheckerDialog extends DcFrame implements ActionListener {
 
-    private DcCheckBox cbDoCheck = ComponentFactory.getCheckBox(DcResources.getText("msgVersionCheckOnStartup"));
-    private DcHtmlEditorPane pane = ComponentFactory.getHtmlEditorPane();
+    private final DcCheckBox cbDoCheck = ComponentFactory.getCheckBox(DcResources.getText("msgVersionCheckOnStartup"));
+    private final DcHtmlEditorPane pane = ComponentFactory.getHtmlEditorPane();
     
     public VersionCheckerDialog(String html) {
         super(DcResources.getText("lblVersionCheck"), IconLibrary._icoMain);

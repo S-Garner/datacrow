@@ -40,8 +40,8 @@ import org.datacrow.client.util.Utilities;
 
 public class ProgressDialog extends DcDialog {
     
-    private JProgressBar bar = new JProgressBar();
-    private JLabel lbl = new JLabel();
+    private final JProgressBar bar = new JProgressBar();
+    private final JLabel lbl = new JLabel();
     
     public ProgressDialog(String title) {
         super(GUI.getInstance().getRootFrame());
@@ -90,11 +90,5 @@ public class ProgressDialog extends DcDialog {
             value = value < bar.getMaximum() ? value + 1 : 0; 
             bar.setValue(value);
         }
-    }
-    
-    @Override
-    public void close() {
-        bar = null;
-        super.close();
     }
 }

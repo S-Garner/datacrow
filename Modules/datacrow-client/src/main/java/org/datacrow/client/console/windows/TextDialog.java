@@ -50,13 +50,13 @@ import org.datacrow.core.settings.DcSettings;
 
 public class TextDialog extends DcDialog implements ActionListener {
 
-    private DcLongTextField textArea = ComponentFactory.getTextArea();
-    private JPanel panelText = new JPanel();
-    private JPanel panelAction = new JPanel();
+    private final DcLongTextField textArea = ComponentFactory.getTextArea();
+    private final JPanel panelText = new JPanel();
+    private final JPanel panelAction = new JPanel();
 
+    protected final UndoManager undo = new UndoManager();
+    
     private boolean success = true;
-    protected UndoManager undo = new UndoManager();
-
     private String text;
     
     public TextDialog(String s, boolean edit) {
@@ -94,12 +94,7 @@ public class TextDialog extends DcDialog implements ActionListener {
     @Override
     public void close() {
         DcSettings.set(DcRepository.Settings.stTextViewerSize, getSize());
-        
         text = textArea.getText();
-        textArea = null;
-        panelText = null;
-        panelAction = null;
-        undo = null;
         super.close();
     }
 

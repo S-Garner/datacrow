@@ -32,8 +32,9 @@ import org.datacrow.core.migration.itemexport.ItemExporterSettings;
 
 public class ItemExporterDefinition {
     
+	private ItemExporterSettings settings = new ItemExporterSettings();
+	
     private File file;
-    private ItemExporterSettings settings = new ItemExporterSettings();
     private ItemExporter exporter;
     private int[] fields;
     

@@ -175,10 +175,6 @@ public class FileSynchronizer {
                             }
                         }
                         
-                        currentFI.clear();
-                        if (fi != null)
-                            fi.clear();
-                        
                         try {
                             sleep(2000);
                         } catch (Exception e) {

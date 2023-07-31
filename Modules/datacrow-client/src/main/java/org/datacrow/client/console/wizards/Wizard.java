@@ -62,20 +62,22 @@ public abstract class Wizard extends DcFrame implements ActionListener {
 
     protected int current = 0;
 
-    private DcLongTextField textHelp;
-    private List<IWizardPanel> wizardPanels;
+    private final JButton buttonNext = ComponentFactory.getButton(DcResources.getText("lblNext"));
+    private final JButton buttonBack = ComponentFactory.getButton(DcResources.getText("lblBack"));
+    private final JButton buttonRestart = ComponentFactory.getButton(DcResources.getText("lblFinishRestart"));
+    private final JButton buttonFinish = ComponentFactory.getButton(DcResources.getText("lblFinish"));
+    private final JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblCancel"));
+
+    private final DcLongTextField textHelp = ComponentFactory.getHelpTextField();;
     
-    private JButton buttonNext;
-    private JButton buttonBack;
-    private JButton buttonRestart;
-    private JButton buttonFinish;
-    private JButton buttonClose;
+    // Steps to skip (dynamic, can be altered during the wizard process
+    protected final List<Integer> skip = new ArrayList<Integer>();
+    
+    private List<IWizardPanel> wizardPanels;
     
     private boolean cancelled = false;
     private boolean restarted = false;
     
-    /**  Steps to skip (dynamic, can be altered during the wizard process */
-    protected List<Integer> skip = new ArrayList<Integer>();
     protected boolean closed = false;
 
     protected int moduleIdx;
@@ -158,18 +160,13 @@ public abstract class Wizard extends DcFrame implements ActionListener {
         
         if (wizardPanels != null) {
             for (IWizardPanel panel : wizardPanels)
-                panel.destroy();
+                panel.cleanup();
             
             wizardPanels.clear();
         }
         
         wizardPanels = null;
-        textHelp = null;
-        buttonNext = null;
-        buttonBack = null;
-        buttonRestart = null;
-        buttonFinish = null;
-        buttonClose = null;
+        skip.clear();
         
         super.close();
     }
@@ -271,8 +268,6 @@ public abstract class Wizard extends DcFrame implements ActionListener {
         JPanel panel = new JPanel();
         panel.setLayout(Layout.getGBL());
         
-        textHelp = ComponentFactory.getHelpTextField();
-
         panel.add(textHelp, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0
                            ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                             new Insets(5, 5, 5, 5), 0, 0));
@@ -283,12 +278,6 @@ public abstract class Wizard extends DcFrame implements ActionListener {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-        buttonNext = ComponentFactory.getButton(DcResources.getText("lblNext"));
-        buttonBack = ComponentFactory.getButton(DcResources.getText("lblBack"));
-        buttonRestart = ComponentFactory.getButton(DcResources.getText("lblFinishRestart"));
-        buttonFinish = ComponentFactory.getButton(DcResources.getText("lblFinish"));
-        buttonClose = ComponentFactory.getButton(DcResources.getText("lblCancel"));
-        
         buttonNext.addActionListener(this);
         buttonNext.setActionCommand("next");
 

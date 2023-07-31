@@ -45,7 +45,7 @@ import org.datacrow.core.settings.DcSettings;
 
 public class SelectLanguageDialog extends NativeDialog implements ActionListener {
 
-    private JComboBox<String> cbLanguage = new JComboBox<String>();
+    private final JComboBox<String> cbLanguage = new JComboBox<String>();
     
     public SelectLanguageDialog() {
         super((JFrame) null);

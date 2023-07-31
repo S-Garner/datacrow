@@ -69,15 +69,14 @@ public class FilterDialog extends DcFrame implements ActionListener {
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FilterDialog.class.getName());
 
     private final DcModule module;
-    
     private final IMasterView parent; 
     
-    private JTabbedPane filterTabs = ComponentFactory.getTabbedPane();
+    private final JTabbedPane filterTabs = ComponentFactory.getTabbedPane();
+    private final SortOrderPanel sortOrderPanel = new SortOrderPanel();    
     
     private DefineFilterEntryPanel defineFilterPanel;
     private FieldSelectionPanel sortingPanel;
     private ManageFiltersPanel manageFiltersPanel;
-    private SortOrderPanel sortOrderPanel = new SortOrderPanel();
     
     public FilterDialog(DcModule module, IMasterView parent) {
         super(DcResources.getText("lblFilter"), IconLibrary._icoFilter);

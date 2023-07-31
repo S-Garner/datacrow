@@ -46,12 +46,12 @@ public class LocalArtSettingsPanel extends JPanel {
 
     private final int module;
     
-    private DcCheckBox cbRecurse = ComponentFactory.getCheckBox(DcResources.getText("lblRecursiveDir"));
-    private DcCheckBox cbEnabled = ComponentFactory.getCheckBox(DcResources.getText("lblEnabled"));
+    private final DcCheckBox cbRecurse = ComponentFactory.getCheckBox(DcResources.getText("lblRecursiveDir"));
+    private final DcCheckBox cbEnabled = ComponentFactory.getCheckBox(DcResources.getText("lblEnabled"));
     
-    private DcShortTextField txtFront = ComponentFactory.getShortTextField(255);
-    private DcShortTextField txtBack = ComponentFactory.getShortTextField(255);
-    private DcShortTextField txtMedia = ComponentFactory.getShortTextField(255);
+    private final DcShortTextField txtFront = ComponentFactory.getShortTextField(255);
+    private final DcShortTextField txtBack = ComponentFactory.getShortTextField(255);
+    private final DcShortTextField txtMedia = ComponentFactory.getShortTextField(255);
     
     public LocalArtSettingsPanel(int module) {
         this.module = module;
@@ -77,12 +77,6 @@ public class LocalArtSettingsPanel extends JPanel {
         } else {
             save();
         }
-        
-        cbRecurse = null;
-        cbEnabled = null;
-        txtFront = null;
-        txtBack = null;
-        txtMedia = null;
     }
     
     protected void build() {

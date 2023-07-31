@@ -42,7 +42,8 @@ public class PanelImportConfiguration extends ModuleImportWizardPanel {
 
 	private static final String _IMPORT_FILE = "import_file";
 	
-	private SettingsGroup group;
+	private final SettingsGroup group = new SettingsGroup("", "");
+	
 	private SettingsPanel settingsPanel;
 	
     public PanelImportConfiguration() {
@@ -80,15 +81,13 @@ public class PanelImportConfiguration extends ModuleImportWizardPanel {
     }
     
     @Override
-    public void destroy() {
-    	group = null;
+    public void cleanup() {
     	settingsPanel = null;
     }    
     
     private void build() {
         setLayout(Layout.getGBL());
-
-        group = new SettingsGroup("", "");
+        
         group.add(new Setting(DcRepository.ValueTypes._STRING,
                 PanelImportConfiguration._IMPORT_FILE, null, ComponentFactory._FILEFIELD,
                 "", DcResources.getText("lblModuleImportFile"), true, true, -1));         

@@ -114,17 +114,19 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     protected DcObject dco;
     // the original item (for comparison of entered value; workaround for failed save issue)
     protected DcObject dcoOrig;
+
     protected final int moduleIdx;
 
-    protected Map<DcField, JLabel> labels = new HashMap<DcField, JLabel>();
-    protected Map<DcField, JComponent> fields = new HashMap<DcField, JComponent>();
+    protected final Map<DcField, JLabel> labels = new HashMap<DcField, JLabel>();
+    protected final Map<DcField, JComponent> fields = new HashMap<DcField, JComponent>();
 
+    protected final JTabbedPane tabbedPane = ComponentFactory.getTabbedPane();
+    
     protected final boolean update;
-    protected boolean readonly;
 
+    protected boolean readonly;
     private boolean applyTemplate = true;
 
-    protected JTabbedPane tabbedPane = ComponentFactory.getTabbedPane();
     private ISimpleItemView childView;
     
     private IItemFormListener listener;
@@ -368,15 +370,11 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         
         dco = null;
         dcoOrig = null;
-        fields = null;
-        labels = null;
         
         if (childView != null) {
             childView.clear();
             childView = null;
         }
-        
-        tabbedPane = null;
         
         if (panelLoans != null) panelLoans.cancel();
         

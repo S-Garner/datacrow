@@ -64,24 +64,24 @@ import org.datacrow.core.synchronizers.Synchronizers;
 
 public class ItemSynchronizerDialog extends DcDialog implements ActionListener {
     
-    private DcProgressBar progressBar = new DcProgressBar();
-    private JTextArea textLog = ComponentFactory.getTextArea();
-    private JButton buttonStart = ComponentFactory.getButton(DcResources.getText("lblRun"));
-    private JButton buttonStop = ComponentFactory.getButton(DcResources.getText("lblStop"));
-    private JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
-    private DcLongTextField textHelp = ComponentFactory.getLongTextField();
+    private final DcProgressBar progressBar = new DcProgressBar();
+    private final JTextArea textLog = ComponentFactory.getTextArea();
+    private final JButton buttonStart = ComponentFactory.getButton(DcResources.getText("lblRun"));
+    private final JButton buttonStop = ComponentFactory.getButton(DcResources.getText("lblStop"));
+    private final JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
+    private final DcLongTextField textHelp = ComponentFactory.getLongTextField();
     
-    private JComboBox<Object> cbItemPickMode = ComponentFactory.getComboBox();
-    
-    private JCheckBox checkReparseFiles = ComponentFactory.getCheckBox(DcResources.getText("lblReparseMusicFiles"));
+    private final JComboBox<Object> cbItemPickMode = ComponentFactory.getComboBox();
+    private final JCheckBox checkReparseFiles = ComponentFactory.getCheckBox(DcResources.getText("lblReparseMusicFiles"));
+
+    private final int module;
+    private final boolean canParseFiles;
     
     private OnlineServiceSettingsPanel panelOnlineServiceSettings;
     private OnlineServicePanel panelServer;
     private Synchronizer synchronizer;
     
-    private final int module;
     private boolean cancelled = false;
-    private final boolean canParseFiles;
     
     public ItemSynchronizerDialog(DcModule module) {
         super(GUI.getInstance().getMainFrame());
@@ -167,13 +167,6 @@ public class ItemSynchronizerDialog extends DcDialog implements ActionListener {
         
         cancelled = true;
         
-        progressBar = null;
-        textLog = null;
-        buttonStart = null;
-        buttonClose = null;
-        textHelp = null;
-        buttonStop = null;
-        
         panelOnlineServiceSettings.save();
         panelOnlineServiceSettings.clear();
         panelOnlineServiceSettings = null;
@@ -181,7 +174,6 @@ public class ItemSynchronizerDialog extends DcDialog implements ActionListener {
         panelServer.clear();
         panelServer = null;
         synchronizer = null;
-        cbItemPickMode = null;
         
         DcModules.get(module).setSetting(DcRepository.ModuleSettings.stSynchronizerDialogSize, getSize());
 

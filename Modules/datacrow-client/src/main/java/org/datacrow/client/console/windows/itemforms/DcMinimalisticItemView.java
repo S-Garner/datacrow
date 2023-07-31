@@ -88,26 +88,25 @@ public class DcMinimalisticItemView extends DcFrame
 	implements ActionListener, MouseListener, ISimpleItemView, KeyListener, IClient, IMergeItemsListener {
 
     private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
+
+    private final JButton buttonCreateMultiple = ComponentFactory.getButton(DcResources.getText("lblCreateMultiple"));
+    private final JButton buttonNew = ComponentFactory.getButton(DcResources.getText("lblNew"));
+    private final JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
+    
+    private final JPanel panelActions = new JPanel();
+
+    protected final DcObjectList list;
+
+    private final boolean readonly;
+    protected final int module;
     
     protected DcTask task;
-    
-    private final boolean readonly;
     
     private boolean cancelled = false;
     
     private JScrollPane scroller;
-    
     private String parentID;
-    
-    private JPanel panelActions = new JPanel();
     private JPanel statusPanel;
-    
-    private JButton buttonCreateMultiple = ComponentFactory.getButton(DcResources.getText("lblCreateMultiple"));
-    private JButton buttonNew = ComponentFactory.getButton(DcResources.getText("lblNew"));
-    private JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
-    
-    protected DcObjectList list;
-    protected int module;
 
     private List<DcListElement> all = new ArrayList<DcListElement>();
     
@@ -290,13 +289,7 @@ public class DcMinimalisticItemView extends DcFrame
         
         task = null;
         scroller = null;
-        panelActions = null;
         statusPanel = null;
-        
-        buttonCreateMultiple = null;
-        buttonNew = null;
-        buttonClose = null;
-        list = null;
         all = null;
         panel = null;
     }

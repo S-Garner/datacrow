@@ -56,22 +56,24 @@ public class DriveManager {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DriveManager.class.getName());
 
-    private static DriveManager instance = new DriveManager();
+    private static final DriveManager instance = new DriveManager();
+    
+    private final Map<File, DriveScanner> scanners = new HashMap<File, DriveScanner>();
+    
+    private final Collection<IDriveManagerListener> pollerListeners = new ArrayList<IDriveManagerListener>();
+    private final Collection<IDriveManagerListener> scannerListeners = new ArrayList<IDriveManagerListener>();
+    private final Collection<IDriveManagerListener> synchronizerListeners = new ArrayList<IDriveManagerListener>();
+
+    private final Collection<String> excludedDirs = new ArrayList<String>();
     
     private FileSynchronizer fs;
     private DrivePoller dp;
 
     private Collection<File> drives;
-    private Collection<String> excludedDirs = new ArrayList<String>();
-    private Map<File, DriveScanner> scanners = new HashMap<File, DriveScanner>();
     
-    private Map<File, String> hashes = new HashMap<File, String>();
+    private final Map<File, String> hashes = new HashMap<File, String>();
     
     private boolean drivesWereScanned = false;
-    
-    private Collection<IDriveManagerListener> pollerListeners = new ArrayList<IDriveManagerListener>();
-    private Collection<IDriveManagerListener> scannerListeners = new ArrayList<IDriveManagerListener>();
-    private Collection<IDriveManagerListener> synchronizerListeners = new ArrayList<IDriveManagerListener>();
     
     public static DriveManager getInstance() {
         return instance;
@@ -255,7 +257,7 @@ public class DriveManager {
         if (isScanActive()) 
             throw new JobAlreadyRunningException();
         
-        this.excludedDirs = directories;
+        this.excludedDirs.addAll(directories);
     }
     
     protected boolean isDirExcluded(File directory) {

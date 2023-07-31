@@ -40,7 +40,7 @@ public class URLLauncher extends Launcher {
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(URLLauncher.class.getName());
 	
-	private URL url;
+	private final URL url;
 	
 	public URLLauncher(URL url) {
 		super();

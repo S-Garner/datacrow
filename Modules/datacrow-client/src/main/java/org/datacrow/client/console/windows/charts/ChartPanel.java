@@ -66,17 +66,22 @@ public class ChartPanel extends JPanel implements ActionListener {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ChartPanel.class.getName());
     
-    private JComboBox<Object> comboFields;
-    private JComboBox<Object> comboTypes;
-    private JButton btnAccept = ComponentFactory.getIconButton(IconLibrary._icoAccept);
+    private final JComboBox<Object> comboFields;
+    private final JComboBox<Object> comboTypes;
+    private final JButton btnAccept = ComponentFactory.getIconButton(IconLibrary._icoAccept);
     
-    private ThreadGroup tg = new ThreadGroup("chart-builders");
+    private final ThreadGroup tg = new ThreadGroup("chart-builders");
+
     private org.jfree.chart.ChartPanel chartPanel;
     
     private final int module;
     
     public ChartPanel(int module) {
         this.module = module;
+        
+        this.comboFields = ComponentFactory.getComboBox();
+        this.comboTypes = ComponentFactory.getComboBox();
+        
         build();
     }
     
@@ -208,9 +213,6 @@ public class ChartPanel extends JPanel implements ActionListener {
         setLayout(Layout.getGBL());
         
         JPanel panel = new JPanel();
-        
-        comboFields = ComponentFactory.getComboBox();
-        comboTypes = ComponentFactory.getComboBox();
         
         panel.add(comboFields);
         panel.add(comboTypes);

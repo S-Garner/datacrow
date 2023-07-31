@@ -51,9 +51,9 @@ import org.datacrow.core.resources.DcResources;
 
 public class PanelChildModule extends ModuleWizardPanel {
 
-    private int selectedModule = -1;
+    private final Map<Integer, JComponent> fields = new HashMap<Integer, JComponent>();
     
-    private Map<Integer, JComponent> fields = new HashMap<Integer, JComponent>();
+    private int selectedModule = -1;
     
     public PanelChildModule(Wizard wizard) {
         super(wizard);
@@ -97,11 +97,8 @@ public class PanelChildModule extends ModuleWizardPanel {
     }
     
     @Override
-    public void destroy() {
-        if (fields != null) {
-            fields.clear();
-            fields = null;
-        }
+    public void cleanup() {
+        fields.clear();
     }     
     
     private void build() {

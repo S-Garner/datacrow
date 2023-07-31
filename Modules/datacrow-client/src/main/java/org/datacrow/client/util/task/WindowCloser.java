@@ -29,7 +29,7 @@ import org.datacrow.core.console.IWindow;
 
 public class WindowCloser implements Runnable {
 
-    private IWindow w;
+    private final IWindow w;
 
     public WindowCloser(IWindow w) {
         this.w = w;
@@ -38,6 +38,5 @@ public class WindowCloser implements Runnable {
     @Override
     public void run() {
         w.close();
-        w = null;
     }
 }

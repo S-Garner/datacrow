@@ -58,16 +58,16 @@ public class PanelBasicInfo extends ModuleWizardPanel {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PanelBasicInfo.class.getName());
     
-    private DcIconSelectField pic32;
-    private DcIconSelectField pic16;
+    private final DcIconSelectField pic16 = ComponentFactory.getIconSelectField(new DcImageIcon(DcConfig.getInstance().getInstallationDir() + "icons/icon16.png"));
+    private final DcIconSelectField pic32 = ComponentFactory.getIconSelectField(new DcImageIcon(DcConfig.getInstance().getInstallationDir() + "icons/icon32.png"));
     
-    private DcLongTextField textDesc;
-    private DcShortTextField textLabel;
-    private DcShortTextField textObjectName;
-    private DcShortTextField textObjectNamePlural;
-    private DcCheckBox checkCanBeLended;
-    private DcCheckBox checkContainerManaged;
-    private DcCheckBox checkFileBacked;
+    private final DcShortTextField textLabel = ComponentFactory.getShortTextField(25);
+    private final DcShortTextField textObjectName = ComponentFactory.getShortTextField(25);
+    private final DcCheckBox checkCanBeLended = ComponentFactory.getCheckBox(DcResources.getText("lblCanBeLended"));
+    private final DcCheckBox checkContainerManaged = ComponentFactory.getCheckBox(DcResources.getText("lblContainerManaged"));
+    private final DcCheckBox checkFileBacked = ComponentFactory.getCheckBox(DcResources.getText("lblFileBacked"));
+    private final DcShortTextField textObjectNamePlural = ComponentFactory.getShortTextField(25);
+    private final DcLongTextField textDesc = ComponentFactory.getLongTextField();
     
     private boolean exists;
     
@@ -205,17 +205,6 @@ public class PanelBasicInfo extends ModuleWizardPanel {
     public String getHelpText() {
         return DcResources.getText("msgBasicModuleInfo");
     }
-    
-    @Override
-    public void destroy() {
-        pic32 = null;
-        pic16 = null;
-        textDesc = null;
-        textLabel = null;
-        textObjectName = null;
-        textObjectNamePlural = null;
-        checkCanBeLended = null;
-    }    
 
     @Override
     public void onActivation() {
@@ -245,17 +234,12 @@ public class PanelBasicInfo extends ModuleWizardPanel {
         // info panel
         setLayout(Layout.getGBL());
         
-        textDesc = ComponentFactory.getLongTextField();
+        
         JScrollPane scollDesc = new JScrollPane(textDesc);
         scollDesc.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scollDesc.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         
-        textLabel = ComponentFactory.getShortTextField(25);
-        textObjectName = ComponentFactory.getShortTextField(25);
-        checkCanBeLended = ComponentFactory.getCheckBox(DcResources.getText("lblCanBeLended"));
-        checkContainerManaged = ComponentFactory.getCheckBox(DcResources.getText("lblContainerManaged"));
-        checkFileBacked = ComponentFactory.getCheckBox(DcResources.getText("lblFileBacked"));
-        textObjectNamePlural = ComponentFactory.getShortTextField(25);
+
         
         int y = 0;
         add(ComponentFactory.getLabel(DcResources.getText("lblDescription")), 
@@ -308,9 +292,6 @@ public class PanelBasicInfo extends ModuleWizardPanel {
                ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                 new Insets( 5, 5, 5, 5), 0, 0));
 
-        pic16 = ComponentFactory.getIconSelectField(new DcImageIcon(DcConfig.getInstance().getInstallationDir() + "icons/icon16.png"));
-        pic32 = ComponentFactory.getIconSelectField(new DcImageIcon(DcConfig.getInstance().getInstallationDir() + "icons/icon32.png"));
-            
         add(ComponentFactory.getLabel(DcResources.getText("lblIcon16")), 
                      Layout.getGBC(0, y, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
@@ -326,4 +307,7 @@ public class PanelBasicInfo extends ModuleWizardPanel {
                     ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                      new Insets(5, 5, 5, 5), 0, 0)); 
     }
+
+	@Override
+	public void cleanup() {}
 }

@@ -42,12 +42,11 @@ import org.datacrow.core.resources.DcResources;
 
 public class ItemExporterImageSettingsPanel extends JPanel {
     
-    private JCheckBox cbResizeImages = ComponentFactory.getCheckBox(DcResources.getText("lblScaleImages"));
-    private JCheckBox cbCopyImages = ComponentFactory.getCheckBox(DcResources.getText("lblCopyImage"));
-    private DcNumberField nfWidth = ComponentFactory.getNumberField();
-    private DcNumberField nfHeight = ComponentFactory.getNumberField();
-    
-    private DcNumberField nfMaxTextLength = ComponentFactory.getNumberField();
+    private final JCheckBox cbResizeImages = ComponentFactory.getCheckBox(DcResources.getText("lblScaleImages"));
+    private final JCheckBox cbCopyImages = ComponentFactory.getCheckBox(DcResources.getText("lblCopyImage"));
+    private final DcNumberField nfWidth = ComponentFactory.getNumberField();
+    private final DcNumberField nfHeight = ComponentFactory.getNumberField();
+    private final DcNumberField nfMaxTextLength = ComponentFactory.getNumberField();
     
     public ItemExporterImageSettingsPanel() {
         super();

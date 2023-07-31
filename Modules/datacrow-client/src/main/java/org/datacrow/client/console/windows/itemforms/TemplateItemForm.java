@@ -32,7 +32,7 @@ import org.datacrow.core.objects.DcObject;
 
 public class TemplateItemForm extends ItemForm {
     
-    private DcMinimalisticItemView parent;
+    private final DcMinimalisticItemView parent;
     
     public TemplateItemForm(boolean update, DcObject o, DcMinimalisticItemView parent) {
         super(false, update, o, true);

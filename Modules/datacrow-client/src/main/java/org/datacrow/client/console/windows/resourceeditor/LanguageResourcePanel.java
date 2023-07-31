@@ -49,12 +49,12 @@ import org.datacrow.core.resources.DcResources;
 
 public class LanguageResourcePanel extends JPanel implements ListSelectionListener {
 
-    private int selected = 0;
-
-    private DcList topicList = new DcList();
-    private Collection<LanguageResourceEditPanel> panels = new ArrayList<LanguageResourceEditPanel>();
+    private final DcList topicList = new DcList();
+    private final Collection<LanguageResourceEditPanel> panels = new ArrayList<LanguageResourceEditPanel>();
     
-    private String language;
+    private final String language;
+
+    private int selected = 0;
     
     public LanguageResourcePanel(String language) {
         this.language = language;
@@ -130,7 +130,6 @@ public class LanguageResourcePanel extends JPanel implements ListSelectionListen
     }    
     
     public void clear() {
-        topicList = null;
         panels.clear();   
     }
     

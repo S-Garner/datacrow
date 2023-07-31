@@ -67,7 +67,7 @@ public class PanelParentModule extends ModuleWizardPanel {
     }
     
     @Override
-    public void destroy() {} 
+    public void cleanup() {} 
     
     private void build() {
         setLayout(Layout.getGBL());

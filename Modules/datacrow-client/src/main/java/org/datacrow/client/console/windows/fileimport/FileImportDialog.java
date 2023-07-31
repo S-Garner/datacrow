@@ -73,29 +73,30 @@ public class FileImportDialog extends DcFrame implements ActionListener {
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FileImportDialog.class.getName());
     
-    private boolean cancelled = false;
-    
-    protected JProgressBar progressBar = new JProgressBar();
+    protected final JProgressBar progressBar = new JProgressBar();
 
-    private JCheckBox checkDirNameAsTitle = ComponentFactory.getCheckBox(DcResources.getText("lblUseDirNameAsTitle"));
-    private DcReferenceField fldContainer;
-    private DcReferenceField fldStorageMedium;
+    private final JCheckBox checkDirNameAsTitle = ComponentFactory.getCheckBox(DcResources.getText("lblUseDirNameAsTitle"));
     
-    private JButton buttonRun = ComponentFactory.getButton(DcResources.getText("lblRun"));
-    private JButton buttonStop = ComponentFactory.getButton(DcResources.getText("lblStop"));
-    private JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
+    private final JButton buttonRun = ComponentFactory.getButton(DcResources.getText("lblRun"));
+    private final JButton buttonStop = ComponentFactory.getButton(DcResources.getText("lblStop"));
+    private final JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
     
-    private JTextArea textLog = ComponentFactory.getTextArea();
-    private JTextArea textTitleCleanup = ComponentFactory.getTextArea();
-    private JTextArea textTitleCleanupRegex = ComponentFactory.getTextArea();
+    private final JTextArea textLog = ComponentFactory.getTextArea();
+    private final JTextArea textTitleCleanup = ComponentFactory.getTextArea();
+    private final JTextArea textTitleCleanupRegex = ComponentFactory.getTextArea();
     
     private OnlineServicePanel panelServer;
     private OnlineServiceSettingsPanel panelServerSettings;
     private LocalArtSettingsPanel panelLocalArt;
     private FileImportFileSelectPanelSimple panelFs;
+
+    private DcReferenceField fldContainer;
+    private DcReferenceField fldStorageMedium;
     
     protected Settings settings;
     private FileImporter importer;
+
+    private boolean cancelled = false;
     
     public FileImportDialog(FileImporter importer) {
         
@@ -284,11 +285,6 @@ public class FileImportDialog extends DcFrame implements ActionListener {
         
         fldContainer = null;
         fldStorageMedium = null;
-        buttonRun = null;
-        buttonStop = null;
-        buttonClose = null;
-        textLog = null;
-        progressBar = null;
         settings = null;
         
         panelFs.clear();

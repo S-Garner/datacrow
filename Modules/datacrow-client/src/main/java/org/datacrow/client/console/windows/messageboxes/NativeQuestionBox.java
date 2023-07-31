@@ -47,9 +47,10 @@ import org.datacrow.core.IconLibrary;
 
 public class NativeQuestionBox extends NativeDialog implements ActionListener {
 
-    private JTextArea textMessage;
-    private JButton buttonYes;
-    private JButton buttonNo;
+    private final JTextArea textMessage = ComponentFactory.getTextArea();;
+    private final JButton buttonYes = ComponentFactory.getButton("Yes");
+    private final JButton buttonNo = ComponentFactory.getButton("No");
+    
     private boolean affirmative = false;
 
     public NativeQuestionBox(String message) {
@@ -64,10 +65,6 @@ public class NativeQuestionBox extends NativeDialog implements ActionListener {
     
     @Override
     public void close() {
-        textMessage = null;
-        buttonYes = null;
-        buttonNo = null;
-        
         if (GUI.getInstance().isSplashScreenActive())
             GUI.getInstance().showSplashScreen(true);
         
@@ -92,7 +89,6 @@ public class NativeQuestionBox extends NativeDialog implements ActionListener {
         this.setResizable(false);
         this.getContentPane().setLayout(Layout.getGBL());
 
-        textMessage = ComponentFactory.getTextArea();
         textMessage.setEditable(false);
                 
         JScrollPane scrollIn = new JScrollPane(textMessage);
@@ -101,9 +97,6 @@ public class NativeQuestionBox extends NativeDialog implements ActionListener {
         scrollIn.setPreferredSize(new Dimension(400,120));
         scrollIn.setMinimumSize(new Dimension(400,120));
         scrollIn.setBorder(null);
-
-        buttonYes = ComponentFactory.getButton("Yes");
-        buttonNo = ComponentFactory.getButton("No");
 
         textMessage.setBackground(buttonYes.getBackground());
         

@@ -81,8 +81,8 @@ public class ToolSelectPanel extends ToolSelectBasePanel implements ActionListen
     }
 
     @Override
-    public void destroy() {
-        super.destroy();
+    public void cleanup() {
+        super.cleanup();
     }  
     
     private void addPlugin(Collection<Plugin> plugins, String key) {

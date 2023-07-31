@@ -61,15 +61,16 @@ import org.datacrow.core.resources.DcResources;
 
 public class PanelFields extends ModuleWizardPanel implements ActionListener {
 
-    private JButton buttonAdd = ComponentFactory.getButton(DcResources.getText("lblAddField"));
-    private JButton buttonAlter = ComponentFactory.getButton(DcResources.getText("lblAlterField"));
-    private JButton buttonRemove = ComponentFactory.getButton(DcResources.getText("lblRemoveField"));
+    private final JButton buttonAdd = ComponentFactory.getButton(DcResources.getText("lblAddField"));
+    private final JButton buttonAlter = ComponentFactory.getButton(DcResources.getText("lblAlterField"));
+    private final JButton buttonRemove = ComponentFactory.getButton(DcResources.getText("lblRemoveField"));
     
-    private boolean canHaveReferences;
-    private DcTable table;
-    private DcTable tableSysFields;
+    private final DcTable table;
+    private final DcTable tableSysFields;
     
     private final boolean update;
+    
+    private boolean canHaveReferences;
     
     public PanelFields(Wizard wizard, boolean update) {
         super(wizard);
@@ -210,20 +211,9 @@ public class PanelFields extends ModuleWizardPanel implements ActionListener {
     }
 
     @Override
-    public void destroy() {
-        buttonAdd = null;
-        buttonRemove = null;
-        buttonAlter = null;
-        
-        if (table != null) {
-            table.clear();
-            table = null;
-        }
-
-        if (tableSysFields != null) {
-            tableSysFields.clear();
-            tableSysFields = null;
-        }
+    public void cleanup() {
+        table.clear();
+        tableSysFields.clear();
     }
     
     private void delete() {

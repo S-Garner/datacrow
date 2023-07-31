@@ -47,7 +47,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class DriveSelectorField extends JComponent implements IComponent {
 
-    private Map<File, JCheckBox> componentMap = new HashMap<File, JCheckBox>();
+    private final Map<File, JCheckBox> componentMap = new HashMap<File, JCheckBox>();
 
     public DriveSelectorField() {
         buildComponent();
@@ -74,7 +74,6 @@ public class DriveSelectorField extends JComponent implements IComponent {
     @Override
     public void clear() {
         componentMap.clear();
-        componentMap = null;
     }    
 
     public Collection<File> getDrives() {

@@ -43,8 +43,9 @@ public class DriveManagerSingleItemMatcher extends Thread {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DriveManagerSingleItemMatcher.class.getName());
     
-    private int precision;
-    private DcObject dco;
+    private final int precision;
+    private final DcObject dco;
+    
     private FileInfo result;
     
     public DriveManagerSingleItemMatcher(DcObject dco, int precision) {

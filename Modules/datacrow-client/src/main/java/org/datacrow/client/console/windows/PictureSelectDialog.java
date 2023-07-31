@@ -47,9 +47,9 @@ import org.datacrow.core.resources.DcResources;
 
 public class PictureSelectDialog extends DcDialog implements ActionListener {
     
-    private JComboBox<Object> cbFields = ComponentFactory.getComboBox();
-    private DcObject dco;
-    private DcImageIcon image;
+    private final JComboBox<Object> cbFields = ComponentFactory.getComboBox();
+    private final DcObject dco;
+    private final DcImageIcon image;
     
     public PictureSelectDialog(JFrame parent, DcObject dco, DcImageIcon image) {
         super(parent);
@@ -71,17 +71,7 @@ public class PictureSelectDialog extends DcDialog implements ActionListener {
         DcField field = (DcField) cbFields.getSelectedItem();
         dco.setValue(field.getIndex(), image);
     }
-    
-    @Override
-    public void close() {
-        cbFields.removeAllItems();
-        cbFields = null;
-        dco = null;
-        image = null;
-        
-        super.close();
-    }
-    
+
     public void build() {
         
         JPanel panelActions = new JPanel();

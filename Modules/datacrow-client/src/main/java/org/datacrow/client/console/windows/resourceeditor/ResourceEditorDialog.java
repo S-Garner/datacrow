@@ -50,8 +50,8 @@ import org.datacrow.core.settings.DcSettings;
 
 public class ResourceEditorDialog extends DcFrame implements ActionListener {
     
-    private JTabbedPane tp = ComponentFactory.getTabbedPane();
-    private Collection<LanguageResourcePanel> panels = new ArrayList<LanguageResourcePanel>();
+    private final JTabbedPane tp = ComponentFactory.getTabbedPane();
+    private final  Collection<LanguageResourcePanel> panels = new ArrayList<LanguageResourcePanel>();
     
     public ResourceEditorDialog() {
         super(DcResources.getText("lblResourceEditor"), IconLibrary._icoSettings32);
@@ -84,7 +84,6 @@ public class ResourceEditorDialog extends DcFrame implements ActionListener {
             panel.clear();
 
         panels.clear();
-        panels = null;
 
         super.close();
     }

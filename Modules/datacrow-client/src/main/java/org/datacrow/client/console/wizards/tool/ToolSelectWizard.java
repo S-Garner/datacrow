@@ -43,7 +43,7 @@ import org.datacrow.core.settings.DcSettings;
 
 public class ToolSelectWizard extends Wizard {
 
-    private JCheckBox cb = ComponentFactory.getCheckBox(DcResources.getText("lblRunOnStartup"));
+    private final JCheckBox cb = ComponentFactory.getCheckBox(DcResources.getText("lblRunOnStartup"));
     
     public ToolSelectWizard() {
         super();

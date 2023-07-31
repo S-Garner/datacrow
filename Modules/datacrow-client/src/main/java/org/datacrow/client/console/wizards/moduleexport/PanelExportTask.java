@@ -47,7 +47,7 @@ public class PanelExportTask extends ModuleExportWizardPanel implements IModuleW
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporterTaskPanel.class.getName());
 
-    private TaskPanel tp = new TaskPanel(TaskPanel._DUPLICATE_PROGRESSBAR);
+    private final TaskPanel tp = new TaskPanel(TaskPanel._DUPLICATE_PROGRESSBAR);
     
     private ModuleExporter exporter;
     
@@ -61,12 +61,11 @@ public class PanelExportTask extends ModuleExportWizardPanel implements IModuleW
     }
 
     @Override
-    public void destroy() {
+    public void cleanup() {
         if (exporter != null) 
             exporter.cancel();
         
         exporter = null;
-        tp = null;
     }
 
     @Override

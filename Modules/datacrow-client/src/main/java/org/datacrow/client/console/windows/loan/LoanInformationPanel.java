@@ -58,11 +58,10 @@ public class LoanInformationPanel extends DcPanel implements ISimpleItemView, Mo
 	
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(LoanInformationPanel.class.getName());
     
-    private DcTable table = new DcTable(DcModules.get(DcModules._ITEM), true, false);
+    private final DcTable table = new DcTable(DcModules.get(DcModules._ITEM), true, false);
+    private final DcProgressBar pb = new DcProgressBar();
+    
     private DcObject person;
-    
-    private DcProgressBar pb = new DcProgressBar();
-    
     private LoanFilter filter;
     
     public LoanInformationPanel() {
@@ -145,7 +144,6 @@ public class LoanInformationPanel extends DcPanel implements ISimpleItemView, Mo
             table.clear();
         
         person = null;
-        table = null;
         
         if (filter != null)
             filter.cancel();

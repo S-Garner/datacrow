@@ -33,7 +33,7 @@ import org.datacrow.core.objects.DcObject;
 
 public class DcMinimalisticItemForm extends ItemForm {
     
-	private ISimpleItemView parent;
+	private final ISimpleItemView parent;
     
     public DcMinimalisticItemForm(boolean readonly, boolean update, DcObject o, ISimpleItemView parent) {
         super(readonly, update, o, true);

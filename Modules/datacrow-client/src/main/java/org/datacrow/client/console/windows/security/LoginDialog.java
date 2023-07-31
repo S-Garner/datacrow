@@ -52,11 +52,11 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class LoginDialog extends DcDialog implements ActionListener, KeyListener {
     
-    private DcShortTextField fldLoginName = ComponentFactory.getShortTextField(255);
-    private DcPasswordField fldPassword = ComponentFactory.getPasswordField();
-    private DcShortTextField fldServerAddress = ComponentFactory.getShortTextField(255);
-    private DcNumberField fldApplicationServerPort = ComponentFactory.getNumberField();
-    private DcNumberField fldImageServerPort = ComponentFactory.getNumberField();
+    private final DcShortTextField fldLoginName = ComponentFactory.getShortTextField(255);
+    private final DcPasswordField fldPassword = ComponentFactory.getPasswordField();
+    private final DcShortTextField fldServerAddress = ComponentFactory.getShortTextField(255);
+    private final DcNumberField fldApplicationServerPort = ComponentFactory.getNumberField();
+    private final DcNumberField fldImageServerPort = ComponentFactory.getNumberField();
     
     private boolean canceled = false;
     
@@ -110,12 +110,6 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
             
             close();
         }
-    }
-    
-    public void clear() {
-        super.close();
-        fldLoginName = null;
-        fldPassword = null;
     }
 
     private void build() {

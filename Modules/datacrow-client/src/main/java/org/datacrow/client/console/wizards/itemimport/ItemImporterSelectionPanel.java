@@ -41,9 +41,10 @@ import org.datacrow.core.resources.DcResources;
 
 public class ItemImporterSelectionPanel extends ItemImporterWizardPanel {
 
-	private ItemImporterWizard wizard;
-	private ButtonGroup bg;
-	private Collection<ItemImporter> readers = new ArrayList<ItemImporter>();
+	private final Collection<ItemImporter> readers = new ArrayList<ItemImporter>();
+	
+	private final ItemImporterWizard wizard;
+	private final ButtonGroup bg;
 	
     public ItemImporterSelectionPanel(ItemImporterWizard wizard) {
     	this.wizard = wizard;
@@ -69,11 +70,8 @@ public class ItemImporterSelectionPanel extends ItemImporterWizardPanel {
     }
 
     @Override
-    public void destroy() {
-        wizard = null;
-        bg  = null;
-        if (readers != null) readers.clear();
-        readers = null;
+    public void cleanup() {
+        readers.clear();
     }      
     
     private void build() {

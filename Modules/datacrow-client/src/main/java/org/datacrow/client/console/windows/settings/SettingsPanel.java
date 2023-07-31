@@ -61,8 +61,9 @@ import org.datacrow.core.settings.SettingsGroup;
  */
 public class SettingsPanel extends JPanel {
     
-	private SettingsGroup group;
-    private Hashtable<Setting, Component> components = new Hashtable<Setting, Component>();
+    private final Hashtable<Setting, Component> components = new Hashtable<Setting, Component>();
+    
+    private final SettingsGroup group;
     
     public SettingsPanel(SettingsGroup group) {
         this(group, false);

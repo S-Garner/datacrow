@@ -48,9 +48,10 @@ import org.datacrow.core.resources.DcResources;
 
 public class QuestionBox extends DcDialog implements ActionListener {
 
-    private DcHtmlEditorPane textMessage;
-    private JButton buttonYes;
-    private JButton buttonNo;
+    private final DcHtmlEditorPane textMessage = ComponentFactory.getHtmlEditorPane();;
+    private final JButton buttonYes = ComponentFactory.getButton(DcResources.getText("lblYes"));
+    private final JButton buttonNo = ComponentFactory.getButton(DcResources.getText("lblNo"));
+    
     private boolean affirmative = false;
     
     public QuestionBox(String message) {
@@ -65,15 +66,6 @@ public class QuestionBox extends DcDialog implements ActionListener {
 
     public boolean isAffirmative() {
         return affirmative;
-    }
-    
-    @Override
-    public void close() {
-        textMessage = null;
-        buttonYes = null;
-        buttonNo = null;
-        
-        super.close();
     }
     
     private void init(String message) {
@@ -93,8 +85,7 @@ public class QuestionBox extends DcDialog implements ActionListener {
     private void buildDialog() {
         this.setResizable(false);
         this.getContentPane().setLayout(Layout.getGBL());
-
-        textMessage = ComponentFactory.getHtmlEditorPane();
+        
         textMessage.setEditable(false);
                 
         JScrollPane scrollIn = new JScrollPane(textMessage);
@@ -103,9 +94,6 @@ public class QuestionBox extends DcDialog implements ActionListener {
         scrollIn.setPreferredSize(new Dimension(400,120));
         scrollIn.setMinimumSize(new Dimension(400,120));
         scrollIn.setBorder(null);
-
-        buttonYes = ComponentFactory.getButton(DcResources.getText("lblYes"));
-        buttonNo = ComponentFactory.getButton(DcResources.getText("lblNo"));
 
         textMessage.setBackground(scrollIn.getBackground());
         

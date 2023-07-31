@@ -34,7 +34,7 @@ public interface IWizardPanel {
     
     public Object apply() throws WizardException;
     
-    public void destroy();
+    public void cleanup();
     
     public void setVisible(boolean b);
     

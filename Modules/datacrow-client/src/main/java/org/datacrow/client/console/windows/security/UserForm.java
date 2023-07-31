@@ -86,9 +86,6 @@ public class UserForm extends ItemForm {
         if (modulePermissionPanel != null) modulePermissionPanel.clear();
     
         modulePermissionPanel = null;
-        
-        if (pluginPermissionPanel != null) pluginPermissionPanel.clear();
-        
         pluginPermissionPanel = null;
     }
 

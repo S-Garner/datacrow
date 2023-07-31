@@ -45,12 +45,12 @@ import org.datacrow.core.resources.DcResources;
 
 public class NavigationPanel extends JPanel implements ActionListener {
     
-    private DatePickerDialog parent;
+    private final DatePickerDialog parent;
 
     private JComboBox<Object> monthBox;
     private JComboBox<Object> yearBox;
     
-    private static String[] months;
+    private static final String[] months;
     private static Integer[] years;
     
     static {
@@ -138,7 +138,6 @@ public class NavigationPanel extends JPanel implements ActionListener {
     }
 
     public void clear() {
-        parent = null;
         monthBox = null;
         yearBox = null;
     }

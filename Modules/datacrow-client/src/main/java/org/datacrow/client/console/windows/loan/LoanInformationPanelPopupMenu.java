@@ -48,8 +48,8 @@ public class LoanInformationPanelPopupMenu extends DcPopupMenu implements Action
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(LoanInformationPanelPopupMenu.class.getName());
     
-    private DcObject dco;
-    private List<DcObject> items;
+    private final DcObject dco;
+    private final List<DcObject> items;
     
     public LoanInformationPanelPopupMenu(DcObject dco, List<DcObject> items) {
         

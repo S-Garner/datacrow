@@ -52,8 +52,9 @@ public class ItemImporterMappingPanel extends ItemImporterWizardPanel {
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporterMappingPanel.class.getName());
 	
-    private ItemImporterWizard wizard;
-    private DcTable table;
+	private final DcTable table = ComponentFactory.getDCTable(false, false);
+	
+    private final ItemImporterWizard wizard;
     
     public ItemImporterMappingPanel(ItemImporterWizard wizard) {
         this.wizard = wizard;
@@ -74,11 +75,6 @@ public class ItemImporterMappingPanel extends ItemImporterWizardPanel {
         		importer.addMapping(source,  target);
         }
         return wizard.getDefinition();
-    }
-
-    @Override
-    public void destroy() {
-    	wizard = null;
     }
 
     @Override
@@ -112,8 +108,6 @@ public class ItemImporterMappingPanel extends ItemImporterWizardPanel {
         //**********************************************************
         //Create Import Panel
         //**********************************************************
-        table = ComponentFactory.getDCTable(false, false);
-
         DcTableModel model = (DcTableModel) table.getModel();
         model.setColumnCount(3);
 
@@ -152,4 +146,9 @@ public class ItemImporterMappingPanel extends ItemImporterWizardPanel {
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                  new Insets( 0, 5, 5, 5), 0, 0));
     }
+
+	@Override
+	public void cleanup() {
+		table.clear();
+	}
 }

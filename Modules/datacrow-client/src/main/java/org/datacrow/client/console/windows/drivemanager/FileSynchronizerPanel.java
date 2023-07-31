@@ -94,10 +94,11 @@ public class FileSynchronizerPanel extends DriveManagerPanel {
     protected void build() {
         super.build();
         
+        comboPrecision = ComponentFactory.getComboBox();
+        
         JPanel panelSettings = new JPanel();
         panelSettings.setLayout(Layout.getGBL());
         
-        comboPrecision = ComponentFactory.getComboBox();
         comboPrecision.addItem(new Precision(DriveManager._PRECISION_LOWEST, DcResources.getText("lblMatchOnFilename")));
         comboPrecision.addItem(new Precision(DriveManager._PRECISION_MEDIUM, DcResources.getText("lblMatchOnFilenameAndSize")));
         comboPrecision.addItem(new Precision(DriveManager._PRECISION_HIGHEST, DcResources.getText("lblMatchOnHashAndSize")));

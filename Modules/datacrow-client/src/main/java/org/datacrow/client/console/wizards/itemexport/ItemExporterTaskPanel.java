@@ -57,7 +57,7 @@ public class ItemExporterTaskPanel extends ItemExporterWizardPanel implements II
     }
 
 	@Override
-    public void destroy() {
+    public void cleanup() {
     	if (exporter != null) exporter.cancel();
 
     	exporter = null;

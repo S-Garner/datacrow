@@ -64,15 +64,14 @@ import org.datacrow.core.settings.DcSettings;
 
 public class FileRenamerPreviewDialog extends DcDialog implements ActionListener, MouseListener {
 
-    private DcTable table = ComponentFactory.getDCTable(true, false);
-    private JProgressBar progressBar = new JProgressBar();
-    private JButton buttonStart = ComponentFactory.getButton(DcResources.getText("lblStart"));
-    private JButton buttonCancel = ComponentFactory.getButton(DcResources.getText("lblCancel"));
+    private final DcTable table = ComponentFactory.getDCTable(true, false);
+    private final JProgressBar progressBar = new JProgressBar();
+    private final JButton buttonStart = ComponentFactory.getButton(DcResources.getText("lblStart"));
+    private final JButton buttonCancel = ComponentFactory.getButton(DcResources.getText("lblCancel"));
 
+    private final FileRenamerDialog parent;
+    
     private PreviewGenerator generator;
-    
-    private FileRenamerDialog parent;
-    
     private boolean affirmative = false;
     
     public FileRenamerPreviewDialog(FileRenamerDialog parent, 
@@ -140,17 +139,9 @@ public class FileRenamerPreviewDialog extends DcDialog implements ActionListener
         DcSettings.set(DcRepository.Settings.stFileRenamerPreviewDialogSize, getSize());
         
         table.clear();
-        table = null;
         
         if (generator != null)
             generator.cancel();
-        
-        generator = null;
-        buttonCancel = null;
-        buttonStart = null;
-        progressBar = null;
-        
-        parent = null;
         
         super.close();
     }

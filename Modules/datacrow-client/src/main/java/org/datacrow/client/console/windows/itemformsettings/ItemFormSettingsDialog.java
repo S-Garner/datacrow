@@ -56,15 +56,16 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinitions;
 
 public class ItemFormSettingsDialog extends DcFrame implements ActionListener, ChangeListener {
 
-    private List<TabDesignPanel> panels = new ArrayList<TabDesignPanel>();
-    private DcModule module;
-    
-    private JTabbedPane tp = ComponentFactory.getTabbedPane();
+	private final JTabbedPane tp = ComponentFactory.getTabbedPane();
+	
+    private final List<TabDesignPanel> panels = new ArrayList<TabDesignPanel>();
+    private final DcModule module;
     
     public ItemFormSettingsDialog(DcModule module) {
         super(DcResources.getText("lblItemFormSettings"), IconLibrary._icoSettings16);
         
         this.module = module;
+        
         setHelpIndex("dc.settings.itemformsettings");
         setResizable(true);
         build();
@@ -170,6 +171,7 @@ public class ItemFormSettingsDialog extends DcFrame implements ActionListener, C
     @Override
     public void close() {
         DcSettings.set(DcRepository.Settings.stItemFormSettingsDialogSize, getSize());
+        panels.clear();
         super.close();
     }
     

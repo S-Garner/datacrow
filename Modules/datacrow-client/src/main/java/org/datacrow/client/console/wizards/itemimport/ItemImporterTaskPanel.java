@@ -48,13 +48,15 @@ public class ItemImporterTaskPanel extends ItemImporterWizardPanel implements II
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporterTaskPanel.class.getName());
 	
-	private int created = 0;
-	private int updated = 0;
+	private final TaskPanel tp = new TaskPanel(TaskPanel._SINGLE_PROGRESSBAR);
 	
-    private ItemImporterWizard wizard;
-    private ItemImporter importer;
+    private final ItemImporterWizard wizard;
     
-    private TaskPanel tp = new TaskPanel(TaskPanel._SINGLE_PROGRESSBAR);
+    private ItemImporter importer;
+	
+    private int created = 0;
+	private int updated = 0;
+    
     
     public ItemImporterTaskPanel(ItemImporterWizard wizard) {
         this.wizard = wizard;
@@ -67,11 +69,9 @@ public class ItemImporterTaskPanel extends ItemImporterWizardPanel implements II
     }
 
     @Override
-    public void destroy() {
+    public void cleanup() {
     	if (importer != null) importer.cancel();
     	importer = null;
-        tp = null;
-    	wizard = null;
     }
 
     @Override

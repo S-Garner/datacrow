@@ -69,17 +69,17 @@ import org.datacrow.core.settings.SettingsGroup;
  */
 public class SettingsView extends DcDialog implements ActionListener {
 
+    private final Settings settings;
+
+    private final InformationPanel panelInfo = new InformationPanel();;
+    private final JPanel panelActions = new JPanel();
+    private final JPanel panelBogus = new JPanel();
+
+    private final JButton buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
+    private final JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
+
 	protected DcTree tree;
     
-    private Settings settings;
-
-    private InformationPanel panelInfo;
-    private JPanel panelActions;
-    private JPanel panelBogus = new JPanel();
-
-    private JButton buttonSave;
-    private JButton buttonClose;
-
     public SettingsView(String title, Settings settings) {
         super(GUI.getInstance().getMainFrame());
 
@@ -96,13 +96,7 @@ public class SettingsView extends DcDialog implements ActionListener {
     public void close() {
         SettingsFile.save(settings);
         
-        settings = null;
         tree = null;
-        panelInfo = null;
-        panelActions = null;
-        panelBogus = null;
-        buttonSave = null;
-        buttonClose = null;
         
         super.close();
     }
@@ -111,11 +105,6 @@ public class SettingsView extends DcDialog implements ActionListener {
      * Creates the action panel (save buttons and such)
      */
     private JPanel getActionPanel() {
-        panelActions = new JPanel();
-
-        buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
-        buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
-
         panelActions.add(buttonSave);
         panelActions.add(buttonClose);
         panelActions.setVisible(false);
@@ -210,7 +199,7 @@ public class SettingsView extends DcDialog implements ActionListener {
     private void buildView() {
         setResizable(false);
 
-        panelInfo = new InformationPanel();
+        
         panelInfo.setMinimumSize(new Dimension(700, 380));
         panelInfo.setPreferredSize(new Dimension(700, 380));
         panelInfo.setMaximumSize(new Dimension(700, 380));

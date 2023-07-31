@@ -44,9 +44,9 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class DcStarter {
     
+	private final IStarterClient client;
+	
     private static DcLogger logger;
-    
-    private IStarterClient client;
     
     /**
      * Initiates this class.

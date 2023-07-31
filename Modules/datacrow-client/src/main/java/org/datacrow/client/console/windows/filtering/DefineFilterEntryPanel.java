@@ -67,6 +67,8 @@ import org.datacrow.core.server.Connector;
 
 public class DefineFilterEntryPanel extends JPanel implements MouseListener, ActionListener {
 
+	private final DcModule module;
+	
     private JPanel panelInput;
     private JComponent c;
     private JButton buttonAdd;
@@ -77,8 +79,6 @@ public class DefineFilterEntryPanel extends JPanel implements MouseListener, Act
     private JComboBox<Object> comboModules;
     
     private DcFilterEntryList list;
-    
-    private DcModule module;
     
     public DefineFilterEntryPanel(DcModule module) {
         this.module = module;

@@ -64,8 +64,9 @@ public class PluginPermissionPanel extends JPanel implements ActionListener {
     private static final int _COLUMN_AUTHORIZED = 2;
     private static final int _COLUMN_PERMISSION = 3;
     
-    private DcTable table;
-    private DcObject user;
+    private final DcTable table = ComponentFactory.getDCTable(false, false);
+    
+    private final DcObject user;
     
     private boolean update;
     
@@ -130,17 +131,10 @@ public class PluginPermissionPanel extends JPanel implements ActionListener {
             permission.markAsUnchanged();
         }
     }
-    
-    public void clear() {
-        table.clear();
-        table = null;
-        user = null;
-    }
 
     private void build() {
         setLayout(Layout.getGBL());
 
-        table = ComponentFactory.getDCTable(false, false);
         table.setColumnCount(4);
 
         TableColumn cPluginKey = table.getColumnModel().getColumn(_COLUMN_KEY);

@@ -79,8 +79,8 @@ public class ModuleSelectPanel extends ToolSelectBasePanel {
     }
 
     @Override
-    public void destroy() {
-        super.destroy();
+    public void cleanup() {
+        super.cleanup();
         
         if (components != null) {
             components.clear();

@@ -51,14 +51,14 @@ import org.datacrow.core.utilities.ical.ICalendarExporter;
 
 public class ICalendarExporterDialog extends DcDialog implements ActionListener, IClient {
     
-    private DcFileField ffTarget = ComponentFactory.getFileField(true, false);
-    private JButton btExport = ComponentFactory.getButton(DcResources.getText("lblExport"));
-    private JButton btCancel = ComponentFactory.getButton(DcResources.getText("lblCancel"));
+    private final DcFileField ffTarget = ComponentFactory.getFileField(true, false);
+    private final JButton btExport = ComponentFactory.getButton(DcResources.getText("lblExport"));
+    private final JButton btCancel = ComponentFactory.getButton(DcResources.getText("lblCancel"));
     
-    private JCheckBox cbFullExport = ComponentFactory.getCheckBox(DcResources.getText("lblFullExport"));
+    private final JCheckBox cbFullExport = ComponentFactory.getCheckBox(DcResources.getText("lblFullExport"));
     
-    private JTextArea textLog = ComponentFactory.getTextArea();
-    private JProgressBar progressBar = new JProgressBar();
+    private final JTextArea textLog = ComponentFactory.getTextArea();
+    private final JProgressBar progressBar = new JProgressBar();
     
     private boolean stopped = false;
 
@@ -229,15 +229,10 @@ public class ICalendarExporterDialog extends DcDialog implements ActionListener,
 
     @Override
     public void close() {
-        
         stopped = true;
         
         DcSettings.set(DcRepository.Settings.stICalendarExportDialogSize, getSize());
         DcSettings.set(DcRepository.Settings.stICalendarFullExport, cbFullExport.isSelected());
-        
-        ffTarget = null;
-        textLog = null;
-        progressBar = null;
         
         super.close();
     }

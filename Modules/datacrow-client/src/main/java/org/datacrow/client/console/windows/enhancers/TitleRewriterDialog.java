@@ -67,19 +67,20 @@ public class TitleRewriterDialog extends DcDialog implements ActionListener {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(TitleRewriterDialog.class.getName());
     
+    private final JProgressBar progressBar = new JProgressBar();
+    
+    private final JButton buttonRun = ComponentFactory.getButton(DcResources.getText("lblRun"));
+    private final JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
+    private final JButton buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
+    
+    private final JCheckBox checkEnabled = ComponentFactory.getCheckBox(DcResources.getText("lblEnabled"));
+    private final DcLongTextField txtWordList = ComponentFactory.getLongTextField();
+    
+    private final DcModule module = DcModules.getCurrent();
+
     private boolean canceled = false;
     
-    private JProgressBar progressBar = new JProgressBar();
     
-    private JButton buttonRun = ComponentFactory.getButton(DcResources.getText("lblRun"));
-    private JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
-    private JButton buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
-    
-    private JCheckBox checkEnabled = ComponentFactory.getCheckBox(DcResources.getText("lblEnabled"));
-    private DcLongTextField txtWordList = ComponentFactory.getLongTextField();
-    
-    private DcModule module = DcModules.getCurrent();
-
     public TitleRewriterDialog() {
         super(GUI.getInstance().getMainFrame());
 
@@ -94,16 +95,6 @@ public class TitleRewriterDialog extends DcDialog implements ActionListener {
 
     private void cancel() {
         canceled = true;
-    }
-    
-    @Override
-    public void close() {
-        checkEnabled = null;
-        txtWordList = null;
-        progressBar = null;
-        module = null;
-        
-        super.close();
     }
 
     private TitleRewriter getTitleRewriter() throws Exception {

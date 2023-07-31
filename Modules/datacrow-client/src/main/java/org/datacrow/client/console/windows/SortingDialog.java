@@ -49,10 +49,10 @@ import org.datacrow.core.settings.DcSettings;
 
 public class SortingDialog extends DcDialog implements ActionListener {
 
-    private FieldSelectionPanel panelSorting;
-    private SortOrderPanel panelSortOrder = new SortOrderPanel();
-    
-    private int module;
+	private final SortOrderPanel panelSortOrder = new SortOrderPanel();
+	private final FieldSelectionPanel panelSorting;
+	
+	private final int module;
     
     public SortingDialog(int module) {
         super(GUI.getInstance().getMainFrame());
@@ -77,7 +77,6 @@ public class SortingDialog extends DcDialog implements ActionListener {
     @Override
     public void close() {
         panelSorting.clear();
-        panelSorting = null;
         DcSettings.set(DcRepository.Settings.stSortDialogSize, getSize());
         super.close();
     }

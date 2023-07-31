@@ -35,9 +35,11 @@ import org.datacrow.core.resources.DcResources;
 
 public class ItemDetailsWizardPanel extends ItemWizardPanel {
 
-    ItemForm itemForm = null;
+    private final ItemForm itemForm;
 
     public ItemDetailsWizardPanel(DcObject dco) {
+    	itemForm = new ItemForm(null, false,  false, dco, true);
+    	
         build(dco);
     }
 
@@ -57,14 +59,11 @@ public class ItemDetailsWizardPanel extends ItemWizardPanel {
     }
 
     @Override
-    public void destroy() {
-        if (itemForm != null)
-            itemForm.close(true);
+    public void cleanup() {
+        itemForm.close(true);
     }
     
     private void build(DcObject dco) {
-        itemForm = new ItemForm(null, false,  false, dco, true);
-
         setLayout(Layout.getGBL());
         add(itemForm.getTabbedPane(), Layout.getGBC(0, 0, 1, 1, 1.0, 1.0
                        ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,

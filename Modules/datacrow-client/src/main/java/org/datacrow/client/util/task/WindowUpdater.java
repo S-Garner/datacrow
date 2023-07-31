@@ -29,7 +29,7 @@ import org.datacrow.core.console.ISimpleItemView;
 
 public class WindowUpdater implements Runnable {
 	
-    private ISimpleItemView v;
+    private final ISimpleItemView v;
     
     public WindowUpdater(ISimpleItemView v) {
         this.v = v;
@@ -38,6 +38,5 @@ public class WindowUpdater implements Runnable {
     @Override
     public void run() {
         v.load();
-        v = null;
     }
 }

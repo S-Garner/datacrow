@@ -46,7 +46,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class DataFilterConverter {
 	
-	private DataFilter df;
+	private final DataFilter df;
 	
 	public DataFilterConverter(DataFilter df) {
 		this.df = df;

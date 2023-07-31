@@ -87,9 +87,12 @@ import org.datacrow.core.utilities.cuecat.CueCatDecoder;
 public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, ActionListener, MouseListener, ChangeListener {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(OnlineSearchForm.class.getName());
+
+	private final QuickViewPanel qvTable = new QuickViewPanel(false);
+	private final QuickViewPanel qvCard = new QuickViewPanel(false);
     
-    private int module;
-    private String ID;
+    private final int module;
+    private final String ID;
 
     private boolean startSearchOnOpen = false;
     private boolean disablePerfectMatch = false;
@@ -99,17 +102,14 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
     
     protected SearchTask task;
     
-	private final QuickViewPanel qvTable = new QuickViewPanel(false);
-	private final QuickViewPanel qvCard = new QuickViewPanel(false);
-    
     private JTabbedPane tpResult;
     private ItemForm itemForm;
     private DcObjectList list;
     private DcTable table;
     private DcObject client;
     
-    private List<DcObject> items = new ArrayList<DcObject>();
-    private Map<Integer, Boolean> loadedItems = new HashMap<Integer, Boolean>();
+    private final List<DcObject> items = new ArrayList<DcObject>();
+    private final Map<Integer, Boolean> loadedItems = new HashMap<Integer, Boolean>();
 
     private OnlineServices os;
     
@@ -784,21 +784,14 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
         table = null;
         
         tpResult = null;
-        
         itemForm  = null;
-        ID = null;
         
         // result is a direct clone; other items can safely be removed
-        if (items != null) {
-            for (DcObject dco : items)
-                dco.destroy();
-            
-            items.clear();
-            items = null;
-        }
+        for (DcObject dco : items)
+            dco.destroy();
         
-        if (loadedItems != null) loadedItems.clear();
-        loadedItems = null;
+        items.clear();
+        loadedItems.clear();
         
         textLog = null;
         progressBar = null;

@@ -47,7 +47,8 @@ import org.datacrow.core.settings.SettingsGroup;
 
 public class ServerSettingsDialog extends DcDialog implements ActionListener {
 
-    private IServer server;
+    private final IServer server;
+    
     private SettingsPanel panelSettings;
     
     public ServerSettingsDialog(JFrame parent, IServer server) {
@@ -69,7 +70,6 @@ public class ServerSettingsDialog extends DcDialog implements ActionListener {
 
     @Override
     public void close() {
-        server = null;
         panelSettings = null;
         DcSettings.set(DcRepository.Settings.stServerSettingsDialogSize, getSize());
         super.close();
@@ -81,9 +81,8 @@ public class ServerSettingsDialog extends DcDialog implements ActionListener {
         //**********************************************************
         SettingsGroup group = new SettingsGroup("serversettings", "");
         
-        for (Setting setting : server.getSettings()) {
+        for (Setting setting : server.getSettings())
             group.add(setting);
-        }
             
         panelSettings = new SettingsPanel(group, true);
         panelSettings.setVisible(true);

@@ -60,19 +60,20 @@ import org.datacrow.core.settings.DcSettings;
 public class UpdateAllDialog extends DcDialog implements ActionListener {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(UpdateAllDialog.class.getName());
+
+    private final IView view;
+    private final DcModule module;
+
+    private final JProgressBar progressBar = new JProgressBar();
     
+    private JCheckBox checkSelectedItemsOnly;
     private JButton buttonApply;
     private JButton buttonClose;
 
     private boolean keepOnRunning = true;
-    private JProgressBar progressBar = new JProgressBar();
-    
-    private IView view;
+
     private ItemForm itemForm;
-    private DcModule module;
-
-    private JCheckBox checkSelectedItemsOnly;
-
+    
     public UpdateAllDialog(IView view) {
 
     	super();

@@ -47,9 +47,11 @@ import org.datacrow.core.utilities.filefilters.DcFileFilter;
 
 public class ItemImporterDefinitionPanel extends ItemImporterWizardPanel {
 
-    private DcFileField source;
-    private ItemImporterWizard wizard;
-    private Map<String, IComponent> settings = new HashMap<String, IComponent>();
+	private final Map<String, IComponent> settings = new HashMap<String, IComponent>();
+	
+	private final DcFileField source =  ComponentFactory.getFileField(false, false);
+	
+	private final ItemImporterWizard wizard;
     
     public ItemImporterDefinitionPanel(ItemImporterWizard wizard) {
         this.wizard = wizard;
@@ -141,11 +143,8 @@ public class ItemImporterDefinitionPanel extends ItemImporterWizardPanel {
     }
 
     @Override
-    public void destroy() {
-    	source = null;
-    	wizard = null;
-    	if (settings != null) settings.clear();
-    	settings = null;
+    public void cleanup() {
+    	settings.clear();
     }
 
     @Override
@@ -159,7 +158,6 @@ public class ItemImporterDefinitionPanel extends ItemImporterWizardPanel {
         //**********************************************************
         //Create Import Panel
         //**********************************************************
-        source = ComponentFactory.getFileField(false, false);
         add(source, Layout.getGBC( 0, 0, 2, 1, 1.0, 1.0
            ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
             new Insets( 0, 5, 5, 5), 0, 0));

@@ -42,10 +42,11 @@ import org.datacrow.core.log.ILogListener;
 
 public class LogPanel extends JPanel implements ILogListener {
     
+	private static final LogPanel me = new LogPanel();
+	
+    private final JLabel labelVersion = ComponentFactory.getLabel(DcConfig.getInstance().getVersion().getFullString());
+    
     private JTextArea logger;
-    private JLabel labelVersion = ComponentFactory.getLabel(DcConfig.getInstance().getVersion().getFullString());
-
-    private static final LogPanel me = new LogPanel();
 
     public static LogPanel getInstance() {
         return me;

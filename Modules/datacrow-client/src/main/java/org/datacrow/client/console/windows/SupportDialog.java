@@ -56,7 +56,7 @@ public class SupportDialog extends DcDialog implements ActionListener {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(SupportDialog.class.getName());
 
-    private DcFileField fldTarget = ComponentFactory.getFileField(false, true);
+    private final DcFileField fldTarget = ComponentFactory.getFileField(false, true);
     
     public SupportDialog() {
         super();

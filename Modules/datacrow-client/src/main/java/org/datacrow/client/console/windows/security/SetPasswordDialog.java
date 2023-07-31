@@ -47,8 +47,8 @@ import org.datacrow.core.server.Connector;
 
 public class SetPasswordDialog extends DcDialog implements ActionListener, KeyListener {
     
-	private DcPasswordField fldNewPassword = ComponentFactory.getPasswordField();
-    private User user;
+	private final DcPasswordField fldNewPassword = ComponentFactory.getPasswordField();
+    private final User user;
     
     private boolean canceled = false;
     
@@ -71,13 +71,6 @@ public class SetPasswordDialog extends DcDialog implements ActionListener, KeyLi
         Connector connector = DcConfig.getInstance().getConnector();
         connector.changePassword(user, String.valueOf(fldNewPassword.getPassword()));
         close();
-    }
-    
-    @Override
-    public void close() {
-        super.close();
-        user = null;
-        fldNewPassword = null;
     }
 
     private void build() {

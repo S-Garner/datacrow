@@ -41,7 +41,8 @@ public class OnlineItemRetriever extends Thread {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(OnlineItemRetriever.class.getName());
 
-    private SearchTask task;
+    private final SearchTask task;
+    
     private DcObject dco;
     
     public OnlineItemRetriever(SearchTask task, DcObject dco) {

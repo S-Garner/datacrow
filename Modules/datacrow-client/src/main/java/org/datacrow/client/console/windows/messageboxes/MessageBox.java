@@ -49,13 +49,14 @@ import org.datacrow.core.resources.DcResources;
 
 public class MessageBox extends DcDialog implements ActionListener, KeyListener {
 
-    private DcHtmlEditorPane textMessage;
-    private JButton buttonOk;
-    private JPanel panel = new JPanel();
-
-    public  static final int _ERROR = 1;
-    public  static final int _WARNING = 2;
-    public  static final int _INFORMATION = 3;
+    public static final int _ERROR = 1;
+    public static final int _WARNING = 2;
+    public static final int _INFORMATION = 3;
+	
+    private final JPanel panel = new JPanel();
+    
+    private final DcHtmlEditorPane textMessage = ComponentFactory.getHtmlEditorPane();
+    private final JButton buttonOk;
 
     public MessageBox(String message, int type) {
         this(GUI.getInstance().getRootFrame(), message, type);
@@ -63,6 +64,9 @@ public class MessageBox extends DcDialog implements ActionListener, KeyListener 
     
     public MessageBox(JFrame frame, String message, int type) {
         super(frame);
+        
+        buttonOk = ComponentFactory.getButton(DcResources.isInitialized() ? DcResources.getText("lblOK") : "Ok");
+        
         build();
         setModal(true);
 
@@ -88,21 +92,12 @@ public class MessageBox extends DcDialog implements ActionListener, KeyListener 
         buttonOk.requestFocus();
     }
 
-    @Override
-    public void close() {
-        textMessage = null;
-        buttonOk = null;
-        panel = null;
-        super.close();
-    }
-
     private void build() {
         this.getContentPane().add(panel);
 
         this.setResizable(false);
         this.getContentPane().setLayout(Layout.getGBL());
 
-        textMessage = ComponentFactory.getHtmlEditorPane();
         textMessage.setEditable(false);
         textMessage.setBackground(panel.getBackground());
         JScrollPane scrollIn = new JScrollPane(textMessage);
@@ -111,7 +106,7 @@ public class MessageBox extends DcDialog implements ActionListener, KeyListener 
         scrollIn.setPreferredSize(new Dimension(400,120));
         scrollIn.setMinimumSize(new Dimension(400,120));
         scrollIn.setBorder(null);
-        buttonOk = ComponentFactory.getButton(DcResources.isInitialized() ? DcResources.getText("lblOK") : "Ok");
+        
         buttonOk.addActionListener(this);
 
         panel.setLayout(Layout.getGBL());

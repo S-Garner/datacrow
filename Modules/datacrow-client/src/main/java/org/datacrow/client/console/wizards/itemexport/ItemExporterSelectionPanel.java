@@ -42,8 +42,8 @@ import org.datacrow.core.resources.DcResources;
 
 public class ItemExporterSelectionPanel extends ItemExporterWizardPanel {
 
-    private ButtonGroup bg = new ButtonGroup();
-    private Collection<ItemExporter> exporters = new ArrayList<ItemExporter>();
+    private final ButtonGroup bg = new ButtonGroup();
+    private final Collection<ItemExporter> exporters = new ArrayList<ItemExporter>();
     
     public ItemExporterSelectionPanel(ItemExporterWizard wizard) {
         super(wizard);
@@ -67,11 +67,9 @@ public class ItemExporterSelectionPanel extends ItemExporterWizardPanel {
     }
     
     @Override
-    public void destroy() {
-        bg  = null;
-        if (exporters != null) exporters.clear();
-        exporters = null;
-    }  
+    public void cleanup() {
+    	exporters.clear();
+    }
     
     private void build() {
         setLayout(Layout.getGBL());

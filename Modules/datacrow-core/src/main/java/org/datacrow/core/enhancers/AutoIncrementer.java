@@ -53,17 +53,18 @@ public class AutoIncrementer implements IValueEnhancer {
 
     private transient static DcLogger logger = DcLogManager.getInstance().getLogger(AutoIncrementer.class.getName());
     
-    private boolean enabled = false;
-    private boolean fillGaps = false;
-    private int step = 1;
-    private int field;
+    private final int field;
+    
+    private boolean enabled;
+    private boolean fillGaps;
+    private int step;
 
     /**
      * Creates a new instance. 
      * @param field The field to which enhancements will be made.
      */
     public AutoIncrementer(int field) {
-        this.field = field;
+    	this(field, false, false, 1);
     }
 
     /**

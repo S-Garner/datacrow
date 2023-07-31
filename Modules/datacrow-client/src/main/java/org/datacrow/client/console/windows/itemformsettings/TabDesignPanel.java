@@ -46,11 +46,11 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 import org.datacrow.core.utilities.definitions.DcFieldDefinitions;
 
 public class TabDesignPanel extends JPanel implements IFieldSelectionListener {
-    
+
+    private final String tabName;
+    private final DcModule module;
+	
     private FieldSelectionPanel pnlFields;
-    
-    private String tabName;
-    private DcModule module;
     
     public TabDesignPanel(DcModule module, Tab tab) {
         this.module = module;

@@ -47,6 +47,7 @@ public class DrivePollerPanel extends DriveManagerPanel {
     
     public DrivePollerPanel() {
         super();
+        
         DriveManager.getInstance().addPollerListener(this);
     }
     
@@ -84,7 +85,7 @@ public class DrivePollerPanel extends DriveManagerPanel {
     protected void build() {
         super.build();
 
-        cbRunOnStartup = ComponentFactory.getCheckBox(DcResources.getText("lblRunOnStartup"));   
+        cbRunOnStartup = ComponentFactory.getCheckBox(DcResources.getText("lblRunOnStartup"));
         
         JPanel panelSettings = new JPanel();
         panelSettings.setLayout(Layout.getGBL());
@@ -99,6 +100,4 @@ public class DrivePollerPanel extends DriveManagerPanel {
                  new Insets(5, 5, 5, 5), 0, 0));
 
     }
-    
-    
 }

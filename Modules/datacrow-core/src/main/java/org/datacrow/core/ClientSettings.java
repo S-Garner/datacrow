@@ -48,7 +48,7 @@ public class ClientSettings {
     
     private static final File file = new File(System.getProperty("user.home"), "datacrow.properties");
     
-    private static Properties properties;
+    private static final Properties properties;
     
     static {
         properties = new Properties();

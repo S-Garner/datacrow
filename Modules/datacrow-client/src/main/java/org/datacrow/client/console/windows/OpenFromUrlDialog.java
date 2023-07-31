@@ -49,7 +49,7 @@ public class OpenFromUrlDialog extends DcDialog implements ActionListener {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(OpenFromUrlDialog.class.getName());
     
-    private DcUrlField input = ComponentFactory.getURLField(500);
+    private final DcUrlField input = ComponentFactory.getURLField(500);
     
     private URL url;
     private byte[] image;
@@ -94,7 +94,6 @@ public class OpenFromUrlDialog extends DcDialog implements ActionListener {
     @Override
     public void close() {
         super.close();
-        input = null;
     }
     
     private void build() {

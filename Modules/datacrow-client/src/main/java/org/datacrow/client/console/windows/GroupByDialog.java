@@ -49,8 +49,8 @@ import org.datacrow.core.settings.DcSettings;
 
 public class GroupByDialog extends DcDialog implements ActionListener {
 
-    private FieldSelectionPanel panelSorting;
-    private int module;
+    private final FieldSelectionPanel panelSorting;
+    private final int module;
     
     public GroupByDialog(int module) {
         super(GUI.getInstance().getMainFrame());
@@ -88,7 +88,6 @@ public class GroupByDialog extends DcDialog implements ActionListener {
     @Override
     public void close() {
         panelSorting.clear();
-        panelSorting = null;
         DcSettings.set(DcRepository.Settings.stGroupByDialogSize, getSize());
         super.close();
     }

@@ -69,11 +69,12 @@ public class FieldPermissionPanel extends JPanel implements ActionListener {
     private static final int _COLUMN_EDIT = 3;
     private static final int _COLUMN_PERMISSION = 4;
     
-    private DcModule module;
-    private DcTable table;
-    private DcObject user;
+    private final DcTable table = ComponentFactory.getDCTable(false, false);
     
-    private ModulePermissionMenu menu;
+    private final DcModule module;
+    private final DcObject user;
+    
+    private final ModulePermissionMenu menu;
     
     private boolean update;
     
@@ -155,18 +156,12 @@ public class FieldPermissionPanel extends JPanel implements ActionListener {
     
     public void clear() {
         table.clear();
-        table = null;
-        user = null;
-        module = null;
-        
         menu.clear();
-        menu = null;
     }
 
     private void build() {
         setLayout(Layout.getGBL());
 
-        table = ComponentFactory.getDCTable(false, false);
         table.setColumnCount(5);
 
         TableColumn cModule = table.getColumnModel().getColumn(_COLUMN_MODULE);

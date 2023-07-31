@@ -61,19 +61,19 @@ public class OnlineServicePanel extends JPanel implements ActionListener, KeyLis
     private JButton buttonSearch;
     
     private JTextField fldQuery;
-    private Map<String, IComponent> fldAdditionFields = new HashMap<>();
     
-    private JButton buttonStop = ComponentFactory.getButton(DcResources.getText("lblStop"));
+    private final  Map<String, IComponent> fldAdditionFields = new HashMap<>();
     
-    private JComboBox<Object> comboRegions = ComponentFactory.getComboBox(new DefaultComboBoxModel<Object> ());
-    private JComboBox<Object> comboModes = ComponentFactory.getComboBox(new DefaultComboBoxModel<Object> ());
-    private JComboBox<Object> comboServers = ComponentFactory.getComboBox(new DefaultComboBoxModel<Object> ());
+    private final JButton buttonStop = ComponentFactory.getButton(DcResources.getText("lblStop"));
+    private final JComboBox<Object> comboRegions = ComponentFactory.getComboBox(new DefaultComboBoxModel<Object> ());
+    private final JComboBox<Object> comboModes = ComponentFactory.getComboBox(new DefaultComboBoxModel<Object> ());
+    private final JComboBox<Object> comboServers = ComponentFactory.getComboBox(new DefaultComboBoxModel<Object> ());
     
+    private final OnlineSearchForm osf;
+    private final OnlineServices os;
+
     private boolean listenForServerChanges = true;
     private boolean perfectMatchOccured = false;
-
-    private OnlineSearchForm osf;
-    private OnlineServices os;
     
     public OnlineServicePanel(OnlineSearchForm osf, OnlineServices os) {
         this.osf = osf;
@@ -167,12 +167,7 @@ public class OnlineServicePanel extends JPanel implements ActionListener, KeyLis
     protected void clear() {
         buttonSearch = null;
         fldQuery = null;
-        buttonStop = null;
-        comboRegions = null;
-        comboModes = null;
-        comboServers = null;
-        osf = null;
-        os = null;
+        fldAdditionFields.clear();
     }    
     
     private void applySettings() {

@@ -76,7 +76,7 @@ public class PanelSelectModule extends ModuleWizardPanel {
     }
     
     @Override
-    public void destroy() {
+    public void cleanup() {
         if (components != null) {
             components.clear();
             components = null;

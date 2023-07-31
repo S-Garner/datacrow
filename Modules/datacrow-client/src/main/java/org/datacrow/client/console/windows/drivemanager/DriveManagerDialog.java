@@ -45,7 +45,7 @@ import org.datacrow.core.settings.DcSettings;
 
 public class DriveManagerDialog extends DcFrame implements ActionListener {
 
-    private static DriveManagerDialog instance;
+    private static final DriveManagerDialog instance;
     
     private final DrivePollerPanel pollerPanel;
     private final FileSynchronizerPanel synchronizerPanel;

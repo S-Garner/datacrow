@@ -48,13 +48,13 @@ import org.datacrow.client.util.Utilities;
 
 public class NativeMessageBox extends NativeDialog implements ActionListener {
 
-    private JTextArea textMessage;
-    private JButton buttonOk;
-    private JPanel panel = new JPanel();
+    public static final int _ERROR = 1;
+    public static final int _WARNING = 2;
+    public static final int _INFORMATION = 3;
 
-    public  static final int _ERROR = 1;
-    public  static final int _WARNING = 2;
-    public  static final int _INFORMATION = 3;
+    private final JTextArea textMessage = new JTextArea();;
+    private final JButton buttonOk = new JButton("Ok");
+    private final JPanel panel = new JPanel();
     
     public NativeMessageBox(String title, String message) {
         super((JFrame) null);
@@ -87,10 +87,6 @@ public class NativeMessageBox extends NativeDialog implements ActionListener {
 
     @Override
     public void close() {
-        textMessage = null;
-        buttonOk = null;
-        panel = null;
-        
         GUI gui = GUI.getInstance();
         if (gui.isSplashScreenActive())
             gui.showSplashScreen(true);
@@ -109,8 +105,7 @@ public class NativeMessageBox extends NativeDialog implements ActionListener {
 
         setResizable(true);
         getContentPane().setLayout(new GridBagLayout());
-
-        textMessage = new JTextArea();
+        
         textMessage.setEditable(false);
         textMessage.setBackground(panel.getBackground());
         textMessage.setWrapStyleWord(true);
@@ -123,7 +118,6 @@ public class NativeMessageBox extends NativeDialog implements ActionListener {
         scrollIn.setPreferredSize(new Dimension(400,120));
         scrollIn.setMinimumSize(new Dimension(400,120));
         scrollIn.setBorder(null);
-        buttonOk = new JButton("Ok");
         buttonOk.addActionListener(this);
         buttonOk.setMnemonic('O');
 

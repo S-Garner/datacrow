@@ -43,8 +43,9 @@ import org.datacrow.core.services.Servers;
 
 public class InternetWizardPanel extends ItemWizardPanel implements MouseListener {
 
+	private final ItemWizard wizard;
+	
     private OnlineSearchForm internetSearchForm = null;
-    private ItemWizard wizard;
 
     public InternetWizardPanel(ItemWizard wizard, DcModule module) {
         build(module);
@@ -68,11 +69,9 @@ public class InternetWizardPanel extends ItemWizardPanel implements MouseListene
     }
 
     @Override
-    public void destroy() {
+    public void cleanup() {
         if (internetSearchForm != null)
             internetSearchForm.close(false);
-        
-        wizard = null;
     }
     
     @Override

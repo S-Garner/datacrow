@@ -59,12 +59,12 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class LanguageResourceEditPanel extends JPanel implements KeyListener, ActionListener {
     
-    private DcTable table = ComponentFactory.getDCTable(false, false);
-    private String filterKey;
+    private final DcTable table = ComponentFactory.getDCTable(false, false);
+    private final String filterKey;
     
-    private Map<String, String> allValues = new HashMap<String, String>();
-    private DcShortTextField txtFilter = ComponentFactory.getShortTextField(255);
-    private DcShortTextField txtReplace = ComponentFactory.getShortTextField(255);
+    private final Map<String, String> allValues = new HashMap<String, String>();
+    private final DcShortTextField txtFilter = ComponentFactory.getShortTextField(255);
+    private final DcShortTextField txtReplace = ComponentFactory.getShortTextField(255);
     
     public LanguageResourceEditPanel(String key) {
         this.filterKey = key;

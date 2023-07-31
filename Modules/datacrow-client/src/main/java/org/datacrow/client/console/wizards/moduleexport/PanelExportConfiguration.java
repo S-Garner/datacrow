@@ -44,7 +44,7 @@ public class PanelExportConfiguration extends ModuleExportWizardPanel {
 	private static final String _EXPORT_DATA_MAIN_MODULE = "export_data_main_module";
 	private static final String _PATH = "export_path";
 	
-	private SettingsGroup group;
+	private final SettingsGroup group = new SettingsGroup("", "");;
 	private SettingsPanel settingsPanel;
 	
     public PanelExportConfiguration() {
@@ -86,15 +86,13 @@ public class PanelExportConfiguration extends ModuleExportWizardPanel {
     }
     
     @Override
-    public void destroy() {
-    	group = null;
+    public void cleanup() {
     	settingsPanel = null;
     }    
     
     private void build() {
         setLayout(Layout.getGBL());
-
-        group = new SettingsGroup("", "");
+        
         group.add(new Setting(DcRepository.ValueTypes._BOOLEAN,
         		PanelExportConfiguration._EXPORT_DATA_MAIN_MODULE, Boolean.FALSE, ComponentFactory._CHECKBOX,
                 "",  DcResources.getText("lblExportModuleItemsMain"), false, false, -1));

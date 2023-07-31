@@ -48,11 +48,11 @@ import org.datacrow.core.settings.DcSettings;
 
 public class CreateTabForm extends DcFrame implements ActionListener {
     
-    private MaintainTabsDialog dlg;
-    private int module;
+    private final MaintainTabsDialog dlg;
+    private final int module;
     
-    private DcShortTextField txtName = ComponentFactory.getShortTextField(255);
-    private DcPictureField fldIcon = ComponentFactory.getPictureField(false, false);
+    private final DcShortTextField txtName = ComponentFactory.getShortTextField(255);
+    private final DcPictureField fldIcon = ComponentFactory.getPictureField(false, false);
     
     public CreateTabForm(MaintainTabsDialog dlg, int module) {
         super(DcResources.getText("lblCreateTab"), IconLibrary._icoAdd);
@@ -71,15 +71,6 @@ public class CreateTabForm extends DcFrame implements ActionListener {
         
         setVisible(false);
         close();
-    }
-    
-    @Override
-    public void close() {
-        super.close();
-        
-        txtName = null;
-        fldIcon = null;
-        dlg = null;
     }
     
     private void build() {

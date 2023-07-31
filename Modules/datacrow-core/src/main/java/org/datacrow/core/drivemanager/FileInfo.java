@@ -29,9 +29,9 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 public class FileInfo {
 
-    private String hash;
-    private String filename;
-    private Long size;
+    private final String hash;
+    private final String filename;
+    private final Long size;
     
     public FileInfo(String hash, String filename, Long size) {
         super();
@@ -52,12 +52,6 @@ public class FileInfo {
         return size;
     }
     
-    public void clear() {
-        size = null;
-        hash = null;
-        filename = null;
-    }
-
     @Override
 	public int hashCode() {
 		return new String(hash + filename + size).hashCode();

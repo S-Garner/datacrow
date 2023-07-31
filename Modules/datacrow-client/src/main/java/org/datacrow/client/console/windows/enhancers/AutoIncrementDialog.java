@@ -66,21 +66,21 @@ public class AutoIncrementDialog extends DcDialog implements ActionListener {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(AutoIncrementDialog.class.getName());
     
-    private AutoIncrementSettingsPanel pSettings = new AutoIncrementSettingsPanel();
+    private final AutoIncrementSettingsPanel pSettings = new AutoIncrementSettingsPanel();
     
-    private JProgressBar progressBar = new JProgressBar();
+    private final JProgressBar progressBar = new JProgressBar();
     
+    private final JComboBox<Object> comboModus = ComponentFactory.getComboBox();
+    private final JComboBox<Object> comboOrderBy1 = ComponentFactory.getComboBox();
+    private final JComboBox<Object> comboOrderBy2 = ComponentFactory.getComboBox();
+    private final JComboBox<Object> comboOrderBy3 = ComponentFactory.getComboBox();
+    
+    private final JButton buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
+    private final JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
+    private final JButton buttonRun = ComponentFactory.getButton(DcResources.getText("lblRun"));
+
     private boolean canceled = false;
     
-    private JComboBox<Object> comboModus = ComponentFactory.getComboBox();
-    private JComboBox<Object> comboOrderBy1 = ComponentFactory.getComboBox();
-    private JComboBox<Object> comboOrderBy2 = ComponentFactory.getComboBox();
-    private JComboBox<Object> comboOrderBy3 = ComponentFactory.getComboBox();
-    
-    private JButton buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
-    private JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
-    private JButton buttonRun = ComponentFactory.getButton(DcResources.getText("lblRun"));
-
     public AutoIncrementDialog() {
         super(GUI.getInstance().getMainFrame());
 
@@ -92,21 +92,6 @@ public class AutoIncrementDialog extends DcDialog implements ActionListener {
         setSize(new Dimension(600, 600));
         setModal(true);
         setCenteredLocation();
-    }
-
-    @Override
-    public void close() {
-        pSettings = null;
-        comboOrderBy1 = null;
-        comboOrderBy2 = null;
-        comboOrderBy3 = null;
-        comboModus = null;
-        progressBar = null;
-        buttonSave = null;
-        buttonClose = null;
-        buttonRun = null;
-        
-        super.close();
     }
 
     private void save() {

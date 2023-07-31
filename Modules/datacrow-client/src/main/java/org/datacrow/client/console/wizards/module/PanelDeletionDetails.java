@@ -49,9 +49,9 @@ public class PanelDeletionDetails extends ModuleWizardPanel {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PanelDeletionDetails.class.getName());
     
-    private JTextPane details = ComponentFactory.getTextPane();
-    private HTMLEditorKit kit = new HTMLEditorKit();
-    private HTMLDocument document = new HTMLDocument();
+    private final JTextPane details = ComponentFactory.getTextPane();
+    private final HTMLEditorKit kit = new HTMLEditorKit();
+    private final HTMLDocument document = new HTMLDocument();
     
     public PanelDeletionDetails(Wizard wizard) {
         super(wizard);
@@ -108,11 +108,7 @@ public class PanelDeletionDetails extends ModuleWizardPanel {
     }
 
     @Override
-    public void destroy() {
-        details = null;
-        kit = null;
-        document = null;
-    }
+    public void cleanup() {}
 
     @Override
     public Object apply() {

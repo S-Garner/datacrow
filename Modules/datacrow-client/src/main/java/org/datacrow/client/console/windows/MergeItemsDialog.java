@@ -70,19 +70,18 @@ public class MergeItemsDialog extends DcDialog implements ActionListener, IClien
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(MergeItemsDialog.class.getName());
 
-    private JTextArea textLog = ComponentFactory.getTextArea();
-    
-    private DcModule module;
-    private Collection<? extends DcObject> items;
-    private DcObjectComboBox cbItems;
-
+    private final JTextArea textLog = ComponentFactory.getTextArea();
     private final DcButton buttonApply = ComponentFactory.getButton(DcResources.getText("lblApply"));
     private final DcButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
-    
     private final JProgressBar progressBar = new JProgressBar();
     
     private final Collection<IMergeItemsListener> listeners = new ArrayList<>();
+
+    private final DcModule module;
+    private final Collection<? extends DcObject> items;
     
+    private DcObjectComboBox cbItems;
+
     private boolean canceled = false;
     
     public MergeItemsDialog(Collection<? extends DcObject> items, DcModule module) {
@@ -97,8 +96,6 @@ public class MergeItemsDialog extends DcDialog implements ActionListener, IClien
         } else {
         	setHelpIndex("dc.items.mergeitems");
         }
-        
-        
 
         build();
 
@@ -179,7 +176,11 @@ public class MergeItemsDialog extends DcDialog implements ActionListener, IClien
     @Override
     public void close() {
         canceled = true;
+        
         DcSettings.set(DcRepository.Settings.stMergeItemsDialogSize, getSize());
+        
+        if (items != null) items.clear();
+        
         super.close();
     }
 

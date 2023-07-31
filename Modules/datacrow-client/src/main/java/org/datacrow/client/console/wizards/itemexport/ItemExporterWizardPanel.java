@@ -40,7 +40,7 @@ public abstract class ItemExporterWizardPanel extends JPanel implements IWizardP
     }
 
     @Override
-    public void destroy() {
+    public void cleanup() {
         wizard = null;
         definition = null;
     }

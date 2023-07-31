@@ -40,8 +40,8 @@ public class DcResultSet implements Serializable {
 
     private transient static DcLogger logger = DcLogManager.getInstance().getLogger(DcResultSet.class.getName());
 	
-	private Map<String, String> columns;
-	private Map<Integer, Object[]> data;
+	private final Map<String, String> columns;
+	private final Map<Integer, Object[]> data;
 	
 	public DcResultSet() {
 		data = new LinkedHashMap<Integer, Object[]>();

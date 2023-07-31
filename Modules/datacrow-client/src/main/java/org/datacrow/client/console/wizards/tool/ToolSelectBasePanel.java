@@ -59,7 +59,7 @@ public abstract class ToolSelectBasePanel extends JPanel implements IWizardPanel
     public void onDeactivation() {}
 
     @Override
-    public void destroy() {
+    public void cleanup() {
         tool = null;
         wizard = null;
     }

@@ -44,7 +44,7 @@ public class DcIconCache {
 
 	private static final DcIconCache is = new DcIconCache();
 	
-	private ConcurrentHashMap<String, DcImageIcon> icons = new ConcurrentHashMap<String, DcImageIcon>();
+	private final ConcurrentHashMap<String, DcImageIcon> icons = new ConcurrentHashMap<String, DcImageIcon>();
 	
 	private DcIconCache() {}
 	

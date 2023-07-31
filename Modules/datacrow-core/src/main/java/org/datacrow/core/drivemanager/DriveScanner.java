@@ -41,14 +41,15 @@ public class DriveScanner {
 
     private static org.apache.logging.log4j.Logger logger = LogManager.getLogger(DriveScanner.class.getName());
     
-    private Logger report;
+    private final String filename;
+    private final Logger report;
+    
     private FileHandler handler;
     
     private File drive;
     private DriveManager dm;
     
     private DriveScan ds;
-    private final String filename;
     
     public DriveScanner(DriveManager dm, File drive) {
         filename = StringUtils.normalize(drive.toString()) + dm.getTempFileSuffix();

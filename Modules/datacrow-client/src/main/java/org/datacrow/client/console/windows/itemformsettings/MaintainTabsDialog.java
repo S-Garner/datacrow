@@ -52,8 +52,8 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
 public class MaintainTabsDialog extends DcDialog implements ActionListener {
 	
-    private ItemFormSettingsDialog dlg;
-    private DcTabList tabList;
+    private final ItemFormSettingsDialog dlg;
+    private final DcTabList tabList;
     
     public MaintainTabsDialog(ItemFormSettingsDialog dlg) {
         super(dlg);
@@ -70,12 +70,7 @@ public class MaintainTabsDialog extends DcDialog implements ActionListener {
     }
     
     protected void clear() {
-        dlg = null;
-        
-        if (tabList != null) {
-            tabList.clear();
-            tabList = null;
-        }
+        tabList.clear();
     }
     
     public void refresh() {
