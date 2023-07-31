@@ -51,10 +51,12 @@ public class TabDesignPanel extends JPanel implements IFieldSelectionListener {
     private final DcModule module;
 	
     private FieldSelectionPanel pnlFields;
+    private final List<Tab> tabs;
     
-    public TabDesignPanel(DcModule module, Tab tab) {
+    public TabDesignPanel(DcModule module, Tab tab, List<Tab> tabs) {
         this.module = module;
         this.tabName = tab.getName();
+        this.tabs = tabs;
         
         build();
         refresh();
@@ -105,10 +107,30 @@ public class TabDesignPanel extends JPanel implements IFieldSelectionListener {
         return fields;
     }
     
+    private boolean isUnassigned(DcFieldDefinition definition) {
+    	boolean unassigned = CoreUtilities.isEmpty(definition.getTab());
+    	
+    	// next, check if we have, for whatever reason, tabs assigned which do not exist
+    	if (!unassigned) {
+    		
+    		unassigned = true;
+    		
+    		for (Tab tab : tabs) {
+    			if (	tab.getName().equals(definition.getTab()) ||
+    					tab.getName().equals(DcResources.getText(definition.getTab()))) {
+    				unassigned = false;
+    				break;
+    			}
+    		}
+    	}
+    	
+    	return unassigned;
+    }
+    
     private List<DcField> getAvailableFields() {
         List<DcField> fields = new ArrayList<DcField>();
         for (DcFieldDefinition def : module.getFieldDefinitions().getDefinitions()) {
-            if (isAllowed(def.getIndex()) && CoreUtilities.isEmpty(def.getTab()))
+            if (isAllowed(def.getIndex()) && isUnassigned(def))
                 fields.add(module.getField(def.getIndex()));
         }
         return fields;

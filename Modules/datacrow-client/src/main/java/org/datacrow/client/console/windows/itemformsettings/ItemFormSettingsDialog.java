@@ -107,7 +107,7 @@ public class ItemFormSettingsDialog extends DcFrame implements ActionListener, C
         TabDesignPanel panel;
         panels.clear();
         for (Tab tab : tabs) {
-            panel = new TabDesignPanel(module, tab);
+            panel = new TabDesignPanel(module, tab, tabs);
             panels.add(panel);
             tp.addTab(tab.getName(), tab.getIcon(), panel);
         }
