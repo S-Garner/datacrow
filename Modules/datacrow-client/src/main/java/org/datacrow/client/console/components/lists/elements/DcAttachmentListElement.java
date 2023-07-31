@@ -27,11 +27,15 @@ package org.datacrow.client.console.components.lists.elements;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JLabel;
 
 import org.datacrow.client.console.ComponentFactory;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.attachments.Attachment;
+import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.utilities.CoreUtilities;
 
 public class DcAttachmentListElement extends DcListElement {
     
@@ -57,9 +61,15 @@ public class DcAttachmentListElement extends DcListElement {
     @Override
     public void build() {
         setLayout(layout);
-        JLabel labelField = ComponentFactory.getLabel(attachment.getName());
+        
+        String s = attachment.getName();
+        s += " (" + CoreUtilities.toFileSizeString(Long.valueOf(attachment.getSize() / 1000));
+        s += ", " + new SimpleDateFormat(
+                DcSettings.getString(DcRepository.Settings.stDateFormat)).format(attachment.getCreated());
+        s += ")";
+        
+        JLabel labelField = ComponentFactory.getLabel(s);
         labelField.setPreferredSize(dimLabel);
-
         add(labelField);
     }
 

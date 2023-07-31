@@ -42,13 +42,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.attribute.FileTime;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -154,13 +149,7 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
 					new String[] {String.valueOf(maxSize), String.valueOf(file.length() / 1000)}));
 		} else {
     		try {
-	    		Attachment attachment = new Attachment(objectID, file.getName());
-	    		FileTime creationTime = 
-	    				(FileTime) Files.getAttribute(file.toPath(), "creationTime", LinkOption.NOFOLLOW_LINKS);
-	    		
-	    		Instant instant = creationTime.toInstant();
-	    		attachment.setCreated(Date.from(instant));
-	    		attachment.setSize(file.length());
+	    		Attachment attachment = new Attachment(objectID, file);
 	    		
 	    		// check if file has not already been attached - allow user to overwrite the existing attachment
 	    		if (list.getAttachments().contains(attachment)) {

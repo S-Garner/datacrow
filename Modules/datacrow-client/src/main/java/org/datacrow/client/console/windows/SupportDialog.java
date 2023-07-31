@@ -103,8 +103,8 @@ public class SupportDialog extends DcDialog implements ActionListener {
             GUI.getInstance().displayErrorMessage(DcResources.getText("msgErrorCreatingSupportFile", e.getMessage()));
             logger.error(e, e);
         } finally {
-        	try { if (fos != null) fos.close(); } catch (Exception e) {logger.error("Could not close resource");}
         	try { if (zipOut != null) zipOut.close(); } catch (Exception e) {logger.error("Could not close resource");}
+        	try { if (fos != null) fos.close(); } catch (Exception e) {logger.error("Could not close resource");}
         }
     }
     

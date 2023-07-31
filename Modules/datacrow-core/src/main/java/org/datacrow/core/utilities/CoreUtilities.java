@@ -52,10 +52,13 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
@@ -810,7 +813,7 @@ public class CoreUtilities {
         timestamp = dfm.format(cal.getTime());
         return timestamp;
     }
-    
+
     public static String getLocalTimestamp() {
         String timestamp = null;
         Calendar cal = Calendar.getInstance();
@@ -818,6 +821,21 @@ public class CoreUtilities {
         timestamp = dfm.format(cal.getTime());
         return timestamp;
     }    
+
+    public static String toString(Date dt) {
+        String timestamp = null;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dt);
+        
+        DateFormat dfm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        timestamp = dfm.format(cal.getTime());
+        return timestamp;
+    }
+    
+    public static Date toDate(String s) {
+    	LocalDateTime dt = LocalDateTime.parse(s);
+    	return Date.from(dt.toInstant(OffsetDateTime.now().getOffset()));
+    }        
     
     public static String readInputStream(InputStream is) throws IOException {
         ByteArrayOutputStream result = new ByteArrayOutputStream();

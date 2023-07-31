@@ -176,8 +176,8 @@ public class Backup extends Thread {
             client.notifyError(e);
             client.notifyWarning(DcResources.getText("msgBackupFinishedUnsuccessful"));
         } finally {
-        	try { if (fos != null) fos.close(); } catch (Exception e) {logger.error("Could not close resource");}
         	try { if (zipOut != null) zipOut.close(); } catch (Exception e) {logger.error("Could not close resource");}
+        	try { if (fos != null) fos.close(); } catch (Exception e) {logger.error("Could not close resource");}
         }
         
         DcSettings.set(DcRepository.Settings.stBackupLocation, directory.toString());

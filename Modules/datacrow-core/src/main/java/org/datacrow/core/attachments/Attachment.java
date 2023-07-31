@@ -26,6 +26,11 @@
 package org.datacrow.core.attachments;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
 import java.util.Date;
 
 import org.datacrow.core.DcConfig;
@@ -47,6 +52,19 @@ public class Attachment {
 		this.objectID = objectID;
 		this.name = name;
 	}
+
+	
+	public Attachment(String objectID, File file) throws IOException {
+		this.objectID = objectID;
+		this.name = file.getName();
+		
+		FileTime creationTime = 
+				(FileTime) Files.getAttribute(file.toPath(), "creationTime", LinkOption.NOFOLLOW_LINKS);
+		
+		Instant instant = creationTime.toInstant();
+		setCreated(Date.from(instant));
+		setSize(file.length());
+	}	
 	
 	public void setData(byte[] data) {
 		this.data = data;

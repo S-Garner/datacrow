@@ -60,25 +60,24 @@ public class FindReplaceTaskDialog extends DcDialog implements ActionListener, I
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(FindReplaceTaskDialog.class.getName());
     
-    private JProgressBar pb = new DcProgressBar();
+    private final JProgressBar pb = new DcProgressBar();
     
     private boolean stopped = false;
     
-    private JButton buttonApply;
-    private JButton buttonClose;
+    private final JButton buttonApply;
+    private final JButton buttonClose;
 
-    private DcModule module;
-    private IView view;
+    private final DcModule module;
+    private final IView view;
+    
+    private final int[] fields;
+    private final int field;
+
+    private final Object replacement;
+    private final Object value;
+    private final List<DcObject> items;
     
     private DcTable tblItems;
-    
-    private int[] fields;
-    private int field;
-    
-    private Object replacement;
-    private Object value;
-    
-    private List<DcObject> items;
 
     public FindReplaceTaskDialog(
             JFrame parent, 
@@ -101,6 +100,10 @@ public class FindReplaceTaskDialog extends DcDialog implements ActionListener, I
         this.fields = fields;
         
         setHelpIndex("dc.tools.findreplace");
+        
+        buttonApply = ComponentFactory.getButton(DcResources.getText("lblApply"));
+        buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));        
+        
         buildDialog(module);
         setSize(DcSettings.getDimension(DcRepository.Settings.stFindReplaceTaskDialogSize));
 
@@ -228,6 +231,10 @@ public class FindReplaceTaskDialog extends DcDialog implements ActionListener, I
     @Override
     public void close() {
         DcSettings.set(DcRepository.Settings.stFindReplaceTaskDialogSize, getSize());
+        
+        tblItems.clear();
+        items.clear();
+        
         super.close();
     }
 
@@ -289,9 +296,6 @@ public class FindReplaceTaskDialog extends DcDialog implements ActionListener, I
         //Action panel
         //**********************************************************
         JPanel panelActions = new JPanel();
-
-        buttonApply = ComponentFactory.getButton(DcResources.getText("lblApply"));
-        buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
 
         buttonApply.addActionListener(this);
         buttonApply.setActionCommand("start");
