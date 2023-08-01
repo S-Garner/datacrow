@@ -46,14 +46,13 @@ public class DcCardObjectListElement extends DcObjectListElement {
     private static final Dimension dimPicLbl = new Dimension(250, 200);
 
     private final DcTextPane fldTitle;
-    private final DcPictureField fldPicture;
+    private DcPictureField fldPicture;
     
     private boolean build = false;
 
     public DcCardObjectListElement(int module) {
         super(module);
         
-        fldPicture = ComponentFactory.getPictureField(false, false);
         fldTitle = ComponentFactory.getTextPane();
         
         setPreferredSize(size);
@@ -135,6 +134,8 @@ public class DcCardObjectListElement extends DcObjectListElement {
             scaledImage = p.getScaledPicture();
             image = (DcImageIcon) p.getValue(Picture._D_IMAGE);
             
+            fldPicture = ComponentFactory.getPictureField(false, false);
+            
             if (scaledImage != null) { 
                 fldPicture.setValue(scaledImage);
                 fldPicture.setScaled(false);
@@ -155,7 +156,6 @@ public class DcCardObjectListElement extends DcObjectListElement {
     @Override
     public void build() {
         build = true;
-        
 
         fldTitle.setText(getDescription());
         fldTitle.setPreferredSize(dimTxt);
@@ -166,6 +166,9 @@ public class DcCardObjectListElement extends DcObjectListElement {
         add(fldTitle);
           
         super.setBackground(ComponentFactory.getColor(DcRepository.Settings.stCardViewBackgroundColor));
+        
+        revalidate();
+        repaint();
     }
     
     @Override
@@ -174,8 +177,12 @@ public class DcCardObjectListElement extends DcObjectListElement {
         
         removeAll();
         
+        if (fldPicture != null) fldPicture.flushImage();
         if (fldPicture != null) fldPicture.clear();
 
+        revalidate();
+        repaint();
+        
         build = false;
     }
 }
