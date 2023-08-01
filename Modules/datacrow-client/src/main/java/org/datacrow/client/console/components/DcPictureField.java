@@ -561,7 +561,9 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
                 	
                 	File file = transferData.get(0);
                 	if (file.isFile() && filter.accept(file)) {
-                		picture = new DcImageIcon(CoreUtilities.readFile(file));
+                    	BufferedImage bi = ImageIO.read(file);
+                    	picture = new DcImageIcon(bi);
+                		
                         initialize();
                         changed = true;
                 	}

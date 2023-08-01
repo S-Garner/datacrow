@@ -262,14 +262,11 @@ public abstract class Query {
         DcDimension maxDimension = DcSettings.getDimension(DcRepository.Settings.stMaximumImageResolution);
         
         try {
-            if (file.exists()) 
+            if (file.exists())
                 file.delete();
             
             DcImageIcon icon = (DcImageIcon) picture.getValue(Picture._D_IMAGE);
-
-            // load the image based on the bytes - commonly used by the server
-            if (icon.getCurrentBytes() != null)
-            	icon = new DcImageIcon(icon.getCurrentBytes());
+            icon = icon.getCurrentBytes() != null ? new DcImageIcon(icon.getCurrentBytes()) : icon;
             
     		CoreUtilities.writeScaledImageToFile(
     				icon, 
@@ -278,9 +275,9 @@ public abstract class Query {
     				maxDimension.getWidth(), 
     				maxDimension.getHeight());
     		CoreUtilities.writeScaledImageToFile(
-    				icon, 
-    				new File(picture.getScaledFilename(imageFile)));        		
-            
+    				icon,
+    				new File(picture.getScaledFilename(imageFile)));
+    		
         } catch (Exception e) {
             logger.error("Could not save [" + imageFile + "]", e);
         }
