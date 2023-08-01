@@ -30,8 +30,10 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -40,10 +42,11 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcUrlField;
-import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.utilities.CoreUtilities;
 
 public class OpenFromUrlDialog extends DcDialog implements ActionListener {
 
@@ -73,10 +76,10 @@ public class OpenFromUrlDialog extends DcDialog implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         try {
             if (ae.getActionCommand().equals("ok")) {
-                url = input.getURL();                
-                
+                url = input.getURL();
                 if (url != null) {
-                    setImage(HttpConnectionUtil.retrieveBytes(url));
+                	BufferedImage bi = ImageIO.read(url);
+                	setImage(CoreUtilities.getBytes(new DcImageIcon(bi)));
                     close();
                 } else {
                     GUI.getInstance().displayMessage("msgEnterUrl");

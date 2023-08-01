@@ -161,7 +161,7 @@ public class DcApplicationSettings extends Settings {
         addSetting(_SizeLimits,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.Settings.stMaximumImageResolution,
-                            null,
+                            new DcDimension(1920, 1080),
                             UIComponents._RESOLUTIONCOMBO,
                             "tpMaximumImageResolution",
                             "lblMaximumImageResolution",

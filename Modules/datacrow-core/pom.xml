@@ -69,6 +69,12 @@
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
 		</dependency>
+		<!-- webp image support -->
+		<dependency>
+		    <groupId>org.sejda.imageio</groupId>
+		    <artifactId>webp-imageio</artifactId>
+		    <version>0.1.6</version>
+		</dependency>		
 		<!-- Twelve Monkeys -->
 		<dependency>
 			<groupId>com.twelvemonkeys.imageio</groupId>

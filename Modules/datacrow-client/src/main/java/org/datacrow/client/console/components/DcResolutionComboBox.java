@@ -32,7 +32,6 @@ public class DcResolutionComboBox extends DcComboBox<DcDimension> {
 	public DcResolutionComboBox() {
         super();
         
-        addItem("");
         addItem(new DcDimension(800, 600));
         addItem(new DcDimension(1366, 768));
         addItem(new DcDimension(1440, 768));

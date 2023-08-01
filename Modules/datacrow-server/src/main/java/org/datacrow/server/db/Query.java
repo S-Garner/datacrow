@@ -26,14 +26,10 @@
 package org.datacrow.server.db;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
@@ -49,6 +45,8 @@ import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.settings.objects.DcDimension;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.server.data.DataManager;
@@ -261,43 +259,28 @@ public abstract class Query {
         File file = new File(DcConfig.getInstance().getImageDir(), filename);
         String imageFile = file.toString();
 
+        DcDimension maxDimension = DcSettings.getDimension(DcRepository.Settings.stMaximumImageResolution);
+        
         try {
             if (file.exists()) 
                 file.delete();
             
             DcImageIcon icon = (DcImageIcon) picture.getValue(Picture._D_IMAGE);
+
+            // load the image based on the bytes - commonly used by the server
+            if (icon.getCurrentBytes() != null)
+            	icon = new DcImageIcon(icon.getCurrentBytes());
             
-            if (icon.getCurrentBytes() != null && 
-                DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER) {
-                
-                CoreUtilities.writeToFile(icon.getCurrentBytes(), file);
-                CoreUtilities.writeScaledImageToFile(new DcImageIcon(icon.getCurrentBytes()), 
-                                                     new File(picture.getScaledFilename(imageFile)));
+    		CoreUtilities.writeScaledImageToFile(
+    				icon, 
+    				file, 
+    				DcImageIcon._TYPE_PNG, 
+    				maxDimension.getWidth(), 
+    				maxDimension.getHeight());
+    		CoreUtilities.writeScaledImageToFile(
+    				icon, 
+    				new File(picture.getScaledFilename(imageFile)));        		
             
-            } else {
-                File realImgFile = icon.getFilename() != null ? new File(icon.getFilename()) : null;
-                if (realImgFile != null && realImgFile.exists()) {
-                    FileInputStream fis  = new FileInputStream(realImgFile);
-                    FileOutputStream fos = new FileOutputStream(file);
-                    try {
-                        byte[] buf = new byte[1024];
-                        int i = 0;
-                        while ((i = fis.read(buf)) != -1) {
-                            fos.write(buf, 0, i);
-                        }
-                    } catch (Exception e) {
-                        throw e;
-                    } finally {
-                        if (fis != null) fis.close();
-                        if (fos != null) fos.close();
-                    }
-                    CoreUtilities.writeScaledImageToFile(icon, new File(picture.getScaledFilename(imageFile)));
-                } else {
-                    ImageIO.write(CoreUtilities.toBufferedImage(icon), "PNG", file);
-                    CoreUtilities.writeScaledImageToFile(icon, new File(picture.getScaledFilename(imageFile)));
-                    icon.flush();
-                }
-            }
         } catch (Exception e) {
             logger.error("Could not save [" + imageFile + "]", e);
         }
