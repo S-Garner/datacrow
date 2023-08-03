@@ -483,7 +483,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
                     value = dco.getDisplayString(index);
                     
                     if (field.getValueType() == DcRepository.ValueTypes._STRING) {
-                        value = value.replaceAll("[\r\n]", "<br>");
+                    	value = value.replaceAll("(\r\n|\n)", "<br />");
                         value = value.replaceAll("[\t]", "    ");
                     }
                   
