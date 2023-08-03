@@ -43,11 +43,11 @@ public class ProgressDialog extends DcDialog {
     private final JProgressBar bar = new JProgressBar();
     private final JLabel lbl = new JLabel();
     
-    public ProgressDialog(String title) {
+    public ProgressDialog(String title, int min, int max) {
         super(GUI.getInstance().getRootFrame());
         
-        bar.setMinimum(0);
-        bar.setMaximum(100);
+        bar.setMinimum(min);
+        bar.setMaximum(max);
         
         getContentPane().setLayout(Layout.getGBL());
         getContentPane().add(bar,  Layout.getGBC( 0, 0, 1, 1, 50.0, 50.0

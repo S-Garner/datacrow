@@ -50,7 +50,7 @@ public class DcTemplate extends DcObject {
     public static final int _SYS_TEMPLATENAME = 400;
     public static final int _SYS_DEFAULT = 401;
     
-    private int parent;
+    private final int parent;
  
     /**
      * Creates a new instance.

@@ -42,7 +42,7 @@ public class PollerTask extends Thread implements IPollerTask {
     public PollerTask(Thread thread, String title) {
         setPriority(Thread.MIN_PRIORITY);
         this.thread = thread;
-        this.dlg = new ProgressDialog(title);
+        this.dlg = new ProgressDialog(title, 0, 100);
     }
     
     @Override

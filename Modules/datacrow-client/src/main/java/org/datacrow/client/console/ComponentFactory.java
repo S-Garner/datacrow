@@ -525,7 +525,7 @@ public final class ComponentFactory extends UIComponents {
     	return new DcCollationComboBox();
     }
     
-    public static final DcComboBox<DcDimension> getResolutionCombo() {
+    public static final DcResolutionComboBox getResolutionCombo() {
     	return new DcResolutionComboBox();
     }    
 

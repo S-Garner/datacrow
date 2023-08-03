@@ -139,16 +139,6 @@ public class DcApplicationSettings extends Settings {
                             "lblMaximumAttachFileSize",
                             true,
                             true, -1));
-        
-        addSetting(_SizeLimits,
-                new Setting(DcRepository.ValueTypes._BOOLEAN,
-                            DcRepository.Settings.stMaximumImageResolutionAsked,
-                            Boolean.FALSE,
-                            -1,
-                            "",
-                            "",
-                            true,
-                            false, -1));
         addSetting(_SizeLimits,
                 new Setting(DcRepository.ValueTypes._BOOLEAN,
                             DcRepository.Settings.stMaximumImageResolutionConvertOnStartup,

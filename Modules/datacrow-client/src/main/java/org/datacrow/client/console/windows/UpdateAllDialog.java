@@ -40,7 +40,6 @@ import javax.swing.SwingUtilities;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
-import org.datacrow.client.console.views.MasterView;
 import org.datacrow.client.console.views.View;
 import org.datacrow.client.console.windows.itemforms.ItemForm;
 import org.datacrow.core.DcConfig;
