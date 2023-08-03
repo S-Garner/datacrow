@@ -87,6 +87,7 @@ import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.helpers.Permission;
 import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.settings.objects.DcDimension;
 import org.datacrow.core.utilities.comparators.DcObjectComparator;
 
 public class CoreUtilities {
@@ -571,6 +572,10 @@ public class CoreUtilities {
         return bytes;
     }
     
+    public static String getTempFolder() {
+    	return System.getProperty("java.io.tmpdir");    	
+    }
+    
     public static void writeToFile(DcImageIcon icon, File file) throws Exception {
         writeScaledImageToFile(icon, file, DcImageIcon._TYPE_PNG, -1, -1);
     }   
@@ -607,6 +612,11 @@ public class CoreUtilities {
     public static void writeScaledImageToFile(DcImageIcon icon, File file) throws Exception {
     	writeScaledImageToFile(icon, file, DcImageIcon._TYPE_PNG, 250, 200);
     }
+    
+    public static void writeMaxImageToFile(DcImageIcon icon, File file) throws Exception {
+    	DcDimension dimMax = DcSettings.getDimension(DcRepository.Settings.stMaximumImageResolution);
+    	writeScaledImageToFile(icon, file, DcImageIcon._TYPE_PNG, dimMax.getWidth(), dimMax.getHeight());
+    }    
 
     public static void writeScaledImageToFile(DcImageIcon icon, File file, int type, int w, int h) throws Exception {
         BufferedImage bufferedImage = toBufferedImage(icon, w, h);

@@ -25,6 +25,8 @@
 
 package org.datacrow.core.services;
 
+import java.awt.Image;
+import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -32,13 +34,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.plugin.IServer;
+import org.datacrow.core.utilities.CoreUtilities;
 
 /**
  * A search task performs the actual online search. The search task is used by the
@@ -377,6 +383,33 @@ public abstract class SearchTask extends Thread {
         listener.stopped();        
     }
     
+    protected DcImageIcon getImage(String url) {
+    	
+    	url = url.replace("http://", "https://");
+    	
+        try {
+			Image img = ImageIO.read(new URL(url));
+			DcImageIcon icon = new DcImageIcon(img);
+			
+			// write to temp folder
+			File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + ".jpg");
+			CoreUtilities.writeMaxImageToFile(icon, file);
+			
+			// delete the file on exit of Data Crow
+			file.deleteOnExit();
+			
+			// flush the in memory image
+			icon.flush();
+			
+			// send image pointing to local disk storage
+			return new DcImageIcon(file);
+        } catch (Exception e) {
+            logger.debug("Cannot download image from [" + url + "]", e);
+        }
+        return null;    	
+    }
+    
+    @Deprecated
     protected byte[] getImageBytes(String url) {
         url = url.replace("http://", "https://");
         try {

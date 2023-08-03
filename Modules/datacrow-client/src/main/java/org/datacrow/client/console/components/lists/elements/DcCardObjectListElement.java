@@ -127,14 +127,15 @@ public class DcCardObjectListElement extends DcObjectListElement {
     private void addPicture(Collection<Picture> pictures) {
         DcImageIcon scaledImage;
         DcImageIcon image;
+
+        fldPicture = ComponentFactory.getPictureField(false, false);
+        
         for (Picture p : pictures) {
             
             if (p == null || !p.hasImage()) continue;
                 
             scaledImage = p.getScaledPicture();
             image = (DcImageIcon) p.getValue(Picture._D_IMAGE);
-            
-            fldPicture = ComponentFactory.getPictureField(false, false);
             
             if (scaledImage != null) { 
                 fldPicture.setValue(scaledImage);

@@ -36,6 +36,7 @@ import org.datacrow.core.DcRepository;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionException;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Book;
@@ -60,7 +61,7 @@ public class OpenLibrarySearch extends SearchTask {
     
     protected final Gson gson;
     
-    private final HashMap<String, byte[]> workImages = new HashMap<>();
+    private final HashMap<String, DcImageIcon> workImages = new HashMap<>();
     private final Map<String, String> languages = DcRepository.Collections.getLanguages();
 	
     public OpenLibrarySearch(
@@ -209,8 +210,7 @@ public class OpenLibrarySearch extends SearchTask {
 	            		olsr.setWorkId(workId);
 	            		waitBetweenRequest();
 	            		
-	            		link = "https://openlibrary.org/search.json?q="+ workId +
-	            				"&fields=key,title,description,cover_edition_key,author_name";
+	            		link = "https://openlibrary.org/search.json?q="+ workId;
 	            		
 	                    conn = new HttpConnection(new URL(link), userAgent);
 	                    json = conn.getString(StandardCharsets.UTF_8);
@@ -219,10 +219,18 @@ public class OpenLibrarySearch extends SearchTask {
 	                    item = gson.fromJson(json, Map.class);
 	                    
 	                    if (item.containsKey("docs")) {
-		                    item = ((ArrayList<LinkedTreeMap<?, ?>>) item.get("docs")).get(0);
-		                    setWorkInformation(item, olsr);
-		                    olsr.setWorkData(item);
-		                    result.add(olsr);
+	                        // get the correct record here as there could be multiple!
+	                        for (LinkedTreeMap<?, ?> r : (ArrayList<LinkedTreeMap<?, ?>>) item.get("docs")) {
+	                            if (r.get("key").equals(workId)) {
+	                                setWorkInformation(r, olsr);
+	                                olsr.setWorkData(r);
+	                                
+	                                result.add(olsr);
+	                                
+	                                // pick the first matching record
+	                                break;
+	                            }
+	                        }
 	                    }
 	            		
 	            		break; // we assume we're dealing with one work, not multiple
@@ -307,7 +315,13 @@ public class OpenLibrarySearch extends SearchTask {
 
     	if (work.containsKey("cover_edition_key"))
     		olsr.setMainCoverId((String) work.get("cover_edition_key"));
+    	else if (work.containsKey("cover_i"))
+    	    olsr.setMainCoverId("" + ((Double) work.get("cover_i")).intValue());
+        else if (work.containsKey("cover_id"))
+            olsr.setMainCoverId("" + ((Double) work.get("cover_id")).intValue());
 
+        setLanguages(work, dco);
+    	
     	setAuthors(work, dco);
     }
     
@@ -349,8 +363,20 @@ public class OpenLibrarySearch extends SearchTask {
 			dco.setValue(Book._W_EDITION_COMMENT, item.get("edition_name"));
 		
 		setSeries(item, dco);
-    }    
+    }
+
+    private void setLanguages(Map<?, ?> item, DcObject dco) {
+        if (item.containsKey("language")) {
+            for (Object language : ((ArrayList<?>) item.get("language"))) {
+                if (languages.containsKey(language))
+                    dco.createReference(Book._D_LANGUAGE, languages.get(language));        
+            }
+        }
+    }
     
+    /**
+     * Used to check if the edition matches the selected language
+     */
     private boolean checkLanguage(OpenLibrarySearchResult olsr) {
     	
     	Map<?, ?> item = olsr.getEditionData();
@@ -433,20 +459,22 @@ public class OpenLibrarySearch extends SearchTask {
     private void setCover(Map<?, ?> item, OpenLibrarySearchResult olsr) {
     	DcObject dco = olsr.getDco();
     	
-    	byte[] image = null;
+    	DcImageIcon image = null;
     	if (item.containsKey("covers")) {
     		String coverId = getFirstEntry(item.get("covers"));
     		if (coverId.length() > 4) {
     			waitBetweenRequest();
     			String link = "https://covers.openlibrary.org/b/id/" + coverId + "-L.jpg";
-    			image = getImageBytes(link);
+    			image = getImage(link);
     		}
-    	} else {
+    	}
+
+    	if (image == null && !CoreUtilities.isEmpty(olsr.getMainCoverId())) {
     		if (workImages.containsKey(olsr.getMainCoverId())) {
     			image = workImages.get(olsr.getMainCoverId());
     		} else {
-    			String link = "https://covers.openlibrary.org/b/olid/" + olsr.getMainCoverId() + "-L.jpg";
-    			image = getImageBytes(link);
+    			String link = "https://covers.openlibrary.org/b/id/" + olsr.getMainCoverId() + "-L.jpg";
+    			image = getImage(link);
 				workImages.put(olsr.getMainCoverId(), image);
     		}
     	}
@@ -467,23 +495,41 @@ public class OpenLibrarySearch extends SearchTask {
     }
     
     private void setIsbn(Map<?, ?> item, DcObject dco) {
-    	String isbn = "";
+        String isbn10 = null;
+        String isbn13 = null;
+        ISBN isbnConvert;
+        
     	if (item.containsKey("isbn_13")) {
-    		isbn = getFirstEntry(item.get("isbn_13"));
+    		isbn13 = getFirstEntry(item.get("isbn_13"));
     		// sometimes there's text appended...
-    		isbn = isbn.replaceAll(" ", "").replaceAll("-", "");
-    		isbn = isbn.length() > 13 ? isbn.substring(0, 13) : isbn;
-    	} else if (item.containsKey("isbn_10")) {
-    		isbn = getFirstEntry(item.get("isbn_10"));
-    		isbn = isbn.replaceAll(" ", "").replaceAll("-", "");
-    		isbn = isbn.length() > 10 ? isbn.substring(0, 10) : isbn;
+    		isbn13 = isbn13.replaceAll(" ", "").replaceAll("-", "");
+    		isbn13 = isbn13.length() > 13 ? isbn13.substring(0, 13) : isbn13;
+    		try {
+    		    isbnConvert = new ISBN(isbn13);
+                dco.setValue(Book._N_ISBN13, isbnConvert.getIsbn13());
+                
+                isbn10 = isbnConvert.getIsbn10();
+                dco.setValue(Book._J_ISBN10, isbn10);
+            } catch (InvalidBarCodeException ibce) {
+                listener.addError("Could not parse ISBN-13 from [" + isbn13 + "]. Error: " + ibce.getMessage());
+            }    		
     	}
-    	
-    	try {
-    		isbn = new ISBN(isbn).getIsbn13();
-    		dco.setValue(Book._N_ISBN13, isbn);
-    	} catch (InvalidBarCodeException ibce) {
-    		listener.addError("Could not parse ISBN-13 from [" + isbn + "]. Error: " + ibce.getMessage());
+    		
+		if (item.containsKey("isbn_10") && isbn10 == null) {
+		    isbn10 = getFirstEntry(item.get("isbn_10"));
+		    isbn10 = isbn10.replaceAll(" ", "").replaceAll("-", "");
+		    isbn10 = isbn10.length() > 10 ? isbn10.substring(0, 10) : isbn10;
+    		
+            try {
+                isbnConvert = new ISBN(isbn10);
+                dco.setValue(Book._J_ISBN10, isbnConvert.getIsbn10());
+                
+                // calculate the ISBN 13 in case it is still blank
+                if (isbn13 == null)
+                    dco.setValue(Book._N_ISBN13, isbnConvert.getIsbn13());
+            } catch (InvalidBarCodeException ibce) {
+                listener.addError("Could not parse ISBN-10 from [" + isbn10 + "]. Error: " + ibce.getMessage());
+            }     		
     	}
     }
     
