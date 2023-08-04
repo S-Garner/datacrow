@@ -36,6 +36,7 @@ import java.util.Map;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Software;
@@ -240,7 +241,7 @@ public abstract class ArchiveOrgSearch extends SearchTask {
 		List<LinkedTreeMap<?, ?>> files = (List<LinkedTreeMap<?, ?>>) item.get("files");
     	String name;
     	String link;
-    	byte[] image;
+    	DcImageIcon image;
     	long size;
     	
     	for (LinkedTreeMap<?, ?> file : files) {
@@ -267,7 +268,7 @@ public abstract class ArchiveOrgSearch extends SearchTask {
 	    			
 	    			if (valid) {
 		    			link = "https://" + server + dir + "/" + name;
-		    			image = getImageBytes(link);
+		    			image = getImage(link);
 		    			
 		    			if (image != null)
 		    				dco.setValue(fields[fieldIdx++], image);

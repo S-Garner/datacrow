@@ -38,6 +38,7 @@ import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Comic;
 import org.datacrow.core.objects.helpers.ComicCharacter;
@@ -184,8 +185,9 @@ public class ComicVineComicSearch extends SearchTask {
             Map<?, ?> images = (Map<?, ?>) map.get("image");
             
             if (images.containsKey("original_url")) {
-                byte[] img = getImageBytes((String) images.get("original_url"));
-                dco.setValue(Comic._V_PICTURE1, img);
+                DcImageIcon img = getImage((String) images.get("original_url"));
+                if (img != null)
+                    dco.setValue(Comic._V_PICTURE1, img);
             }   
         }
     }

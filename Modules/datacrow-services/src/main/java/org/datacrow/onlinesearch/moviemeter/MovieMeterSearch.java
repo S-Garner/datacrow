@@ -34,8 +34,8 @@ import java.util.Map;
 
 import org.datacrow.core.DcRepository.ExternalReferences;
 import org.datacrow.core.http.HttpConnection;
-import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Movie;
 import org.datacrow.core.services.IOnlineSearchClient;
@@ -174,8 +174,9 @@ public class MovieMeterSearch extends SearchTask {
     		
     		if (url != null) {
     			try {
-    				byte[] img = HttpConnectionUtil.retrieveBytes(url);
-    				dco.setValue(Movie._X_PICTUREFRONT, img);
+    				DcImageIcon img = getImage(url);
+    				if (img != null)
+    				    dco.setValue(Movie._X_PICTUREFRONT, img);
     			} catch (Exception e) {
     				listener.addMessage("Could not retrieve image: " + e.getMessage());
     			}

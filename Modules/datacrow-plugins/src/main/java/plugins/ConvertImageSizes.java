@@ -36,11 +36,11 @@ import org.datacrow.core.objects.DcTemplate;
 import org.datacrow.core.plugin.Plugin;
 import org.datacrow.core.resources.DcResources;
 
-public class ChangeMaximumImageResolution extends Plugin {
+public class ConvertImageSizes extends Plugin {
 
 	private static final long serialVersionUID = 1L;
 
-	public ChangeMaximumImageResolution(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
+	public ConvertImageSizes(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);
     }
     
@@ -72,7 +72,7 @@ public class ChangeMaximumImageResolution extends Plugin {
 
     @Override
     public String getLabel() {
-        return DcResources.getText("lblImageSettings");
+        return DcResources.getText("lblImageSizeConversion");
     } 
     
     @Override

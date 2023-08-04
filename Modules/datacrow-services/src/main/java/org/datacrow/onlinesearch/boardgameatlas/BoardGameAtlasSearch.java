@@ -34,10 +34,10 @@ import java.util.Map;
 
 import org.datacrow.core.DcRepository.ExternalReferences;
 import org.datacrow.core.http.HttpConnection;
-import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.BoardGame;
 import org.datacrow.core.services.IOnlineSearchClient;
@@ -238,8 +238,9 @@ public class BoardGameAtlasSearch extends SearchTask {
     		String url = (String) map.get("image_url");
     		if (url != null) {
     			try {
-    				byte[] img = HttpConnectionUtil.retrieveBytes(url);
-    				dco.setValue(BoardGame._Q_PICTURE1, img);
+    			    DcImageIcon img = getImage(url);
+    			    if (img != null)
+    			        dco.setValue(BoardGame._Q_PICTURE1, img);
     			} catch (Exception e) {
     				listener.addMessage("Could not retrieve image: " + e.getMessage());
     			}

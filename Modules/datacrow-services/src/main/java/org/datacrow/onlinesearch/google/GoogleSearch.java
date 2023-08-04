@@ -36,6 +36,7 @@ import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Book;
 import org.datacrow.core.services.IOnlineSearchClient;
@@ -167,9 +168,9 @@ public class GoogleSearch extends SearchTask {
         String link = getValue("thumbnail", googleBook);
         try {
             if (link != null && link.length() > 0) {
-                byte[] b = HttpConnectionUtil.retrieveBytes(link);
-                if (b != null && b.length > 50)
-                    book.setValue(Book._K_PICTUREFRONT, b);
+                DcImageIcon image = getImage(link);
+                if (image != null)
+                    book.setValue(Book._K_PICTUREFRONT, image);
             }
         } catch (Exception e) {
             logger.debug("Cannot download image for " + book + ", value " + link, e);

@@ -36,6 +36,7 @@ import java.util.Map;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionUtil;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Software;
 import org.datacrow.core.resources.DcResources;
@@ -410,9 +411,9 @@ public class MobyGamesSearch extends SearchTask {
         int[] fields = new int[] {Software._P_SCREENSHOTONE, Software._Q_SCREENSHOTTWO, Software._R_SCREENSHOTTHREE};
         int fieldIdx = 0;
         
-        byte[] image;
+        DcImageIcon image;
         for (String link : mgr.getScreenshotLinks()) {
-            image = getImageBytes(link);
+            image = getImage(link);
             if (image != null)
                 item.setValue(fields[fieldIdx++], image);
             
@@ -420,7 +421,7 @@ public class MobyGamesSearch extends SearchTask {
         }
         
         if (!CoreUtilities.isEmpty(mgr.getCover())) {
-	        image = getImageBytes(mgr.getCover());
+	        image = getImage(mgr.getCover());
 	        if (image != null)
 	            item.setValue(Software._M_PICTUREFRONT, image);
         }

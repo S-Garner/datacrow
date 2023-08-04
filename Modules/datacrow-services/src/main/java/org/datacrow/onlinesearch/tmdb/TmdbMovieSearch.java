@@ -226,16 +226,18 @@ public class TmdbMovieSearch extends SearchTask {
     }
     
     private void setImages(Map<?, ?> map, DcObject dco) {
-    	byte[] image;
+    	DcImageIcon image;
     	
     	if (map.containsKey("backdrop_path") && !CoreUtilities.isEmpty(map.get("backdrop_path"))) {
-    		image = getImageBytes(imageBaseUrl + map.get("backdrop_path"));
-    		dco.setValue(Movie._Y_PICTUREBACK, image);
+    		image = getImage(imageBaseUrl + map.get("backdrop_path"));
+    		if (image != null)
+    		    dco.setValue(Movie._Y_PICTUREBACK, image);
     	}
     	
     	if (map.containsKey("poster_path") && !CoreUtilities.isEmpty(map.get("poster_path"))) {
-    		image = getImageBytes(imageBaseUrl + map.get("poster_path"));
-    		dco.setValue(Movie._X_PICTUREFRONT, image);
+    		image = getImage(imageBaseUrl + map.get("poster_path"));
+    		if (image != null)
+    		    dco.setValue(Movie._X_PICTUREFRONT, image);
     	}
     }  
     

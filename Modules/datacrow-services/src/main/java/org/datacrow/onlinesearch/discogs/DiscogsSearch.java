@@ -35,11 +35,11 @@ import java.util.Map;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcRepository.ExternalReferences;
 import org.datacrow.core.http.HttpConnection;
-import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcAssociate;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.MusicAlbum;
 import org.datacrow.core.objects.helpers.MusicTrack;
@@ -335,9 +335,9 @@ public class DiscogsSearch extends SearchTask {
     private void setCoverImage(DcObject musicalbum, String url) {
         try {
             if (url != null && url.length() > 0) {
-                byte[] b = HttpConnectionUtil.retrieveBytes(url);
-                if (b != null && b.length > 50)
-                    musicalbum.setValue(MusicAlbum._J_PICTUREFRONT, b);
+                DcImageIcon image = getImage(url);
+                if (image != null)
+                    musicalbum.setValue(MusicAlbum._J_PICTUREFRONT, image);
             }
         } catch (Exception e) {
             logger.debug("Cannot download image from [" + url + "]", e);
