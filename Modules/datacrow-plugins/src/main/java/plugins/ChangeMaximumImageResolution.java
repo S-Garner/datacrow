@@ -29,18 +29,18 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 
-import org.datacrow.client.console.windows.LookAndFeelDialog;
+import org.datacrow.client.console.windows.ConvertImageSizesDialog;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
 import org.datacrow.core.plugin.Plugin;
 import org.datacrow.core.resources.DcResources;
 
-public class ChangeLookAndFeel extends Plugin {
+public class ChangeMaximumImageResolution extends Plugin {
 
 	private static final long serialVersionUID = 1L;
 
-	public ChangeLookAndFeel(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
+	public ChangeMaximumImageResolution(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);
     }
     
@@ -56,8 +56,8 @@ public class ChangeLookAndFeel extends Plugin {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-         LookAndFeelDialog lafDialog = new LookAndFeelDialog();
-         lafDialog.setVisible(true);
+    	ConvertImageSizesDialog dlg = new ConvertImageSizesDialog();
+    	dlg.setVisible(true);
     }
     
     @Override
@@ -67,16 +67,16 @@ public class ChangeLookAndFeel extends Plugin {
 
     @Override
     public ImageIcon getIcon() {
-        return IconLibrary._icoLAF;
+        return IconLibrary._icoImageSettings;
     }
 
     @Override
     public String getLabel() {
-        return DcResources.getText("lblLookAndFeel");
+        return DcResources.getText("lblImageSettings");
     } 
     
     @Override
     public String getHelpText() {
-        return DcResources.getText("tpLookAndFeel");
+        return DcResources.getText("tpMaximumImageResolution");
     }       
 }

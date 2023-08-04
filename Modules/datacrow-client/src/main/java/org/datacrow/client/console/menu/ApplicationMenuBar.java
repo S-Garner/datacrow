@@ -43,7 +43,7 @@ import org.datacrow.core.reporting.Reports;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.synchronizers.Synchronizers;
 
-public class MainFrameMenuBar extends org.datacrow.client.console.components.DcMenuBar {
+public class ApplicationMenuBar extends org.datacrow.client.console.components.DcMenuBar {
 
 	public static final int _SEARCHPANEL = 0;
     public static final int _INSERTPANEL = 1;
@@ -51,7 +51,7 @@ public class MainFrameMenuBar extends org.datacrow.client.console.components.DcM
     
     private final DcModule module;
 
-    public MainFrameMenuBar(DcModule module) {
+    public ApplicationMenuBar(DcModule module) {
         this.module = module;
     	build();
     }
@@ -177,6 +177,9 @@ public class MainFrameMenuBar extends org.datacrow.client.console.components.DcM
         
         if (DcConfig.getInstance().getOperatingMode() != DcConfig._OPERATING_MODE_CLIENT)
             PluginHelper.add(menuSettings, "FieldSettings", module.getIndex());
+        
+        if (DcConfig.getInstance().getOperatingMode() != DcConfig._OPERATING_MODE_CLIENT)
+            PluginHelper.add(menuSettings, "ChangeMaximumImageResolution", module.getIndex());
         
         menuSettings.addSeparator();
         

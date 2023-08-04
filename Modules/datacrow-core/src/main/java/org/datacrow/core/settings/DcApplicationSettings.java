@@ -156,7 +156,7 @@ public class DcApplicationSettings extends Settings {
                             "tpMaximumImageResolution",
                             "lblMaximumImageResolution",
                             true,
-                            true, -1));
+                            false, -1));
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._BOOLEAN,
                             DcRepository.Settings.stDrivePollerRunOnStartup,

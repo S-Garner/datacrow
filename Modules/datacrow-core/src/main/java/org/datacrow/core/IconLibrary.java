@@ -38,6 +38,7 @@ public abstract class IconLibrary {
 
     public static final String picPath = DcConfig.getInstance().getInstallationDir() + "icons/";
     
+    public static final DcImageIcon _icoImageSettings = new DcImageIcon(picPath + "images.png");
     public static final DcImageIcon _icoAttachments = new DcImageIcon(picPath + "attachments.png");
     public static final DcImageIcon _icoRelations = new DcImageIcon(picPath + "relations.png");
     public static final DcImageIcon _icoRatingOK = new DcImageIcon(picPath + "rating_ok.png");

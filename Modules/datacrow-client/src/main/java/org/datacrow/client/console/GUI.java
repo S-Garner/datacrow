@@ -46,7 +46,7 @@ import javax.swing.SwingUtilities;
 import org.datacrow.client.console.components.lists.DcObjectList;
 import org.datacrow.client.console.components.panels.QuickViewPanel;
 import org.datacrow.client.console.components.tables.DcTable;
-import org.datacrow.client.console.menu.MainFrameMenuBar;
+import org.datacrow.client.console.menu.ApplicationMenuBar;
 import org.datacrow.client.console.views.CachedChildView;
 import org.datacrow.client.console.views.MasterView;
 import org.datacrow.client.console.views.View;
@@ -245,7 +245,7 @@ public class GUI {
     }
     
     public JMenuBar getMenuBar(DcModule module) {
-        return module.isTopModule() ? new MainFrameMenuBar(module) : null;
+        return module.isTopModule() ? new ApplicationMenuBar(module) : null;
     }
     
     private GUI() {

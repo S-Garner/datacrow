@@ -28,6 +28,7 @@ package org.datacrow.client.console.windows;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +40,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -84,7 +86,7 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
         buttonStart = ComponentFactory.getButton(DcResources.getText("lblStart"));
         
         setTitle(DcResources.getText("lblImageSizeConversion"));
-        setIconImage(IconLibrary._icoPower16.getImage());
+        setIconImage(IconLibrary._icoImageSettings.getImage());
         
         buildDialog();
 
@@ -100,11 +102,13 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
     	if (thread != null && thread.isAlive())
     		return;
     	
+    	final DcDimension maxDim = (DcDimension) cbResolution.getSelectedItem();
+    	DcSettings.set(DcRepository.Settings.stMaximumImageResolution, maxDim);
+    	
     	thread = new Thread() {
     		public void run() {
     	    	Set<String> images;
     	    	String imageDir = DcConfig.getInstance().getImageDir();
-    	    	DcDimension maxDim = DcSettings.getDimension(DcRepository.Settings.stMaximumImageResolution);
     	    	
     	        try (Stream<Path> stream = Files.list(Paths.get(imageDir))) {
     	        	images = stream
@@ -116,6 +120,7 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
     	        	progressBar.setValue(0);
     	        	progressBar.setMaximum(images.size());
     	        	buttonStart.setEnabled(false);
+    	        	cbResolution.setEnabled(false);
     	        	
     	        	DcImageIcon image;
     	        	File src;
@@ -124,9 +129,10 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
     	            for (String imageFile : images) {
 	            		src = new File(imageDir, imageFile);
 	            		cpy = new File(imageDir, CoreUtilities.getUniqueID() + ".jpg");
-    	            	image = new DcImageIcon(cpy);
-	            		
+    	            	
     	            	CoreUtilities.copy(src, cpy, true);
+    	            	
+    	            	image = new DcImageIcon(cpy);
     	            	
     	            	if (image.getIconWidth() > maxDim.getWidth() || 
     	            		image.getIconHeight() > maxDim.getHeight()) {
@@ -139,13 +145,13 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
     	            			
     	            			logger.error("Skipping resizing of image [" + src + "] dur to an error.", e);
     	            		}
-    		            	
-    	    	            try {
-    	    	            	sleep(20);
-    	    	            } catch (Exception e) {
-    	    	            	logger.debug(e, e);
-    	    	            }
     	            	}
+
+	    	            try {
+	    	            	sleep(20);
+	    	            } catch (Exception e) {
+	    	            	logger.debug(e, e);
+	    	            }
     	            	
     	            	image.flush();
     	            	cpy.delete();
@@ -161,6 +167,7 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
     	            // we're done - no need to redo
     	            DcSettings.set(DcRepository.Settings.stMaximumImageResolutionConvertOnStartup, Boolean.FALSE);
     	            
+    	            cbResolution.setEnabled(true);
     	            buttonStart.setEnabled(true);
     	            
     	        } catch (Exception e) {
