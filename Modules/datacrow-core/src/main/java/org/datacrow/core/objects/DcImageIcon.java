@@ -106,7 +106,15 @@ public class DcImageIcon extends ImageIcon {
         return file == null ? false : file.exists();
     }
     
+    public void flushImage() {
+    	if (getImage() != null)
+    		getImage().flush();
+    }
+    
     public void flush() {
+    	
+    	flushImage();
+    	
         bytes = null;
         filename = null;
         file = null;

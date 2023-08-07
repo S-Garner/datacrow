@@ -145,6 +145,9 @@ public class DcCardObjectListElement extends DcObjectListElement {
             
             
             if (scaledImage == null && image != null) {
+            	
+            	image.flushImage();
+            	
             	File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + "_small.jpg");
             	file.deleteOnExit();
             	

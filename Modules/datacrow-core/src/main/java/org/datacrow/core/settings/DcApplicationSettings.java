@@ -528,15 +528,6 @@ public class DcApplicationSettings extends Settings {
                             "",
                             false,
                             false, -1));          
-        addSetting(_General,
-                new Setting(DcRepository.ValueTypes._LONG,
-                            DcRepository.Settings.stGarbageCollectionIntervalMs,
-                            0,
-                            -1,
-                            "",
-                            "",
-                            false,
-                            false, -1));
         addSetting(_SelectionColor,
                 new Setting(DcRepository.ValueTypes._COLOR,
                             DcRepository.Settings.stSelectionColor,
