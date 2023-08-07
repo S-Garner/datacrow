@@ -28,7 +28,6 @@ package org.datacrow.client.console.windows;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,7 +39,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -166,6 +164,9 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
     	            
     	            // we're done - no need to redo
     	            DcSettings.set(DcRepository.Settings.stMaximumImageResolutionConvertOnStartup, Boolean.FALSE);
+    	            
+    	            
+    	            GUI.getInstance().displayMessage(DcResources.getText("msgSuccessfullyResizedAllImages"));
     	            
     	            cbResolution.setEnabled(true);
     	            buttonStart.setEnabled(true);
