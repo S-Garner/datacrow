@@ -383,6 +383,7 @@ public class DataCrow implements IStarterClient {
             }
             
             if (!DcSettings.getBoolean(DcRepository.Settings.stMaximumImageResolutionChosen) &&
+            	DcSettings.getBoolean(DcRepository.Settings.stIsUpgraded) && // the default will just be set to HD format - only let people choose on upgrade
             	DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_STANDALONE) {
             	// display GUI for image conversion
             	ConvertImageSizesDialog dlg = new ConvertImageSizesDialog();
