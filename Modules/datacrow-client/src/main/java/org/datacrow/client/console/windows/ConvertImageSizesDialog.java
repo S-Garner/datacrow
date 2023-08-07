@@ -165,7 +165,6 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
     	            // we're done - no need to redo
     	            DcSettings.set(DcRepository.Settings.stMaximumImageResolutionConvertOnStartup, Boolean.FALSE);
     	            
-    	            
     	            GUI.getInstance().displayMessage(DcResources.getText("msgSuccessfullyResizedAllImages"));
     	            
     	            cbResolution.setEnabled(true);

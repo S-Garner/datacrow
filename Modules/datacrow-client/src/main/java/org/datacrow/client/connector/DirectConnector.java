@@ -220,6 +220,9 @@ public class DirectConnector extends LocalServerConnector {
         
         DcIconCache.getInstance().deleteIcons();
         
+        DcSettings.set(DcRepository.Settings.stGracefulShutdown, Boolean.TRUE);
+        DcSettings.set(DcRepository.Settings.stIsUpgraded, Boolean.FALSE);
+        
         DataFilters.save();
         FilePatterns.save();
         DcSettings.save();
