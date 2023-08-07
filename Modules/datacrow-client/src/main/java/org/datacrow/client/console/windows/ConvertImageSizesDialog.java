@@ -170,6 +170,8 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
     	            cbResolution.setEnabled(true);
     	            buttonStart.setEnabled(true);
     	            
+    	            close();
+    	            
     	        } catch (Exception e) {
     	        	GUI.getInstance().displayErrorMessage(DcResources.getText("msgImageConversionFailed"));
     	        	logger.error(e, e);
