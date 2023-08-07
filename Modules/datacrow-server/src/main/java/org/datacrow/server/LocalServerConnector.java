@@ -251,8 +251,8 @@ public class LocalServerConnector extends Connector {
     @Override
     public Loan getCurrentLoan(String parentKey) {
         DataFilter df = new DataFilter(DcModules._LOAN);
-        df.addEntry(new DataFilterEntry(DcModules._LOAN, Loan._B_ENDDATE, Operator.IS_EMPTY, null));
-        df.addEntry(new DataFilterEntry(DcModules._LOAN, Loan._D_OBJECTID, Operator.EQUAL_TO, parentKey));
+        df.addEntry(new DataFilterEntry(DataFilterEntry._AND, DcModules._LOAN, Loan._B_ENDDATE, Operator.IS_EMPTY, null));
+        df.addEntry(new DataFilterEntry(DataFilterEntry._AND, DcModules._LOAN, Loan._D_OBJECTID, Operator.EQUAL_TO, parentKey));
         List<DcObject> items = DataManager.getInstance().getItems(getUser(), df);
         return items.size() > 0 ? (Loan) items.get(0) : new Loan();
     }

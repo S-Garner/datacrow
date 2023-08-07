@@ -363,8 +363,8 @@ public class ClientToServerConnector extends Connector {
 	public Loan getCurrentLoan(String parentKey) {
     	ClientRequestItems cr = new ClientRequestItems(getUser());
         DataFilter df = new DataFilter(DcModules._LOAN);
-        df.addEntry(new DataFilterEntry(DcModules._LOAN, Loan._B_ENDDATE, Operator.IS_EMPTY, null));
-        df.addEntry(new DataFilterEntry(DcModules._LOAN, Loan._D_OBJECTID, Operator.EQUAL_TO, parentKey));
+        df.addEntry(new DataFilterEntry(DataFilterEntry._AND, DcModules._LOAN, Loan._B_ENDDATE, Operator.IS_EMPTY, null));
+        df.addEntry(new DataFilterEntry(DataFilterEntry._AND, DcModules._LOAN, Loan._D_OBJECTID, Operator.EQUAL_TO, parentKey));
         df.setResultLimit(1);
         cr.setDataFilter(df);
         

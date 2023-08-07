@@ -39,8 +39,8 @@ public class DataFilterEntry implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	public static final String _AND = DcResources.getText("lblAnd");
-    public static final String _OR = DcResources.getText("lblOr");
+	public static final String _AND = "And";
+    public static final String _OR = "Or";
     
     private int module;
     private int field;
@@ -76,7 +76,8 @@ public class DataFilterEntry implements Serializable {
         this.field = field;
         this.operator = operator;
         this.value = value;
-        this.andOr = andOr;
+        
+        setAndOr(andOr);
     }
     
     /**
@@ -105,7 +106,8 @@ public class DataFilterEntry implements Serializable {
      * @param andOr
      */
     public void setAndOr(String andOr) {
-        this.andOr = andOr;
+    	// fix for client server - language can be different
+    	this.andOr = DcResources.getTextAllLanguages("lblOr", null).contains(andOr) ? "Or" : "And";
     }
 
     /**
@@ -153,7 +155,7 @@ public class DataFilterEntry implements Serializable {
 
     @Override
     public String toString() {
-        return getAndOr() + " " + DcModules.get(module).getField(field).getLabel() + " " +
+        return (isOr() ? DcResources.getText("lblOr") : DcResources.getText("lblAnd")) + " " + DcModules.get(module).getField(field).getLabel() + " " +
                getOperator().getName() +  (getOperator().needsValue() ? " " + getValue() : "");
     }
 }
