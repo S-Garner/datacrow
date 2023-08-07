@@ -413,7 +413,7 @@ public class MobyGamesSearch extends SearchTask {
         
         DcImageIcon image;
         for (String link : mgr.getScreenshotLinks()) {
-            image = getImage(link);
+            image = CoreUtilities.getImage(link);
             if (image != null)
                 item.setValue(fields[fieldIdx++], image);
             
@@ -421,7 +421,7 @@ public class MobyGamesSearch extends SearchTask {
         }
         
         if (!CoreUtilities.isEmpty(mgr.getCover())) {
-	        image = getImage(mgr.getCover());
+	        image = CoreUtilities.getImage(mgr.getCover());
 	        if (image != null)
 	            item.setValue(Software._M_PICTUREFRONT, image);
         }

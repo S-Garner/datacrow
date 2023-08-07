@@ -238,7 +238,7 @@ public class BoardGameAtlasSearch extends SearchTask {
     		String url = (String) map.get("image_url");
     		if (url != null) {
     			try {
-    			    DcImageIcon img = getImage(url);
+    			    DcImageIcon img = CoreUtilities.getImage(url);
     			    if (img != null)
     			        dco.setValue(BoardGame._Q_PICTURE1, img);
     			} catch (Exception e) {

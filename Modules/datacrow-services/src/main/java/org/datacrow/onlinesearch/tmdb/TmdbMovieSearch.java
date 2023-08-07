@@ -33,8 +33,6 @@ import java.util.Map;
 
 import org.datacrow.core.DcRepository.ExternalReferences;
 import org.datacrow.core.http.HttpConnection;
-import org.datacrow.core.http.HttpConnectionException;
-import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcImageIcon;
@@ -229,13 +227,13 @@ public class TmdbMovieSearch extends SearchTask {
     	DcImageIcon image;
     	
     	if (map.containsKey("backdrop_path") && !CoreUtilities.isEmpty(map.get("backdrop_path"))) {
-    		image = getImage(imageBaseUrl + map.get("backdrop_path"));
+    		image = CoreUtilities.getImage(imageBaseUrl + map.get("backdrop_path"));
     		if (image != null)
     		    dco.setValue(Movie._Y_PICTUREBACK, image);
     	}
     	
     	if (map.containsKey("poster_path") && !CoreUtilities.isEmpty(map.get("poster_path"))) {
-    		image = getImage(imageBaseUrl + map.get("poster_path"));
+    		image = CoreUtilities.getImage(imageBaseUrl + map.get("poster_path"));
     		if (image != null)
     		    dco.setValue(Movie._X_PICTUREFRONT, image);
     	}
@@ -251,7 +249,7 @@ public class TmdbMovieSearch extends SearchTask {
     		if (castmembers == null)
     			return;
     		
-    		byte[] image; 
+    		DcImageIcon image; 
     		DcObject person;
     		for (Map<? ,?> castmember : castmembers) {
     			
@@ -262,12 +260,8 @@ public class TmdbMovieSearch extends SearchTask {
     			if (person.isNew() &&
                     !CoreUtilities.isEmpty(castmember.get("profile_path"))) {
 
-    				try {
-    					image = HttpConnectionUtil.retrieveBytes(imageBaseUrl + castmember.get("profile_path"));
-    					person.setValue(DcAssociate._D_PHOTO, new DcImageIcon(image));
-    				} catch (HttpConnectionException hce) {
-    					listener.addMessage("Could not retrieve photo for " + person + ". Message: " + hce.getMessage());
-    				}
+				    image = CoreUtilities.getImage(imageBaseUrl + castmember.get("profile_path"));
+					person.setValue(DcAssociate._D_PHOTO, image);
                 }
     		}
     	}

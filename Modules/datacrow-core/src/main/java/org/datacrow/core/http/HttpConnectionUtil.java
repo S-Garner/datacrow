@@ -87,27 +87,6 @@ public class HttpConnectionUtil {
         return page;
     }
 
-    /**
-     * Retrieves the page content as a byte array.
-     * @param url
-     * @throws HttpConnectionException
-     */
-    public static byte[] retrieveBytes(String url) throws HttpConnectionException {
-        return retrieveBytes(getURL(url));
-    }
-
-    /**
-     * Retrieves the page content as a byte array.
-     * @param url
-     * @throws HttpConnectionException
-     */
-    public static byte[] retrieveBytes(URL url) throws HttpConnectionException {
-        HttpConnection connection = new HttpConnection(url);
-        byte[] bytes = connection.getBytes();
-        connection.close();
-        return bytes;
-    }
-    
     private static URL getURL(String url) throws HttpConnectionException {
         try {
             return new URL(url);

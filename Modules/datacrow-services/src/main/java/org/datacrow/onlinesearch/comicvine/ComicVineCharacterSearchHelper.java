@@ -38,12 +38,15 @@ import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.ComicCharacter;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.services.IOnlineSearchClient;
+import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.onlinesearch.util.JsonHelper;
 
 import com.google.gson.Gson;
@@ -107,8 +110,10 @@ public class ComicVineCharacterSearchHelper {
             Map<?, ?> images = (Map<?, ?>) map.get("image");
             
             if (images.containsKey("original_url")) {
-                byte[] img = getImageBytes((String) images.get("original_url"));
-                dco.setValue(ComicCharacter._K_PICTURE, img);
+                DcImageIcon image = CoreUtilities.getImage((String) images.get("original_url"));
+                
+                if (image != null)
+                    dco.setValue(ComicCharacter._K_PICTURE, image);
             }   
         }
     }
@@ -143,17 +148,5 @@ public class ComicVineCharacterSearchHelper {
         }
     }
     
-    private byte[] getImageBytes(String url) {
-        url = url.replace("http://", "https://");
-        try {
-            if (url != null && url.length() > 0) {
-                byte[] b = HttpConnectionUtil.retrieveBytes(url);
-                if (b != null && b.length > 50)
-                    return b;
-            }
-        } catch (Exception e) {
-            logger.debug("Cannot download image from [" + url + "]", e);
-        }
-        return null;
-    }
+
 }

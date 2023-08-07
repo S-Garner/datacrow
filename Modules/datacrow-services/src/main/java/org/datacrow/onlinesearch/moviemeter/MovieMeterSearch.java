@@ -174,7 +174,7 @@ public class MovieMeterSearch extends SearchTask {
     		
     		if (url != null) {
     			try {
-    				DcImageIcon img = getImage(url);
+    				DcImageIcon img = CoreUtilities.getImage(url);
     				if (img != null)
     				    dco.setValue(Movie._X_PICTUREFRONT, img);
     			} catch (Exception e) {

@@ -46,6 +46,7 @@ import org.datacrow.core.services.SearchMode;
 import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.services.SearchTaskUtilities;
 import org.datacrow.core.services.plugin.IServer;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.StringUtils;
 
 public class GoogleSearch extends SearchTask {
@@ -168,7 +169,7 @@ public class GoogleSearch extends SearchTask {
         String link = getValue("thumbnail", googleBook);
         try {
             if (link != null && link.length() > 0) {
-                DcImageIcon image = getImage(link);
+                DcImageIcon image = CoreUtilities.getImage(link);
                 if (image != null)
                     book.setValue(Book._K_PICTUREFRONT, image);
             }

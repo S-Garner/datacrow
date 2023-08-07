@@ -465,7 +465,7 @@ public class OpenLibrarySearch extends SearchTask {
     		if (coverId.length() > 4) {
     			waitBetweenRequest();
     			String link = "https://covers.openlibrary.org/b/id/" + coverId + "-L.jpg";
-    			image = getImage(link);
+    			image = CoreUtilities.getImage(link);
     		}
     	}
 
@@ -474,7 +474,7 @@ public class OpenLibrarySearch extends SearchTask {
     			image = workImages.get(olsr.getMainCoverId());
     		} else {
     			String link = "https://covers.openlibrary.org/b/id/" + olsr.getMainCoverId() + "-L.jpg";
-    			image = getImage(link);
+    			image = CoreUtilities.getImage(link);
 				workImages.put(olsr.getMainCoverId(), image);
     		}
     	}

@@ -335,7 +335,7 @@ public class DiscogsSearch extends SearchTask {
     private void setCoverImage(DcObject musicalbum, String url) {
         try {
             if (url != null && url.length() > 0) {
-                DcImageIcon image = getImage(url);
+                DcImageIcon image = CoreUtilities.getImage(url);
                 if (image != null)
                     musicalbum.setValue(MusicAlbum._J_PICTUREFRONT, image);
             }

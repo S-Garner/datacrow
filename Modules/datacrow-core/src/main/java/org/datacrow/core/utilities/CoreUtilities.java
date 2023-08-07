@@ -890,5 +890,32 @@ public class CoreUtilities {
         if (out != null) {
             out.close();
         }
+    }
+    
+    public static DcImageIcon getImage(String url) {
+    	url = url.replace("http://", "https://");
+    	
+        try {
+			Image img = ImageIO.read(new URL(url));
+			DcImageIcon icon = new DcImageIcon(img);
+			
+			if (icon.getIconHeight() > 50) {
+    			// write to temp folder
+    			File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + ".jpg");
+    			CoreUtilities.writeMaxImageToFile(icon, file);
+    			
+    			// delete the file on exit of Data Crow
+    			file.deleteOnExit();
+    			
+    			// flush the in memory image
+    			icon.flush();
+    			
+    			// send image pointing to local disk storage
+    			return new DcImageIcon(file);
+			}
+        } catch (Exception e) {
+            logger.debug("Cannot download image from [" + url + "]", e);
+        }
+        return null;    	
     }    
 }
