@@ -110,8 +110,10 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
         this.owner = owner;
         
         Connector connector = DcConfig.getInstance().getConnector();
-        buildPanel(connector.getCurrentLoan(dco.getID()).isAvailable(dco.getID())); 
-        setLoanInformation(connector.getCurrentLoan(dco.getID()));
+        
+        loan = connector.getCurrentLoan(dco.getID());
+        buildPanel(loan.isAvailable(dco.getID())); 
+        setLoanInformation();
     }    
     
     public LoanPanel(Collection<? extends DcObject> objects, DcFrame owner) throws Exception {
@@ -149,7 +151,7 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
         Connector connector = DcConfig.getInstance().getConnector();
         loan = connector.getCurrentLoan(dco.getID());
         buildPanel(loan.isAvailable(dco.getID())); 
-        setLoanInformation(loan);
+        setLoanInformation();
     }
     
     private String getPersonLink(String personID) {
@@ -204,7 +206,7 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
         return s;
     }
     
-    private void setLoanInformation(Loan loan) {
+    private void setLoanInformation() {
         String personID = (String) loan.getValue(Loan._C_CONTACTPERSONID);
         Date start = (Date) loan.getValue(Loan._A_STARTDATE);
         start = start == null ? new Date() : start;
@@ -266,8 +268,10 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
                         currentLoan.setValue(Loan._D_OBJECTID, o.getID());
                         currentLoan.setValue(Loan._B_ENDDATE, endDate);
                         
-                        if (owner == null)
-                            setLoanInformation(currentLoan);
+                        if (owner == null) {
+                        	loan = currentLoan;
+                            setLoanInformation();   
+                        }
                         
                         dco.setLoanInformation(currentLoan);
                         
@@ -375,8 +379,10 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
                     currentLoan.setValue(Loan._C_CONTACTPERSONID, contactPersonID);
                     currentLoan.setValue(Loan._E_DUEDATE, dueDate);
                     
-                    if (owner == null)
-                        setLoanInformation(currentLoan);                        
+                    if (owner == null) {
+                    	loan = currentLoan;
+                        setLoanInformation();   
+                    }
     
                     o.setLoanInformation(currentLoan);
                     
