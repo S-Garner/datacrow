@@ -190,7 +190,6 @@ public abstract class DcRepository {
         public static final String stShowGroupingPanel = "show_grouping_panel";
         public static final String stShowToolbar = "show_toolbar";
     	public static final String stShowQuickFilterBar = "show_quick_filter_bar";
-        public static final String stGarbageCollectionIntervalMs = "gargabe_collection_interval_milliseconds";
         public static final String stFontRendering = "font_rendering";
         public static final String stImportCharacterSet = "import_character_set";
         public static final String stImportSeperator = "import_seperator";

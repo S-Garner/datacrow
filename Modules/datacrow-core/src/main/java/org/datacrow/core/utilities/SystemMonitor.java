@@ -25,10 +25,8 @@
 
 package org.datacrow.core.utilities;
 
-import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
-import org.datacrow.core.settings.DcSettings;
 
 /**
  * The system monitor checks the available resources and logs information about the 
@@ -52,17 +50,8 @@ public class SystemMonitor extends Thread {
     public void run() {
         while (true) {
             try {
-            	
-            	long interval = DcSettings.getLong(DcRepository.Settings.stGarbageCollectionIntervalMs);
-            	interval = interval > 0 ? interval : 480000;
-            	
-                sleep(interval);
-
-                if (DcSettings.getLong(DcRepository.Settings.stGarbageCollectionIntervalMs) > 0)
-                	System.gc();
-                
+                sleep(60000);
                 checkMemory();
-
             } catch (Exception e) {
                 logger.error(e, e);
             }
