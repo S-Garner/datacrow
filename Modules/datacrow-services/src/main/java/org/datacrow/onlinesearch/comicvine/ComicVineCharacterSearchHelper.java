@@ -110,7 +110,7 @@ public class ComicVineCharacterSearchHelper {
             Map<?, ?> images = (Map<?, ?>) map.get("image");
             
             if (images.containsKey("original_url")) {
-                DcImageIcon image = CoreUtilities.getImage((String) images.get("original_url"));
+                DcImageIcon image = CoreUtilities.downloadAndStoreImage((String) images.get("original_url"));
                 
                 if (image != null)
                     dco.setValue(ComicCharacter._K_PICTURE, image);

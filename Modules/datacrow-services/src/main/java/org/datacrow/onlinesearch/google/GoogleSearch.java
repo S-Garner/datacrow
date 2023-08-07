@@ -169,7 +169,7 @@ public class GoogleSearch extends SearchTask {
         String link = getValue("thumbnail", googleBook);
         try {
             if (link != null && link.length() > 0) {
-                DcImageIcon image = CoreUtilities.getImage(link);
+                DcImageIcon image = CoreUtilities.downloadAndStoreImage(link);
                 if (image != null)
                     book.setValue(Book._K_PICTUREFRONT, image);
             }

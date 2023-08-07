@@ -240,7 +240,7 @@ public class ITunesSearch extends SearchTask {
         try {
             if (url != null && url.length() > 0) {
                 url = url.replaceAll("100x100bb", "500x500");
-                DcImageIcon image = CoreUtilities.getImage(url);
+                DcImageIcon image = CoreUtilities.downloadAndStoreImage(url);
                 if (image != null)
                     musicalbum.setValue(MusicAlbum._J_PICTUREFRONT, image);
             }

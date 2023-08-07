@@ -227,13 +227,13 @@ public class TmdbMovieSearch extends SearchTask {
     	DcImageIcon image;
     	
     	if (map.containsKey("backdrop_path") && !CoreUtilities.isEmpty(map.get("backdrop_path"))) {
-    		image = CoreUtilities.getImage(imageBaseUrl + map.get("backdrop_path"));
+    		image = CoreUtilities.downloadAndStoreImage(imageBaseUrl + map.get("backdrop_path"));
     		if (image != null)
     		    dco.setValue(Movie._Y_PICTUREBACK, image);
     	}
     	
     	if (map.containsKey("poster_path") && !CoreUtilities.isEmpty(map.get("poster_path"))) {
-    		image = CoreUtilities.getImage(imageBaseUrl + map.get("poster_path"));
+    		image = CoreUtilities.downloadAndStoreImage(imageBaseUrl + map.get("poster_path"));
     		if (image != null)
     		    dco.setValue(Movie._X_PICTUREFRONT, image);
     	}
@@ -260,7 +260,7 @@ public class TmdbMovieSearch extends SearchTask {
     			if (person.isNew() &&
                     !CoreUtilities.isEmpty(castmember.get("profile_path"))) {
 
-				    image = CoreUtilities.getImage(imageBaseUrl + castmember.get("profile_path"));
+				    image = CoreUtilities.downloadAndStoreImage(imageBaseUrl + castmember.get("profile_path"));
 					person.setValue(DcAssociate._D_PHOTO, image);
                 }
     		}

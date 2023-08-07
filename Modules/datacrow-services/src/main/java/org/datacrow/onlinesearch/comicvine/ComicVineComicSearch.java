@@ -185,7 +185,7 @@ public class ComicVineComicSearch extends SearchTask {
             Map<?, ?> images = (Map<?, ?>) map.get("image");
             
             if (images.containsKey("original_url")) {
-                DcImageIcon img = CoreUtilities.getImage((String) images.get("original_url"));
+                DcImageIcon img = CoreUtilities.downloadAndStoreImage((String) images.get("original_url"));
                 if (img != null)
                     dco.setValue(Comic._V_PICTURE1, img);
             }   

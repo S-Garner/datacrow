@@ -531,7 +531,7 @@ public class CoreUtilities {
 
     public static DcImageIcon base64ToImage(String base64) {
         byte[] bytes = Base64.decode(base64.toCharArray());
-        return new DcImageIcon(bytes, false);
+        return new DcImageIcon(bytes);
     }
     
     public static byte[] getBytes(DcImageIcon icon) {
@@ -892,7 +892,10 @@ public class CoreUtilities {
         }
     }
     
-    public static DcImageIcon getImage(String url) {
+    /**
+     * Saves the image in the maximum resolution as set in the settings.
+     */
+    public static DcImageIcon downloadAndStoreImage(String url) {
     	url = url.replace("http://", "https://");
     	
         try {
@@ -916,6 +919,7 @@ public class CoreUtilities {
         } catch (Exception e) {
             logger.debug("Cannot download image from [" + url + "]", e);
         }
+        
         return null;    	
     }    
 }

@@ -268,7 +268,7 @@ public abstract class ArchiveOrgSearch extends SearchTask {
 	    			
 	    			if (valid) {
 		    			link = "https://" + server + dir + "/" + name;
-		    			image = CoreUtilities.getImage(link);
+		    			image = CoreUtilities.downloadAndStoreImage(link);
 		    			
 		    			if (image != null)
 		    				dco.setValue(fields[fieldIdx++], image);
