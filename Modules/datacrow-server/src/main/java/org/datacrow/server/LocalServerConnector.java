@@ -353,6 +353,7 @@ public class LocalServerConnector extends Connector {
         
         DcIconCache.getInstance().deleteIcons();
         DcSettings.set(DcRepository.Settings.stGracefulShutdown, Boolean.TRUE);
+        DcSettings.set(DcRepository.Settings.stIsUpgraded, Boolean.FALSE);
             
         DcSettings.save();
         DcModules.save();
