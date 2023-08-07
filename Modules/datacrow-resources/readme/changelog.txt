@@ -2,21 +2,22 @@
 Data Crow version 4.10                        Released on 2023-08-xx
 --------------------------------------------------------------------
 
+[New]
+- Attachments can now be added to items. These documents are stored within the Data Crow data set in a compressed format.
+  All main modules allow for attachments to be added.
+- New Russian translations has been added (not finalized) - major thanks to Ilya Sigidin.
+
 [Changed]
 - Portuguese translation has been updated - major thanks to Pedro Albuquerque.
 - Data Crow will no longer close windows or exit when pressing the escape key. This has been changed to CTRL/COMMAND+ESC.
-- Added drag and drop support for pictures (from file).
+- Added drag and drop support for pictures (from file and directly from web pages).
 - Create multiple now allows for rows to be deleted.
 - Create multiple will only show one message when multiple items could not be saved.
 - Update All will now process all items and show a combined message on failures (due to constraints) rather then individual messages.
 - Filter dialog will keep the selected field and operator when adding entries.
 - Extended the image formats supported by Data Crow.
-
-[New]
-- New Russian translations has been added (not finalized) - major thanks to Ilya Sigidin.
-- Attachments can now be added to items. These documents are stored within the Data Crow data set in a compressed format.
-  All main modules allow for attachments to be added.
-
+- Online search will now store images to the temporary folder instead of keeping the images completely in memory.
+ 
 [Fixed]
 - Incorrect alignment of the filter label on the related items tab.
 - Update all dialog; could not create new reference using the icon for the reference / references field.
@@ -27,10 +28,7 @@ Data Crow version 4.10                        Released on 2023-08-xx
 - OpenLibrary search: edition data mix up (sometimes) causing incorrect results
 - OpenLibrary search: language not imported when searching on ISBN
 - OpenLibrary search: ISBN10 and ISBN13 should always be filled but are sometimes blank
-
-[Main things TODO]
-- Image sizes - maximum image size
-- Store images to temp folder for online searches to prevent high memory usage (byte[] stored in memory)
+- Several minor potential memory leaks have been fixed 
 
 
 --------------------------------------------------------------------

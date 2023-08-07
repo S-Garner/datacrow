@@ -126,7 +126,7 @@ public abstract class DcRepository {
      */
     public static final class Settings {
     	public static final String stMaximumImageResolution = "max_image_resolution";
-    	public static final String stMaximumImageResolutionConvertOnStartup = "convert_on_startup";
+    	public static final String stMaximumImageResolutionChosen = "max_image_resolution_chosen";
     	public static final String stIsUpgraded = "is_upgraded";
     	public static final String stMaximumAttachmentFileSize = "max_attachment_file_size";
     	public static final String stUIScaling = "ui_scaling";

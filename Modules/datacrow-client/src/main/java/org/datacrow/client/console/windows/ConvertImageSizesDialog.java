@@ -105,6 +105,9 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
     	
     	thread = new Thread() {
     		public void run() {
+    			
+            	DcSettings.set(DcRepository.Settings.stMaximumImageResolutionChosen, Boolean.TRUE);
+    			
     	    	Set<String> images;
     	    	String imageDir = DcConfig.getInstance().getImageDir();
     	    	
@@ -162,8 +165,6 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
     	                }));
     	            }
     	            
-    	            // we're done - no need to redo
-    	            DcSettings.set(DcRepository.Settings.stMaximumImageResolutionConvertOnStartup, Boolean.FALSE);
     	            
     	            GUI.getInstance().displayMessage(DcResources.getText("msgSuccessfullyResizedAllImages"));
     	            

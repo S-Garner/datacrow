@@ -382,12 +382,8 @@ public class DataCrow implements IStarterClient {
                 dlg.setVisible(true);
             }
             
-            if (DcSettings.getBoolean(DcRepository.Settings.stMaximumImageResolutionConvertOnStartup) ||
-                DcSettings.getBoolean(DcRepository.Settings.stIsUpgraded)) {
-            	
-            	DcSettings.set(DcRepository.Settings.stMaximumImageResolutionConvertOnStartup, Boolean.TRUE);
-            	DcSettings.save();
-            	
+            if (!DcSettings.getBoolean(DcRepository.Settings.stMaximumImageResolutionChosen) &&
+            	DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_STANDALONE) {
             	// display GUI for image conversion
             	ConvertImageSizesDialog dlg = new ConvertImageSizesDialog();
             	dlg.setVisible(true);

@@ -56,16 +56,17 @@ public class DataFilter implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DataFilter.class.getName());
-    
+
+	
+    public static final int _SORTDIRECTION_ASCENDING = 0;
+    public static final int _SORTDIRECTION_DESCENDING = 1;
+
+    private int sortDirection = _SORTDIRECTION_ASCENDING;
+
     private int module;
     private int resultLimit = 0;
     
     private String name;
-    
-    public static final int _SORTDIRECTION_ASCENDING = 0;
-    public static final int _SORTDIRECTION_DESCENDING = 1;
-    
-    private int sortDirection = _SORTDIRECTION_ASCENDING;
     
     private List<DcField> order = new ArrayList<DcField>();
     private List<DataFilterEntry> entries = new ArrayList<DataFilterEntry>();

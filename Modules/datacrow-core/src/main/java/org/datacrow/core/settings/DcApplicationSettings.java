@@ -141,7 +141,7 @@ public class DcApplicationSettings extends Settings {
                             true, -1));
         addSetting(_SizeLimits,
                 new Setting(DcRepository.ValueTypes._BOOLEAN,
-                            DcRepository.Settings.stMaximumImageResolutionConvertOnStartup,
+                            DcRepository.Settings.stMaximumImageResolutionChosen,
                             Boolean.FALSE,
                             -1,
                             "",
