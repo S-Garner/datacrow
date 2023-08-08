@@ -30,17 +30,18 @@ import java.io.FilenameFilter;
 
 public class FileNameFilter implements FilenameFilter {
 
-    private String[] extensions;
-    private boolean allowDirs;
+    private final String[] extensions;
+    private final boolean allowDirs;
+    private final String description;
     
-    public FileNameFilter(String[] extensions, boolean allowDirs) {
+    public FileNameFilter(String[] extensions, String description, boolean allowDirs) {
         this.extensions = extensions;
         this.allowDirs = allowDirs;
+        this.description = description;
     }
     
-    public FileNameFilter(String extension, boolean allowDirs) {
-        this.extensions = new String[1];
-        extensions[0] = extension;
+    public FileNameFilter(String extension, String description, boolean allowDirs) {
+    	this(new String[] {extension}, description, allowDirs);
     }
     
     public String[] getExtensions() {
@@ -62,5 +63,9 @@ public class FileNameFilter implements FilenameFilter {
             }
         }
         return false;
+    }
+    
+    public String getDescription() {
+    	return description;
     }
 }

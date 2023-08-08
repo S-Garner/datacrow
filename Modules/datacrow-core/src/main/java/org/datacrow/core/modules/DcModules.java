@@ -479,10 +479,10 @@ public class DcModules implements Serializable {
         removeModuleJar("audiotrack.jar");
         
         File moduleDir = new File(DcConfig.getInstance().getModuleDir());
-        String[] moduleDirFiles = moduleDir.list(new FileNameFilter("jar", false));
+        String[] moduleDirFiles = moduleDir.list(new FileNameFilter("jar", "jar", false));
         
         File installModuleDir = new File(DcConfig.getInstance().getInstallationDir(), "modules");
-        String[] applicationModuleDir = installModuleDir.list(new FileNameFilter("jar", false));
+        String[] applicationModuleDir = installModuleDir.list(new FileNameFilter("jar", "jar", false));
 
         if (applicationModuleDir != null) {
             for (String appliJar : applicationModuleDir) {
@@ -518,7 +518,7 @@ public class DcModules implements Serializable {
             }
         }
         
-        moduleDirFiles = moduleDir.list(new FileNameFilter("jar", false));
+        moduleDirFiles = moduleDir.list(new FileNameFilter("jar", "jar", false));
         
         Collection<XmlModule> dependingMods = new ArrayList<XmlModule>();
         Collection<XmlModule> masterMods = new ArrayList<XmlModule>();

@@ -207,5 +207,10 @@ public class MusicAlbumImporter extends FileImporter {
             return new File(filename).getParentFile().getName();
         else
             return new File(filename).getParentFile().getParentFile().getName();
-    }    
+    }
+    
+	@Override
+	public String getFileTypeDescription() {
+		return DcResources.getText("lblMusicFiles");
+	}
 }

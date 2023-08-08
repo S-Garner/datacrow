@@ -501,7 +501,10 @@ public class FileImportDialog extends DcFrame implements ActionListener {
         FileNameFilter filter =
             importer.getSupportedFileTypes() != null &&
             importer.getSupportedFileTypes().length > 0 ?
-            new FileNameFilter(importer.getSupportedFileTypes(), true) : null;
+            new FileNameFilter(
+            		importer.getSupportedFileTypes(), 
+            		importer.getFileTypeDescription(), 
+            		true) : null;
                  
             
         //**********************************************************

@@ -32,17 +32,40 @@ import org.datacrow.core.resources.DcResources;
 public class DcFileFilter extends javax.swing.filechooser.FileFilter {
 	
 	private final String[] extensions;
+	private final String description;
+	
 	
     /** 
      * Create a file filter for the give extension
      * @param extension criterium to filter
      */
 	public DcFileFilter(String extension) {
-		this.extensions = new String[] {extension};
+		this(new String[] {extension});
 	}
 
     public DcFileFilter(String[] extensions) {
+        this(extensions, null);
+    }
+    
+    /** 
+     * Create a file filter for the give extension
+     * @param extension criterium to filter
+     */
+	public DcFileFilter(String extension, String description) {
+		this(new String[] {extension}, description);
+	}
+
+    public DcFileFilter(String[] extensions, String description) {
         this.extensions = extensions;
+        this.description = description == null ? createDescription(extensions) : description;
+    }
+    
+    public String createDescription(String[] extensions) {
+        String files = "";
+        for (int i = 0; i < extensions.length; i++)
+            files += (i > 0 ? ", " : "") + extensions[i];
+        
+        return DcResources.getText("lblFileFiler", files);
     }
     
     /**
@@ -71,10 +94,6 @@ public class DcFileFilter extends javax.swing.filechooser.FileFilter {
      */
     @Override
     public String getDescription() {
-        String files = "";
-        for (int i = 0; i < extensions.length; i++)
-            files += (i > 0 ? ", " : "") + extensions[i];
-        
-        return DcResources.getText("lblFileFiler", files);
+    	return description;
     }
 } 

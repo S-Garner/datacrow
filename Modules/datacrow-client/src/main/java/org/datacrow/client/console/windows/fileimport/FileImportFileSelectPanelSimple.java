@@ -230,7 +230,7 @@ public class FileImportFileSelectPanelSimple extends JPanel implements ActionLis
         btStart.addActionListener(this);
         
         ffSingle = filter != null ? 
-                ComponentFactory.getFileField(false, false, new DcFileFilter(filter.getExtensions())) :
+                ComponentFactory.getFileField(false, false, new DcFileFilter(filter.getExtensions(), filter.getDescription())) :
                 ComponentFactory.getFileField(false, false);
             
         btAdd.setActionCommand("addFile");

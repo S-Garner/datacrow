@@ -81,4 +81,9 @@ public class SoftwareImporter extends FileImporter {
         
         return software;
     }
+    
+	@Override
+	public String getFileTypeDescription() {
+		return DcResources.getText("*");
+	}    
 }

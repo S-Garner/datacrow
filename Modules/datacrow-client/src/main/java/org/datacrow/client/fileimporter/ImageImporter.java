@@ -39,7 +39,6 @@ import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.helpers.Image;
 import org.datacrow.core.resources.DcResources;
-import org.datacrow.core.utilities.CoreUtilities;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.imaging.jpeg.JpegProcessingException;
@@ -96,7 +95,7 @@ public class ImageImporter extends FileImporter {
             
             Picture pic = (Picture) DcModules.get(DcModules._PICTURE).getItem();
             BufferedImage bi = ImageIO.read(new File(filename));
-            DcImageIcon icon = new DcImageIcon(CoreUtilities.getScaledImage(new DcImageIcon(bi), 400, 400));
+            DcImageIcon icon = new DcImageIcon(bi);
             pic.setValue(Picture._G_EXTERNAL_FILENAME, filename);
             
             int width = icon.getIconWidth();
@@ -168,4 +167,9 @@ public class ImageImporter extends FileImporter {
         
         return image;
     }
+    
+	@Override
+	public String getFileTypeDescription() {
+		return DcResources.getText("lblPicFileFilter");
+	}
 }

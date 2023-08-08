@@ -108,6 +108,8 @@ public abstract class FileImporter {
     public abstract DcObject parse(String filename, int directoryUsage);
     
     public abstract String[] getSupportedFileTypes();
+    
+    public abstract String getFileTypeDescription();
 
     /**
      * Indicates if a directory can be used instead of a file.

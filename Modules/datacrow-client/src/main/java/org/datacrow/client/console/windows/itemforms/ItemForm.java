@@ -306,8 +306,8 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     }
     
     public void hide(DcField field) {
-        labels.get(field).setVisible(false);
-        fields.get(field).setVisible(false);
+    	if (labels.containsKey(field)) labels.get(field).setVisible(false);
+    	if (fields.containsKey(field)) fields.get(field).setVisible(false);
 
         if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
             

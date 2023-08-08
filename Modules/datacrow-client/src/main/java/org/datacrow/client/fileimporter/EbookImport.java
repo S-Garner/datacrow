@@ -95,8 +95,7 @@ public class EbookImport extends FileImporter {
     @Override
     public boolean allowReparsing() {
         return true;
-    }    
-    
+    }
     
     private void findAndSetIsbn(DcObject book, String s) {
         ISBN isbn = new ISBN();
@@ -206,4 +205,9 @@ public class EbookImport extends FileImporter {
         }
         return book;
     }
+
+	@Override
+	public String getFileTypeDescription() {
+		return DcResources.getText("lblEBookFiles");
+	}
 }

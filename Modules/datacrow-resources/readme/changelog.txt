@@ -33,6 +33,9 @@ Data Crow version 4.10                        Released on 2023-08-xx
 - When server and client run in different languages issues could occur with the data filters
 - Missing Line Breaks in Quick View Pane
 - Client - Server: on saving an item where there are data issues, such an item not being unique, the item form is closed instead of kept open
+- Client - Server: update all dialog won't open
+- Image importer parses incorrect resolution for image
+- File browser: file type description too long for field
 
 [TO DO]
 - Add help for image resizing

@@ -122,4 +122,9 @@ public class MovieImporter extends FileImporter {
         
         return movie;
     }
+    
+	@Override
+	public String getFileTypeDescription() {
+		return DcResources.getText("lblMovieFiles");
+	}
 }

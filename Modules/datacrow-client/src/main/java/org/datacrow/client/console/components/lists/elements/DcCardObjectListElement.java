@@ -133,7 +133,6 @@ public class DcCardObjectListElement extends DcObjectListElement {
     
     private void addPicture(Collection<Picture> pictures) {
         DcImageIcon scaledImage;
-        DcImageIcon image;
 
         fldPicture = ComponentFactory.getPictureField(false, false);
         
@@ -142,31 +141,10 @@ public class DcCardObjectListElement extends DcObjectListElement {
             if (p == null || !p.hasImage()) continue;
                 
             scaledImage = p.getScaledPicture();
-            image = (DcImageIcon) p.getValue(Picture._D_IMAGE);
-            
-            
-            if (scaledImage == null && image != null) {
-            	
-            	image.flushImage();
-            	
-            	File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + "_small.jpg");
-            	file.deleteOnExit();
-            	
-            	try {
-            		CoreUtilities.writeScaledImageToFile(image, file);
-            		scaledImage = new DcImageIcon(file);
-            	} catch (Exception e) {
-            		logger.debug("Could not store scaled temporary image [" + file + "]", e);
-            	}
-            }
             
             if (scaledImage != null) { 
                 fldPicture.setValue(scaledImage);
                 fldPicture.setScaled(false);
-                break;
-            } else if (image != null) {
-                fldPicture.setValue(image);
-                fldPicture.setScaled(true);
                 break;
             }                
         }

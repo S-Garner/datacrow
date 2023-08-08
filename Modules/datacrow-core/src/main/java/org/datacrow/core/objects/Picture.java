@@ -154,6 +154,11 @@ public class Picture extends DcObject {
         return (String) getValue(Picture._C_FILENAME);
     }
     
+    /**
+     * Gets the scaled image. If it does not exist it will create a scaled image in the
+     * temp folder of the client.
+     * @return
+     */
     public DcImageIcon getScaledPicture() {
         String filename = getScaledFilename();
         DcImageIcon thumbnail = null;
@@ -166,6 +171,19 @@ public class Picture extends DcObject {
                 }
             } else {
                 thumbnail = new DcImageIcon(new File(DcConfig.getInstance().getImageDir(), filename));
+            }
+        } else {
+        	Image image = getImage();
+            if (image != null) {
+            	File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + "_small.jpg");
+            	file.deleteOnExit();
+            	
+            	try {
+            		CoreUtilities.writeScaledImageToFile(new DcImageIcon(image), file);
+            		thumbnail = new DcImageIcon(file);
+            	} catch (Exception e) {
+            		logger.debug("Could not store scaled temporary image [" + file + "]", e);
+            	}
             }
         }
         
