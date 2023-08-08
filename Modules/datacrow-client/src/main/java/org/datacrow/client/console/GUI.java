@@ -361,7 +361,7 @@ public class GUI {
     
                         searchView.addView(MasterView._TABLE_VIEW, tableView);
                     } else {
-                        DcObjectList list = new DcObjectList(m, DcObjectList._CARDS, true, true);
+                        DcObjectList list = new DcObjectList(m, DcObjectList._CARDS, true, true, 250, 250);
                         View listView = new View(searchView, View._TYPE_SEARCH, list, MasterView._LIST_VIEW);
                         list.setView(listView);
                         searchView.addView(MasterView._LIST_VIEW, listView);

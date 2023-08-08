@@ -69,15 +69,20 @@ public class DcObjectList extends DcList implements IViewComponent {
     private boolean ignorePaintRequests = false;
 
     public DcObjectList(int style, boolean wrap, boolean evenOddColors) {
-        this(null, style, wrap, evenOddColors);
+        this(null, style, wrap, evenOddColors, -1, -1);
     }
     
     public DcObjectList(DcModule module, 
                         int style, 
                         boolean wrap, 
-                        boolean evenOddColors) {
+                        boolean evenOddColors,
+                        int cellWidth,
+                        int cellHeight) {
         
         super(new DcListModel<Object>());
+        
+        setFixedCellWidth(cellWidth);  
+        setFixedCellHeight(cellHeight);
         
         this.module = module;
         this.style = style;
