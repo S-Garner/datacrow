@@ -197,7 +197,7 @@ public class GUI {
     public QuickViewPanel getQuickView(int module) {
         QuickViewPanel qvp = quickViewPanels.get(Integer.valueOf(module));
         if (qvp == null) {
-            qvp = new QuickViewPanel(true);
+            qvp = new QuickViewPanel(true, true);
             quickViewPanels.put(Integer.valueOf(module), qvp);
         }
         return qvp;

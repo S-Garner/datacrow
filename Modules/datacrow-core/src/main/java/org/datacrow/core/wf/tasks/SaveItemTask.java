@@ -62,8 +62,7 @@ public class SaveItemTask extends DcTask {
                 	if (isCanceled()) break;
                 	
                 	try {
-                		connector.saveItem(dco);
-                		success = true;
+                		success = connector.saveItem(dco);
                 	} catch (ValidationException ve) {
                 		success = false;
                 		notifyClients(IClient._WARNING, ve);

@@ -3,12 +3,10 @@ Data Crow version 4.10                        Released on 2023-08-xx
 --------------------------------------------------------------------
 
 [New]
-- Attachments can now be added to items. These documents are stored within the Data Crow data set in a compressed format.
-  All main modules allow for attachments to be added.
-- Images are not stored with a maximum resolution,
+- Attachments can now be added to items. These documents are stored within the Data Crow data set in a compressed format. All main modules allow for attachments to be added.
+- Images are now stored with a maximum resolution. The maximum resolution can be selected when upgrading Data Crow. For new installations Data Crow will automatically set it to 1920 x 1080, a value which can be changed through the Image Size Coversion settings tool.
 - Added drag and drop support for pictures (from file and directly from web pages) and attachments.
 - New Russian translations has been added (not finalized) - major thanks to Ilya Sigidin.
-
 
 [Changed]
 - Portuguese translation has been updated - major thanks to Pedro Albuquerque.
@@ -17,21 +15,24 @@ Data Crow version 4.10                        Released on 2023-08-xx
 - Create multiple will only show one message when multiple items could not be saved.
 - Update All will now process all items and show a combined message on failures (due to constraints) rather then individual messages.
 - Filter dialog will keep the selected field and operator when adding entries.
-- Extended the image formats supported by Data Crow.
+- Extended the image formats supported by Data Crow, including webp.
 - Online search will now store images to the temporary folder instead of keeping the images completely in memory.
+- Related items are now shown in the quick view as well
  
 [Fixed]
 - Incorrect alignment of the filter label on the related items tab.
 - Update all dialog; could not create new reference using the icon for the reference / references field.
-- Create multiple items dialog; sometimes, for custom modules, no fields are displayed. Now, all enabled and editable fields are displayed. 
+- Create multiple items dialog; sometimes, for custom modules, no fields are displayed. Now, all enabled and editable fields are displayed.
 - Item form settings; sometimes it does not show any fields available for assignment.
 - UI scaling session can get lost when switching between user folders.
 - Filter dialog shows value field for is filled / is empty operator when switching between fields.
 - OpenLibrary search: edition data mix up (sometimes) causing incorrect results
 - OpenLibrary search: language not imported when searching on ISBN
 - OpenLibrary search: ISBN10 and ISBN13 should always be filled but are sometimes blank
-- Several minor potential memory leaks have been fixed
+- Several (potential and very real) memory leaks have been fixed
 - When server and client run in different languages issues could occur with the data filters
+- Missing Line Breaks in Quick View Pane
+- Client - Server: on saving an item where there are data issues, such an item not being unique, the item form is closed instead of kept open
 
 
 --------------------------------------------------------------------

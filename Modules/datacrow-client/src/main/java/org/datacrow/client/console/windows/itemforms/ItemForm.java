@@ -103,6 +103,7 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 import org.datacrow.core.wf.tasks.DcTask;
 import org.datacrow.core.wf.tasks.DeleteItemTask;
 import org.datacrow.core.wf.tasks.SaveItemTask;
+import org.datacrow.server.security.SecurityCenter;
 
 public class ItemForm extends DcFrame implements ActionListener, IClient {
 
@@ -228,7 +229,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         addPictureTabs();
         addRelationPanel();
         
-        if (module.isTopModule() && update) {
+        if (module.isTopModule() && update && connector.getUser().isAuthorized("EditAttachments")) {
         	addAttachmentsPanel();
         }
         
@@ -911,7 +912,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
 	            Connector connector = DcConfig.getInstance().getConnector();
 	            List<DcObject> references = connector.getReferencingItems(moduleIdx, dco.getID());
 	            if (references.size() > 0) {
-	                RelatedItemsPanel rip = new RelatedItemsPanel(dco);
+	                RelatedItemsPanel rip = new RelatedItemsPanel(dco, readonly);
 	                rip.setData(references);
 	                tabbedPane.addTab(rip.getTitle(), rip.getIcon(), rip);
 	            }
@@ -926,12 +927,14 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     }
     
     protected void addAttachmentsPanel() {
-    	JPanel component = new AttachmentsPanel(dco.getID(), readonly);
+    	AttachmentsPanel attachmentsPanel = new AttachmentsPanel(readonly);
+    	attachmentsPanel.setObjectID(dco.getID());
+    	attachmentsPanel.load();
     	
     	JPanel panel = new JPanel();
     	panel.setLayout(Layout.getGBL());
     	
-        panel.add(component, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0
+        panel.add(attachmentsPanel, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                  new Insets(5, 5, 5, 0), 0, 0));
     	

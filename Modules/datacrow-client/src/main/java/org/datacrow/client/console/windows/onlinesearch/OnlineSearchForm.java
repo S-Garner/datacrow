@@ -88,8 +88,8 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(OnlineSearchForm.class.getName());
 
-	private final QuickViewPanel qvTable = new QuickViewPanel(false);
-	private final QuickViewPanel qvCard = new QuickViewPanel(false);
+	private final QuickViewPanel qvTable = new QuickViewPanel(false, false);
+	private final QuickViewPanel qvCard = new QuickViewPanel(false, false);
     
     private final int module;
     private final String ID;

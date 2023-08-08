@@ -79,8 +79,10 @@ public class RelatedItemsPanel extends DcPanel implements MouseListener, ISimple
     private final DcObjectList list = new DcObjectList(DcObjectList._LISTING, false, true);
     private final List<DcListElement> all = new ArrayList<DcListElement>();
     
+    private final DcObject dco;
+    private final boolean readonly;
+
     private boolean cancelled = false;
-    private DcObject dco;
     
     @Override
     public void setParentID(String ID) {}
@@ -90,8 +92,9 @@ public class RelatedItemsPanel extends DcPanel implements MouseListener, ISimple
         return null;
     }
 
-    public RelatedItemsPanel(DcObject dco) {
+    public RelatedItemsPanel(DcObject dco, boolean readonly) {
         this.dco = dco;
+        this.readonly = readonly;
 
         setIcon(IconLibrary._icoRelations);
         setTitle(DcResources.getText("lblRelatedItems"));
@@ -211,7 +214,7 @@ public class RelatedItemsPanel extends DcPanel implements MouseListener, ISimple
         panel.setLayout(Layout.getGBL());
         panel.add(ComponentFactory.getLabel(DcResources.getText("lblFilter")), Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-                 new Insets( 0, 0, 0, 0), 0, 0));
+                 new Insets( 0, 0, 0, 5), 0, 0));
         panel.add(txtFilter, Layout.getGBC( 1, 0, 1, 1, 100.0, 100.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                  new Insets( 0, 0, 0, 0), 0, 0));
@@ -310,9 +313,12 @@ public class RelatedItemsPanel extends DcPanel implements MouseListener, ISimple
             menuRemoveRef.setActionCommand("removeRef");
             
             add(menuOpen);
-            add(menuEdit);
-            addSeparator();
-            add(menuRemoveRef);
+            
+            if (!readonly) {
+	            add(menuEdit);
+	            addSeparator();
+	            add(menuRemoveRef);
+            }
         }
 
         @Override
@@ -322,7 +328,7 @@ public class RelatedItemsPanel extends DcPanel implements MouseListener, ISimple
             else if (e.getActionCommand().equals("edit"))
                 open(true);
             else if (e.getActionCommand().equals("removeRef"))
-                removeReferences();
+            	if (!readonly) removeReferences();
         }
     }
     

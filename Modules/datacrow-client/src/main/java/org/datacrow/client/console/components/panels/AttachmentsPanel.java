@@ -83,7 +83,7 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
 	
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(AttachmentsPanel.class.getName());
     
-	private final String objectID;
+	private String objectID;
 	
     private final List<DcListElement> elementsAll = new ArrayList<DcListElement>();
     private final List<DcListElement> elementsCurrent = new ArrayList<DcListElement>();
@@ -91,17 +91,21 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     
     private final boolean readonly;
     
-    public AttachmentsPanel(String objectID, boolean readonly) {
-        this.objectID = objectID;
+    public AttachmentsPanel(boolean readonly) {
+        
         this.list.setModel(new DcListModel<Object>());
-        this.readonly = readonly;
+        this.readonly = !DcConfig.getInstance().getConnector().getUser().isAuthorized("EditAttachments") || readonly;
         
         setTitle(DcResources.getText("lblAttachments"));
         
         build();
-        load();
-        
-        new DropTarget(this, DnDConstants.ACTION_COPY, this);
+
+        if (!readonly)
+        	new DropTarget(this, DnDConstants.ACTION_COPY, this);
+    }
+    
+    public void setObjectID(String objectID) {
+    	this.objectID = objectID;
     }
 
     private void deleteAttachments() {
@@ -203,14 +207,13 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     	}
     }
     
-    private void load() {
+    public void load() {
         SwingUtilities.invokeLater(
                 new Thread(new Runnable() { 
                     @Override
                     public void run() {
                     	
-                    	list.clear();
-                    	elementsAll.clear();
+                    	reset();
                     	
                     	Connector conn = DcConfig.getInstance().getConnector();
                     	Collection<Attachment> attachments = conn.getAttachmentsList(objectID);
@@ -228,11 +231,15 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     			DcConfig.getInstance().getConnector().getUser().isAuthorized("EditAttachments");
     }
     
-    @Override
-    public void clear() {
+    public void reset() {
         if (elementsAll != null) elementsAll.clear();
         if (elementsCurrent != null) elementsCurrent.clear();
         if (list != null) list.clear();
+    }
+    
+    @Override
+    public void clear() {
+    	reset();
         
         super.clear();
     }
@@ -265,7 +272,7 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
         panel.add(ComponentFactory.getLabel(DcResources.getText("lblFilter")), 
         		 Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-                 new Insets( 0, 0, 0, 0), 0, 0));
+                 new Insets( 0, 0, 0, 5), 0, 0));
         panel.add(txtFilter, Layout.getGBC( 1, 0, 1, 1, 100.0, 1.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                  new Insets( 0, 0, 0, 0), 0, 0));
@@ -292,7 +299,7 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
             }
             
             if (list.getSelectedIndex() > -1) {
-                JPopupMenu menu = new AttachmentPopupMenu(this);                
+                JPopupMenu menu = new AttachmentPopupMenu(this, readonly);                
                 menu.setInvoker(list);
                 menu.show(list, e.getX(), e.getY());
             }
@@ -344,19 +351,20 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     
     private static class AttachmentPopupMenu extends DcPopupMenu {
         
-		public AttachmentPopupMenu(AttachmentsPanel ap) {
+		public AttachmentPopupMenu(AttachmentsPanel ap, boolean readonly) {
 
             JMenuItem menuOpen = new JMenuItem(DcResources.getText("lblOpen", ""), IconLibrary._icoOpen);
             JMenuItem menuDelete = new JMenuItem(DcResources.getText("lblDelete", ""), IconLibrary._icoDelete);
             
             menuOpen.addActionListener(ap);
             menuOpen.setActionCommand("open");
-            
-            menuDelete.addActionListener(ap);
-            menuDelete.setActionCommand("delete");
-            
             add(menuOpen);
-            add(menuDelete);
+            
+            if (!readonly) {
+            	menuDelete.addActionListener(ap);
+            	menuDelete.setActionCommand("delete");
+            	add(menuDelete);
+            }
         }
     }
 

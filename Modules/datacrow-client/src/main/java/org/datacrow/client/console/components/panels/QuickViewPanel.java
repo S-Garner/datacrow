@@ -25,7 +25,6 @@
 
 package org.datacrow.client.console.components.panels;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -34,8 +33,9 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -49,7 +49,6 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcHtmlEditorPane;
-import org.datacrow.client.console.components.DcPictureField;
 import org.datacrow.client.console.menu.DcEditorPopupMenu;
 import org.datacrow.client.plugins.PluginHelper;
 import org.datacrow.client.util.Utilities;
@@ -82,11 +81,12 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     public static final String _DIRECTION_HORIZONTAL = DcResources.getText("lblHorizontal");
     public static final String _DIRECTION_VERTICAL = DcResources.getText("lblVertical");  
 
-    private final LinkedList<Picture> pictures = new LinkedList<Picture>();
-    private final LinkedList<JPanel> imagePanels = new LinkedList<JPanel>();
+    private final Map<Integer, ImagePanel> imagePanels = new LinkedHashMap<>();
+    
     private final JTabbedPane tabbedPane = ComponentFactory.getTabbedPane();
     
     private final boolean showInlineImages;
+    private final boolean showAttachments;
 
     private DcHtmlEditorPane descriptionPane;
     
@@ -98,8 +98,14 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     private JScrollPane scroller;
     private boolean isAllowPopup = true;
     
-    public QuickViewPanel(boolean showInlineImages) {
+    private final AttachmentsPanel attachmentsPanel = new AttachmentsPanel(false);
+    
+    private RelatedItemsPanel relatedItemsPanel = null;
+    
+    public QuickViewPanel(boolean showInlineImages, boolean showAttachments) {
         this.showInlineImages = showInlineImages;
+        this.showAttachments = showAttachments;
+        
         setLayout(Layout.getGBL());
         tabbedPane.addChangeListener(this);
         
@@ -110,33 +116,31 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     
     public void reloadImage() {
         if (tabbedPane.getSelectedIndex() > 0)
-            loadImage();
+        	loadTab();
     }
     
     public void isAllowPopup(boolean b) {
     	isAllowPopup = b;
     }
     
-    private void loadImage() {
-        int index = tabbedPane.getSelectedIndex() - 1;
-        Picture picture = pictures.get(index);
-        picture.loadImage(false);
-        
-        JPanel panel = imagePanels.get(index);
-        Component[] components =  panel.getComponents();
-        for (int i = 0; i < components.length; i++) {
-            if (components[i] instanceof DcPictureField)
-                ((DcPictureField) components[i]).setValue(picture);
-        }
+    private void loadTab() {
+    	Integer key = Integer.valueOf(tabbedPane.getSelectedIndex());
+    	
+    	if (imagePanels.containsKey(key)) {
+    		ImagePanel panel = imagePanels.get(key);
+    		panel.load();
+    	} else {
+    		if (tabbedPane.getSelectedComponent() instanceof AttachmentsPanel)
+    			attachmentsPanel.load();
+    	}
     }
     
     private void createImageTabs(DcObject dco) {
         try {
-            clearImages();
+            reset();
     
             Picture picture;
-            DcPictureField picField;
-            JPanel panel;
+            ImagePanel panel;
 
             for (DcFieldDefinition definition : dco.getModule().getFieldDefinitions().getDefinitions()) {
                 if (dco.isEnabled(definition.getIndex()) && 
@@ -147,19 +151,12 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
                     if (picture == null) continue;
                     
                     if (picture.hasImage()) {
-                    	pictures.add(picture);    
-
-                    	picField = ComponentFactory.getPictureField(true, false);
-                        
-                        panel = new JPanel();
-                        panel.setLayout(Layout.getGBL());
+                        panel = new ImagePanel(picture);
                         panel.addMouseListener(this);
-                        panel.add(picField, Layout.getGBC(0, 0, 1, 1, 10.0, 10.0,
-                                GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-                                new Insets(2, 2, 2, 2), 0, 0));
                             
                         tabbedPane.addTab(dco.getLabel(definition.getIndex()), IconLibrary._icoPicture, panel);
-                        imagePanels.add(panel);
+                        
+                        imagePanels.put(Integer.valueOf(tabbedPane.getTabCount() - 1), panel);
                     }
                 }
             }
@@ -211,6 +208,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
             
             int tab = tabbedPane.getSelectedIndex();
             moduleIdx = dco.getModule().getIndex();
+            
             clear();
             
             this.dco = dco;
@@ -230,6 +228,20 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
             try {
                 descriptionPane.setCaretPosition(0);
             } catch (Exception exp) {}
+            
+            attachmentsPanel.setObjectID(dco.getID());
+            
+            List<DcObject> references = DcConfig.getInstance().getConnector().getReferencingItems(moduleIdx, dco.getID());
+            
+            if (relatedItemsPanel != null) {
+            	relatedItemsPanel.clear();
+            	relatedItemsPanel = null;
+            }
+            
+            if (references.size() > 0) {
+            	relatedItemsPanel = new RelatedItemsPanel(dco, true);
+            	relatedItemsPanel.setData(references);
+            }
             
             if (dco.getModule().getSettings().getBoolean(DcRepository.ModuleSettings.stShowPicturesInSeparateTabs))
                 createImageTabs(dco);
@@ -259,7 +271,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         descriptionPane.setHtml("<html><body " + 
                 Utilities.getHtmlStyle(DcSettings.getColor(DcRepository.Settings.stQuickViewBackgroundColor)) + ">\n</body> </html>");
         
-    	clearImages();
+    	reset();
     }
     
     private void removeTabs() {
@@ -268,18 +280,22 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         tabbedPane.addChangeListener(this);
     }
     
-    private void clearImages() {
+    private void reset() {
         removeTabs();
+
+        attachmentsPanel.reset();
+        
         tabbedPane.addTab(DcResources.getText("lblDescription"), IconLibrary._icoInformation, scroller);
         
-        Component[] components;
-        for (JPanel panel : imagePanels) {
-            components = panel.getComponents();
-            for (int i = 0; i < components.length; i++)
-                ComponentFactory.clean(components[i]);
-        }
-
-        pictures.clear();
+        if (showAttachments)
+        	tabbedPane.addTab(DcResources.getText("lblAttachments"), IconLibrary._icoAttachments, attachmentsPanel);
+        
+        if (relatedItemsPanel != null)
+        	tabbedPane.addTab(DcResources.getText("lblRelatedItems"), IconLibrary._icoRelations, relatedItemsPanel);
+        
+        for (ImagePanel panel : imagePanels.values())
+            panel.clear();        
+        
         imagePanels.clear();
     }
     
@@ -493,10 +509,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
                 
                 table += value;
                 table += "</td></tr>";
-            } else if (dco.getField(index).getValueType() == DcRepository.ValueTypes._PICTURE) {
-                Picture picture = (Picture) dco.getValue(index);
-                pictures.add(picture);
-            }
+            } 
         }
         
         return table;
@@ -513,8 +526,9 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         
-        // tabbed pane
+        // add the standard tabs
         tabbedPane.addTab(DcResources.getText("lblDescription"), IconLibrary._icoInformation ,scroller);
+        
         add(tabbedPane, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
             GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
             new Insets(4, 0, 5, 0), 0, 0));
@@ -539,7 +553,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         JTabbedPane pane = (JTabbedPane) evt.getSource();
         
         if (pane.getSelectedIndex() > 0)
-            loadImage();
+            loadTab();
     }
     
     @Override
