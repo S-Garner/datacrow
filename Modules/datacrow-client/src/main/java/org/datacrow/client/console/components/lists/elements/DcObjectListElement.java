@@ -101,10 +101,13 @@ public abstract class DcObjectListElement extends DcListElement {
     	return module.isAbstract() ? new int[] {DcObject._ID} : module.getMinimalFields(getFields(getModule()));
     }
     
-    public boolean load() {
+    public void load() {
         int count = getComponentCount();
         if (count == 0 && !loading) {
-            DcModule module = DcModules.get(getModule());
+
+        	loading = true;
+        	
+        	DcModule module = DcModules.get(getModule());
             
             if (dco == null) {
                 Connector connector = DcConfig.getInstance().getConnector();
@@ -113,13 +116,10 @@ public abstract class DcObjectListElement extends DcListElement {
                     dco.reload();
             }
 
-            loading = true;
             build();
+            
             loading = false;
-            return true;
         }
-
-        return false;
     }
     
     private Collection<Integer> getFields(int module) {

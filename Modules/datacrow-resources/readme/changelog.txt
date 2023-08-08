@@ -34,6 +34,9 @@ Data Crow version 4.10                        Released on 2023-08-xx
 - Missing Line Breaks in Quick View Pane
 - Client - Server: on saving an item where there are data issues, such an item not being unique, the item form is closed instead of kept open
 
+[TO DO]
+- Add help for image resizing
+
 
 --------------------------------------------------------------------
 Data Crow version 4.9.1                       Released on 2023-06-08
