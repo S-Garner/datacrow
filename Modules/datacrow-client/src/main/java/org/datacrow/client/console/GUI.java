@@ -383,6 +383,7 @@ public class GUI {
     }
     
     public ISimpleItemView getItemViewForm(int moduleIdx) {
+    	// TODO: might need to open the template overview for templates.
         return new DcMinimalisticItemView(moduleIdx, false);
     }
     

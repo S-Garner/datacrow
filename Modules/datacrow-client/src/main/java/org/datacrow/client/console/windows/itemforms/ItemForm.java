@@ -92,7 +92,6 @@ import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.ValidationException;
-import org.datacrow.core.objects.helpers.Software;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
