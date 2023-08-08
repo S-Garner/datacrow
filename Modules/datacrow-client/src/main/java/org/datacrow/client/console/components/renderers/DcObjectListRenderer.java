@@ -52,7 +52,6 @@ public class DcObjectListRenderer extends DcListRenderer<Object>  {
         IViewComponent vc = (IViewComponent) list;
         
         if (render && !vc.isIgnoringPaintRequests()) {
-            // TODO: let's do this threaded
             c.setFont(ComponentFactory.getStandardFont());
             c.load();
             
