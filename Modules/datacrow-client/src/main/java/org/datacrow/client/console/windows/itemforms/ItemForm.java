@@ -92,6 +92,7 @@ import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
 import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.ValidationException;
+import org.datacrow.core.objects.helpers.Software;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
@@ -103,7 +104,6 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 import org.datacrow.core.wf.tasks.DcTask;
 import org.datacrow.core.wf.tasks.DeleteItemTask;
 import org.datacrow.core.wf.tasks.SaveItemTask;
-import org.datacrow.server.security.SecurityCenter;
 
 public class ItemForm extends DcFrame implements ActionListener, IClient {
 
@@ -162,7 +162,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
             setHelpIndex("dc.items.itemform_property");
         else 
             setHelpIndex("dc.items.itemform");
-        
+
         this.template = template;
         this.update = update;
         this.dcoOrig = o;

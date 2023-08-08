@@ -31,6 +31,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
+import org.datacrow.core.DcConfig;
 import org.datacrow.core.UserMode;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
@@ -54,7 +55,7 @@ public abstract class Plugin extends AbstractAction {
     private final int moduleIdx;
     
     private final DcObject dco;
-    private final DcTemplate template;
+    private final String templateID;
 
     private String label = null;
     
@@ -74,7 +75,7 @@ public abstract class Plugin extends AbstractAction {
         this.moduleIdx = moduleIdx;
         this.viewIdx = viewIdx;
         this.viewType = viewType;
-        this.template = template;
+        this.templateID = (template != null ? template.getID() : null);
         this.dco = dco;
     }
     
@@ -112,7 +113,12 @@ public abstract class Plugin extends AbstractAction {
     }
 
     public DcTemplate getTemplate() {
-        return template;
+    	if (templateID != null) {
+    		int templateIdx = DcModules.get(moduleIdx).getTemplateModule().getIndex();
+    		return (DcTemplate) DcConfig.getInstance().getConnector().getItem(templateIdx, templateID);
+    	} else {
+    		return null;
+    	}
     }
 
     /**

@@ -957,14 +957,16 @@ public class View extends DcPanel implements ListSelectionListener, IView {
     @Override
     public void valueChanged(ListSelectionEvent e) {
         if (vc.getSelectedIndex() == -1) {
-        	statusBar.setMessage("");
+        	if (statusBar != null)
+        		statusBar.setMessage("");
+
         	return;
         }
         
         if (vc.getSelectedIndices().length > 1)
-        	statusBar.setMessage(DcResources.getText("msgItemsSelected", String.valueOf(vc.getSelectedIndices().length)));
+        	if (statusBar != null) statusBar.setMessage(DcResources.getText("msgItemsSelected", String.valueOf(vc.getSelectedIndices().length)));
         else
-        	statusBar.setMessage(DcResources.getText("msgItemSelected"));
+        	if (statusBar != null) statusBar.setMessage(DcResources.getText("msgItemSelected"));
         
         if (actionsAllowed)
             afterSelect(vc.getSelectedIndex());

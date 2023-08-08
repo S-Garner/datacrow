@@ -189,7 +189,7 @@ public class DcToolBar extends JToolBar implements ActionListener, MouseListener
         fldFilter.addKeyListener(this);
         
         DcLabel lblSearch = ComponentFactory.getLabel(DcResources.getText("lblQuickFilter") + " ");
-        lblSearch.setBorder(new CompoundBorder(lblSearch.getBorder(), new EmptyBorder(0,20,0,0)));
+        lblSearch.setBorder(new CompoundBorder(lblSearch.getBorder(), new EmptyBorder(0,20,0,5)));
         
         add(lblSearch);
         add(fldFilter);

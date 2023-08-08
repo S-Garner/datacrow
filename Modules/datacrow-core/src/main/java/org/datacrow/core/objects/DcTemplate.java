@@ -117,8 +117,6 @@ public class DcTemplate extends DcObject {
 	public void afterSave() {
 		super.afterSave();
 		
-		Templates.refresh();
-		
 		if (isDefault()) {
 			Connector connector = DcConfig.getInstance().getConnector();
 			
@@ -129,13 +127,16 @@ public class DcTemplate extends DcObject {
 			List<DcObject> templates = connector.getItems(df);
 			for (DcObject template : templates) {
 				try {
-					// save directly, no error checking
+					template.setValue(DcTemplate._SYS_DEFAULT, Boolean.FALSE);
+					template.setValidate(false);
 					connector.saveItem(template);
 				} catch (ValidationException e) {
 					logger.error("Could not update template with ID " + getID(), e);
 				}
 			}
 		}
+		
+		Templates.refresh();
 	}
 
 	@Override
