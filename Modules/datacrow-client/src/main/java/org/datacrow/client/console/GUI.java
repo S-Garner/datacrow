@@ -60,6 +60,7 @@ import org.datacrow.client.console.windows.filerenamer.FileRenamerDialog;
 import org.datacrow.client.console.windows.filtering.FilterDialog;
 import org.datacrow.client.console.windows.itemforms.DcMinimalisticItemView;
 import org.datacrow.client.console.windows.itemforms.ItemForm;
+import org.datacrow.client.console.windows.itemforms.TemplateForm;
 import org.datacrow.client.console.windows.messageboxes.MessageBox;
 import org.datacrow.client.console.windows.messageboxes.QuestionBox;
 import org.datacrow.client.console.windows.onlinesearch.OnlineSearchForm;
@@ -383,18 +384,19 @@ public class GUI {
     }
     
     public ISimpleItemView getItemViewForm(int moduleIdx) {
-    	// TODO: might need to open the template overview for templates.
-        return new DcMinimalisticItemView(moduleIdx, false);
+    	return DcModules.get(moduleIdx).getType() == DcModule._TYPE_TEMPLATE_MODULE ?
+    			new TemplateForm(moduleIdx, false) :
+    			new DcMinimalisticItemView(moduleIdx, false);
     }
     
-      /**
-      * Returns an instance of the online search form. For specific implementations this
-      * method can be overridden to return a specific implementation of the {@link OnlineSearchForm} class.
-      * @see OnlineSearchForm
-      * @param dco The item to be updated or null when searching for new items only.
-      * @param itemForm The item form from which the search is started or null
-      * @param advanced Indicates if the advanced options should be shown.
-      */
+	  /**
+	  * Returns an instance of the online search form. For specific implementations this
+	  * method can be overridden to return a specific implementation of the {@link OnlineSearchForm} class.
+	  * @see OnlineSearchForm
+	  * @param dco The item to be updated or null when searching for new items only.
+	  * @param itemForm The item form from which the search is started or null
+	  * @param advanced Indicates if the advanced options should be shown.
+	  */
      public OnlineSearchForm getOnlineSearchForm(OnlineServices os, DcObject dco, ItemForm itemForm, boolean advanced) {
          return new OnlineSearchForm(os, dco, itemForm, advanced);
      }

@@ -34,7 +34,9 @@ import org.datacrow.core.data.Operator;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.template.Templates;
+import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.utilities.CoreUtilities;
 
 /**
  * A template can be applied on new items.
@@ -84,19 +86,22 @@ public class DcTemplate extends DcObject {
          
          return ((Boolean) getValue(_SYS_DEFAULT)).booleanValue();
      }
+     
+     protected void validateRequiredFields() throws ValidationException {
+    	 String name = (String) getValue(_SYS_TEMPLATENAME);
+
+    	 if (CoreUtilities.isEmpty(name))
+             throw new ValidationException(DcResources.getText("msgFieldMustContainValue", getField(_SYS_TEMPLATENAME).getLabel()));    		 
+     }
 
      @Override
      public void beforeSave() throws ValidationException {
-         
-    	 // do call super.beforeSave() prevent external reference errors and the likes
-         
          if (isNew()) {
              setValue(_SYS_CREATED, getCurrentDate());
              setIDs();
          }
 
          setValue(_SYS_MODIFIED, getCurrentDate());
-         
          saveIcon();
      }
 

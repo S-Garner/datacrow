@@ -38,6 +38,7 @@ Data Crow version 4.10                        Released on 2023-08-xx
 - File browser: file type description too long for field
 - Table view: tracks are not shown for music albums
 - Templates: sometimes template could not be selected when creating an item
+- Templates: not checked if template name is filled
 
 [TO DO]
 - Add help for image resizing
