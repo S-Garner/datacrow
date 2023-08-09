@@ -50,7 +50,6 @@ import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.tables.DcTable;
 import org.datacrow.core.DcConfig;
-import org.datacrow.core.DcRepository;
 import org.datacrow.core.data.DcResultSet;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
@@ -154,31 +153,30 @@ public class QueryPanel extends JPanel implements ActionListener, ItemListener {
     private void fillQueryComboBox() {
         File queryFile = new File(DcConfig.getInstance().getApplicationSettingsDir(), "data_crow_queries.txt");
 
+        @SuppressWarnings("resource")
+		RandomAccessFile raf = null;
+        
         try {
             if (queryFile.exists()) {
-                RandomAccessFile fileAccess  = new RandomAccessFile(queryFile, "rw");
+            	raf  = new RandomAccessFile(queryFile, "rw");
                 long filePointer = 0;
                 long fileLength  = queryFile.length();
                 comboSQLCommands.addItem("");
                 while (filePointer < fileLength) {
-                    String query = fileAccess.readLine();
+                    String query = raf.readLine();
                     if (query != null) {
                         addQueryToComboBox(query.trim());
-                        filePointer = fileAccess.getFilePointer();
+                        filePointer = raf.getFilePointer();
                     }
                 }
-                fileAccess.close();
-            } else if (!queryFile.exists()) {
-                logger.info(DcResources.getText("msgFileNotFound", queryFile.toString()));
-                RandomAccessFile fileAccess  = new RandomAccessFile(queryFile, "rw");
-                fileAccess.write(DcRepository.Database._PREDEFINEDQRY.getBytes());
-                fileAccess.close();
-                fillQueryComboBox();
             }
         } catch (Exception e) {
             comboSQLCommands.addItem("");
             logger.error("Could not read " + queryFile, e);
+        } finally {
+        	try { if (raf != null) raf.close(); } catch (Exception e) {logger.error("Failed to close reader for file: " + queryFile, e);}
         }
+        
         saveDataToFile();
     }
 

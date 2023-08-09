@@ -547,8 +547,6 @@ public class ClientToServerConnector extends Connector {
 				attachment);
 		ServerAttachmentActionResponse response = (ServerAttachmentActionResponse) processClientRequest(cr);
 		attachment.setData(response.getAttachment().getData());
-		
-		// TODO: store doc locally in temp folder and set link
 	}
 	
     @Override

@@ -515,7 +515,7 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
         close();
     }
     
-    // TODO:rewrite
+    // TODO: rewrite - inner class structure
     private class PanelLend extends JPanel implements ActionListener {
         
 		public PanelLend() {
@@ -561,7 +561,7 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
         }
     }
     
-    // TODO:rewrite
+    // TODO: rewrite - inner class structure
     private class PanelReturn extends JPanel implements ActionListener {
         
 		public PanelReturn() {
