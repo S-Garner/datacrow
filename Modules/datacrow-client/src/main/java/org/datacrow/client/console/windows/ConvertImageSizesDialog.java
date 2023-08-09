@@ -74,6 +74,8 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
 	
     public ConvertImageSizesDialog() {
         super(GUI.getInstance().getRootFrame());
+        
+        setHelpIndex("dc.settings.imagesizeconversion");
 
         cbResolution = ComponentFactory.getResolutionCombo();
         cbResolution.setSelectedItem(DcSettings.getDimension(DcRepository.Settings.stMaximumImageResolution));

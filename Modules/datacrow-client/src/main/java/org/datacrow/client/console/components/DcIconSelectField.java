@@ -31,6 +31,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.datacrow.client.console.GUI;
@@ -100,8 +101,8 @@ public class DcIconSelectField extends DcImageLabel implements MouseListener {
             return;
         
         try {
-            byte[] bytes = CoreUtilities.readFile(file);
-            Image image = CoreUtilities.getScaledImage(bytes, size.width, size.height);
+            DcImageIcon icon = new DcImageIcon(ImageIO.read(file));
+            Image image = CoreUtilities.getScaledImage(icon, size.width, size.height);
             setIcon(new DcImageIcon(image));
             image = null;
             changed = true;

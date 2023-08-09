@@ -30,16 +30,22 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcImageLabel;
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class ImageFilePreviewPanel extends FileSelectPreviewPanel {
+	
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ImageFilePreviewPanel.class.getName());
 
     private final DcImageLabel preview = new DcImageLabel();
 
@@ -57,8 +63,15 @@ public class ImageFilePreviewPanel extends FileSelectPreviewPanel {
         
         if (propertyName.equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
             File selection = (File) e.getNewValue();
-            DcImageIcon img = new DcImageIcon(selection);
-            preview.setIcon(new DcImageIcon(CoreUtilities.getScaledImage(img)));
+            
+            try {
+	            DcImageIcon largeIcon = new DcImageIcon(ImageIO.read(selection));
+	            DcImageIcon scaledIcon = new DcImageIcon(CoreUtilities.getScaledImage(largeIcon));
+	            
+	            preview.setIcon(scaledIcon);
+            } catch (IOException ioe) {
+            	logger.error("Could not read image for preview panel. File [" + selection + "]", ioe);
+            }
         }
     }
     

@@ -592,10 +592,6 @@ public class CoreUtilities {
         bos.flush();
         bos.close();
     }   
-    
-    public static Image getScaledImage(byte[] bytes) {
-        return getScaledImage(bytes, 250, 200);
-    }
 
     public static Image getScaledImage(DcImageIcon icon) {
         return getScaledImage(icon, 250, 200);
@@ -635,8 +631,7 @@ public class CoreUtilities {
         byte ch = 0x00;
         int i = 0; 
 
-        String pseudo[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8",
-                           "9", "A", "B", "C", "D", "E", "F"};
+        String pseudo[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
 
         StringBuffer out = new StringBuffer(in.length * 2);
         while (i < in.length) {
@@ -750,7 +745,7 @@ public class CoreUtilities {
     
     public static BufferedImage toBufferedImage(ImageIcon icon) {
         return toBufferedImage(icon, -1, -1);
-    }  
+    }
     
     public static BufferedImage toBufferedImage(ImageIcon icon, int width, int height) {
         
