@@ -88,7 +88,8 @@ public class Backup extends Thread {
                 DcConfig.getInstance().getReportDir(),
                 DcConfig.getInstance().getResourcesDir(),
                 DcConfig.getInstance().getUpgradeDir(),
-                DcConfig.getInstance().getImageDir()};
+                DcConfig.getInstance().getImageDir(),
+                DcConfig.getInstance().getAttachmentDir()};
         
         Directory dir;
         for (String path : paths) {

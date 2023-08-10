@@ -172,7 +172,7 @@ public class DcServer implements Runnable, IStarterClient, IClient {
             installationDir = fs.getPath(".").toAbsolutePath().getParent().toString();
             installationDir = !installationDir.endsWith("/") && !installationDir.endsWith("\\") ? installationDir + File.separatorChar : installationDir;
             
-            try { if (fs != null) fs.close(); } catch (Exception e) {logger.error("Could not close file system object");}
+            try { if (fs != null) fs.close(); } catch (Exception e) {e.printStackTrace(); }
         }
         
         File file = new File(installationDir, "datacrow.credentials");
