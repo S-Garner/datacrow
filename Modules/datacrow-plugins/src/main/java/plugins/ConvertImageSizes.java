@@ -56,7 +56,7 @@ public class ConvertImageSizes extends Plugin {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-    	ConvertImageSizesDialog dlg = new ConvertImageSizesDialog();
+    	ConvertImageSizesDialog dlg = new ConvertImageSizesDialog(false);
     	dlg.setVisible(true);
     }
     

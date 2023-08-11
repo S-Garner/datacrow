@@ -72,7 +72,7 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
 	
 	private Thread thread;
 	
-    public ConvertImageSizesDialog() {
+    public ConvertImageSizesDialog(boolean upgrade) {
         super(GUI.getInstance().getRootFrame());
         
         setHelpIndex("dc.settings.imagesizeconversion");
@@ -88,7 +88,7 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
         setTitle(DcResources.getText("lblImageSizeConversion"));
         setIconImage(IconLibrary._icoImageSettings.getImage());
         
-        buildDialog();
+        buildDialog(upgrade);
 
         pack();
         
@@ -97,13 +97,17 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
         setCenteredLocation();
     }
     
+    private void saveSettings() {
+    	DcDimension maxDim = (DcDimension) cbResolution.getSelectedItem();
+    	DcSettings.set(DcRepository.Settings.stMaximumImageResolution, maxDim);
+    }
+    
     private void resizeImages() {
     	
     	if (thread != null && thread.isAlive())
     		return;
     	
-    	final DcDimension maxDim = (DcDimension) cbResolution.getSelectedItem();
-    	DcSettings.set(DcRepository.Settings.stMaximumImageResolution, maxDim);
+    	saveSettings();
     	
     	thread = new Thread() {
     		public void run() {
@@ -186,13 +190,16 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
     	thread.start();
     }
 
-    private void buildDialog() {
+    private void buildDialog(boolean upgrade) {
     	getContentPane().setLayout(Layout.getGBL());
 
         JTextArea textMessage = ComponentFactory.getTextArea();
         textMessage.setEditable(false);
         
-        textMessage.setText(DcResources.getText("msgConvertImages"));
+        if (upgrade)
+        	textMessage.setText(DcResources.getText("msgConvertImagesUpgrade"));
+        else 
+        	textMessage.setText(DcResources.getText("msgConvertImagesNormal"));
         
         JScrollPane scrollIn = new JScrollPane(textMessage);
         scrollIn.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -237,5 +244,13 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("start"))
         	resizeImages();
-    }     
+    }
+    
+    @Override
+    public void close() {
+    	
+    	saveSettings();
+    	
+    	super.close();	
+    }
 }
