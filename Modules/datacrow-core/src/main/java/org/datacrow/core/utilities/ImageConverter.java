@@ -33,7 +33,7 @@ public class ImageConverter extends Thread {
     	
         try (Stream<Path> stream = Files.list(Paths.get(imageDir))) {
         	images = stream
-	              .filter(file -> !Files.isDirectory(file) && !file.toString().endsWith("_small.jpg"))
+	              .filter(file -> !Files.isDirectory(file) && !file.toString().endsWith("_small.jpg") && !file.toString().startsWith("icon_"))
 	              .map(Path::getFileName)
 	              .map(Path::toString)
 	              .collect(Collectors.toSet());
@@ -58,10 +58,11 @@ public class ImageConverter extends Thread {
         			if (e instanceof OutOfMemoryError)
         				throw e;
         			
-        			logger.error("Skipping resizing of image [" + src + "] dur to an error.", e);
+        			logger.error("Skipping resizing of image [" + src + "] due to an error.", e);
         		}
             	
-            	CoreUtilities.writeScaledImageToFile(image, new File(imageDir, imageFile.replace(".jpg", "_small.jpg")));
+            	if (!imageFile.startsWith("icon_")) 
+            		CoreUtilities.writeScaledImageToFile(image, new File(imageDir, imageFile.replace(".jpg", "_small.jpg")));
 
 	            try {
 	            	sleep(20);

@@ -53,7 +53,6 @@ public class ConvertImagesDialog extends DcDialog implements IImageConverterList
     public ConvertImagesDialog() {
         super(GUI.getInstance().getRootFrame());
         
-        setHelpIndex("dc.settings.imagesizeconversion");
         setModal(false);
         
         disableXCloseWindowButton();
@@ -63,12 +62,12 @@ public class ConvertImagesDialog extends DcDialog implements IImageConverterList
         
         buildDialog();
 
-        setTitle(DcResources.getText("lblImageSizeConversion"));
+        setTitle(DcResources.getText("lblImageConversion"));
         setIconImage(IconLibrary._icoImageSettings.getImage());
         
         pack();
         
-        setSize(new DcDimension(400, 275));
+        setSize(new DcDimension(400, 175));
         
         setCenteredLocation();
         
