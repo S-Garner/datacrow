@@ -50,14 +50,28 @@ public class DcImageIcon extends ImageIcon {
 	private String filename;
 	private File file;
 	
+	private int type;
+	
     public DcImageIcon() {
         super();
+        this.type = _TYPE_JPEG;
+    }
+    
+    public void setType(int type) {
+    	this.type = type;
+    }
+    
+    public int getType() {
+    	return type;
     }
     
     public DcImageIcon toIcon() {
 		int size = DcSettings.getInt(DcRepository.Settings.stIconSize);
         Image image = CoreUtilities.getScaledImage(this, size, size);
-    	return new DcImageIcon(image);
+        
+    	DcImageIcon scaled = new DcImageIcon(image);
+    	scaled.setType(_TYPE_PNG);
+    	return scaled;
     }
     
     public DcImageIcon(File file) {

@@ -136,19 +136,17 @@ public class ConvertImageSizesDialog extends DcDialog implements ActionListener 
     	            	CoreUtilities.copy(src, cpy, true);
     	            	
     	            	image = new DcImageIcon(cpy);
+
+    	            	try {
+	            			CoreUtilities.writeMaxImageToFile(image, new File(imageDir, imageFile));
+	            		} catch (Error e) {
+	            			if (e instanceof OutOfMemoryError)
+	            				throw e;
+	            			
+	            			logger.error("Skipping resizing of image [" + src + "] dur to an error.", e);
+	            		}
     	            	
-    	            	if (image.getIconWidth() > maxDim.getWidth() || 
-    	            		image.getIconHeight() > maxDim.getHeight()) {
-    	            		
-    	            		try {
-    	            			CoreUtilities.writeMaxImageToFile(image, new File(imageDir, imageFile));
-    	            		} catch (Error e) {
-    	            			if (e instanceof OutOfMemoryError)
-    	            				throw e;
-    	            			
-    	            			logger.error("Skipping resizing of image [" + src + "] dur to an error.", e);
-    	            		}
-    	            	}
+    	            	CoreUtilities.writeScaledImageToFile(image, new File(imageDir, imageFile.replace(".jpg", "_small.jpg")));
 
 	    	            try {
 	    	            	sleep(20);

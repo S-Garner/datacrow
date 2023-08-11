@@ -1404,7 +1404,7 @@ public class DcObject implements Comparable<DcObject>, Serializable {
                 DcImageIcon current = new DcImageIcon(bytes);
                 
                 if (current.getIconHeight() > 128 || current.getIconWidth() > 128) {
-                    BufferedImage img = CoreUtilities.toBufferedImage(current, 128, 128);
+                    BufferedImage img = CoreUtilities.toBufferedImage(current, 128, 128, BufferedImage.TYPE_INT_ARGB);
                     try {
                         bytes = CoreUtilities.getBytes(new DcImageIcon(img), DcImageIcon._TYPE_PNG);
                         setValue(field.getIndex(), new String(Base64.encode(bytes)));

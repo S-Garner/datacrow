@@ -192,14 +192,14 @@ public class DcPicturePane extends JComponent {
 	
     public void grayscale() {
         img = picture.getImage();
-        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img));
+        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img), BufferedImage.TYPE_INT_ARGB);
         BufferedImageOp op = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null); 
         update(op, src);
     }
     
     public void sharpen() {
         img = picture.getImage();
-        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img));
+        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img), BufferedImage.TYPE_INT_ARGB);
         BufferedImageOp op = new ConvolveOp(
                 new Kernel(3, 3, new float[] { 0.0f, -0.75f, 0.0f, -0.75f, 4.0f, 
                                               -0.75f, 0.0f, -0.75f, 0.0f }));
@@ -208,7 +208,7 @@ public class DcPicturePane extends JComponent {
     
     public void blur() {
         img = picture.getImage();
-        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img));
+        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img), BufferedImage.TYPE_INT_ARGB);
         BufferedImageOp op = new ConvolveOp(
                 new Kernel(3, 3, new float[] {.1111f, .1111f, .1111f, .1111f, .1111f, 
                                               .1111f, .1111f, .1111f, .1111f, }));
@@ -225,7 +225,7 @@ public class DcPicturePane extends JComponent {
     public void rotate(int degrees) {
         img = picture.getImage();
         
-        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img));
+        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img), BufferedImage.TYPE_INT_ARGB);
         AffineTransform at = new AffineTransform();
         
         at.rotate(Math.toRadians(degrees), src.getWidth() / 2.0, src.getHeight() / 2.0);

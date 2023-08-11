@@ -463,7 +463,6 @@ public class CoreUtilities {
         }
 
         return false;
-
     }
     
     /**
@@ -547,7 +546,7 @@ public class CoreUtilities {
     	if (image instanceof BufferedImage)
     		bi = (BufferedImage) image;
     	else 
-    		bi = CoreUtilities.toBufferedImage(new DcImageIcon(image), -1, -1);
+    		bi = CoreUtilities.toBufferedImage(new DcImageIcon(image), -1, -1, BufferedImage.TYPE_INT_ARGB);
     	
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         BufferedOutputStream bos = new BufferedOutputStream(baos);
@@ -577,7 +576,7 @@ public class CoreUtilities {
     }
     
     public static void writeToFile(DcImageIcon icon, File file) throws Exception {
-        writeScaledImageToFile(icon, file, DcImageIcon._TYPE_PNG, -1, -1);
+        writeScaledImageToFile(icon, file, -1, -1);
     }   
 
     public static void writeToFile(byte[] b, String filename) throws Exception {
@@ -598,25 +597,25 @@ public class CoreUtilities {
     }    
 
     public static Image getScaledImage(byte[] bytes, int width, int height) {
-        return toBufferedImage(new DcImageIcon(bytes), width, height);
+        return toBufferedImage(new DcImageIcon(bytes), width, height, BufferedImage.TYPE_INT_ARGB);
     }    
     
     public static Image getScaledImage(DcImageIcon icon, int width, int height) {
-        return toBufferedImage(icon, width, height);
+        return toBufferedImage(icon, width, height, BufferedImage.TYPE_INT_ARGB);
     }    
     
     public static void writeScaledImageToFile(DcImageIcon icon, File file) throws Exception {
-    	writeScaledImageToFile(icon, file, DcImageIcon._TYPE_PNG, 250, 200);
+    	writeScaledImageToFile(icon, file, 250, 200);
     }
     
     public static void writeMaxImageToFile(DcImageIcon icon, File file) throws Exception {
     	DcDimension dimMax = DcSettings.getDimension(DcRepository.Settings.stMaximumImageResolution);
-    	writeScaledImageToFile(icon, file, DcImageIcon._TYPE_PNG, dimMax.getWidth(), dimMax.getHeight());
+    	writeScaledImageToFile(icon, file, dimMax.getWidth(), dimMax.getHeight());
     }    
 
-    public static void writeScaledImageToFile(DcImageIcon icon, File file, int type, int w, int h) throws Exception {
-        BufferedImage bufferedImage = toBufferedImage(icon, w, h);
-        ImageIO.write(bufferedImage, (type == DcImageIcon._TYPE_JPEG ? "JPG" : "PNG"), file);
+    public static void writeScaledImageToFile(DcImageIcon icon, File file, int w, int h) throws Exception {
+        BufferedImage bufferedImage = toBufferedImage(icon, w, h, BufferedImage.TYPE_INT_RGB);
+        ImageIO.write(bufferedImage, (icon.getType() == DcImageIcon._TYPE_JPEG ? "JPG" : "PNG"), file);
         bufferedImage.flush();
     }       
     
@@ -743,11 +742,11 @@ public class CoreUtilities {
         return "";
     }
     
-    public static BufferedImage toBufferedImage(ImageIcon icon) {
-        return toBufferedImage(icon, -1, -1);
+    public static BufferedImage toBufferedImage(ImageIcon icon, int rgbType) {
+        return toBufferedImage(icon, -1, -1, BufferedImage.TYPE_INT_RGB);
     }
     
-    public static BufferedImage toBufferedImage(ImageIcon icon, int width, int height) {
+    public static BufferedImage toBufferedImage(ImageIcon icon, int width, int height, int rgbType) {
         
         // make sure the image is loaded
         icon.setImage(icon.getImage());
@@ -775,7 +774,7 @@ public class CoreUtilities {
         
         BufferedImage bi = null;
         if (w > -1 && h > -1) {
-	        bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+	        bi = new BufferedImage(w, h, rgbType);
 	        
 	        Graphics2D g = bi.createGraphics();
 	        g.setComposite(AlphaComposite.Src);
@@ -789,7 +788,7 @@ public class CoreUtilities {
 
         } else {
         	logger.error("The image size -1 is invalid");
-        	bi = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        	bi = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         }
         
         return bi;

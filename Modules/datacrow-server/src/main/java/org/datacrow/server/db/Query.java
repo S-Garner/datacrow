@@ -270,8 +270,7 @@ public abstract class Query {
             
     		CoreUtilities.writeScaledImageToFile(
     				icon, 
-    				file, 
-    				DcImageIcon._TYPE_PNG, 
+    				file,
     				maxDimension.getWidth(), 
     				maxDimension.getHeight());
     		CoreUtilities.writeScaledImageToFile(
