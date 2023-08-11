@@ -398,4 +398,12 @@ public class LocalServerConnector extends Connector {
 	public void loadAttachment(Attachment attachment) {
 		AttachmentManager.getInstance().loadAttachment(attachment);
 	}
+	
+	public void displayError(String msg) {
+		System.out.println(msg);
+	}
+	
+	public void displayMessage(String msg) {
+		System.out.println(msg);
+	}
 }

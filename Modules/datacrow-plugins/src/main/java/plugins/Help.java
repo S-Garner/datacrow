@@ -111,7 +111,6 @@ public class Help extends Plugin {
 		index.put("dc.settings.drivemappings","configuring-data-crow/#drivemappings");
 		index.put("dc.settings.drivemappings","configuring-data-crow/#drivemappings");
 		index.put("dc.settings.directoriesasdrives","configuring-data-crow/#dirsasdrives");
-		index.put("dc.settings.imagesizeconversion","image-size-conversion");
 		index.put("dc.modules","introduction/#modules");
 		index.put("dc.modules.create","module-design/#create");
 		index.put("dc.modules.alter","module-design/#alter");

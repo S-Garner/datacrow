@@ -141,19 +141,19 @@ public class DcApplicationSettings extends Settings {
                             true, -1));
         addSetting(_SizeLimits,
                 new Setting(DcRepository.ValueTypes._BOOLEAN,
-                            DcRepository.Settings.stMaximumImageResolutionChosen,
+                            DcRepository.Settings.stImageConversionNeeded,
                             Boolean.FALSE,
                             -1,
                             "",
                             "",
-                            true,
+                            false,
                             false, -1));          
         addSetting(_SizeLimits,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.Settings.stMaximumImageResolution,
-                            new DcDimension(1920, 1080),
+                            new DcDimension(3840, 2160),
                             UIComponents._RESOLUTIONCOMBO,
-                            "tpMaximumImageResolution",
+                            "",
                             "lblMaximumImageResolution",
                             true,
                             false, -1));

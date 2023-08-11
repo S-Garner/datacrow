@@ -125,8 +125,8 @@ public abstract class DcRepository {
      * The keys for application level settings.
      */
     public static final class Settings {
-    	public static final String stMaximumImageResolution = "max_image_resolution";
-    	public static final String stMaximumImageResolutionChosen = "max_image_resolution_chosen";
+    	public static final String stImageConversionNeeded = "image_conversion_needed";
+    	public static final String stMaximumImageResolution = "maximum_image_resolution";
     	public static final String stIsUpgraded = "is_upgraded";
     	public static final String stMaximumAttachmentFileSize = "max_attachment_file_size";
     	public static final String stUIScaling = "ui_scaling";

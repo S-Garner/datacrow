@@ -60,6 +60,7 @@ import org.datacrow.core.settings.objects.DcLookAndFeel;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.Directory;
+import org.datacrow.core.utilities.IImageConverterListener;
 import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 import org.datacrow.core.utilities.definitions.DcFieldDefinitions;
 import org.datacrow.server.db.DatabaseManager;
@@ -108,6 +109,13 @@ public class SystemUpgrade {
             
             if (!dbInitialized)
             	renameRecordLabel();
+            
+            if (dbInitialized && v.isOlder(new Version(4, 11, 0 , 0))) {
+            	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER)
+            		new ImageConverter();
+            	else if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_STANDALONE)
+            		DcSettings.set(DcRepository.Settings.stImageConversionNeeded, Boolean.TRUE);
+            }
             
             if (dbInitialized && v.isOlder(new Version(4, 9, 2, 0))) {
             	// currently set as bytes but should be KB
@@ -228,7 +236,7 @@ public class SystemUpgrade {
     	} catch (SQLException se) {
     		logger.error("Failed to establish a connection to the database. The upgrade has failed.", se);
             connector.displayError("Upgrade failed; could not correct the self referencing items.");
-            System.exit(0); 
+            System.exit(0);
     	} finally {
         	try { if (stmt != null) stmt.close(); } catch (Exception e) {};
     	}
@@ -908,5 +916,46 @@ public class SystemUpgrade {
             connector.displayError("Upgrade failed; existing tables music album tables could not be converted.");
             System.exit(0);
         } 
+    }
+    
+    private static class ImageConverter implements IImageConverterListener {
+    	
+    	private int counter = 1;
+    	private int total;
+    	
+    	protected ImageConverter() {
+    		org.datacrow.core.utilities.ImageConverter converter = 
+    				new org.datacrow.core.utilities.ImageConverter(this);
+        	
+        	try {
+        		converter.start();
+        		converter.join();
+        	} catch (Exception e) {
+        		DcConfig.getInstance().getConnector().displayError(e.getMessage());
+        	}    		
+    	}
+    	
+    	@Override
+    	public void notifyImageProcessed() {
+    		System.out.print("\r Processing [" + String.valueOf(counter++) +"/"+ String.valueOf(total) + "]");
+    	}
+
+    	@Override
+    	public void notifyToBeProcessedImages(int count) {
+    		DcConfig.getInstance().getConnector().displayMessage(DcResources.getText("msgConvertImages"));
+    		DcConfig.getInstance().getConnector().displayMessage(DcResources.getText("msgPleaseWait"));
+    		total = count;
+    	}
+
+    	@Override
+    	public void notifyError(String s) {
+    		DcConfig.getInstance().getConnector().displayError(s);
+    	}
+
+    	@Override
+    	public void notifyFinished() {
+    		System.out.println();
+    		DcConfig.getInstance().getConnector().displayMessage(DcResources.getText("msgSuccessfullyConvertedAllImages"));
+    	}
     }
 }

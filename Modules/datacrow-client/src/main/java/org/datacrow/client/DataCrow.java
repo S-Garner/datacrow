@@ -42,7 +42,7 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.MainFrame;
 import org.datacrow.client.console.windows.ChangeUserFolderQuestionBox;
-import org.datacrow.client.console.windows.ConvertImageSizesDialog;
+import org.datacrow.client.console.windows.ConvertImagesDialog;
 import org.datacrow.client.console.windows.DataDirSetupDialog;
 import org.datacrow.client.console.windows.DonateDialog;
 import org.datacrow.client.console.windows.SelectLanguageDialog;
@@ -381,18 +381,16 @@ public class DataCrow implements IStarterClient {
                 TipOfTheDayDialog dlg = new TipOfTheDayDialog();
                 dlg.setVisible(true);
             }
-            
-            if (!DcSettings.getBoolean(DcRepository.Settings.stMaximumImageResolutionChosen) &&
-            	DcSettings.getBoolean(DcRepository.Settings.stIsUpgraded) && // the default will just be set to HD format - only let people choose on upgrade
-            	DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_STANDALONE) {
-            	// display GUI for image conversion
-            	ConvertImageSizesDialog dlg = new ConvertImageSizesDialog(true);
-            	dlg.setVisible(true);
-            }
 
             if (DcSettings.getBoolean(DcRepository.Settings.stShowToolSelectorOnStartup)) {
                 ToolSelectWizard wizard = new ToolSelectWizard();
                 wizard.setVisible(true);
+            }
+            
+            if (DcSettings.getBoolean(DcRepository.Settings.stImageConversionNeeded)) {
+                // display GUI for image conversion
+                ConvertImagesDialog dlg = new ConvertImagesDialog();
+                dlg.setVisible(true);
             }
 
             DataFilter df = new DataFilter(DcModules._LOAN);

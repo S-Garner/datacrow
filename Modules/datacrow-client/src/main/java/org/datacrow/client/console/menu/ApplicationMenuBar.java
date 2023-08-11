@@ -178,9 +178,6 @@ public class ApplicationMenuBar extends org.datacrow.client.console.components.D
         if (DcConfig.getInstance().getOperatingMode() != DcConfig._OPERATING_MODE_CLIENT)
             PluginHelper.add(menuSettings, "FieldSettings", module.getIndex());
         
-        if (DcConfig.getInstance().getOperatingMode() != DcConfig._OPERATING_MODE_CLIENT)
-            PluginHelper.add(menuSettings, "ConvertImageSizes", module.getIndex());
-        
         menuSettings.addSeparator();
         
         if (!module.isAbstract()) {

@@ -39,6 +39,7 @@ import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.KeyStroke;
+import javax.swing.WindowConstants;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
@@ -102,6 +103,19 @@ public class DcFrame extends JFrame implements WindowFocusListener, IWindow {
         PluginHelper.registerKey(getRootPane(), "CloseWindow");
         
         GUI.getInstance().addOpenWindow(this);
+    }
+    
+    protected void disableXCloseWindowButton() {
+    	
+    	setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+    	
+    	for (WindowListener wl : this.getWindowListeners())
+    	    this.removeWindowListener(wl);
+    	
+    	this.addWindowListener(new WindowAdapter() {
+    	    @Override
+    	    public void windowClosing(WindowEvent e) {}
+    	});
     }
     
     @Override
