@@ -287,7 +287,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         
         tabbedPane.addTab(DcResources.getText("lblDescription"), IconLibrary._icoInformation, scroller);
         
-        if (showAttachments)
+        if (showAttachments && dco != null)
         	tabbedPane.addTab(DcResources.getText("lblAttachments"), IconLibrary._icoAttachments, attachmentsPanel);
         
         if (relatedItemsPanel != null)
