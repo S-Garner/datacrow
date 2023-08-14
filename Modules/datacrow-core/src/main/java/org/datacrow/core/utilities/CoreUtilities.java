@@ -614,7 +614,7 @@ public class CoreUtilities {
     }    
 
     public static void writeScaledImageToFile(DcImageIcon icon, File file, int w, int h) throws Exception {
-        BufferedImage bufferedImage = toBufferedImage(icon, w, h, BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage = toBufferedImage(icon, w, h, icon.getType() == DcImageIcon._TYPE_JPEG ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB);
         
         if (!ImageIO.write(bufferedImage, (icon.getType() == DcImageIcon._TYPE_JPEG ? "JPG" : "PNG"), file)) {
         	logger.error("Image was not stored " + file + ". Most likely the image format is not supported or the image is corrupt");

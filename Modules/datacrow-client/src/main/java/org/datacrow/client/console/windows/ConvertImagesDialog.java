@@ -51,9 +51,8 @@ public class ConvertImagesDialog extends DcDialog implements IImageConverterList
 	private ImageConverter converter;
 	
     public ConvertImagesDialog() {
+    	
         super(GUI.getInstance().getRootFrame());
-        
-        setModal(true);
         
         disableXCloseWindowButton();
 

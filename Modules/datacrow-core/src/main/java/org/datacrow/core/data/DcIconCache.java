@@ -69,12 +69,15 @@ public class DcIconCache {
                 icon = CoreUtilities.base64ToImage(base64);
                 String filename = DcConfig.getInstance().getIconsDir() + ID + ".png";
                 icon.setFilename(filename);
+                icon.setType(DcImageIcon._TYPE_PNG);
                 icon.save();
             }
         }
         
-        if (icon != null && !icon.exists())
+        if (icon != null && !icon.exists()) {
+        	icon.setType(DcImageIcon._TYPE_PNG);
             icon.save();
+        }
         
         // re-load image if necessary
         if (icon != null) {
@@ -114,6 +117,7 @@ public class DcIconCache {
             if (icon != null) {
                 String filename = DcConfig.getInstance().getIconsDir() + ID + ".png";
                 icon.setFilename(filename);
+                icon.setType(DcImageIcon._TYPE_PNG);
                 icon.save();
                 
                 icons.put(dco.getID(), icon);
@@ -126,7 +130,8 @@ public class DcIconCache {
                 icon.setFilename(DcConfig.getInstance().getIconsDir() + dco.getID() + ".png");
                 icons.put(dco.getID(), icon);
             }
-            
+         
+            icon.setType(DcImageIcon._TYPE_PNG);
             icon.save();
         }
         

@@ -33,7 +33,7 @@ public class ImageConverter extends Thread {
     	
         try (Stream<Path> stream = Files.list(Paths.get(imageDir))) {
         	images = stream
-	              .filter(file -> !Files.isDirectory(file) && !file.toString().endsWith("_small.jpg") && !file.toString().startsWith("icon_"))
+	              .filter(file -> !Files.isDirectory(file) && !file.toString().endsWith("_small.jpg") && !file.toFile().getName().startsWith("icon_"))
 	              .map(Path::getFileName)
 	              .map(Path::toString)
 	              .collect(Collectors.toSet());
@@ -47,7 +47,7 @@ public class ImageConverter extends Thread {
             for (String imageFile : images) {
         		src = new File(imageDir, imageFile);
         		cpy = new File(imageDir, CoreUtilities.getUniqueID() + ".jpg");
-            	
+
             	CoreUtilities.copy(src, cpy, true);
             	
             	image = new DcImageIcon(cpy);
