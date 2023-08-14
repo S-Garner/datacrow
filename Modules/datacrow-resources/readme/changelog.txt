@@ -40,6 +40,7 @@ Data Crow version 4.10                        Released on 2023-08-xx
 - Templates: sometimes template could not be selected when creating an item
 - Templates: not checked if template name is filled
 - Image preview did not work for all image types - it now shows previews for all supported image types (webp, jpeg, etc.)
+- Restore closes the application after successful finish without any message
 
 
 --------------------------------------------------------------------

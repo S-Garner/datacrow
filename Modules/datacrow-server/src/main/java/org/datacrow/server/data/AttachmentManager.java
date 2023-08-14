@@ -165,12 +165,24 @@ public class AttachmentManager {
 		for (String filename : files) {
 			file = new File(itemAttachmentDir, filename);
 			delete(file);
-		}	
+		}
+		
+		cleanup(itemAttachmentDir);
 	}
 	
 	public void deleteAttachment(Attachment attachment) {
 		File file = new File(attachment.getStorageFile().getAbsolutePath() + ".zip");
 		delete(file);
+		cleanup(file.getParentFile());
+	}
+	
+	private void cleanup(File dir) {
+		String[] files = dir.list();
+		
+		// remove the folder when all attachments have gone
+		if (files == null || files.length == 0)
+			if (!dir.delete())
+				dir.deleteOnExit();
 	}
 	
 	public Collection<Attachment> getAttachments(String ID) {

@@ -110,10 +110,14 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
 
     private void deleteAttachments() {
     	List<Attachment> attachments = list.getSelectedAttachments();
-    	for (Attachment attachment : attachments)
-    		deleteAttachment(attachment);
-    	
-    	list.clearSelection();
+    	String msg = attachments.size() > 1 ? "msgDeleteAttachmentsConfirmation" : "msgDeleteAttachmentConfirmation";
+    	   	
+    	if (GUI.getInstance().displayQuestion(msg)) {
+	    	for (Attachment attachment : attachments)
+	    		deleteAttachment(attachment);
+	    	
+	    	list.clearSelection();
+    	}
     }
     
     private void deleteAttachment(Attachment attachment) {
