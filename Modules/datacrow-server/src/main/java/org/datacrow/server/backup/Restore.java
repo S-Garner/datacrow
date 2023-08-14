@@ -54,10 +54,10 @@ public class Restore extends Thread {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Restore.class.getName());
     
-    private Version version;
-    
     private final IBackupRestoreClient client;
     private final ZipFile zipFile;
+    
+    private Version version;
     
     /**
      * Creates a new instance.
@@ -120,9 +120,6 @@ public class Restore extends Thread {
     }
     
     private void finish() {
-        client.notifyTaskCompleted(true, null);
-        version = null;
-        
         try {
             zipFile.close();
         } catch (IOException e) {
@@ -229,6 +226,9 @@ public class Restore extends Thread {
 
                 sleep(10);
             }
+            
+            client.notifyTaskCompleted(true, "restore");
+            
         } catch (Exception e) {
             success = false;
             logger.error(e, e);
@@ -258,8 +258,11 @@ public class Restore extends Thread {
         }
 
         if (success) {
+        	
+        	client.notify(DcResources.getText("msgRestoreFinished"));
+        	
             restartApplication();
-            client.notify(DcResources.getText("msgRestoreFinished"));
+            
         } else {
             client.notifyError(new Exception(DcResources.getText("msgIncompleteRestore")));
         }

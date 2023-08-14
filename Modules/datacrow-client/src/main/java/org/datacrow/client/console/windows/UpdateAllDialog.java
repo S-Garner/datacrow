@@ -141,6 +141,7 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
             int count = 1;
             initProgressBar(keys.size());
             view.setListSelectionListenersEnabled(false);
+            
             try {
                 DcObject item;
                 Connector connector = DcConfig.getInstance().getConnector();
@@ -183,15 +184,15 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
 	                count++;
 	            }
 	            
-	            IMasterView mv =  GUI.getInstance().getSearchView(dco.getModule().getIndex());
-	            mv.refresh();
-	            
 				if (sb.length() > 0)
 					GUI.getInstance().displayWarningMessage(sb.toString());
 				
             } finally {
                 buttonApply.setEnabled(true);
-                GUI.getInstance().getSearchView(module.getIndex()).refresh();
+
+	            IMasterView mv =  GUI.getInstance().getSearchView(dco.getModule().getIndex());
+	            mv.refresh();
+                
             	if (view != null) 
             	    view.setListSelectionListenersEnabled(true);
             }
