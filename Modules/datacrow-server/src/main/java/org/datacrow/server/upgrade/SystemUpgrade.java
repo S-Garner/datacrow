@@ -110,7 +110,7 @@ public class SystemUpgrade {
             if (!dbInitialized)
             	renameRecordLabel();
             
-            if (dbInitialized && v.isOlder(new Version(4, 10, 0 , 0))) {
+            if (dbInitialized && v.isOlder(new Version(4, 11, 0 , 0))) {
             	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER)
             		new ImageConverter();
             	else if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_STANDALONE)

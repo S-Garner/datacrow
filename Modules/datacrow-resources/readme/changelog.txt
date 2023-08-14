@@ -4,11 +4,11 @@ Data Crow version 4.10                        Released on 2023-08-xx
 
 [New]
 - Attachments can now be added to items. These documents are stored within the Data Crow data set in a compressed format. All main modules allow for attachments to be added.
-- Images are now stored with a maximum resolution. The maximum resolution can be selected when upgrading Data Crow. For new installations Data Crow will automatically set it to 1920 x 1080, a value which can be changed through the Image Size Coversion settings tool.
 - Added drag and drop support for pictures (from file and directly from web pages) and attachments.
 - New Russian translations has been added (not finalized) - major thanks to Ilya Sigidin.
 
 [Changed]
+- On upgrade, Data Crow will convert all images to a standard format (JPEG). This is to reduce storage size and improve performance. Additionally a maximum resolution will be maintained: 3840 * 2160.
 - Portuguese translation has been updated - major thanks to Pedro Albuquerque.
 - Data Crow will no longer close windows or exit when pressing the escape key. This has been changed to CTRL/COMMAND+ESC.
 - Create multiple now allows for rows to be deleted.

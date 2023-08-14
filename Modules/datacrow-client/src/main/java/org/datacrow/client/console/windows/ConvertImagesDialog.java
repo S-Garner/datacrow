@@ -133,6 +133,9 @@ public class ConvertImagesDialog extends DcDialog implements IImageConverterList
 
 	@Override
 	public void notifyFinished() {
+		
+		GUI.getInstance().displayMessage(DcResources.getText("msgSuccessfullyConvertedAllImages"));
+		
 		SwingUtilities.invokeLater(new Thread(new Runnable() { 
             @Override
             public void run() {
