@@ -46,7 +46,6 @@ import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.resources.DcResources;
-import org.datacrow.core.utilities.CoreUtilities;
 
 public class OpenFromUrlDialog extends DcDialog implements ActionListener {
 
@@ -55,7 +54,7 @@ public class OpenFromUrlDialog extends DcDialog implements ActionListener {
     private final DcUrlField input = ComponentFactory.getURLField(500);
     
     private URL url;
-    private byte[] image;
+    private DcImageIcon image;
     
     public OpenFromUrlDialog() {
         super(GUI.getInstance().getRootFrame());
@@ -64,11 +63,11 @@ public class OpenFromUrlDialog extends DcDialog implements ActionListener {
         setCenteredLocation();
     }
     
-    public byte[] getImage() {
+    public DcImageIcon getImage() {
         return image;
     }
     
-    public void setImage(byte[] image) {
+    public void setImage(DcImageIcon image) {
         this.image = image;
     }
     
@@ -79,7 +78,9 @@ public class OpenFromUrlDialog extends DcDialog implements ActionListener {
                 url = input.getURL();
                 if (url != null) {
                 	BufferedImage bi = ImageIO.read(url);
-                	setImage(CoreUtilities.getBytes(new DcImageIcon(bi)));
+                	DcImageIcon icon = new DcImageIcon(bi);
+                	setImage(icon);
+                	
                     close();
                 } else {
                     GUI.getInstance().displayMessage("msgEnterUrl");

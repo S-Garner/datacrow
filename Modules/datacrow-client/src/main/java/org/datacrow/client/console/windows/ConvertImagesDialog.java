@@ -110,7 +110,6 @@ public class ConvertImagesDialog extends DcDialog implements IImageConverterList
             	progressBar.setValue(progressBar.getValue() + 1);
             }
         }));
-		
 	}
 
 	@Override

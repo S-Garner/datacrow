@@ -64,6 +64,8 @@ public class ImageFilePreviewPanel extends FileSelectPreviewPanel {
         if (propertyName.equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
             File selection = (File) e.getNewValue();
             
+            if (!selection.isFile()) return;
+            
             try {
 	            DcImageIcon largeIcon = new DcImageIcon(ImageIO.read(selection));
 	            DcImageIcon scaledIcon = new DcImageIcon(CoreUtilities.getScaledImage(largeIcon));

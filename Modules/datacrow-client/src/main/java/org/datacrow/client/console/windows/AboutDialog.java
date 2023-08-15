@@ -29,6 +29,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -72,7 +73,7 @@ public class AboutDialog extends DcDialog {
 
         DcPictureField about = ComponentFactory.getPictureField(false, false);
         try {
-        	Image icon = CoreUtilities.getScaledImage(
+        	BufferedImage icon = CoreUtilities.getScaledImage(
         			new DcImageIcon(DcConfig.getInstance().getInstallationDir() + "icons/credits.png"), 430, 430);
             about.setValue(new DcImageIcon(icon));
             panelAbout.add(about, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,

@@ -592,7 +592,7 @@ public class CoreUtilities {
         bos.close();
     }   
 
-    public static Image getScaledImage(DcImageIcon icon) {
+    public static BufferedImage getScaledImage(DcImageIcon icon) {
         return getScaledImage(icon, 250, 200);
     }    
 
@@ -600,7 +600,7 @@ public class CoreUtilities {
         return toBufferedImage(new DcImageIcon(bytes), width, height, BufferedImage.TYPE_INT_ARGB);
     }    
     
-    public static Image getScaledImage(DcImageIcon icon, int width, int height) {
+    public static BufferedImage getScaledImage(DcImageIcon icon, int width, int height) {
         return toBufferedImage(icon, width, height, BufferedImage.TYPE_INT_ARGB);
     }    
     
@@ -897,8 +897,8 @@ public class CoreUtilities {
     	url = url.replace("http://", "https://");
     	
         try {
-			Image img = ImageIO.read(new URL(url));
-			DcImageIcon icon = new DcImageIcon(img);
+			BufferedImage bi = ImageIO.read(new URL(url));
+			DcImageIcon icon = new DcImageIcon(bi);
 			
 			if (icon.getIconHeight() > 50) {
     			// write to temp folder

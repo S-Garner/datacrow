@@ -171,8 +171,8 @@ public class EbookImport extends FileImporter {
                     book.setValue(Book._T_NROFPAGES, Long.valueOf(pdf.getNumberOfPages()));
     
                     renderer = new PDFRenderer(pdf);
-                    BufferedImage bim = renderer.renderImageWithDPI(0, 300f, ImageType.RGB);
-                    book.setValue(Book._K_PICTUREFRONT, new DcImageIcon(CoreUtilities.getBytes(new DcImageIcon(bim))));
+                    BufferedImage bi = renderer.renderImageWithDPI(0, 300f, ImageType.RGB);
+                    book.setValue(Book._K_PICTUREFRONT, new DcImageIcon(bi));
                 
                     PDFTextStripper stripper = new PDFTextStripper();
                     stripper.setStartPage(0);

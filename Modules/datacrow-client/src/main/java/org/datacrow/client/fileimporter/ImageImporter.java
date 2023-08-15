@@ -96,6 +96,7 @@ public class ImageImporter extends FileImporter {
             Picture pic = (Picture) DcModules.get(DcModules._PICTURE).getItem();
             BufferedImage bi = ImageIO.read(new File(filename));
             DcImageIcon icon = new DcImageIcon(bi);
+            
             pic.setValue(Picture._G_EXTERNAL_FILENAME, filename);
             
             int width = icon.getIconWidth();

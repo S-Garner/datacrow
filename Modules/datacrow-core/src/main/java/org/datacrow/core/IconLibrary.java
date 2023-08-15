@@ -85,8 +85,8 @@ public abstract class IconLibrary {
     public static final DcImageIcon _icoSort = new DcImageIcon(picPath + "sort.png");
     public static final DcImageIcon _icoExpert = new DcImageIcon(picPath + "expert.png");
     public static final DcImageIcon _icoBeginner = new DcImageIcon(picPath + "beginner.png");
-    public static final DcImageIcon _icoContainer16 = new DcImageIcon(picPath + "container16.png");
-    public static final DcImageIcon _icoContainer32 = new DcImageIcon(picPath + "container32.png");
+//    public static final DcImageIcon _icoContainer16 = new DcImageIcon(picPath + "container16.png");
+//    public static final DcImageIcon _icoContainer32 = new DcImageIcon(picPath + "container32.png");
     public static final DcImageIcon _icoUser16 = new DcImageIcon(picPath + "user16.png");
     public static final DcImageIcon _icoUser32 = new DcImageIcon(picPath + "user32.png");
     public static final DcImageIcon _icoPermission16 = new DcImageIcon(picPath + "permission16.png");

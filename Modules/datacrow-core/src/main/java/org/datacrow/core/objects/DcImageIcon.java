@@ -26,9 +26,13 @@
 package org.datacrow.core.objects;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.datacrow.core.DcRepository;
@@ -50,13 +54,23 @@ public class DcImageIcon extends ImageIcon {
 	private String filename;
 	private File file;
 	
-	private int type;
-	
-    public DcImageIcon() {
-        super();
-        this.type = _TYPE_JPEG;
+	private int type = _TYPE_JPEG;
+
+    public DcImageIcon(byte[] data) {
+        this(toBufferedImage(data));
     }
+
+    public DcImageIcon(String filename) {
+    	this(new File(filename));
+    }  
     
+    public DcImageIcon(File file) {
+    	this(toBufferedImage(file));
+    	
+    	this.filename = file.toString();
+        this.file = new File(filename);
+    }	
+	
     public void setType(int type) {
     	this.type = type;
     }
@@ -74,19 +88,12 @@ public class DcImageIcon extends ImageIcon {
     	return scaled;
     }
     
-    public DcImageIcon(File file) {
-        this(file.toString());
-    }
-    
-    public DcImageIcon(String filename) {
-        super(filename);
-        this.filename = filename;
-        this.file = new File(filename);
-    }  
-
-    public DcImageIcon(byte[] bytes) {
-        super(bytes);
-    }
+    public DcImageIcon(BufferedImage image) {
+        super(image);
+        
+    	if (image.getColorModel().hasAlpha()) 
+    		setType(_TYPE_PNG);
+    }    
 
     public DcImageIcon(Image image) {
         super(image);
@@ -168,5 +175,26 @@ public class DcImageIcon extends ImageIcon {
     	}
         
     	return bytes;
+    }
+    
+    private static BufferedImage toBufferedImage(byte[] data) {
+    	try {
+        	InputStream is = new ByteArrayInputStream(data);
+        	BufferedImage bi = ImageIO.read(is);
+        	return bi;
+    	} catch (Exception e) {
+    		logger.error("Failed to read image", e);
+    	}
+    	return null;
+    }
+    
+    private static BufferedImage toBufferedImage(File file) {
+    	try {
+    		BufferedImage img = ImageIO.read(file);
+    		return img;
+    	} catch (Exception e) {
+    		logger.error("Failed to read image", e);
+    	}
+    	return null;
     }
 }

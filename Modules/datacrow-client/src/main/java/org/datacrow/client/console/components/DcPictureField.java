@@ -143,9 +143,9 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
         OpenFromUrlDialog dialog = new OpenFromUrlDialog();
         dialog.setVisible(true);
         
-        byte[] image = dialog.getImage();
+        DcImageIcon image = dialog.getImage();
         if (image != null) {
-        	pane.setValue(new DcImageIcon(image));
+        	pane.setValue(image);
             changed = true;
             dialog.setImage(null);
         }
@@ -174,7 +174,8 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
             File file = dialog.showOpenFileDialog(this, null);
             if (file != null && file.isFile()) {
                 BufferedImage bi = ImageIO.read(file);
-                pane.setValue(new DcImageIcon(CoreUtilities.getBytes(new DcImageIcon(bi))));
+                DcImageIcon icon = new DcImageIcon(bi);
+                pane.setValue(icon);
                 changed = true;
             }
         } catch (Exception e) {
@@ -338,8 +339,9 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
                 	
                 	File file = transferData.get(0);
                 	if (file.isFile() && filter.accept(file)) {
-                    	BufferedImage bi = ImageIO.read(file);
-                    	pane.setValue(new DcImageIcon(bi));
+                        BufferedImage bi = ImageIO.read(file);
+                        DcImageIcon icon = new DcImageIcon(bi);
+                    	pane.setValue(icon);
                         changed = true;
                 	}
                 	
