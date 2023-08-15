@@ -32,6 +32,7 @@ import java.util.Collection;
 import org.datacrow.core.fileimporter.FileImporter;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.objects.helpers.MusicAlbum;
 import org.datacrow.core.objects.helpers.MusicTrack;
 import org.datacrow.core.resources.DcResources;
@@ -88,7 +89,8 @@ public class MusicAlbumImporter extends FileImporter {
     }
 
     @Override
-    protected void afterImport() {
+    protected void afterImport() throws ValidationException {
+    	
         for (DcObject dco : albums) {
         	Collection<DcObject> children = dco.getChildren();
         	if (children != null && children.size() > 0) 

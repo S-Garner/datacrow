@@ -311,7 +311,7 @@ public class GUI {
                   DcResources.getText("lblDataCrowSettings"), 
                   DcSettings.getSettings());
           
-          ImageIcon icon = new DcImageIcon(DcConfig.getInstance().getInstallationDir() + "icons/logo.jpg");
+          ImageIcon icon = new DcImageIcon(DcConfig.getInstance().getInstallationDir() + "icons/icon-black.png");
           view.setDisclaimer(icon);
   
           view.setSize(new Dimension(875, 470));

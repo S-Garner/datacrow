@@ -47,6 +47,7 @@ import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.services.Region;
@@ -172,15 +173,27 @@ public abstract class FileImporter {
                         
                         try {
                             parse(filename, counter == sources.size());
+                        } catch (ValidationException ve) {
+                        	if (client != null) client.notifyWarning(ve.getMessage());
+                        	
+                        	logger.warn(ve, ve);
                         } catch (Throwable e) {
                             if (client != null) client.notifyError(e);
+                            
                             logger.error("An unhandled error occured during the import of " + filename, e);
                         }
-                        if (client != null) client.notifyProcessed();;
+                        
+                        if (client != null) 
+                        	client.notifyProcessed();
                     }
                     if (client != null) client.notify(DcResources.getText("msgImportStops"));
                 } finally {
-                    afterImport();
+                	try {
+                		afterImport();
+                    } catch (ValidationException ve) {
+                    	if (client != null) client.notifyWarning(ve.getMessage());
+                    }
+                    
                     if (client != null) client.notifyTaskCompleted(true, null);
                 }
             }
@@ -194,7 +207,7 @@ public abstract class FileImporter {
      * @param listener
      * @param filename
      */
-    protected void parse(String filename, boolean last) {
+    protected void parse(String filename, boolean last) throws ValidationException {
         int module = getClient().getModuleIdx();
         
         module = DcModules._MUSIC_TRACK;
@@ -232,14 +245,14 @@ public abstract class FileImporter {
     /**
      * Called after finishing the whole parsing process.
      */
-    protected void afterImport() {}
+    protected void afterImport() throws ValidationException {}
     
     /**
      * Called after parsing a single file.
      * @param listener
      * @param dco
      */
-    protected void afterParse(DcObject dco) {
+    protected void afterParse(DcObject dco) throws ValidationException {
         if (client != null && client.useOnlineServices()) {        	
             try {
                 getClient().notify(DcResources.getText("msgSearchingOnlineFor", StringUtils.normalize(dco.toString())));
@@ -262,16 +275,9 @@ public abstract class FileImporter {
 
         dco.setIDs();
         
-        try {
-        	Connector connector = DcConfig.getInstance().getConnector();
-            dco.setUpdateGUI(false);
-            connector.saveItem(dco);
-        } catch (Exception e) {
-            if (client != null)
-                client.notifyError(e);
-            else 
-                logger.error(e, e);
-        }
+    	Connector connector = DcConfig.getInstance().getConnector();
+        dco.setUpdateGUI(false);
+        connector.saveItem(dco);
     }
 
     /**

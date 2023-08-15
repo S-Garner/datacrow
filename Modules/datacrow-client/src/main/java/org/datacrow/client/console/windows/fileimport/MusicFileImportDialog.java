@@ -40,10 +40,10 @@ import org.datacrow.core.resources.DcResources;
 
 public class MusicFileImportDialog extends FileImportDialog {
 
-    private final DcRadioButton radioDoNotUseDir = ComponentFactory.getRadioButton(DcResources.getText("lblDoNotUseDirInfo"), null);
-    private final DcRadioButton radio1stDirAlbum = ComponentFactory.getRadioButton(DcResources.getText("lblUseDirAsAlbumName"), null);
-    private final DcRadioButton radio1stDirArtist = ComponentFactory.getRadioButton(DcResources.getText("lblUseDirAsArtistName"), null);
-    private final DcRadioButton radio1stDirAlbum2ndDirArtist = ComponentFactory.getRadioButton(DcResources.getText("lblUseDirAsArtistSubDirAsAlbum"), null);
+    private DcRadioButton radioDoNotUseDir;
+    private DcRadioButton radio1stDirAlbum;
+    private DcRadioButton radio1stDirArtist;
+    private DcRadioButton radio1stDirAlbum2ndDirArtist;
     
     public MusicFileImportDialog(FileImporter importer) {
         super(importer);
@@ -57,13 +57,18 @@ public class MusicFileImportDialog extends FileImportDialog {
     
     @Override
     protected JPanel getDirectoryUsagePanel() {
+    	
         //**********************************************************
         //Directory Usage panel
         //**********************************************************
         JPanel panelDirs = new JPanel();
         panelDirs.setLayout(Layout.getGBL());
         panelDirs.setBorder(ComponentFactory.getTitleBorder(DcResources.getText("lblDirectoryUsage")));
-        
+
+    	radioDoNotUseDir = ComponentFactory.getRadioButton(DcResources.getText("lblDoNotUseDirInfo"), null);
+        radio1stDirAlbum = ComponentFactory.getRadioButton(DcResources.getText("lblUseDirAsAlbumName"), null);
+        radio1stDirArtist = ComponentFactory.getRadioButton(DcResources.getText("lblUseDirAsArtistName"), null);
+        radio1stDirAlbum2ndDirArtist = ComponentFactory.getRadioButton(DcResources.getText("lblUseDirAsArtistSubDirAsAlbum"), null);    	
 
         ButtonGroup group = new ButtonGroup();
         group.add(radioDoNotUseDir);

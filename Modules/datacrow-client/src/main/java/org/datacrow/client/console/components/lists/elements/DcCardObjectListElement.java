@@ -27,7 +27,6 @@ package org.datacrow.client.console.components.lists.elements;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -35,18 +34,13 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcPictureField;
 import org.datacrow.client.console.components.DcTextPane;
 import org.datacrow.core.DcRepository;
-import org.datacrow.core.log.DcLogManager;
-import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.Picture;
-import org.datacrow.core.utilities.CoreUtilities;
 
 public class DcCardObjectListElement extends DcObjectListElement {
 	
-	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcCardObjectListElement.class.getName());
-
 	public static final Dimension size = new Dimension(250, 250);
 	
     private static final Dimension dimTxt = new Dimension(250, 45);
@@ -78,6 +72,8 @@ public class DcCardObjectListElement extends DcObjectListElement {
     }    
     
     private String getDescription() {
+    	if (dco == null) return "";
+    	
         int[] fields = (int[]) dco.getModule().getSetting(DcRepository.ModuleSettings.stCardViewItemDescription);
         if (fields != null && fields.length > 0) {
             StringBuilder sb = new StringBuilder();

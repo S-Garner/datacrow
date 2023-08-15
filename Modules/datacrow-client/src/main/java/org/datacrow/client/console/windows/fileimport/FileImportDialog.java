@@ -143,8 +143,6 @@ public class FileImportDialog extends DcFrame implements ActionListener {
     public void notifyProcessed() {
         if (progressBar != null) {
             int value = progressBar.getValue() + 1;
-            value = value > 100 ? 0 : value;
-            
             progressBar.setValue(value);
         }
     }
