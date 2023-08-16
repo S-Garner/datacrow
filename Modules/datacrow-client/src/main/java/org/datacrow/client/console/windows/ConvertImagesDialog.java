@@ -141,7 +141,7 @@ public class ConvertImagesDialog extends DcDialog implements IImageConverterList
             }
         }));
 	}
-
+	
 	@Override
 	public void notifyError(String s) {
 		GUI.getInstance().displayErrorMessage(s);

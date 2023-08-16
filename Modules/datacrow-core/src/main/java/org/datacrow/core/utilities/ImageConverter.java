@@ -45,33 +45,37 @@ public class ImageConverter extends Thread {
         	File cpy;
         	
             for (String imageFile : images) {
-        		src = new File(imageDir, imageFile);
-        		cpy = new File(imageDir, CoreUtilities.getUniqueID() + ".jpg");
-
-            	CoreUtilities.copy(src, cpy, true);
-            	
-            	image = new DcImageIcon(cpy);
-
             	try {
-        			CoreUtilities.writeMaxImageToFile(image, new File(imageDir, imageFile));
-        		} catch (Error e) {
-        			if (e instanceof OutOfMemoryError)
-        				throw e;
-        			
-        			logger.error("Skipping resizing of image [" + src + "] due to an error.", e);
-        		}
-            	
-            	if (!imageFile.startsWith("icon_")) 
-            		CoreUtilities.writeScaledImageToFile(image, new File(imageDir, imageFile.replace(".jpg", "_small.jpg")));
-
-	            try {
-	            	sleep(20);
-	            } catch (Exception e) {
-	            	logger.debug(e, e);
-	            }
-            	
-            	image.flush();
-            	cpy.delete();
+	        		src = new File(imageDir, imageFile);
+	        		cpy = new File(imageDir, CoreUtilities.getUniqueID() + ".jpg");
+	
+	            	CoreUtilities.copy(src, cpy, true);
+	            	
+	            	image = new DcImageIcon(cpy);
+	
+	            	try {
+	        			CoreUtilities.writeMaxImageToFile(image, new File(imageDir, imageFile));
+	        		} catch (Error e) {
+	        			if (e instanceof OutOfMemoryError)
+	        				throw e;
+	        			
+	        			logger.error("Skipping resizing of image [" + src + "] due to an error.", e);
+	        		}
+	            	
+	            	if (!imageFile.startsWith("icon_")) 
+	            		CoreUtilities.writeScaledImageToFile(image, new File(imageDir, imageFile.replace(".jpg", "_small.jpg")));
+	
+		            try {
+		            	sleep(20);
+		            } catch (Exception e) {
+		            	logger.debug(e, e);
+		            }
+	            	
+	            	image.flush();
+	            	cpy.delete();
+            	} catch (Exception e) {
+            		logger.warn("Could not convert [" + imageFile + "]. Skipping and keeping the original image.", e);
+            	}
             	
             	listener.notifyImageProcessed();
             }

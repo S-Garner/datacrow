@@ -25,6 +25,7 @@
 
 package org.datacrow.core.objects;
 
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -56,6 +57,20 @@ public class DcImageIcon extends ImageIcon {
 	
 	private int type = _TYPE_JPEG;
 
+    public DcImageIcon(BufferedImage image) {
+        super(image);
+        
+    	if (image.getColorModel().hasAlpha()) 
+    		setType(_TYPE_PNG);
+    }    
+	
+    public DcImageIcon(File file) {
+    	this(toBufferedImage(file));
+    	
+    	this.filename = file.toString();
+        this.file = new File(filename);
+    }    
+    
     public DcImageIcon(byte[] data) {
         this(toBufferedImage(data));
     }
@@ -63,13 +78,14 @@ public class DcImageIcon extends ImageIcon {
     public DcImageIcon(String filename) {
     	this(new File(filename));
     }  
-    
-    public DcImageIcon(File file) {
-    	this(toBufferedImage(file));
-    	
-    	this.filename = file.toString();
-        this.file = new File(filename);
-    }	
+
+    public DcImageIcon(Image image) {
+        super(image);
+    }
+
+    public DcImageIcon(URL location) {
+        super(location);
+    }
 	
     public void setType(int type) {
     	this.type = type;
@@ -86,21 +102,6 @@ public class DcImageIcon extends ImageIcon {
     	DcImageIcon scaled = new DcImageIcon(image);
     	scaled.setType(_TYPE_PNG);
     	return scaled;
-    }
-    
-    public DcImageIcon(BufferedImage image) {
-        super(image);
-        
-    	if (image.getColorModel().hasAlpha()) 
-    		setType(_TYPE_PNG);
-    }    
-
-    public DcImageIcon(Image image) {
-        super(image);
-    }
-
-    public DcImageIcon(URL location) {
-        super(location);
     }
     
     public void save() {
@@ -183,9 +184,15 @@ public class DcImageIcon extends ImageIcon {
         	BufferedImage bi = ImageIO.read(is);
         	return bi;
     	} catch (Exception e) {
-    		logger.error("Failed to read image", e);
+    		logger.warn("Failed to read image. Restoring image data");
+    		ImageIcon icon = new ImageIcon(data);
+    		BufferedImage bi = recreateInvalidImage(icon);
+    		icon.getImage().flush();
+    		
+    		logger.warn("Correction was successful.");
+    		
+    		return bi;
     	}
-    	return null;
     }
     
     private static BufferedImage toBufferedImage(File file) {
@@ -193,8 +200,32 @@ public class DcImageIcon extends ImageIcon {
     		BufferedImage img = ImageIO.read(file);
     		return img;
     	} catch (Exception e) {
-    		logger.error("Failed to read image", e);
+    		logger.warn("Failed to read image. Correcting the image. File: [" + file + "]");
+    		// This is typically used only for failures - draw the image to a new graphics object
+    		ImageIcon icon = new ImageIcon(file.toString());
+    		BufferedImage bi = recreateInvalidImage(icon);
+    		icon.getImage().flush();
+    		
+    		logger.warn("Correction for [" + file + "] was successful.");
+    		
+    		return bi;
     	}
-    	return null;
+    }
+    
+    private static BufferedImage recreateInvalidImage(ImageIcon icon) {
+	    Image image = icon.getImage();
+
+	    // Create empty BufferedImage, sized to Image
+	    BufferedImage bi = 
+	       new BufferedImage(
+	           image.getWidth(null), 
+	           image.getHeight(null), 
+	           BufferedImage.TYPE_INT_ARGB);
+
+	    // Draw Image into BufferedImage
+	    Graphics g = bi.getGraphics();
+	    g.drawImage(image, 0, 0, null);
+		
+	    return bi;    	
     }
 }

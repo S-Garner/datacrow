@@ -348,7 +348,7 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
                     dtde.dropComplete(true);
                 }
             } catch (Exception e) {
-                logger.error(e, e);
+                logger.warn(e, e);
             }
         } else {
             dtde.rejectDrop();
