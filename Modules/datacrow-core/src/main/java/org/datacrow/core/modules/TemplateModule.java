@@ -45,7 +45,7 @@ public class TemplateModule extends DcModule {
     
 	private static final long serialVersionUID = 1L;
 
-    private final DcModule parent;
+    private final int templatedModIdx;
     
     /**
      * Creates a new instance based on the specified module. The fields of the provided module
@@ -62,7 +62,7 @@ public class TemplateModule extends DcModule {
               parent.getTableName() + "_template", 
               parent.getTableShortName() + "temp");
         
-        this.parent = parent;
+        this.templatedModIdx = parent.getIndex();
         
         for (DcField field : parent.getFields()) {
             addField(new DcField(field.getIndex(), getIndex(), field.getLabel(), field.isUiOnly(),
@@ -84,14 +84,14 @@ public class TemplateModule extends DcModule {
     
     @Override
     public boolean isHasImages() {
-        return parent.isHasImages();
+        return getTemplatedModule().isHasImages();
     }
 
     /**
      * Retrieves the module this template module has been created for.
      */
     public DcModule getTemplatedModule() {
-        return parent;
+        return DcModules.get(templatedModIdx);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class TemplateModule extends DcModule {
      */
     @Override
     public DcObject createItem() {
-        return new DcTemplate(getIndex(), parent.getIndex());
+        return new DcTemplate(getIndex(), templatedModIdx);
     }    
     
     /**
@@ -119,7 +119,9 @@ public class TemplateModule extends DcModule {
      */    
     @Override
     public DcFieldDefinitions getFieldDefinitions() {
-        
+
+    	DcModule parent = getTemplatedModule();
+    	
         if (parent == null || parent.getFieldDefinitions() == null)
             return null;
         
