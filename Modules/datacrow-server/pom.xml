@@ -319,7 +319,7 @@
                             <outputDirectory>${project.parent.basedir}/datacrow-build/staging/dc-server/icons</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/icons</directory>
+                                    <directory>${project.parent.basedir}/datacrow-resources/icons</directory>
                                     <filtering>false</filtering>
                                 </resource>
                             </resources>
