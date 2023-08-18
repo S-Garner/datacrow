@@ -108,6 +108,30 @@ public class BrowserDialog extends JFrame {
         }
     }
     
+    public File[] showSelectMultipleFilesDialog(Component c, File file) {
+        setCurrentDirectory(file);
+        browser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        browser.setMultiSelectionEnabled(true);
+        
+        int result = 0;
+        if (c != null) { 
+            result = browser.showOpenDialog(c);
+        } else {
+        	result = browser.showOpenDialog(GUI.getInstance().getRootFrame());
+        }
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File[] files = browser.getSelectedFiles();
+            
+            if (files.length > 0)
+            	rememberUsedDirectory(files[0]);
+            
+            return files;
+        } else {
+            return null;
+        }
+    }
+    
     public File showOpenFileDialog(Component c, File file) {
         setCurrentDirectory(file);
         browser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);

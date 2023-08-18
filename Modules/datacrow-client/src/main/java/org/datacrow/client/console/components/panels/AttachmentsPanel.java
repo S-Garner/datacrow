@@ -133,7 +133,13 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     }
     
     private void addAttachments(List<File> files) {
-    	
+    	for (File file : files) {
+    		if (file.isFile())
+    			addAttachment(file);
+    	}
+    }
+
+    private void addAttachments(File[] files) {
     	for (File file : files) {
     		if (file.isFile())
     			addAttachment(file);
@@ -142,9 +148,8 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     
     private void addAttachment() {
     	BrowserDialog dlg = new BrowserDialog(DcResources.getText("lblSelectFile"));
-    	File file = dlg.showOpenFileDialog(this, null);
-    	
-    	addAttachment(file);
+    	File[] files = dlg.showSelectMultipleFilesDialog(this, null);
+    	addAttachments(files);
     }
     
     private void addAttachment(File file) {
