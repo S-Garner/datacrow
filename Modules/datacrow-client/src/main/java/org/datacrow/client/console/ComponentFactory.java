@@ -140,7 +140,6 @@ import org.datacrow.core.plugin.Plugin;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.objects.DcColor;
-import org.datacrow.core.settings.objects.DcDimension;
 import org.datacrow.core.settings.objects.DcFont;
 import org.datacrow.core.settings.objects.DcLookAndFeel;
 

@@ -35,16 +35,12 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcRepository.ExternalReferences;
 import org.datacrow.core.http.HttpConnection;
-import org.datacrow.core.http.HttpConnectionUtil;
-import org.datacrow.core.log.DcLogManager;
-import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.ComicCharacter;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.services.IOnlineSearchClient;
-import org.datacrow.core.services.SearchTask;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.onlinesearch.util.JsonHelper;
@@ -52,8 +48,6 @@ import org.datacrow.onlinesearch.util.JsonHelper;
 import com.google.gson.Gson;
 
 public class ComicVineCharacterSearchHelper {
-    
-    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ComicVineCharacterSearchHelper.class.getName());
     
     private static final Gson gson = new Gson();
     
