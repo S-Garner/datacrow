@@ -1,15 +1,15 @@
 --------------------------------------------------------------------
-Data Crow version 4.10                        Released on 2023-08-xx
+Data Crow version 4.10                        Released on 2023-08-22
 --------------------------------------------------------------------
 
 [New]
-- Attachments can now be added to items. These documents are stored within the Data Crow data set in a compressed format. All main modules allow for attachments to be added.
+- Attachments can now be added to items. These documents are stored within the Data Crow data set in a compressed format (zip). All main modules allow for attachments to be added.
 - Added drag and drop support for pictures (from file and directly from web pages) and attachments.
 - New Russian translations has been added (not finalized) - major thanks to Ilya Sigidin.
+- Portuguese translation has been revamped - major thanks to Pedro Albuquerque.
 
 [Changed]
 - On upgrade, Data Crow will convert all images to a standard format (JPEG). This is to reduce storage size and improve performance. Additionally a maximum resolution will be maintained: 3840 * 2160.
-- Portuguese translation has been updated - major thanks to Pedro Albuquerque.
 - Data Crow will no longer close windows or exit when pressing the escape key. This has been changed to CTRL/COMMAND+ESC.
 - Create multiple now allows for rows to be deleted.
 - Create multiple will only show one message when multiple items could not be saved.
@@ -35,7 +35,7 @@ Data Crow version 4.10                        Released on 2023-08-xx
 - Client - Server: on saving an item where there are data issues, such an item not being unique, the item form is closed instead of kept open
 - Client - Server: update all dialog won't open
 - Image importer parses incorrect resolution for image
-- File browser: file type description too long for field
+- File browser: file type description too long for field (too many extension / file types supported). Abbreviated the filter description.
 - Table view: tracks are not shown for music albums
 - Templates: sometimes template could not be selected when creating an item
 - Templates: not checked if template name is filled

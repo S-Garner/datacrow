@@ -71,7 +71,7 @@
                             <headerType>gui</headerType>
                             <stayAlive>true</stayAlive>
                             <jar>${project.basedir}/target/installer.jar</jar>
-                            <icon>${project.parent.basedir}/datacrow-client/icons/datacrow.ico</icon>
+                            <icon>${project.parent.basedir}/datacrow-resources/icons/datacrow.ico</icon>
                             <manifest>${project.basedir}/resources/installer.manifest</manifest>
                             <outfile>${project.basedir}/target/install.exe</outfile>
                             <classPath>
@@ -104,7 +104,7 @@
                         <configuration>
                             <headerType>gui</headerType>
                             <stayAlive>true</stayAlive>
-                            <icon>${project.parent.basedir}/datacrow-client/icons/datacrow.ico</icon>
+                            <icon>${project.parent.basedir}/datacrow-resources/icons/datacrow.ico</icon>
                             <jar>${project.parent.basedir}/datacrow-build/staging/dc-client/datacrow-client-${project.version}.jar</jar>
                             <outfile>${project.parent.basedir}/datacrow-build/staging/dc-client/datacrow.exe</outfile>
                             <classPath>
@@ -137,7 +137,7 @@
                         <configuration>
                             <headerType>console</headerType>
                             <stayAlive>true</stayAlive>
-                            <icon>${project.parent.basedir}/datacrow-client/icons/datacrow.ico</icon>
+                            <icon>${project.parent.basedir}/datacrow-resources/icons/datacrow.ico</icon>
                             <jar>${project.parent.basedir}/datacrow-build/staging/dc-server/datacrow-server.jar</jar>
                             <outfile>${project.parent.basedir}/datacrow-build/staging/dc-server/datacrow-server.exe</outfile>
                             <classPath>
