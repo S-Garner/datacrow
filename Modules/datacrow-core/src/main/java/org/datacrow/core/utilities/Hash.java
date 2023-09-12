@@ -85,13 +85,14 @@ public class Hash {
             try {
                 String currentHash = (String) dco.getValue(DcObject._SYS_FILEHASH);
                 String currentHashType = (String) dco.getValue(DcObject._SYS_FILEHASHTYPE);
-                Long currentFilesize = (Long) dco.getValue(DcObject._SYS_FILESIZE);
+                
+                Object currentFilesize = dco.getValue(DcObject._SYS_FILESIZE);
                 
                 // check if the file size should be set
-                if (currentFilesize == null || dco.isChanged(DcObject._SYS_FILENAME)) {
+                if (CoreUtilities.isEmpty(currentFilesize) || dco.isChanged(DcObject._SYS_FILENAME)) {
                     fileSize = CoreUtilities.getSize(new File(filename));
                 } else {
-                    fileSize = currentFilesize;
+                    fileSize = currentFilesize instanceof Long ? (Long) currentFilesize : Long.valueOf(0);
                 }
                 
                 dco.setValue(DcObject._SYS_FILESIZE, fileSize);
