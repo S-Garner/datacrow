@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.datacrow</groupId>
 	<artifactId>datacrow-main</artifactId>
-	<version>4.10.0</version>
+	<version>4.10.1</version>
 	<packaging>pom</packaging>
 	<organization>
 		<name>Van der Waals BV</name>

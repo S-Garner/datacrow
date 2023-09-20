@@ -73,6 +73,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 
+import org.apache.commons.io.IOUtils;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
@@ -857,8 +858,7 @@ public class CoreUtilities {
     }
     
     public static byte[] readBytesFromStream(InputStream is) throws IOException {
-        byte[] content = new byte[is.available()];
-        is.read(content);
+    	byte[] content = IOUtils.toByteArray(is);
         return content;
     }    
     
