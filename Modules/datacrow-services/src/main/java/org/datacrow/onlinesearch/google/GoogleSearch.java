@@ -52,6 +52,8 @@ import org.datacrow.core.utilities.StringUtils;
 public class GoogleSearch extends SearchTask {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(GoogleSearch.class.getName());
+    
+    private int retries = 0;
 
     public GoogleSearch(
             IOnlineSearchClient listener, 
@@ -181,7 +183,7 @@ public class GoogleSearch extends SearchTask {
     @Override
     protected Collection<Object> getItemKeys() throws OnlineSearchUserError, OnlineServiceError {
         Collection<Object> keys = new ArrayList<Object>();
-
+        
         try {
             URL url = new URL("https://www.googleapis.com/books/v1/volumes?q=" + getQuery());
     
@@ -221,9 +223,22 @@ public class GoogleSearch extends SearchTask {
                 if (count == getMaximum()) break;
             }
         } catch (Exception e) {
-            throw new OnlineServiceError(e);
+            if (e.getMessage().contains("429") && retries <= 3) {
+                retries++;
+
+                try {
+                    sleep(1500);
+                    logger.debug("Too many requests have been executed, waiting for 1.5 seconds. Retry " + retries + "  of 4");
+                } catch (InterruptedException ie) {
+                    throw new OnlineServiceError(e);
+                }
+                
+                return getItemKeys();
+            } else {
+                throw new OnlineServiceError(e);
+            }
         }
-            
+
         return keys;
     }
     

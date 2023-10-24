@@ -288,7 +288,7 @@ public abstract class SearchTask extends Thread {
         try {
             sleep(server.getWaitTimeBetweenRequest());
         } catch (InterruptedException ie) {
-            logger.debug("Could not wait during image retrieval");
+            logger.debug("Could not wait during online search");
         }
     }
     
