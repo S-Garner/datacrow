@@ -45,13 +45,18 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumn;
 
 import org.datacrow.client.console.ComponentFactory;
+import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcButton;
+import org.datacrow.client.console.components.DcReferencesField;
 import org.datacrow.client.console.components.DcShortTextField;
 import org.datacrow.client.console.components.renderers.SimpleValueTableCellRenderer;
 import org.datacrow.client.console.components.tables.DcTable;
+import org.datacrow.client.console.windows.itemforms.IItemFormListener;
+import org.datacrow.client.console.windows.itemforms.ItemForm;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
@@ -63,18 +68,27 @@ import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 
-public class DcReferencesDialog extends DcDialog implements ActionListener, KeyListener {
+public class DcReferencesDialog extends DcDialog implements ActionListener, KeyListener, IItemFormListener {
     
     private DcTable tblSelectedItems;
     private DcTable tblAvailableItems;
     private Collection<DcSimpleValue> availableItems = new ArrayList<DcSimpleValue>();
     
+    private final JButton btCreate = ComponentFactory.getIconButton(IconLibrary._icoOpenNew);
+    
     private MappingModule mappingModule;
     
     private boolean saved = false;
     
-    public DcReferencesDialog(Collection<DcObject> currentItems, MappingModule mappingModule) {
+    private final DcReferencesField fld;
+    
+    public DcReferencesDialog(
+    		Collection<DcObject> currentItems, 
+    		MappingModule mappingModule,
+    		DcReferencesField fld) {
+    	
         this.mappingModule = mappingModule;
+        this.fld = fld;
         Collection<DcObject> current = currentItems == null ? new ArrayList<DcObject>() : currentItems;
         
         setTitle(DcModules.get(mappingModule.getReferencedModIdx()).getObjectNamePlural());
@@ -113,9 +127,10 @@ public class DcReferencesDialog extends DcDialog implements ActionListener, KeyL
         
         pack();
         
+        setModal(false);
+        
         setSize(DcSettings.getDimension(DcRepository.Settings.stReferencesDialogSize));
         setCenteredLocation();
-        setModal(true);
     }
     
     private Collection<DcSimpleValue> getValues(DcTable table) {
@@ -157,6 +172,7 @@ public class DcReferencesDialog extends DcDialog implements ActionListener, KeyL
     
     private void save() {
         saved = true;
+        fld.setValue(getDcObjects());
         close();
     }
     
@@ -183,8 +199,16 @@ public class DcReferencesDialog extends DcDialog implements ActionListener, KeyL
     }
     
     @Override
+    public void notifyItemSaved(DcObject dco) {
+    	DcSimpleValue sv = new DcSimpleValue(dco.getID(), dco.toString(), dco.getIcon());
+    	availableItems.add(sv);
+    	tblSelectedItems.addRow(new Object[] {sv});
+    }    
+    
+    @Override
     public void close() {
         DcSettings.set(DcRepository.Settings.stReferencesDialogSize, getSize());
+        clear();
         setVisible(false);
     }
     
@@ -243,6 +267,8 @@ public class DcReferencesDialog extends DcDialog implements ActionListener, KeyL
         JButton buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
         JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
         
+        // action panel
+        
         JPanel panelActions = new JPanel();
         panelActions.add(buttonSave);
         panelActions.add(buttonClose);
@@ -252,7 +278,23 @@ public class DcReferencesDialog extends DcDialog implements ActionListener, KeyL
         buttonClose.addActionListener(this);
         buttonClose.setActionCommand("close");
 
-        getContentPane().add(txtFilter,     Layout.getGBC( 0, 0, 3, 1, 1.0, 1.0
+        // filter panel
+        
+        btCreate.addActionListener(this);
+        btCreate.setActionCommand("create");
+        
+        JPanel panelFilter = new JPanel();
+        panelFilter.setLayout(Layout.getGBL());
+        panelFilter.add(txtFilter, Layout.getGBC( 0, 0, 1, 1, 100.0, 1.0
+                ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                 new Insets( 0, 0, 0, 0), 0, 0));        
+        panelFilter.add(btCreate, Layout.getGBC( 1, 0, 1, 1, 0.0, 0.0
+                ,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE,
+                 new Insets( 0, 0, 0, 0), 0, 0));      
+        
+        // main panel
+        
+        getContentPane().add(panelFilter,     Layout.getGBC( 0, 0, 3, 1, 1.0, 1.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                  new Insets( 5, 5, 0, 5), 0, 0));
         getContentPane().add(scrollerLeft,  Layout.getGBC( 0, 1, 1, 1, 40.0, 40.0
@@ -278,8 +320,24 @@ public class DcReferencesDialog extends DcDialog implements ActionListener, KeyL
         else if (ae.getActionCommand().equals("toright"))
             move(false);        
         else if (ae.getActionCommand().equals("toleft"))
-            move(true);        
+            move(true);
+        else if (ae.getActionCommand().equals("create"))
+            create();
     }
+    
+    private void create() {
+//    	this.setDirectVisible(false);
+    	
+        DcObject dco = DcModules.get(mappingModule.getReferencedModIdx()).getItem();
+        ItemForm itemForm = new ItemForm(false, false, dco, true);
+        
+        GUI.getInstance().setRootFrame(itemForm);
+        
+        itemForm.setListener(this);
+        itemForm.setVisible(true);
+        
+        itemForm.toFront();
+    }    
     
     @Override
     public void keyPressed(KeyEvent e) {}

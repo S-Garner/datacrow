@@ -152,18 +152,9 @@ public class DcReferencesField extends JComponent implements IComponent, ActionL
         
     private void openDialog() {
         MappingModule mappingModule = (MappingModule) DcModules.get(mappingModIdx);
-        DcReferencesDialog dlg = new DcReferencesDialog(references, mappingModule);
-        
+        DcReferencesDialog dlg = new DcReferencesDialog(references, mappingModule, this);
         dlg.setVisible(true);
-        
-        if (dlg.isSaved()) {
-            references.clear();
-            references.addAll(dlg.getDcObjects());
-            setDescription();
-        }
-        
-        dlg.clear();
-    }    
+    }
     
     private void setDescription() {
         fld.setText("");
