@@ -428,7 +428,10 @@ public class MobyGamesSearch extends SearchTask {
     }
     
     private void setTitle(LinkedTreeMap game, Software item) {
-        item.setValue(Software._A_TITLE, game.get("title"));
+        String s = (String) game.get("title");
+        s = "<html><body>" + s + "</body></html>";
+        Document doc = Jsoup.parse(s);
+        item.setValue(Software._A_TITLE, doc.body().text());
     }
 
     private void setUrl(LinkedTreeMap game, Software item) {

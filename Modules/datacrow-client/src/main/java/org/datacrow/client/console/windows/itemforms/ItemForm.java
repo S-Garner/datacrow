@@ -69,6 +69,7 @@ import org.datacrow.client.console.components.panels.RelatedItemsPanel;
 import org.datacrow.client.console.windows.DcFrame;
 import org.datacrow.client.console.windows.ItemTypeDialog;
 import org.datacrow.client.console.windows.loan.LoanInformationPanel;
+import org.datacrow.client.console.windows.messageboxes.CancelableQuestionBox;
 import org.datacrow.client.plugins.PluginHelper;
 import org.datacrow.client.tabs.Tab;
 import org.datacrow.client.tabs.Tabs;
@@ -338,9 +339,14 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
      */
     public void close(boolean aftersave) {
         if (!aftersave && update && dco != null && (!readonly && isChanged())) {
-            if (GUI.getInstance().displayQuestion("msgNotSaved")) {
+        	int result = GUI.getInstance().displayCancelableQuestion("msgNotSaved");
+        	
+            if (result == CancelableQuestionBox._RESULT_YES) {
                 saveValues();
                 return;
+            } else if (result == CancelableQuestionBox._RESULT_CANCEL) {
+            	// do nothing
+            	return;
             }
         }
         
@@ -693,7 +699,6 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         } else {
             close();
         }
-
     }
 
     private void initializeComponents() {

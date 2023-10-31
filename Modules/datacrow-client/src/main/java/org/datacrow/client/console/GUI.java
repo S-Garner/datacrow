@@ -61,6 +61,7 @@ import org.datacrow.client.console.windows.filtering.FilterDialog;
 import org.datacrow.client.console.windows.itemforms.DcMinimalisticItemView;
 import org.datacrow.client.console.windows.itemforms.ItemForm;
 import org.datacrow.client.console.windows.itemforms.TemplateForm;
+import org.datacrow.client.console.windows.messageboxes.CancelableQuestionBox;
 import org.datacrow.client.console.windows.messageboxes.MessageBox;
 import org.datacrow.client.console.windows.messageboxes.QuestionBox;
 import org.datacrow.client.console.windows.onlinesearch.OnlineSearchForm;
@@ -428,6 +429,17 @@ public class GUI {
              return rootFrame;
          
          return mf;
+     }
+     
+     /**
+      * Opens a Question dialog. The message can either be a string or a resource key. 
+      * @param msg Message string or resource key.
+      * @return 0 = false, 1 = true, 2 = cancelled
+      */
+     public int displayCancelableQuestion(String msg) {
+         CancelableQuestionBox cqb = new CancelableQuestionBox(msg.startsWith("msg") ? DcResources.getText(msg) : msg);
+         open(cqb);
+         return cqb.getResult();
      }
 
      /**
