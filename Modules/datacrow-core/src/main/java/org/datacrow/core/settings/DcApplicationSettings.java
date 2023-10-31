@@ -464,7 +464,7 @@ public class DcApplicationSettings extends Settings {
                             "",
                             "lblFileHashMaxFileSize",
                             true,
-                            true, -1));             
+                            true, -1));         
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._LONG,
                             DcRepository.Settings.stWebServerPort,
@@ -728,7 +728,16 @@ public class DcApplicationSettings extends Settings {
                             "",
                             false,
                             false, -1));
-        
+
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._DIMENSION,
+                            DcRepository.Settings.stCreateTabDialogSize,
+                            new DcDimension(250, 300),
+                            -1,
+                            "",
+                            "",
+                            false,
+                            false, -1));
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._LONG,
                             DcRepository.Settings.stSynchServicePort,

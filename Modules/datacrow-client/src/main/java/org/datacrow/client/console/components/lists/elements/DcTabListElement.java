@@ -65,7 +65,7 @@ public class DcTabListElement extends DcListElement {
         labelField.setPreferredSize(dimLabel);
         labelField.setText(tab.getName());
         
-        JLabel labelIcon = ComponentFactory.getLabel(tab.getIcon());
+        JLabel labelIcon = ComponentFactory.getLabel(tab.getIcon().toIcon());
         labelIcon.setPreferredSize(dimIcon);
         
         add(labelIcon);

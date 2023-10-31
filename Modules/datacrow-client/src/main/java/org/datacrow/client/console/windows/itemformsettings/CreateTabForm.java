@@ -32,6 +32,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
@@ -52,15 +53,17 @@ public class CreateTabForm extends DcFrame implements ActionListener {
     private final int module;
     
     private final DcShortTextField txtName = ComponentFactory.getShortTextField(255);
-    private final DcPictureField fldIcon = ComponentFactory.getPictureField(false, false);
+    private final DcPictureField fldIcon = ComponentFactory.getPictureField(false, true);
     
     public CreateTabForm(MaintainTabsDialog dlg, int module) {
         super(DcResources.getText("lblCreateTab"), IconLibrary._icoAdd);
         
         this.dlg = dlg;
         this.module = module;
-        
+
         build();
+        
+        setSize(DcSettings.getDimension(DcRepository.Settings.stCreateTabDialogSize));
     }
     
     private void save() {
@@ -89,11 +92,11 @@ public class CreateTabForm extends DcFrame implements ActionListener {
         panelActions.add(buttonSave);
         panelActions.add(buttonClose);
         
-        // Fields panel
+        JTabbedPane jt = ComponentFactory.getTabbedPane();
+        
+        // info panel
         JPanel panelFields = new JPanel();
         panelFields.setLayout(Layout.getGBL());
-        
-        fldIcon.setValue(IconLibrary._icoInformation);
         
         panelFields.add(ComponentFactory.getLabel(DcResources.getText("lblName")), 
                              Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
@@ -102,27 +105,34 @@ public class CreateTabForm extends DcFrame implements ActionListener {
         panelFields.add(txtName, Layout.getGBC( 1, 0, 1, 1, 1.0, 1.0
                             ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                              new Insets(5, 5, 5, 5), 0, 0));
+
+        jt.addTab(DcResources.getText("lblInformation"), panelFields);        
         
-        panelFields.add(ComponentFactory.getLabel(DcResources.getText("lblIcon")), 
-                Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
-               ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                new Insets(5, 5, 5, 5), 0, 0));
-        panelFields.add(fldIcon, Layout.getGBC( 1, 1, 1, 1, 1.0, 1.0
+        // icon panel
+        JPanel panelIcon = new JPanel();
+        panelIcon.setLayout(Layout.getGBL());
+        panelIcon.add(fldIcon, Layout.getGBC( 1, 1, 1, 1, 1.0, 1.0
                ,GridBagConstraints.SOUTHEAST, GridBagConstraints.BOTH,
                 new Insets(5, 5, 5, 5), 0, 0));
         
-        // Main panel
+        jt.addTab(DcResources.getText("lblIcon"), panelIcon);
+        
+        // main panel
         getContentPane().setLayout(Layout.getGBL());
-        getContentPane().add(panelFields, Layout.getGBC( 0, 0, 1, 1, 50.0, 50.0
+        getContentPane().add(jt, Layout.getGBC( 0, 0, 1, 1, 50.0, 50.0
                             ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                              new Insets(0, 0, 0, 0), 0, 0));
         getContentPane().add(panelActions, Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
                             ,GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE,
                              new Insets(0, 0, 0, 10), 0, 0));
-        
         pack();
-        setSize(DcSettings.getDimension(DcRepository.Settings.stExpertFormSize));
         setCenteredLocation();
+    }
+    
+    @Override
+    public void close() {
+        DcSettings.set(DcRepository.Settings.stCreateTabDialogSize, getSize());
+        super.close();
     }
     
     @Override

@@ -25,15 +25,19 @@
 
 package org.datacrow.client.console.components;
 
+import java.awt.Component;
 import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolTip;
 
 import org.datacrow.client.console.GUI;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.objects.DcImageIcon;
 
 public class DcTabbedPane extends JTabbedPane {
 	
@@ -50,7 +54,13 @@ public class DcTabbedPane extends JTabbedPane {
     	} catch (Exception e) {
     	    logger.debug(e, e);
     	}
-    } 
+    }
+    
+    @Override
+    public void addTab(String title, Icon icon, Component component) {
+    	Icon scaledIcon = new DcImageIcon(((ImageIcon) icon).getImage()).toIcon();
+        super.addTab(title, scaledIcon, component);
+    }
     
     @Override
     public JToolTip createToolTip() {

@@ -254,6 +254,7 @@ public abstract class DcRepository {
         public static final String stDriveManagerDrives = "drive_manager_drives";
         public static final String stDriveManagerExcludedDirs = "drive_manager_excluded_directories";
         public static final String stSynchServiceDialogSize = "synch_service_dialog_size";
+        public static final String stCreateTabDialogSize = "create_tab_dialog_size";
         public static final String stSynchServicePort = "synch_service_port";
         public static final String stSynchServiceName = "synch_service_name";
     }
