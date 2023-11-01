@@ -83,5 +83,5 @@ public class DcTabList extends DcList implements ISortableComponent {
             if (((DcTabListElement) element).getTab().equals(tab))
                 getDcModel().removeElement(element);                
         }
-    }    
+    }
 }

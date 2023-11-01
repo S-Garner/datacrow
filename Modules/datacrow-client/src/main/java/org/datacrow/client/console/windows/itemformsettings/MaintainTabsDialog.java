@@ -29,11 +29,14 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
@@ -56,17 +59,18 @@ public class MaintainTabsDialog extends DcDialog implements ActionListener {
     private final DcTabList tabList;
     
     public MaintainTabsDialog(ItemFormSettingsDialog dlg) {
-        super(dlg);
-        setTitle(DcResources.getText("lblEditTabs"));
-        
-        this.dlg = dlg;
-        this.tabList = new DcTabList();
-        
-        build();
-        
-        setModal(false);
-        setSize(DcSettings.getDimension(DcRepository.Settings.stMaintainTabsDialogSize));
-        setCenteredLocation();
+	    super(dlg);
+	    setTitle(DcResources.getText("lblEditTabs"));
+	    
+	    this.dlg = dlg;
+	    this.tabList = new DcTabList();
+	    tabList.addMouseListener(new TabListMouseListener(this, dlg.getModule()));
+	    
+	    build();
+	    
+	    setModal(false);
+	    setSize(DcSettings.getDimension(DcRepository.Settings.stMaintainTabsDialogSize));
+	    setCenteredLocation();
     }
     
     protected void clear() {
@@ -106,7 +110,7 @@ public class MaintainTabsDialog extends DcDialog implements ActionListener {
     }
     
     private void addTab() {
-        CreateTabForm frm = new CreateTabForm(this, dlg.getModule());
+        TabForm frm = new TabForm(this, dlg.getModule());
         frm.setVisible(true);
     }
     
@@ -211,5 +215,49 @@ public class MaintainTabsDialog extends DcDialog implements ActionListener {
             close();
         else if (e.getActionCommand().equals("save"))
             save();
-    } 
+    }
+    
+    private static class TabListMouseListener implements MouseListener {
+    	
+    	private final MaintainTabsDialog dlg;
+    	private final int module;
+    	
+    	public TabListMouseListener(MaintainTabsDialog dlg, int module) {
+    		this.dlg = dlg;
+    		this.module = module;
+    	}
+    
+        @Override
+        public void mouseReleased(java.awt.event.MouseEvent e) {
+
+        	DcTabList c = (DcTabList) e.getSource();
+            
+            if (SwingUtilities.isRightMouseButton(e)) {
+                if (c.getSelectedIndices() == null ||
+                    c.getSelectedIndices().length == 1) {
+                    int index = c.locationToIndex(e.getPoint());
+                    c.setSelectedIndex(index);
+                }
+            }
+
+            if (e.getClickCount() == 2 && c.getSelectedIndex() > -1) {
+            	Tab tab = c.getSelectedTab();
+            	
+            	TabForm form = new TabForm(dlg, module, tab);
+            	form.setVisible(true);
+            	
+                e.consume();
+            }
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {}
+        @Override
+        public void mouseExited(MouseEvent e) {}
+        @Override
+        public void mousePressed(MouseEvent e) {}
+        @Override
+        public void mouseClicked(MouseEvent e) {}        	
+    	
+    }
 }

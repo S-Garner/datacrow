@@ -5,11 +5,16 @@ Data Crow version 4.10.1                      Released on 2023-11-xx
 [Fixed]
 - Sometimes items could not be saved due to an error in calculating the file hash.
 - Sometimes an attachment could not be opened.
-- Quick view; the setting "show pictures in separate tabs" would ignore picture not enabled for the details. Now, if this setting is enabled all pictures will be shown in separate tabs and pictures ticked as enabled will also appear in the overview. 
 - Added better management of number of requests for the Google Book Search. In case of a "too many request" error, Data Crow will retry after 1.5 seconds and will do so for a maximum of 4 retries. 
 - MobyGames.com did not show & and other characters correctly in the title.
+- Create tab window size was not stored.
+- Icon cannot be selected when creating a new tab for the item form.
+
+[Changed]
 - Added cancel option when the item form is closed and unsaved changes are detected. This keeps the dialog open without making any changes.
-- Create tab window size was not stored
+- Added a create button to the references selection dialog.
+- Existing item form tabs can now be edited.
+- Quick view; the setting "show pictures in separate tabs" would ignore picture not enabled for the details. Now, if this setting is enabled all pictures will be shown in separate tabs and pictures ticked as enabled will also appear in the overview. 
 
 
 --------------------------------------------------------------------

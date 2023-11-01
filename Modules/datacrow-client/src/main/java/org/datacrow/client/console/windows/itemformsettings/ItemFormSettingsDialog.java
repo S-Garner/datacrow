@@ -33,9 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -119,18 +116,6 @@ public class ItemFormSettingsDialog extends DcFrame implements ActionListener, C
         getContentPane().setLayout(Layout.getGBL());
         
         //**********************************************************
-        //Menu
-        //**********************************************************
-        JMenuBar mb = ComponentFactory.getMenuBar();
-        JMenu menu = ComponentFactory.getMenu(DcResources.getText("lblTabs"));
-        JMenuItem menuEdit = ComponentFactory.getMenuItem(DcResources.getText("lblManageX", DcResources.getText("lblTabs")));
-        menuEdit.setActionCommand("maintainTabs");
-        menuEdit.addActionListener(this);
-        menu.add(menuEdit);
-        mb.add(menu);
-        setJMenuBar(mb);
-        
-        //**********************************************************
         //Tab Pane
         //**********************************************************
         refresh();
@@ -138,6 +123,10 @@ public class ItemFormSettingsDialog extends DcFrame implements ActionListener, C
         //**********************************************************
         //Action panel
         //**********************************************************
+        JButton buttonTabs = ComponentFactory.getButton(DcResources.getText("lblTabs"));
+        buttonTabs.addActionListener(this);
+        buttonTabs.setActionCommand("maintainTabs");
+        
         JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
         
         buttonClose.addActionListener(this);
@@ -149,6 +138,7 @@ public class ItemFormSettingsDialog extends DcFrame implements ActionListener, C
         buttonSave.setActionCommand("save");
         
         JPanel panelActions = new JPanel();
+        panelActions.add(buttonTabs);
         panelActions.add(buttonSave);
         panelActions.add(buttonClose);
 

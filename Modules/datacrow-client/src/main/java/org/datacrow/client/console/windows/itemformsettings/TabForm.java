@@ -47,31 +47,54 @@ import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 
-public class CreateTabForm extends DcFrame implements ActionListener {
+public class TabForm extends DcFrame implements ActionListener {
     
     private final MaintainTabsDialog dlg;
     private final int module;
+    private final Tab tab;
     
     private final DcShortTextField txtName = ComponentFactory.getShortTextField(255);
     private final DcPictureField fldIcon = ComponentFactory.getPictureField(false, true);
     
-    public CreateTabForm(MaintainTabsDialog dlg, int module) {
-        super(DcResources.getText("lblCreateTab"), IconLibrary._icoAdd);
+    public TabForm(MaintainTabsDialog dlg, int module) {
+    	this(dlg, module, null);
+    }
+    
+    public TabForm(MaintainTabsDialog dlg, int module, Tab tab) {
+    	
+        super(	tab == null ? DcResources.getText("lblCreateTab") : DcResources.getText("lblEditTab"),
+        		tab == null ? IconLibrary._icoAdd : IconLibrary._icoInformation);
         
         this.dlg = dlg;
         this.module = module;
+        this.tab = tab;
 
         build();
         
+        setData();
+        
         setSize(DcSettings.getDimension(DcRepository.Settings.stCreateTabDialogSize));
+    }    
+    
+    private void setData() {
+        if (tab == null) {
+        	fldIcon.setValue(new DcImageIcon(IconLibrary._icoInformation.getBytes()));
+        } else {
+        	fldIcon.setValue(tab.getIcon());
+        	txtName.setValue(tab.getName());
+        }    	
     }
     
     private void save() {
-        Tab tab = new Tab(module, txtName.getText(), (DcImageIcon) fldIcon.getValue());
-        Tabs.getInstance().addTab(tab);
-        
-        dlg.refresh();
-        
+    	if (tab == null) {
+	        Tab newTab = new Tab(module, txtName.getText(), (DcImageIcon) fldIcon.getValue());
+	        Tabs.getInstance().addTab(newTab);
+    	} else {
+    		tab.setName(txtName.getText());
+    		tab.setIcon((DcImageIcon) fldIcon.getValue());
+    	}
+
+    	dlg.refresh();
         setVisible(false);
         close();
     }
