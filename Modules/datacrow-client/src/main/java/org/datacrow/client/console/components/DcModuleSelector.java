@@ -32,7 +32,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.datacrow.client.console.ComponentFactory;
@@ -71,13 +70,16 @@ public class DcModuleSelector extends JComponent implements IComponent {
         int x = 0;
         
         JCheckBox checkBox;
-        JLabel label;
+        DcLabel label;
         for (DcModule module : DcModules.getAllModules()) {
             if (DcModules.isTopModule(module.getIndex())) {
                 checkBox = ComponentFactory.getCheckBox("");
                 checkBox.setSelected(module.isEnabled());
                 checkBox.addActionListener(new ToggleModuleAction(module.getIndex()));
-                label = ComponentFactory.getLabel(module.getLabel(), module.getIcon32());
+                
+                label = ComponentFactory.getLabel(module.getLabel());
+                label.setIconKeepSize(module.getIcon32());
+                
                 panel.add(checkBox,   Layout.getGBC( x, y, 1, 1, 1.0, 1.0
                    ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                     new Insets( 0, 5, 5, 5), 0, 0));

@@ -157,7 +157,6 @@ public final class ComponentFactory extends UIComponents {
     private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
     
     private static final Font fontUnreadable = new Font("Dialog", Font.PLAIN, 1);
-    private static final Dimension iconButtonSize = new Dimension(25, ComponentFactory.getPreferredButtonHeight());
     private static final Color colorDisabled = new Color(240,240,240);
     private static final Color colorRequired = new Color(120, 0, 0);
 
@@ -224,7 +223,7 @@ public final class ComponentFactory extends UIComponents {
     public static int getPreferredFieldHeight() {
         return DcSettings.getSettings() != null ? DcSettings.getInt(DcRepository.Settings.stInputFieldHeight) : 20;
     }
-
+    
     public static int getPreferredButtonHeight() {
         return DcSettings.getSettings() != null ? DcSettings.getInt(DcRepository.Settings.stButtonHeight) : 20;
     }
@@ -791,9 +790,16 @@ public final class ComponentFactory extends UIComponents {
         button.setIcon(icon);
         button.setFont(getSystemFont());
         
-        button.setMaximumSize(iconButtonSize);
-        button.setMinimumSize(iconButtonSize);
-        button.setPreferredSize(iconButtonSize);
+    	int iconHeight = DcSettings.getInt(DcRepository.Settings.stIconSize);
+        int minHeight = DcSettings.getSettings() != null ? DcSettings.getInt(DcRepository.Settings.stInputFieldHeight) : 20;
+        
+        int size = iconHeight > minHeight ? iconHeight : minHeight;
+
+        Dimension dim = new Dimension(size, size);
+
+        button.setMaximumSize(dim);
+        button.setMinimumSize(dim);
+        button.setPreferredSize(dim);
         
         return button;
     }

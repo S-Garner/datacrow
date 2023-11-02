@@ -86,7 +86,7 @@ public class ManageItem extends Plugin {
     @Override
     public ImageIcon getIcon() {
         DcModule module = getModule();
-        return module != null && module.getIcon16() != null ? module.getIcon16() : IconLibrary._icoModuleTypeProperty16;
+        return module != null && module.getIcon32() != null ? module.getIcon32() : IconLibrary._icoModuleTypeProperty16;
     }
 
     @Override

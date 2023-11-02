@@ -28,6 +28,8 @@ package org.datacrow.client.console.components.renderers;
 import java.awt.Component;
 import java.awt.Dimension;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
@@ -35,6 +37,7 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModule;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.settings.DcSettings;
 
@@ -56,6 +59,17 @@ public class ComboBoxRenderer extends DcLabel implements ListCellRenderer<Object
         int height = DcSettings.getInt(DcRepository.Settings.stIconSize);
         height = height < ComponentFactory.getPreferredFieldHeight() ? ComponentFactory.getPreferredFieldHeight() : height;
         return height;
+    }
+    
+    @Override
+    public void setIcon(Icon icon) {
+    	if (icon != null) {
+    		if (icon instanceof DcImageIcon) {
+    			super.setIcon(((DcImageIcon) icon).toIcon());
+    		} else if (icon instanceof ImageIcon) {
+    			super.setIcon(new DcImageIcon(((ImageIcon) icon).getImage()).toIcon());
+    		} 
+    	}    	
     }
     
     @Override
@@ -85,7 +99,7 @@ public class ComboBoxRenderer extends DcLabel implements ListCellRenderer<Object
             setText(o.toString());
         } else if (value instanceof DcModule) {
         	DcModule module = (DcModule) value;
-            setIcon(module.getIcon16());
+            setIcon(module.getIcon32());
             setText(module.getLabel());
         } else if (value instanceof String) {
             setIcon(null);

@@ -311,8 +311,8 @@ public class OnlineServicePanel extends JPanel implements ActionListener, KeyLis
                  new Insets(5, 5, 5, 5), 0, 0));
         
         if (server.getSettings() != null)
-            panelServers.add(btServerSettings, Layout.getGBC( 1, 0, 1, 1, 1.0, 10.0
-                    ,GridBagConstraints.EAST, GridBagConstraints.NONE,
+            panelServers.add(btServerSettings, Layout.getGBC( 1, 0, 1, 1, 1.0, 1.0
+                    ,GridBagConstraints.EAST, GridBagConstraints.BOTH,
                      new Insets(5, 0, 5, 0), 0, 0));
 
         // main panel

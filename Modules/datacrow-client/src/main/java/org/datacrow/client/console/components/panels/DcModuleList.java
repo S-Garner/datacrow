@@ -116,7 +116,7 @@ public class DcModuleList extends DcList implements ListSelectionListener {
                                 referencedMod.getIndex() != DcModules._CONTACTPERSON &&
                                 referencedMod.getIndex() != DcModules._CONTAINER) {
                             
-                            c.add(new ModulePanel(referencedMod, ModulePanel._ICON16));
+                            c.add(new ModulePanel(referencedMod, ModulePanel._ICON32));
                         }
                     }
                     elements.put(module.getIndex(), c);

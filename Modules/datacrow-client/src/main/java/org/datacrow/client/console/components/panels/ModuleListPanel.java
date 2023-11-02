@@ -254,7 +254,9 @@ public class ModuleListPanel extends JPanel {
             setMinimumSize(new Dimension(60, 50));
             setPreferredSize(new Dimension(60, 50));
             
-            lblModule = ComponentFactory.getLabel(module.getIcon32());
+            lblModule = ComponentFactory.getLabel("");
+            lblModule.setIconKeepSize(module.getIcon32());
+            
             add(lblModule, Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.CENTER, GridBagConstraints.NONE,
                     new Insets(0, 0, 0, 0), 0, 0));
@@ -280,7 +282,7 @@ public class ModuleListPanel extends JPanel {
         }
         
         public void setModule(DcModule module) {
-            this.lblModule.setIcon(module.getIcon32());
+            this.lblModule.setIconKeepSize(module.getIcon32());
             this.module = module;
         }
         
