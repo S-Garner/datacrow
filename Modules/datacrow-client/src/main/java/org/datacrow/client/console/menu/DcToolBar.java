@@ -198,7 +198,7 @@ public class DcToolBar extends JToolBar implements ActionListener, MouseListener
         buttonAdvanced.setActionCommand("advanced");
         buttonAdvanced.addActionListener(this);
         
-        JButton buttonCancel = ComponentFactory.getIconButton(IconLibrary._icoRemove);
+        JButton buttonCancel = ComponentFactory.getIconButton(IconLibrary._icoDelete);
         buttonCancel.setActionCommand("cancel");
         buttonCancel.addActionListener(this);
         

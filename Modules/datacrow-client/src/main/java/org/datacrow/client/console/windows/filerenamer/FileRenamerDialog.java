@@ -87,7 +87,7 @@ public class FileRenamerDialog extends DcFrame implements ActionListener, IFileR
     private final JLabel labelPatterms = ComponentFactory.getLabel(DcResources.getText("lblExistingPatterns"));
     private final JComboBox<Object> cbPatterns = ComponentFactory.getComboBox();
     
-    private final JButton buttonDeletePattern = ComponentFactory.getIconButton(IconLibrary._icoRemove);
+    private final JButton buttonDeletePattern = ComponentFactory.getIconButton(IconLibrary._icoDelete);
     private final JButton buttonApplyPattern = ComponentFactory.getIconButton(IconLibrary._icoAccept);
     private final JButton buttonSavePattern = ComponentFactory.getIconButton(IconLibrary._icoSave);
     

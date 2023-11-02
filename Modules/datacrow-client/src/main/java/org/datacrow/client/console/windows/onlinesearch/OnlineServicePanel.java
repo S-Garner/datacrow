@@ -303,7 +303,7 @@ public class OnlineServicePanel extends JPanel implements ActionListener, KeyLis
         // servers panel
         JPanel panelServers = new JPanel();
         panelServers.setLayout(Layout.getGBL());
-        JButton btServerSettings = ComponentFactory.getIconButton(IconLibrary._icoSettings16);
+        JButton btServerSettings = ComponentFactory.getIconButton(IconLibrary._icoSettings);
         btServerSettings.setActionCommand("serversettings");
         btServerSettings.addActionListener(this);
         panelServers.add(comboServers, Layout.getGBC( 0, 0, 1, 1, 100.0, 100.0

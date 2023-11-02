@@ -44,7 +44,7 @@ import org.datacrow.core.settings.DcSettings;
 public class DatabaseEditorForm extends DcFrame implements ActionListener {
 
     public DatabaseEditorForm() {
-        super(DcResources.getText("lblDatabaseEditor"), IconLibrary._icoSettings32);
+        super(DcResources.getText("lblDatabaseEditor"), IconLibrary._icoSettings);
         
         buildForm();
         setHelpIndex("dc.tools.databaseeditor");

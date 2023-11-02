@@ -50,7 +50,7 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
     
     private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
     
-    private final JButton buttonSettings = ComponentFactory.getButton(IconLibrary._icoSettings16);
+    private final JButton buttonSettings = ComponentFactory.getButton(IconLibrary._icoSettings);
     private final JCheckBox checkOverwrite = ComponentFactory.getCheckBox(DcResources.getText("lblOverwriteExistingValues"));
     private final JCheckBox checkAutoAdd = ComponentFactory.getCheckBox(DcResources.getText("lblAutoAddPerfectMatch"));
     private final JCheckBox checkUseOriginalSettings = ComponentFactory.getCheckBox(DcResources.getText("lblMassUpdateUseOriginalSettings"));

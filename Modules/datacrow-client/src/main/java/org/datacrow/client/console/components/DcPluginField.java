@@ -34,6 +34,7 @@ import javax.swing.JComponent;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.plugin.Plugin;
 
 public class DcPluginField extends JComponent implements ActionListener {
@@ -55,7 +56,7 @@ public class DcPluginField extends JComponent implements ActionListener {
         DcLongTextField fldHelp = ComponentFactory.getHelpTextField();
         fldHelp.setText(plugin.getHelpText());
         
-        bt = ComponentFactory.getIconButton(plugin.getIcon());
+        bt = ComponentFactory.getIconButton(new DcImageIcon(plugin.getIcon().getImage()));
         bt.addActionListener(this);
         
         setLayout(Layout.getGBL());

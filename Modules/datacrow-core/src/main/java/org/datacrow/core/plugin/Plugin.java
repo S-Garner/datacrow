@@ -222,6 +222,7 @@ public abstract class Plugin extends AbstractAction {
     }
     
     public abstract ImageIcon getIcon();
+    
     @Override
     public abstract void actionPerformed(ActionEvent ae);
 

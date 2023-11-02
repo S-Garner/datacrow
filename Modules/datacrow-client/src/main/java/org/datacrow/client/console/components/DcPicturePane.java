@@ -156,7 +156,6 @@ public class DcPicturePane extends JComponent {
 		if (img != null)
 			img.flush();
 	}
-	
     
     /*
      * Find proper translations to keep rotated image correctly displayed
@@ -191,6 +190,9 @@ public class DcPicturePane extends JComponent {
     
 	
     public void grayscale() {
+    	
+    	if (picture == null) return;
+    	
         img = picture.getImage();
         BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img), BufferedImage.TYPE_INT_ARGB);
         BufferedImageOp op = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null); 
@@ -198,6 +200,9 @@ public class DcPicturePane extends JComponent {
     }
     
     public void sharpen() {
+    	
+    	if (picture == null) return;
+    	
         img = picture.getImage();
         BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img), BufferedImage.TYPE_INT_ARGB);
         BufferedImageOp op = new ConvolveOp(
@@ -207,6 +212,9 @@ public class DcPicturePane extends JComponent {
     }
     
     public void blur() {
+    	
+    	if (picture == null) return;
+    	
         img = picture.getImage();
         BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img), BufferedImage.TYPE_INT_ARGB);
         BufferedImageOp op = new ConvolveOp(
@@ -223,6 +231,9 @@ public class DcPicturePane extends JComponent {
     }
     
     public void rotate(int degrees) {
+    	
+    	if (picture == null) return;
+    	
         img = picture.getImage();
         
         BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img), BufferedImage.TYPE_INT_ARGB);

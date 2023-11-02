@@ -25,89 +25,95 @@
 
 package org.datacrow.client.console.menu;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.JButton;
+import javax.swing.JToolBar;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcPictureField;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.resources.DcResources;
 
-public class DcPictureFieldMenu extends JMenuBar {
+public class DcPictureFieldMenu extends JToolBar {
     
     public DcPictureFieldMenu(DcPictureField pf) {
         build(pf);
     }
         
     private void build(DcPictureField pf) {
-        JMenu menuFile = ComponentFactory.getMenu(DcResources.getText("lblFile"));
-        JMenu menuEdit = ComponentFactory.getMenu(DcResources.getText("lblEdit"));
+    	
+    	//PluginHelper.add(this, "NewItemWizard");
+    	
+    	JButton btnSaveAs = ComponentFactory.getIconButton(IconLibrary._icoPictureSave);
+    	btnSaveAs.setToolTipText(DcResources.getText("lblSaveAs"));
+    	btnSaveAs.setActionCommand("Save as");
+    	btnSaveAs.addActionListener(pf);    	
+    	
+    	JButton btnAddFromFile = ComponentFactory.getIconButton(IconLibrary._icoPictureAddFromFile);
+    	btnAddFromFile.setToolTipText(DcResources.getText("lblOpenFromFile"));
+    	btnAddFromFile.setActionCommand("open_from_file");
+    	btnAddFromFile.addActionListener(pf);    	
 
-        JMenuItem miSaveAs = ComponentFactory.getMenuItem(DcResources.getText("lblSaveAs"));
-        JMenuItem miOpenFromFile = ComponentFactory.getMenuItem(DcResources.getText("lblOpenFromFile"));
-        JMenuItem miOpenFromURL = ComponentFactory.getMenuItem(DcResources.getText("lblOpenFromURL"));
-        JMenuItem miOpenFromClipboard = ComponentFactory.getMenuItem(DcResources.getText("lblOpenFromClipboard"));
-        
-        JMenuItem miRotateRight = ComponentFactory.getMenuItem(IconLibrary._icoRotateRight, DcResources.getText("lblRotateRight"));
-        JMenuItem miRotateLeft = ComponentFactory.getMenuItem(IconLibrary._icoRotateLeft, DcResources.getText("lblRotateLeft"));
-        
-        JMenuItem miGrayscale = ComponentFactory.getMenuItem(IconLibrary._icoGrayscale, DcResources.getText("lblGrayscale"));
-        JMenuItem miSharpen = ComponentFactory.getMenuItem(DcResources.getText("lblSharpen"));
-        JMenuItem miBlur = ComponentFactory.getMenuItem(DcResources.getText("lblBlur"));
-        
-        JMenuItem miDelete = ComponentFactory.getMenuItem(DcResources.getText("lblDelete"));
-        
-        miRotateRight.setActionCommand("rotate_right");
-        miRotateRight.addActionListener(pf);
+    	JButton btnAddFromURL = ComponentFactory.getIconButton(IconLibrary._icoPictureAddFromURL);
+    	btnAddFromURL.setToolTipText(DcResources.getText("lblOpenFromURL"));
+    	btnAddFromURL.setActionCommand("open_from_url");
+    	btnAddFromURL.addActionListener(pf);    	
 
-        miRotateLeft.setActionCommand("rotate_left");
-        miRotateLeft.addActionListener(pf);
+    	JButton btnAddFromClipboard = ComponentFactory.getIconButton(IconLibrary._icoPictureAddFromMemory);
+    	btnAddFromClipboard.setToolTipText(DcResources.getText("lblOpenFromClipboard"));
+    	btnAddFromClipboard.setActionCommand("open_from_clipboard");
+    	btnAddFromClipboard.addActionListener(pf);    	
+    	
+    	JButton btnRotateRight = ComponentFactory.getIconButton(IconLibrary._icoRotateRight);
+    	btnRotateRight.setToolTipText(DcResources.getText("lblRotateRight"));
+    	btnRotateRight.setActionCommand("rotate_right");
+    	btnRotateRight.addActionListener(pf);
 
-        miGrayscale.setActionCommand("grayscale");
-        miGrayscale.addActionListener(pf);
+    	JButton btnRotateLeft = ComponentFactory.getIconButton(IconLibrary._icoRotateLeft);
+    	btnRotateLeft.setToolTipText(DcResources.getText("lblRotateLeft"));
+    	btnRotateLeft.setActionCommand("rotate_left");
+    	btnRotateLeft.addActionListener(pf);
+    	
+    	JButton btnGreyscale = ComponentFactory.getIconButton(IconLibrary._icoGrayscale);
+    	btnGreyscale.setToolTipText(DcResources.getText("lblGrayscale"));	
+    	btnGreyscale.setActionCommand("grayscale");
+        btnGreyscale.addActionListener(pf);    	
 
-        miSharpen.setActionCommand("sharpen");
-        miSharpen.addActionListener(pf);
+    	JButton btnSharpen = ComponentFactory.getIconButton(IconLibrary._icoGrayscale);
+    	btnSharpen.setToolTipText(DcResources.getText("lblSharpen"));
+    	btnSharpen.setActionCommand("sharpen");
+    	btnSharpen.addActionListener(pf);    	
+    	
+    	JButton btnBlur = ComponentFactory.getIconButton(IconLibrary._icoGrayscale);
+    	btnBlur.setToolTipText(DcResources.getText("lblBlur"));
+    	btnBlur.setActionCommand("blur");
+    	btnBlur.addActionListener(pf);    	
+    	
+    	JButton btnDelete = ComponentFactory.getIconButton(IconLibrary._icoDelete);
+    	btnDelete.setToolTipText(DcResources.getText("lblDelete"));	    	
+    	btnDelete.setActionCommand("delete");
+    	btnDelete.addActionListener(pf);
         
-        miBlur.setActionCommand("blur");
-        miBlur.addActionListener(pf);
-
-        miOpenFromFile.setActionCommand("open_from_file");
-        miOpenFromFile.addActionListener(pf);
-
-        miOpenFromURL.setActionCommand("open_from_url");
-        miOpenFromURL.addActionListener(pf);
-
-        miOpenFromClipboard.setActionCommand("open_from_clipboard");
-        miOpenFromClipboard.addActionListener(pf);
+    	add(btnSaveAs);
+    	
+    	addSeparator();
+    	
+        add(btnAddFromFile);
+        add(btnAddFromURL);
+        add(btnAddFromClipboard);
         
-        miDelete.setActionCommand("delete");
-        miDelete.addActionListener(pf);
+        addSeparator();
         
-        miSaveAs.setActionCommand("Save as");
-        miSaveAs.addActionListener(pf);
+        add(btnRotateLeft);
+        add(btnRotateRight);
         
-        menuFile.add(miOpenFromFile);
-        menuFile.add(miOpenFromURL);
-        menuFile.add(miOpenFromClipboard);
-        menuFile.addSeparator();
-        menuFile.add(miSaveAs);
+        addSeparator();
         
-        menuEdit.add(miRotateLeft);
-        menuEdit.add(miRotateRight);
+        add(btnGreyscale);
+        add(btnSharpen);
+        add(btnBlur);
         
-        menuEdit.addSeparator();
+        addSeparator();
         
-        menuEdit.add(miGrayscale);
-        menuEdit.add(miSharpen);
-        menuEdit.add(miBlur);
-        
-        menuEdit.addSeparator();
-        
-        menuEdit.add(miDelete);
-        
-        add(menuFile);
-        add(menuEdit);
+        add(btnDelete);
     }
 }

@@ -54,7 +54,7 @@ public class ResourceEditorDialog extends DcFrame implements ActionListener {
     private final  Collection<LanguageResourcePanel> panels = new ArrayList<LanguageResourcePanel>();
     
     public ResourceEditorDialog() {
-        super(DcResources.getText("lblResourceEditor"), IconLibrary._icoSettings32);
+        super(DcResources.getText("lblResourceEditor"), IconLibrary._icoSettings);
         build();
         
         pack();

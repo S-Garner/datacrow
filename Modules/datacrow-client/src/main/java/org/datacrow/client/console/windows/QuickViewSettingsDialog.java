@@ -149,15 +149,15 @@ public class QuickViewSettingsDialog extends DcDialog implements ActionListener 
         
         cbShowPicturesInTabs.setSelected(DcModules.getCurrent().getSettings().getBoolean(DcRepository.ModuleSettings.stShowPicturesInSeparateTabs));
         
-        tp.addTab(DcResources.getText("lblGroupGeneral"), IconLibrary._icoSettings16, panelGeneral);
+        tp.addTab(DcResources.getText("lblGroupGeneral"), IconLibrary._icoSettings, panelGeneral);
         
         DcModule module = DcModules.get(DcSettings.getInt(DcRepository.Settings.stModule));
         panelDefinitionsParent = new DefinitionPanel(module);
-        tp.addTab(DcResources.getText("lblXFields", module.getLabel()), IconLibrary._icoSettings16, panelDefinitionsParent);
+        tp.addTab(DcResources.getText("lblXFields", module.getLabel()), IconLibrary._icoSettings, panelDefinitionsParent);
 
         if (module.getChild() != null) {
             panelDefinitionsChild = new DefinitionPanel(module.getChild());
-            tp.addTab(DcResources.getText("lblXFields", module.getChild().getLabel()), IconLibrary._icoSettings16, panelDefinitionsChild);
+            tp.addTab(DcResources.getText("lblXFields", module.getChild().getLabel()), IconLibrary._icoSettings, panelDefinitionsChild);
         }
         
         DcColorSelector cs = ComponentFactory.getColorSelector(DcRepository.Settings.stQuickViewBackgroundColor);

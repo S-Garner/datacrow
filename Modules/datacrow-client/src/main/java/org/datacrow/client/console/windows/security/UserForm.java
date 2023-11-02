@@ -52,14 +52,14 @@ public class UserForm extends ItemForm {
     	modulePermissionPanel = new ModulePermissionPanel(dco, update);
     	modulePermissionPanel.setEnabled(!((User) dco).isAdmin());
         tabbedPane.addTab(DcResources.getText("lblModulePermission"),  
-                          IconLibrary._icoSettings16, modulePermissionPanel);
+                          IconLibrary._icoSettings, modulePermissionPanel);
     }
     
     private void addPluginPermissionPanel() {
         pluginPermissionPanel = new PluginPermissionPanel(dco, update);
         pluginPermissionPanel.setEnabled(!((User) dco).isAdmin());
         tabbedPane.addTab(DcResources.getText("lblPluginPermissions"),  
-                          IconLibrary._icoSettings16, pluginPermissionPanel);
+                          IconLibrary._icoSettings, pluginPermissionPanel);
     }
     
     @Override

@@ -28,21 +28,34 @@ package org.datacrow.client.console.components;
 import java.awt.Graphics;
 
 import javax.swing.AbstractAction;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JToolTip;
 
 import org.datacrow.client.console.GUI;
+import org.datacrow.core.objects.DcImageIcon;
 
 public class DcMenuItem extends JMenuItem {
 	
     public DcMenuItem(String text) {
         super(text);
     }
+    
+    @Override
+    public void setIcon(Icon icon) {
+    	if (icon != null) {
+    		if (icon instanceof DcImageIcon) {
+    			super.setIcon(((DcImageIcon) icon).toIcon());
+    		} else if (icon instanceof ImageIcon) {
+    			super.setIcon(new DcImageIcon(((ImageIcon) icon).getImage()).toIcon());
+    		} 
+    	}
+    }
 
     public DcMenuItem(AbstractAction action) {
         super(action);
     }
-
     
     @Override
     public JToolTip createToolTip() {

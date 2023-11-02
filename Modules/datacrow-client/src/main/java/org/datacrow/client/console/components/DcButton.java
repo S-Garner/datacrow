@@ -28,10 +28,12 @@ package org.datacrow.client.console.components;
 import java.awt.Graphics;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToolTip;
 
 import org.datacrow.client.console.GUI;
+import org.datacrow.core.objects.DcImageIcon;
 
 public class DcButton extends JButton {
     
@@ -40,7 +42,18 @@ public class DcButton extends JButton {
     }
     
     public DcButton(Icon icon) {
-        super(icon);
+    	super(icon);
+    }
+    
+    @Override
+    public void setIcon(Icon icon) {
+    	if (icon != null) {
+    		if (icon instanceof DcImageIcon) {
+    			super.setIcon(((DcImageIcon) icon).toIcon());
+    		} else if (icon instanceof ImageIcon) {
+    			super.setIcon(new DcImageIcon(((ImageIcon) icon).getImage()).toIcon());
+    		} 
+    	}    	
     }
 
     @Override
