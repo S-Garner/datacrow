@@ -42,7 +42,7 @@ public class FileNodeElement extends NodeElement {
     @Override
     public DcImageIcon getIcon() {
     	if (file == null) {
-    		return IconLibrary._icoOpen;
+    		return IconLibrary._icoFolderSystemExists;
     	} else {
     	    if (!file.exists()) {
     	        return IconLibrary._icoFileSystemNotExists;

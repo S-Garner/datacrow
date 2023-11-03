@@ -103,7 +103,6 @@ public class DcDefaultMutableTreeNode extends DefaultMutableTreeNode {
         return children;
     }    
     
-    
     /**
      * Returns all children, including children of children; the whole hierarchy.
      */
