@@ -42,6 +42,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -234,7 +235,7 @@ public class ModuleListPanel extends JPanel {
         private final JMenuBar mb;
         private final JMenu menu;
         
-        DcLabel lblModule;
+        JLabel lblModule;
         
         public MainModuleButton(DcModule module) {
             super(Layout.getGBL());
@@ -254,8 +255,10 @@ public class ModuleListPanel extends JPanel {
             setMinimumSize(new Dimension(60, 50));
             setPreferredSize(new Dimension(60, 50));
             
-            lblModule = ComponentFactory.getLabel("");
-            lblModule.setIconKeepSize(module.getIcon32());
+            lblModule = new JLabel(module.getIcon32());
+            
+//            lblModule = ComponentFactory.getLabel("");
+//            lblModule.setIconKeepSize(module.getIcon32());
             
             add(lblModule, Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.CENTER, GridBagConstraints.NONE,
@@ -282,7 +285,7 @@ public class ModuleListPanel extends JPanel {
         }
         
         public void setModule(DcModule module) {
-            this.lblModule.setIconKeepSize(module.getIcon32());
+            this.lblModule.setIcon(module.getIcon32());
             this.module = module;
         }
         
