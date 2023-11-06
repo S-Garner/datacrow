@@ -124,7 +124,7 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
 
     public OnlineSearchForm(OnlineServices os, DcObject dco, ItemForm itemForm, boolean advanced) {
         super(DcResources.getText("lblOnlineXSearch", DcModules.getCurrent().getObjectName()),
-                                  IconLibrary._icoSearchOnline64);
+                                  IconLibrary._icoSearchOnline);
 
         startSearchOnOpen = dco != null;
 

@@ -1011,7 +1011,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                 su.isEditingAllowed(module)) {
         	
             buttonInternet = ComponentFactory.getButton(DcResources.getText("lblOnlineUpdate"));
-            buttonInternet.setIcon(IconLibrary._icoSearchOnline16);
+            buttonInternet.setIcon(IconLibrary._icoSearchOnline);
             buttonInternet.setMnemonic(KeyEvent.VK_U);
             buttonInternet.addActionListener(this);
             buttonInternet.setActionCommand("onlineSearch");

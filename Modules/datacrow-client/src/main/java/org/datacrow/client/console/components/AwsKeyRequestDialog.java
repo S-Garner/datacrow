@@ -126,7 +126,7 @@ public class AwsKeyRequestDialog extends DcDialog implements ActionListener {
                  new Insets( 5, 0, 5, 0), 0, 0));
 
         JButton buttonRequest = ComponentFactory.getButton(DcResources.getText("lblGetAwsKey"), 
-                IconLibrary._icoSearchOnline16);
+                IconLibrary._icoSearchOnline);
         JButton buttonOk = ComponentFactory.getButton(DcResources.getText("lblOK"));
 
         buttonRequest.setActionCommand("request");

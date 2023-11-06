@@ -354,7 +354,10 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
             		cbTreeNodeHeight.setSelectedItem(value);
             	if (value.intValue() > ((Long) cbFieldHeight.getSelectedItem()).intValue())
             		cbFieldHeight.setSelectedItem(value);
-            	
+            	if (value.intValue() > ((Long) cbTableRowHeight.getSelectedItem()).intValue())
+            		cbTableRowHeight.setSelectedItem(value);
+            	if (value.intValue() > ((Long) cbButtonHeight.getSelectedItem()).intValue())
+            		cbButtonHeight.setSelectedItem(value);
             	
             	applyLAF();
             }

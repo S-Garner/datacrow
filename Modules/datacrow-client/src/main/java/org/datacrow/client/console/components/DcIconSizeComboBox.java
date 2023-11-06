@@ -32,6 +32,7 @@ public class DcIconSizeComboBox extends DcComboBox<Object> {
         
         addItem(new IconSize(Long.valueOf(8), "8 * 8"));
         addItem(new IconSize(Long.valueOf(16), "16 * 16"));
+        addItem(new IconSize(Long.valueOf(24), "24 * 24"));
         addItem(new IconSize(Long.valueOf(32), "32 * 32"));
         addItem(new IconSize(Long.valueOf(36), "36 * 36"));
         addItem(new IconSize(Long.valueOf(40), "40 * 40"));

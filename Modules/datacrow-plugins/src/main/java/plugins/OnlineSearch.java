@@ -69,7 +69,7 @@ public class OnlineSearch extends Plugin {
     
     @Override
     public ImageIcon getIcon() {
-        return IconLibrary._icoSearchOnline16;
+        return IconLibrary._icoSearchOnline;
     }
     
     @Override

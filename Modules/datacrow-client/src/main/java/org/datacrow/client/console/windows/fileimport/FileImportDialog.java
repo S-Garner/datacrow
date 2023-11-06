@@ -519,7 +519,7 @@ public class FileImportDialog extends DcFrame implements ActionListener {
         tp.addTab(DcResources.getText("lblTitleCleanup"),  IconLibrary._icoSettings, getTitleCleanupPanel());
         
         if (module.hasOnlineServices())
-            tp.addTab(DcResources.getText("lblOnlineSearch"), IconLibrary._icoSearchOnline16, panelOs);
+            tp.addTab(DcResources.getText("lblOnlineSearch"), IconLibrary._icoSearchOnline.toIcon(), panelOs);
         
         if (importer.canImportArt())
             tp.addTab(DcResources.getText("lblLocalArt"), IconLibrary._icoPicture, panelLocalArt);

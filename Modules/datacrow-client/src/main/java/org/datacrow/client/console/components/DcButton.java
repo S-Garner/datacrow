@@ -53,7 +53,9 @@ public class DcButton extends JButton {
     		} else if (icon instanceof ImageIcon) {
     			super.setIcon(new DcImageIcon(((ImageIcon) icon).getImage()).toIcon());
     		} 
-    	}    	
+    	} else {
+    		super.setIcon(null);
+    	}
     }
 
     @Override

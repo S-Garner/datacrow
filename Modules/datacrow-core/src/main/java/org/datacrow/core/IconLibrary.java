@@ -44,7 +44,6 @@ public abstract class IconLibrary {
     public static final DcImageIcon _icoRatingOK = new DcImageIcon(picPath + "rating_ok.png");
     public static final DcImageIcon _icoRatingNOK = new DcImageIcon(picPath + "rating_nok.png");
     public static final DcImageIcon _icoModuleBarSelector = new DcImageIcon(picPath + "modulebar_selector.png");
-    public static final DcImageIcon _icoTwitter = new DcImageIcon(picPath + "twitter.png");
     public static final DcImageIcon _icoGrayscale = new DcImageIcon(picPath + "grayscale.png");
     public static final DcImageIcon _icoRotateLeft = new DcImageIcon(picPath + "rotate_left.png");
     public static final DcImageIcon _icoRotateRight = new DcImageIcon(picPath + "rotate_right.png");
@@ -129,9 +128,7 @@ public abstract class IconLibrary {
     public static final DcImageIcon _icoQuestion = new DcImageIcon(picPath + "help.png");
     public static final DcImageIcon _icoError = new DcImageIcon(picPath + "error.png");
     public static final DcImageIcon _icoHelp = new DcImageIcon(picPath + "help.png");
-    public static final DcImageIcon _icoSearchOnline16 = new DcImageIcon(picPath + "searchonline16.png");
-    public static final DcImageIcon _icoSearchOnline32 = new DcImageIcon(picPath + "searchonline32.png");
-    public static final DcImageIcon _icoSearchOnline64 = new DcImageIcon(picPath + "searchonline64.png");
+    public static final DcImageIcon _icoSearchOnline = new DcImageIcon(picPath + "searchonline.png");
     public static final DcImageIcon _icoWarning = new DcImageIcon(picPath + "warning.png");
     public static final DcImageIcon _icoSettings = new DcImageIcon(picPath + "settings.png");
     public static final DcImageIcon _icoAbout = new DcImageIcon(picPath + "about.png");

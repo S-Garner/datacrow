@@ -57,7 +57,7 @@ public class BoardGameAtlasServer implements IServer {
 
     @Override
 	public boolean isEnabled() {
-        return true;
+        return false;
     }
     
     @Override
