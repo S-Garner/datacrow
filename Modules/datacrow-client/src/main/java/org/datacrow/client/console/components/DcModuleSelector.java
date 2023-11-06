@@ -77,8 +77,7 @@ public class DcModuleSelector extends JComponent implements IComponent {
                 checkBox.setSelected(module.isEnabled());
                 checkBox.addActionListener(new ToggleModuleAction(module.getIndex()));
                 
-                label = ComponentFactory.getLabel(module.getLabel());
-                label.setIconKeepSize(module.getIcon32());
+                label = ComponentFactory.getLabel(module.getLabel(), module.getIcon32());
                 
                 panel.add(checkBox,   Layout.getGBC( x, y, 1, 1, 1.0, 1.0
                    ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,

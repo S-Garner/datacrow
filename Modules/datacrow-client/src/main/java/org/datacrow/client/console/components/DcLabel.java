@@ -27,13 +27,11 @@ package org.datacrow.client.console.components;
 
 import java.awt.Graphics;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JToolTip;
 
 import org.datacrow.client.console.GUI;
-import org.datacrow.core.objects.DcImageIcon;
 
 public class DcLabel extends JLabel {
 
@@ -44,21 +42,6 @@ public class DcLabel extends JLabel {
     public DcLabel(ImageIcon icon) {
         super(icon);
     }
-    
-    @Override
-    public void setIcon(Icon icon) {
-    	if (icon != null) {
-    		if (icon instanceof DcImageIcon) {
-    			super.setIcon(((DcImageIcon) icon).toIcon());
-    		} else if (icon instanceof ImageIcon) {
-    			super.setIcon(new DcImageIcon(((ImageIcon) icon).getImage()).toIcon());
-    		} 
-    	}    	
-    }   
-    
-    public void setIconKeepSize(Icon icon) {
-    	super.setIcon(icon);
-    }      
     
     public DcLabel(String lbl) {
         super(lbl);

@@ -47,6 +47,7 @@ import javax.swing.event.ListSelectionListener;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
+import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.client.console.components.DcList;
 import org.datacrow.client.console.components.DcMultiLineToolTip;
 import org.datacrow.core.DcRepository;
@@ -201,13 +202,16 @@ public class DcModuleList extends DcList implements ListSelectionListener {
                 label.setPreferredSize(new Dimension(12, 12));
                 label.setMinimumSize(new Dimension(12, 12));
                 label.setMaximumSize(new Dimension(12, 12));
-                
                 label.setForeground(Color.BLACK);
             
                 add(label);
-                add(ComponentFactory.getLabel(module.getIcon16()));
+                
+            	DcLabel lbl = ComponentFactory.getLabel("", module.getIcon32().toIcon());
+                add(lbl);
+                
             } else {
-                add(ComponentFactory.getLabel(module.getIcon32()));
+            	DcLabel lbl = ComponentFactory.getLabel("", module.getIcon32());
+                add(lbl);
             }
 
             add(ComponentFactory.getLabel(module.getLabel()));
