@@ -48,7 +48,10 @@ public class DcSimpleValue implements Serializable {
     }
     
     public void setIcon(DcImageIcon icon) {
-        this.icon = new DcImageIcon(icon.getImage()).toIcon();
+    	if (icon != null)
+    		this.icon = new DcImageIcon(icon.getImage()).toIcon();
+    	else 
+    		this.icon = null;
     }
 
     public String getID() {
