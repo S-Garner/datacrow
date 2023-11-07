@@ -206,25 +206,27 @@ public class DatabaseManager {
                 conversions.calculate();
                 conversions.save();
                 
-                Connection c = getAdminConnection();
-                
-                try {
-                	if (checkConnection != null)
-                		checkConnection.close();
-                } catch (SQLException se) {
-                    logger.error(se, se);
-                }
-                
-                if (c != null) {
-                    Statement stmt = c.createStatement();
-
-                    if (compact)
-                        stmt.execute("SHUTDOWN COMPACT");
-                    else 
-                        stmt.execute("SHUTDOWN");
-                    
-                    stmt.close();
-                    c.close();
+                if (DcConfig.getInstance().getDatabaseDir() != null) {
+	                Connection c = getAdminConnection();
+	                
+	                try {
+	                	if (checkConnection != null)
+	                		checkConnection.close();
+	                } catch (SQLException se) {
+	                    logger.error(se, se);
+	                }
+	                
+	                if (c != null) {
+	                    Statement stmt = c.createStatement();
+	
+	                    if (compact)
+	                        stmt.execute("SHUTDOWN COMPACT");
+	                    else 
+	                        stmt.execute("SHUTDOWN");
+	                    
+	                    stmt.close();
+	                    c.close();
+	                }
                 }
                 
                 // just to make sure the database is really released..

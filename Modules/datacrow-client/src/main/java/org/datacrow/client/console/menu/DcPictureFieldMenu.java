@@ -78,15 +78,10 @@ public class DcPictureFieldMenu extends JToolBar {
     	btnGreyscale.setActionCommand("grayscale");
         btnGreyscale.addActionListener(pf);    	
 
-    	JButton btnSharpen = ComponentFactory.getIconButton(IconLibrary._icoGrayscale);
+    	JButton btnSharpen = ComponentFactory.getIconButton(IconLibrary._icoSharpen);
     	btnSharpen.setToolTipText(DcResources.getText("lblSharpen"));
     	btnSharpen.setActionCommand("sharpen");
     	btnSharpen.addActionListener(pf);    	
-    	
-    	JButton btnBlur = ComponentFactory.getIconButton(IconLibrary._icoGrayscale);
-    	btnBlur.setToolTipText(DcResources.getText("lblBlur"));
-    	btnBlur.setActionCommand("blur");
-    	btnBlur.addActionListener(pf);    	
     	
     	JButton btnDelete = ComponentFactory.getIconButton(IconLibrary._icoDelete);
     	btnDelete.setToolTipText(DcResources.getText("lblDelete"));	    	
@@ -110,7 +105,6 @@ public class DcPictureFieldMenu extends JToolBar {
         
         add(btnGreyscale);
         add(btnSharpen);
-        add(btnBlur);
         
         addSeparator();
         

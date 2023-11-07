@@ -25,7 +25,6 @@
 
 package org.datacrow.client.console.components.panels;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -50,7 +49,7 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
     
     private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
     
-    private final JButton buttonSettings = ComponentFactory.getButton(IconLibrary._icoSettings);
+    private final JButton buttonSettings = ComponentFactory.getIconButton(IconLibrary._icoSettings);
     private final JCheckBox checkOverwrite = ComponentFactory.getCheckBox(DcResources.getText("lblOverwriteExistingValues"));
     private final JCheckBox checkAutoAdd = ComponentFactory.getCheckBox(DcResources.getText("lblAutoAddPerfectMatch"));
     private final JCheckBox checkUseOriginalSettings = ComponentFactory.getCheckBox(DcResources.getText("lblMassUpdateUseOriginalSettings"));
@@ -147,9 +146,6 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
         }
         
         buttonSettings.setMnemonic('S');
-        buttonSettings.setMaximumSize(new Dimension(25, 22));
-        buttonSettings.setMinimumSize(new Dimension(25, 22));
-        buttonSettings.setPreferredSize(new Dimension(25, 22));
         buttonSettings.addActionListener(this);
         buttonSettings.setActionCommand("openOverwriteSettingsDialog");
         

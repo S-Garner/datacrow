@@ -9,12 +9,18 @@ Data Crow version 4.10.1                      Released on 2023-11-xx
 - MobyGames.com did not show & and other characters correctly in the title.
 - Create tab window size was not stored.
 - Icon cannot be selected when creating a new tab for the item form.
+- When a data folder / user folder was newly setup, Data Crow would (try to) create nulldc.script and nulldc.properties in the installation folder.
 
 [Changed]
 - Added cancel option when the item form is closed and unsaved changes are detected. This keeps the dialog open without making any changes.
 - Added a create button to the references selection dialog.
+- New icons; all system icons have been replaced with new ones with a bigger size (32x32 instead of 16x16)
 - Existing item form tabs can now be edited.
-- Quick view; the setting "show pictures in separate tabs" would ignore picture not enabled for the details. Now, if this setting is enabled all pictures will be shown in separate tabs and pictures ticked as enabled will also appear in the overview. 
+- Quick view; the setting "show pictures in separate tabs" would ignore picture not enabled for the details. Now, if this setting is enabled all pictures will be shown in separate tabs and pictures ticked as enabled will also appear in the overview.
+- Added 24x24 for icon scaling. Removed 40x40 and 36x36 as there are no icons of this size currently available in Data Crow.
+- Picture fields: removed the menu for editing and placed the icons at the top of the picture pane.
+- Removed blur as an edit option for images.
+- The default icon size for new installations has been changed to 24x24, field and button heights to 26.
 
 [Removed]
 - Board Game Atlas has gone offline, they no longer exist. The online search has been removed. Trying to find an alternative. Most likely candidate: boardgamegeek.
