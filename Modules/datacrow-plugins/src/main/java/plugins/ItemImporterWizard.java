@@ -77,7 +77,7 @@ public class ItemImporterWizard extends Plugin {
     
     @Override
     public ImageIcon getIcon() {
-        return IconLibrary._icoItemImport16;
+        return IconLibrary._icoItemImport;
     }
     
     @Override

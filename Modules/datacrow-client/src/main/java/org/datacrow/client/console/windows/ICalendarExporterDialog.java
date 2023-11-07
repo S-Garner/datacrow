@@ -43,6 +43,7 @@ import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcFileField;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.clients.IClient;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
@@ -66,6 +67,7 @@ public class ICalendarExporterDialog extends DcDialog implements ActionListener,
         super(GUI.getInstance().getMainFrame());
         setTitle(DcResources.getText("lblICalendarLoanExport"));
         setHelpIndex("dc.tools.icalendar_export");
+        setIconImage(IconLibrary._icoCalendar.getImage());
 
         buildDialog();
         

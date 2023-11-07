@@ -58,7 +58,6 @@ import org.datacrow.client.fileimporter.MovieImporter;
 import org.datacrow.client.fileimporter.MusicAlbumImporter;
 import org.datacrow.client.fileimporter.SoftwareImporter;
 import org.datacrow.client.settings.GuiSettingsConverter;
-import org.datacrow.client.synchronizers.AssociateSynchronizer;
 import org.datacrow.client.synchronizers.BoardGameSynchronizer;
 import org.datacrow.client.synchronizers.BookSynchronizer;
 import org.datacrow.client.synchronizers.ComicBookCharacterSynchronizer;
@@ -503,7 +502,6 @@ public class DataCrow implements IStarterClient {
     
     private void initSynchronizers() {
         Synchronizers synchronizers = Synchronizers.getInstance();
-        synchronizers.register(new AssociateSynchronizer(), DcModules._CONTACTPERSON);
         synchronizers.register(new BookSynchronizer(), DcModules._BOOK);
         synchronizers.register(new MovieSynchronizer(), DcModules._MOVIE);
         synchronizers.register(new MusicAlbumSynchronizer(), DcModules._MUSIC_ALBUM);

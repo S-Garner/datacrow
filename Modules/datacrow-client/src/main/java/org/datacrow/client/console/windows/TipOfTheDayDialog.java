@@ -46,6 +46,7 @@ import org.datacrow.client.console.components.DcCheckBox;
 import org.datacrow.client.console.components.DcHtmlEditorPane;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 
@@ -60,7 +61,9 @@ public class TipOfTheDayDialog extends DcDialog implements ActionListener {
     
     public TipOfTheDayDialog() {
         super(GUI.getInstance().getMainFrame());
+        
         setTitle(DcResources.getText("lblTipOfTheDay"));
+        setIconImage(IconLibrary._icoTips.getImage());
         
         build();
         setSize(400, 300);

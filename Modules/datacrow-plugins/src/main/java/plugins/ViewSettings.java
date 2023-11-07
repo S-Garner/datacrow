@@ -96,7 +96,7 @@ public class ViewSettings extends Plugin {
     
     @Override
     public ImageIcon getIcon() {
-        return IconLibrary._icoSettings;
+        return IconLibrary._icoViewSettings;
     }
     
     @Override

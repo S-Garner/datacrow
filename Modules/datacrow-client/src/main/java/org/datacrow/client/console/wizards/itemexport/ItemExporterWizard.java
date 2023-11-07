@@ -32,6 +32,7 @@ import org.datacrow.client.console.wizards.IWizardPanel;
 import org.datacrow.client.console.wizards.Wizard;
 import org.datacrow.client.console.wizards.WizardException;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 
@@ -45,6 +46,7 @@ public class ItemExporterWizard extends Wizard {
 		
 		setTitle(getWizardName());
 		setHelpIndex("dc.migration.wizard.exporter");
+		setIconImage(IconLibrary._icoItemExport.getImage());
 		
 		this.items = items;
 		setSize(DcSettings.getDimension(DcRepository.Settings.stItemExporterWizardFormSize));

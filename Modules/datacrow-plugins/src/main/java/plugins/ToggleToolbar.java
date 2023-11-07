@@ -76,7 +76,7 @@ public class ToggleToolbar extends Plugin {
     
     @Override
     public ImageIcon getIcon() {
-        return DcSettings.getBoolean(DcRepository.Settings.stShowToolbar) ? IconLibrary._icoOK : null;
+        return DcSettings.getBoolean(DcRepository.Settings.stShowToolbar) ? IconLibrary._icoToggle : null;
     }
 
     

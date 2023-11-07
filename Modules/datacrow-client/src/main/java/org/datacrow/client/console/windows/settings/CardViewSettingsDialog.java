@@ -42,6 +42,7 @@ import org.datacrow.client.console.components.DcColorSelector;
 import org.datacrow.client.console.components.fileselection.FieldSelectionPanel;
 import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -55,6 +56,8 @@ public class CardViewSettingsDialog extends DcDialog implements ActionListener {
     
     public CardViewSettingsDialog() {
         super();
+        
+        setIconImage(IconLibrary._icoViewSettings.getImage());
         
         setTitle(DcResources.getText("lblViewSettings"));
         setHelpIndex("dc.settings.cardview");

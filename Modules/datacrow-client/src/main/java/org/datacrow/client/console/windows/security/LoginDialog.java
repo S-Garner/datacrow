@@ -31,6 +31,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -45,6 +46,7 @@ import org.datacrow.client.console.components.DcShortTextField;
 import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
@@ -63,8 +65,12 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
     public LoginDialog() {
         super((JFrame) null);
         build();
-        setTitle(DcResources.getText("lblLogin"));
         pack();
+        
+        setTitle(DcResources.getText("lblLogin"));
+        
+        setIconImage(new DcImageIcon(new File(DcConfig.getInstance().getInstallationDir(), "icons/login.png")).getImage());
+        
         toFront();
         setCenteredLocation();
         fldLoginName.requestFocusInWindow();

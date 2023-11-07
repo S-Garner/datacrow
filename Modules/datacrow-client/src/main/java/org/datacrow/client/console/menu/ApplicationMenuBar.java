@@ -41,6 +41,7 @@ import org.datacrow.core.plugin.Plugin;
 import org.datacrow.core.plugin.Plugins;
 import org.datacrow.core.reporting.Reports;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.services.Servers;
 import org.datacrow.core.synchronizers.Synchronizers;
 
 public class ApplicationMenuBar extends org.datacrow.client.console.components.DcMenuBar {
@@ -84,7 +85,7 @@ public class ApplicationMenuBar extends org.datacrow.client.console.components.D
         PluginHelper.add(menuView, "ToggleToolbar");
 
         // modules menu
-        DcMenu subMenuModule = ComponentFactory.getMenu(DcResources.getText("lblActiveModule"));
+        DcMenu subMenuModule = ComponentFactory.getMenu(IconLibrary._icoModule, DcResources.getText("lblActiveModule"));
         for (DcModule module : DcModules.getModules()) {
             if (module.isSelectableInUI())
                 PluginHelper.add(subMenuModule, "OpenModule", module.getIndex());
@@ -132,7 +133,9 @@ public class ApplicationMenuBar extends org.datacrow.client.console.components.D
             menuTools.addSeparator();
         }
         
-        if (Synchronizers.getInstance().hasSynchronizer(module.getIndex())) {
+        if (	Synchronizers.getInstance().hasSynchronizer(module.getIndex()) && 
+        		Servers.getInstance().getOnlineServices(module.getIndex()) != null) {
+        	
             PluginHelper.add(menuTools, "MassUpdate");
             menuTools.addSeparator();
         }   
@@ -204,7 +207,7 @@ public class ApplicationMenuBar extends org.datacrow.client.console.components.D
         PluginHelper.add(menuTools, "ItemExporterWizard");
         PluginHelper.add(menuTools, "ItemImporterWizard");
         
-        if (DcModules.get(DcModules._LOAN).isEnabled()) 
+        if (DcModules.get(DcModules._LOAN).isEnabled() && module.canBeLend()) 
             PluginHelper.add(menuTools, "ICalendarExporter");
         
         if (!module.isAbstract()) {

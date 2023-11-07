@@ -66,7 +66,7 @@ public class ItemFormSettings extends Plugin {
 
     @Override
     public ImageIcon getIcon() {
-        return IconLibrary._icoSettings;
+        return IconLibrary._icoFormSettings;
     }
 
     @Override

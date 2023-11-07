@@ -67,7 +67,7 @@ public class ChangePassword extends Plugin {
 
     @Override
     public ImageIcon getIcon() {
-        return IconLibrary._icoSettings;
+        return IconLibrary._icoChangePassword;
     }
 
     @Override

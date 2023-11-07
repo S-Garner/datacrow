@@ -38,7 +38,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class Sort extends Plugin {
 
-	private static final long serialVersionUID = -8638506763875890884L;
+	private static final long serialVersionUID = 1L;
 
 	public Sort(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

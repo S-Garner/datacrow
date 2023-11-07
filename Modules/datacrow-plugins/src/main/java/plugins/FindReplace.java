@@ -71,7 +71,7 @@ public class FindReplace extends Plugin {
     
     @Override
     public ImageIcon getIcon() {
-        return IconLibrary._icoUpdateAll;
+        return IconLibrary._icoFindReplace;
     }
     
     @Override

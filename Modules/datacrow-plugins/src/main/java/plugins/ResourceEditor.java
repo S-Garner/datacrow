@@ -76,7 +76,7 @@ public class ResourceEditor extends Plugin {
 
     @Override
     public ImageIcon getIcon() {
-        return IconLibrary._icoSettings;
+        return IconLibrary._icoResourceEditor;
     }
 
     @Override

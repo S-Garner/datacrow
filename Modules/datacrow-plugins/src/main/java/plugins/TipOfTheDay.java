@@ -62,7 +62,7 @@ public class TipOfTheDay extends Plugin {
     
     @Override
     public ImageIcon getIcon() {
-        return IconLibrary._icoHelp;
+        return IconLibrary._icoTips;
     }
     
     @Override

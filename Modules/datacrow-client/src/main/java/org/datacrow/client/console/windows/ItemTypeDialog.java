@@ -75,6 +75,8 @@ public class ItemTypeDialog extends DcDialog implements ActionListener {
         }
         
         setTitle(DcResources.getText("lblSelectModule"));
+        setIconImage(IconLibrary._icoModule.getImage());
+        
         setModal(true);
         build(help);
     }

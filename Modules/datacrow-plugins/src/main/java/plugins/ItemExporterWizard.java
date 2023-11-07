@@ -49,7 +49,7 @@ import org.datacrow.core.server.Connector;
 
 public class ItemExporterWizard extends Plugin {
 
-	private static final long serialVersionUID = -2804538773781181614L;
+	private static final long serialVersionUID = 1L;
 
 	public ItemExporterWizard(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);
@@ -96,7 +96,7 @@ public class ItemExporterWizard extends Plugin {
     
     @Override
     public ImageIcon getIcon() {
-        return IconLibrary._icoItemExport16;
+        return IconLibrary._icoItemExport;
     }
     
     @Override

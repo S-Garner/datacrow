@@ -93,7 +93,7 @@ public class ToggleQuickView extends Plugin {
 
     @Override
     public ImageIcon getIcon() {
-        return DcSettings.getBoolean(DcRepository.Settings.stShowQuickView) ? IconLibrary._icoOK : null;
+        return DcSettings.getBoolean(DcRepository.Settings.stShowQuickView) ? IconLibrary._icoToggle : null;
     }
 
     @Override

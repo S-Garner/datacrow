@@ -73,7 +73,7 @@ public class ToggleModuleList extends Plugin {
     
     @Override
     public ImageIcon getIcon() {
-        return DcSettings.getBoolean(DcRepository.Settings.stShowModuleList) ? IconLibrary._icoOK : null;
+        return DcSettings.getBoolean(DcRepository.Settings.stShowModuleList) ? IconLibrary._icoToggle : null;
     }
     
     @Override

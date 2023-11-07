@@ -37,7 +37,7 @@ import org.datacrow.core.plugin.Plugin;
 
 public class OpenModule extends Plugin {
 	
-	private static final long serialVersionUID = -5362750948151954708L;
+	private static final long serialVersionUID = 1L;
 
 	public OpenModule(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);
@@ -70,7 +70,7 @@ public class OpenModule extends Plugin {
 
     @Override
     public ImageIcon getIcon() {
-        return getModule().getIcon16();
+        return getModule().getIcon32();
     }
 
     @Override

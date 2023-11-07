@@ -46,6 +46,7 @@ import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcLongTextField;
 import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.console.IMasterView;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilterEntry;
@@ -84,6 +85,8 @@ public class TitleRewriterDialog extends DcDialog implements ActionListener {
     public TitleRewriterDialog() {
         super(GUI.getInstance().getMainFrame());
 
+        setIconImage(IconLibrary._icoTitleRewriter.getImage());
+        
         buildDialog();
 
         setHelpIndex("dc.tools.titlerewriter");

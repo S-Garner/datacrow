@@ -67,7 +67,7 @@ public class FileImportFileSelectPanelSimple extends JPanel implements ActionLis
     
     private final JTextArea textLog = ComponentFactory.getTextArea();
     private final DcCheckBox cbRecursive = ComponentFactory.getCheckBox(DcResources.getText("lblRecursive"));
-    private final JButton btAdd = ComponentFactory.getButton(DcResources.getText("lblAdd"), IconLibrary._icoAdd);
+    private final JButton btAdd = ComponentFactory.getIconButton(IconLibrary._icoAdd);
 
     private FileNameFilter filter;
     private JButton btStart;
@@ -225,7 +225,7 @@ public class FileImportFileSelectPanelSimple extends JPanel implements ActionLis
         pRead.setLayout(Layout.getGBL());
 
         ff = ComponentFactory.getFileField(false, true);
-        btStart = ComponentFactory.getButton(DcResources.getText("lblStart"), IconLibrary._icoAdd);
+        btStart = ComponentFactory.getIconButton(IconLibrary._icoAdd);
         btStart.setActionCommand("readDir");
         btStart.addActionListener(this);
         

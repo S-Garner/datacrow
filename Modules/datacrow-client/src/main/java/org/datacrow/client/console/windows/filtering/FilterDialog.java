@@ -127,7 +127,7 @@ public class FilterDialog extends DcFrame implements ActionListener {
         
         filterTabs.addTab(DcResources.getText("lblFilter"), IconLibrary._icoSearch, defineFilterPanel);
         filterTabs.addTab(DcResources.getText("lblSort"), IconLibrary._icoSort, panelSort);
-        filterTabs.addTab(DcResources.getText("lblManage"), IconLibrary._icoFilter, manageFiltersPanel);
+        filterTabs.addTab(DcResources.getText("lblManage"), IconLibrary._icoSave, manageFiltersPanel);
         
         getContentPane().add(filterTabs,       Layout.getGBC( 0, 0, 1, 1, 100.0, 100.0
                 ,GridBagConstraints.SOUTHEAST, GridBagConstraints.BOTH,

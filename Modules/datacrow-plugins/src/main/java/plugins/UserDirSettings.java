@@ -73,7 +73,7 @@ public class UserDirSettings extends Plugin {
     
     @Override
     public ImageIcon getIcon() {
-        return IconLibrary._icoSettings;
+        return IconLibrary._icoUserFolder;
     }
     
     @Override

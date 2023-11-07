@@ -43,6 +43,7 @@ import org.datacrow.client.console.components.DcLongTextField;
 import org.datacrow.client.console.components.DcPasswordField;
 import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
@@ -58,9 +59,13 @@ public class ChangePasswordDialog extends DcDialog implements ActionListener, Ke
     public ChangePasswordDialog() {
         super(GUI.getInstance().getMainFrame());
         
+        setIconImage(IconLibrary._icoChangePassword.getImage());
+        
         build();
         pack();
-        setSize(new Dimension(300, 200));
+        
+        setSize(new Dimension(400, 320));
+        
         setHelpIndex("dc.security");
         toFront();
         setCenteredLocation();
@@ -110,29 +115,32 @@ public class ChangePasswordDialog extends DcDialog implements ActionListener, Ke
                  Layout.getGBC(0, 0, 2, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                  new Insets(5, 5, 5, 5), 0, 0));
-
          
-         getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblOldPassword")),   
+         
+         JPanel panelPassword = new JPanel();
+         panelPassword.setLayout(Layout.getGBL());
+         
+         panelPassword.add(ComponentFactory.getLabel(DcResources.getText("lblOldPassword")),   
                  Layout.getGBC(0, 1, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                  new Insets(5, 5, 5, 5), 0, 0));
-         getContentPane().add(fldCurrentPassword, Layout.getGBC(1, 1, 1, 1, 1.0, 1.0,
+         panelPassword.add(fldCurrentPassword, Layout.getGBC(1, 1, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                  new Insets(5, 5, 5, 5), 0, 0));
          
-         getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblNewPassword")),   
+         panelPassword.add(ComponentFactory.getLabel(DcResources.getText("lblNewPassword")),   
                  Layout.getGBC(0, 2, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                  new Insets(5, 5, 5, 5), 0, 0));
-         getContentPane().add(fldNewPassword1, Layout.getGBC(1, 2, 1, 1, 1.0, 1.0,
+         panelPassword.add(fldNewPassword1, Layout.getGBC(1, 2, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                  new Insets(5, 5, 5, 5), 0, 0));
 
-         getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblRetypePassword")),   
+         panelPassword.add(ComponentFactory.getLabel(DcResources.getText("lblRetypePassword")),   
                  Layout.getGBC(0, 3, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                  new Insets(5, 5, 5, 5), 0, 0));
-         getContentPane().add(fldNewPassword2, Layout.getGBC(1, 3, 1, 1, 1.0, 1.0,
+         panelPassword.add(fldNewPassword2, Layout.getGBC(1, 3, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                  new Insets(5, 5, 5, 5), 0, 0));
          
@@ -153,7 +161,11 @@ public class ChangePasswordDialog extends DcDialog implements ActionListener, Ke
          panelActions.add(btOk);
          panelActions.add(btCancel);
          
-         getContentPane().add(panelActions, Layout.getGBC(0, 4, 2, 1, 1.0, 1.0,
+         getContentPane().add(panelPassword, Layout.getGBC(0, 1, 1, 1, 1.0, 1.0,
+                 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                 new Insets(0, 0, 0, 0), 0, 0));         
+         
+         getContentPane().add(panelActions, Layout.getGBC(0, 2, 2, 1, 1.0, 1.0,
                  GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE,
                  new Insets(0, 0, 0, 0), 0, 0));
     }

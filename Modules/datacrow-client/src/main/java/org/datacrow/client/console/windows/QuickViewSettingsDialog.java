@@ -72,6 +72,7 @@ public class QuickViewSettingsDialog extends DcDialog implements ActionListener 
     public QuickViewSettingsDialog() {
         super(GUI.getInstance().getMainFrame());
 
+        setIconImage(IconLibrary._icoQuickViewSettings.getImage());
         setHelpIndex("dc.settings.quickview");
 
         buildDialog();

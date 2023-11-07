@@ -43,7 +43,7 @@ import org.datacrow.core.settings.DcSettings;
 public class LogForm extends DcFrame {
 
     public LogForm() {
-        super(DcResources.getText("lblLog"), IconLibrary._icoMain);
+        super(DcResources.getText("lblLog"), IconLibrary._icoEventLog);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         build();
 

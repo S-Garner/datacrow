@@ -46,6 +46,7 @@ import org.datacrow.client.console.components.DcProgressBar;
 import org.datacrow.client.console.components.panels.OnlineServicePanel;
 import org.datacrow.client.console.components.panels.OnlineServiceSettingsPanel;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.clients.ISynchronizerClient;
 import org.datacrow.core.console.IView;
 import org.datacrow.core.modules.DcModule;
@@ -95,6 +96,7 @@ public class ItemSynchronizerDialog extends DcDialog implements ActionListener {
 
         setTitle(synchronizer.getTitle());
         setHelpIndex(synchronizer.getHelpIndex());
+        setIconImage(IconLibrary._icoMassUpdate.getImage());
 
         buildDialog(Servers.getInstance().getOnlineServices(module.getIndex()));
         
@@ -258,6 +260,7 @@ public class ItemSynchronizerDialog extends DcDialog implements ActionListener {
         //**********************************************************
         //Online Server panel
         //**********************************************************
+        
         panelServer = new OnlineServicePanel(servers, true, canParseFiles ? true : false);
         Settings settings = DcModules.get(module).getSettings();
         panelServer.setServer(settings.getString(DcRepository.ModuleSettings.stMassUpdateServer));

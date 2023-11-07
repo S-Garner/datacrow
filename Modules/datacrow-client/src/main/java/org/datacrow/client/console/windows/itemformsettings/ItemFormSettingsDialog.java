@@ -59,7 +59,7 @@ public class ItemFormSettingsDialog extends DcFrame implements ActionListener, C
     private final DcModule module;
     
     public ItemFormSettingsDialog(DcModule module) {
-        super(DcResources.getText("lblItemFormSettings"), IconLibrary._icoSettings);
+        super(DcResources.getText("lblItemFormSettings"), IconLibrary._icoFormSettings);
         
         this.module = module;
         

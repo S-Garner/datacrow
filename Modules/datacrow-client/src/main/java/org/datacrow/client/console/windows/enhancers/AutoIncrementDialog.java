@@ -48,6 +48,7 @@ import org.datacrow.client.console.components.DcLongTextField;
 import org.datacrow.client.console.windows.DcDialog;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.data.DcResultSet;
 import org.datacrow.core.enhancers.AutoIncrementer;
@@ -83,6 +84,8 @@ public class AutoIncrementDialog extends DcDialog implements ActionListener {
     
     public AutoIncrementDialog() {
         super(GUI.getInstance().getMainFrame());
+        
+        setIconImage(IconLibrary._icoRenumber.getImage());
 
         buildDialog();
         

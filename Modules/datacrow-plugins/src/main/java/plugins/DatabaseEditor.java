@@ -69,7 +69,7 @@ public class DatabaseEditor extends Plugin {
     
     @Override
     public ImageIcon getIcon() {
-        return IconLibrary._icoTableView;
+        return IconLibrary._icoDatabaseTool;
     }
     
     @Override

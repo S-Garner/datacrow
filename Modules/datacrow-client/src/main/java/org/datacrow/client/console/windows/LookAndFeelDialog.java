@@ -38,6 +38,7 @@ import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcLookAndFeelSelector;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 
@@ -47,6 +48,8 @@ public class LookAndFeelDialog extends DcDialog implements ActionListener  {
     
     public LookAndFeelDialog() {
         super(GUI.getInstance().getMainFrame());
+        
+        setIconImage(IconLibrary._icoLAF.getImage());
         
         setTitle(DcResources.getText("lblLookAndFeel"));
         setHelpIndex("dc.settings.laf");

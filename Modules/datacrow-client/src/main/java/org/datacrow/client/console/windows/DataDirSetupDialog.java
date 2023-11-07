@@ -86,7 +86,7 @@ public class DataDirSetupDialog extends NativeDialog implements ActionListener, 
     public DataDirSetupDialog(String[] args, 
                               String selectedDataDir) {
         setTitle("User Folder Configuration");
-        setIconImage(new DcImageIcon(new File(DcConfig.getInstance().getInstallationDir(), "icons/icon-black.png")).getImage());
+        setIconImage(new DcImageIcon(new File(DcConfig.getInstance().getInstallationDir(), "icons/user_folder.png")).getImage());
         this.args = args;
         this.selectedDataDir = selectedDataDir;
     }

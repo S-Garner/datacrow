@@ -206,7 +206,7 @@ public class ComicVineComicSearch extends SearchTask {
                 // only query characters in case the character is new, or, the character has not been searched for before.
                 if (   !isCancelled() &&
                         character.containsKey("api_detail_url") && 
-                        ref.isNew() || dco.getExternalReference(DcRepository.ExternalReferences._COMICVINE) == null) {
+                        (ref.isNew() || dco.getExternalReference(DcRepository.ExternalReferences._COMICVINE) == null)) {
                     
                     waitBetweenRequest();
                     setCharacterDetails((String) character.get("api_detail_url") + "?api_key=" + apiKey + "&format=json", ref);

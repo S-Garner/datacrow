@@ -38,7 +38,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class FieldSettings extends Plugin {
     
-	private static final long serialVersionUID = -475643458333986313L;
+	private static final long serialVersionUID = 1L;
 
 	public FieldSettings(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);
@@ -62,7 +62,7 @@ public class FieldSettings extends Plugin {
     
     @Override
     public ImageIcon getIcon() {
-        return IconLibrary._icoSettings;
+        return IconLibrary._icoFieldSettings;
     }
     
     @Override

@@ -39,7 +39,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class Charts extends Plugin {
 
-	private static final long serialVersionUID = 286815964886972861L;
+	private static final long serialVersionUID = 1L;
 
 	public Charts(DcObject dco, DcTemplate template, int viewIdx, int moduleIdx, int viewType) {
         super(dco, template, viewIdx, moduleIdx, viewType);

@@ -80,7 +80,7 @@ public class FindReplaceDialog extends DcFrame implements ActionListener {
 
     public FindReplaceDialog(IView view) {
 
-        super(DcResources.getText("lblFindReplace"), IconLibrary._icoUpdateAll);
+        super(DcResources.getText("lblFindReplace"), IconLibrary._icoFindReplace);
         
         this.view = view;
         this.module = view.getModule();

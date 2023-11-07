@@ -46,6 +46,7 @@ import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcFileField;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.resources.DcResources;
@@ -62,6 +63,7 @@ public class SupportDialog extends DcDialog implements ActionListener {
         super();
         
         setTitle(DcResources.getText("lblCreateSupportPackage"));
+        setIconImage(IconLibrary._icoSupport.getImage());
 
         build();
         

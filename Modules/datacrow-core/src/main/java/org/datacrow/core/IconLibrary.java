@@ -38,6 +38,15 @@ public abstract class IconLibrary {
 
     public static final String picPath = DcConfig.getInstance().getInstallationDir() + "icons/";
     
+    public static final DcImageIcon _icoSupport = new DcImageIcon(picPath + "support.png");
+    public static final DcImageIcon _icoQuickViewSettings = new DcImageIcon(picPath + "quickview_settings.png");
+    public static final DcImageIcon _icoUserFolder = new DcImageIcon(picPath + "user_folder.png");
+    public static final DcImageIcon _icoFieldSettings = new DcImageIcon(picPath + "field_settings.png");
+    public static final DcImageIcon _icoViewSettings = new DcImageIcon(picPath + "view_settings.png");
+    public static final DcImageIcon _icoFormSettings = new DcImageIcon(picPath + "form_settings.png");
+    public static final DcImageIcon _icoFindReplace = new DcImageIcon(picPath + "find_replace.png");
+    public static final DcImageIcon _icoResourceEditor = new DcImageIcon(picPath + "resource_editor.png");
+    public static final DcImageIcon _icoDatabaseTool = new DcImageIcon(picPath + "database_tool.png");
     public static final DcImageIcon _icoSharpen = new DcImageIcon(picPath + "sharpen.png");
     public static final DcImageIcon _icoImageSettings = new DcImageIcon(picPath + "images.png");
     public static final DcImageIcon _icoAttachments = new DcImageIcon(picPath + "attachments.png");
@@ -98,10 +107,8 @@ public abstract class IconLibrary {
 	public static final DcImageIcon _icoLabels = new DcImageIcon(picPath + "labels.png");
     public static final DcImageIcon _icoTooltips = new DcImageIcon(picPath + "tooltips.png");
     public static final DcImageIcon _icoSQLTool = new DcImageIcon(picPath + "sqltool.png");
-    public static final DcImageIcon _icoItemImport16 = new DcImageIcon(picPath + "itemimport16.png");
-    public static final DcImageIcon _icoItemImport32 = new DcImageIcon(picPath + "itemimport32.png");
-    public static final DcImageIcon _icoItemExport16 = new DcImageIcon(picPath + "itemexport16.png");
-    public static final DcImageIcon _icoItemExport32 = new DcImageIcon(picPath + "itemexport32.png");
+    public static final DcImageIcon _icoItemImport = new DcImageIcon(picPath + "itemimport.png");
+    public static final DcImageIcon _icoItemExport = new DcImageIcon(picPath + "itemexport.png");
     public static final DcImageIcon _icoImport = new DcImageIcon(picPath + "import.png");
     public static final DcImageIcon _icoReport = new DcImageIcon(picPath + "report.png");
     public static final DcImageIcon _icoNote = new DcImageIcon(picPath + "note.png");
@@ -142,8 +149,8 @@ public abstract class IconLibrary {
     public static final DcImageIcon _icoMerge = new DcImageIcon(picPath + "merge.png");
     public static final DcImageIcon _icoWizard = new DcImageIcon(picPath + "wizard.png");
     public static final DcImageIcon _icoTips = new DcImageIcon(picPath + "tips.png");
-    public static final DcImageIcon _icoCardView = new DcImageIcon(picPath + "viewcard.gif");
-    public static final DcImageIcon _icoTableView = new DcImageIcon(picPath + "viewtable.gif");
+    public static final DcImageIcon _icoCardView = new DcImageIcon(picPath + "viewcard.png");
+    public static final DcImageIcon _icoTableView = new DcImageIcon(picPath + "viewtable.png");
     public static final DcImageIcon _icoUnchecked = new DcImageIcon(picPath + "check_unchecked.png");
     public static final DcImageIcon _icoChecked = new DcImageIcon(picPath + "check_checked.png");
     public static final DcImageIcon _icoArrowTop = new DcImageIcon(picPath + "arrow_top.png");
@@ -171,4 +178,7 @@ public abstract class IconLibrary {
     public static final DcImageIcon _icoStorageMedium32 = new DcImageIcon(picPath + "storagemedium32.png");
     public static final DcImageIcon _icoOK = new DcImageIcon(picPath + "ok.png");
     public static final DcImageIcon _icoSynchService = new DcImageIcon(picPath + "synchservice.png");
+    public static final DcImageIcon _icoChangePassword = new DcImageIcon(picPath + "change_password.png");
+    public static final DcImageIcon _icoToggle = new DcImageIcon(picPath + "toggle.png");
+    public static final DcImageIcon _icoModule = new DcImageIcon(picPath + "module.png");
 }

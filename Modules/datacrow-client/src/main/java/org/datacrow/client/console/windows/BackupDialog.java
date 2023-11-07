@@ -48,6 +48,7 @@ import org.datacrow.client.console.components.DcMultiLineToolTip;
 import org.datacrow.client.console.components.fileselection.BackupFilePreviewPanel;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.clients.IBackupRestoreClient;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
@@ -80,6 +81,9 @@ public class BackupDialog extends DcDialog implements ActionListener, IBackupRes
 
     public BackupDialog() {
         super(GUI.getInstance().getMainFrame());
+        
+        setIconImage(IconLibrary._icoBackup.getImage());
+        
         setTitle(DcResources.getText("lblBackupAndRestore"));
         setHelpIndex("dc.tools.backup_restore");
 

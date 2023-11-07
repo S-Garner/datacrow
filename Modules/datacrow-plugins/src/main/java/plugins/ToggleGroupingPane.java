@@ -95,7 +95,7 @@ public class ToggleGroupingPane extends Plugin {
     
     @Override
     public ImageIcon getIcon() {
-        return DcSettings.getBoolean(DcRepository.Settings.stShowGroupingPanel) ? IconLibrary._icoOK : null;
+        return DcSettings.getBoolean(DcRepository.Settings.stShowGroupingPanel) ? IconLibrary._icoToggle : null;
     }
 
     @Override

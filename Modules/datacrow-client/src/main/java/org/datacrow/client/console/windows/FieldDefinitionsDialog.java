@@ -39,6 +39,7 @@ import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.panels.FieldDefinitionPanel;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.Settings;
@@ -56,6 +57,7 @@ public class FieldDefinitionsDialog extends DcDialog implements ActionListener {
 
         this.module = module;
         
+        setIconImage(IconLibrary._icoFieldSettings.getImage());
         setHelpIndex("dc.settings.fields");
 
         panelDefinitionsParent = new FieldDefinitionPanel(module);
