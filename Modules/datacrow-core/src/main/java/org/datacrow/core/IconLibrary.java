@@ -90,7 +90,6 @@ public abstract class IconLibrary {
     public static final DcImageIcon _icoAccept = new DcImageIcon(picPath + "accept.png");
     public static final DcImageIcon _icoDonate = new DcImageIcon(picPath + "donate.png");
     public static final DcImageIcon _icoLAF = new DcImageIcon(picPath + "laf.png");
-    public static final DcImageIcon _icoFilter = new DcImageIcon(picPath + "filter.png");
     public static final DcImageIcon _icoCut = new DcImageIcon(picPath + "cut.png");
     public static final DcImageIcon _icoCopy = new DcImageIcon(picPath + "copy.png");
     public static final DcImageIcon _icoPaste = new DcImageIcon(picPath + "paste.png");
@@ -133,6 +132,7 @@ public abstract class IconLibrary {
     public static final DcImageIcon _icoExit = new DcImageIcon(picPath + "exit.png");
     public static final DcImageIcon _icoSearch = new DcImageIcon(picPath + "search.png");
     public static final DcImageIcon _icoSearchAgain = new DcImageIcon(picPath + "searchagain.png");
+    public static final DcImageIcon _icoSearchReset = new DcImageIcon(picPath + "searchreset.png");
     public static final DcImageIcon _icoQuestion = new DcImageIcon(picPath + "help.png");
     public static final DcImageIcon _icoError = new DcImageIcon(picPath + "error.png");
     public static final DcImageIcon _icoHelp = new DcImageIcon(picPath + "help.png");

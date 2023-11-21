@@ -79,7 +79,7 @@ public class FilterDialog extends DcFrame implements ActionListener {
     private ManageFiltersPanel manageFiltersPanel;
     
     public FilterDialog(DcModule module, IMasterView parent) {
-        super(DcResources.getText("lblFilter"), IconLibrary._icoFilter);
+        super(DcResources.getText("lblFilter"), IconLibrary._icoSearch);
         
         setHelpIndex("dc.filters");
         
