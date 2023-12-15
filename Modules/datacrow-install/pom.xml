@@ -30,7 +30,6 @@
 					<installFile>${project.basedir}/installer.xml</installFile>
 					<outputDirectory>${project.build.directory}</outputDirectory>
 					<finalName>installer</finalName>
-					<enableOverrideArtifact>true</enableOverrideArtifact>
 					<mkdirs>true</mkdirs>
 					<autoIncludeUrl>false</autoIncludeUrl>
 					<autoIncludeDevelopers>false</autoIncludeDevelopers>
