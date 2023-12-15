@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.datacrow</groupId>
 		<artifactId>datacrow-main</artifactId>
-		<version>4.11.0</version>
+		<version>4.12.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>datacrow-core</artifactId>
@@ -35,7 +35,7 @@
 		<!-- Bouncy castle -->
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk15on</artifactId>
+			<artifactId>bcprov-jdk18on</artifactId>
 		</dependency>
 		<!-- Jacksum -->
 		<dependency>

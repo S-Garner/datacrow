@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.datacrow</groupId>
 	<artifactId>datacrow-main</artifactId>
-	<version>4.11.0</version>
+	<version>4.12.0</version>
 	<packaging>pom</packaging>
 	<organization>
 		<name>Van der Waals BV</name>
@@ -28,8 +28,8 @@
 	<description>The ultimate cataloger</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.target>11</maven.compiler.target>
-		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>18</maven.compiler.target>
+		<maven.compiler.source>18</maven.compiler.source>
 		<twelvemonkeys.imageio.version>3.10.1</twelvemonkeys.imageio.version>
 	</properties>
 	<modules>
@@ -105,7 +105,7 @@
 			<dependency>
 				<groupId>com.drewnoakes</groupId>
 				<artifactId>metadata-extractor</artifactId>
-				<version>2.18.0</version>
+				<version>2.19.0</version>
 			</dependency>
 			<!-- Matroska - movie file parser -->
 			<dependency>
@@ -122,18 +122,18 @@
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-api</artifactId>
-				<version>2.20.0</version>
+				<version>2.22.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-core</artifactId>
-				<version>2.20.0</version>
+				<version>2.22.0</version>
 			</dependency>
 			<!-- Bouncy castle -->
 			<dependency>
-				<groupId>org.bouncycastle</groupId>
-				<artifactId>bcprov-jdk15on</artifactId>
-				<version>1.70</version>
+			    <groupId>org.bouncycastle</groupId>
+			    <artifactId>bcprov-jdk18on</artifactId>
+			    <version>1.77</version>
 			</dependency>
 			<!-- Jacksum -->
 			<dependency>
