@@ -6,7 +6,8 @@ Data Crow version 4.12                        Released on 2024-xx-xx
 - Updated libraries as used by Data Crow to avoid exposure to vulnerabilities:
   Apache Maven plugins, IZ Pack, Metadata-extractor, Log4j, bouncycastle, twelvemonkeys.imageio, org.apache.tika,
   org.apache.pdfbox, org.jsoup, com.google.code.gson, net.sf.jasperreports, xalan, org.hsqldb, org.apache.xmlgraphics
-- Data Crow minimum Java version: Java 18 (from Java 11).
+- Data Crow minimum Java version has been increased from Java 11 to Java 18.
+- Small layout improvements for the item form and the login dialog.
 
 
 --------------------------------------------------------------------

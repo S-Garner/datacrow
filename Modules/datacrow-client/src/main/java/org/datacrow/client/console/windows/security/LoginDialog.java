@@ -123,17 +123,17 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
          getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblLoginname")),   
                  Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                 new Insets(5, 5, 5, 5), 0, 0));
+                 new Insets(10, 5, 5, 5), 0, 0));
          getContentPane().add(fldLoginName, Layout.getGBC(1, 0, 1, 1, 1.0, 1.0,
-                 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                 new Insets(5, 5, 5, 5), 0, 0));
+                 GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                 new Insets(10, 5, 5, 5), 0, 0));
          getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblPassword")),   
                  Layout.getGBC(0, 1, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                 new Insets(5, 5, 5, 5), 0, 0));
+                 new Insets(10, 5, 5, 5), 0, 0));
          getContentPane().add(fldPassword, Layout.getGBC(1, 1, 1, 1, 1.0, 1.0,
-                 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                 new Insets(5, 5, 5, 5), 0, 0));
+                 GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                 new Insets(10, 5, 5, 5), 0, 0));
          
          Connector connector = DcConfig.getInstance().getConnector();
          
@@ -141,24 +141,24 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
              getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblServerAddress")),   
                      Layout.getGBC(0, 2, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                     new Insets(5, 5, 5, 5), 0, 0));
+                     new Insets(10, 5, 5, 5), 0, 0));
              getContentPane().add(fldServerAddress, Layout.getGBC(1, 2, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(5, 5, 5, 5), 0, 0));
+                     new Insets(10, 5, 5, 5), 0, 0));
              getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblApplicationServerPort")),   
                      Layout.getGBC(0, 3, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                     new Insets(5, 5, 5, 5), 0, 0));
+                     new Insets(10, 5, 5, 5), 0, 0));
              getContentPane().add(fldApplicationServerPort, Layout.getGBC(1, 3, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(5, 5, 5, 5), 0, 0)); 
+                     new Insets(10, 5, 5, 5), 0, 0)); 
              getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblImageServerPort")),   
                      Layout.getGBC(0, 4, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                     new Insets(5, 5, 5, 5), 0, 0));
+                     new Insets(10, 5, 5, 5), 0, 0));
              getContentPane().add(fldImageServerPort, Layout.getGBC(1, 4, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(5, 5, 5, 5), 0, 0));
+                     new Insets(10, 5, 5, 5), 0, 0));
              
              String serverAddress = connector.getServerAddress();
              if (CoreUtilities.isEmpty(serverAddress))
@@ -198,7 +198,7 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
          
          getContentPane().add(panelActions, Layout.getGBC(0, 5, 2, 1, 1.0, 1.0,
                  GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE,
-                 new Insets(5, 5, 5, 0), 0, 0));
+                 new Insets(10, 5, 5, 0), 0, 0));
     }
     
     @Override
