@@ -27,6 +27,7 @@ package org.datacrow.core.attachments;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.attribute.FileTime;
@@ -35,7 +36,9 @@ import java.util.Date;
 
 import org.datacrow.core.DcConfig;
 
-public class Attachment {
+public class Attachment implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private final String name;
 	private final String objectID;

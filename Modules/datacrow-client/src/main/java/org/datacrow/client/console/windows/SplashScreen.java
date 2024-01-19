@@ -30,7 +30,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.io.File;
 
 import javax.swing.JLabel;
 import javax.swing.JWindow;
@@ -40,7 +39,6 @@ import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcPictureField;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcConfig;
-import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.resources.DcResources;
 
 public final class SplashScreen extends JWindow {

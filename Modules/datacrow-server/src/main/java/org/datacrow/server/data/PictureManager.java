@@ -60,8 +60,10 @@ public class PictureManager {
 		loadPicture(picture, true);
 	}
 	
-	@SuppressWarnings("resource")
-	private void loadPicture(Picture picture, boolean includeData) {}	
+	private void loadPicture(Picture picture, boolean includeData) {
+		
+		
+	}	
 	
 	public void deletePictures(String objectID) {}
 	

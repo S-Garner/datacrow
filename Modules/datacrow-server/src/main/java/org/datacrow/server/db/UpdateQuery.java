@@ -109,7 +109,7 @@ public class UpdateQuery extends Query {
             }
     
             s = sbValues.toString();
-            if (dco.getModule().getIndex() != DcModules._PICTURE && dco.getModule().getType() != DcModule._TYPE_MAPPING_MODULE && !CoreUtilities.isEmpty(values)) {
+            if (dco.getModule().getType() != DcModule._TYPE_MAPPING_MODULE && !CoreUtilities.isEmpty(values)) {
                 ps = conn.prepareStatement("UPDATE " + dco.getTableName() + " SET " + s + "\r\n WHERE ID = '" + dco.getID() + "'");
                 setValues(ps, values);
                 ps.execute();

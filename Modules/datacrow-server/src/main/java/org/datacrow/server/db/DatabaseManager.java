@@ -760,7 +760,7 @@ public class DatabaseManager {
                         stmt.execute(sql);
                     }
                     
-                    if (admin || module.getIndex() == DcModules._PICTURE || module.getType() == DcModule._TYPE_MAPPING_MODULE) {
+                    if (admin || module.getType() == DcModule._TYPE_MAPPING_MODULE) {
                         sql = "GRANT DELETE ON TABLE " + tablename + " TO " + user;
                         stmt.execute(sql);
                     }

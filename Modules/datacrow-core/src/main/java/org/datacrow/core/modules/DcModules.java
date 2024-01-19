@@ -83,7 +83,6 @@ public class DcModules implements Serializable {
     public static final int _IMAGE = 55;
     public static final int _CONTACTPERSON = 56;
     public static final int _MEDIA = 57;
-    public static final int _PICTURE = 60;
     public static final int _USER = 62;
     public static final int _PERMISSION = 63;
     public static final int _CONTAINER = 64;

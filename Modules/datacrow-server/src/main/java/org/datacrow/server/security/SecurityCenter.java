@@ -390,11 +390,7 @@ public class SecurityCenter {
         	logger.debug(se, se);
         }
 
-        CreateQuery query = new CreateQuery(DcModules._PICTURE);
-        query.setLog(false);
-        query.run();
-
-        query = new CreateQuery(DcModules._PERMISSION);
+        CreateQuery query = new CreateQuery(DcModules._PERMISSION);
         query.setLog(false);
         query.run();
     }

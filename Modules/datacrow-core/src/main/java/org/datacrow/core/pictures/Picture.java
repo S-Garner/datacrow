@@ -40,71 +40,55 @@ import org.datacrow.core.utilities.CoreUtilities;
  * Every image stored in Data Crow (such as screenshots) is represented by 
  * a picture object.
  * 
+ * 
+ * TODO:
+ * Load from URL for Server implementation.
+ * 
+ * 
  * @author Robert Jan van der Waals
  */
 public class Picture implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Picture.class.getName());
     
-    protected boolean edited = false;
-    protected boolean deleted = false;
+	private final String objectID;
+	private final String fileName;
+	
+	private String name;
     
     private String url;
     private String thumbnailUrl;
     
     private DcImageIcon imageIcon;
     
-    private final String filename;
-    
     private boolean loaded = false;
     
-    public Picture(String filename) {
-    	this.filename = filename;
+    public Picture(String objectID, String name) {
+    	this.objectID = objectID;
+    	this.name = name;
+    	this.fileName = name;
     }
     
-    public String getUrl() {
-        return url;
-    }
-    
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
-    }
-    
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
+//    public String getUrl() {
+//        return url;
+//    }
+//    
+//    public String getThumbnailUrl() {
+//        return thumbnailUrl;
+//    }
+//    
+//    public void setThumbnailUrl(String thumbnailUrl) {
+//        this.thumbnailUrl = thumbnailUrl;
+//    }
+//
+//    public void setUrl(String url) {
+//        this.url = url;
+//    }
 
     public void setImageIcon(DcImageIcon imageIcon) {
     	this.imageIcon = imageIcon;
-    }
-    public void loadImage(boolean external) {
-
-		if (imageIcon != null) {
-			imageIcon.flush();
-			imageIcon = new DcImageIcon(imageIcon.getImage());
-			loaded = true;
-		} else if (!CoreUtilities.isEmpty(filename)) {
-			if (new File(filename).exists()) {
-				loaded = true;
-				imageIcon = new DcImageIcon(filename);
-			}
-		}
-
-		if (!loaded && !CoreUtilities.isEmpty(getUrl())) {
-			try {
-				URL url = new URL(getUrl());
-				imageIcon = new DcImageIcon(url);
-			} catch (Exception e) {
-				logger.error("Error while loading image from URL: " + getUrl(), e);
-			}
-		}
-
     }
     
     public DcImageIcon getImageIcon() {
@@ -112,7 +96,7 @@ public class Picture implements Serializable {
     }
     
     public String getFilename() {
-        return filename;
+        return fileName;
     }
     
     /**
