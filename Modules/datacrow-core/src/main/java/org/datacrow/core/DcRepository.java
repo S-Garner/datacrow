@@ -58,7 +58,6 @@ public abstract class DcRepository {
     public static final class ModuleSettings {
         public static final String stFileImportRecursive = "file_import_recursive";
         public static final String stExportFields = "export_fields";
-        public static final String stShowPicturesInSeparateTabs = "show_pictures_in_separate_tabs";
         public static final String stMassUpdateServer = "mass_update_server";
         public static final String stMassUpdateMode = "mass_update_mode";
         public static final String stMassUpdateRegion = "mass_update_region";
@@ -71,7 +70,6 @@ public abstract class DcRepository {
         public static final String stFileImportOnlineServiceMode = "file_import_online_service_mode";
         public static final String stFileImportOnlineServiceRegion = "file_import_online_service_region";
         public static final String stFileImportDirectoryUsage = "file_import_directory_usage";
-        public static final String stCardViewPictureOrder = "card_view_picture_order";
         public static final String stTableColumnOrder = "table_column_order";
         public static final String stCardViewItemDescription = "card_view_item_description";
         public static final String stTitleCleanup = "title_cleanup";
@@ -383,7 +381,6 @@ public abstract class DcRepository {
         public static final int _STRINGARRAY = 4;
         public static final int _DIMENSION = 5;
         public static final int _INTEGERARRAY = 6;
-        public static final int _PICTURE = 7;
         public static final int _DCOBJECTREFERENCE = 8;
         public static final int _FONT = 9;
         public static final int _DEFINITIONGROUP = 10;

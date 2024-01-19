@@ -128,9 +128,6 @@ public abstract class DcObjectListElement extends DcListElement {
         for (int field : settings.getIntArray(DcRepository.ModuleSettings.stCardViewItemDescription))
             fields.add(Integer.valueOf(field));
 
-        for (int field : settings.getIntArray(DcRepository.ModuleSettings.stCardViewPictureOrder))
-            fields.add(Integer.valueOf(field));
-        
         return fields;
     }
     

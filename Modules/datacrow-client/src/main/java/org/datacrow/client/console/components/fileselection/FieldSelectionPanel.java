@@ -92,9 +92,7 @@ public class FieldSelectionPanel extends JPanel implements KeyListener {
             if (    field.isEnabled() && 
                     (       (!field.isUiOnly() || allowUiFields) || 
                             (field.isUiOnly() && allowMultiRefFields && field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION)) &&
-                    (allowPictureFields ||
-                    (field.getValueType() != DcRepository.ValueTypes._PICTURE &&
-                     field.getValueType() != DcRepository.ValueTypes._ICON)))
+                    (allowPictureFields || field.getValueType() != DcRepository.ValueTypes._ICON))
 
                 listLeft.add(field);
         }

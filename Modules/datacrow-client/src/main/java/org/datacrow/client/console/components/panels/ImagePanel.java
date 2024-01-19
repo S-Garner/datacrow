@@ -46,14 +46,12 @@ public class ImagePanel extends JPanel {
 	
 	public ImagePanel(Picture picture) {
 		this.picture = picture;
-//		
 		picField = ComponentFactory.getPictureField(true, false);
 		build();
 	}
 	
 	public void load() {
-//		picture.loadImage(false);
-//		picField.setValue(picture);
+		picField.setPicture(picture);
 	}
 	
 	public void clear() {

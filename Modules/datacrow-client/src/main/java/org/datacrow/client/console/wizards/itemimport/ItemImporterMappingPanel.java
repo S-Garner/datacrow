@@ -125,8 +125,7 @@ public class ItemImporterMappingPanel extends ItemImporterWizardPanel {
 
         for (DcField field : wizard.getModule().getFields()) {
             if (    (!field.isUiOnly() || 
-                      field.getValueType() == DcRepository.ValueTypes._PICTURE || 
-                      field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) && 
+                     field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) && 
                      field.getIndex() != DcObject._ID)
                 
                 comboFields.addItem(field);

@@ -63,11 +63,7 @@ public class PictureManager {
 	@SuppressWarnings("resource")
 	private void loadPicture(Picture picture, boolean includeData) {}	
 	
-	/**
-	 * Server-side deletion of the attachments
-	 * @param ID
-	 */
-	public void deletePicture(String ID) {}
+	public void deletePictures(String objectID) {}
 	
 	public void deletePicture(Picture picture) {}
 	

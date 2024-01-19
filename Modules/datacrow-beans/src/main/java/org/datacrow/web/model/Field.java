@@ -141,8 +141,6 @@ public class Field extends DcBean {
             type = _NUMBER;
         } else if (getDcField().getValueType() == DcRepository.ValueTypes._DOUBLE) {
             type = _DOUBLE;    
-        } else if (getDcField().getValueType() == DcRepository.ValueTypes._PICTURE) {
-            type = _IMAGE;
         } else if (getDcField().getValueType() == DcRepository.ValueTypes._ICON) {
             type = _ICON;            
         } else if (getDcField().getValueType() == DcRepository.ValueTypes._BOOLEAN) {

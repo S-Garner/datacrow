@@ -231,10 +231,6 @@ public abstract class ItemImporter extends ItemMigrater {
                      if (!CoreUtilities.isEmpty(sValue))
                          dco.setValue(field.getIndex(), Long.valueOf(sValue));
                 }
-            } else if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-                File file = getImagePath(value);
-                if (file.exists())
-                    dco.setValue(field.getIndex(), new DcImageIcon(file));
             } else if (field.getValueType() == DcRepository.ValueTypes._ICON) {
                 File file = getImagePath(value);
                 if (file.exists()) {

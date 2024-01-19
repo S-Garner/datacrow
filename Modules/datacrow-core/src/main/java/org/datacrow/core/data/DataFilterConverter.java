@@ -40,7 +40,6 @@ import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcSimpleValue;
-import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
@@ -180,9 +179,8 @@ public class DataFilterConverter {
             
             field = entryModule.getField(entry.getField());
             
-            if (    field.isUiOnly() && 
-                    field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION &&
-                    field.getValueType() != DcRepository.ValueTypes._PICTURE) 
+            if (field.isUiOnly() && 
+                field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION) 
                 continue;
             
             hasConditions = true;
@@ -228,8 +226,7 @@ public class DataFilterConverter {
                 if (useUpper) sql.append("UPPER(");
                 sql.append(field.getDatabaseFieldName());
                 if (useUpper) sql.append(")");
-            } else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
-                       field.getValueType() == DcRepository.ValueTypes._PICTURE) {
+            } else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
                 sql.append("ID");
             } else {
                 sql.append(field.getDatabaseFieldName());

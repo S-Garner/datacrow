@@ -44,6 +44,7 @@ import org.datacrow.core.objects.Loan;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.server.data.AttachmentManager;
+import org.datacrow.server.data.PictureManager;
 
 public class DeleteQuery extends Query {
     
@@ -163,22 +164,9 @@ public class DeleteQuery extends Query {
     	File file;
         boolean deleted;
         
+        PictureManager.getInstance().deletePictures(dco.getID());
+        
         for (DcField field : dco.getFields()) {
-            
-            if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-                file = new File(DcConfig.getInstance().getImageDir(), dco.getID() + "_" + field.getDatabaseFieldName() + ".jpg");
-                if (file.exists()) {
-                    deleted = file.delete();
-                    logger.debug("Delete file " + file + " [success = " + deleted + "]");
-                }
-                
-                file = new File(DcConfig.getInstance().getImageDir(), dco.getID() + "_" + field.getDatabaseFieldName() + "_small.jpg");
-                if (file.exists()) {
-                    deleted = file.delete();
-                    logger.debug("Delete file " + file + " [success = " + deleted + "]");
-                }
-            }
-            
             if (field.getValueType() == DcRepository.ValueTypes._ICON) {
                 file = new File(DcConfig.getInstance().getImageDir(), "icon_" + dco.getID() + ".jpg");
                 if (file.exists()) {

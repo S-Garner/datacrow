@@ -570,7 +570,6 @@ public class DataManager {
 			item.setValue(Media._SYS_MODULE, item.getModule().getObjectName());
 
 			boolean loan = requestedFields == null;
-			boolean images = requestedFields == null;
 
 			if (DatabaseManager.getInstance().isInitialized()) {
 			    requestedFields = requestedFields == null ? item.getFieldIndices() : requestedFields;
@@ -584,10 +583,6 @@ public class DataManager {
 						|| field == DcObject._SYS_LOANDURATION))
 						
 						loan |= true;
-					else if (	item.getField(field) != null && 
-								item.getModule().getIndex() != DcModules._PICTURE &&
-							    item.getField(field).getValueType() == DcRepository.ValueTypes._PICTURE)
-						images |= true;
 					else if (item.getField(field) != null &&
 							 item.getField(field).getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION)
 						item.initializeReferences(field, false);

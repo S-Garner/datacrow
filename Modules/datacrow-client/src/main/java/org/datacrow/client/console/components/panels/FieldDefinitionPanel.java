@@ -166,10 +166,8 @@ public class FieldDefinitionPanel extends JPanel implements ActionListener {
             if (field.isUiOnly() || field.getIndex() == DcObject._ID) {
                 table.setValueAt(Boolean.FALSE, row, _COL_REQUIRED);
                 table.setValueAt(Boolean.FALSE, row, _COL_UNIQUE);
-                
-                if (field.getValueType() == DcRepository.ValueTypes._PICTURE)
-                    table.setValueAt(Boolean.FALSE, row, _COL_DESCRIPTIVE);
             }
+
             if (DcModules.get(field.getModule()).getType() == DcModule._TYPE_ASSOCIATE_MODULE) {
                 if (field.getIndex() == DcAssociate._A_NAME)
                     table.setValueAt(Boolean.TRUE, row, _COL_DESCRIPTIVE);

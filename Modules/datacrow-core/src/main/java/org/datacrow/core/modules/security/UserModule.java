@@ -189,10 +189,6 @@ public class UserModule extends DcParentModule {
                 false, true, false, true, 
                 4000, UIComponents._LONGTEXTFIELD, getIndex(), DcRepository.ValueTypes._STRING,
                 "Description"));
-        addField(new DcField(User._E_PHOTO, getIndex(), "Photo",
-                true, true, false, false, 
-                255, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
-                "Photo"));        
         addField(new DcField(User._F_EMAIL, getIndex(), "Email",
                 false, true, false, true, 
                 255, UIComponents._SHORTTEXTFIELD, getIndex(), DcRepository.ValueTypes._STRING,

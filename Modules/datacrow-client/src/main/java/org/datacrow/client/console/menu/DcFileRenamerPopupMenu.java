@@ -102,7 +102,6 @@ public class DcFileRenamerPopupMenu extends DcPopupMenu   {
                vt != DcRepository.ValueTypes._DATE &&
                vt != DcRepository.ValueTypes._DATETIME &&
                vt != DcRepository.ValueTypes._IMAGEICON &&
-               vt != DcRepository.ValueTypes._PICTURE &&
                ft != ComponentFactory._LONGTEXTFIELD;
     }
 }

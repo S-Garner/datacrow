@@ -397,7 +397,6 @@ public class DcField implements Serializable {
                    getValueType() == DcRepository.ValueTypes._LONG) {
             s = DcRepository.Database._FIELDBIGINT;
         } else if (getValueType() == DcRepository.ValueTypes._ICON ||
-                   getValueType() == DcRepository.ValueTypes._PICTURE ||
                    getValueType() == DcRepository.ValueTypes._BLOB) {
             s = DcRepository.Database._FIELDOBJECT;
         } else if (getValueType() == DcRepository.ValueTypes._BOOLEAN) {

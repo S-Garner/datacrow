@@ -173,8 +173,12 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         DcField fld;
         for (QuickViewFieldDefinition def : definitions.getDefinitions()) {
         	fld = module.getField(def.getField());
-            if (def != null &&  fld != null && fld.isEnabled() &&
-            	(def.isEnabled() || fld.getValueType() == DcRepository.ValueTypes._PICTURE)) {
+            
+        	if (	def != null &&
+        			fld != null &&
+        			fld.isEnabled() &&
+        			def.isEnabled()) {
+        		
                 fields.add(def.getField());
             }
         }
@@ -224,9 +228,6 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
             	relatedItemsPanel = new RelatedItemsPanel(dco, true);
             	relatedItemsPanel.setData(references);
             }
-            
-            if (dco.getModule().getSettings().getBoolean(DcRepository.ModuleSettings.stShowPicturesInSeparateTabs))
-                createImageTabs(dco);
             
             boolean error = true;
             tab += 1;

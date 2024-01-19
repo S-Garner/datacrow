@@ -238,9 +238,7 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
         
         itemForm = new ItemForm(null, false, false, module.getItem(), false);
         for (DcField field : module.getFields()) {
-            if (field.getValueType() == DcRepository.ValueTypes._PICTURE)
-                itemForm.hide(field);
-            else if (field.getIndex() == DcObject._ID)
+            if (field.getIndex() == DcObject._ID)
                 itemForm.hide(field);
             else if (field.isUiOnly() && field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION)
                 itemForm.hide(field);

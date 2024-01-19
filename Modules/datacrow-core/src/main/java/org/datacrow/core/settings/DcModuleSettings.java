@@ -165,15 +165,6 @@ public class DcModuleSettings extends Settings {
                             false,
                             false, module.getIndex()));
         addSetting(_General,
-                new Setting(DcRepository.ValueTypes._BOOLEAN,
-                            DcRepository.ModuleSettings.stShowPicturesInSeparateTabs,
-                            Boolean.TRUE,
-                            -1,
-                            "",
-                            "",
-                            false,
-                            false, module.getIndex()));
-        addSetting(_General,
                 new Setting(DcRepository.ValueTypes._INTEGERARRAY,
                             DcRepository.ModuleSettings.stExportFields,
                             null,
@@ -333,28 +324,8 @@ public class DcModuleSettings extends Settings {
         } else if (module.getIndex() == DcModules._MUSIC_ALBUM) {
             int[] fields = {MusicAlbum._J_PICTUREFRONT, MusicAlbum._L_PICTURECD, MusicAlbum._K_PICTUREBACK};
             picFieldOrder = fields;
-        } else {
-            Collection<DcField> pics = new ArrayList<DcField>();
-            for (DcField field : module.getFields()) {
-            	if (field.getValueType() == DcRepository.ValueTypes._PICTURE)
-            		pics.add(field);
-            }
-            picFieldOrder = new int[pics.size()];
-            int i = 0;
-            for (DcField field : pics)
-            	picFieldOrder[i++] = field.getIndex();
         }
         
-        addSetting(_General,
-                new Setting(DcRepository.ValueTypes._INTEGERARRAY,
-                            DcRepository.ModuleSettings.stCardViewPictureOrder,
-                            picFieldOrder,
-                            -1,
-                            "",
-                            "",
-                            false,
-                            false,
-                            module.getIndex()));
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._INTEGERARRAY,
                             DcRepository.ModuleSettings.stTableColumnOrder,
@@ -811,7 +782,6 @@ public class DcModuleSettings extends Settings {
                         !field.isUiOnly() &&
                         field.getValueType() != DcRepository.ValueTypes._DCOBJECTREFERENCE &&
                         field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION &&
-                        field.getValueType() != DcRepository.ValueTypes._PICTURE &&
                         field.getValueType() != DcRepository.ValueTypes._ICON &&
                         field.getIndex() != DcObject._SYS_DISPLAYVALUE &&
                         field.getIndex() != DcObject._SYS_MODULE &&

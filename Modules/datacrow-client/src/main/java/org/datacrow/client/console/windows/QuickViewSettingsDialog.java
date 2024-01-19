@@ -64,8 +64,6 @@ import org.datacrow.core.utilities.definitions.QuickViewFieldDefinitions;
 
 public class QuickViewSettingsDialog extends DcDialog implements ActionListener {
 
-    private final JCheckBox cbShowPicturesInTabs = ComponentFactory.getCheckBox(DcResources.getText("lblShowPicturesInTabs"));
-    
     private DefinitionPanel panelDefinitionsParent = null;
     private DefinitionPanel panelDefinitionsChild = null;
 
@@ -105,8 +103,6 @@ public class QuickViewSettingsDialog extends DcDialog implements ActionListener 
             panelDefinitionsChild.save();
         
         DcModule module = DcModules.getCurrent();
-        module.getSettings().set(DcRepository.ModuleSettings.stShowPicturesInSeparateTabs, 
-                                 Boolean.valueOf(cbShowPicturesInTabs.isSelected()));
         
         GUI.getInstance().getSearchView(module.getIndex()).refreshQuickView();
 
@@ -141,16 +137,6 @@ public class QuickViewSettingsDialog extends DcDialog implements ActionListener 
          **********************************************************************/
         
         JTabbedPane tp = ComponentFactory.getTabbedPane();
-        
-        JPanel panelGeneral = new JPanel();
-        panelGeneral.setLayout(Layout.getGBL());
-        panelGeneral.add(cbShowPicturesInTabs, Layout.getGBC(0, 0, 1, 4, 1.0, 1.0,
-                GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                new Insets(5, 5, 5, 5), 0, 0));
-        
-        cbShowPicturesInTabs.setSelected(DcModules.getCurrent().getSettings().getBoolean(DcRepository.ModuleSettings.stShowPicturesInSeparateTabs));
-        
-        tp.addTab(DcResources.getText("lblGroupGeneral"), IconLibrary._icoSettings, panelGeneral);
         
         DcModule module = DcModules.get(DcSettings.getInt(DcRepository.Settings.stModule));
         panelDefinitionsParent = new DefinitionPanel(module);

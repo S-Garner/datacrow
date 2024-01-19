@@ -117,8 +117,7 @@ public class TableCopyPasteAction implements ActionListener {
                     sb.append("\t");
 
                 o = dco.getValue(field);
-                value = o == null ||
-                    dco.getField(field).getValueType() == DcRepository.ValueTypes._PICTURE ? "" : o.toString();
+                value = o == null ? "" : o.toString();
                 sb.append(value);
                 fieldCount++;
             }

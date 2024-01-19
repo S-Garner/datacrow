@@ -306,16 +306,6 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     public void hide(DcField field) {
     	if (labels.containsKey(field)) labels.get(field).setVisible(false);
     	if (fields.containsKey(field)) fields.get(field).setVisible(false);
-
-        if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-            
-            String title;
-            for (int i = tabbedPane.getTabCount() - 1; i > 0; i--) {
-                title  = tabbedPane.getTitleAt(i);
-                if (title.equals(field.getLabel()))
-                    tabbedPane.removeTabAt(i);
-            }
-        }
     }
     
     protected void applySettings() {
@@ -518,8 +508,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                 changed = true;
                 logger.debug("Field " + field.getLabel() + " is changed. Old: " + oldList + ". New: " + newList);
             }
-        } else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION || 
-                  (!field.isUiOnly() && field.getValueType() != DcRepository.ValueTypes._PICTURE)) {
+        } else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION || !field.isUiOnly()) {
             
             if (field.getValueType() == DcRepository.ValueTypes._DATE ||
                 field.getValueType() == DcRepository.ValueTypes._DATETIME) {
@@ -619,9 +608,6 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
 
             } else if (update && isChanged(field.getIndex())) {
                 dco.setValue(field.getIndex(), value);
-            
-                if (field.getValueType() == DcRepository.ValueTypes._PICTURE)
-                    dco.setChanged(DcObject._ID, true);
 
             } else if (isChanged(field.getIndex())) {
                 
@@ -761,7 +747,6 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
             
         	if ((!field.isUiOnly() || field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) && 
         	      field.isEnabled() && 
-                  field.getValueType() != DcRepository.ValueTypes._PICTURE && // check the field type
                   field.getValueType() != DcRepository.ValueTypes._ICON &&
                  (fieldIdx != dco.getParentReferenceFieldIndex() || 
                   fieldIdx == DcObject._SYS_CONTAINER )) { // not a reference field
@@ -938,10 +923,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
             
             component = fields.get(field);
 
-            if (field.isEnabled() &&
-               (field.getValueType() == DcRepository.ValueTypes._PICTURE || 
-                field.getValueType() == DcRepository.ValueTypes._ICON)) {
-
+            if (field.isEnabled() && field.getValueType() == DcRepository.ValueTypes._ICON) {
                 panel = new JPanel();
                 panel.setLayout(Layout.getGBL());
 

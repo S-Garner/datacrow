@@ -60,7 +60,7 @@ public abstract class WebUtilities {
         String s = "";
         s = dco.getDisplayString(field.getIndex());
 
-        if (maxTextLength != 0 && field.getValueType() != DcRepository.ValueTypes._PICTURE)
+        if (maxTextLength != 0)
             s = StringUtils.concatUserFriendly(s, maxTextLength);
         
         return s;

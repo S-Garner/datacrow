@@ -53,6 +53,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+/**
+ * TODO: what about picture & attachments?
+ */
 public class XmlImporter extends ItemImporter {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(XmlImporter.class.getName());
@@ -112,8 +115,7 @@ public class XmlImporter extends ItemImporter {
             for (DcField field : module.getFields()) {
                 
                 if ((   field.isUiOnly() && 
-                        field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION && 
-                        field.getValueType() != DcRepository.ValueTypes._PICTURE) ||  
+                        field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION) ||  
                         field.getIndex() == DcObject._SYS_EXTERNAL_REFERENCES) 
                     continue;
                 
@@ -155,9 +157,6 @@ public class XmlImporter extends ItemImporter {
                         }
                     }
                 } else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
-                    setValue(dco, field.getIndex(), eField.getTextContent(), listener);
-                    
-                } else if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
                     setValue(dco, field.getIndex(), eField.getTextContent(), listener);
                 } else {
                     value = eField.getTextContent();

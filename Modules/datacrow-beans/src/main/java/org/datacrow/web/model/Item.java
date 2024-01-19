@@ -50,7 +50,6 @@ public class Item extends DcBean {
     
 	private List<Field> detailFields = new ArrayList<Field>();
 	private List<Field> technicalFields = new ArrayList<Field>();
-	private List<Field> picturesFields = new ArrayList<Field>();
 	private List<Field> iconFields = new ArrayList<Field>();
 	
 	private List<Field> fields = new ArrayList<Field>();
@@ -98,7 +97,6 @@ public class Item extends DcBean {
         List<Field> c = new ArrayList<Field>();
         c.addAll(detailFields);
         c.addAll(iconFields);
-        c.addAll(picturesFields);
         c.addAll(overviewFieldsSpan);
         c.addAll(technicalFields);
         
@@ -160,10 +158,6 @@ public class Item extends DcBean {
     	return moduleIdx;
     }
     
-    public boolean isHasPictureFields() {
-        return picturesFields.size() > 0;
-    }
-    
     public boolean isHasChildren() {
         return children.size() > 0;
     }
@@ -172,30 +166,8 @@ public class Item extends DcBean {
         return iconFields.size() > 0;
     }
     
-    public boolean isHasPictures() {
-        boolean hasPictures = false;
-        for (Field field : picturesFields) {
-            if (field.getValue() instanceof Picture && ((Picture) field.getValue()).isAlive())
-                hasPictures = true;
-        }
-        return hasPictures;
-    }
-    
     public boolean isHasReferencingItems() {
         return referencingItems.size() > 0;
-    }
-    
-    public Collection<Field> getPictureFields() {
-    	return picturesFields;
-    }
-    
-    public Collection<Field> getAlivePictureFields() {
-        List<Field> alivePicFields = new ArrayList<Field>();
-        for (Field pictureField : picturesFields) {
-            if (pictureField.isPictureAlive())
-                alivePicFields.add(pictureField);
-        }
-        return alivePicFields;
     }
     
     public Collection<Field> getIconFields() {
@@ -246,8 +218,6 @@ public class Item extends DcBean {
                 field.getIndex() == DcObject._SYS_SERVICE ||
                 field.getIndex() == DcObject._SYS_SERVICEURL)
                 technicalFields.add(f);
-            else if (field.getValueType() == DcRepository.ValueTypes._PICTURE)
-                picturesFields.add(f);
             else if (field.getValueType() == DcRepository.ValueTypes._ICON)
                 iconFields.add(f);
             else
@@ -295,9 +265,6 @@ public class Item extends DcBean {
                     value = new Reference(o.toString(),
                                           o.getValue(DcObject._ID).toString(),
                                           field.getReferenceIdx());
-                } else if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-                	picture = new Picture(false, getID() + "_" + field.getDatabaseFieldName());
-                	value = picture;
                 } else if (wf.isDuration()) {
                     Calendar cal = Calendar.getInstance();  
                     cal.clear();

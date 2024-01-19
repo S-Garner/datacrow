@@ -1159,12 +1159,9 @@ public class DcObject implements Comparable<DcObject>, Serializable {
             if (isFilled(idx) || !template.isFilled(idx))
                 continue;
             
-            DcField field = getField(idx);
             Object templateVal = template.getValue(idx); 
-            
             if (    idx != _ID && 
-                    idx != _SYS_EXTERNAL_REFERENCES &&
-                    field.getValueType() != DcRepository.ValueTypes._PICTURE && 
+                    idx != _SYS_EXTERNAL_REFERENCES && 
                     templateVal != null) {
                 
                 setValue(idx, template.getValue(idx));    

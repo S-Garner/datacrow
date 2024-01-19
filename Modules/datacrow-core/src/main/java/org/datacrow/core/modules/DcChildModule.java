@@ -83,8 +83,7 @@ public class DcChildModule extends DcModule implements IChildModule {
         for (DcField field : getFields()) {
             valueType = field.getValueType();
             if (valueType != DcRepository.ValueTypes._DCOBJECTCOLLECTION &&
-                valueType != DcRepository.ValueTypes._DCOBJECTREFERENCE &&
-                valueType != DcRepository.ValueTypes._PICTURE) {
+                valueType != DcRepository.ValueTypes._DCOBJECTREFERENCE) {
                 fields.add(Integer.valueOf(field.getIndex()));
             }
         }

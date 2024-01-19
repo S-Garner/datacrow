@@ -114,7 +114,6 @@ public class SettingsBean extends DcBean {
         for (DcField field : module.getFields()) {
             
             if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
-                field.getValueType() == DcRepository.ValueTypes._PICTURE ||
                !isAuthorized(field) ||
                !field.isEnabled() || 
                 (field.isReadOnly() && !field.isUiOnly()) ||  

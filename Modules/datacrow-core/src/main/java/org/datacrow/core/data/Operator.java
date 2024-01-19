@@ -135,8 +135,7 @@ public enum Operator {
             return operators;
         }
         
-        if (    field.getValueType() != DcRepository.ValueTypes._PICTURE &&
-                field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
+        if (field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
             operators.add(EQUAL_TO);
             operators.add(NOT_EQUAL_TO);
         }
@@ -146,13 +145,8 @@ public enum Operator {
             operators.add(IS_FILLED);
         }
         
-        if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-            operators.add(IS_EMPTY);
-            operators.add(IS_FILLED);
-            
-        } else if (
-                field.getValueType() == DcRepository.ValueTypes._DATE ||
-                field.getValueType() == DcRepository.ValueTypes._DATETIME) {
+        if (field.getValueType() == DcRepository.ValueTypes._DATE ||
+            field.getValueType() == DcRepository.ValueTypes._DATETIME) {
             
         	operators.add(BEFORE);
             operators.add(AFTER);

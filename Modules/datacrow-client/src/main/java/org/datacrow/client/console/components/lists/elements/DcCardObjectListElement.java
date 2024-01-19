@@ -38,6 +38,7 @@ import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.pictures.Picture;
+import org.datacrow.server.data.PictureManager;
 
 public class DcCardObjectListElement extends DcObjectListElement {
 	
@@ -102,27 +103,7 @@ public class DcCardObjectListElement extends DcObjectListElement {
     
     @Override
     public Collection<Picture> getPictures() {
-    	
-    	
-    	
-    	
-    	Collection<Picture> pictures = new ArrayList<Picture>();
-    	
-    	int[] fields = dco.getModule().getSettings().getIntArray(DcRepository.ModuleSettings.stCardViewPictureOrder);
-    	
-    	if (fields == null || fields.length == 0) {
-            for (DcField field : dco.getFields()) {
-                if (field.getValueType() == DcRepository.ValueTypes._PICTURE)
-                    fields = new int[] {field.getIndex()};
-            }
-    	}
-    	
-    	dco.getModule().getSettings().set(DcRepository.ModuleSettings.stCardViewPictureOrder, fields);
-    	
-    	for (int field : fields)
-    		pictures.add((Picture) dco.getValue(field));
-
-		return pictures;
+    	return PictureManager.getInstance().getPictures(dco.getID());
     }
     
     @Override

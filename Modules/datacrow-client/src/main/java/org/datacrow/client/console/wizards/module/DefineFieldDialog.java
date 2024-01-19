@@ -212,9 +212,7 @@ public class DefineFieldDialog extends DcDialog implements ActionListener {
             	}
             }
 
-            field.setUiOnly(ft.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
-                            ft.getValueType() == DcRepository.ValueTypes._PICTURE);
-            
+            field.setUiOnly(ft.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION);
             field.setValueType(ft.getValueType());
             field.setFieldType(ft.getIndex());
             field.setOverwritable(true);
@@ -281,9 +279,7 @@ public class DefineFieldDialog extends DcDialog implements ActionListener {
             comboReference.setVisible(false);
         }
         
-        boolean uiOnly = ft.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
-                         ft.getValueType() == DcRepository.ValueTypes._PICTURE;
-        
+        boolean uiOnly = ft.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION;
         
         checkDescriptive.setToolTipText(DcResources.getText("tpFieldDescriptive"));
         checkDescriptive.setEnabled(true);
@@ -298,11 +294,6 @@ public class DefineFieldDialog extends DcDialog implements ActionListener {
             
             checkRequired.setEnabled(false);
             checkRequired.setSelected(false);
-
-            if (ft.getValueType() == DcRepository.ValueTypes._PICTURE) {
-                checkDescriptive.setEnabled(false);
-                checkDescriptive.setSelected(false);
-            }
         }
     }
     
@@ -519,12 +510,6 @@ public class DefineFieldDialog extends DcDialog implements ActionListener {
         fieldTypes.add(new FieldType(ComponentFactory._NUMBERFIELD, 
                                      DcRepository.ValueTypes._LONG, 
                                      DcResources.getText("lblNumberField")));
-        if (canHaveReferences) {
-            fieldTypes.add(new FieldType(ComponentFactory._PICTUREFIELD, 
-                                         DcRepository.ValueTypes._PICTURE, 
-                                         DcResources.getText("lblPictureField")));
-        }
-        
         fieldTypes.add(new FieldType(ComponentFactory._RATINGCOMBOBOX, 
                                      DcRepository.ValueTypes._LONG, 
                                      DcResources.getText("lblRatingField")));

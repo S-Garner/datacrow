@@ -159,7 +159,6 @@ public class DcModule implements Comparable<DcModule>, Serializable {
     private boolean isContainerManaged = false;
     private boolean hasDependingModules = true;
     
-    private boolean hasImages = false;
     private boolean hasReferences = false;
     
     private transient XmlModule xmlModule;
@@ -332,16 +331,10 @@ public class DcModule implements Comparable<DcModule>, Serializable {
     
     private void initializeProperties() {
         for (DcField field : getFields()) {
-            if (field.getValueType() == DcRepository.ValueTypes._PICTURE)
-                hasImages = true;
-            else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
+            if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
                     field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE)
                 hasReferences = true;
         }
-    }
-    
-    public boolean isHasImages() {
-        return hasImages;
     }
 
     public boolean isHasReferences() {
@@ -642,9 +635,6 @@ public class DcModule implements Comparable<DcModule>, Serializable {
         return getDisplayFieldIdx();
     }
     
-    /**
-     * @deprecated should use {@link #getDescriptiveFields()} instead
-     */
     public int getDisplayFieldIdx() {
         for (DcFieldDefinition definition : getFieldDefinitions().getDefinitions()) {
             if (definition.isDescriptive())

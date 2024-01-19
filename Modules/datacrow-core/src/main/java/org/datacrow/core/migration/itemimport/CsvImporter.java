@@ -158,8 +158,7 @@ public class CsvImporter extends ItemImporter {
                         if (field == null) continue;
                         
                         if ((   field.isUiOnly() && 
-                                field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION && 
-                                field.getValueType() != DcRepository.ValueTypes._PICTURE) ||  
+                                field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION) ||  
                                 field.getIndex() == DcObject._SYS_EXTERNAL_REFERENCES) continue;
 
                         setValue(dco, field.getIndex(), value, listener);

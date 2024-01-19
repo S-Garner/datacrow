@@ -120,10 +120,6 @@ public class DcAssociateModule extends DcModule {
                 false, true, false, true, 
                 255, UIComponents._URLFIELD, getIndex(), DcRepository.ValueTypes._STRING,
                 "webpage"));
-        addField(new DcField(DcAssociate._D_PHOTO, getIndex(), "Photo", 
-                true, true, false, false, 
-                0, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
-                "Photo"));
         addField(new DcField(DcAssociate._E_FIRSTNAME, getIndex(), "Firstname", 
                 false, true, false, true, 
                 255, UIComponents._SHORTTEXTFIELD, getIndex(), DcRepository.ValueTypes._STRING,

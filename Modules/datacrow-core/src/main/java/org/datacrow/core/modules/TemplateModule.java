@@ -82,11 +82,6 @@ public class TemplateModule extends DcModule {
         return false;
     }
     
-    @Override
-    public boolean isHasImages() {
-        return getTemplatedModule().isHasImages();
-    }
-
     /**
      * Retrieves the module this template module has been created for.
      */
