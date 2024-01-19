@@ -39,7 +39,6 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorConvertOp;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
-import java.net.URL;
 
 import javax.swing.JComponent;
 
@@ -47,9 +46,6 @@ import org.datacrow.client.util.Utilities;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
-import org.datacrow.core.objects.Picture;
-import org.datacrow.core.resources.DcResources;
-import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.CoreUtilities;
 
 /**
@@ -62,9 +58,7 @@ public class DcPicturePane extends JComponent {
     private boolean scaled = true;
     private Dimension size = null;    
 	
-	private DcImageIcon picture;
-	
-	private Image img;
+	private DcImageIcon imageIcon;
 	
     private int imageWidth = -1;
     private int imageHeight = -1;
@@ -77,48 +71,33 @@ public class DcPicturePane extends JComponent {
     	this.scaled = b;
     }
     
-    public void setValue(Object o) {
-    	if (o == picture)
-            return;
-        
-        if (o instanceof Picture) {
-            Picture pic = (Picture) o;
-            DcImageIcon img = (DcImageIcon) pic.getValue(Picture._D_IMAGE);
-            
-            if (img == null && !CoreUtilities.isEmpty(pic.getUrl())) {
-                o = new DcImageIcon(pic.getUrl());
-            } else {
-                o = img;
-            }
-        }
-        
+    public void setImageIcon(DcImageIcon imageIcon) {
+    	this.imageIcon = imageIcon;
+    	
         clear();
         initialize();
         
-        try {
-            if (o == null) {
-                picture = null;
-            } else {
-                if (o instanceof URL) {
-                    URL url = (URL) o;
-                    picture = new DcImageIcon(url.getFile());
-                } else if (o instanceof String) {
-                    String value = (String) o;
-                    if (value.endsWith("jpg")) {
-                        picture = new DcImageIcon(value);
-                    } else {
-                        String base64 = (String) o;
-                        if (base64.length() > 0)
-                            picture = new DcImageIcon(Base64.decode(base64.toCharArray()));
-                    }
-                } else if (o instanceof DcImageIcon) {
-                    picture = (DcImageIcon) o;
-                    picture.setImage(picture.getImage());
-                }
-            }
-        } catch (Exception e) {
-            logger.error(DcResources.getText("msgCouldNotLoadPicture"), e);
-        }
+//        try {
+//                if (o instanceof URL) {
+//                    URL url = (URL) o;
+//                    picture = new DcImageIcon(url.getFile());
+//                } else if (o instanceof String) {
+//                    String value = (String) o;
+//                    if (value.endsWith("jpg")) {
+//                        picture = new DcImageIcon(value);
+//                    } else {
+//                        String base64 = (String) o;
+//                        if (base64.length() > 0)
+//                            picture = new DcImageIcon(Base64.decode(base64.toCharArray()));
+//                    }
+//                } else if (o instanceof DcImageIcon) {
+//                    picture = (DcImageIcon) o;
+//                    picture.setImage(picture.getImage());
+//                }
+//            }
+//        } catch (Exception e) {
+//            logger.error(DcResources.getText("msgCouldNotLoadPicture"), e);
+//        }
         
         initialize();
         revalidate();
@@ -128,7 +107,7 @@ public class DcPicturePane extends JComponent {
 //    public void set
     
     public boolean hasImage() {
-    	return img != null;    	
+    	return imageIcon != null;    	
     }
     
     @Override
@@ -136,12 +115,9 @@ public class DcPicturePane extends JComponent {
         
         super.paintComponent(g);
 
-        if (picture != null) {
+        if (imageIcon != null) {
             try {
-                img = picture.getImage();
-                
-                // less expensive way to prepare the image (using the default instance)
-                if (Utilities.getToolkit().prepareImage(img, imageWidth, imageHeight, this))
+                if (Utilities.getToolkit().prepareImage(imageIcon.getImage(), imageWidth, imageHeight, this))
                     paintImage(g);
             } catch (Exception e) {
                 logger.error(e, e);
@@ -150,11 +126,8 @@ public class DcPicturePane extends JComponent {
     }
     
 	public void clear() {
-		if (picture != null)
-			picture.getImage().flush();
-
-		if (img != null)
-			img.flush();
+		if (imageIcon != null)
+			imageIcon.getImage().flush();
 	}
     
     /*
@@ -179,9 +152,9 @@ public class DcPicturePane extends JComponent {
         
         repaint();
         
-        if (picture != null) {
-            imageWidth = picture.getIconWidth();
-            imageHeight = picture.getIconHeight();
+        if (imageIcon != null) {
+            imageWidth = imageIcon.getIconWidth();
+            imageHeight = imageIcon.getIconHeight();
         } else {
             imageWidth = -1;
             imageHeight = -1;
@@ -191,20 +164,18 @@ public class DcPicturePane extends JComponent {
 	
     public void grayscale() {
     	
-    	if (picture == null) return;
+    	if (imageIcon == null) return;
     	
-        img = picture.getImage();
-        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage src = CoreUtilities.toBufferedImage(imageIcon, BufferedImage.TYPE_INT_ARGB);
         BufferedImageOp op = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null); 
         update(op, src);
     }
     
     public void sharpen() {
     	
-    	if (picture == null) return;
+    	if (imageIcon == null) return;
     	
-        img = picture.getImage();
-        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage src = CoreUtilities.toBufferedImage(imageIcon, BufferedImage.TYPE_INT_ARGB);
         BufferedImageOp op = new ConvolveOp(
                 new Kernel(3, 3, new float[] { 0.0f, -0.75f, 0.0f, -0.75f, 4.0f, 
                                               -0.75f, 0.0f, -0.75f, 0.0f }));
@@ -213,10 +184,9 @@ public class DcPicturePane extends JComponent {
     
     public void blur() {
     	
-    	if (picture == null) return;
+    	if (imageIcon == null) return;
     	
-        img = picture.getImage();
-        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage src = CoreUtilities.toBufferedImage(imageIcon, BufferedImage.TYPE_INT_ARGB);
         BufferedImageOp op = new ConvolveOp(
                 new Kernel(3, 3, new float[] {.1111f, .1111f, .1111f, .1111f, .1111f, 
                                               .1111f, .1111f, .1111f, .1111f, }));
@@ -224,7 +194,7 @@ public class DcPicturePane extends JComponent {
     }
     
     public void update(BufferedImageOp op, BufferedImage src) {
-        picture = new DcImageIcon(CoreUtilities.getBytes(new DcImageIcon(op.filter(src, null))));
+    	imageIcon = new DcImageIcon(CoreUtilities.getBytes(new DcImageIcon(op.filter(src, null))));
         initialize();
         repaint();
         revalidate();
@@ -232,11 +202,9 @@ public class DcPicturePane extends JComponent {
     
     public void rotate(int degrees) {
     	
-    	if (picture == null) return;
+    	if (imageIcon == null) return;
     	
-        img = picture.getImage();
-        
-        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(img), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(imageIcon.getImage()), BufferedImage.TYPE_INT_ARGB);
         AffineTransform at = new AffineTransform();
         
         at.rotate(Math.toRadians(degrees), src.getWidth() / 2.0, src.getHeight() / 2.0);
@@ -244,20 +212,20 @@ public class DcPicturePane extends JComponent {
         at.preConcatenate(translationTransform);
         BufferedImage destinationBI = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC).filter(src, null);
 
-        picture = new DcImageIcon(CoreUtilities.getBytes(new DcImageIcon(destinationBI)));
+        imageIcon = new DcImageIcon(CoreUtilities.getBytes(new DcImageIcon(destinationBI)));
         initialize();
         repaint();
         revalidate();
-    }   
+    }
     
-    public Object getValue() {
-    	int width = picture != null ? picture.getIconWidth() : 0;
-    	int height = picture != null ? picture.getIconHeight() : 0;
+    public DcImageIcon getImageIcon() {
+    	int width = imageIcon != null ? imageIcon.getIconWidth() : 0;
+    	int height = imageIcon != null ? imageIcon.getIconHeight() : 0;
     	
     	if (width == 0 || height == 0)
     		return null;
     	else
-    		return picture;
+    		return imageIcon;
     }
 	
     @Override
@@ -274,7 +242,7 @@ public class DcPicturePane extends JComponent {
     
     private void paintImage(Graphics g) {
         
-        if (g == null || picture == null || img == null) return;
+        if (g == null || imageIcon == null) return;
         
         Graphics2D g2d = (Graphics2D) g;
 
@@ -303,7 +271,7 @@ public class DcPicturePane extends JComponent {
         }
 
         g.translate((getWidth() - width) / 2, (getHeight() - height) / 2);
-        g.drawImage(img, 0, 0, width, height, null);
+        g.drawImage(imageIcon.getImage(), 0, 0, width, height, null);
         g.dispose();
     }     
 }

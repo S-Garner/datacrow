@@ -26,7 +26,6 @@
 package org.datacrow.server;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -51,9 +50,9 @@ import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.objects.Loan;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.objects.helpers.User;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.security.SecurityException;
@@ -64,6 +63,7 @@ import org.datacrow.core.settings.Settings;
 import org.datacrow.core.wf.tasks.DcTask;
 import org.datacrow.server.data.AttachmentManager;
 import org.datacrow.server.data.DataManager;
+import org.datacrow.server.data.PictureManager;
 import org.datacrow.server.db.DatabaseManager;
 import org.datacrow.server.security.SecurityCenter;
 
@@ -211,17 +211,8 @@ public class LocalServerConnector extends Connector {
     }
 
     @Override
-    public Collection<Picture> getPictures(String parentID) {
-        DataFilter df = new DataFilter(DcModules._PICTURE);
-        df.addEntry(new DataFilterEntry(DcModules._PICTURE, Picture._A_OBJECTID, Operator.EQUAL_TO, parentID));
-		List<DcObject> items =  DataManager.getInstance().getItems(getUser(), df);
-		
-        Collection<Picture> pictures = new ArrayList<Picture>();
-        for (DcObject dco : items) {
-            pictures.add((Picture) dco);
-        }
-        
-        return pictures;
+    public Collection<Picture> getPictures(String ID) {
+    	return PictureManager.getInstance().getPictures(ID);
     }
 
     @Override

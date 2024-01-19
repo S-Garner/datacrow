@@ -62,7 +62,6 @@ import org.datacrow.client.console.clients.UIClient;
 import org.datacrow.client.console.components.DcCheckBox;
 import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.client.console.components.DcLongTextField;
-import org.datacrow.client.console.components.DcPictureField;
 import org.datacrow.client.console.components.panels.AttachmentsPanel;
 import org.datacrow.client.console.components.panels.LoanPanel;
 import org.datacrow.client.console.components.panels.RelatedItemsPanel;
@@ -91,7 +90,6 @@ import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
@@ -429,23 +427,6 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                 oldValue = ComponentFactory.getValue(component);
                 newValue = object.getValue(index);
     
-                if (newValue instanceof Picture) {
-					Picture pic = ((Picture) newValue);
-                    boolean isEdited = pic.isEdited();
-                    boolean isDeleted = pic.isDeleted();
-                    
-                    pic.loadImage(false);
-                    
-                    pic.isEdited(isEdited);
-                    pic.isDeleted(isDeleted);
-                    
-                    if ((isEdited || isDeleted) &&
-                         field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-                        dco.setChanged(DcObject._ID, true);
-                        dcoOrig.setChanged(field.getIndex(), true);
-                    }
-                }
-    
                 empty = CoreUtilities.getComparableString(oldValue).length() == 0;
                 if ((empty || overwrite) && (!CoreUtilities.isEmpty(newValue)))
                     ComponentFactory.setValue(component, newValue);
@@ -565,12 +546,6 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                 changed = !oldValue.equals(newValue);
                 if (changed) logger.debug("Field " + field.getLabel() + " is changed. Old: " + oldValue + ". New: " + newValue);
             } 
-        } else if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-            Picture picture = (Picture) dcoOrig.getValue(fieldIdx);
-            changed = (picture != null && (picture.isEdited() || picture.isNew() || picture.isDeleted())) ||
-                      ((DcPictureField) component).isChanged() || dcoOrig.isChanged(fieldIdx);
-            
-            if (changed) logger.debug("Picture " + field.getLabel() + " is changed.");
         }
         
         return changed;
@@ -640,12 +615,8 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
             }
 
             if (!update) {
-                
-                if (field.getValueType() == DcRepository.ValueTypes._PICTURE && value == "")
-                    dco.setValueLowLevel(field.getIndex(), new Picture());
-                else
-                    dco.setValue(field.getIndex(), value);
-                
+                dco.setValue(field.getIndex(), value);
+
             } else if (update && isChanged(field.getIndex())) {
                 dco.setValue(field.getIndex(), value);
             

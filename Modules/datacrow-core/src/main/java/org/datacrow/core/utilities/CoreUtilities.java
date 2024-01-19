@@ -85,7 +85,6 @@ import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.helpers.Permission;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.objects.DcDimension;
@@ -663,8 +662,6 @@ public class CoreUtilities {
             empty = ((String) o).trim().length() == 0;
         else if (!empty && o instanceof Collection)
             empty = ((Collection<?>) o).size() == 0;
-        else if (!empty && o instanceof Picture)
-            empty = !((Picture) o).hasImage();
         
         return empty;
     }

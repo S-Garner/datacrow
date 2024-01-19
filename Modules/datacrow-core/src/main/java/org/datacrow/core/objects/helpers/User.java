@@ -27,9 +27,7 @@ package org.datacrow.core.objects.helpers;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.modules.DcModules;
-import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
@@ -76,11 +74,8 @@ public class User extends DcObject {
 
         if (isNew())
         	setValue(_B_ENABLED, Boolean.TRUE);
-        
-        Picture picture = (Picture) getValue(_E_PHOTO);
-        if (picture == null || picture.getValue(Picture._D_IMAGE) == null) {
-            setValue(User._E_PHOTO, new DcImageIcon(DcConfig.getInstance().getInstallationDir() + "icons/" + "user.png"));
-        }
+
+        // TODO: add user.png as the default image
         
         String loginname = (String) getValue(_A_LOGINNAME);
         if (loginname != null)

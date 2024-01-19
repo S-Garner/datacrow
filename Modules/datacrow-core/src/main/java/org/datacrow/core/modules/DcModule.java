@@ -1283,7 +1283,6 @@ public class DcModule implements Comparable<DcModule>, Serializable {
      * Retrieves the index of the field on which is sorted by default.
      */
     public int getDefaultSortFieldIdx() {
-        // TODO: change the way the default sort index is retrieved as this is really not where this belongs
         if (getIndex() == DcModules._RECORD_LABEL)
             return 3;
         else if (getIndex() == DcModules._CONTACTPERSON)

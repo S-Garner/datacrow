@@ -63,9 +63,11 @@ public final class SplashScreen extends JWindow {
         //**********************************************************
         //Logo
         //**********************************************************
+    	
+    	// TODO: decideon architecture
         DcPictureField logo = new DcPictureField();
-        logo.setValue(new DcImageIcon(
-                new File(DcConfig.getInstance().getInstallationDir(), "icons/splashscreen.png")));
+//        logo.setValue(new DcImageIcon(
+//                new File(DcConfig.getInstance().getInstallationDir(), "icons/splashscreen.png")));
         logo.setPreferredSize(new Dimension(459,295));
         
         //**********************************************************

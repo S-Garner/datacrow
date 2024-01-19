@@ -66,11 +66,6 @@ public class DcMapping extends DcObject {
     }
     
     @Override
-    public void initializeImages() {
-        
-    }
-    
-    @Override
     public boolean hasPrimaryKey() {
         return false;
     }

@@ -23,16 +23,16 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.core.objects;
+package org.datacrow.core.pictures;
 
-import java.awt.Image;
 import java.io.File;
+import java.io.Serializable;
 import java.net.URL;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
-import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.utilities.CoreUtilities;
 
 /**
@@ -42,19 +42,11 @@ import org.datacrow.core.utilities.CoreUtilities;
  * 
  * @author Robert Jan van der Waals
  */
-public class Picture extends DcObject {
+public class Picture implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Picture.class.getName());
-    
-    public static final int _A_OBJECTID = 1;
-    public static final int _B_FIELD = 2;
-    public static final int _C_FILENAME = 3;
-    public static final int _D_IMAGE = 4;
-    public static final int _E_HEIGHT = 5;
-    public static final int _F_WIDTH = 6;
-    public static final int _G_EXTERNAL_FILENAME = 7;
     
     protected boolean edited = false;
     protected boolean deleted = false;
@@ -62,16 +54,16 @@ public class Picture extends DcObject {
     private String url;
     private String thumbnailUrl;
     
-    /**
-     * Creates a new instance
-     */
-    public Picture() {
-        super(DcModules._PICTURE);
+    private DcImageIcon imageIcon;
+    
+    private final String filename;
+    
+    private boolean loaded = false;
+    
+    public Picture(String filename) {
+    	this.filename = filename;
     }
     
-    @Override
-    public void initializeImages() {}
-
     public String getUrl() {
         return url;
     }
@@ -87,71 +79,40 @@ public class Picture extends DcObject {
     public void setUrl(String url) {
         this.url = url;
     }
-    
-    @Override
-    public boolean hasPrimaryKey() {
-        return false;
-    }
 
-    @Override
-    public void initializeReferences() {}    
-    
-    /**
-     * Checks whether an image has been defined and, if so, if the image exists.
-     */
-    public boolean hasImage() {
-        return  isFilled(_D_IMAGE) || 
-                !CoreUtilities.isEmpty(getUrl()) ||
-               (isFilled(_C_FILENAME) && new File(DcConfig.getInstance().getImageDir(), getDisplayString(_C_FILENAME)).exists());
+    public void setImageIcon(DcImageIcon imageIcon) {
+    	this.imageIcon = imageIcon;
     }
-
     public void loadImage(boolean external) {
-        String filename = (String) getValue(_G_EXTERNAL_FILENAME);
-        filename = !external || filename == null || !new File(filename).exists() ? (String) getValue(_C_FILENAME) : filename;
 
-        DcImageIcon image = (DcImageIcon) getValue(Picture._D_IMAGE);
-        
-        boolean loaded = false;
-        if (image != null) {
-            image.flush();
-            image = new DcImageIcon(image.getImage());
-            loaded = true;
-        } else if (!CoreUtilities.isEmpty(filename)) {
-            filename = new File(filename).exists() ? filename : DcConfig.getInstance().getImageDir() + filename;
+		if (imageIcon != null) {
+			imageIcon.flush();
+			imageIcon = new DcImageIcon(imageIcon.getImage());
+			loaded = true;
+		} else if (!CoreUtilities.isEmpty(filename)) {
+			if (new File(filename).exists()) {
+				loaded = true;
+				imageIcon = new DcImageIcon(filename);
+			}
+		}
 
-            if (new File(filename).exists()) {
-                loaded = true;
-                image = new DcImageIcon(filename);
-            }
-        }
-        
-        if (!loaded && !CoreUtilities.isEmpty(getUrl())) {
-            try {
-                URL url = new URL(getUrl());
-                image = new DcImageIcon(url);
-            } catch (Exception e) {
-                logger.error("Error while loading image from URL: " + getUrl(), e);
-            }
-        }
-        
-        setValue(Picture._D_IMAGE, image);
-        markAsUnchanged();
+		if (!loaded && !CoreUtilities.isEmpty(getUrl())) {
+			try {
+				URL url = new URL(getUrl());
+				imageIcon = new DcImageIcon(url);
+			} catch (Exception e) {
+				logger.error("Error while loading image from URL: " + getUrl(), e);
+			}
+		}
+
     }
     
-    public Image getImage() {
-        DcImageIcon image = (DcImageIcon) getValue(_D_IMAGE);
-        return image != null ? image.getImage() : null;
+    public DcImageIcon getImageIcon() {
+    	return imageIcon;
     }
     
-    @Override
-    public void cleanup() {
-        unload();
-        deleted = false;
-        edited = false;
-    }
-    
-    public String getImageFilename() {
-        return (String) getValue(Picture._C_FILENAME);
+    public String getFilename() {
+        return filename;
     }
     
     /**
@@ -173,13 +134,13 @@ public class Picture extends DcObject {
                 thumbnail = new DcImageIcon(new File(DcConfig.getInstance().getImageDir(), filename));
             }
         } else {
-        	Image image = getImage();
-            if (image != null) {
+            if (imageIcon != null) {
             	File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + "_small.jpg");
             	file.deleteOnExit();
             	
             	try {
-            		CoreUtilities.writeScaledImageToFile(new DcImageIcon(image), file);
+            		CoreUtilities.writeScaledImageToFile(
+            				new DcImageIcon(imageIcon.getImage()), file);
             		thumbnail = new DcImageIcon(file);
             	} catch (Exception e) {
             		logger.debug("Could not store scaled temporary image [" + file + "]", e);
@@ -191,7 +152,7 @@ public class Picture extends DcObject {
     }
     
     public String getScaledFilename() {
-        return getScaledFilename((String) getValue(Picture._C_FILENAME));
+        return getScaledFilename(getFilename());
     }
 
     public String getScaledFilename(String filename) {
@@ -207,79 +168,4 @@ public class Picture extends DcObject {
         }
         return null;
     }
-    
-    public void unload() {
-        if (getValues() != null && (!isNew() && !edited)) {
-	    	DcImageIcon image = ((DcImageIcon) getValue(_D_IMAGE));
-
-	    	if (image != null) image.flush();
-	    	
-	        setValueLowLevel(_D_IMAGE, null);
-	        setChanged(_D_IMAGE, false);
-        }
-    }
-    
-    @Override
-    public void markAsUnchanged() {
-        super.markAsUnchanged();
-
-        edited = false;
-        deleted = false;
-    }    
-    
-    public void isEdited(boolean b) {
-        edited = b;
-        if (b) deleted = false;
-    }
-    
-    public void isDeleted(boolean b) {
-        deleted = b;
-        if (b) edited = false;
-    }
-    
-    @Override
-    public boolean isLoaded() {
-        return getValue(Picture._D_IMAGE) != null;
-    }
-    
-    @Override
-    public boolean isNew() {
-        return super.isNew() && !isDeleted() && getValue(_D_IMAGE) != null; 
-    }
-    
-    public boolean isEdited() {
-        return edited;
-    }
-    
-    public boolean isDeleted() {
-        return deleted;
-    }
-    
-    @Override
-    public String toString() {
-        return getValue(_C_FILENAME) != null ? (String) getValue(_C_FILENAME) : "";
-    }
-    
-    @Override
-    public int hashCode() {
-        return (getValue(Picture._C_FILENAME) != null ? getValue(Picture._C_FILENAME).hashCode() : 0); 
-    }
-    
-    @Override
-    public boolean equals(Object o) {
-        boolean equals = false;
-        
-        if (o instanceof Picture) {
-            Picture picture = (Picture) o;
-            
-            String filename1 = (String) picture.getValue(Picture._C_FILENAME);
-            String filename2 = (String) getValue(Picture._C_FILENAME);
-            
-            equals = filename1 == filename2 || (filename1 != null && filename1.equals(filename2));
-        } else {
-            equals = super.equals(o);
-        }
-        
-        return equals;
-   }
 }

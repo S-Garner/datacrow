@@ -40,7 +40,7 @@ import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcSimpleValue;
-import org.datacrow.core.objects.Picture;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
@@ -146,9 +146,6 @@ public class DataFilterConverter {
         return sql.toString();
     }
     
-    /**
-     * TODO: refactor this - this is getting crazy long
-     */
 	private void addEntries(StringBuffer sql, DcModule module) {
     	boolean hasConditions = false;
         DcModule entryModule; 
@@ -238,17 +235,7 @@ public class DataFilterConverter {
                 sql.append(field.getDatabaseFieldName());
             }
             
-            if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-                
-                if (operator == Operator.IS_EMPTY.getIndex()) 
-                    sql.append(" NOT");
-                
-                DcModule picModule = DcModules.get(DcModules._PICTURE);
-                sql.append(" IN (SELECT OBJECTID FROM " + picModule.getTableName() + 
-                           " WHERE " + picModule.getField(Picture._B_FIELD).getDatabaseFieldName() + 
-                           " = '" + field.getDatabaseFieldName() + "')");
-            
-            } else if ((operator == Operator.IS_EMPTY.getIndex() && field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) ||
+            if ((operator == Operator.IS_EMPTY.getIndex() && field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) ||
                        (operator == Operator.IS_FILLED.getIndex() && field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION)) {
                 
                 if (operator == Operator.IS_EMPTY.getIndex()) 

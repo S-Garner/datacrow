@@ -32,7 +32,6 @@ import java.util.List;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcThread;
-import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
@@ -41,7 +40,6 @@ import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 
@@ -115,7 +113,9 @@ public class CsvExporter extends ItemExporter {
         @SuppressWarnings("unchecked")
         public void create() throws Exception {
             
-            ItemExporterUtilities utilities = new ItemExporterUtilities(file.toString(), settings);
+        	// TODO: should include attachments?
+        	// TODO: should include pictures?
+//            ItemExporterUtilities utilities = new ItemExporterUtilities(file.toString(), settings);
            
             if (items == null || items.size() == 0) return;
             
@@ -161,12 +161,8 @@ public class CsvExporter extends ItemExporter {
                     if (field != null) { 
                         s = "";
                         
-                        if (field.getFieldType() == UIComponents._PICTUREFIELD) {
-                            if (o != null && o.toString().length() >= 10)
-                               s = utilities.getImageURL((Picture) dco.getValue(field.getIndex()));
-                        
-                        } else if (o instanceof Collection && 
-                                   DcModules.get(field.getReferenceIdx()).getType() == DcModule._TYPE_ASSOCIATE_MODULE) {
+                        if (o instanceof Collection && 
+                            DcModules.get(field.getReferenceIdx()).getType() == DcModule._TYPE_ASSOCIATE_MODULE) {
                             
                            for (DcObject subDco : (Collection<DcObject>) o) {
                                 if (subDco instanceof DcMapping)

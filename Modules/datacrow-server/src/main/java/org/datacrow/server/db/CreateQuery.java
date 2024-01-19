@@ -33,11 +33,9 @@ import java.util.List;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
-import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.helpers.ExternalReference;
 
 public class CreateQuery extends Query {
@@ -79,16 +77,7 @@ public class CreateQuery extends Query {
                 logger.error(se, se);
         }
         
-        if (module.getIndex() == DcModules._PICTURE) {
-            try { 
-                stmt.execute("CREATE UNIQUE INDEX " + module.getTableName() + "_IDX ON " + module.getTableName() + " (" +
-                        module.getField(Picture._A_OBJECTID).getDatabaseFieldName() + ", " +
-                        module.getField(Picture._B_FIELD).getDatabaseFieldName() + ")");
-            } catch (SQLException se) {
-                if (isLog())
-                    logger.error(se, se);
-            }
-        } else if (module.getType() == DcModule._TYPE_MAPPING_MODULE) {
+        if (module.getType() == DcModule._TYPE_MAPPING_MODULE) {
             try { 
                 stmt.execute("CREATE UNIQUE INDEX " + module.getTableName() + "_IDX ON " + module.getTableName() + " (" +
                         module.getField(DcMapping._A_PARENT_ID).getDatabaseFieldName() + ", " +

@@ -77,22 +77,27 @@ public class TabForm extends DcFrame implements ActionListener {
     }    
     
     private void setData() {
-        if (tab == null) {
-        	fldIcon.setValue(new DcImageIcon(IconLibrary._icoInformation.getBytes()));
-        } else {
-        	fldIcon.setValue(tab.getIcon());
-        	txtName.setValue(tab.getName());
-        }    	
+    	// TODO: add an icon field (as a normal field)
+    	
+//        if (tab == null) {
+//        	fldIcon.setValue(new DcImageIcon(IconLibrary._icoInformation.getBytes()));
+//        } else {
+//        	fldIcon.setValue(tab.getIcon());
+//        	txtName.setValue(tab.getName());
+//        }    	
     }
     
     private void save() {
-    	if (tab == null) {
-	        Tab newTab = new Tab(module, txtName.getText(), (DcImageIcon) fldIcon.getValue());
-	        Tabs.getInstance().addTab(newTab);
-    	} else {
-    		tab.setName(txtName.getText());
-    		tab.setIcon((DcImageIcon) fldIcon.getValue());
-    	}
+    	
+    	// TODO: add an icon field (as a normal field)
+    	
+//    	if (tab == null) {
+//	        Tab newTab = new Tab(module, txtName.getText(), (DcImageIcon) fldIcon.getValue());
+//	        Tabs.getInstance().addTab(newTab);
+//    	} else {
+//    		tab.setName(txtName.getText());
+//    		tab.setIcon((DcImageIcon) fldIcon.getValue());
+//    	}
 
     	dlg.refresh();
         setVisible(false);

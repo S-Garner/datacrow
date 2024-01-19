@@ -34,8 +34,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
@@ -44,7 +42,6 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.utilities.CoreUtilities;
 
@@ -63,7 +60,6 @@ public class UpdateQuery extends Query {
 	@Override
     public List<DcObject> run() {
         
-        Collection<Picture> pictures = new ArrayList<Picture>();
         Collection<Collection<DcMapping>> references = new ArrayList<Collection<DcMapping>>();
         Collection<Object> values = new ArrayList<Object>();
         
@@ -79,35 +75,19 @@ public class UpdateQuery extends Query {
             stmt = conn.createStatement();
 
             StringBuffer sbValues = new StringBuffer();
-            Picture picture;
-            ImageIcon icon;
+
             Collection<DcMapping> c;
             DcModule mappingMod;
             String sql;
             String s;
+            
             for (DcField field : dco.getFields()) {
 
                 // Make sure only changed fields are updated
                 if (!dco.isChanged(field.getIndex()))
                     continue;
                 
-                if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-                    picture = (Picture) dco.getValue(field.getIndex());
-                    if (picture != null && (picture.isNew() || picture.isEdited() || picture.isDeleted())) {
-                        picture.setValue(Picture._A_OBJECTID, dco.getID());
-                        picture.setValue(Picture._B_FIELD, field.getDatabaseFieldName());
-                        picture.setValue(Picture._C_FILENAME, dco.getID() + "_" + field.getDatabaseFieldName() + ".jpg");
-                        
-                        icon = (ImageIcon) picture.getValue(Picture._D_IMAGE);
-                        if (picture.isDeleted()) {
-                            pictures.add(picture);
-                        } else if (icon != null) {
-                            picture.setValue(Picture._E_HEIGHT, Long.valueOf(icon.getIconHeight()));
-                            picture.setValue(Picture._F_WIDTH, Long.valueOf(icon.getIconWidth()));
-                            pictures.add(picture);
-                        }
-                    }
-                } else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
+                if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
                     c = (Collection<DcMapping>) dco.getValue(field.getIndex());
                     
                     if (c != null) references.add(c);
@@ -134,43 +114,12 @@ public class UpdateQuery extends Query {
                 setValues(ps, values);
                 ps.execute();
                 ps.close();
-            } else if (!CoreUtilities.isEmpty(values)) {
-                ps = conn.prepareStatement("UPDATE " + dco.getTableName() + " SET " + s + "\r\n WHERE " +
-                        dco.getDatabaseFieldName(Picture._A_OBJECTID) + " = '" + dco.getValue(Picture._A_OBJECTID) + "' AND " +
-                        dco.getDatabaseFieldName(Picture._B_FIELD) + " = '" + dco.getValue(Picture._B_FIELD) + "'");
-                setValues(ps, values);
-                ps.execute();
-                ps.close();
             }
     
             for (Collection<DcMapping> mappings : references) {
                 saveReferences(mappings, dco.getID());
             }
-            
-            InsertQuery insertQuery;
-            UpdateQuery updateQuery;
-            
-            for (Picture p : pictures) {
-                if (p.isNew()) {
-                    // prevent primary key violations
-                    stmt.execute("DELETE FROM PICTURE WHERE OBJECTID = '" + 
-                                  p.getValue(Picture._A_OBJECTID) + "' AND FIELD = '" + 
-                                  p.getValue(Picture._B_FIELD) + "'");
-                    insertQuery = new InsertQuery(getUser(), p);
-                    insertQuery.run();
-                    saveImage(p);
-                } else if (p.isEdited()) {
-                	updateQuery = new UpdateQuery(getUser(), p);
-                	updateQuery.run();
-                    saveImage(p);
-                } else if (p.isDeleted()) {
-                    stmt.execute("DELETE FROM " + p.getTableName() + " WHERE " +
-                            p.getField(Picture._A_OBJECTID).getDatabaseFieldName() + " = '" + dco.getID() + "' AND " +
-                            p.getField(Picture._B_FIELD).getDatabaseFieldName() + " = '" +  p.getValue(Picture._B_FIELD) + "'");
-                    deleteImage(p);    
-                }
-            }
-            
+
             for (DcField f : dco.getFields()) {
                 if (dco.isChanged(f.getIndex()) &&
                     f.getValueType() == DcRepository.ValueTypes._ICON) {
@@ -204,7 +153,6 @@ public class UpdateQuery extends Query {
             }
             
             setSuccess(true);
-            pictures.clear();
         } catch (SQLException e) {
             setSuccess(false);
             logger.error("An error occured while running the query", e);

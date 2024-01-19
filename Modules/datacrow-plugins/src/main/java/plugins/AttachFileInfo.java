@@ -37,7 +37,6 @@ import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.BrowserDialog;
 import org.datacrow.client.console.windows.itemforms.ItemForm;
 import org.datacrow.core.DcConfig;
-import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.UserMode;
 import org.datacrow.core.clients.IFileImportClient;
@@ -48,10 +47,8 @@ import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcField;
-import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.plugin.Plugin;
 import org.datacrow.core.resources.DcResources;
@@ -126,15 +123,13 @@ public class AttachFileInfo extends Plugin implements IFileImportClient {
             
             // overwrite parsed technical information, images and the file information
             for (DcField field : dcoNew.getFields()) {
-                if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-                    Picture picture = (Picture) dcoNew.getValue(field.getIndex());
-                    if (picture != null)
-                        dco.setValue(field.getIndex(), new DcImageIcon(picture.getImage()));
-                } else if (field.getFieldType() == UIComponents._FILEFIELD ||
+                if (field.getFieldType() == UIComponents._FILEFIELD ||
                            field.getFieldType() == UIComponents._FILELAUNCHFIELD) {
                     dco.setValue(field.getIndex(), filename);
                 }
             }
+            
+            // TODO: next, loop through the pictures and update where necessary
             
             if (form != null) {
                 form.setData(dco, true, false);

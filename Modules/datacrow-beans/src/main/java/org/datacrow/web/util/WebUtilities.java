@@ -31,7 +31,6 @@ import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.utilities.StringUtils;
 import org.datacrow.web.model.Field;
 
@@ -59,9 +58,7 @@ public abstract class WebUtilities {
     private static String getValue(DcObject dco, int fieldIdx, int maxTextLength, Object value) {
         DcField field = dco.getField(fieldIdx);
         String s = "";
-        s = value != null && field.getValueType() == DcRepository.ValueTypes._PICTURE ? 
-                    "/mediaimages/" + ((Picture) value).getScaledFilename() : 
-                    dco.getDisplayString(field.getIndex());
+        s = dco.getDisplayString(field.getIndex());
 
         if (maxTextLength != 0 && field.getValueType() != DcRepository.ValueTypes._PICTURE)
             s = StringUtils.concatUserFriendly(s, maxTextLength);

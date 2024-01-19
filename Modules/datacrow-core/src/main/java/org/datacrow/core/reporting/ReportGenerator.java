@@ -61,10 +61,6 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
-/**
- * TODO: refactor - inner class structure
- *
- */
 public class ReportGenerator {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ReportGenerator.class.getName());

@@ -596,8 +596,7 @@ public class DataManager {
 				if (loan)
 					item.setLoanInformation();
 
-				if (images && item.getModule().isHasImages())
-					item.initializeImages();
+				// TODO: check if images should be added here already
 			}
 
 			item.setNew(false);

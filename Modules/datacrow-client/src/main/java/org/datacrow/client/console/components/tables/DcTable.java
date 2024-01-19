@@ -74,7 +74,6 @@ import org.datacrow.client.console.components.renderers.DcTableHeaderRendererReq
 import org.datacrow.client.console.components.renderers.FileSizeTableCellRenderer;
 import org.datacrow.client.console.components.renderers.ModuleTableCellRenderer;
 import org.datacrow.client.console.components.renderers.NumberTableCellRenderer;
-import org.datacrow.client.console.components.renderers.PictureTableCellRenderer;
 import org.datacrow.client.console.components.renderers.RatingTableCellRenderer;
 import org.datacrow.client.console.components.renderers.ReferencesTableCellRenderer;
 import org.datacrow.client.console.components.renderers.TimeFieldTableCellRenderer;
@@ -91,10 +90,8 @@ import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
-import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.Loan;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.helpers.Media;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
@@ -288,34 +285,13 @@ public class DcTable extends JTable implements IViewComponent, MouseListener {
         int row = position == -1 ? addRow() : position;
         int field;
         int col;
-        Picture picture;
         Object value;
-        DcImageIcon old_image;
-        Picture p;
         for (int i = 0; i < fields.length; i++) {
             field = fields[i];
             col = getColumnIndexForField(field);
             value = dco.getValue(fields[i]);
             
-            if (view != null && view.getType() == View._TYPE_INSERT &&  value instanceof Picture) {
-                // keep images save
-                picture = (Picture) value;
-                old_image = (DcImageIcon) picture.getValue(Picture._D_IMAGE);;
-                
-                if (old_image != null) {
-                    p = (Picture) DcModules.get(DcModules._PICTURE).getItem();
-                    p.setValue(Picture._A_OBJECTID, picture.getValue(Picture._A_OBJECTID));
-                    p.setValue(Picture._B_FIELD, picture.getValue(Picture._B_FIELD));
-                    p.setValue(Picture._C_FILENAME, picture.getValue(Picture._C_FILENAME));
-                    p.setValue(Picture._E_HEIGHT, picture.getValue(Picture._E_HEIGHT));
-                    p.setValue(Picture._F_WIDTH, picture.getValue(Picture._F_WIDTH));
-                    p.setValue(Picture._D_IMAGE, new DcImageIcon(old_image.getImage()));
-                    picture = p;
-                }
-                model.setValueAt(picture, row, col);
-            } else {
-                model.setValueAt(value, row, col);    
-            }
+            model.setValueAt(value, row, col);    
         }
 
         if (module.isAbstract()) {
@@ -726,10 +702,6 @@ public class DcTable extends JTable implements IViewComponent, MouseListener {
                 int col = column.getModelIndex();
 
                 Object newValue = dco.getValue(indices[i]);
-
-                if (newValue instanceof Picture)
-                    newValue = ((Picture) newValue).isDeleted() ? null : newValue;
-                
                 getDcModel().setValueAt(newValue, row, col);
 
             } catch (Exception e) {
@@ -921,13 +893,6 @@ public class DcTable extends JTable implements IViewComponent, MouseListener {
                     DcTableCellRenderer renderer = DcTableCellRenderer.getInstance();
                     renderer.setForeground(new Color(0, 0, 255));
                     columnNew.setCellRenderer(renderer);
-                    break;
-                case ComponentFactory._PICTUREFIELD:
-                    DcShortTextField text = ComponentFactory.getTextFieldDisabled();
-                    text.setEditable(false);
-                    text.setFont(ComponentFactory.getUnreadableFont());
-                    columnNew.setCellEditor(new DefaultCellEditor(text));
-                    columnNew.setCellRenderer(PictureTableCellRenderer.getInstance());
                     break;
                 case ComponentFactory._REFERENCEFIELD:
                     columnNew.setCellRenderer(ComboBoxTableCellRenderer.getInstance());

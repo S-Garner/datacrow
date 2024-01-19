@@ -34,8 +34,8 @@ import java.util.Collection;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.helpers.MusicTrack;
+import org.datacrow.core.pictures.Picture;
 
 public class DcMusicTrackListElement extends DcObjectListElement {
 

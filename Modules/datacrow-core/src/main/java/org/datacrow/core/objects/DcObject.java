@@ -36,7 +36,6 @@ import java.util.Map;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
-import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.data.DcIconCache;
 import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.enhancers.ValueEnhancers;
@@ -382,33 +381,6 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         return getField(index).getLabel();
     }
 
-    /**
-     * Loads the actual image / picture information. Changes are overwritten. Useful 
-     * when reloading an object.
-     */
-    public void initializeImages() {
-        // Remove all the old pictures. This makes sure no weird stuff happens.
-        for (DcField field : getFields()) {
-            if (field.getValueType() == DcRepository.ValueTypes._PICTURE)
-                setValueLowLevel(field.getIndex(), null);
-        }
-        
-        DcConfig dcc = DcConfig.getInstance();
-        Connector conn = dcc.getConnector();
-        for (Picture picture : DcConfig.getInstance().getConnector().getPictures(getID())) {
-            
-            if (dcc.getOperatingMode() == DcConfig._OPERATING_MODE_SERVER) {
-                String address = "http://" + conn.getServerAddress() + ":" + conn.getImageServerPort() +"/";
-                picture.setUrl(address + picture.getValue(Picture._C_FILENAME));
-                picture.setThumbnailUrl(address + picture.getScaledFilename());
-            }
-            
-            picture.setValue(Picture._D_IMAGE, null);
-            picture.markAsUnchanged();
-            setValueForColumn((String) picture.getValue(Picture._B_FIELD), picture);
-        }
-    }
-    
     public void initializeReferences(int index, boolean full) {
         DcField field = getField(index);
         
@@ -655,22 +627,6 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         }
     }
 
-    /**
-     * Frees the resources hold by this items pictures.
-     */
-    public void flushImages() {
-        for (DcField field : getFields()) {
-            if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-                Picture picture = (Picture) getValue(field.getIndex());
-                if (picture != null) {
-                    DcImageIcon icon = (DcImageIcon) picture.getValue(Picture._D_IMAGE);
-                    if (icon != null) 
-                        icon.flush();
-                }
-            }
-        }
-    }    
-    
     /**
      * Sets a value on this object.
      * @param index The field index.
@@ -1159,16 +1115,6 @@ public class DcObject implements Comparable<DcObject>, Serializable {
             		DcImageIcon icon = new DcImageIcon(oldIcon.getImage());
             		icon.setFilename(oldIcon.getFilename());
             		setValue(field, icon);
-            	} else if (o != null && getField(field).getValueType() == DcRepository.ValueTypes._PICTURE) {
-                    Picture curPic = (Picture) dco.getValue(field);
-                    
-                    Picture newPic = (Picture) DcModules.get(DcModules._PICTURE).getItem();
-                    newPic.copy(curPic, overwrite, allowDeletes);
-
-                    newPic.edited = curPic.edited;
-                    newPic.deleted = curPic.deleted;
-
-                    setValue(field, newPic);
             	} else if (o != null && getField(field).getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
             	    Collection<DcMapping> newMappings = new ArrayList<DcMapping>();
             	    
@@ -1222,39 +1168,12 @@ public class DcObject implements Comparable<DcObject>, Serializable {
                     templateVal != null) {
                 
                 setValue(idx, template.getValue(idx));    
-            } else if ( field.getValueType() == DcRepository.ValueTypes._PICTURE && 
-                        template.getValue(idx) != null &&
-                        ((Picture) template.getValue(idx)).hasImage()            
-            ) {
-                
-                Picture templatePic = (Picture) template.getValue(idx);
-                
-                Picture pic = (Picture) DcModules.get(DcModules._PICTURE).getItem();
-                templatePic.loadImage(false);
-                pic.setValue(Picture._D_IMAGE, templatePic.getValue(Picture._D_IMAGE));
-                pic.setValue(Picture._E_HEIGHT, templatePic.getValue(Picture._E_HEIGHT));
-                pic.setValue(Picture._F_WIDTH, templatePic.getValue(Picture._F_WIDTH));
-                pic.isEdited(true);
-                
-                setValue(idx, pic);                
             }
         }
     }  
     
     protected Date getCurrentDate() {
     	return new Date();
-    }
-    
-    /**
-     * Copy an existing picture and set it on this item. This is the safest way to copy
-     * an picture of another item to this item. 
-     */
-    public void copyImage(Picture picture, int field) {
-        if (picture != null) {
-            DcImageIcon icon = (DcImageIcon) picture.getValue(Picture._D_IMAGE);
-            if (icon != null)
-                setValue(field, new DcImageIcon(icon.getImage()));
-        }
     }
     
     /**
@@ -1281,19 +1200,7 @@ public class DcObject implements Comparable<DcObject>, Serializable {
                 dco.addChild(child.clone());
         }
         
-        int[] indices = getFieldIndices();
-        
-        Picture p;
-        for (int i = 0; i < indices.length; i++) {
-            dco.setChanged(indices[i], isChanged(indices[i]));
-            
-            if (dco.getValue(indices[i]) instanceof Picture && getValue(indices[i]) instanceof Picture) {
-                p = (Picture) dco.getValue(indices[i]);
-                p.setNew(((Picture) getValue(indices[i])).isNew());
-                p.edited = ((Picture) getValue(indices[i])).edited;
-                p.deleted = ((Picture) getValue(indices[i])).deleted;
-            }
-        }
+        // TODO: images and attachments need to be cloned as well!
         
         return dco;
     }
@@ -1500,25 +1407,6 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         }
         
         return ref;
-    }
-    
-    /**
-     * Loads the image data (bytes). 
-     */
-    public void loadImageData() {
-        Object value;
-        Picture p;
-        for (DcField f : getFields()) {
-            if (f.getFieldType() == UIComponents._PICTUREFIELD) {
-                value = getValue(f.getIndex());
-                if (value instanceof Picture) {
-                    p = (Picture) value;
-                    DcImageIcon icon = (DcImageIcon) p.getValue(Picture._D_IMAGE);
-                    if (icon != null && (p.isNew() || p.isEdited()))
-                        icon.getBytes();
-                }
-            }
-        }
     }
     
     public void cleanup() {

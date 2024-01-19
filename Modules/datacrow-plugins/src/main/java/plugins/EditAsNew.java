@@ -36,7 +36,6 @@ import org.datacrow.core.UserMode;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.plugin.Plugin;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
@@ -77,14 +76,6 @@ public class EditAsNew extends Plugin {
         DcObject dcoCopy = module.getItem();
         dcoCopy.copy(dco, true, true);
         
-        // mark images as new
-        int[] fields = dco.getModule().getFieldIndices();
-        for (int i = 0; i < fields.length; i++) {
-            Object value = dcoCopy.getValue(fields[i]);
-            if (value instanceof Picture) 
-                ((Picture) value).isEdited(true);
-        }
-        
         if (dco.getChildren() != null) {
             for (DcObject child : dco.getChildren()) {
                 DcObject childCopy = child.getModule().getItem();
@@ -92,6 +83,9 @@ public class EditAsNew extends Plugin {
                 dcoCopy.addChild(childCopy);
             }
         }
+        
+        // TODO: copy attachments
+        // TODO: copy pictures
 
         ItemForm form = new ItemForm(false, false, dcoCopy, false);
         form.setVisible(true);

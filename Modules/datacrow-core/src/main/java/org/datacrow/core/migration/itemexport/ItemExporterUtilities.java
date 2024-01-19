@@ -27,11 +27,9 @@ package org.datacrow.core.migration.itemexport;
 
 import java.io.File;
 
-import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
-import org.datacrow.core.objects.DcImageIcon;
-import org.datacrow.core.objects.Picture;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class ItemExporterUtilities {
@@ -61,9 +59,9 @@ public class ItemExporterUtilities {
     
     public String getImageURL(Picture p) {
         String url = "";
-        String imageFilename = (String) p.getValue(Picture._C_FILENAME); 
-        if (!CoreUtilities.isEmpty(imageFilename) && p.hasImage()) {
-        	
+        String imageFilename = p.getFilename(); 
+        
+        if (!CoreUtilities.isEmpty(imageFilename)) {
             if (settings.getBoolean(ItemExporterSettings._COPY_IMAGES)) {
                 copyImage(p,  new File(getImageDir(), imageFilename));
                 
@@ -72,8 +70,7 @@ public class ItemExporterUtilities {
                 else 
                     url = "file:///" +  new File(getImageDir(), imageFilename);
             } else {
-            	url = !CoreUtilities.isEmpty(p.getUrl()) ? p.getUrl() :  
-            		"file:///" + new File(DcConfig.getInstance().getImageDir(), (String) p.getValue(Picture._C_FILENAME));
+            	url = !CoreUtilities.isEmpty(p.getUrl()) ? p.getUrl() : "file:///" + imageFilename;
             }
         }
         return url;
@@ -82,16 +79,13 @@ public class ItemExporterUtilities {
     private void copyImage(Picture picture, File target) {
         try {
             picture.loadImage(false);
-            DcImageIcon icon = (DcImageIcon) picture.getValue(Picture._D_IMAGE);
             
-            if (picture.hasImage()) {
-                if (settings.getBoolean(ItemExporterSettings._SCALE_IMAGES)) {
-                    int width = settings.getInt(ItemExporterSettings._IMAGE_WIDTH);
-                    int height = settings.getInt(ItemExporterSettings._IMAGE_HEIGHT);
-                    CoreUtilities.writeScaledImageToFile(icon, target, width, height);
-                } else {
-                    CoreUtilities.writeToFile(icon, target);
-                }
+            if (settings.getBoolean(ItemExporterSettings._SCALE_IMAGES)) {
+                int width = settings.getInt(ItemExporterSettings._IMAGE_WIDTH);
+                int height = settings.getInt(ItemExporterSettings._IMAGE_HEIGHT);
+                CoreUtilities.writeScaledImageToFile(picture.getImageIcon(), target, width, height);
+            } else {
+                CoreUtilities.writeToFile(picture.getImageIcon(), target);
             }
         } catch (Exception e) {
             logger.error("An error occurred while copying image to " + target, e);

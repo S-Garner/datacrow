@@ -38,7 +38,6 @@ import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
 
 public class XmlWriter extends XmlBaseWriter {
     
@@ -172,10 +171,6 @@ public class XmlWriter extends XmlBaseWriter {
             tagIdent -= (stepSize * 2);
             ident(valueIdent);            
             
-        } else if (o instanceof Picture) {
-            Picture picture = (Picture) o;
-            String filename = utilities.getImageURL(picture);
-            write(filename);
         } else if (o instanceof Date) {
             Date date = (Date) o;
             write(new SimpleDateFormat("yyyy-MM-dd").format(date));
@@ -190,6 +185,9 @@ public class XmlWriter extends XmlBaseWriter {
             }
             write(text);
         }
+       
+       // TODO: attachments
+       // TODO: images
     }
     
     private void ident(int x) throws IOException {

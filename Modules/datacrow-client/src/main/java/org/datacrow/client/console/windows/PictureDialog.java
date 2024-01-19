@@ -75,7 +75,8 @@ public class PictureDialog extends DcDialog implements ActionListener {
                 ,GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE,
                  new Insets(0, 0, 5, 5), 0, 0));
         
-        pf.setValue(ii);
+        // TODO: decide on architecture
+//        pf.setPicture(ii);
         
         pack();
         
@@ -95,7 +96,7 @@ public class PictureDialog extends DcDialog implements ActionListener {
     }
     
     public DcImageIcon getImage() {
-        return (DcImageIcon) pf.getValue();
+        return pf.getPicture() != null ? pf.getPicture().getImageIcon() : null;
     }
     
     @Override

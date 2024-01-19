@@ -23,54 +23,59 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.client.console.components.renderers;
+package org.datacrow.server.data;
 
-import java.awt.Component;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import javax.swing.JComponent;
-import javax.swing.JTable;
-import javax.swing.ToolTipManager;
+import org.datacrow.core.DcConfig;
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.pictures.Picture;
 
-import org.datacrow.core.IconLibrary;
-import org.datacrow.core.objects.Picture;
+/**
+ * @author RJ
+ *
+ */
+public class PictureManager {
 
-public class PictureTableCellRenderer extends DcTableCellRenderer {
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PictureManager.class.getName());
+	
+	private static final PictureManager instance;
+	
+	private final String dir = DcConfig.getInstance().getImageDir();
+	
+	static {
+		instance = new PictureManager();
+	}
+	
+	public static PictureManager getInstance() {
+		return instance;
+	}
 
-    private static final PictureTableCellRenderer instance = new PictureTableCellRenderer();
-
-    private PictureTableCellRenderer() {}
-    
-    public static PictureTableCellRenderer getInstance() {
-        return instance;
-    }
-    
-    @Override
-    protected boolean allowTooltips() {
-        return false;
-    }
-    
-    @Override
-    public void setText(String str) {
-        super.setText(str);
-
-    }
-    
-    @Override
-    public Component getTableCellRendererComponent(
-            JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-
-        JComponent c = (JComponent) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        
-        if (value instanceof Picture && ((Picture) value).hasImage()) {
-            setIcon(IconLibrary._icoPicture);
-            setForeground(this.getBackground());
-        } else {
-            setIcon(null);
-        }
-        
-        
-        ToolTipManager.sharedInstance().setDismissDelay(0);
-        setForeground(this.getBackground());
-        return c;
-    } 
+	public void savePicture(Picture picture) {}
+	
+	public void loadPicture(Picture picture) {
+		loadPicture(picture, true);
+	}
+	
+	@SuppressWarnings("resource")
+	private void loadPicture(Picture picture, boolean includeData) {}	
+	
+	/**
+	 * Server-side deletion of the attachments
+	 * @param ID
+	 */
+	public void deletePicture(String ID) {}
+	
+	public void deletePicture(Picture picture) {}
+	
+	private void cleanup(File dir) {}
+	
+	public Collection<Picture> getPictures(String ID) {
+		Collection<Picture> pictures = new ArrayList<>();
+		
+		return pictures;
+	}
 }

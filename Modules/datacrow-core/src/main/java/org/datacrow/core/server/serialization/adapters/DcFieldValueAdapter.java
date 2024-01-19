@@ -39,7 +39,6 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.server.serialization.helpers.DcFieldValue;
 import org.datacrow.core.utilities.CoreUtilities;
 
@@ -73,9 +72,7 @@ public class DcFieldValueAdapter implements JsonDeserializer<DcFieldValue>, Json
             
             Object value = src.getValue();
             JsonElement je = null;
-            if (value instanceof Picture)
-                je = context.serialize(value, Picture.class);
-            else if (value instanceof DcObject) {
+            if (value instanceof DcObject) {
                 je = context.serialize(value, DcObject.class);
             } else if (value instanceof Number) {
                 je = context.serialize(value.toString());
@@ -128,9 +125,6 @@ public class DcFieldValueAdapter implements JsonDeserializer<DcFieldValue>, Json
             if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
                 JsonObject jo = jsonObject.getAsJsonObject("fieldvalue");
                 result = jo != null ? context.deserialize(jo, DcObject.class) : null;
-            } else if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-                JsonObject jo = jsonObject.getAsJsonObject("fieldvalue");
-                if (jo != null) result = context.deserialize(jsonObject.getAsJsonObject("fieldvalue"), Picture.class);
             } else if (field.getValueType() == DcRepository.ValueTypes._BIGINTEGER ||
                        field.getValueType() == DcRepository.ValueTypes._LONG) {
             	String s = e.getAsString();

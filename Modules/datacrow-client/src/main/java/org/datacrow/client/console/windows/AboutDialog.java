@@ -71,11 +71,12 @@ public class AboutDialog extends DcDialog {
         JPanel panelAbout = new JPanel();
         panelAbout.setLayout(Layout.getGBL());
 
+        // TODO: use different field type
         DcPictureField about = ComponentFactory.getPictureField(false, false);
         try {
         	BufferedImage icon = CoreUtilities.getScaledImage(
         			new DcImageIcon(DcConfig.getInstance().getInstallationDir() + "icons/credits.png"), 430, 430);
-            about.setValue(new DcImageIcon(icon));
+//            about.setValue(new DcImageIcon(icon));
             panelAbout.add(about, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
             GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
             new Insets(5, 5, 5, 5), 0, 0));

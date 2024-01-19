@@ -41,7 +41,6 @@ import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.Loan;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.server.data.AttachmentManager;
@@ -193,8 +192,5 @@ public class DeleteQuery extends Query {
                 stmt.execute("DELETE FROM " + m.getTableName() + " WHERE " + m.getField(DcMapping._A_PARENT_ID).getDatabaseFieldName() + " = '" + dco.getID() + "'");
             }   
         }
-        
-        stmt.execute("DELETE FROM " + DcModules.get(DcModules._PICTURE).getTableName() + " WHERE " +
-                     DcModules.get(DcModules._PICTURE).getField(Picture._A_OBJECTID).getDatabaseFieldName() + " = '" + dco.getID() + "'");
     }
 }

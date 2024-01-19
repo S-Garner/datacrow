@@ -38,7 +38,7 @@ import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcProperty;
-import org.datacrow.core.objects.Picture;
+import org.datacrow.core.pictures.Picture;
 
 public class DcShortObjectListElement extends DcObjectListElement {
 

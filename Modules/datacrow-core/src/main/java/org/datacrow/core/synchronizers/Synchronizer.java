@@ -32,10 +32,8 @@ import java.util.Iterator;
 
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.clients.ISynchronizerClient;
-import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.services.OnlineSearchHelper;
 import org.datacrow.core.utilities.CoreUtilities;
 
@@ -122,6 +120,8 @@ public abstract class Synchronizer implements Serializable{
     }
     
     protected void setValue(DcObject dco, int field, Object value) {
+    	
+    	// TODO: make sure pictures are included!
 
         // empty value, no need to update
         if (CoreUtilities.isEmpty(value))
@@ -154,8 +154,6 @@ public abstract class Synchronizer implements Serializable{
                         	dco.createReference(field, o);
                         }
                     }
-                } else if (value instanceof Picture) {
-                    dco.setValue(field, new DcImageIcon(((Picture) value).getImage()));
                 } else {
                     dco.setValue(field, value);    
                 }                

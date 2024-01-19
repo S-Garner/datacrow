@@ -411,7 +411,6 @@ public class DcModules implements Serializable {
      * Initializes the system modules such as the picture and the loan module.
      */
     private static void loadSystemModules() {
-        register(new PictureModule());
         register(new LoanModule());
         register(new LoanExportModule());
         register(new UserModule());

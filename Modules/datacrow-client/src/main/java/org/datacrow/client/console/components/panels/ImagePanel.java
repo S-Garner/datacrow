@@ -33,7 +33,7 @@ import javax.swing.JPanel;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcPictureField;
-import org.datacrow.core.objects.Picture;
+import org.datacrow.core.pictures.Picture;
 
 /**
  * @author RJ
@@ -46,14 +46,14 @@ public class ImagePanel extends JPanel {
 	
 	public ImagePanel(Picture picture) {
 		this.picture = picture;
-		
+//		
 		picField = ComponentFactory.getPictureField(true, false);
 		build();
 	}
 	
 	public void load() {
-		picture.loadImage(false);
-		picField.setValue(picture);
+//		picture.loadImage(false);
+//		picField.setValue(picture);
 	}
 	
 	public void clear() {

@@ -38,15 +38,11 @@ import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
-import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
-import org.datacrow.core.settings.DcSettings;
-import org.datacrow.core.settings.objects.DcDimension;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.server.data.DataManager;
@@ -221,22 +217,6 @@ public abstract class Query {
         }
     }  
     
-    protected void deleteImage(Picture picture) {
-        String filename = (String) picture.getValue(Picture._C_FILENAME);
-
-        if (filename == null) return;
-        
-        String filename1 = DcConfig.getInstance().getImageDir() + filename;
-
-        File file1 = new File(filename1);
-        if (file1.exists()) file1.delete();
-        
-        String filename2 = picture.getScaledFilename(DcConfig.getInstance().getImageDir() + filename);
-        
-        File file2 = new File(filename2);
-        if (file2.exists()) file2.delete();
-    }
-    
     protected void saveIcon(String icon, DcField field, String ID) {
         File file = new File(DcConfig.getInstance().getImageDir(), "icon_" + ID + ".jpg");
         
@@ -248,37 +228,6 @@ public abstract class Query {
             }
         } else if (file.exists()){
             file.delete();
-        }
-    }
-    
-    protected void saveImage(Picture picture) {
-        String filename = picture.getImageFilename();
-        
-        if (filename == null)  return;
-        
-        File file = new File(DcConfig.getInstance().getImageDir(), filename);
-        String imageFile = file.toString();
-
-        DcDimension maxDimension = DcSettings.getDimension(DcRepository.Settings.stMaximumImageResolution);
-        
-        try {
-            if (file.exists())
-                file.delete();
-            
-            DcImageIcon icon = (DcImageIcon) picture.getValue(Picture._D_IMAGE);
-            icon = icon.getCurrentBytes() != null ? new DcImageIcon(icon.getCurrentBytes()) : icon;
-            
-    		CoreUtilities.writeScaledImageToFile(
-    				icon, 
-    				file,
-    				maxDimension.getWidth(), 
-    				maxDimension.getHeight());
-    		CoreUtilities.writeScaledImageToFile(
-    				icon,
-    				new File(picture.getScaledFilename(imageFile)));
-    		
-        } catch (Exception e) {
-            logger.error("Could not save [" + imageFile + "]", e);
         }
     }
 }

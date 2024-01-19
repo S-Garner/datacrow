@@ -61,17 +61,20 @@ import org.datacrow.client.util.filefilters.PictureFileFilter;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.filefilters.DcFileFilter;
 
-public class DcPictureField extends JComponent implements IComponent, ActionListener, MouseListener, DropTargetListener {
+public class DcPictureField extends JComponent implements ActionListener, MouseListener, DropTargetListener {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcPictureField.class.getName());
     
     private final DcPicturePane pane;
     
     private DcPictureFieldMenu menu;
+    
+    private Picture picture;
 
     private boolean changed = false;
     
@@ -106,16 +109,15 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
         pane.setScaled(scaled);
     }
 
-    @Override
-    public void setValue(Object o) {
-        pane.setValue(o);
+    public void setPicture(Picture picture) {
+    	this.picture = picture; 
+        pane.setImageIcon(picture.getImageIcon());
     }
 
     public boolean isChanged() {
         return changed;
     }
     
-    @Override
     public void clear() {
         menu = null;
         pane.clear();
@@ -129,9 +131,10 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
     	return !pane.hasImage();
     }
 
-    @Override
-    public Object getValue() {
-    	return pane.getValue();
+    public Picture getPicture() {
+    	DcImageIcon imageIcon = pane.getImageIcon();
+    	picture.setImageIcon(imageIcon);
+    	return picture;
     }
 
     @Override
@@ -145,20 +148,20 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
         
         DcImageIcon image = dialog.getImage();
         if (image != null) {
-        	pane.setValue(image);
+        	pane.setImageIcon(image);
             changed = true;
             dialog.setImage(null);
         }
     }
     
     private void openImage() {
-    	DcImageIcon image = (DcImageIcon) pane.getValue();
+    	DcImageIcon image = pane.getImageIcon();
     	
     	if (image != null) {
             PictureDialog dlg = new PictureDialog(image);
             
             if (dlg.isPictureChanged()) {
-            	pane.setValue(dlg.getImage());
+            	pane.setImageIcon(dlg.getImage());
                 changed = true;
                 repaint();
                 revalidate();
@@ -175,7 +178,7 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
             if (file != null && file.isFile()) {
                 BufferedImage bi = ImageIO.read(file);
                 DcImageIcon icon = new DcImageIcon(bi);
-                pane.setValue(icon);
+                pane.setImageIcon(icon);
                 changed = true;
             }
         } catch (Exception e) {
@@ -185,7 +188,7 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
     
     private void saveToFile() {
     	
-    	DcImageIcon image = (DcImageIcon) pane.getValue();
+    	DcImageIcon image = pane.getImageIcon();
     	
         if (image != null) {
             BrowserDialog dlg = new BrowserDialog(DcResources.getText("lblSelectFile"), 
@@ -206,7 +209,6 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
         }
     }
     
-    @Override
     public void setEditable(boolean b) {
     	setEnabled(b);
     	if (!b) {
@@ -217,7 +219,7 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
     private void paste() {
         DcImageIcon icon = Utilities.getImageFromClipboard();
         if (icon != null) {
-        	pane.setValue(icon);
+        	pane.setImageIcon(icon);
             changed = true;
         }
     }
@@ -235,7 +237,7 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
         } else if (action.equals("Save as")) {
             saveToFile();
         } else if (action.equals("delete")) {
-            setValue(null);
+            setPicture(null);
             changed = true;
         } else if (action.equals("rotate_right")) {
             pane.rotate(90);
@@ -277,7 +279,7 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
     		return;
     	
         if (e.getClickCount() == 2) {
-        	DcImageIcon image = (DcImageIcon) pane.getValue();
+        	DcImageIcon image = pane.getImageIcon();
         	
             if (image == null)
                 openImageFromFile();
@@ -295,9 +297,6 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
     @Override
     public void mouseReleased(MouseEvent e) {}
     
-    @Override
-    public void refresh() {}
-
     private void checkDragAction(DropTargetDragEvent dtde) {
         if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
             dtde.acceptDrag(DnDConstants.ACTION_COPY);
@@ -341,7 +340,7 @@ public class DcPictureField extends JComponent implements IComponent, ActionList
                 	if (file.isFile() && filter.accept(file)) {
                         BufferedImage bi = ImageIO.read(file);
                         DcImageIcon icon = new DcImageIcon(bi);
-                    	pane.setValue(icon);
+                    	pane.setImageIcon(icon);
                         changed = true;
                 	}
                 	

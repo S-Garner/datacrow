@@ -95,7 +95,9 @@ public class PictureSelectDialog extends DcDialog implements ActionListener {
         }
         
         DcPictureField picFld = ComponentFactory.getPictureField(true, false);
-        picFld.setValue(image);
+        
+        // TODO: decideon architecture
+//        picFld.setValue(image);
         
         getContentPane().setLayout(Layout.getGBL());
         getContentPane().add(ComponentFactory.getLabel("Picture field"),  

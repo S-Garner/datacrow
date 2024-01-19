@@ -40,18 +40,15 @@ import java.util.Map;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.Version;
-import org.datacrow.core.console.IPollerTask;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcField;
-import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcProperty;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.helpers.MusicTrack;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
@@ -95,17 +92,18 @@ public class SystemUpgrade {
             	DcSettings.set(DcRepository.Settings.stIsUpgraded, Boolean.TRUE);
             }
             
+            Connector connector = DcConfig.getInstance().getConnector();
+            
             if (!dbInitialized && v.isOlder(new Version(4, 0, 0, 0))) {
-                Connector connector = DcConfig.getInstance().getConnector();
                 connector.displayMessage("Make sure you have NOT installed Data Crow on top of an "
                         + "older version (3.x) of Data Crow; this will cause errors. This is just "
                         + "for information.");
                 
                 checkAudioTables();
+            } else if (!dbInitialized && v.isOlder(new Version(4, 11, 0, 0))) {
+            	connector.displayMessage("You first need to upgrade to version 4.11 prior to upgrading to this version.");
+            	System.exit(0);
             }
-            
-            if (!dbInitialized)
-                moveImages();
             
             if (!dbInitialized)
             	renameRecordLabel();
@@ -444,118 +442,116 @@ public class SystemUpgrade {
         }
     }
     
-    public void moveImages() {
-        ImageMover imgMover = new ImageMover();
-        imgMover.start();
-        
-        try {
-            imgMover.join();
-        } catch (Exception e) {
-            logger.error("Error while joining the image mover process with the main Thread", e);
-        }
-    }
-    
-    private class ImageMover extends Thread {
-        
-        @Override
-        public void run() {
-            
-            File dir = new File(DcConfig.getInstance().getDataDir(), "wwwroot/datacrow/mediaimages");
-            
-            if (!dir.exists()) return;
-            
-            File targetDir = new File(DcConfig.getInstance().getImageDir());
-            
-            Connector conn = DcConfig.getInstance().getConnector();
-            
-            conn.displayMessage("The images will be moved and new scaled version will be created. "
-                    + "This process can take up to 10 minutes.");
-            
-            IPollerTask poller = conn.getPollerTask(this, "Image Moving Task");
-            
-            if (poller != null) {
-                poller.start();
-            }
-            
-            boolean success = true;
-            try {
-                File f;
-                String[] files = dir.list();
-                
-                int counter = 1;
-                for (String file : files) {
-                    f = new File(dir,  file);
-                    
-                    if (f.isDirectory()) continue;
-                    
-                    if (file.endsWith("_small.jpg")) {
-                        f.delete();
-                    } else {
-                        CoreUtilities.rename(f, new File(targetDir, file), true);
-                    }
-                    
-                    if (poller != null) poller.setText("Moved image " + (counter++) + "/" + files.length);
-                }
-                
-                Picture p = new Picture();
-                DcImageIcon icon;
-                files = targetDir.list();
-                counter = 1;
-                for (String file : files) {
-                    try {
-                        f = new File(targetDir,  file);
-                        
-                        if (f.isDirectory()) continue;
-                        
-                        icon = new DcImageIcon(f.toString());
-                        CoreUtilities.writeScaledImageToFile(icon, new File(p.getScaledFilename(f.toString())));
-                        icon.flush();
-                        
-                        if (poller != null) poller.setText("Creating thumbnail " + (counter++) + "/" + files.length);
-                    } catch (Exception e) {
-                        logger.warn(e, e);
-                    }
-                }
-                p.cleanup();
-            } catch (Exception e) {
-                success = false;
-                String msg = e.toString() + ". Images could not be moved from the old (" + dir + ") to the new location (" +
-                        DcConfig.getInstance().getImageDir() + ").";
-                logger.error(msg, e);
-                Connector connector = DcConfig.getInstance().getConnector();
-                connector.displayError(msg);
-            }
-            
-            if (success) {
-                File f;
-                Directory d = new Directory(new File(DcConfig.getInstance().getDataDir(), "wwwroot").toString(), true, null);
-                for (String removal : d.read()) {
-                    f = new File(removal);
-                    
-                    if (f.isDirectory()) continue;
-                    
-                    f.delete();
-                }
-
-                dir.delete();
-                new File(DcConfig.getInstance().getDataDir(), "wwwroot/").delete();
-                
-                if (poller != null) {
-                    poller.finished(true);
-                }
-                
-                conn.displayMessage("All done! Images have been moved and new scaled versions have been created. Old directory has been removed");
-                
-                if (new File(DcConfig.getInstance().getDataDir(), "wwwroot/").exists()) 
-                    conn.displayMessage("The old folder could not be removed. Please delete the following folder manually: " + 
-                                new File(DcConfig.getInstance().getDataDir(), "wwwroot/"));
-            }
-            
-            if (poller != null) {
-                poller.finished(true);
-            }
-        }
-    }
+//    public void moveImages() {
+//        ImageMover imgMover = new ImageMover();
+//        imgMover.start();
+//        
+//        try {
+//            imgMover.join();
+//        } catch (Exception e) {
+//            logger.error("Error while joining the image mover process with the main Thread", e);
+//        }
+//    }
+//    
+//    private class ImageMover extends Thread {
+//        
+//        @Override
+//        public void run() {
+//            
+//            File dir = new File(DcConfig.getInstance().getDataDir(), "wwwroot/datacrow/mediaimages");
+//            
+//            if (!dir.exists()) return;
+//            
+//            File targetDir = new File(DcConfig.getInstance().getImageDir());
+//            
+//            Connector conn = DcConfig.getInstance().getConnector();
+//            
+//            conn.displayMessage("The images will be moved and new scaled version will be created. "
+//                    + "This process can take up to 10 minutes.");
+//            
+//            IPollerTask poller = conn.getPollerTask(this, "Image Moving Task");
+//            
+//            if (poller != null) {
+//                poller.start();
+//            }
+//            
+//            boolean success = true;
+//            try {
+//                File f;
+//                String[] files = dir.list();
+//                
+//                int counter = 1;
+//                for (String file : files) {
+//                    f = new File(dir,  file);
+//                    
+//                    if (f.isDirectory()) continue;
+//                    
+//                    if (file.endsWith("_small.jpg")) {
+//                        f.delete();
+//                    } else {
+//                        CoreUtilities.rename(f, new File(targetDir, file), true);
+//                    }
+//                    
+//                    if (poller != null) poller.setText("Moved image " + (counter++) + "/" + files.length);
+//                }
+//                
+//                DcImageIcon icon;
+//                files = targetDir.list();
+//                counter = 1;
+//                for (String file : files) {
+//                    try {
+//                        f = new File(targetDir,  file);
+//                        
+//                        if (f.isDirectory()) continue;
+//                        
+//                        icon = new DcImageIcon(f.toString());
+//                        CoreUtilities.writeScaledImageToFile(icon, new File(p.getScaledFilename(f.toString())));
+//                        icon.flush();
+//                        
+//                        if (poller != null) poller.setText("Creating thumbnail " + (counter++) + "/" + files.length);
+//                    } catch (Exception e) {
+//                        logger.warn(e, e);
+//                    }
+//                }
+//            } catch (Exception e) {
+//                success = false;
+//                String msg = e.toString() + ". Images could not be moved from the old (" + dir + ") to the new location (" +
+//                        DcConfig.getInstance().getImageDir() + ").";
+//                logger.error(msg, e);
+//                Connector connector = DcConfig.getInstance().getConnector();
+//                connector.displayError(msg);
+//            }
+//            
+//            if (success) {
+//                File f;
+//                Directory d = new Directory(new File(DcConfig.getInstance().getDataDir(), "wwwroot").toString(), true, null);
+//                for (String removal : d.read()) {
+//                    f = new File(removal);
+//                    
+//                    if (f.isDirectory()) continue;
+//                    
+//                    f.delete();
+//                }
+//
+//                dir.delete();
+//                new File(DcConfig.getInstance().getDataDir(), "wwwroot/").delete();
+//                
+//                if (poller != null) {
+//                    poller.finished(true);
+//                }
+//                
+//                conn.displayMessage("All done! Images have been moved and new scaled versions have been created. Old directory has been removed");
+//                
+//                if (new File(DcConfig.getInstance().getDataDir(), "wwwroot/").exists()) 
+//                    conn.displayMessage("The old folder could not be removed. Please delete the following folder manually: " + 
+//                                new File(DcConfig.getInstance().getDataDir(), "wwwroot/"));
+//            }
+//            
+//            if (poller != null) {
+//                poller.finished(true);
+//            }
+//        }
+//    }
     
     @SuppressWarnings("resource")
 	private void checkAudioTables() {

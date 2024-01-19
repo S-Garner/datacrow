@@ -41,7 +41,7 @@ import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.Settings;
 

@@ -66,7 +66,6 @@ import org.datacrow.core.objects.helpers.Container;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 
-//TODO: refactor - class structure is sub optimal
 public class LoanPanel extends JPanel implements ActionListener, IClient {
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(LoanPanel.class.getName());
@@ -515,7 +514,6 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
         close();
     }
     
-    // TODO: rewrite - inner class structure
     private class PanelLend extends JPanel implements ActionListener {
         
 		public PanelLend() {
@@ -561,7 +559,6 @@ public class LoanPanel extends JPanel implements ActionListener, IClient {
         }
     }
     
-    // TODO: rewrite - inner class structure
     private class PanelReturn extends JPanel implements ActionListener {
         
 		public PanelReturn() {

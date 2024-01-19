@@ -60,9 +60,9 @@ import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.objects.Loan;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.objects.helpers.User;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
@@ -288,20 +288,18 @@ public class ClientToServerConnector extends Connector {
 	
 	@Override
 	public Collection<Picture> getPictures(String parentID) {
-		ClientRequestItems cr = new ClientRequestItems(getUser());
-        DataFilter df = new DataFilter(DcModules._PICTURE);
-        df.addEntry(new DataFilterEntry(DcModules._PICTURE, Picture._A_OBJECTID, Operator.EQUAL_TO, parentID));
-		cr.setDataFilter(df);
-	      
-		ServerItemsRequestResponse response = (ServerItemsRequestResponse) processClientRequest(cr);
+		
+		// TODO: create picture request - fetch the results and pass this onto the client
+		
+//		ServerItemsRequestResponse response = (ServerItemsRequestResponse) processClientRequest(cr);
 		
 		Collection<Picture> pictures = null;
-		if (response != null && response.getItems() != null) {
-		    pictures = new ArrayList<Picture>();
-		    for (DcObject dco : response.getItems()) {
-		        pictures.add((Picture) dco);
-		    }
-		}
+//		if (response != null && response.getItems() != null) {
+//		    pictures = new ArrayList<Picture>();
+//		    for (DcObject dco : response.getItems()) {
+//		        pictures.add((Picture) dco);
+//		    }
+//		}
 		
 		return pictures;
 	}
@@ -583,8 +581,8 @@ public class ClientToServerConnector extends Connector {
         ClientRequestItemAction cr = new ClientRequestItemAction(
                 getUser(), ClientRequestItemAction._ACTION_SAVE, dco);
         
-        // make sure to load the bytes as the image inside the ImageIcon will not be available on the server.
-        dco.loadImageData();
+        // TODO: make sure to load the bytes as the image inside the ImageIcon will not be available on the server??
+        // dco.loadImageData();
         
         ServerResponse response = processClientRequest(cr);
         

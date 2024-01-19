@@ -63,14 +63,12 @@ import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.objects.DcFont;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.StringUtils;
-import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 import org.datacrow.core.utilities.definitions.QuickViewFieldDefinition;
 import org.datacrow.core.utilities.definitions.QuickViewFieldDefinitions;
 
@@ -138,28 +136,10 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     private void createImageTabs(DcObject dco) {
         try {
             reset();
-    
-            Picture picture;
-            ImagePanel panel;
+            
+            // TODO: add a single image tab
+            // allow pictures to be added to the quick view description by adding <picture 1 to xxx> as fields.
 
-            for (DcFieldDefinition definition : dco.getModule().getFieldDefinitions().getDefinitions()) {
-                if (dco.isEnabled(definition.getIndex()) && 
-                    dco.getField(definition.getIndex()).getValueType() == DcRepository.ValueTypes._PICTURE) {
-                    
-                    picture = (Picture) dco.getValue(definition.getIndex());
-
-                    if (picture == null) continue;
-                    
-                    if (picture.hasImage()) {
-                        panel = new ImagePanel(picture);
-                        panel.addMouseListener(this);
-                            
-                        tabbedPane.addTab(dco.getLabel(definition.getIndex()), IconLibrary._icoPicture, panel);
-                        
-                        imagePanels.put(Integer.valueOf(tabbedPane.getTabCount() - 1), panel);
-                    }
-                }
-            }
         } catch (Exception e) {
             logger.error("An error occurred while setting the images", e);
         }
@@ -449,14 +429,15 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
                         filename = new File(DcConfig.getInstance().getInstallationDir(), filename.substring(2, filename.length())).toString();
                     
                     value = "<a href=\"file://" + filename +  "?original=" +filename+  "\" " + Utilities.getHtmlStyle(fText) + ">" + new File(filename).getName() + "</a>";                        
-                } else if (field.getFieldType() == ComponentFactory._PICTUREFIELD && showInlineImages) {
-                	Picture p = (Picture) dco.getValue(index);
-                	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
-                	    value = "<img src=\"" + p.getThumbnailUrl() + "\" alt=\"" + dco.getLabel(index) + "\">";
-                	} else {
-                	    value = "<img src=\"file:///" + DcConfig.getInstance().getImageDir() + "/" + p.getScaledFilename() + 
-                	            "\" alt=\"" + dco.getLabel(index) + "\"\">";
-                	}
+//                } else if (field.getFieldType() == ComponentFactory._PICTUREFIELD && showInlineImages) {
+//                	Picture p = (Picture) dco.getValue(index);
+//                	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
+//                	    value = "<img src=\"" + p.getThumbnailUrl() + "\" alt=\"" + dco.getLabel(index) + "\">";
+//                	} else {
+//                	    value = "<img src=\"file:///" + DcConfig.getInstance().getImageDir() + "/" + p.getScaledFilename() + 
+//                	            "\" alt=\"" + dco.getLabel(index) + "\"\">";
+//                	}
+                    // TODO: figure out how to work with pictures
                 } else if (field.getFieldType() == ComponentFactory._URLFIELD) {
                 	value = "<a href=\"" +  dco.getValue(index) + "\" " + Utilities.getHtmlStyle(fText) + ">" + DcResources.getText("lblLink") + "</a>";
                 } else if (field.getFieldType() == ComponentFactory._REFERENCEFIELD ||

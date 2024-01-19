@@ -33,15 +33,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.security.SecuredUser;
 
 public class InsertQuery extends Query {
@@ -66,7 +63,6 @@ public class InsertQuery extends Query {
         createReferences(dco);
 	       
         Collection<DcMapping> references = new ArrayList<DcMapping>();
-        Collection<Picture> pictures = new ArrayList<Picture>();
 
         Connection conn = null;
         Statement stmt = null;
@@ -76,26 +72,8 @@ public class InsertQuery extends Query {
             conn = DatabaseManager.getInstance().getConnection(getUser());
             stmt = conn.createStatement();
         
-            Picture picture;
-            ImageIcon image;
             for (DcField field : dco.getFields()) {
-                if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-                    picture = (Picture) dco.getValue(field.getIndex());
-                    image = picture != null ? (ImageIcon) picture.getValue(Picture._D_IMAGE) : null; 
-                    if (image != null) {
-                        if (image.getIconHeight() == 0 || image.getIconWidth() == 0) {
-                            logger.warn("Image " + dco.getID() + "_" + field.getDatabaseFieldName() + ".jpg" + " is invalid and will not be saved");
-                        } else {
-                            picture.setValue(Picture._A_OBJECTID, dco.getID());
-                            picture.setValue(Picture._B_FIELD, field.getDatabaseFieldName());
-                            picture.setValue(Picture._C_FILENAME, dco.getID() + "_" + field.getDatabaseFieldName() + ".jpg");
-                            picture.setValue(Picture._E_HEIGHT, image.getIconHeight());
-                            picture.setValue(Picture._F_WIDTH, image.getIconWidth());
-                            picture.isEdited(true);
-                            pictures.add(picture);
-                        }
-                    }
-                } else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
+                if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
                     @SuppressWarnings("unchecked")
                     Collection<DcMapping> c = (Collection<DcMapping>) dco.getValue(field.getIndex());
                     if (c != null) references.addAll(c);                
@@ -121,23 +99,13 @@ public class InsertQuery extends Query {
             
             saveReferences(references, dco.getID());
             
-            InsertQuery insertQuery;
-            for (Picture p : pictures) {
-                try {
-                	insertQuery = new InsertQuery(getUser(), p);
-                	insertQuery.run();
-                    saveImage(p);
-                } catch (Exception e) {
-                    logger.error("An error occured while inserting the following picture: " + p, e);
-                }   
-            }
-            
             for (DcField f : dco.getFields()) {
                 if (f.getValueType() == DcRepository.ValueTypes._ICON) {
                     saveIcon((String) dco.getValue(f.getIndex()), f, dco.getID());
                 }
             }
 
+            InsertQuery insertQuery;
             if (dco.getCurrentChildren() != null) {
                 for (DcObject child : dco.getCurrentChildren()) {
                     try {

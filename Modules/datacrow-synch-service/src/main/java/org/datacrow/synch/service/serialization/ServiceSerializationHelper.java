@@ -35,7 +35,6 @@ import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcSimpleValue;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.server.serialization.adapters.DcColorAdapter;
 import org.datacrow.core.server.serialization.adapters.DcFieldValueAdapter;
 import org.datacrow.core.server.serialization.adapters.DcFontAdapter;
@@ -43,7 +42,6 @@ import org.datacrow.core.server.serialization.adapters.DcObjectAdapter;
 import org.datacrow.core.server.serialization.adapters.DcSimpleValueAdapter;
 import org.datacrow.core.server.serialization.adapters.FileAdapter;
 import org.datacrow.core.server.serialization.adapters.InterfaceAdapter;
-import org.datacrow.core.server.serialization.adapters.PictureAdapter;
 import org.datacrow.core.server.serialization.adapters.SettingsAdapter;
 import org.datacrow.core.server.serialization.helpers.DcFieldValue;
 import org.datacrow.core.settings.DcModuleSettings;
@@ -89,7 +87,6 @@ public class ServiceSerializationHelper {
         
         gson = new GsonBuilder()
                 .disableHtmlEscaping()
-                .registerTypeAdapter(Picture.class, new PictureAdapter())
                 .registerTypeAdapter(DcObject.class, new DcObjectAdapter())
                 .registerTypeAdapter(DcFieldValue.class, new DcFieldValueAdapter())
                 .registerTypeAdapter(DcSimpleValue.class, new DcSimpleValueAdapter())
@@ -103,7 +100,6 @@ public class ServiceSerializationHelper {
 
         gsonSimple = new GsonBuilder()
                 .disableHtmlEscaping()
-                .registerTypeAdapter(Picture.class, new PictureAdapter())
                 .registerTypeAdapter(DcObject.class, new DcObjectAdapter())
                 .registerTypeAdapter(DcFieldValue.class, new DcFieldValueAdapter())
                 .registerTypeAdapter(DcSimpleValue.class, new DcSimpleValueAdapter())

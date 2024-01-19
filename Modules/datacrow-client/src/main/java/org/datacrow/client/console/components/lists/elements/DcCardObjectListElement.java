@@ -37,7 +37,7 @@ import org.datacrow.core.DcRepository;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.Picture;
+import org.datacrow.core.pictures.Picture;
 
 public class DcCardObjectListElement extends DcObjectListElement {
 	
@@ -102,6 +102,10 @@ public class DcCardObjectListElement extends DcObjectListElement {
     
     @Override
     public Collection<Picture> getPictures() {
+    	
+    	
+    	
+    	
     	Collection<Picture> pictures = new ArrayList<Picture>();
     	
     	int[] fields = dco.getModule().getSettings().getIntArray(DcRepository.ModuleSettings.stCardViewPictureOrder);
@@ -130,20 +134,21 @@ public class DcCardObjectListElement extends DcObjectListElement {
     private void addPicture(Collection<Picture> pictures) {
         DcImageIcon scaledImage;
 
+        // TODO: use different field type
         fldPicture = ComponentFactory.getPictureField(false, false);
         
-        for (Picture p : pictures) {
-            
-            if (p == null || !p.hasImage()) continue;
-                
-            scaledImage = p.getScaledPicture();
-            
-            if (scaledImage != null) { 
-                fldPicture.setValue(scaledImage);
-                fldPicture.setScaled(false);
-                break;
-            }                
-        }
+        // TODO: change this
+        
+//        for (Picture p : pictures) {
+//            
+//        	scaledImage = p.getScaledPicture();
+//            
+//           	if (scaledImage != null) { 
+////           		fldPicture.setValue(scaledImage);
+//                fldPicture.setScaled(false);
+//                break;
+//           	}                
+//        }
 
         fldPicture.setPreferredSize(dimPicLbl);
         fldPicture.setMinimumSize(dimPicLbl);

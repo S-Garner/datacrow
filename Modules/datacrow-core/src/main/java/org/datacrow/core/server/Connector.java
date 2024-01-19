@@ -39,9 +39,9 @@ import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcSimpleValue;
 import org.datacrow.core.objects.Loan;
-import org.datacrow.core.objects.Picture;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.objects.helpers.User;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.response.ServerModulesRequestResponse;
 import org.datacrow.core.settings.Settings;
@@ -171,7 +171,7 @@ public abstract class Connector {
 	
 	public abstract void loadAttachment(Attachment attachment);
 	
-	public abstract Collection<Picture> getPictures(String parentID);
+	public abstract Collection<Picture> getPictures(String ID);
 
 	public abstract Collection<DcObject> getReferences(int mappingModuleIdx, String parentKey, boolean full);
 	

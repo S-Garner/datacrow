@@ -75,9 +75,6 @@ public class DcValue implements Serializable {
      */
     public void setChanged(boolean b) {
         changed = b;
-        
-        if (!b && value instanceof Picture && value != null)
-            ((Picture) value).markAsUnchanged();
     }
 
     /**
@@ -105,43 +102,7 @@ public class DcValue implements Serializable {
         else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION)
             setChanged(true);
 
-        if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
-            if (o instanceof Picture) {
-                if (value != null) ((Picture) value).cleanup();
-
-                setValueNative(o, field);   
-            } else {
-                Picture picture = value == null ? (Picture) DcModules.get(DcModules._PICTURE).getItem() : (Picture) value;
-                value = picture; 
-
-                DcImageIcon currentImage = (DcImageIcon) picture.getValue(Picture._D_IMAGE);
-                DcImageIcon newImage = o instanceof DcImageIcon ? (DcImageIcon) o : 
-                	                   o instanceof byte[] ? new DcImageIcon((byte[]) o) : null;
-
-            	// prevent empty and incorrect images to be saved
-	        	if (	newImage != null && 
-	        			newImage.getIconHeight() != 0 && 
-	        			newImage.getIconWidth() != 0) {
-	        		
-	        	    if (currentImage != null) 
-	        	        currentImage.flush();
-	        	    else 
-	        	        picture.setNew(true);
-	        	    
-	                picture.setValue(Picture._D_IMAGE, newImage);
-	                picture.isEdited(true);
-	                
-                    setValueNative(picture, field);
-	            } else if (picture.hasImage()) {
-	                if (currentImage != null)
-	                    currentImage.flush();
-	                
-	                ((Picture) value).isDeleted(true);
-                    setValueNative(picture, field);
-                    setChanged(true);
-                }
-            }
-       } else if (field.getValueType() == DcRepository.ValueTypes._ICON) {
+        if (field.getValueType() == DcRepository.ValueTypes._ICON) {
     	   if (o instanceof DcImageIcon) {
     		   byte[] bytes = ((DcImageIcon) o).getBytes();
 		       setValueNative(bytes != null ? new String(Base64.encode(bytes)) : null, field);
@@ -270,13 +231,8 @@ public class DcValue implements Serializable {
     
     /**
      * Clears the value and sets it to null.
-     * @param nochecks Just do it, do not check whether we are dealing with an edited item
      */
     public void clear() {
-    	if (value instanceof Picture) {
-    		((Picture) value).unload();
-    	}
-    	
         value = null;
     }
     

@@ -35,7 +35,7 @@ import javax.swing.JPanel;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.core.objects.DcTemplate;
-import org.datacrow.core.objects.Picture;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 
 public class DcTemplateListElement extends DcObjectListElement {
@@ -44,7 +44,6 @@ public class DcTemplateListElement extends DcObjectListElement {
     
     public DcTemplateListElement(int module) {
         super(module);
-        
     }
     
     @Override
