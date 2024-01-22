@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,18 +27,47 @@ public class ImageConverter extends Thread {
 		this.listener = listener;
 	}
 	
+	private Set<String> getImages() {
+		String imageDir = DcConfig.getInstance().getImageDir();
+		Set<String> imageFolders;
+		
+		Set<String> images = new HashSet<>();
+		
+		
+		try (Stream<Path> streamDirs = Files.list(Paths.get(imageDir))) {
+			imageFolders = streamDirs
+		              .filter(file -> Files.isDirectory(file))
+		              .map(Path::getFileName)
+		              .map(Path::toString)
+		              .collect(Collectors.toSet());
+			
+			for (String imageFolder : imageFolders) {
+				try (Stream<Path> streamFiles = Files.list(Paths.get(imageFolder))) {
+		        	images.addAll(streamFiles
+			              .filter(file -> !Files.isDirectory(file) && !file.toString().endsWith("_small.jpg") && !file.toFile().getName().startsWith("icon_"))
+			              .map(Path::toAbsolutePath)
+			              .map(Path::toString)
+			              .collect(Collectors.toSet()));
+		        } catch (Exception e) {
+		        	listener.notifyError(DcResources.getText("msgImageConversionFailed"));
+		        	break;
+		        }
+			}
+        } catch (Exception e) {
+        	listener.notifyError(DcResources.getText("msgImageConversionFailed"));
+        }
+		
+		return images;
+	}
+	
 	@Override
 	public void run() {
 		Set<String> images;
     	String imageDir = DcConfig.getInstance().getImageDir();
     	
-        try (Stream<Path> stream = Files.list(Paths.get(imageDir))) {
-        	images = stream
-	              .filter(file -> !Files.isDirectory(file) && !file.toString().endsWith("_small.jpg") && !file.toFile().getName().startsWith("icon_"))
-	              .map(Path::getFileName)
-	              .map(Path::toString)
-	              .collect(Collectors.toSet());
-
+        try {
+        	images = getImages();
+        	
         	listener.notifyToBeProcessedImages(images.size());
         	
         	DcImageIcon image;
