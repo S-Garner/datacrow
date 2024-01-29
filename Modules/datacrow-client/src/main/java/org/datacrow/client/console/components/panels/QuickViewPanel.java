@@ -33,9 +33,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -79,8 +77,6 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     public static final String _DIRECTION_HORIZONTAL = DcResources.getText("lblHorizontal");
     public static final String _DIRECTION_VERTICAL = DcResources.getText("lblVertical");  
 
-    private final Map<Integer, ImagePanel> imagePanels = new LinkedHashMap<>();
-    
     private final JTabbedPane tabbedPane = ComponentFactory.getTabbedPane();
     
     private final boolean showInlineImages;
@@ -122,27 +118,13 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     }
     
     private void loadTab() {
-    	Integer key = Integer.valueOf(tabbedPane.getSelectedIndex());
-    	
-    	if (imagePanels.containsKey(key)) {
-    		ImagePanel panel = imagePanels.get(key);
-    		panel.load();
-    	} else {
+//    	if (imagePanels.containsKey(key)) {
+//    		ImagePanel panel = imagePanels.get(key);
+//    		panel.load();
+//    	} else {
     		if (tabbedPane.getSelectedComponent() instanceof AttachmentsPanel)
     			attachmentsPanel.load();
-    	}
-    }
-    
-    private void createImageTabs(DcObject dco) {
-        try {
-            reset();
-            
-            // TODO: add a single image tab
-            // allow pictures to be added to the quick view description by adding <picture 1 to xxx> as fields.
-
-        } catch (Exception e) {
-            logger.error("An error occurred while setting the images", e);
-        }
+//    	}
     }
     
     public void refresh() {
@@ -244,7 +226,9 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
             }
         } catch (Exception e) {
             logger.error("An error occurred while setting the information of " + dco, e);
-        }        
+        }
+        
+        reset();
     }
     
     public void clear() {
@@ -275,11 +259,6 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         
         if (relatedItemsPanel != null)
         	tabbedPane.addTab(DcResources.getText("lblRelatedItems"), IconLibrary._icoRelations, relatedItemsPanel);
-        
-        for (ImagePanel panel : imagePanels.values())
-            panel.clear();        
-        
-        imagePanels.clear();
     }
     
     private String getDescriptionTable(DcObject dco) {

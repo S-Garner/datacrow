@@ -56,28 +56,25 @@ public class Picture implements Serializable {
 	private final String objectID;
 	private final String fileName;
 	
-	private String name;
-    
+	private String path;
 	private String thumbnailPath;
+	
     private String url;
     private String thumbnailUrl;
     
     private DcImageIcon imageIcon;
     
-    private boolean loaded = false;
-    
     public Picture(String objectID, String filename) {
     	this.objectID = objectID;
     	this.fileName = filename;
     	
-    	
-    	
-    	this.thumbnailPath = new File(new File(DcConfig.getInstance().getImageDir(), objectID), filename.replace(".jpg", "_small.jpg")).toString();
+    	this.path = new File(new File(DcConfig.getInstance().getImageDir(), objectID), filename).toString();
+    	this.thumbnailPath = path.replace(".jpg", "_small.jpg");
     }
     
     public void load() {
     	if (imageIcon == null) {
-    		//imageIcon = new DcImageIcon(new );
+    		imageIcon = new DcImageIcon(path);
     	} else {
     		// reload
     		imageIcon = new DcImageIcon(imageIcon.getImage());
@@ -105,10 +102,8 @@ public class Picture implements Serializable {
     }
     
     public DcImageIcon getImageIcon() {
-    	
-    	if (imageIcon == null) {
-    		
-    	}
+    	if (imageIcon == null)
+    		imageIcon = new DcImageIcon(path);
     	
     	return imageIcon;
     }
@@ -123,51 +118,18 @@ public class Picture implements Serializable {
      * @return
      */
     public DcImageIcon getScaledPicture() {
-        String filename = getScaledFilename();
-        DcImageIcon thumbnail = null;
-        if (filename != null) {
-            if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
-                try {
-                    thumbnail = new DcImageIcon(new URL(thumbnailUrl));
-                } catch (Exception e) {
-                    logger.warn("Could not load picture from URL " + thumbnailUrl, e);
-                }
-            } else {
-                thumbnail = new DcImageIcon(thumbnailPath);
+    	DcImageIcon thumbnail = null;
+    	
+        if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
+            try {
+                thumbnail = new DcImageIcon(new URL(thumbnailUrl));
+            } catch (Exception e) {
+                logger.warn("Could not load picture from URL " + thumbnailUrl, e);
             }
         } else {
-            if (imageIcon != null) {
-            	File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + "_small.jpg");
-            	file.deleteOnExit();
-            	
-            	try {
-            		CoreUtilities.writeScaledImageToFile(
-            				new DcImageIcon(imageIcon.getImage()), file);
-            		thumbnail = new DcImageIcon(file);
-            	} catch (Exception e) {
-            		logger.debug("Could not store scaled temporary image [" + file + "]", e);
-            	}
-            }
+            thumbnail = new DcImageIcon(thumbnailPath);
         }
         
         return thumbnail;
-    }
-    
-    public String getScaledFilename() {
-        return getScaledFilename(getFilename());
-    }
-
-    public String getScaledFilename(String filename) {
-        if (filename != null) {
-            try {
-                int idx = filename.indexOf(".jpg");
-                String plain = filename.substring(0, idx);
-                String scaledFilename = plain + "_small.jpg";
-                return scaledFilename;
-            } catch (Exception e) {
-                logger.debug("Unable to determine scaled image filename for " + filename + ". Is this a new item?", e);
-            }
-        }
-        return null;
     }
 }
