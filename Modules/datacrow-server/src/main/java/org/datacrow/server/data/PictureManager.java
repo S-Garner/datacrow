@@ -64,15 +64,6 @@ public class PictureManager {
 
 	public void savePicture(Picture picture) {}
 	
-	public void loadPicture(Picture picture) {
-		loadPicture(picture, true);
-	}
-	
-	private void loadPicture(Picture picture, boolean includeData) {
-		
-		
-	}	
-	
 	public void deletePictures(String objectID) {}
 	
 	public void deletePicture(Picture picture) {}
