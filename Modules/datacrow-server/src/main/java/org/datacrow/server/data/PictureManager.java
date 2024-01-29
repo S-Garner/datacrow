@@ -26,8 +26,16 @@
 package org.datacrow.server.data;
 
 import java.io.File;
+import java.io.IOError;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
@@ -69,10 +77,27 @@ public class PictureManager {
 	
 	public void deletePicture(Picture picture) {}
 	
-	private void cleanup(File dir) {}
-	
 	public Collection<Picture> getPictures(String ID) {
 		Collection<Picture> pictures = new ArrayList<>();
+		
+		File dir = new File(DcConfig.getInstance().getImageDir(), ID); 
+		
+		if (dir.exists()) {
+			
+			try (Stream<Path> streamDirs = Files.list(Paths.get(dir.toString()))) {
+				Set<String> images = streamDirs
+			              .filter(file -> !Files.isDirectory(file) && !file.toString().endsWith("_small.jpg"))
+			              .map(Path::getFileName)
+			              .map(Path::toString)
+			              .collect(Collectors.toSet());
+
+				for (String image : images)
+					pictures.add(new Picture(ID, image));
+				
+			} catch (IOException ioe) {
+				logger.error("An error has occured whilst retrieving pictures for ID [" + ID + "]", ioe);
+			}
+		}
 		
 		return pictures;
 	}

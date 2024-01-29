@@ -73,11 +73,8 @@ public class ImageConverter extends Thread {
 	
 	@Override
 	public void run() {
-		Set<String> images;
-    	String imageDir = DcConfig.getInstance().getImageDir();
-    	
         try {
-        	images = getImages();
+        	Set<String> images = getImages();
         	
         	listener.notifyToBeProcessedImages(images.size());
         	
@@ -114,7 +111,6 @@ public class ImageConverter extends Thread {
 		        			
 		        			// update all variables to the newly located images
 		        			imageFile = tgt.toString();
-//		        			image = new DcImageIcon(tgt);
 		        			
 		        		} else {
 		        			// normal path

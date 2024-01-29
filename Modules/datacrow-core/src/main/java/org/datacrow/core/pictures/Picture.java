@@ -58,6 +58,7 @@ public class Picture implements Serializable {
 	
 	private String name;
     
+	private String thumbnailPath;
     private String url;
     private String thumbnailUrl;
     
@@ -65,10 +66,22 @@ public class Picture implements Serializable {
     
     private boolean loaded = false;
     
-    public Picture(String objectID, String name) {
+    public Picture(String objectID, String filename) {
     	this.objectID = objectID;
-    	this.name = name;
-    	this.fileName = name;
+    	this.fileName = filename;
+    	
+    	
+    	
+    	this.thumbnailPath = new File(new File(DcConfig.getInstance().getImageDir(), objectID), filename.replace(".jpg", "_small.jpg")).toString();
+    }
+    
+    public void load() {
+    	if (imageIcon == null) {
+    		//imageIcon = new DcImageIcon(new );
+    	} else {
+    		// reload
+    		imageIcon = new DcImageIcon(imageIcon.getImage());
+    	}
     }
     
 //    public String getUrl() {
@@ -92,6 +105,11 @@ public class Picture implements Serializable {
     }
     
     public DcImageIcon getImageIcon() {
+    	
+    	if (imageIcon == null) {
+    		
+    	}
+    	
     	return imageIcon;
     }
     
@@ -115,7 +133,7 @@ public class Picture implements Serializable {
                     logger.warn("Could not load picture from URL " + thumbnailUrl, e);
                 }
             } else {
-                thumbnail = new DcImageIcon(new File(DcConfig.getInstance().getImageDir(), filename));
+                thumbnail = new DcImageIcon(thumbnailPath);
             }
         } else {
             if (imageIcon != null) {

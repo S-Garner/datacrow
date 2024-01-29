@@ -27,15 +27,12 @@ package org.datacrow.client.console.components.lists.elements;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.datacrow.client.console.ComponentFactory;
-import org.datacrow.client.console.components.DcPictureField;
+import org.datacrow.client.console.components.DcPicturePane;
 import org.datacrow.client.console.components.DcTextPane;
 import org.datacrow.core.DcRepository;
-import org.datacrow.core.objects.DcField;
-import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.pictures.Picture;
 import org.datacrow.server.data.PictureManager;
@@ -45,10 +42,10 @@ public class DcCardObjectListElement extends DcObjectListElement {
 	public static final Dimension size = new Dimension(250, 250);
 	
     private static final Dimension dimTxt = new Dimension(250, 45);
-    private static final Dimension dimPicLbl = new Dimension(250, 200);
+    private static final Dimension dimPicLbl = new Dimension(248, 198);
 
     private final DcTextPane fldTitle;
-    private DcPictureField fldPicture;
+    private DcPicturePane fldPicture;
     
     private boolean build = false;
 
@@ -113,23 +110,13 @@ public class DcCardObjectListElement extends DcObjectListElement {
     }    
     
     private void addPicture(Collection<Picture> pictures) {
-        DcImageIcon scaledImage;
-
-        // TODO: use different field type
-        fldPicture = ComponentFactory.getPictureField(false, false);
+    	fldPicture = new DcPicturePane(false);
         
-        // TODO: change this
-        
-//        for (Picture p : pictures) {
-//            
-//        	scaledImage = p.getScaledPicture();
-//            
-//           	if (scaledImage != null) { 
-////           		fldPicture.setValue(scaledImage);
-//                fldPicture.setScaled(false);
-//                break;
-//           	}                
-//        }
+        for (Picture p : pictures) {
+       		fldPicture.setImageIcon(p.getScaledPicture());
+            fldPicture.setScaled(false);
+            break;
+        }
 
         fldPicture.setPreferredSize(dimPicLbl);
         fldPicture.setMinimumSize(dimPicLbl);
@@ -161,7 +148,6 @@ public class DcCardObjectListElement extends DcObjectListElement {
         
         removeAll();
         
-        if (fldPicture != null) fldPicture.flushImage();
         if (fldPicture != null) fldPicture.clear();
 
         revalidate();

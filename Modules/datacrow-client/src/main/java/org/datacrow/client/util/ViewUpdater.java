@@ -61,7 +61,7 @@ public class ViewUpdater extends Thread {
             clearElement(i);
             
             try {
-                sleep(100);
+                sleep(500);
             } catch (Exception e) {
                 logger.error(e, e);
             }
@@ -70,7 +70,7 @@ public class ViewUpdater extends Thread {
         for (int i = last; i < size && !canceled; i++) {
             clearElement(i);
             try {
-                sleep(100);
+                sleep(500);
             } catch (Exception e) {
                 logger.error("Error while trying to sleep a little before clearing the next element", e);
             }
