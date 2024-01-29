@@ -33,7 +33,7 @@ public class ImageConverter extends Thread {
 		
 		Set<String> images = new HashSet<>();
 		
-		
+		// add images located folders
 		try (Stream<Path> streamDirs = Files.list(Paths.get(imageDir))) {
 			imageFolders = streamDirs
 		              .filter(file -> Files.isDirectory(file))
@@ -42,9 +42,9 @@ public class ImageConverter extends Thread {
 		              .collect(Collectors.toSet());
 			
 			for (String imageFolder : imageFolders) {
-				try (Stream<Path> streamFiles = Files.list(Paths.get(imageFolder))) {
+				try (Stream<Path> streamFiles = Files.list(Paths.get(new File(imageDir, imageFolder).toString()))) {
 		        	images.addAll(streamFiles
-			              .filter(file -> !Files.isDirectory(file) && !file.toString().endsWith("_small.jpg") && !file.toFile().getName().startsWith("icon_"))
+			              .filter(file -> !Files.isDirectory(file) && !file.getParent().endsWith("icons") && !file.toString().endsWith("_small.jpg") && !file.toFile().getName().startsWith("icon_"))
 			              .map(Path::toAbsolutePath)
 			              .map(Path::toString)
 			              .collect(Collectors.toSet()));
@@ -53,6 +53,17 @@ public class ImageConverter extends Thread {
 		        	break;
 		        }
 			}
+        } catch (Exception e) {
+        	listener.notifyError(DcResources.getText("msgImageConversionFailed"));
+        }
+		
+		// add images located in the images folder (these will need to be moved)
+		try (Stream<Path> streamFiles = Files.list(Paths.get(imageDir))) {
+        	images.addAll(streamFiles
+	              .filter(file -> !Files.isDirectory(file) && !file.toString().endsWith("_small.jpg") && !file.toFile().getName().startsWith("icon_"))
+	              .map(Path::toAbsolutePath)
+	              .map(Path::toString)
+	              .collect(Collectors.toSet()));
         } catch (Exception e) {
         	listener.notifyError(DcResources.getText("msgImageConversionFailed"));
         }
@@ -70,21 +81,62 @@ public class ImageConverter extends Thread {
         	
         	listener.notifyToBeProcessedImages(images.size());
         	
-        	DcImageIcon image;
-        	File src;
-        	File cpy;
+        	DcImageIcon image = null;
+        	File src = null;
+        	File cpy = null;
+        	File tgt = null;
+        	File small = null;
         	
             for (String imageFile : images) {
             	try {
-	        		src = new File(imageDir, imageFile);
-	        		cpy = new File(imageDir, CoreUtilities.getUniqueID() + ".jpg");
-	
-	            	CoreUtilities.copy(src, cpy, true);
-	            	
-	            	image = new DcImageIcon(cpy);
-	
+	        		src = new File(imageFile);
+
 	            	try {
-	        			CoreUtilities.writeMaxImageToFile(image, new File(imageDir, imageFile));
+		        		if (src.getParent().endsWith("images")) { // upgrade path
+	
+		        			cpy = src;
+		        			String ID = src.getName().substring(0, src.getName().indexOf("_"));
+		        				        			
+		        			tgt = new File(new File(src.getParent(), ID), src.getName());
+		        			tgt.getParentFile().mkdirs();
+		        			
+		        			image = new DcImageIcon(cpy);
+	        				CoreUtilities.writeMaxImageToFile(image, tgt);
+
+		        			// if the scaling did not work then simply copy the file to the target.
+		        			if (!tgt.exists())
+		        				CoreUtilities.copy(src, tgt, false);	
+		        			
+		        			// delete the existing scaled version
+		        			small = new File(imageFile.replace(".jpg", "_small.jpg")); 
+		        			if (small.exists())
+		        				small.delete();
+		        			
+		        			// update all variables to the newly located images
+		        			imageFile = tgt.toString();
+//		        			image = new DcImageIcon(tgt);
+		        			
+		        		} else {
+		        			// normal path
+		        			cpy = new File(src.getParent(), CoreUtilities.getUniqueID() + ".jpg");
+		        			
+		        			CoreUtilities.copy(src, cpy, false);
+		        			image = new DcImageIcon(cpy);
+		        			
+		        			tgt = src;
+		        			
+		        			CoreUtilities.writeMaxImageToFile(image, src);
+		        		}
+		        		
+		            	if (!imageFile.startsWith("icon_")) 
+		            		CoreUtilities.writeScaledImageToFile(image, new File(imageFile.replace(".jpg", "_small.jpg")));
+		
+			            try {
+			            	sleep(20);
+			            } catch (Exception e) {
+			            	logger.debug(e, e);
+			            }		        		
+		        		
 	        		} catch (Error e) {
 	        			if (e instanceof OutOfMemoryError)
 	        				throw e;
@@ -92,17 +144,13 @@ public class ImageConverter extends Thread {
 	        			logger.error("Skipping resizing of image [" + src + "] due to an error.", e);
 	        		}
 	            	
-	            	if (!imageFile.startsWith("icon_")) 
-	            		CoreUtilities.writeScaledImageToFile(image, new File(imageDir, imageFile.replace(".jpg", "_small.jpg")));
-	
-		            try {
-		            	sleep(20);
-		            } catch (Exception e) {
-		            	logger.debug(e, e);
-		            }
+
+	            	if (image != null)
+	            		image.flush();
 	            	
-	            	image.flush();
-	            	cpy.delete();
+	            	if (cpy != null)
+	            		cpy.delete();
+	            	
             	} catch (Exception e) {
             		logger.warn("Could not convert [" + imageFile + "]. Skipping and keeping the original image.", e);
             	}
