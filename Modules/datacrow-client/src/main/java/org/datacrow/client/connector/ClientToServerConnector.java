@@ -536,6 +536,21 @@ public class ClientToServerConnector extends Connector {
 				attachment);
 		processClientRequest(cr);		
 	}
+	
+	@Override
+	public void deletePicture(Picture picture) {
+		// TODO: implement this
+	}
+
+	@Override
+	public void deletePictures(String ObjectID) {
+		// TODO: implement this
+	}
+
+	@Override
+	public void savePicture(Picture picture) {
+		// TODO: implement this
+	}	
 
 	@Override
 	public void loadAttachment(Attachment attachment) {

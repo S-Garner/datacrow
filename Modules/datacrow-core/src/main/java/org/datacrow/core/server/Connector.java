@@ -162,11 +162,17 @@ public abstract class Connector {
 	public abstract boolean saveItem(DcObject dco) throws ValidationException;
 	
 	public abstract Collection<Attachment> getAttachmentsList(String objectID);
+
+	public abstract void deletePicture(Picture picture);
+
+	public abstract void deletePictures(String ObjectID);
+
+	public abstract void savePicture(Picture picture);
 	
 	public abstract void deleteAttachment(Attachment attachment);
 
 	public abstract void deleteAttachments(String ObjectID);
-	
+
 	public abstract void saveAttachment(Attachment attachment);
 	
 	public abstract void loadAttachment(Attachment attachment);

@@ -81,6 +81,11 @@ public class Picture implements Serializable {
     	}
     }
     
+    public void clear() {
+    	if (imageIcon != null)
+    		imageIcon.flush();
+    }    
+    
 //    public String getUrl() {
 //        return url;
 //    }

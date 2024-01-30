@@ -93,6 +93,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     private boolean isAllowPopup = true;
     
     private final AttachmentsPanel attachmentsPanel = new AttachmentsPanel(false);
+    private PicturesPanel picturesPanel;
     
     private RelatedItemsPanel relatedItemsPanel = null;
     
@@ -118,13 +119,11 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     }
     
     private void loadTab() {
-//    	if (imagePanels.containsKey(key)) {
-//    		ImagePanel panel = imagePanels.get(key);
-//    		panel.load();
-//    	} else {
-    		if (tabbedPane.getSelectedComponent() instanceof AttachmentsPanel)
-    			attachmentsPanel.load();
-//    	}
+		if (tabbedPane.getSelectedComponent() instanceof PicturesPanel)
+			picturesPanel.load(moduleIdx, key);
+    	
+		if (tabbedPane.getSelectedComponent() instanceof AttachmentsPanel)
+			attachmentsPanel.load();
     }
     
     public void refresh() {
@@ -147,11 +146,18 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     	
     	if (key == null || key.equals(this.key)) return;
     	
+    	
         Collection<Integer> fields = new ArrayList<Integer>();
         QuickViewFieldDefinitions definitions = 
             (QuickViewFieldDefinitions) DcModules.get(moduleIdx).getSettings().getDefinitions(DcRepository.ModuleSettings.stQuickViewFieldDefinitions);
         
         DcModule module = DcModules.get(moduleIdx);
+
+        if (picturesPanel != null)
+        	picturesPanel.clear();
+        
+        picturesPanel = new PicturesPanel(false);
+        
         DcField fld;
         for (QuickViewFieldDefinition def : definitions.getDefinitions()) {
         	fld = module.getField(def.getField());
@@ -253,6 +259,8 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         attachmentsPanel.reset();
         
         tabbedPane.addTab(DcResources.getText("lblDescription"), IconLibrary._icoInformation, scroller);
+        
+        tabbedPane.addTab(DcResources.getText("lblPictures"), IconLibrary._icoPicture, picturesPanel);
         
         if (showAttachments && dco != null)
         	tabbedPane.addTab(DcResources.getText("lblAttachments"), IconLibrary._icoAttachments, attachmentsPanel);

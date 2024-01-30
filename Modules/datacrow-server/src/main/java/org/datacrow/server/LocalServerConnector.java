@@ -390,6 +390,21 @@ public class LocalServerConnector extends Connector {
 		AttachmentManager.getInstance().loadAttachment(attachment);
 	}
 	
+	@Override
+	public void deletePicture(Picture picture) {
+		PictureManager.getInstance().deletePicture(picture);
+	}
+
+	@Override
+	public void deletePictures(String ObjectID) {
+		PictureManager.getInstance().deletePictures(ObjectID);
+	}
+
+	@Override
+	public void savePicture(Picture picture) {
+		PictureManager.getInstance().savePicture(picture);
+	}
+	
 	public void displayError(String msg) {
 		System.out.println(msg);
 	}
