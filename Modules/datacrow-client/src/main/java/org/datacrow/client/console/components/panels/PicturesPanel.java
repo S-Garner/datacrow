@@ -29,6 +29,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
@@ -37,37 +38,34 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
-import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcPanel;
 import org.datacrow.client.console.components.DcPopupMenu;
-import org.datacrow.client.console.components.DcShortTextField;
 import org.datacrow.client.console.components.lists.DcListModel;
 import org.datacrow.client.console.components.lists.DcPicturesList;
-import org.datacrow.client.console.components.lists.elements.DcAttachmentListElement;
 import org.datacrow.client.console.components.lists.elements.DcListElement;
 import org.datacrow.client.console.windows.BrowserDialog;
+import org.datacrow.client.console.windows.PictureDialog;
 import org.datacrow.core.DcConfig;
-import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
@@ -75,9 +73,8 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
-import org.datacrow.core.settings.DcSettings;
 
-public class PicturesPanel extends DcPanel implements MouseListener, ActionListener, KeyListener, DropTargetListener {
+public class PicturesPanel extends DcPanel implements MouseListener, ActionListener, DropTargetListener {
 	
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PicturesPanel.class.getName());
     
@@ -86,6 +83,8 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
     private final List<DcListElement> elementsAll = new ArrayList<DcListElement>();
     private final List<DcListElement> elementsCurrent = new ArrayList<DcListElement>();
     private final DcPicturesList list = new DcPicturesList();
+    
+    private final List<String> extensions = Arrays.asList(ImageIO.getReaderFileSuffixes());
     
     private boolean readonly;
     
@@ -152,59 +151,23 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
     private void addPicture(File file) {
     	if (file == null) return;
     		
-		long maxSize = DcSettings.getLong(DcRepository.Settings.stMaximumAttachmentFileSize);
+		Picture picture = new Picture(objectID, file.toString());
+		DcConfig.getInstance().getConnector().savePicture(picture);
 		
-		if (file.length() > maxSize * 1000) {
-			GUI.getInstance().displayWarningMessage(DcResources.getText("msgFileIsTooLarge", 
-					new String[] {String.valueOf(maxSize), String.valueOf(file.length() / 1000)}));
-		} else {
-    		try {
-	    		Picture picture = new Picture(objectID, file.toString());
-	    		
-	    		// check if file has not already been attached - allow user to overwrite the existing picture
-	    		if (list.getPictures().contains(picture)) {
-	    			if (GUI.getInstance().displayQuestion("msgAttachmentAlreadyExistsOverwrite"))
-	    				deletePicture(picture);
-	    			else 
-	    				return;
-	    		} 
-	    		
-	    		DcConfig.getInstance().getConnector().savePicture(picture);
-	    		
-	    		SwingUtilities.invokeLater(new Thread(new Runnable() { 
-                    @Override
-                    public void run() {
-                    	list.add(picture);
-                    	elementsAll.clear();
-                    	elementsAll.addAll(list.getElements());
-                    }
-                }));
-	    		
-    		} catch (Exception e) {
-    			GUI.getInstance().displayErrorMessage(DcResources.getText("msgCouldNotReadAttachment"));
-    			logger.error(e, e);
-    		}
-		}
+		SwingUtilities.invokeLater(new Thread(new Runnable() { 
+            @Override
+            public void run() {
+            	list.add(picture);
+            	elementsAll.clear();
+            	elementsAll.addAll(list.getElements());
+            }
+        }));
     }
     
     public void openPicture() {
     	try {
 	    	Picture picture = list.getSelectedPicture();
-	    	
-	    	// TODO: open picture... URL and / or imageicon depending on operation mode
-	    	
-//    		String tmpdir = CoreUtilities.getTempFolder();
-//    		File file = new File(tmpdir, attachment.getObjectID() + "_" + attachment.getName());
-//    		
-//    		CoreUtilities.writeToFile(attachment.getData(), file);
-//    		attachment.setLocalFile(file);
-//    		
-//    		file.deleteOnExit();
-//	    	
-//	        new FileLauncher(attachment.getLocalFile()).launch();
-//	        
-//	        attachment.clear();
-	        
+	    	new PictureDialog(picture);
     	} catch (Exception e) {
     		GUI.getInstance().displayErrorMessage(e.getMessage());
     		logger.error(e, e);
@@ -212,6 +175,8 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
     }
     
     public void load(int moduleIdx, String objectID) {
+    	
+    	setObjectID(objectID);
     	
     	this.readonly = !DcConfig.getInstance().getConnector().getUser().isEditingAllowed(DcModules.get(moduleIdx)) || readonly;
     	
@@ -261,9 +226,6 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
         
         setLayout(Layout.getGBL());
         
-        JTextField txtFilter = ComponentFactory.getShortTextField(255);
-        txtFilter.addKeyListener(this);        
-
         JPanel panel = new JPanel();
         panel.setLayout(Layout.getGBL());
         
@@ -277,14 +239,6 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
 //                     GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
 //                     new Insets(4, 5, 0, 5), 0, 0));
         }
-        
-        panel.add(ComponentFactory.getLabel(DcResources.getText("lblFilter")), 
-        		 Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
-                ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-                 new Insets( 0, 0, 0, 5), 0, 0));
-        panel.add(txtFilter, Layout.getGBC( 1, 0, 1, 1, 100.0, 1.0
-                ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                 new Insets( 0, 0, 0, 0), 0, 0));
         
         add(panel, Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
@@ -337,27 +291,6 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
             addPicture();
     }
     
-    @Override
-    public void keyReleased(KeyEvent e) {
-        DcShortTextField txtFilter = (DcShortTextField) e.getSource();
-        String filter = txtFilter.getText();
-        
-        if (filter.trim().length() == 0) {
-            ((DcListModel<Object>) list.getModel()).clear();
-            list.addElements(elementsAll);
-        } else {
-            List<DcListElement> filtered = new ArrayList<DcListElement>();
-            for (DcListElement el : elementsAll) {
-            	DcAttachmentListElement element = (DcAttachmentListElement) el;
-                if (element.getAttachment().getName().toLowerCase().contains(filter.toLowerCase()))
-                    filtered.add(el);
-            }
-        
-            ((DcListModel<Object>) list.getModel()).clear();
-            list.addElements(filtered);
-        }
-    }  
-    
     private static class PicturePopupMenu extends DcPopupMenu {
         
 		public PicturePopupMenu(PicturesPanel ap, boolean readonly) {
@@ -377,49 +310,79 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
         }
     }
 
-    private void checkDragAction(DropTargetDragEvent dtde) {
-        if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-            dtde.acceptDrag(DnDConstants.ACTION_COPY);
-        } else {
-            dtde.rejectDrag();
-        }
-    }
+
+    private boolean accept = false;
     
-	@Override
-	public void keyTyped(KeyEvent e) {}
-
-	@Override
-	public void keyPressed(KeyEvent e) {}
-
+    
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void dragEnter(DropTargetDragEvent dtde) {
-		checkDragAction(dtde);		
+        Transferable t = dtde.getTransferable();
+        if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+        	
+        	accept = true;
+        	
+            try {
+                Object td = t.getTransferData(DataFlavor.javaFileListFlavor);
+                
+                File file;
+                String ext;
+
+                if (td instanceof List) {
+                    for (Object value : ((List) td)) {
+                        if (value instanceof File) {
+                            file = (File) value;
+                            ext = getExtension(file.getName());
+                            if (!extensions.contains(ext)) {
+                            	accept = false;
+                            	break;
+                            }
+                        }
+                    }
+                } else {
+                	accept = false;
+                }
+            } catch (UnsupportedFlavorException | IOException e) {
+            	logger.warn("Dragged item is not supported, could not be dropped", e);
+            }
+        }
+
+        if (accept)
+        	dtde.acceptDrag(DnDConstants.ACTION_COPY);
+        else
+            dtde.rejectDrag();
 	}
 
 	@Override
-	public void dragOver(DropTargetDragEvent dtde) {
-		checkDragAction(dtde);
-	}
+	public void dragOver(DropTargetDragEvent dtde) {}
 
 	@Override
-	public void dropActionChanged(DropTargetDragEvent dtde) {
-		checkDragAction(dtde);
-	}
+	public void dropActionChanged(DropTargetDragEvent dtde) {}
 
 	@Override
 	public void dragExit(DropTargetEvent dte) {}
-
-	@SuppressWarnings("unchecked")
-    @Override
+	
+	private String getExtension(String filename) {
+		int idx = filename.lastIndexOf('.');
+        return idx > -1 ? filename.substring(idx + 1) : "";
+	}
+	
+    @SuppressWarnings("unchecked")
+	@Override
     public void drop(DropTargetDropEvent dtde) {
+    	
+    	if (!accept) 
+    		return;
+    	
         Transferable transferable = dtde.getTransferable();
         if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-            dtde.acceptDrop(dtde.getDropAction());
+
+        	dtde.acceptDrop(DnDConstants.ACTION_COPY);
+        	
             try {
                 List<File> transferData = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
                 if (transferData != null && transferData.size() > 0) {
-                	
-                	addPictures(transferData);
+                 	addPictures(transferData);
                     dtde.dropComplete(true);
                 }
             } catch (Exception e) {

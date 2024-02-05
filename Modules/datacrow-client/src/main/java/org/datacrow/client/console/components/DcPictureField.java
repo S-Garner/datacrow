@@ -158,7 +158,7 @@ public class DcPictureField extends JComponent implements ActionListener, MouseL
     	DcImageIcon image = pane.getImageIcon();
     	
     	if (image != null) {
-            PictureDialog dlg = new PictureDialog(image);
+            PictureDialog dlg = new PictureDialog(picture);
             
             if (dlg.isPictureChanged()) {
             	pane.setImageIcon(dlg.getImage());

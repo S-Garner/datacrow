@@ -630,29 +630,6 @@ public class CoreUtilities {
         return hexColor.toUpperCase();
     }
     
-    public static String toHex(byte in[]) {
-        byte ch = 0x00;
-        int i = 0; 
-
-        String pseudo[] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
-
-        StringBuffer out = new StringBuffer(in.length * 2);
-        while (i < in.length) {
-
-            ch = (byte) (in[i] & 0xF0); // Strip off high nibble
-            ch = (byte) (ch >>> 4);     // shift the bits down
-            ch = (byte) (ch & 0x0F);    // must do this is high order bit is on!
-            out.append(pseudo[ch]);
-
-            ch = (byte) (in[i] & 0x0F); // Strip off low nibble 
-            out.append(pseudo[ch]);
-            
-            i++;
-        }
-
-        return out.toString();
-    }       
-    
     public static boolean isEmpty(Object o) {
         boolean empty = o == null;
         

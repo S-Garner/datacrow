@@ -33,7 +33,6 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
-import org.datacrow.core.utilities.CoreUtilities;
 
 /**
  * A picture represents a physical picture file.
@@ -56,9 +55,6 @@ public class Picture implements Serializable {
 	private final String objectID;
 	private final String fileName;
 	
-	private String path;
-	private String thumbnailPath;
-	
     private String url;
     private String thumbnailUrl;
     
@@ -67,14 +63,11 @@ public class Picture implements Serializable {
     public Picture(String objectID, String filename) {
     	this.objectID = objectID;
     	this.fileName = filename;
-    	
-    	this.path = new File(new File(DcConfig.getInstance().getImageDir(), objectID), filename).toString();
-    	this.thumbnailPath = path.replace(".jpg", "_small.jpg");
     }
     
     public void load() {
     	if (imageIcon == null) {
-    		imageIcon = new DcImageIcon(path);
+    		imageIcon = new DcImageIcon(fileName);
     	} else {
     		// reload
     		imageIcon = new DcImageIcon(imageIcon.getImage());
@@ -84,6 +77,22 @@ public class Picture implements Serializable {
     public void clear() {
     	if (imageIcon != null)
     		imageIcon.flush();
+    }   
+    
+    public String getObjectID() {
+    	return objectID;
+    }
+    
+    public File getTargetFile() {
+    	return new File(
+    			new File(DcConfig.getInstance().getImageDir(), objectID), 
+    			new File(fileName).getName());
+    }
+    
+    public File getTargetScaledFile() {
+    	String path = getTargetFile().toString();
+    	path = path.substring(0, path.lastIndexOf(".")) + "_small.jpg";
+    	return new File(path);
     }    
     
 //    public String getUrl() {
@@ -108,7 +117,7 @@ public class Picture implements Serializable {
     
     public DcImageIcon getImageIcon() {
     	if (imageIcon == null)
-    		imageIcon = new DcImageIcon(path);
+    		imageIcon = new DcImageIcon(fileName);
     	
     	return imageIcon;
     }
@@ -132,7 +141,7 @@ public class Picture implements Serializable {
                 logger.warn("Could not load picture from URL " + thumbnailUrl, e);
             }
         } else {
-            thumbnail = new DcImageIcon(thumbnailPath);
+            thumbnail = new DcImageIcon(getTargetScaledFile());
         }
         
         return thumbnail;

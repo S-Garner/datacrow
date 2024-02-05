@@ -40,13 +40,14 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcPictureField;
 import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 
 public class PictureDialog extends DcDialog implements ActionListener {
 	
     private final DcPictureField pf = ComponentFactory.getPictureField(true, true);
     
-    public PictureDialog(DcImageIcon ii) {
+    public PictureDialog(Picture pic) {
         super();
  
         setTitle(DcResources.getText("lblPictureViewer"));
@@ -75,8 +76,7 @@ public class PictureDialog extends DcDialog implements ActionListener {
                 ,GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE,
                  new Insets(0, 0, 5, 5), 0, 0));
         
-        // TODO: decide on architecture
-//        pf.setPicture(ii);
+        pf.setPicture(pic);
         
         pack();
         

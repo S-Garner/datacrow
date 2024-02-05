@@ -26,7 +26,6 @@
 package org.datacrow.server.data;
 
 import java.io.File;
-import java.io.IOError;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -41,18 +40,16 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.pictures.Picture;
+import org.datacrow.core.utilities.CoreUtilities;
 
 /**
  * @author RJ
- *
  */
 public class PictureManager {
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PictureManager.class.getName());
 	
 	private static final PictureManager instance;
-	
-	private final String dir = DcConfig.getInstance().getImageDir();
 	
 	static {
 		instance = new PictureManager();
@@ -62,7 +59,22 @@ public class PictureManager {
 		return instance;
 	}
 
-	public void savePicture(Picture picture) {}
+	public void savePicture(Picture picture) {
+		String filename = picture.getFilename();
+		File file = new File(filename);
+		
+		if (file.exists()) {
+			File target = picture.getTargetFile();
+			target.getParentFile().mkdirs();
+			
+			try {
+				CoreUtilities.writeMaxImageToFile(picture.getImageIcon(), target);
+				CoreUtilities.writeScaledImageToFile(picture.getImageIcon(), picture.getTargetScaledFile());
+			} catch (Exception e) {
+				logger.error("Image could not be saved", e);
+			}
+		}
+	}
 	
 	public void deletePictures(String objectID) {}
 	
@@ -77,8 +89,7 @@ public class PictureManager {
 			
 			try (Stream<Path> streamDirs = Files.list(Paths.get(dir.toString()))) {
 				Set<String> images = streamDirs
-			              .filter(file -> !Files.isDirectory(file) && !file.toString().endsWith("_small.jpg"))
-			              .map(Path::getFileName)
+			              .filter(file -> !Files.isDirectory(file) && !file.toString().contains("_small"))
 			              .map(Path::toString)
 			              .collect(Collectors.toSet());
 
