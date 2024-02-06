@@ -64,8 +64,10 @@ import org.datacrow.client.console.components.DcPopupMenu;
 import org.datacrow.client.console.components.lists.DcListModel;
 import org.datacrow.client.console.components.lists.DcPicturesList;
 import org.datacrow.client.console.components.lists.elements.DcListElement;
+import org.datacrow.client.console.menu.DcPicturesPanelMenu;
 import org.datacrow.client.console.windows.BrowserDialog;
 import org.datacrow.client.console.windows.PictureDialog;
+import org.datacrow.client.util.filefilters.PictureFileFilter;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
@@ -120,10 +122,12 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
     private void deletePicture(Picture picture) {
     	if (picture != null) {
     		DcConfig.getInstance().getConnector().deletePicture(picture);
+    		
     		SwingUtilities.invokeLater(new Thread(new Runnable() { 
                     @Override
                     public void run() {
                     	list.remove(picture);
+                    	GUI.getInstance().getSearchView(DcModules.getCurrent().getIndex()).getCurrent().update(picture.getObjectID());
                     }
                 }));
     	}
@@ -137,6 +141,9 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
     }
 
     private void addPictures(File[] files) {
+    	
+    	if (files == null) return;
+    	
     	for (File file : files) {
     		if (file.isFile())
     			addPicture(file);
@@ -144,7 +151,7 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
     }
     
     private void addPicture() {
-    	BrowserDialog dlg = new BrowserDialog(DcResources.getText("lblSelectFile"));
+    	BrowserDialog dlg = new BrowserDialog(DcResources.getText("lblSelectFile"), new PictureFileFilter());
     	File[] files = dlg.showSelectMultipleFilesDialog(this, null);
     	addPictures(files);
     }
@@ -230,15 +237,11 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
         JPanel panel = new JPanel();
         panel.setLayout(Layout.getGBL());
         
-        
         if (allowActions()) {
-        	
-        	// TODO: add menu
-        	
-//        	DcAttachmentPanelMenu menu = new DcAttachmentPanelMenu(this);
-//            this.add(menu, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
-//                     GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-//                     new Insets(4, 5, 0, 5), 0, 0));
+        	DcPicturesPanelMenu menu = new DcPicturesPanelMenu(this);
+            this.add(menu, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
+                     GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                     new Insets(4, 5, 0, 5), 0, 0));
         }
         
         add(panel, Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0

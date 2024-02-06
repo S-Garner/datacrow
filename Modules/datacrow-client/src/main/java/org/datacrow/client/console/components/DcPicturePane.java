@@ -104,8 +104,6 @@ public class DcPicturePane extends JComponent {
         repaint();    	
     }
     
-//    public void set
-    
     public boolean hasImage() {
     	return imageIcon != null;    	
     }

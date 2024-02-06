@@ -118,7 +118,6 @@ public class DcCardObjectListElement extends DcObjectListElement {
     }    
     
     private void setPicture(Collection<Picture> pictures) {
-
     	for (Picture p : pictures) {
        		fldPicture.setImageIcon(p.getScaledPicture());
             fldPicture.setScaled(false);
@@ -149,7 +148,10 @@ public class DcCardObjectListElement extends DcObjectListElement {
         
         removeAll();
         
-        if (fldPicture != null) fldPicture.clear();
+        if (fldPicture != null) {
+        	fldPicture.clear();
+        	fldPicture.setImageIcon(null);
+        }
 
         validate();
         repaint();

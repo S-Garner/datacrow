@@ -82,6 +82,8 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     protected transient final List<DcObject> children = new ArrayList<DcObject>();
 
     public static final int _ID = 0;
+    public static final int _VALUE = 217;
+    
     public static final int _SYS_MODULE = 201;
     public static final int _SYS_AVAILABLE = 202;
     public static final int _SYS_LENDBY = 203;
@@ -94,16 +96,18 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     public static final int _SYS_FILESIZE = 210;
     public static final int _SYS_FILENAME = 211;
     public static final int _SYS_FILEHASHTYPE = 212;
+
     public static final int _SYS_CONTAINER = 213;
     public static final int _SYS_DISPLAYVALUE = 214;
+    
     public static final int _SYS_LOANDUEDATE = 215;
     public static final int _SYS_LOANSTATUSDAYS = 216;
     public static final int _SYS_LOANSTATUS = 219;
     public static final int _SYS_LOANSTARTDATE = 220;
     public static final int _SYS_LOANENDDATE = 221;
-    public static final int _SYS_TAGS = 222;
     public static final int _SYS_LOANALLOWED = 223;
-    public static final int _VALUE = 217;
+    
+    public static final int _SYS_TAGS = 222;
     public static final int _SYS_EXTERNAL_REFERENCES = 218;
     
     protected final int module;

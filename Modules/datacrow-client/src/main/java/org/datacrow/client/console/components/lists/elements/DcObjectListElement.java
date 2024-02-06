@@ -54,7 +54,7 @@ public abstract class DcObjectListElement extends DcListElement {
 
 	private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT, 0, 0);
     
-	protected static final int fieldHeight = 21;
+	protected static final int fieldHeight = 32;
     protected final int module;
     
     protected String key;

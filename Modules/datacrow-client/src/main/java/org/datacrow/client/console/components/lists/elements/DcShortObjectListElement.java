@@ -46,6 +46,7 @@ public class DcShortObjectListElement extends DcObjectListElement {
     
     public DcShortObjectListElement(int module) {
         super(module);
+        setPreferredSize(new Dimension(50000, fieldHeight));
     }
     
     @Override

@@ -141,6 +141,9 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     }
 
     private void addAttachments(File[] files) {
+    	
+    	if (files == null) return;
+    	
     	for (File file : files) {
     		if (file.isFile())
     			addAttachment(file);
