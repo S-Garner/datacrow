@@ -117,7 +117,7 @@ public class DcCardObjectListElement extends DcObjectListElement {
             fldTitle.setBackground(color);
     }    
     
-    private void addPicture(Collection<Picture> pictures) {
+    private void setPicture(Collection<Picture> pictures) {
 
     	for (Picture p : pictures) {
        		fldPicture.setImageIcon(p.getScaledPicture());
@@ -134,12 +134,12 @@ public class DcCardObjectListElement extends DcObjectListElement {
 
         fldTitle.setText(getDescription());
         
-        addPicture(getPictures());
+        setPicture(getPictures());
         add(fldTitle);
           
         super.setBackground(ComponentFactory.getColor(DcRepository.Settings.stCardViewBackgroundColor));
         
-        revalidate();
+        validate();
         repaint();
     }
     
