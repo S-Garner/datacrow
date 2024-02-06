@@ -32,7 +32,6 @@ import javax.swing.JList;
 import javax.swing.SwingUtilities;
 
 import org.datacrow.client.console.ComponentFactory;
-import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.lists.elements.DcObjectListElement;
 import org.datacrow.client.console.views.IViewComponent;
 
