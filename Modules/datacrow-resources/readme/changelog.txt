@@ -13,6 +13,7 @@ Data Crow version 4.12                        Released on 2024-xx-xx
 [Fixed]
 - Right-click menu on attachment: icon size too large.
 - Icons in main window were blurry.
+- View never updated the status bar when only 1 item has been selected.
 
 
 --------------------------------------------------------------------

@@ -33,16 +33,12 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.utilities.CoreUtilities;
 
 /**
  * A picture represents a physical picture file.
  * Every image stored in Data Crow (such as screenshots) is represented by 
  * a picture object.
- * 
- * 
- * TODO:
- * Load from URL for Server implementation.
- * 
  * 
  * @author Robert Jan van der Waals
  */
@@ -70,13 +66,56 @@ public class Picture implements Serializable {
     }
     
     public void load() {
-    	if (imageIcon == null) {
-    		imageIcon = new DcImageIcon(fileName);
+    	if (!CoreUtilities.isEmpty(getUrl())) {
+            try {
+                URL url = new URL(getUrl());
+                imageIcon = new DcImageIcon(url);
+            } catch (Exception e) {
+                logger.error("Error while loading image from URL: " + getUrl(), e);
+            }
+    		
     	} else {
-    		// reload
-    		imageIcon = new DcImageIcon(imageIcon.getImage());
-    	}
+    		if (imageIcon == null) {
+	     		imageIcon = new DcImageIcon(fileName);
+	     	} else {
+	    		imageIcon = new DcImageIcon(imageIcon.getImage());
+	    	}     		
+         }
     }
+    
+    /**
+     * Gets the scaled image. If it does not exist it will create a scaled image in the
+     * temp folder of the client.
+     * @return
+     */
+    public DcImageIcon getScaledPicture() {
+    	DcImageIcon thumbnail = null;
+    	
+        if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
+            try {
+                thumbnail = new DcImageIcon(new URL(thumbnailUrl));
+            } catch (Exception e) {
+                logger.warn("Could not load picture from URL " + thumbnailUrl, e);
+            }
+        } else {
+        	// no filename, but there is a image icon: store a scaled version to disk.
+        	if (imageIcon != null && !getTargetScaledFile().exists()) {
+        		File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + "_small.jpg");
+            	file.deleteOnExit();
+            	
+            	try {
+            		CoreUtilities.writeScaledImageToFile(imageIcon, file);
+            		thumbnail = new DcImageIcon(file);
+            	} catch (Exception e) {
+            		logger.debug("Could not store scaled temporary image [" + file + "]", e);
+            	}    		
+        	} else {
+        		thumbnail = new DcImageIcon(getTargetScaledFile());	
+        	}
+        }
+        
+        return thumbnail;
+    }    
     
     public void clear() {
     	if (imageIcon != null)
@@ -98,22 +137,22 @@ public class Picture implements Serializable {
     	path = path.substring(0, path.lastIndexOf(".")) + "_small.jpg";
     	return new File(path);
     }    
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
     
-//    public String getUrl() {
-//        return url;
-//    }
-//    
-//    public String getThumbnailUrl() {
-//        return thumbnailUrl;
-//    }
-//    
-//    public void setThumbnailUrl(String thumbnailUrl) {
-//        this.thumbnailUrl = thumbnailUrl;
-//    }
-//
-//    public void setUrl(String url) {
-//        this.url = url;
-//    }
+    public String getUrl() {
+        return url;
+    }
+    
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+    
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
+    }
 
     public void setImageIcon(DcImageIcon imageIcon) {
     	this.imageIcon = imageIcon;
@@ -128,26 +167,5 @@ public class Picture implements Serializable {
     
     public String getFilename() {
         return fileName;
-    }
-    
-    /**
-     * Gets the scaled image. If it does not exist it will create a scaled image in the
-     * temp folder of the client.
-     * @return
-     */
-    public DcImageIcon getScaledPicture() {
-    	DcImageIcon thumbnail = null;
-    	
-        if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
-            try {
-                thumbnail = new DcImageIcon(new URL(thumbnailUrl));
-            } catch (Exception e) {
-                logger.warn("Could not load picture from URL " + thumbnailUrl, e);
-            }
-        } else {
-            thumbnail = new DcImageIcon(getTargetScaledFile());
-        }
-        
-        return thumbnail;
     }
 }

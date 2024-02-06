@@ -561,9 +561,7 @@ public class DataManager {
 					value = CoreUtilities.isEmpty(value) ? null : value;
 					item.setValue(fields[i], value);
 				} catch (Exception e) {
-					logger.error(
-							"Could not retrieve and/or set value for field "
-									+ field, e);
+					logger.error("Could not retrieve and/or set value for field " + field, e);
 				}
 			}
 
@@ -590,8 +588,6 @@ public class DataManager {
 
 				if (loan)
 					item.setLoanInformation();
-
-				// TODO: check if images should be added here already
 			}
 
 			item.setNew(false);

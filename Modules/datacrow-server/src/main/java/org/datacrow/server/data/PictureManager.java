@@ -40,6 +40,7 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.pictures.Picture;
+import org.datacrow.core.server.Connector;
 import org.datacrow.core.utilities.CoreUtilities;
 
 /**
@@ -87,14 +88,28 @@ public class PictureManager {
 		
 		if (dir.exists()) {
 			
+			Connector conn = DcConfig.getInstance().getConnector();
+			Picture picture;
+			
 			try (Stream<Path> streamDirs = Files.list(Paths.get(dir.toString()))) {
 				Set<String> images = streamDirs
 			              .filter(file -> !Files.isDirectory(file) && !file.toString().contains("_small"))
 			              .map(Path::toString)
 			              .collect(Collectors.toSet());
 
-				for (String image : images)
-					pictures.add(new Picture(ID, image));
+				for (String image : images) {
+					
+					picture = new Picture(ID, image);
+					
+					if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER) {
+						
+		                String address = "http://" + conn.getServerAddress() + ":" + conn.getImageServerPort() +"/" + dir.getName() + "/";
+		                picture.setUrl(address + new File(image).getName());
+		                picture.setThumbnailUrl(address + picture.getTargetScaledFile().getName());
+		            }
+					
+					pictures.add(picture);
+				}
 				
 			} catch (IOException ioe) {
 				logger.error("An error has occured whilst retrieving pictures for ID [" + ID + "]", ioe);

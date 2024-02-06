@@ -963,10 +963,13 @@ public class View extends DcPanel implements ListSelectionListener, IView {
         	return;
         }
         
-        if (vc.getSelectedIndices().length > 1)
-        	if (statusBar != null) statusBar.setMessage(DcResources.getText("msgItemsSelected", String.valueOf(vc.getSelectedIndices().length)));
-        else
-        	if (statusBar != null) statusBar.setMessage(DcResources.getText("msgItemSelected"));
+        if (vc.getSelectedIndices().length > 1) {
+        	if (statusBar != null) 
+        		statusBar.setMessage(DcResources.getText("msgItemsSelected", String.valueOf(vc.getSelectedIndices().length)));
+        } else {
+        	if (statusBar != null)
+        		statusBar.setMessage(DcResources.getText("msgItemSelected"));
+        }
         
         if (actionsAllowed)
             afterSelect(vc.getSelectedIndex());

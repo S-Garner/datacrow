@@ -151,7 +151,7 @@ public class DcCardObjectListElement extends DcObjectListElement {
         
         if (fldPicture != null) fldPicture.clear();
 
-        revalidate();
+        validate();
         repaint();
         
         build = false;
