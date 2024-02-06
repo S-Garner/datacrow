@@ -32,6 +32,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -51,6 +52,8 @@ public class PictureManager {
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PictureManager.class.getName());
 	
 	private static final PictureManager instance;
+	
+	private final List<File> removedPictures = new ArrayList<File>();
 	
 	static {
 		instance = new PictureManager();
@@ -77,9 +80,31 @@ public class PictureManager {
 		}
 	}
 	
-	public void deletePictures(String objectID) {}
+	public void deletePictures(String objectID) {
+		for (Picture p : getPictures(objectID))
+			deletePicture(p);
+	}
 	
-	public void deletePicture(Picture picture) {}
+	public void deletePicture(Picture picture) {
+		
+		if (!picture.getTargetFile().delete()) {
+			picture.getTargetFile().deleteOnExit();
+			// add it to the removed pictures list to avoid it being shown again.
+			removedPictures.add(picture.getTargetFile());
+		}
+
+		if (!picture.getTargetScaledFile().delete()) {
+			picture.getTargetScaledFile().deleteOnExit();
+		}
+		
+		File dir = picture.getTargetFile().getParentFile();
+		
+		String[] files = dir.list();
+		if (files == null || files.length == 0) {
+			if (!dir.delete())
+				dir.deleteOnExit();
+		}
+	}
 	
 	public Collection<Picture> getPictures(String ID) {
 		Collection<Picture> pictures = new ArrayList<>();
@@ -93,7 +118,7 @@ public class PictureManager {
 			
 			try (Stream<Path> streamDirs = Files.list(Paths.get(dir.toString()))) {
 				Set<String> images = streamDirs
-			              .filter(file -> !Files.isDirectory(file) && !file.toString().contains("_small"))
+			              .filter(file -> !Files.isDirectory(file) && !file.toString().contains("_small") && !removedPictures.contains(file.toFile()))
 			              .map(Path::toString)
 			              .collect(Collectors.toSet());
 
