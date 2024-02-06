@@ -340,7 +340,7 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
                         if (value instanceof File) {
                             file = (File) value;
                             ext = getExtension(file.getName());
-                            if (!extensions.contains(ext)) {
+                            if (!extensions.contains(ext.toLowerCase()) && !extensions.contains(ext.toUpperCase())) {
                             	accept = false;
                             	break;
                             }

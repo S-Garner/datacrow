@@ -28,24 +28,34 @@ package org.datacrow.client.console.components.lists.elements;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-import javax.swing.JLabel;
-
-import org.datacrow.client.console.ComponentFactory;
+import org.datacrow.client.console.components.DcPicturePane;
 import org.datacrow.core.pictures.Picture;
 
 public class DcPictureListElement extends DcListElement {
     
     private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
-    private static final Dimension dim = new Dimension(1200, 30);
-    private static final Dimension dimLabel = new Dimension(1200, 30);
     
+    private static final Dimension dim = new Dimension(250, 200);
+    private static final Dimension dimPicLbl = new Dimension(248, 198);
+    
+    private final DcPicturePane fldPicture;
+
     private final Picture picture;
     
     public DcPictureListElement(Picture picture) {
         this.picture = picture;
         
+        setLayout(layout);
+        
+        fldPicture = new DcPicturePane(false);
+        fldPicture.setPreferredSize(dimPicLbl);
+        fldPicture.setMinimumSize(dimPicLbl);
+        fldPicture.setMaximumSize(dimPicLbl);
+        
         setPreferredSize(dim);
         setMinimumSize(dim);
+        
+        add(fldPicture);
         
         build();
     }
@@ -56,12 +66,7 @@ public class DcPictureListElement extends DcListElement {
     
     @Override
     public void build() {
-        setLayout(layout);
-        String s = picture.getFilename();
-        
-        JLabel labelField = ComponentFactory.getLabel(s);
-        labelField.setPreferredSize(dimLabel);
-        add(labelField);
+        fldPicture.setImageIcon(picture.getScaledPicture());
     }
 
 	@Override
