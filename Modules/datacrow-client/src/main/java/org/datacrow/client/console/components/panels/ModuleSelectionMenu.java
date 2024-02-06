@@ -53,6 +53,7 @@ import javax.swing.border.Border;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
+import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.client.console.components.DcMenu;
 import org.datacrow.client.console.components.DcMenuItem;
 import org.datacrow.client.console.components.DcMultiLineToolTip;
@@ -64,7 +65,7 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.utilities.CoreUtilities;
 
-public class ModuleSelectionMenu extends JPanel {
+public class ModuleSelectionMenu extends DcPanel {
     
     private final Collection<JComponent> components = new ArrayList<JComponent>();
     
@@ -254,7 +255,7 @@ public class ModuleSelectionMenu extends JPanel {
             setMinimumSize(new Dimension(60, 50));
             setPreferredSize(new Dimension(60, 50));
             
-            lblModule = new JLabel(module.getIcon32());
+            lblModule = new DcLabel(module.getIcon32());
             
             add(lblModule, Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
                     ,GridBagConstraints.CENTER, GridBagConstraints.NONE,

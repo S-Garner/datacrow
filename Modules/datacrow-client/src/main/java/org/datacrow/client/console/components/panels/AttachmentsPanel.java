@@ -58,6 +58,7 @@ import javax.swing.SwingUtilities;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
+import org.datacrow.client.console.components.DcMenuItem;
 import org.datacrow.client.console.components.DcPanel;
 import org.datacrow.client.console.components.DcPopupMenu;
 import org.datacrow.client.console.components.DcShortTextField;
@@ -362,8 +363,11 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
         
 		public AttachmentPopupMenu(AttachmentsPanel ap, boolean readonly) {
 
-            JMenuItem menuOpen = new JMenuItem(DcResources.getText("lblOpen", ""), IconLibrary._icoOpen);
-            JMenuItem menuDelete = new JMenuItem(DcResources.getText("lblDelete", ""), IconLibrary._icoDelete);
+            JMenuItem menuOpen = new DcMenuItem(DcResources.getText("lblOpen", ""));
+            menuOpen.setIcon(IconLibrary._icoOpen);
+            
+            JMenuItem menuDelete = new DcMenuItem(DcResources.getText("lblDelete", ""));
+            menuDelete.setIcon(IconLibrary._icoDelete);
             
             menuOpen.addActionListener(ap);
             menuOpen.setActionCommand("open");

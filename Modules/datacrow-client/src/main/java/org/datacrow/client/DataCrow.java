@@ -330,8 +330,8 @@ public class DataCrow implements IStarterClient {
         } catch (Throwable e) {
             System.out.println("Data Crow could not be started: " + e);
             e.printStackTrace();
-            new NativeMessageBox("Error", "Data Crow could not be started: "
-                    + e);
+            new NativeMessageBox("Error", "Data Crow could not be started: " + e);
+            
             try {
                 DcSettings.set(DcRepository.Settings.stGracefulShutdown,
                         Boolean.FALSE);

@@ -25,10 +25,13 @@
 
 package org.datacrow.core.objects.helpers;
 
+import java.io.File;
+
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.ValidationException;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 
@@ -75,8 +78,6 @@ public class User extends DcObject {
         if (isNew())
         	setValue(_B_ENABLED, Boolean.TRUE);
 
-        // TODO: add user.png as the default image
-        
         String loginname = (String) getValue(_A_LOGINNAME);
         if (loginname != null)
             setValue(_A_LOGINNAME, loginname.toLowerCase());
@@ -92,6 +93,14 @@ public class User extends DcObject {
     	} else {
     		connector.updateUser(this);
     	}
+    	
+    	
+    	if (isNew()) 
+    	{
+    		Picture picture = new Picture(getID(), new File(DcConfig.getInstance().getInstallationDir(), "icons/user.png"));
+    		DcConfig.getInstance().getConnector().savePicture(picture);
+    	}
+    	
     }
 
     @Override

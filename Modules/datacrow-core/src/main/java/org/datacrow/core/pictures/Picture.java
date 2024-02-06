@@ -60,6 +60,10 @@ public class Picture implements Serializable {
     
     private DcImageIcon imageIcon;
     
+    public Picture(String objectID, File file) {
+    	this(objectID, file.toString());
+    }
+    
     public Picture(String objectID, String filename) {
     	this.objectID = objectID;
     	this.fileName = filename;

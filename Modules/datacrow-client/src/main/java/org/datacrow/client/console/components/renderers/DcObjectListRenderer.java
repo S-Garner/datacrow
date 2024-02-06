@@ -29,6 +29,7 @@ import java.awt.Component;
 import java.awt.Rectangle;
 
 import javax.swing.JList;
+import javax.swing.SwingUtilities;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.lists.elements.DcObjectListElement;
@@ -53,10 +54,17 @@ public class DcObjectListRenderer extends DcListRenderer<Object>  {
         
         if (render && !vc.isIgnoringPaintRequests()) {
             c.setFont(ComponentFactory.getStandardFont());
-            c.load();
             
-            if (c.getDcObject() != null)
-                setElementColor(isSelected, c, index);
+            SwingUtilities.invokeLater(new Runnable() {
+				
+				@Override
+				public void run() {
+		            c.load();
+		            
+		            if (c.getDcObject() != null)
+		                setElementColor(isSelected, c, index);
+				}
+			});
         }
         
     	return c;

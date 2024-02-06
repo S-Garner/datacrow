@@ -45,14 +45,22 @@ public class DcCardObjectListElement extends DcObjectListElement {
     private static final Dimension dimPicLbl = new Dimension(248, 198);
 
     private final DcTextPane fldTitle;
-    private DcPicturePane fldPicture;
+    private final DcPicturePane fldPicture;
     
     private boolean build = false;
 
     public DcCardObjectListElement(int module) {
         super(module);
         
+        fldPicture = new DcPicturePane(false);
+        fldPicture.setPreferredSize(dimPicLbl);
+        fldPicture.setMinimumSize(dimPicLbl);
+        fldPicture.setMaximumSize(dimPicLbl);
+
         fldTitle = ComponentFactory.getTextPane();
+        fldTitle.setPreferredSize(dimTxt);
+        fldTitle.setMinimumSize(dimTxt);
+        fldTitle.setMaximumSize(dimTxt);        
         
         setPreferredSize(size);
         setMaximumSize(size);
@@ -110,17 +118,13 @@ public class DcCardObjectListElement extends DcObjectListElement {
     }    
     
     private void addPicture(Collection<Picture> pictures) {
-    	fldPicture = new DcPicturePane(false);
-        
-        for (Picture p : pictures) {
+
+    	for (Picture p : pictures) {
        		fldPicture.setImageIcon(p.getScaledPicture());
             fldPicture.setScaled(false);
             break;
         }
 
-        fldPicture.setPreferredSize(dimPicLbl);
-        fldPicture.setMinimumSize(dimPicLbl);
-        fldPicture.setMaximumSize(dimPicLbl);
         add(fldPicture);
     }
     
@@ -129,9 +133,6 @@ public class DcCardObjectListElement extends DcObjectListElement {
         build = true;
 
         fldTitle.setText(getDescription());
-        fldTitle.setPreferredSize(dimTxt);
-        fldTitle.setMinimumSize(dimTxt);
-        fldTitle.setMaximumSize(dimTxt);
         
         addPicture(getPictures());
         add(fldTitle);
