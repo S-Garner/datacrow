@@ -23,37 +23,22 @@
  *                                                                            *
  ******************************************************************************/
 
-package org.datacrow.core.server.response;
+package org.datacrow.core.server.requests;
 
-import java.io.Serializable;
+import org.datacrow.core.security.SecuredUser;
 
-public class ServerResponse implements Serializable, IServerResponse {
-
-    public static final int _RESPONSE_DEFAULT = 0;
-    public static final int _RESPONSE_ACTION = 1;
-    public static final int _RESPONSE_APPLICATION_SETTINGS = 2;
-    public static final int _RESPONSE_ERROR = 3;
-    public static final int _RESPONSE_ITEM_KEYS = 4;
-    public static final int _RESPONSE_ITEM_REQUEST = 5;
-    public static final int _RESPONSE_ITEMS_REQUEST = 6;
-    public static final int _RESPONSE_LOGIN = 7;
-    public static final int _RESPONSE_MODULES = 8;
-    public static final int _RESPONSE_SIMPLE_VALUES = 9;
-    public static final int _RESPONSE_SQL = 10;
-    public static final int _RESPONSE_VALUE_ENHANCERS = 11;
-    public static final int _RESPONSE_MODULE_SETTINGS = 12;
-	public static final int _RESPONSE_ATTACHMENT_ACTION = 13;
-	public static final int _RESPONSE_ATTACHMENTS_LIST = 14;
-	public static final int _RESPONSE_PICTURE_ACTION = 15;
-	public static final int _RESPONSE_PICTURES_LIST = 16;
-	
-    private final int type;
+public class ClientRequestPicturesList extends ClientRequest {
     
-    public ServerResponse(int type) {
-        this.type = type;
+	private static final long serialVersionUID = 1L;
+
+	private final String objectID;
+    
+    public ClientRequestPicturesList(SecuredUser su, String objectID) {
+        super(ClientRequest._REQUEST_PICTURES_LIST, su);
+        this.objectID = objectID;
     }
-    
-    public int getType() {
-        return type;
+
+    public String getObjectID() {
+    	return objectID;
     }
 }

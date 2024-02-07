@@ -39,6 +39,7 @@ import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcSimpleValue;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.requests.ClientRequest;
 import org.datacrow.core.server.requests.ClientRequestApplicationSettings;
@@ -53,6 +54,9 @@ import org.datacrow.core.server.requests.ClientRequestItems;
 import org.datacrow.core.server.requests.ClientRequestLogin;
 import org.datacrow.core.server.requests.ClientRequestModuleSettings;
 import org.datacrow.core.server.requests.ClientRequestModules;
+import org.datacrow.core.server.requests.ClientRequestPictureAction;
+import org.datacrow.core.server.requests.ClientRequestPicturesDelete;
+import org.datacrow.core.server.requests.ClientRequestPicturesList;
 import org.datacrow.core.server.requests.ClientRequestReferencingItems;
 import org.datacrow.core.server.requests.ClientRequestRemoveReferenceTo;
 import org.datacrow.core.server.requests.ClientRequestSimpleValues;
@@ -72,6 +76,8 @@ import org.datacrow.core.server.response.ServerItemsRequestResponse;
 import org.datacrow.core.server.response.ServerLoginResponse;
 import org.datacrow.core.server.response.ServerModulesRequestResponse;
 import org.datacrow.core.server.response.ServerModulesSettingsResponse;
+import org.datacrow.core.server.response.ServerPictureActionResponse;
+import org.datacrow.core.server.response.ServerPicturesListResponse;
 import org.datacrow.core.server.response.ServerResponse;
 import org.datacrow.core.server.response.ServerSQLResponse;
 import org.datacrow.core.server.response.ServerSimpleValuesResponse;
@@ -213,6 +219,15 @@ public class DcServerSessionRequestHandler extends Thread {
             case ClientRequest._REQUEST_ATTACHMENTS_DELETE:
                 sr = processDeleteAttachmentsRequest((ClientRequestAttachmentsDelete) cr);
                 break;
+            case ClientRequest._REQUEST_PICTURE_ACTION:
+                sr = processPictureActionRequest((ClientRequestPictureAction) cr);
+                break;
+            case ClientRequest._REQUEST_PICTURES_LIST:
+                sr = processListPicturesRequest((ClientRequestPicturesList) cr);
+                break;
+            case ClientRequest._REQUEST_PICTURES_DELETE:
+                sr = processDeletePicturesRequest((ClientRequestPicturesDelete) cr);
+                break;                
             default:
                 logger.error("No handler found for " + cr);
 	        }
@@ -291,6 +306,31 @@ public class DcServerSessionRequestHandler extends Thread {
     private ServerResponse processValueEnhancersRequest(ClientRequestValueEnhancers cras) throws Exception {
         return new ServerValueEnhancersRequestResponse();
     }
+    
+    private DefaultServerResponse processDeletePicturesRequest(ClientRequestPicturesDelete cr) {
+    	context.deleteAttachments(cr.getObjectID());
+    	return new DefaultServerResponse();
+    }
+    
+    private ServerPicturesListResponse processListPicturesRequest(ClientRequestPicturesList cr) {
+    	Collection<Picture> pictures = context.getPictures(cr.getObjectID());
+    	return new ServerPicturesListResponse(pictures);
+    }    
+
+    private ServerPictureActionResponse processPictureActionRequest(ClientRequestPictureAction cr) {
+    	
+    	switch (cr.getActionType()) {
+	    	case ClientRequestPictureAction._ACTION_DELETE_PICTURE:
+	    		context.deletePicture(cr.getPicture());
+	    		break;
+	    	case ClientRequestPictureAction._ACTION_SAVE_PICTURE:
+	    		context.deletePicture(cr.getPicture());
+	    		break;
+
+    	}
+    	
+    	return new ServerPictureActionResponse(cr.getPicture());
+    }      
     
     private DefaultServerResponse processDeleteAttachmentsRequest(ClientRequestAttachmentsDelete cr) {
     	context.deleteAttachments(cr.getObjectID());

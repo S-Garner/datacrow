@@ -50,7 +50,10 @@ public class ClientRequest implements Serializable, IClientRequest {
 	public static final int _REQUEST_ATTACHMENT_ACTION = 14;
 	public static final int _REQUEST_ATTACHMENTS_LIST = 15;
 	public static final int _REQUEST_ATTACHMENTS_DELETE = 16;
-
+	public static final int _REQUEST_PICTURE_ACTION = 17;
+	public static final int _REQUEST_PICTURES_LIST = 18;
+	public static final int _REQUEST_PICTURES_DELETE = 19;
+	
 	private int type;
 	
 	private String clientKey;

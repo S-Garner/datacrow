@@ -48,6 +48,9 @@ import org.datacrow.core.server.requests.ClientRequestItems;
 import org.datacrow.core.server.requests.ClientRequestLogin;
 import org.datacrow.core.server.requests.ClientRequestModuleSettings;
 import org.datacrow.core.server.requests.ClientRequestModules;
+import org.datacrow.core.server.requests.ClientRequestPictureAction;
+import org.datacrow.core.server.requests.ClientRequestPicturesDelete;
+import org.datacrow.core.server.requests.ClientRequestPicturesList;
 import org.datacrow.core.server.requests.ClientRequestReferencingItems;
 import org.datacrow.core.server.requests.ClientRequestRemoveReferenceTo;
 import org.datacrow.core.server.requests.ClientRequestSimpleValues;
@@ -64,6 +67,8 @@ import org.datacrow.core.server.response.ServerItemsRequestResponse;
 import org.datacrow.core.server.response.ServerLoginResponse;
 import org.datacrow.core.server.response.ServerModulesRequestResponse;
 import org.datacrow.core.server.response.ServerModulesSettingsResponse;
+import org.datacrow.core.server.response.ServerPictureActionResponse;
+import org.datacrow.core.server.response.ServerPicturesListResponse;
 import org.datacrow.core.server.response.ServerResponse;
 import org.datacrow.core.server.response.ServerSQLResponse;
 import org.datacrow.core.server.response.ServerSimpleValuesResponse;
@@ -188,6 +193,10 @@ public class SerializationHelper {
             sr = gson.fromJson(json, ServerAttachmentActionResponse.class);
         else if (type == ServerResponse._RESPONSE_ATTACHMENTS_LIST)
             sr = gson.fromJson(json, ServerAttachmentsListResponse.class);
+        else if (type == ServerResponse._RESPONSE_PICTURE_ACTION)
+            sr = gson.fromJson(json, ServerPictureActionResponse.class);
+        else if (type == ServerResponse._RESPONSE_PICTURES_LIST)
+            sr = gson.fromJson(json, ServerPicturesListResponse.class);
         else
             logger.fatal("No server response implementation found for type [" + type + "]");
         
@@ -233,6 +242,12 @@ public class SerializationHelper {
             cr = gson.fromJson(json, ClientRequestAttachmentsDelete.class);
         else if (type == ClientRequest._REQUEST_ATTACHMENTS_LIST)
             cr = gson.fromJson(json, ClientRequestAttachmentsList.class);
+        else if (type == ClientRequest._REQUEST_PICTURE_ACTION)
+            cr = gson.fromJson(json, ClientRequestPictureAction.class);
+        else if (type == ClientRequest._REQUEST_PICTURES_DELETE)
+            cr = gson.fromJson(json, ClientRequestPicturesDelete.class);
+        else if (type == ClientRequest._REQUEST_PICTURES_LIST)
+            cr = gson.fromJson(json, ClientRequestPicturesList.class);        
         else
             logger.fatal("No client request implementation found for type [" + type + "]");
             

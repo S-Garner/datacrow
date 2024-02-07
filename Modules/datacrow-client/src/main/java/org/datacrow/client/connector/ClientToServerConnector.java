@@ -80,6 +80,9 @@ import org.datacrow.core.server.requests.ClientRequestItems;
 import org.datacrow.core.server.requests.ClientRequestLogin;
 import org.datacrow.core.server.requests.ClientRequestModuleSettings;
 import org.datacrow.core.server.requests.ClientRequestModules;
+import org.datacrow.core.server.requests.ClientRequestPictureAction;
+import org.datacrow.core.server.requests.ClientRequestPicturesDelete;
+import org.datacrow.core.server.requests.ClientRequestPicturesList;
 import org.datacrow.core.server.requests.ClientRequestReferencingItems;
 import org.datacrow.core.server.requests.ClientRequestRemoveReferenceTo;
 import org.datacrow.core.server.requests.ClientRequestSimpleValues;
@@ -96,6 +99,7 @@ import org.datacrow.core.server.response.ServerItemsRequestResponse;
 import org.datacrow.core.server.response.ServerLoginResponse;
 import org.datacrow.core.server.response.ServerModulesRequestResponse;
 import org.datacrow.core.server.response.ServerModulesSettingsResponse;
+import org.datacrow.core.server.response.ServerPicturesListResponse;
 import org.datacrow.core.server.response.ServerResponse;
 import org.datacrow.core.server.response.ServerSQLResponse;
 import org.datacrow.core.server.response.ServerSimpleValuesResponse;
@@ -284,24 +288,6 @@ public class ClientToServerConnector extends Connector {
         ClientRequestSimpleValues cr = new ClientRequestSimpleValues(getUser(), module, includeIcons);
         ServerSimpleValuesResponse response = (ServerSimpleValuesResponse) processClientRequest(cr);
         return response != null ? response.getValues() : null;
-	}
-	
-	@Override
-	public Collection<Picture> getPictures(String parentID) {
-		
-		// TODO: create picture request - fetch the results and pass this onto the client
-		
-//		ServerItemsRequestResponse response = (ServerItemsRequestResponse) processClientRequest(cr);
-		
-		Collection<Picture> pictures = null;
-//		if (response != null && response.getItems() != null) {
-//		    pictures = new ArrayList<Picture>();
-//		    for (DcObject dco : response.getItems()) {
-//		        pictures.add((Picture) dco);
-//		    }
-//		}
-		
-		return pictures;
 	}
 	
 	@Override
@@ -538,19 +524,34 @@ public class ClientToServerConnector extends Connector {
 	}
 	
 	@Override
+	public Collection<Picture> getPictures(String objectID) {
+		ClientRequestPicturesList cr = new ClientRequestPicturesList(su, objectID);
+		ServerPicturesListResponse response = (ServerPicturesListResponse) processClientRequest(cr);
+		return response.getPictures();
+	}	
+	
+	@Override
 	public void deletePicture(Picture picture) {
-		// TODO: implement this
+		ClientRequestPictureAction cr = new ClientRequestPictureAction(
+				su, 
+				ClientRequestPictureAction._ACTION_DELETE_PICTURE,
+				picture);
+		processClientRequest(cr);
 	}
 
 	@Override
 	public void deletePictures(String ObjectID) {
-		// TODO: implement this
+		ClientRequestPicturesDelete cr = new ClientRequestPicturesDelete(su, ObjectID);
+		processClientRequest(cr);
 	}
 
 	@Override
 	public void savePicture(Picture picture) {
-		// TODO: implement this
-	}	
+		ClientRequestPictureAction cr = new ClientRequestPictureAction(
+				su, 
+				ClientRequestPictureAction._ACTION_SAVE_PICTURE,
+				picture);
+		processClientRequest(cr);		}	
 
 	@Override
 	public void loadAttachment(Attachment attachment) {
@@ -591,13 +592,13 @@ public class ClientToServerConnector extends Connector {
 		return success;
 	}
 
+	/**
+	 * TODO: saving items with pictures - how to approach?
+	 */
 	@Override
 	public boolean saveItem(DcObject dco) throws ValidationException {
         ClientRequestItemAction cr = new ClientRequestItemAction(
                 getUser(), ClientRequestItemAction._ACTION_SAVE, dco);
-        
-        // TODO: make sure to load the bytes as the image inside the ImageIcon will not be available on the server??
-        // dco.loadImageData();
         
         ServerResponse response = processClientRequest(cr);
         
