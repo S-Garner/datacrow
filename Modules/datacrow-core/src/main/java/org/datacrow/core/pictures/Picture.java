@@ -49,12 +49,14 @@ public class Picture implements Serializable {
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Picture.class.getName());
     
 	private final String objectID;
-	private final String fileName;
 	
+	private String filename;
     private String url;
     private String thumbnailUrl;
     
-    private DcImageIcon imageIcon;
+    private transient DcImageIcon imageIcon;
+    
+    private byte[] bytes;
     
     public Picture(String objectID, File file) {
     	this(objectID, file.toString());
@@ -62,7 +64,16 @@ public class Picture implements Serializable {
     
     public Picture(String objectID, String filename) {
     	this.objectID = objectID;
-    	this.fileName = filename;
+    	this.filename = filename;
+    }
+    
+    public void prepareForTransfer() {
+    	this.bytes = getImageIcon().getBytes();
+    	this.imageIcon = null;
+    }
+    
+    public void setFilename(String filename) {
+    	this.filename = filename;
     }
     
     public void load() {
@@ -76,7 +87,7 @@ public class Picture implements Serializable {
     		
     	} else {
     		if (imageIcon == null) {
-	     		imageIcon = new DcImageIcon(fileName);
+	     		imageIcon = new DcImageIcon(filename);
 	     	} else {
 	    		imageIcon = new DcImageIcon(imageIcon.getImage());
 	    	}     		
@@ -129,7 +140,7 @@ public class Picture implements Serializable {
     public File getTargetFile() {
     	return new File(
     			new File(DcConfig.getInstance().getImageDir(), objectID), 
-    			new File(fileName).getName());
+    			new File(filename).getName());
     }
     
     public File getTargetScaledFile() {
@@ -159,13 +170,17 @@ public class Picture implements Serializable {
     }
     
     public DcImageIcon getImageIcon() {
-    	if (imageIcon == null)
-    		imageIcon = new DcImageIcon(fileName);
+    	if (imageIcon == null) {
+    		if (bytes != null)
+    			imageIcon = new DcImageIcon(bytes);
+    		else
+    			imageIcon = new DcImageIcon(filename);
+    	}
     	
     	return imageIcon;
     }
     
     public String getFilename() {
-        return fileName;
+        return filename;
     }
 }

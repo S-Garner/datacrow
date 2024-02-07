@@ -27,8 +27,6 @@ package org.datacrow.client.console.components.lists.elements;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -38,7 +36,6 @@ import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcProperty;
-import org.datacrow.core.pictures.Picture;
 
 public class DcShortObjectListElement extends DcObjectListElement {
 
@@ -47,11 +44,6 @@ public class DcShortObjectListElement extends DcObjectListElement {
     public DcShortObjectListElement(int module) {
         super(module);
         setPreferredSize(new Dimension(50000, fieldHeight));
-    }
-    
-    @Override
-    public Collection<Picture> getPictures() {
-        return new ArrayList<Picture>();
     }
     
     @Override

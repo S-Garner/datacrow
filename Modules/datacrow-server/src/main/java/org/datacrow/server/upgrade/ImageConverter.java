@@ -1,4 +1,4 @@
-package org.datacrow.core.utilities;
+package org.datacrow.server.upgrade;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -14,8 +14,12 @@ import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.utilities.CoreUtilities;
+import org.datacrow.core.utilities.IImageConverterListener;
+import org.datacrow.server.data.PictureManager;
 
 public class ImageConverter extends Thread {
 
@@ -81,8 +85,10 @@ public class ImageConverter extends Thread {
         	DcImageIcon image = null;
         	File src = null;
         	File cpy = null;
-        	File tgt = null;
         	File small = null;
+        	
+        	PictureManager instance = PictureManager.getInstance();
+        	Picture picture;
         	
             for (String imageFile : images) {
             	try {
@@ -90,36 +96,31 @@ public class ImageConverter extends Thread {
 
 	            	try {
 		        		if (src.getParent().endsWith("images")) { // upgrade path
-	
-		        			cpy = src;
+		        			
+		        			// TODO: determine the order of fields here...
+		        			
+		        			
 		        			String ID = src.getName().substring(0, src.getName().indexOf("_"));
-		        				        			
-		        			tgt = new File(new File(src.getParent(), ID), src.getName());
-		        			tgt.getParentFile().mkdirs();
 		        			
-		        			image = new DcImageIcon(cpy);
-	        				CoreUtilities.writeMaxImageToFile(image, tgt);
+		        			picture = new Picture(ID, src.toString());
+		        			instance.savePicture(picture);
+		        			
+		        			if (!picture.getTargetFile().exists()) {
+		        				cpy = null;
+		        				
+			        			small = new File(imageFile.replace(".jpg", "_small.jpg")); 
+			        			if (small.exists())
+			        				small.delete();
+		        			} else {
+		        				cpy = src;
+		        			}
 
-		        			// if the scaling did not work then simply copy the file to the target.
-		        			if (!tgt.exists())
-		        				CoreUtilities.copy(src, tgt, false);	
-		        			
-		        			// delete the existing scaled version
-		        			small = new File(imageFile.replace(".jpg", "_small.jpg")); 
-		        			if (small.exists())
-		        				small.delete();
-		        			
-		        			// update all variables to the newly located images
-		        			imageFile = tgt.toString();
-		        			
 		        		} else {
 		        			// normal path
 		        			cpy = new File(src.getParent(), CoreUtilities.getUniqueID() + ".jpg");
 		        			
 		        			CoreUtilities.copy(src, cpy, false);
 		        			image = new DcImageIcon(cpy);
-		        			
-		        			tgt = src;
 		        			
 		        			CoreUtilities.writeMaxImageToFile(image, src);
 		        		}

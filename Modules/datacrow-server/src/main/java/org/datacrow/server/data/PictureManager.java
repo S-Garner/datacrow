@@ -26,6 +26,7 @@
 package org.datacrow.server.data;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -55,6 +56,13 @@ public class PictureManager {
 	
 	private final List<File> removedPictures = new ArrayList<File>();
 	
+	private final FilenameFilter pictureFilter = new FilenameFilter() {
+		@Override
+		public boolean accept(File dir, String name) {
+			return name.toLowerCase().endsWith("jpg");
+		}
+	};
+	
 	static {
 		instance = new PictureManager();
 	}
@@ -69,7 +77,18 @@ public class PictureManager {
 		
 		if (file.exists()) {
 			File target = picture.getTargetFile();
-			target.getParentFile().mkdirs();
+			File dir = target.getParentFile();
+			
+			dir.mkdirs();
+			
+			String name = target.getName();
+			
+			if (!name.startsWith("picture")) {
+				String[] files = dir.list(pictureFilter);
+				int number = files == null ? 1 : files.length + 1;
+				name = "picture" + number + ".jpg";
+				picture.setFilename(new File(dir, name).toString());
+			}
 			
 			try {
 				CoreUtilities.writeMaxImageToFile(picture.getImageIcon(), target);

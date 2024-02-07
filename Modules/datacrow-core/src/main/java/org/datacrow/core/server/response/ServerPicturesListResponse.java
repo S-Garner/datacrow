@@ -37,7 +37,11 @@ public class ServerPicturesListResponse extends ServerResponse {
 	
 	public ServerPicturesListResponse(Collection<Picture> pictures) {
 	    super(_RESPONSE_PICTURES_LIST);
+
 	    this.pictures = pictures;
+	    
+	    for (Picture pic : pictures)
+	    	pic.prepareForTransfer();
 	}
 	
 	public Collection<Picture> getPictures() {

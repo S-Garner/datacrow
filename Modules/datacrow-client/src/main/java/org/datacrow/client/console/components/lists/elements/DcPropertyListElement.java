@@ -27,8 +27,6 @@ package org.datacrow.client.console.components.lists.elements;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -38,7 +36,6 @@ import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcProperty;
-import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.settings.DcSettings;
 
 public class DcPropertyListElement extends DcObjectListElement {
@@ -47,11 +44,6 @@ public class DcPropertyListElement extends DcObjectListElement {
 
     public DcPropertyListElement(int module) {
         super(module);
-    }
-    
-    @Override
-    public Collection<Picture> getPictures() {
-        return new ArrayList<Picture>();
     }
     
     @Override

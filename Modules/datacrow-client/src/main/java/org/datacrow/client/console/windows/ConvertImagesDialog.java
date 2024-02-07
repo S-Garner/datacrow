@@ -42,7 +42,7 @@ import org.datacrow.core.IconLibrary;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.objects.DcDimension;
 import org.datacrow.core.utilities.IImageConverterListener;
-import org.datacrow.core.utilities.ImageConverter;
+import org.datacrow.server.upgrade.ImageConverter;
 
 public class ConvertImagesDialog extends DcDialog implements IImageConverterListener {
 

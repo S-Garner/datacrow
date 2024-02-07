@@ -28,14 +28,11 @@ package org.datacrow.client.console.components.lists.elements;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.datacrow.core.objects.helpers.MusicTrack;
-import org.datacrow.core.pictures.Picture;
 
 public class DcMusicTrackListElement extends DcObjectListElement {
 
@@ -53,11 +50,6 @@ public class DcMusicTrackListElement extends DcObjectListElement {
             panelInfo.setBackground(color);
     }     
     
-    @Override
-    public Collection<Picture> getPictures() {
-        return new ArrayList<Picture>();
-    }
-
     @Override
     public void build() {
         setLayout(layout);

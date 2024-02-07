@@ -27,15 +27,12 @@ package org.datacrow.client.console.components.lists.elements;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.Collection;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcPicturePane;
 import org.datacrow.client.console.components.DcTextPane;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.pictures.Picture;
-import org.datacrow.server.data.PictureManager;
 
 public class DcCardObjectListElement extends DcObjectListElement {
 	
@@ -107,22 +104,30 @@ public class DcCardObjectListElement extends DcObjectListElement {
     }
     
     @Override
-    public Collection<Picture> getPictures() {
-    	return PictureManager.getInstance().getPictures(dco.getID());
-    }
-    
-    @Override
     public void setBackground(Color color) {
         if (fldTitle != null)
             fldTitle.setBackground(color);
     }    
     
-    private void setPicture(Collection<Picture> pictures) {
-    	for (Picture p : pictures) {
-       		fldPicture.setImageIcon(p.getScaledPicture());
-            fldPicture.setScaled(false);
-            break;
-        }
+    private void setPicture() {
+    	
+//    	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
+//		
+//		
+//		
+//	} else {
+//		//return DcConfig.getInstance().getConnector().getPictures(dco.getID());
+//		File file = new File(dco.  );
+//		
+//		
+//	}
+    	
+    	
+//    	for (Picture p : pictures) {
+//       		fldPicture.setImageIcon(p.getScaledPicture());
+//            fldPicture.setScaled(false);
+//            break;
+//        }
 
         add(fldPicture);
     }
@@ -133,7 +138,7 @@ public class DcCardObjectListElement extends DcObjectListElement {
 
         fldTitle.setText(getDescription());
         
-        setPicture(getPictures());
+        setPicture();
         add(fldTitle);
           
         super.setBackground(ComponentFactory.getColor(DcRepository.Settings.stCardViewBackgroundColor));

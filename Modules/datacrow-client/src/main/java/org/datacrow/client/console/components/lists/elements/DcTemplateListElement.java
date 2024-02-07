@@ -27,15 +27,12 @@ package org.datacrow.client.console.components.lists.elements;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.JPanel;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.core.objects.DcTemplate;
-import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 
 public class DcTemplateListElement extends DcObjectListElement {
@@ -44,11 +41,6 @@ public class DcTemplateListElement extends DcObjectListElement {
     
     public DcTemplateListElement(int module) {
         super(module);
-    }
-    
-    @Override
-    public Collection<Picture> getPictures() {
-        return new ArrayList<Picture>();
     }
 
     @Override
