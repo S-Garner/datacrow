@@ -4,7 +4,10 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,7 +34,7 @@ public class ImageConverter extends Thread {
 		this.listener = listener;
 	}
 	
-	private Set<String> getImages() {
+	private List<String> getImages() {
 		String imageDir = DcConfig.getInstance().getImageDir();
 		Set<String> imageFolders;
 		
@@ -72,13 +75,16 @@ public class ImageConverter extends Thread {
         	listener.notifyError(DcResources.getText("msgImageConversionFailed"));
         }
 		
-		return images;
+		List<String> list = new ArrayList<String>(images); 
+	    Collections.sort(list); 
+
+	    return list;
 	}
 	
 	@Override
 	public void run() {
         try {
-        	Set<String> images = getImages();
+        	List<String> images = getImages();
         	
         	listener.notifyToBeProcessedImages(images.size());
         	
@@ -90,6 +96,10 @@ public class ImageConverter extends Thread {
         	PictureManager instance = PictureManager.getInstance();
         	Picture picture;
         	
+        	String ID = "";
+        	String prevID = "";
+        	int order = 1;
+        	
             for (String imageFile : images) {
             	try {
 	        		src = new File(imageFile);
@@ -99,8 +109,10 @@ public class ImageConverter extends Thread {
 		        			
 		        			// TODO: determine the order of fields here...
 		        			
+		        			ID = src.getName().substring(0, src.getName().indexOf("_"));
+//		        			
+//		        			if (ID.equals(prevID))
 		        			
-		        			String ID = src.getName().substring(0, src.getName().indexOf("_"));
 		        			
 		        			picture = new Picture(ID, src.toString());
 		        			instance.savePicture(picture);
