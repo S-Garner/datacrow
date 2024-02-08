@@ -41,6 +41,7 @@ import java.util.stream.Stream;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.utilities.CoreUtilities;
@@ -59,7 +60,7 @@ public class PictureManager {
 	private final FilenameFilter pictureFilter = new FilenameFilter() {
 		@Override
 		public boolean accept(File dir, String name) {
-			return name.toLowerCase().endsWith("jpg");
+			return name.toLowerCase().endsWith("jpg") && !name.toLowerCase().contains("_small");
 		}
 	};
 	
@@ -71,9 +72,11 @@ public class PictureManager {
 		return instance;
 	}
 
-	public void savePicture(Picture picture) {
+	public void savePicture(Picture picture) throws Exception {
 		String filename = picture.getFilename();
 		File file = new File(filename);
+		
+		DcImageIcon imageIcon;
 		
 		if (file.exists()) {
 			File target = picture.getTargetFile();
@@ -82,20 +85,17 @@ public class PictureManager {
 			dir.mkdirs();
 			
 			String name = target.getName();
+			imageIcon = new DcImageIcon(file);
 			
 			if (!name.startsWith("picture")) {
 				String[] files = dir.list(pictureFilter);
-				int number = files == null ? 1 : files.length + 1;
+				int number = files == null || files.length == 0 ? 1 : files.length + 1;
 				name = "picture" + number + ".jpg";
 				picture.setFilename(new File(dir, name).toString());
 			}
 			
-			try {
-				CoreUtilities.writeMaxImageToFile(picture.getImageIcon(), target);
-				CoreUtilities.writeScaledImageToFile(picture.getImageIcon(), picture.getTargetScaledFile());
-			} catch (Exception e) {
-				logger.error("Image could not be saved", e);
-			}
+			CoreUtilities.writeMaxImageToFile(imageIcon, picture.getTargetFile());
+			CoreUtilities.writeScaledImageToFile(imageIcon, picture.getTargetScaledFile());
 		}
 	}
 	

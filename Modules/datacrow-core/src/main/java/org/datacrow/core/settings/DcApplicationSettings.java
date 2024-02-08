@@ -147,7 +147,17 @@ public class DcApplicationSettings extends Settings {
                             "",
                             "",
                             false,
-                            false, -1));          
+                            false, -1));
+        
+        addSetting(_SizeLimits,
+                new Setting(DcRepository.ValueTypes._BOOLEAN,
+                            DcRepository.Settings.stImageUpgradeConversionNeeded,
+                            Boolean.FALSE,
+                            -1,
+                            "",
+                            "",
+                            false,
+                            false, -1));
         addSetting(_SizeLimits,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.Settings.stMaximumImageResolution,

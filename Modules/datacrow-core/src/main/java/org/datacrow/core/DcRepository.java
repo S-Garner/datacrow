@@ -124,6 +124,7 @@ public abstract class DcRepository {
      */
     public static final class Settings {
     	public static final String stImageConversionNeeded = "image_conversion_needed";
+    	public static final String stImageUpgradeConversionNeeded = "image_upgrade_conversion_needed";
     	public static final String stMaximumImageResolution = "maximum_image_resolution";
     	public static final String stIsUpgraded = "is_upgraded";
     	public static final String stMaximumAttachmentFileSize = "max_attachment_file_size";

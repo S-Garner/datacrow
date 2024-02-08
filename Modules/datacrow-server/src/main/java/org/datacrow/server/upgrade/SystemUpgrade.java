@@ -103,10 +103,12 @@ public class SystemUpgrade {
             }
             
             if (dbInitialized && v.isOlder(new Version(4, 12, 0, 0))) {
-            	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER)
-            		new ImageConverter();
-            	else if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_STANDALONE)
+            	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER) {
+            		new ImageConverter(ImageConverter._UPGRADE_CONVERSION);
+            	} else if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_STANDALONE) {
             		DcSettings.set(DcRepository.Settings.stImageConversionNeeded, Boolean.TRUE);
+            		DcSettings.set(DcRepository.Settings.stImageUpgradeConversionNeeded, Boolean.TRUE);
+            	}
             }
             
             if (!dbInitialized)
@@ -800,14 +802,65 @@ public class SystemUpgrade {
         } 
     }
     
-    private static class ImageConverter implements IImageConverterListener {
+    private static class ImageUpgradeConverter implements IImageConverterListener {
     	
     	private int counter = 1;
     	private int total;
     	
-    	protected ImageConverter() {
-    		org.datacrow.server.upgrade.ImageConverter converter = 
-    				new org.datacrow.server.upgrade.ImageConverter(this);
+    	protected ImageUpgradeConverter() {
+    		org.datacrow.server.upgrade.ImageUpgradeConverter converter = 
+    				new org.datacrow.server.upgrade.ImageUpgradeConverter(this);
+        	
+        	try {
+        		converter.start();
+        		converter.join();
+        	} catch (Exception e) {
+        		DcConfig.getInstance().getConnector().displayError(e.getMessage());
+        	}    		
+    	}
+    	
+    	@Override
+    	public void notifyImageProcessed() {
+    		System.out.print("\r Processing [" + String.valueOf(counter++) +"/"+ String.valueOf(total) + "]");
+    	}
+
+    	@Override
+    	public void notifyToBeProcessedImages(int count) {
+    		DcConfig.getInstance().getConnector().displayMessage(DcResources.getText("msgConvertImages"));
+    		DcConfig.getInstance().getConnector().displayMessage(DcResources.getText("msgPleaseWait"));
+    		total = count;
+    	}
+
+    	@Override
+    	public void notifyError(String s) {
+    		DcConfig.getInstance().getConnector().displayError(s);
+    		System.exit(0);
+    	}
+
+    	@Override
+    	public void notifyFinished() {
+    		System.out.println();
+    		DcConfig.getInstance().getConnector().displayMessage(DcResources.getText("msgSuccessfullyConvertedAllImages"));
+    	}
+    }
+    
+    private static class ImageConverter implements IImageConverterListener {
+    	
+    	private static final int _SIZE_CONVERSION = 0;
+    	private static final int _UPGRADE_CONVERSION = 1;
+    	
+    	
+    	private int counter = 1;
+    	private int total;
+    	
+    	protected ImageConverter(int type) {
+    		
+    		Thread converter;
+    		
+    		if (type == _SIZE_CONVERSION)
+    			converter = new org.datacrow.server.upgrade.ImageSizeConverter(this);
+    		else
+    			converter = new org.datacrow.server.upgrade.ImageUpgradeConverter(this);
         	
         	try {
         		converter.start();

@@ -38,17 +38,20 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcProgressBar;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.objects.DcDimension;
 import org.datacrow.core.utilities.IImageConverterListener;
-import org.datacrow.server.upgrade.ImageConverter;
+import org.datacrow.server.upgrade.ImageSizeConverter;
+import org.datacrow.server.upgrade.ImageUpgradeConverter;
 
 public class ConvertImagesDialog extends DcDialog implements IImageConverterListener {
 
 	private final DcProgressBar progressBar;
 	
-	private ImageConverter converter;
+	private Thread converter;
 	
     public ConvertImagesDialog() {
     	
@@ -74,7 +77,11 @@ public class ConvertImagesDialog extends DcDialog implements IImageConverterList
     }
     
     private void resizeImages() {
-    	converter = new ImageConverter(this);
+    	if (DcSettings.getBoolean(DcRepository.Settings.stImageUpgradeConversionNeeded))
+    		converter = new ImageUpgradeConverter(this);
+    	else
+    		converter = new ImageSizeConverter(this);
+    	
     	converter.start();
     }
 

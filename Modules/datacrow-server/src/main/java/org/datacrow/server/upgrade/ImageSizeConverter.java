@@ -1,13 +1,35 @@
+/******************************************************************************
+ *                                     __                                     *
+ *                              <-----/@@\----->                              *
+ *                             <-< <  \\//  > >->                             *
+ *                               <-<-\ __ /->->                               *
+ *                               Data /  \ Crow                               *
+ *                                   ^    ^                                   *
+ *                              info@datacrow.org                             *
+ *                                                                            *
+ *                       This file is part of Data Crow.                      *
+ *       Data Crow is free software; you can redistribute it and/or           *
+ *        modify it under the terms of the GNU General Public                 *
+ *       License as published by the Free Software Foundation; either         *
+ *              version 3 of the License, or any later version.               *
+ *                                                                            *
+ *        Data Crow is distributed in the hope that it will be useful,        *
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.             *
+ *           See the GNU General Public License for more details.             *
+ *                                                                            *
+ *        You should have received a copy of the GNU General Public           *
+ *  License along with this program. If not, see http://www.gnu.org/licenses  *
+ *                                                                            *
+ ******************************************************************************/
+
 package org.datacrow.server.upgrade;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -17,24 +39,25 @@ import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
-import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.IImageConverterListener;
-import org.datacrow.server.data.PictureManager;
 
-public class ImageConverter extends Thread {
+/**
+ * This converter changes the image size based on the (now hidden) settings.
+ */
+public class ImageSizeConverter extends Thread {
 
-	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ImageConverter.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ImageSizeConverter.class.getName());
 	
 	private final IImageConverterListener listener;
 	
-	public ImageConverter(IImageConverterListener listener) {
+	public ImageSizeConverter(IImageConverterListener listener) {
 		this.listener = listener;
 	}
 	
-	private List<String> getImages() {
+	private Set<String> getImages() {
 		String imageDir = DcConfig.getInstance().getImageDir();
 		Set<String> imageFolders;
 		
@@ -74,68 +97,33 @@ public class ImageConverter extends Thread {
         } catch (Exception e) {
         	listener.notifyError(DcResources.getText("msgImageConversionFailed"));
         }
-		
-		List<String> list = new ArrayList<String>(images); 
-	    Collections.sort(list); 
 
-	    return list;
+	    return images;
 	}
 	
 	@Override
 	public void run() {
         try {
-        	List<String> images = getImages();
+        	Set<String> images = getImages();
         	
         	listener.notifyToBeProcessedImages(images.size());
         	
         	DcImageIcon image = null;
         	File src = null;
         	File cpy = null;
-        	File small = null;
-        	
-        	PictureManager instance = PictureManager.getInstance();
-        	Picture picture;
-        	
-        	String ID = "";
-        	String prevID = "";
-        	int order = 1;
-        	
+
             for (String imageFile : images) {
             	try {
 	        		src = new File(imageFile);
 
 	            	try {
-		        		if (src.getParent().endsWith("images")) { // upgrade path
-		        			
-		        			// TODO: determine the order of fields here...
-		        			
-		        			ID = src.getName().substring(0, src.getName().indexOf("_"));
-//		        			
-//		        			if (ID.equals(prevID))
-		        			
-		        			
-		        			picture = new Picture(ID, src.toString());
-		        			instance.savePicture(picture);
-		        			
-		        			if (!picture.getTargetFile().exists()) {
-		        				cpy = null;
-		        				
-			        			small = new File(imageFile.replace(".jpg", "_small.jpg")); 
-			        			if (small.exists())
-			        				small.delete();
-		        			} else {
-		        				cpy = src;
-		        			}
-
-		        		} else {
-		        			// normal path
-		        			cpy = new File(src.getParent(), CoreUtilities.getUniqueID() + ".jpg");
-		        			
-		        			CoreUtilities.copy(src, cpy, false);
-		        			image = new DcImageIcon(cpy);
-		        			
-		        			CoreUtilities.writeMaxImageToFile(image, src);
-		        		}
+		        		
+	        			cpy = new File(src.getParent(), CoreUtilities.getUniqueID() + ".jpg");
+	        			
+	        			CoreUtilities.copy(src, cpy, false);
+	        			image = new DcImageIcon(cpy);
+	        			
+	        			CoreUtilities.writeMaxImageToFile(image, src);
 		        		
 		            	if (!imageFile.startsWith("icon_")) 
 		            		CoreUtilities.writeScaledImageToFile(image, new File(imageFile.replace(".jpg", "_small.jpg")));
