@@ -26,7 +26,9 @@
 package org.datacrow.core.objects;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -256,6 +258,36 @@ public class DcObject implements Comparable<DcObject>, Serializable {
             name = getDisplayString(getModule().getNameFieldIdx());    
         
         return name;
+    }
+    
+    public DcImageIcon getScaledImage() {
+    	
+    	Connector conn = DcConfig.getInstance().getConnector();
+    	
+    	try {
+    	
+	    	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
+	    		
+	            String address = 
+	            		"http://" + conn.getServerAddress() + ":" + 
+	            		conn.getImageServerPort() +"/" + getID() + "/picture1_small.jpg";
+	            
+	            URL url = new URL(address);
+	            
+	            return new DcImageIcon(url);
+			
+			} else {
+				File file = new File(
+		    			new File(DcConfig.getInstance().getImageDir(), getID()), "picture1_small.jpg");
+		
+				if (file.exists())
+					return new DcImageIcon(file);
+			}
+    	}catch (Exception e) {
+    		logger.error("An error occured while retrieving the scaled image", e);
+    	}
+    	
+    	return null;
     }
     
     /**

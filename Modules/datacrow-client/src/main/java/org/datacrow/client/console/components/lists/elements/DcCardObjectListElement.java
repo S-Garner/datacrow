@@ -32,6 +32,7 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcPicturePane;
 import org.datacrow.client.console.components.DcTextPane;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 
 public class DcCardObjectListElement extends DcObjectListElement {
@@ -110,24 +111,12 @@ public class DcCardObjectListElement extends DcObjectListElement {
     }    
     
     private void setPicture() {
+    	DcImageIcon icon = dco.getScaledImage();
     	
-//    	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
-//		
-//		
-//		
-//	} else {
-//		//return DcConfig.getInstance().getConnector().getPictures(dco.getID());
-//		File file = new File(dco.  );
-//		
-//		
-//	}
-    	
-    	
-//    	for (Picture p : pictures) {
-//       		fldPicture.setImageIcon(p.getScaledPicture());
-//            fldPicture.setScaled(false);
-//            break;
-//        }
+    	if (icon != null) {
+    		fldPicture.setImageIcon(icon);
+			fldPicture.setScaled(false);
+    	}
 
         add(fldPicture);
     }

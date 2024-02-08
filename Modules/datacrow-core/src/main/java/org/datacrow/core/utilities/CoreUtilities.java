@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
@@ -148,6 +149,17 @@ public class CoreUtilities {
         }
         
         return result;
+    }
+    
+    public static String getLocalIPAddress() {
+    	try {
+    		String address = InetAddress.getLocalHost().getHostAddress();
+    		return address;
+    	} catch (Exception e) {
+    		logger.error("Could not retrieve internal IP address", e);
+    	}
+    	
+    	return "";
     }
     
     public static String getExternalIPAddress() {
