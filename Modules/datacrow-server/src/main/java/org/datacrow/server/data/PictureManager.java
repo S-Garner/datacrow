@@ -33,11 +33,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.bcel.generic.LoadClass;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
@@ -55,8 +58,6 @@ public class PictureManager {
 	
 	private static final PictureManager instance;
 	
-	private final List<File> removedPictures = new ArrayList<File>();
-	
 	private final FilenameFilter pictureFilter = new FilenameFilter() {
 		@Override
 		public boolean accept(File dir, String name) {
@@ -73,50 +74,49 @@ public class PictureManager {
 	}
 
 	public void savePicture(Picture picture) throws Exception {
-		String filename = picture.getFilename();
-		File file = new File(filename);
 		
 		DcImageIcon imageIcon;
 		
-		if (file.exists()) {
-			File target = picture.getTargetFile();
-			File dir = target.getParentFile();
-			
-			dir.mkdirs();
-			
-			String name = target.getName();
-			imageIcon = new DcImageIcon(file);
-			
-			if (!name.startsWith("picture")) {
-				String[] files = dir.list(pictureFilter);
-				int number = files == null || files.length == 0 ? 1 : files.length + 1;
-				name = "picture" + number + ".jpg";
-				picture.setFilename(new File(dir, name).toString());
-			}
-			
-			CoreUtilities.writeMaxImageToFile(imageIcon, picture.getTargetFile());
-			CoreUtilities.writeScaledImageToFile(imageIcon, picture.getTargetScaledFile());
+		File target = picture.getTargetFile();
+		File dir = target.getParentFile();
+		
+		dir.mkdirs();
+		
+		String name = target.getName();
+		imageIcon = picture.getImageIcon();
+		
+		if (!name.startsWith("picture")) {
+			String[] files = dir.list(pictureFilter);
+			int number = files == null || files.length == 0 ? 1 : files.length + 1;
+			name = "picture" + number + ".jpg";
+			picture.setFilename(new File(dir, name).toString());
 		}
+		
+		CoreUtilities.writeMaxImageToFile(imageIcon, picture.getTargetFile());
+		CoreUtilities.writeScaledImageToFile(imageIcon, picture.getTargetScaledFile());
 	}
 	
 	public void deletePictures(String objectID) {
-		for (Picture p : getPictures(objectID))
-			deletePicture(p);
+		for (Picture picture : getPictures(objectID)) {
+			picture.getTargetFile().delete();
+			picture.getTargetScaledFile().delete();
+		}
+		
+		folderCleanup(objectID);
+		updateNumbering(objectID);	
 	}
 	
 	public void deletePicture(Picture picture) {
+		picture.getTargetFile().delete();
+		picture.getTargetScaledFile().delete();
 		
-		if (!picture.getTargetFile().delete()) {
-			picture.getTargetFile().deleteOnExit();
-			// add it to the removed pictures list to avoid it being shown again.
-			removedPictures.add(picture.getTargetFile());
-		}
+		folderCleanup(picture.getObjectID());
+		updateNumbering(picture.getObjectID());
+	}
 
-		if (!picture.getTargetScaledFile().delete()) {
-			picture.getTargetScaledFile().deleteOnExit();
-		}
-		
-		File dir = picture.getTargetFile().getParentFile();
+	private void folderCleanup(String objectID) {
+	
+		File dir = new File(DcConfig.getInstance().getImageDir(), objectID);
 		
 		String[] files = dir.list();
 		if (files == null || files.length == 0) {
@@ -124,9 +124,41 @@ public class PictureManager {
 				dir.deleteOnExit();
 		}
 	}
+		
+	
+	private void updateNumbering(String ID) {
+		File fileOld;
+		File fileTemp;
+		
+		try {
+			Collection<Picture> pictures = getPictures(ID);
+			
+			// move all pictures to temp
+			for (Picture picture : pictures) {
+				
+				fileOld = picture.getTargetFile();
+				fileTemp = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + ".jpg");
+				
+				CoreUtilities.copy(fileOld, fileTemp, false);
+				
+				
+				picture.getTargetFile().delete();
+				picture.getTargetScaledFile().delete();
+				
+				picture.setFilename(fileTemp.toString());
+			}
+			
+			// save them with their new IDs
+			for (Picture picture : pictures)
+				savePicture(picture);
+
+		} catch (Exception e) {
+			logger.error("Error renumbering pictures", e);
+		}
+	}
 	
 	public Collection<Picture> getPictures(String ID) {
-		Collection<Picture> pictures = new ArrayList<>();
+		Collection<Picture> pictures = new LinkedList<Picture>();
 		
 		File dir = new File(DcConfig.getInstance().getImageDir(), ID); 
 		
@@ -137,11 +169,14 @@ public class PictureManager {
 			
 			try (Stream<Path> streamDirs = Files.list(Paths.get(dir.toString()))) {
 				Set<String> images = streamDirs
-			              .filter(file -> !Files.isDirectory(file) && !file.toString().contains("_small") && !removedPictures.contains(file.toFile()))
+			              .filter(file -> !Files.isDirectory(file) && !file.toString().contains("_small"))
 			              .map(Path::toString)
 			              .collect(Collectors.toSet());
+				
+				List<String> orderedImages = new ArrayList<String>(images);
+				Collections.sort(orderedImages);
 
-				for (String image : images) {
+				for (String image : orderedImages) {
 					
 					picture = new Picture(ID, image);
 					

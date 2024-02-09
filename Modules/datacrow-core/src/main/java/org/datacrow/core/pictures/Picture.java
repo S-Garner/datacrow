@@ -65,7 +65,7 @@ public class Picture implements Serializable {
 		this.filename = imageIcon.getFilename();
 		
 		if (filename == null)
-			System.out.println("image needs to be stored to avoid issues!");
+			throw new RuntimeException();
 		
 		setItemIsNew(true);
     }
