@@ -35,6 +35,7 @@ import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.objects.helpers.MusicAlbum;
 import org.datacrow.core.objects.helpers.MusicTrack;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.Converter;
 import org.datacrow.core.utilities.CoreUtilities;
@@ -139,13 +140,12 @@ public class MusicAlbumImporter extends FileImporter {
                 ma = DcModules.get(DcModules._MUSIC_ALBUM).getItem();
                 ma.setValue(MusicAlbum._A_TITLE, album);
                 
-                if (musicFile.getImage() != null)
-                    ma.setValue(MusicAlbum._J_PICTUREFRONT, musicFile.getImage());
+                if (musicFile.getImage() != null) {
+                    Picture picture = new Picture(ma.getID(), musicFile.getImage());
+                    ma.addNewPicture(picture);
+                }
                 
-                setImages(filename, ma, MusicAlbum._J_PICTUREFRONT, 
-                                        MusicAlbum._K_PICTUREBACK, 
-                                        MusicAlbum._L_PICTURECD);
-                
+                setImages(filename, ma);
                 ma.createReference(MusicAlbum._F_ARTISTS, artist);
             } 
             

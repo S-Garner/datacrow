@@ -76,8 +76,6 @@ public abstract class DcRepository {
         public static final String stTitleCleanupRegex = "title_cleanup_regex";
         public static final String stImportLocalArt = "import_local_art";
         public static final String stImportLocalArtFrontKeywords = "import_local_art_front_keywords";
-        public static final String stImportLocalArtBackKeywords = "import_local_art_back_keywords";
-        public static final String stImportLocalArtMediaKeywords = "import_local_art_media_keywords";
         public static final String stImportLocalArtRecurse = "import_local_art_recurses";
         public static final String stFileRenamerPattern = "file_renamer_pattern";        
         public static final String stItemFormSize = "item_form_size";

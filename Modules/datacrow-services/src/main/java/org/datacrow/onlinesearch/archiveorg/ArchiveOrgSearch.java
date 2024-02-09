@@ -40,6 +40,7 @@ import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Software;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
@@ -231,12 +232,9 @@ public abstract class ArchiveOrgSearch extends SearchTask {
     		Map<?, ?> item,
     		String[] filterEquals,
     		String[] filterUnequals,
-    		int[] fields,
     		String server,
     		String dir) {
 
-    	int fieldIdx = 0;
-        
     	@SuppressWarnings("unchecked")
 		List<LinkedTreeMap<?, ?>> files = (List<LinkedTreeMap<?, ?>>) item.get("files");
     	String name;
@@ -269,11 +267,7 @@ public abstract class ArchiveOrgSearch extends SearchTask {
 	    			if (valid) {
 		    			link = "https://" + server + dir + "/" + name;
 		    			image = CoreUtilities.downloadAndStoreImage(link);
-		    			
-		    			if (image != null)
-		    				dco.setValue(fields[fieldIdx++], image);
-		                
-		                if (fieldIdx > fields.length - 1) break;
+		    			dco.addNewPicture(new Picture(dco.getID(), image));
 	    			}
 	    		}
     		}

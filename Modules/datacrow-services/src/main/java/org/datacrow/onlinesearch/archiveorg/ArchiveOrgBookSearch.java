@@ -96,7 +96,6 @@ public class ArchiveOrgBookSearch extends ArchiveOrgSearch {
 	    			item,
 	    			new String[] {},
 	    			new String[] {},
-	    			new int[] {Book._K_PICTUREFRONT},
 	    			server,
 	    			dir);
     	}

@@ -40,6 +40,7 @@ import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Book;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
@@ -480,7 +481,7 @@ public class OpenLibrarySearch extends SearchTask {
     	}
     	
 		if (image != null)
-            dco.setValue(Book._K_PICTUREFRONT, image);
+		    dco.addNewPicture(new Picture(dco.getID(), image));
     }
     
     private void setTitle(Map<?, ?> item, DcObject dco) {

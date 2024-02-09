@@ -182,6 +182,22 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
     	}
     }
     
+    public void addPictures(final Collection<Picture> pictures) {
+    	SwingUtilities.invokeLater(
+                new Thread(new Runnable() { 
+                    @Override
+                    public void run() {
+                    	
+                    	reset();
+                    	
+                    	for (Picture picture : pictures)
+                    		list.add(picture);
+                    	
+                    	elementsAll.addAll(list.getElements());
+                    }
+                }));
+    }
+    
     public void load(int moduleIdx, String objectID) {
     	
     	setObjectID(objectID);

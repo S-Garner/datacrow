@@ -121,7 +121,6 @@ public class ArchiveOrgMovieSearch extends ArchiveOrgSearch {
 	    			item,
 	    			new String[] {},
 	    			new String[] {"thumb"},
-	    			new int[] {Movie._X_PICTUREFRONT},
 	    			server,
 	    			dir);
     	}

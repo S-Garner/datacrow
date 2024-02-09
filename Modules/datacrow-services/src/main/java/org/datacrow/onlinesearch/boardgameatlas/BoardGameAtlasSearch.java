@@ -40,6 +40,7 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.BoardGame;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
 import org.datacrow.core.services.OnlineServiceError;
@@ -240,7 +241,7 @@ public class BoardGameAtlasSearch extends SearchTask {
     			try {
     			    DcImageIcon img = CoreUtilities.downloadAndStoreImage(url);
     			    if (img != null)
-    			        dco.setValue(BoardGame._Q_PICTURE1, img);
+    			        dco.addNewPicture(new Picture(dco.getID(), img));
     			} catch (Exception e) {
     				listener.addMessage("Could not retrieve image: " + e.getMessage());
     			}

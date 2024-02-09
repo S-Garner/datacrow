@@ -48,15 +48,31 @@ public class Picture implements Serializable {
 	
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Picture.class.getName());
     
-	private final String objectID;
-	
+	private String objectID;
 	private String filename;
     private String url;
     private String thumbnailUrl;
     
     private transient DcImageIcon imageIcon;
     
+    private boolean itemIsNew = false;
+    
     private byte[] bytes;
+    
+    public Picture(String objectID, DcImageIcon imageIcon) {
+    	this.imageIcon = imageIcon;
+    	this.objectID = objectID;
+		this.filename = imageIcon.getFilename();
+		
+		if (filename == null)
+			System.out.println("image needs to be stored to avoid issues!");
+		
+		setItemIsNew(true);
+    }
+    
+    private void setItemIsNew(boolean b) {
+    	this.itemIsNew =b;
+    }
     
     public Picture(String objectID, File file) {
     	this(objectID, file.toString());
@@ -74,6 +90,10 @@ public class Picture implements Serializable {
     
     public void setFilename(String filename) {
     	this.filename = filename;
+    }
+    
+    public void setObjectID(String objectID) {
+    	this.objectID = objectID;
     }
     
     public void load() {
@@ -100,30 +120,37 @@ public class Picture implements Serializable {
      * @return
      */
     public DcImageIcon getScaledPicture() {
+    	
     	DcImageIcon thumbnail = null;
     	
-        if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
-            try {
-                thumbnail = new DcImageIcon(new URL(thumbnailUrl));
-            } catch (Exception e) {
-                logger.warn("Could not load picture from URL " + thumbnailUrl, e);
+    	if (itemIsNew) {
+    		load();
+    		return new DcImageIcon(CoreUtilities.getScaledImage(imageIcon));
+    		
+    	} else {
+            if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
+                try {
+                    thumbnail = new DcImageIcon(new URL(thumbnailUrl));
+                } catch (Exception e) {
+                    logger.warn("Could not load picture from URL " + thumbnailUrl, e);
+                }
+            } else {
+            	// no filename, but there is a image icon: store a scaled version to disk.
+            	if (imageIcon != null && !getTargetScaledFile().exists()) {
+            		File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + "_small.jpg");
+                	file.deleteOnExit();
+                	
+                	try {
+                		CoreUtilities.writeScaledImageToFile(imageIcon, file);
+                		thumbnail = new DcImageIcon(file);
+                	} catch (Exception e) {
+                		logger.debug("Could not store scaled temporary image [" + file + "]", e);
+                	}    		
+            	} else {
+            		thumbnail = new DcImageIcon(getTargetScaledFile());	
+            	}
             }
-        } else {
-        	// no filename, but there is a image icon: store a scaled version to disk.
-        	if (imageIcon != null && !getTargetScaledFile().exists()) {
-        		File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + "_small.jpg");
-            	file.deleteOnExit();
-            	
-            	try {
-            		CoreUtilities.writeScaledImageToFile(imageIcon, file);
-            		thumbnail = new DcImageIcon(file);
-            	} catch (Exception e) {
-            		logger.debug("Could not store scaled temporary image [" + file + "]", e);
-            	}    		
-        	} else {
-        		thumbnail = new DcImageIcon(getTargetScaledFile());	
-        	}
-        }
+    	}
         
         return thumbnail;
     }    
@@ -138,9 +165,16 @@ public class Picture implements Serializable {
     }
     
     public File getTargetFile() {
+    	
+    	// TODO: make sure the filename is never null!
+    	if (filename == null)
+    		throw new RuntimeException();
+    	
+    	String name = filename == null ? CoreUtilities.getUniqueID() + ".jpg" : 
+    		new File(filename).getName();
+    	
     	return new File(
-    			new File(DcConfig.getInstance().getImageDir(), objectID), 
-    			new File(filename).getName());
+    			new File(DcConfig.getInstance().getImageDir(), objectID), name);
     }
     
     public File getTargetScaledFile() {
@@ -182,5 +216,16 @@ public class Picture implements Serializable {
     
     public String getFilename() {
         return filename;
+    }
+    
+    public Picture clone() {
+    	load();
+    	
+    	DcImageIcon newImageIcon = new DcImageIcon(imageIcon.getBytes());
+    	newImageIcon.setFilename(getFilename());
+    	
+    	Picture picture = new Picture(objectID, newImageIcon);
+    	picture.setItemIsNew(itemIsNew);
+    	return picture;
     }
 }

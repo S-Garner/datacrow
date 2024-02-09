@@ -38,6 +38,7 @@ import org.datacrow.core.http.HttpConnection;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.ComicCharacter;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.services.IOnlineSearchClient;
@@ -107,7 +108,7 @@ public class ComicVineCharacterSearchHelper {
                 DcImageIcon image = CoreUtilities.downloadAndStoreImage((String) images.get("original_url"));
                 
                 if (image != null)
-                    dco.setValue(ComicCharacter._K_PICTURE, image);
+                    dco.addNewPicture(new Picture(dco.getID(), image));
             }   
         }
     }

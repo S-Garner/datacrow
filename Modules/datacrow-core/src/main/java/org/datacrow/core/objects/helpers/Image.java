@@ -34,7 +34,6 @@ public class Image extends DcMediaObject {
     
     public static final int _F_WIDTH = 1;
     public static final int _G_HEIGHT = 2;
-    public static final int _I_IMAGE = 4;
     public static final int _J_STATE = 5;
     public static final int _K_CATEGORY = 6;
     public static final int _L_STORAGEMEDIUM = 7;

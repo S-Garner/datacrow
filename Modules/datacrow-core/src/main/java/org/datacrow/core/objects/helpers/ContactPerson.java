@@ -38,7 +38,6 @@ public class ContactPerson extends DcObject {
     
     public static final int _A_NAME = 1;
     public static final int _B_DESCRIPTION = 2;
-    public static final int _C_PHOTO = 3;
     public static final int _D_CATEGORY = 4;
     public static final int _E_EMAIL = 5;
     public static final int _F_ADDRESS = 6;

@@ -42,7 +42,6 @@ public class ComicCharacter extends DcObject {
     public static final int _H_MOVIES = 8;
     public static final int _I_TEAMS = 9;
     public static final int _J_POWERS = 10;
-    public static final int _K_PICTURE = 11;
     
     public ComicCharacter() {
        super(DcModules._COMICCHARACTER);

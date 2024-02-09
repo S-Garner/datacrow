@@ -44,6 +44,7 @@ import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.MusicAlbum;
 import org.datacrow.core.objects.helpers.MusicTrack;
 import org.datacrow.core.objects.helpers.Software;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
@@ -336,8 +337,10 @@ public class DiscogsSearch extends SearchTask {
         try {
             if (url != null && url.length() > 0) {
                 DcImageIcon image = CoreUtilities.downloadAndStoreImage(url);
-                if (image != null)
-                    musicalbum.setValue(MusicAlbum._J_PICTUREFRONT, image);
+                if (image != null) {
+                    Picture picture = new Picture(musicalbum.getID(), image);
+                    musicalbum.addNewPicture(picture);
+                }
             }
         } catch (Exception e) {
             logger.debug("Cannot download image from [" + url + "]", e);

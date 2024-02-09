@@ -93,7 +93,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     private boolean isAllowPopup = true;
     
     private final AttachmentsPanel attachmentsPanel = new AttachmentsPanel(false);
-    private PicturesPanel picturesPanel;
+    private final PicturesPanel picturesPanel = new PicturesPanel(false);
     
     private RelatedItemsPanel relatedItemsPanel = null;
     
@@ -119,8 +119,12 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     }
     
     private void loadTab() {
-		if (tabbedPane.getSelectedComponent() instanceof PicturesPanel)
-			picturesPanel.load(moduleIdx, key);
+		if (tabbedPane.getSelectedComponent() instanceof PicturesPanel) {
+			if (dco.isNew())
+				picturesPanel.addPictures(dco.getNewPictures());
+			else
+				picturesPanel.load(moduleIdx, key);
+		}
     	
 		if (tabbedPane.getSelectedComponent() instanceof AttachmentsPanel)
 			attachmentsPanel.load();
@@ -153,11 +157,6 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         
         DcModule module = DcModules.get(moduleIdx);
 
-        if (picturesPanel != null)
-        	picturesPanel.clear();
-        
-        picturesPanel = new PicturesPanel(false);
-        
         DcField fld;
         for (QuickViewFieldDefinition def : definitions.getDefinitions()) {
         	fld = module.getField(def.getField());
@@ -204,6 +203,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
             } catch (Exception exp) {}
             
             attachmentsPanel.setObjectID(dco.getID());
+        	picturesPanel.reset();
             
             List<DcObject> references = DcConfig.getInstance().getConnector().getReferencingItems(moduleIdx, dco.getID());
             

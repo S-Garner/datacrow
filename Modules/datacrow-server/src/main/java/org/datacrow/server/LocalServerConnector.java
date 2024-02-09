@@ -200,13 +200,16 @@ public class LocalServerConnector extends Connector {
     	dco.beforeSave();
     	
     	boolean success;
+    	
     	// do not queue the queries since we are already in thread mode on both sides
     	if (dco.isNew())
     		success = DatabaseManager.getInstance().insert(getUser(), dco, false);
     	else
     	    success = DatabaseManager.getInstance().update(getUser(), dco, false);
     	
-    	dco.afterSave();
+    	if (success)
+    		dco.afterSave();
+    	
     	return success;
     }
 

@@ -39,6 +39,7 @@ import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Book;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
 import org.datacrow.core.services.OnlineServiceError;
@@ -172,8 +173,8 @@ public class GoogleSearch extends SearchTask {
         try {
             if (link != null && link.length() > 0) {
                 DcImageIcon image = CoreUtilities.downloadAndStoreImage(link);
-                if (image != null)
-                    book.setValue(Book._K_PICTUREFRONT, image);
+                if (image != null) 
+                    book.addNewPicture(new Picture(book.getID(), image));
             }
         } catch (Exception e) {
             logger.debug("Cannot download image for " + book + ", value " + link, e);

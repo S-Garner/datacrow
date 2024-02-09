@@ -43,9 +43,6 @@ public class BoardGame extends DcMediaObject {
     public static final int _N_RULES_URL = 9;
     public static final int _O_EAN = 10;
     public static final int _P_STATE = 11;
-    public static final int _Q_PICTURE1 = 12;
-    public static final int _R_PICTURE2 = 13;
-    public static final int _S_PICTURE3 = 14;
     public static final int _T_GAME_MECHANICS = 15;
     
     public BoardGame() {

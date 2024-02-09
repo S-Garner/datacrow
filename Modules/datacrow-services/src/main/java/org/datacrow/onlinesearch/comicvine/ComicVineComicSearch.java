@@ -42,6 +42,7 @@ import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Comic;
 import org.datacrow.core.objects.helpers.ComicCharacter;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
@@ -187,7 +188,7 @@ public class ComicVineComicSearch extends SearchTask {
             if (images.containsKey("original_url")) {
                 DcImageIcon img = CoreUtilities.downloadAndStoreImage((String) images.get("original_url"));
                 if (img != null)
-                    dco.setValue(Comic._V_PICTURE1, img);
+                    dco.addNewPicture(new Picture(dco.getID(), img));
             }   
         }
     }

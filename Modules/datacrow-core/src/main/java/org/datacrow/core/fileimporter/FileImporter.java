@@ -27,11 +27,14 @@ package org.datacrow.core.fileimporter;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.imageio.ImageIO;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
@@ -44,10 +47,10 @@ import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
-import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.ValidationException;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.services.Region;
@@ -342,59 +345,48 @@ public abstract class FileImporter {
      * @see DcRepository.ModuleSettings#stImportLocalArt
      * @see DcRepository.ModuleSettings#stImportLocalArtRecurse
      * @see DcRepository.ModuleSettings#stImportLocalArtFrontKeywords
-     * @see DcRepository.ModuleSettings#stImportLocalArtBackKeywords
-     * @see DcRepository.ModuleSettings#stImportLocalArtMediaKeywords
      * 
-     * @param filename The file location for which art will be retrieved.
+     * @param sourceFile The file location for which art will be retrieved.
      * @param dco
-     * @param front The front image field index.
-     * @param back The back image field index.
-     * @param cd The media image field index.
      */
-    protected void setImages(String filename, DcObject dco, int front, int back, int cd) {
+    protected void setImages(String sourceFile, DcObject dco) {
         Settings settings = DcModules.get(module).getSettings();
         if (!settings.getBoolean(DcRepository.ModuleSettings.stImportLocalArt)) 
             return;
         
-        String directory = new File(filename).getParent();
+        String directory = new File(sourceFile).getParent();
         boolean recurse = settings.getBoolean(DcRepository.ModuleSettings.stImportLocalArtRecurse);
         
-        Directory dir = new Directory(directory, recurse, new String[] {"jpg", "jpeg", "png", "gif"});
+        Directory dir = new Directory(directory, recurse, ImageIO.getReaderFileSuffixes());
         Collection<String> files = dir.read();
-        boolean frontSet = false;
-        boolean backSet = false;
-        boolean cdSet = false;
         
+        LinkedList<Picture> pictures = new LinkedList<Picture>();
+        Picture picture;
         for (String file : files) {
             try {
+                String name1 = new File(sourceFile).getName();
+                String name2 = new File(file).getName();
                 
-                if (!frontSet) {
-                    String name1 = new File(filename).getName();
-                    String name2 = new File(file).getName();
-                    name1 = name1.substring(0, name1.lastIndexOf(".") > 0 ? name1.lastIndexOf(".") : name1.length());
-                    name2 = name2.substring(0, name2.lastIndexOf(".") > 0 ? name2.lastIndexOf(".") : name2.length());
-                    
-                    if (StringUtils.equals(name1, name2)) {
-                        dco.setValue(front, new DcImageIcon(file));
-                        frontSet = true;
-                    }
-                }
+                name1 = name1.substring(0, name1.lastIndexOf(".") > 0 ? name1.lastIndexOf(".") : name1.length());
+                name2 = name2.substring(0, name2.lastIndexOf(".") > 0 ? name2.lastIndexOf(".") : name2.length());
                 
-                if (!frontSet && (files.size() == 1 || 
-                    match(DcRepository.ModuleSettings.stImportLocalArtFrontKeywords, file))) {
-                    dco.setValue(front, new DcImageIcon(file));
-                    frontSet = true;
-                } else if (!backSet && match(DcRepository.ModuleSettings.stImportLocalArtBackKeywords, file)) {
-                    dco.setValue(back, new DcImageIcon(file));
-                    backSet = true;
-                } else if (!cdSet && match(DcRepository.ModuleSettings.stImportLocalArtMediaKeywords, file)) {
-                    dco.setValue(cd, new DcImageIcon(file));
-                    cdSet = true;
+                if (StringUtils.equals(name1, name2)) {
+                	
+                	picture = new Picture(dco.getID(), file);
+                	
+                	if (match(DcRepository.ModuleSettings.stImportLocalArtFrontKeywords, file)) {
+                		pictures.addFirst(picture);
+                        break;
+                	} else {
+                		pictures.addLast(picture);
+                	}
                 }
             } catch (Exception e) {
                 logger.error(e, e);
             }
         }
+        
+        dco.addNewPictures(pictures);
     }
     
     private class SynchronizerClient implements ISynchronizerClient {

@@ -43,7 +43,6 @@ public class User extends DcObject {
     public static final int _B_ENABLED = 2;
     public static final int _C_NAME = 3;
     public static final int _D_DESCRIPTION = 4;
-    public static final int _E_PHOTO = 5;
     public static final int _F_EMAIL = 6;
     public static final int _G_ADDRESS = 7;
     public static final int _H_PHONE_HOME = 8;

@@ -39,6 +39,7 @@ import org.datacrow.core.http.HttpConnectionUtil;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Software;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
@@ -408,22 +409,18 @@ public class MobyGamesSearch extends SearchTask {
     }    
     
     private void setPictures(MobyGamesResult mgr, DcObject item) {
-        int[] fields = new int[] {Software._P_SCREENSHOTONE, Software._Q_SCREENSHOTTWO, Software._R_SCREENSHOTTHREE};
-        int fieldIdx = 0;
+       DcImageIcon image;
+       if (!CoreUtilities.isEmpty(mgr.getCover())) {
+           image = CoreUtilities.downloadAndStoreImage(mgr.getCover());
+           
+	       if (image != null)
+	           item.addNewPicture(new Picture(item.getID(), image));
+        }
         
-        DcImageIcon image;
         for (String link : mgr.getScreenshotLinks()) {
             image = CoreUtilities.downloadAndStoreImage(link);
             if (image != null)
-                item.setValue(fields[fieldIdx++], image);
-            
-            if (fieldIdx > 2) break;
-        }
-        
-        if (!CoreUtilities.isEmpty(mgr.getCover())) {
-	        image = CoreUtilities.downloadAndStoreImage(mgr.getCover());
-	        if (image != null)
-	            item.setValue(Software._M_PICTUREFRONT, image);
+                item.addNewPicture(new Picture(item.getID(), image));
         }
     }
     

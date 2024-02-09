@@ -46,6 +46,7 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Book;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.Hash;
@@ -172,7 +173,7 @@ public class EbookImport extends FileImporter {
     
                     renderer = new PDFRenderer(pdf);
                     BufferedImage bi = renderer.renderImageWithDPI(0, 300f, ImageType.RGB);
-                    book.setValue(Book._K_PICTUREFRONT, new DcImageIcon(bi));
+                    book.addNewPicture(new Picture(book.getID(), new DcImageIcon(bi)));
                 
                     PDFTextStripper stripper = new PDFTextStripper();
                     stripper.setStartPage(0);

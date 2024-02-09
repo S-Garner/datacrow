@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +50,7 @@ import org.datacrow.core.objects.helpers.ExternalReference;
 import org.datacrow.core.objects.helpers.Movie;
 import org.datacrow.core.objects.helpers.Software;
 import org.datacrow.core.objects.template.Templates;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
@@ -121,6 +123,10 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     private transient boolean validate = true;
     private transient boolean updateGUI = true;
     
+    // these are new pictures, to be saved after the main item has been saved
+    private final LinkedList<Picture> pictures = new LinkedList<Picture>();
+    
+    
     /**
      * Creates a new instance.
      * @param module
@@ -166,6 +172,19 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     public boolean isUpdateGUI() {
 		return updateGUI;
 	}
+    
+    public void addNewPicture(Picture picture) {
+    	pictures.add(picture);
+    }
+    
+    public void addNewPictures(Collection<Picture> pictures) {
+    	for (Picture picture : pictures)
+    		this.pictures.add(picture);
+    }
+    
+    public Collection<Picture> getNewPictures() {
+    	return pictures;
+    }
 
     /**
      * Indicate whether ANY interface updates should be performed.
@@ -262,29 +281,37 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     
     public DcImageIcon getScaledImage() {
     	
-    	Connector conn = DcConfig.getInstance().getConnector();
-    	
-    	try {
-    	
-	    	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
-	    		
-	            String address = 
-	            		"http://" + conn.getServerAddress() + ":" + 
-	            		conn.getImageServerPort() +"/" + getID() + "/picture1_small.jpg";
-	            
-	            URL url = new URL(address);
-	            
-	            return new DcImageIcon(url);
-			
-			} else {
-				File file = new File(
-		    			new File(DcConfig.getInstance().getImageDir(), getID()), "picture1_small.jpg");
-		
-				if (file.exists())
-					return new DcImageIcon(file);
-			}
-    	}catch (Exception e) {
-    		logger.error("An error occured while retrieving the scaled image", e);
+    	if (pictures.size() > 0 && isNew()) {
+    		
+    		return new DcImageIcon(
+    				CoreUtilities.getScaledImage(pictures.getFirst().getImageIcon()));
+    		
+    	} else {
+    		
+        	Connector conn = DcConfig.getInstance().getConnector();
+        	
+        	try {
+        	
+    	    	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
+    	    		
+    	            String address = 
+    	            		"http://" + conn.getServerAddress() + ":" + 
+    	            		conn.getImageServerPort() +"/" + getID() + "/picture1_small.jpg";
+    	            
+    	            URL url = new URL(address);
+    	            
+    	            return new DcImageIcon(url);
+    			
+    			} else {
+    				File file = new File(
+    		    			new File(DcConfig.getInstance().getImageDir(), getID()), "picture1_small.jpg");
+    		
+    				if (file.exists())
+    					return new DcImageIcon(file);
+    			}
+        	}catch (Exception e) {
+        		logger.error("An error occured while retrieving the scaled image", e);
+        	}
     	}
     	
     	return null;
@@ -1233,7 +1260,8 @@ public class DcObject implements Comparable<DcObject>, Serializable {
                 dco.addChild(child.clone());
         }
         
-        // TODO: images and attachments need to be cloned as well!
+        for (Picture picture : pictures)
+        	dco.addNewPicture(picture.clone());
         
         return dco;
     }
@@ -1273,7 +1301,12 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         return equals;
     }
     
-    public void afterSave() {}
+    public void afterSave() {
+    	for (Picture picture : pictures) {
+    		picture.setObjectID(getID());
+    		DcConfig.getInstance().getConnector().savePicture(picture);
+    	}
+    }
     
     public void afterDelete() {}
     

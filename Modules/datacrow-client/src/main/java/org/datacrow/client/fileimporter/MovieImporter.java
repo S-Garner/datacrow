@@ -100,7 +100,7 @@ public class MovieImporter extends FileImporter {
             
             movie.createReference(Movie._2_SUBTITLELANGUAGE, fpm.getSubtitles());
             
-            setImages(filename, movie, Movie._X_PICTUREFRONT, Movie._Y_PICTUREBACK, Movie._Z_PICTURECD);
+            setImages(filename, movie);
             
             int bitrate = fpm.getVideoBitRate();
             if (bitrate <= 0) {

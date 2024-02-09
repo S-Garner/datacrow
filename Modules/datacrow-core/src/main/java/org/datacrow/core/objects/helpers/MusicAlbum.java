@@ -36,9 +36,6 @@ public class MusicAlbum extends DcMediaObject {
     public static final int _G_GENRES = 2;
     public static final int _H_STATE = 3;
     public static final int _I_STORAGEMEDIUM = 4;
-    public static final int _J_PICTUREFRONT = 5;
-    public static final int _K_PICTUREBACK = 6;
-    public static final int _L_PICTURECD = 7;
     public static final int _N_WEBPAGE = 9;
     public static final int _P_EAN = 11;
     public static final int _Q_RECORDLABEL = 19;

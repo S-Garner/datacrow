@@ -50,8 +50,6 @@ public class LocalArtSettingsPanel extends JPanel {
     private final DcCheckBox cbEnabled = ComponentFactory.getCheckBox(DcResources.getText("lblEnabled"));
     
     private final DcShortTextField txtFront = ComponentFactory.getShortTextField(255);
-    private final DcShortTextField txtBack = ComponentFactory.getShortTextField(255);
-    private final DcShortTextField txtMedia = ComponentFactory.getShortTextField(255);
     
     public LocalArtSettingsPanel(int module) {
         this.module = module;
@@ -63,15 +61,10 @@ public class LocalArtSettingsPanel extends JPanel {
         settings.set(DcRepository.ModuleSettings.stImportLocalArt, cbEnabled.isSelected());
         settings.set(DcRepository.ModuleSettings.stImportLocalArtRecurse, cbRecurse.isSelected());
         settings.set(DcRepository.ModuleSettings.stImportLocalArtFrontKeywords, txtFront.getText());
-        settings.set(DcRepository.ModuleSettings.stImportLocalArtBackKeywords, txtBack.getText());
-        settings.set(DcRepository.ModuleSettings.stImportLocalArtMediaKeywords, txtMedia.getText());        
     }
     
     public void clear() {
-        if (txtMedia.getText().length() == 0 ||
-            txtFront.getText().length() == 0 ||
-            txtBack.getText().length() == 0) {
-            
+        if (txtFront.getText().length() == 0) {
             GUI.getInstance().displayWarningMessage("msgPleaseEnterKeywords");
             return;
         } else {
@@ -108,15 +101,9 @@ public class LocalArtSettingsPanel extends JPanel {
         pnlPatterns.add(  lblBack,  Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
                 ,GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE,
                  new Insets(5, 5, 5, 5), 0, 0));
-        pnlPatterns.add(  txtBack,  Layout.getGBC( 1, 1, 1, 1, 1.0, 1.0
-                ,GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL,
-                new Insets(5, 5, 5, 5), 0, 0));
         pnlPatterns.add(  lblMedia,  Layout.getGBC( 0, 2, 1, 1, 1.0, 1.0
                 ,GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE,
                  new Insets(5, 5, 5, 5), 0, 0));
-        pnlPatterns.add(  txtMedia,  Layout.getGBC( 1, 2, 1, 1, 1.0, 1.0
-                ,GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL,
-                new Insets(5, 5, 5, 5), 0, 0));
         
         pnlPatterns.setBorder(ComponentFactory.getTitleBorder(DcResources.getText("lblArtKeywords")));
         
@@ -140,9 +127,7 @@ public class LocalArtSettingsPanel extends JPanel {
                 new Insets( 5, 5, 5, 5), 0, 0));
         
         Settings settings = DcModules.get(module).getSettings();
-        txtBack.setText(settings.getString(DcRepository.ModuleSettings.stImportLocalArtBackKeywords));
         txtFront.setText(settings.getString(DcRepository.ModuleSettings.stImportLocalArtFrontKeywords));
-        txtMedia.setText(settings.getString(DcRepository.ModuleSettings.stImportLocalArtMediaKeywords));
         cbEnabled.setSelected(settings.getBoolean(DcRepository.ModuleSettings.stImportLocalArt));
         cbRecurse.setSelected(settings.getBoolean(DcRepository.ModuleSettings.stImportLocalArtRecurse));
     }

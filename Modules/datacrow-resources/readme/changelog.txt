@@ -9,6 +9,7 @@ Data Crow version 4.12                        Released on 2024-xx-xx
 - Data Crow minimum Java version has been increased from Java 11 to Java 18.
 - Small layout improvements for the item form and the login dialog.
 - Scrolling performance has been improved for the card list.
+- Extended the supported image types for the local art import for movies and music files.
 
 [Fixed]
 - Right-click menu on attachment: icon size too large.

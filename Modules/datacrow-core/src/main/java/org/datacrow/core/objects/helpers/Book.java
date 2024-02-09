@@ -45,7 +45,6 @@ public class Book extends DcMediaObject {
     public static final int _H_WEBPAGE = 3;
     public static final int _I_CATEGORY = 4;
     public static final int _J_ISBN10 = 5;
-    public static final int _K_PICTUREFRONT = 6;
     public static final int _L_STATE = 7;
     public static final int _N_ISBN13 = 9;
     public static final int _O_SERIES = 10;

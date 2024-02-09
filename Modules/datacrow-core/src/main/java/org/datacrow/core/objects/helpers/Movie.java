@@ -48,9 +48,6 @@ public class Movie extends DcMediaObject {
     public static final int _U_AUDIOSAMPLINGRATE = 16;
     public static final int _V_AUDIOCHANNEL = 17;
     public static final int _W_VIDEOBITRATE = 18;
-    public static final int _X_PICTUREFRONT = 19;
-    public static final int _Y_PICTUREBACK = 20;
-    public static final int _Z_PICTURECD = 21;
     public static final int _1_AUDIOLANGUAGE = 23;
     public static final int _2_SUBTITLELANGUAGE = 24;
     public static final int _3_CERTIFICATION = 25;

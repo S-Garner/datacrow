@@ -38,6 +38,7 @@ import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.helpers.Movie;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.services.IOnlineSearchClient;
 import org.datacrow.core.services.OnlineSearchUserError;
 import org.datacrow.core.services.OnlineServiceError;
@@ -226,17 +227,17 @@ public class TmdbMovieSearch extends SearchTask {
     private void setImages(Map<?, ?> map, DcObject dco) {
     	DcImageIcon image;
     	
-    	if (map.containsKey("backdrop_path") && !CoreUtilities.isEmpty(map.get("backdrop_path"))) {
-    		image = CoreUtilities.downloadAndStoreImage(imageBaseUrl + map.get("backdrop_path"));
-    		if (image != null)
-    		    dco.setValue(Movie._Y_PICTUREBACK, image);
-    	}
-    	
     	if (map.containsKey("poster_path") && !CoreUtilities.isEmpty(map.get("poster_path"))) {
     		image = CoreUtilities.downloadAndStoreImage(imageBaseUrl + map.get("poster_path"));
     		if (image != null)
-    		    dco.setValue(Movie._X_PICTUREFRONT, image);
+    		    dco.addNewPicture(new Picture(dco.getID(), image));
     	}
+
+        if (map.containsKey("backdrop_path") && !CoreUtilities.isEmpty(map.get("backdrop_path"))) {
+            image = CoreUtilities.downloadAndStoreImage(imageBaseUrl + map.get("backdrop_path"));
+            if (image != null)
+                dco.addNewPicture(new Picture(dco.getID(), image));
+        }
     }  
     
     @SuppressWarnings("unchecked")

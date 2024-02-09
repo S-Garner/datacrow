@@ -313,19 +313,6 @@ public class DcModuleSettings extends Settings {
         else
             order = new int[] {DcObject._SYS_DISPLAYVALUE};
         
-        int[] picFieldOrder;
-        if (module.getIndex() == DcModules._SOFTWARE) {
-            int[] fields = {Software._M_PICTUREFRONT, Software._O_PICTURECD, Software._N_PICTUREBACK,
-                           Software._P_SCREENSHOTONE, Software._Q_SCREENSHOTTWO, Software._R_SCREENSHOTTHREE};
-            picFieldOrder = fields;
-        } else if (module.getIndex() == DcModules._MOVIE) {
-            int[] fields = {Movie._X_PICTUREFRONT, Movie._Z_PICTURECD, Movie._Y_PICTUREBACK};
-            picFieldOrder = fields;
-        } else if (module.getIndex() == DcModules._MUSIC_ALBUM) {
-            int[] fields = {MusicAlbum._J_PICTUREFRONT, MusicAlbum._L_PICTURECD, MusicAlbum._K_PICTUREBACK};
-            picFieldOrder = fields;
-        }
-        
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._INTEGERARRAY,
                             DcRepository.ModuleSettings.stTableColumnOrder,
@@ -438,24 +425,6 @@ public class DcModuleSettings extends Settings {
                 new Setting(DcRepository.ValueTypes._STRING,
                             DcRepository.ModuleSettings.stImportLocalArtFrontKeywords,
                             "front,cover,case",
-                            -1,
-                            "",
-                            "",
-                            false,
-                            false, module.getIndex()));
-        addSetting(_General,
-                new Setting(DcRepository.ValueTypes._STRING,
-                            DcRepository.ModuleSettings.stImportLocalArtBackKeywords,
-                            "back",
-                            -1,
-                            "",
-                            "",
-                            false,
-                            false, module.getIndex()));
-        addSetting(_General,
-                new Setting(DcRepository.ValueTypes._STRING,
-                            DcRepository.ModuleSettings.stImportLocalArtMediaKeywords,
-                            "cd,dvd,media",
                             -1,
                             "",
                             "",
