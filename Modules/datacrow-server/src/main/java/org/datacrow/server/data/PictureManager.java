@@ -40,7 +40,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.bcel.generic.LoadClass;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
@@ -124,7 +123,6 @@ public class PictureManager {
 				dir.deleteOnExit();
 		}
 	}
-		
 	
 	private void updateNumbering(String ID) {
 		File fileOld;

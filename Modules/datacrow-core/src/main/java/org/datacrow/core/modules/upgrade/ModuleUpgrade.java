@@ -78,9 +78,10 @@ public class ModuleUpgrade extends XmlObject {
     }
     
     public ModuleUpgradeResult upgrade() throws ModuleUpgradeException {
+    	
+    	ModuleUpgradeResult results = new ModuleUpgradeResult();
+    	
         removeDuplicates();
-        
-        ModuleUpgradeResult results = new ModuleUpgradeResult();
         
         File dir = new File(DcConfig.getInstance().getInstallationDir(), "upgrade");
         add = new File(dir, "add.xml");
@@ -246,7 +247,7 @@ public class ModuleUpgrade extends XmlObject {
                 return;
             }
             
-            // get the fields to add
+            // get the fields to remove
             XmlModule xmlModule = jar.getModule();
             
             for (XmlField field :  getFields(module, index)) {

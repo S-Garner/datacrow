@@ -35,6 +35,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcAssociateModule;
@@ -310,8 +311,15 @@ public class XmlModule extends XmlObject {
      */
     private void setFields(XmlModule module, Element element) throws InvalidValueException {
         NodeList nodes = element.getElementsByTagName("field");
+        
+        XmlField xmlField;
         for (int i = 0; i < nodes.getLength(); i++) {
-            fields.add(new XmlField(module, (Element) nodes.item(i)));
+        	xmlField = new XmlField(module, (Element) nodes.item(i));
+        	
+        	if (xmlField.getFieldType() != UIComponents._PICTUREFIELD)
+        		fields.add(xmlField);
+        	else
+        		changed = true;
         }
     }
     

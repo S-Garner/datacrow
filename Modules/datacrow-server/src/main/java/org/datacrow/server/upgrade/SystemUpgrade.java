@@ -802,48 +802,6 @@ public class SystemUpgrade {
         } 
     }
     
-    private static class ImageUpgradeConverter implements IImageConverterListener {
-    	
-    	private int counter = 1;
-    	private int total;
-    	
-    	protected ImageUpgradeConverter() {
-    		org.datacrow.server.upgrade.ImageUpgradeConverter converter = 
-    				new org.datacrow.server.upgrade.ImageUpgradeConverter(this);
-        	
-        	try {
-        		converter.start();
-        		converter.join();
-        	} catch (Exception e) {
-        		DcConfig.getInstance().getConnector().displayError(e.getMessage());
-        	}    		
-    	}
-    	
-    	@Override
-    	public void notifyImageProcessed() {
-    		System.out.print("\r Processing [" + String.valueOf(counter++) +"/"+ String.valueOf(total) + "]");
-    	}
-
-    	@Override
-    	public void notifyToBeProcessedImages(int count) {
-    		DcConfig.getInstance().getConnector().displayMessage(DcResources.getText("msgConvertImages"));
-    		DcConfig.getInstance().getConnector().displayMessage(DcResources.getText("msgPleaseWait"));
-    		total = count;
-    	}
-
-    	@Override
-    	public void notifyError(String s) {
-    		DcConfig.getInstance().getConnector().displayError(s);
-    		System.exit(0);
-    	}
-
-    	@Override
-    	public void notifyFinished() {
-    		System.out.println();
-    		DcConfig.getInstance().getConnector().displayMessage(DcResources.getText("msgSuccessfullyConvertedAllImages"));
-    	}
-    }
-    
     private static class ImageConverter implements IImageConverterListener {
     	
     	private static final int _SIZE_CONVERSION = 0;
