@@ -111,7 +111,7 @@ public class DcList extends JList<Object> implements ComponentListener {
             moveSelectedRow(getDcModel().getSize() -1);
     }
 
-    private void moveSelectedRow(int toIdx) {
+    public void moveSelectedRow(int toIdx) {
         Vector<Object> v = new Vector<Object>();
         for (int i = 0; i < getDcModel().getSize(); i++) {
             v.add(getDcModel().get(i));

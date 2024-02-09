@@ -64,6 +64,7 @@ import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.client.console.components.DcLongTextField;
 import org.datacrow.client.console.components.panels.AttachmentsPanel;
 import org.datacrow.client.console.components.panels.LoanPanel;
+import org.datacrow.client.console.components.panels.PicturesPanel;
 import org.datacrow.client.console.components.panels.RelatedItemsPanel;
 import org.datacrow.client.console.windows.DcFrame;
 import org.datacrow.client.console.windows.ItemTypeDialog;
@@ -905,39 +906,12 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         tabbedPane.addTab(DcResources.getText("lblLoan"), IconLibrary._icoLoan, new LoanPanel(dco, null));
     }
 
-    protected void addPictureTabs() {
-        DcModule module = DcModules.get(moduleIdx);
-
-        int index;
-        DcField field;
-        JComponent component;
-        JPanel panel;
-        for (DcFieldDefinition definition : module.getFieldDefinitions().getDefinitions()) {
-            index = definition.getIndex();
-            field = dco.getField(index);
-            
-            if (field == null) {
-                logger.error("Field " + index + " not found for module " + dco.getModule());
-                continue;
-            }
-            
-            component = fields.get(field);
-
-            if (field.isEnabled() && field.getValueType() == DcRepository.ValueTypes._ICON) {
-                panel = new JPanel();
-                panel.setLayout(Layout.getGBL());
-
-                component.setPreferredSize(component.getMinimumSize());
-                panel.add(component, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0
-                         ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-                          new Insets(5, 5, 5, 5), 0, 0));
-
-                if (field.isReadOnly())
-                    ComponentFactory.setUneditable(component);
-                
-                tabbedPane.addTab(field.getLabel(), IconLibrary._icoPicture, panel);
-            }
-        }
+    protected void addPictureTabs() {    	
+    	PicturesPanel picturesPanel = new PicturesPanel(readonly);
+    	picturesPanel.setObjectID(dco.getID());
+    	picturesPanel.load(dco.getModuleIdx());
+    	
+    	tabbedPane.addTab(DcResources.getText("lblPictures"), IconLibrary._icoPicture, picturesPanel);
     }
 
     public JPanel getActionPanel(DcModule module, boolean readonly) {

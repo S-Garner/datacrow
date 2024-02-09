@@ -27,27 +27,16 @@ package org.datacrow.client.console.components.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -63,7 +52,6 @@ import org.datacrow.client.console.components.DcPanel;
 import org.datacrow.client.console.components.DcPopupMenu;
 import org.datacrow.client.console.components.lists.DcListModel;
 import org.datacrow.client.console.components.lists.DcPicturesList;
-import org.datacrow.client.console.components.lists.elements.DcListElement;
 import org.datacrow.client.console.menu.DcPicturesPanelMenu;
 import org.datacrow.client.console.windows.BrowserDialog;
 import org.datacrow.client.console.windows.OpenFromUrlDialog;
@@ -80,36 +68,32 @@ import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 
-public class PicturesPanel extends DcPanel implements MouseListener, ActionListener, DropTargetListener {
+public class PicturesPanel extends DcPanel implements MouseListener, ActionListener {
 	
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PicturesPanel.class.getName());
     
 	private String objectID;
-	
-    private final List<DcListElement> elementsAll = new ArrayList<DcListElement>();
-    private final List<DcListElement> elementsCurrent = new ArrayList<DcListElement>();
-    private final DcPicturesList list = new DcPicturesList();
-    
-    private final List<String> extensions = Arrays.asList(ImageIO.getReaderFileSuffixes());
+    private final DcPicturesList list;
     
     private boolean readonly;
     
-    private boolean acceptDraggedFile = false;
-    
     public PicturesPanel(boolean readonly) {
-        this.list.setModel(new DcListModel<Object>());
+    	this.list = new DcPicturesList(
+    			readonly ? DcPicturesList._MODE_READONLY : DcPicturesList._MODE_EDIT);
+    	
+    	this.list.setModel(new DcListModel<Object>());
         this.readonly = readonly;
         
         setTitle(DcResources.getText("lblPictures"));
         
         build();
-
-        if (!readonly)
-        	new DropTarget(this, DnDConstants.ACTION_COPY, this);
+        
+        addComponentListener(new ResizeListener());
     }
     
     public void setObjectID(String objectID) {
     	this.objectID = objectID;
+    	this.list.setObjectID(objectID);
     }
 
     private void deletePictures() {
@@ -138,27 +122,10 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
     	}
     }
     
-    private void addPictures(List<File> files) {
-    	for (File file : files) {
-    		if (file.isFile())
-    			addPicture(file);
-    	}
-    }
-
-    private void addPictures(File[] files) {
-    	
-    	if (files == null) return;
-    	
-    	for (File file : files) {
-    		if (file.isFile())
-    			addPicture(file);
-    	}
-    }
-    
     private void addPictureFromFile() {
     	BrowserDialog dlg = new BrowserDialog(DcResources.getText("lblSelectFile"), new PictureFileFilter());
     	File[] files = dlg.showSelectMultipleFilesDialog(this, null);
-    	addPictures(files);
+    	list.addPictures(files);
     }
     
     private void addPictureFromUrl() {
@@ -168,7 +135,7 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
         DcImageIcon image = dialog.getImage();
         if (image != null) {
         	Picture picture = new Picture(objectID, image);
-        	addPicture(picture);
+        	list.addPicture(picture);
         }
     }
     
@@ -176,32 +143,8 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
         DcImageIcon image = Utilities.getImageFromClipboard();
         if (image != null) {
         	Picture picture = new Picture(objectID, image);
-        	addPicture(picture);
+        	list.addPicture(picture);
         }
-    }
-    
-    private void addPicture(File file) {
-    	if (file == null) return;
-    		
-		Picture picture = new Picture(objectID, file.toString());
-		addPicture(picture);
-    }
-    
-    private void addPicture(Picture picture) {
-    
-    	DcConfig.getInstance().getConnector().savePicture(picture);
-    	
-		SwingUtilities.invokeLater(new Thread(new Runnable() { 
-            @Override
-            public void run() {
-            	list.add(picture);
-            	elementsAll.clear();
-            	elementsAll.addAll(list.getElements());
-            	
-            	GUI.getInstance().getSearchView(
-            			DcModules.getCurrent().getIndex()).getCurrent().update(picture.getObjectID());
-            }
-        }));
     }
     
     public void openPicture() {
@@ -222,21 +165,19 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
                 new Thread(new Runnable() { 
                     @Override
                     public void run() {
-                    	
                     	reset();
                     	
                     	for (Picture picture : pictures)
                     		list.add(picture);
-                    	
-                    	elementsAll.addAll(list.getElements());
                     }
                 }));
     }
     
-    public void load(int moduleIdx, String objectID) {
+    public void load(int moduleIdx) {
     	
     	setObjectID(objectID);
     	
+    	// check - do we need to this check here and should the menu not be removed then?
     	this.readonly = !DcConfig.getInstance().getConnector().getUser().isEditingAllowed(DcModules.get(moduleIdx)) || readonly;
     	
         SwingUtilities.invokeLater(
@@ -251,8 +192,6 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
                     	
                     	for (Picture picture : pictures)
                     		list.add(picture);
-                    	
-                    	elementsAll.addAll(list.getElements());
                     }
                 }));
     }
@@ -262,8 +201,6 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
     }
     
     public void reset() {
-        if (elementsAll != null) elementsAll.clear();
-        if (elementsCurrent != null) elementsCurrent.clear();
         if (list != null) list.clear();
     }
     
@@ -371,84 +308,14 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
             }
         }
     }
+    
+	private class ResizeListener extends ComponentAdapter {
+		public void componentResized(ComponentEvent e) {
+			Collection<Picture> pictures = list.getPictures();
+			list.clear();
 
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	public void dragEnter(DropTargetDragEvent dtde) {
-        Transferable t = dtde.getTransferable();
-        if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-        	
-        	acceptDraggedFile = true;
-        	
-            try {
-                Object td = t.getTransferData(DataFlavor.javaFileListFlavor);
-                
-                File file;
-                String ext;
-
-                if (td instanceof List) {
-                    for (Object value : ((List) td)) {
-                        if (value instanceof File) {
-                            file = (File) value;
-                            ext = getExtension(file.getName());
-                            if (!extensions.contains(ext.toLowerCase()) && !extensions.contains(ext.toUpperCase())) {
-                            	acceptDraggedFile = false;
-                            	break;
-                            }
-                        }
-                    }
-                } else {
-                	acceptDraggedFile = false;
-                }
-            } catch (UnsupportedFlavorException | IOException e) {
-            	logger.warn("Dragged item is not supported, could not be dropped", e);
-            }
-        }
-
-        if (acceptDraggedFile)
-        	dtde.acceptDrag(DnDConstants.ACTION_COPY);
-        else
-            dtde.rejectDrag();
+			for (Picture p : pictures)
+				list.add(p);
+		}
 	}
-
-	@Override
-	public void dragOver(DropTargetDragEvent dtde) {}
-
-	@Override
-	public void dropActionChanged(DropTargetDragEvent dtde) {}
-
-	@Override
-	public void dragExit(DropTargetEvent dte) {}
-	
-	private String getExtension(String filename) {
-		int idx = filename.lastIndexOf('.');
-        return idx > -1 ? filename.substring(idx + 1) : "";
-	}
-	
-    @SuppressWarnings("unchecked")
-	@Override
-    public void drop(DropTargetDropEvent dtde) {
-    	
-    	if (!acceptDraggedFile) 
-    		return;
-    	
-        Transferable transferable = dtde.getTransferable();
-        if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-
-        	dtde.acceptDrop(DnDConstants.ACTION_COPY);
-        	
-            try {
-                List<File> transferData = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
-                if (transferData != null && transferData.size() > 0) {
-                 	addPictures(transferData);
-                    dtde.dropComplete(true);
-                }
-            } catch (Exception e) {
-                logger.warn("Dragged item is not supported, could not be dropped", e);
-            }
-        } else {
-            dtde.rejectDrop();
-        }
-    }	
 }
