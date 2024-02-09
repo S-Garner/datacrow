@@ -58,42 +58,37 @@ public class ItemExporterUtilities {
     }
     
     public String getImageURL(Picture p) {
-    	
-    	// TODO: reimplement.
-    	
-    	return "";
-    	
-//        String url = "";
-//        String imageFilename = p.getFilename(); 
-//        
-//        if (!CoreUtilities.isEmpty(imageFilename)) {
-//            if (settings.getBoolean(ItemExporterSettings._COPY_IMAGES)) {
-//                copyImage(p,  new File(getImageDir(), imageFilename));
-//                
-//                if (settings.getBoolean(ItemExporterSettings._ALLOWRELATIVEIMAGEPATHS))
-//                    url = "./" + exportName + "_images/" + imageFilename;
-//                else 
-//                    url = "file:///" +  new File(getImageDir(), imageFilename);
-//            } else {
-//            	url = !CoreUtilities.isEmpty(p.getUrl()) ? p.getUrl() : "file:///" + imageFilename;
-//            }
-//        }
-//        return url;
+        String url = "";
+        String imageFilename = p.getFilename(); 
+        
+        if (!CoreUtilities.isEmpty(imageFilename)) {
+            if (settings.getBoolean(ItemExporterSettings._COPY_IMAGES)) {
+                copyImage(p,  new File(getImageDir(), imageFilename));
+                
+                if (settings.getBoolean(ItemExporterSettings._ALLOWRELATIVEIMAGEPATHS))
+                    url = "./" + exportName + "_images/" + imageFilename;
+                else 
+                    url = "file:///" +  new File(getImageDir(), imageFilename);
+            } else {
+            	url = !CoreUtilities.isEmpty(p.getUrl()) ? p.getUrl() : "file:///" + imageFilename;
+            }
+        }
+        return url;
     }
     
     private void copyImage(Picture picture, File target) {
-//        try {
-//            picture.loadImage(false);
-//            
-//            if (settings.getBoolean(ItemExporterSettings._SCALE_IMAGES)) {
-//                int width = settings.getInt(ItemExporterSettings._IMAGE_WIDTH);
-//                int height = settings.getInt(ItemExporterSettings._IMAGE_HEIGHT);
-//                CoreUtilities.writeScaledImageToFile(picture.getImageIcon(), target, width, height);
-//            } else {
-//                CoreUtilities.writeToFile(picture.getImageIcon(), target);
-//            }
-//        } catch (Exception e) {
-//            logger.error("An error occurred while copying image to " + target, e);
-//        }
+        try {
+            picture.load();
+            
+            if (settings.getBoolean(ItemExporterSettings._SCALE_IMAGES)) {
+                int width = settings.getInt(ItemExporterSettings._IMAGE_WIDTH);
+                int height = settings.getInt(ItemExporterSettings._IMAGE_HEIGHT);
+                CoreUtilities.writeScaledImageToFile(picture.getImageIcon(), target, width, height);
+            } else {
+                CoreUtilities.writeToFile(picture.getImageIcon(), target);
+            }
+        } catch (Exception e) {
+            logger.error("An error occurred while copying image to " + target, e);
+        }
     }    
 }

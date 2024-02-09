@@ -54,7 +54,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 /**
- * TODO: what about picture & attachments?
+ * TODO: XML Import: picture & attachments
  */
 public class XmlImporter extends ItemImporter {
     

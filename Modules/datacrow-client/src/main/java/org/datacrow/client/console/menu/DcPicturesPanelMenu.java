@@ -43,7 +43,9 @@ public class DcPicturesPanelMenu extends JMenuBar {
     private void build(PicturesPanel pp) {
         JMenu menuEdit = ComponentFactory.getMenu(DcResources.getText("lblEdit"));
 
-        JMenuItem miAdd = ComponentFactory.getMenuItem(DcResources.getText("lblAdd"));
+        JMenuItem miAddFile = ComponentFactory.getMenuItem(DcResources.getText("lblOpenFromFile"));
+        JMenuItem miAddURL = ComponentFactory.getMenuItem(DcResources.getText("lblOpenFromURL"));
+        JMenuItem miAddMemory = ComponentFactory.getMenuItem(DcResources.getText("lblOpenFromClipboard"));
         JMenuItem miDelete = ComponentFactory.getMenuItem(DcResources.getText("lblDelete"));
         JMenuItem miOpen = ComponentFactory.getMenuItem(DcResources.getText("lblOpen"));
         
@@ -51,9 +53,20 @@ public class DcPicturesPanelMenu extends JMenuBar {
         miDelete.setIcon(IconLibrary._icoDelete);
         miDelete.addActionListener(pp);
         
-        miAdd.setActionCommand("add");
-        miAdd.setIcon(IconLibrary._icoAdd);
-        miAdd.addActionListener(pp);
+        miAddFile.setToolTipText(DcResources.getText("lblOpenFromFile"));
+        miAddFile.setIcon(IconLibrary._icoPictureAddFromFile);
+        miAddFile.setActionCommand("add_from_file");
+        miAddFile.addActionListener(pp);    	
+
+    	miAddURL.setToolTipText(DcResources.getText("lblOpenFromURL"));
+    	miAddURL.setActionCommand("add_from_url");
+    	miAddURL.setIcon(IconLibrary._icoPictureAddFromURL);
+    	miAddURL.addActionListener(pp);    	
+
+    	miAddMemory.setToolTipText(DcResources.getText("lblOpenFromClipboard"));
+    	miAddMemory.setActionCommand("add_from_clipboard");
+    	miAddMemory.setIcon(IconLibrary._icoPictureAddFromMemory);
+    	miAddMemory.addActionListener(pp);    	
 
         miOpen.setActionCommand("open");
         miOpen.setIcon(IconLibrary._icoOpen);
@@ -61,7 +74,10 @@ public class DcPicturesPanelMenu extends JMenuBar {
         
         menuEdit.add(miOpen);
         menuEdit.addSeparator();
-        menuEdit.add(miAdd);
+        menuEdit.add(miAddFile);
+        menuEdit.add(miAddURL);
+        menuEdit.add(miAddMemory);
+        menuEdit.addSeparator();
         menuEdit.add(miDelete);
         
         add(menuEdit);

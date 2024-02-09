@@ -425,7 +425,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
 //                	    value = "<img src=\"file:///" + DcConfig.getInstance().getImageDir() + "/" + p.getScaledFilename() + 
 //                	            "\" alt=\"" + dco.getLabel(index) + "\"\">";
 //                	}
-                    // TODO: figure out how to work with pictures
+                    // TODO: Quick View inline images
                 } else if (field.getFieldType() == ComponentFactory._URLFIELD) {
                 	value = "<a href=\"" +  dco.getValue(index) + "\" " + Utilities.getHtmlStyle(fText) + ">" + DcResources.getText("lblLink") + "</a>";
                 } else if (field.getFieldType() == ComponentFactory._REFERENCEFIELD ||

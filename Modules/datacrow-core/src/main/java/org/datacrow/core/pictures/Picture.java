@@ -64,9 +64,6 @@ public class Picture implements Serializable {
     	this.objectID = objectID;
 		this.filename = imageIcon.getFilename();
 		
-		if (filename == null)
-			throw new RuntimeException();
-		
 		setItemIsNew(true);
     }
     
@@ -165,11 +162,6 @@ public class Picture implements Serializable {
     }
     
     public File getTargetFile() {
-    	
-    	// TODO: make sure the filename is never null!
-    	if (filename == null)
-    		throw new RuntimeException();
-    	
     	String name = filename == null ? CoreUtilities.getUniqueID() + ".jpg" : 
     		new File(filename).getName();
     	

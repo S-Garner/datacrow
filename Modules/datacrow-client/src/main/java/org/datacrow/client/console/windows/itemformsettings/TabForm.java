@@ -40,10 +40,8 @@ import org.datacrow.client.console.components.DcPictureField;
 import org.datacrow.client.console.components.DcShortTextField;
 import org.datacrow.client.console.windows.DcFrame;
 import org.datacrow.client.tabs.Tab;
-import org.datacrow.client.tabs.Tabs;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
-import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 

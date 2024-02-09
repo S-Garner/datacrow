@@ -592,9 +592,6 @@ public class ClientToServerConnector extends Connector {
 		return success;
 	}
 
-	/**
-	 * TODO: saving items with pictures - how to approach?
-	 */
 	@Override
 	public boolean saveItem(DcObject dco) throws ValidationException {
         ClientRequestItemAction cr = new ClientRequestItemAction(

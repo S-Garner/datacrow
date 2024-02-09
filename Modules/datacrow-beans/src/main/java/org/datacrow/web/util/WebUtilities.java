@@ -26,7 +26,6 @@
 package org.datacrow.web.util;
 
 import org.apache.logging.log4j.Level;
-import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcField;

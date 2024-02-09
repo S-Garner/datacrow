@@ -186,8 +186,7 @@ public class XmlWriter extends XmlBaseWriter {
             write(text);
         }
        
-       // TODO: attachments
-       // TODO: images
+       // TODO: XML Export attachments & pictures
     }
     
     private void ident(int x) throws IOException {

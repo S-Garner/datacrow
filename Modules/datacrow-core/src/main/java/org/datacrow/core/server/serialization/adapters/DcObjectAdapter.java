@@ -64,9 +64,6 @@ public class DcObjectAdapter implements JsonDeserializer<DcObject>, JsonSerializ
     public JsonObject toJsonObject(DcObject src, JsonSerializationContext context) {
     	JsonObject jdco = new JsonObject();
         
-//    	TODO: need to make sure that picture work!
-//        src.loadImageData();
-        
         jdco.addProperty("moduleIdx", src.getModuleIdx());
         jdco.addProperty("isnew", src.isNew());
         

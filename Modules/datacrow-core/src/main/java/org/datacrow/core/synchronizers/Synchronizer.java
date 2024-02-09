@@ -121,7 +121,7 @@ public abstract class Synchronizer implements Serializable{
     
     protected void setValue(DcObject dco, int field, Object value) {
     	
-    	// TODO: make sure pictures are included!
+    	// TODO: Item Synchronizer: make sure pictures are included
 
         // empty value, no need to update
         if (CoreUtilities.isEmpty(value))

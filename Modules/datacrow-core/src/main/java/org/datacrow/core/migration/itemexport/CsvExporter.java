@@ -113,8 +113,7 @@ public class CsvExporter extends ItemExporter {
         @SuppressWarnings("unchecked")
         public void create() throws Exception {
             
-        	// TODO: should include attachments?
-        	// TODO: should include pictures?
+        	// TODO: CSV export pictures and attachments
 //            ItemExporterUtilities utilities = new ItemExporterUtilities(file.toString(), settings);
            
             if (items == null || items.size() == 0) return;

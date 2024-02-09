@@ -40,9 +40,6 @@ public class DcPictureFieldMenu extends JToolBar {
     }
         
     private void build(DcPictureField pf) {
-    	
-    	//PluginHelper.add(this, "NewItemWizard");
-    	
     	JButton btnSaveAs = ComponentFactory.getIconButton(IconLibrary._icoPictureSave);
     	btnSaveAs.setToolTipText(DcResources.getText("lblSaveAs"));
     	btnSaveAs.setActionCommand("Save as");
