@@ -35,19 +35,19 @@ public class DcPictureListElement extends DcListElement {
     
     private static final FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
     
-    private static final Dimension dim = new Dimension(250, 200);
-    private static final Dimension dimPicLbl = new Dimension(248, 198);
-    
     private final DcPicturePane fldPicture;
 
     private final Picture picture;
     
-    public DcPictureListElement(Picture picture) {
+    public DcPictureListElement(Picture picture, int width) {
         this.picture = picture;
         
         setLayout(layout);
         
-        fldPicture = new DcPicturePane(false);
+        Dimension dim = new Dimension(width, width / 2);
+        Dimension dimPicLbl = new Dimension(width, width / 2);
+        
+        fldPicture = new DcPicturePane(true);
         fldPicture.setPreferredSize(dimPicLbl);
         fldPicture.setMinimumSize(dimPicLbl);
         fldPicture.setMaximumSize(dimPicLbl);
@@ -66,7 +66,7 @@ public class DcPictureListElement extends DcListElement {
     
     @Override
     public void build() {
-        fldPicture.setImageIcon(picture.getScaledPicture());
+        fldPicture.setImageIcon(picture.getImageIcon());
     }
 
 	@Override

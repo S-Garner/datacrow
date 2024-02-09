@@ -76,30 +76,6 @@ public class DcPicturePane extends JComponent {
     	
         clear();
         initialize();
-        
-//        try {
-//                if (o instanceof URL) {
-//                    URL url = (URL) o;
-//                    picture = new DcImageIcon(url.getFile());
-//                } else if (o instanceof String) {
-//                    String value = (String) o;
-//                    if (value.endsWith("jpg")) {
-//                        picture = new DcImageIcon(value);
-//                    } else {
-//                        String base64 = (String) o;
-//                        if (base64.length() > 0)
-//                            picture = new DcImageIcon(Base64.decode(base64.toCharArray()));
-//                    }
-//                } else if (o instanceof DcImageIcon) {
-//                    picture = (DcImageIcon) o;
-//                    picture.setImage(picture.getImage());
-//                }
-//            }
-//        } catch (Exception e) {
-//            logger.error(DcResources.getText("msgCouldNotLoadPicture"), e);
-//        }
-        
-        initialize();
         revalidate();
         repaint();    	
     }

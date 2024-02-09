@@ -175,11 +175,13 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     }   
     
     public void setObject(DcObject dco) {
+    	
+    	int tab = tabbedPane.getSelectedIndex();
+    	
         try {
             
             if (dco == null) return;
             
-            int tab = tabbedPane.getSelectedIndex();
             moduleIdx = dco.getModule().getIndex();
             
             clear();
@@ -217,24 +219,24 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
             	relatedItemsPanel.setData(references);
             }
             
-            boolean error = true;
             tab += 1;
             
-            // prevent endless loop
-            int counter = 0;
-            while (error && counter < 6) {
-                counter ++;
-                try {
-                    tab -= 1;
-                    tabbedPane.setSelectedIndex(tab);
-                    error = false;
-                } catch (Exception ignore) {}
-            }
         } catch (Exception e) {
             logger.error("An error occurred while setting the information of " + dco, e);
         }
         
         reset();
+        
+        boolean error = true;
+        int counter = 0;
+        while (error && counter < 6) {
+            counter ++;
+            try {
+                tab -= 1;
+                tabbedPane.setSelectedIndex(tab);
+                error = false;
+            } catch (Exception ignore) {}
+        }
     }
     
     public void clear() {

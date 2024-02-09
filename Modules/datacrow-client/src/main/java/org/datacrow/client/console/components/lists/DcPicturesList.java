@@ -74,7 +74,7 @@ public class DcPicturesList extends DcList implements ISortableComponent {
     }
     
     public void add(Picture picture) {
-        getDcModel().addElement(new DcPictureListElement(picture));
+        getDcModel().addElement(new DcPictureListElement(picture, getParent().getWidth()));
         ensureIndexIsVisible(getModel().getSize());
     }
     
