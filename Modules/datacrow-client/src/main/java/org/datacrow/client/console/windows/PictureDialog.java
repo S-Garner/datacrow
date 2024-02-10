@@ -39,18 +39,27 @@ import javax.swing.JPanel;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcPictureField;
+import org.datacrow.client.console.components.panels.PicturesPanel;
+import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
+import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.settings.DcSettings;
 
 public class PictureDialog extends DcDialog implements ActionListener {
 	
     private final DcPictureField pf = ComponentFactory.getPictureField(true, true);
-    
-    public PictureDialog(Picture pic) {
-        super();
+    private final PicturesPanel picturesPanel;
+
+    public PictureDialog(PicturesPanel picturesPanel, Picture picture) {
+
+    	super();
  
         setTitle(DcResources.getText("lblPictureViewer"));
+        
+        this.picturesPanel = picturesPanel;
         
         getContentPane().setLayout(Layout.getGBL());
         
@@ -64,6 +73,11 @@ public class PictureDialog extends DcDialog implements ActionListener {
         JPanel panelActions = new JPanel();
         panelActions.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
+        JButton btnSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
+        btnSave.addActionListener(this);
+        btnSave.setActionCommand("save");
+        panelActions.add(btnSave);
+
         JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
         buttonClose.addActionListener(this);
         buttonClose.setActionCommand("close");
@@ -76,11 +90,12 @@ public class PictureDialog extends DcDialog implements ActionListener {
                 ,GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE,
                  new Insets(0, 0, 5, 5), 0, 0));
         
-        pf.setPicture(pic);
+        pf.setPicture(picture);
         
         pack();
         
-        setSize(500, 500);
+        setSize(DcSettings.getDimension(DcRepository.Settings.stPictureViewerDialogSize));
+        
         setCenteredLocation();
         setModal(true);
         setVisible(true);
@@ -88,6 +103,7 @@ public class PictureDialog extends DcDialog implements ActionListener {
     
     @Override
     public void close() {
+    	DcSettings.set(DcRepository.Settings.stPictureViewerDialogSize, getSize());
         super.close();
     }
     
@@ -101,7 +117,13 @@ public class PictureDialog extends DcDialog implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getActionCommand().equals("close"))
-            setVisible(false);
+        if (ae.getActionCommand().equals("close")) {
+        	close();
+        } else if (ae.getActionCommand().equals("save")) {
+        	Picture p = pf.getPicture();
+        	DcConfig.getInstance().getConnector().savePicture(p);
+        	picturesPanel.load(DcModules.getCurrent().getIndex());
+            close();
+        }
     }    
 }

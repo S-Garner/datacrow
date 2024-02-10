@@ -136,6 +136,7 @@ public abstract class DcRepository {
         public static final String stImageServerPort = "image_server_port";
         public static final String stMaintainTabsDialogSize = "maintain_tabs_dialog_size";
         public static final String stMergeItemsDialogSize = "merge_items_dialog_size";
+        public static final String stPictureViewerDialogSize = "picture_viewer_dialog_size";
         public static final String stNewItemsDialogSize = "new_items_dialog_size";
         public static final String stChartsDialogSize = "charts_dialog_size";
         public static final String stICalendarFullExport = "icalendar_full_export";

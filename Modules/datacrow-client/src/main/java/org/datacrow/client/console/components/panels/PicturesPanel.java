@@ -74,7 +74,6 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
     
 	private String objectID;
     private final DcPicturesList list;
-    
     private boolean readonly;
     
     public PicturesPanel(boolean readonly) {
@@ -152,7 +151,7 @@ public class PicturesPanel extends DcPanel implements MouseListener, ActionListe
 	    	Picture picture = list.getSelectedPicture();
 	    	
 	    	if (picture != null)
-	    		new PictureDialog(picture);
+	    		new PictureDialog(this, picture);
 	    	
     	} catch (Exception e) {
     		GUI.getInstance().displayErrorMessage(e.getMessage());

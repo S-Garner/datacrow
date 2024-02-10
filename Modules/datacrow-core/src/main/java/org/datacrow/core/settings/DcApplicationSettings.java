@@ -720,6 +720,16 @@ public class DcApplicationSettings extends Settings {
                             "",
                             false,
                             false, -1));
+        
+        addSetting(_General,
+                new Setting(DcRepository.ValueTypes._DIMENSION,
+                            DcRepository.Settings.stPictureViewerDialogSize,
+                            new DcDimension(500, 500),
+                            -1,
+                            "",
+                            "",
+                            false,
+                            false, -1));
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.Settings.stSynchServiceDialogSize,

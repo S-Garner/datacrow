@@ -38,8 +38,6 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -55,7 +53,6 @@ import org.datacrow.client.console.components.fileselection.ImageFilePreviewPane
 import org.datacrow.client.console.menu.DcPictureFieldMenu;
 import org.datacrow.client.console.windows.BrowserDialog;
 import org.datacrow.client.console.windows.OpenFromUrlDialog;
-import org.datacrow.client.console.windows.PictureDialog;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.client.util.filefilters.PictureFileFilter;
 import org.datacrow.core.log.DcLogManager;
@@ -66,7 +63,7 @@ import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.filefilters.DcFileFilter;
 
-public class DcPictureField extends JComponent implements ActionListener, MouseListener, DropTargetListener {
+public class DcPictureField extends JComponent implements ActionListener, DropTargetListener {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcPictureField.class.getName());
     
@@ -91,8 +88,6 @@ public class DcPictureField extends JComponent implements ActionListener, MouseL
             this.add(menu, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                      new Insets(5, 5, 5, 5), 0, 0));
-            
-            addMouseListener(this);
             
             new DropTarget(this, DnDConstants.ACTION_COPY, this);
         }
@@ -152,21 +147,6 @@ public class DcPictureField extends JComponent implements ActionListener, MouseL
             changed = true;
             dialog.setImage(null);
         }
-    }
-    
-    private void openImage() {
-    	DcImageIcon image = pane.getImageIcon();
-    	
-    	if (image != null) {
-            PictureDialog dlg = new PictureDialog(picture);
-            
-            if (dlg.isPictureChanged()) {
-            	pane.setImageIcon(dlg.getImage());
-                changed = true;
-                repaint();
-                revalidate();
-            }
-    	}
     }
     
     private void openImageFromFile() {
@@ -273,30 +253,6 @@ public class DcPictureField extends JComponent implements ActionListener, MouseL
     public void windowIconified(WindowEvent e) {}
     public void windowOpened(WindowEvent e) {}
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    	if (!isEnabled())
-    		return;
-    	
-        if (e.getClickCount() == 2) {
-        	DcImageIcon image = pane.getImageIcon();
-        	
-            if (image == null)
-                openImageFromFile();
-            else 
-                openImage();
-        }
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {}
-    @Override
-    public void mouseExited(MouseEvent e) {}
-    @Override
-    public void mousePressed(MouseEvent e) {}
-    @Override
-    public void mouseReleased(MouseEvent e) {}
-    
     private void checkDragAction(DropTargetDragEvent dtde) {
         if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
             dtde.acceptDrag(DnDConstants.ACTION_COPY);
