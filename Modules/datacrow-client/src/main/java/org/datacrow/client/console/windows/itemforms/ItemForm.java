@@ -225,7 +225,11 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
 
         addInputPanels();
         addChildrenPanel();
-        addPictureTabs();
+        
+        // TODO: maybe add pictures to object even when it is new?
+        if (update)
+        	addPictureTabs();
+        
         addRelationPanel();
         
         if (module.isTopModule() && update && connector.getUser().isAuthorized("EditAttachments")) {

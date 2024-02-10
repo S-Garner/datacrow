@@ -112,6 +112,80 @@ public class PicturesPanel extends DcPanel {
     	this.pictureEditList.load(moduleIdx);
     }
     
+    private static class PictureReorderList extends DcPanel {
+    	
+        private final DcPicturesList list;
+        private String objectID;
+    	
+    	private PictureReorderList() {
+
+    		this.list = new DcPicturesList(DcPicturesList._MODE_REORDER);
+    		this.list.setModel(new DcListModel<Object>());
+    		
+    		addComponentListener(new ResizeListener());
+    		
+    		build();
+    	}
+    	
+    	private void build() {
+            JScrollPane scroller = new JScrollPane(list);
+            scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scroller.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+            scroller.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+            
+            setLayout(Layout.getGBL());
+
+            add(scroller,  Layout.getGBC( 0, 2, 1, 1, 100.0, 100.0
+                    ,GridBagConstraints.NORTH, GridBagConstraints.BOTH,
+                     new Insets(5, 5, 5, 5), 0, 0));
+    	}
+    	
+        public void setObjectID(String objectID) {
+        	this.objectID = objectID;
+        	this.list.setObjectID(objectID);
+        }
+    	
+        public void load(int moduleIdx) {
+        	setObjectID(objectID);
+            SwingUtilities.invokeLater(
+                    new Thread(new Runnable() { 
+                        @Override
+                        public void run() {
+                        	
+                        	reset();
+                        	
+                        	Connector conn = DcConfig.getInstance().getConnector();
+                        	Collection<Picture> pictures = conn.getPictures(objectID);
+                        	
+                        	for (Picture picture : pictures)
+                        		list.add(picture);
+                        }
+                    }));
+        }
+        
+        public void reset() {
+            if (list != null) list.clear();
+        }
+        
+        @Override
+        public void clear() {
+        	reset();
+            
+            super.clear();
+        }
+
+    	private class ResizeListener extends ComponentAdapter {
+    		public void componentResized(ComponentEvent e) {
+    			Collection<Picture> pictures = list.getPictures();
+    			list.clear();
+
+    			for (Picture p : pictures)
+    				list.add(p);
+    		}
+    	}
+    }
+    
     private static class PictureEditList extends DcPanel implements MouseListener, ActionListener, IPictureEditorListener {
     	
     	private final DcPicturesPanelMenu menu = new DcPicturesPanelMenu(this);

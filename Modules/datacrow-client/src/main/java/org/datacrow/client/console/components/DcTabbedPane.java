@@ -58,7 +58,7 @@ public class DcTabbedPane extends JTabbedPane {
     
     @Override
     public void addTab(String title, Icon icon, Component component) {
-    	Icon scaledIcon = new DcImageIcon(((ImageIcon) icon).getImage()).toIcon();
+    	Icon scaledIcon = icon != null ?  new DcImageIcon(((ImageIcon) icon).getImage()).toIcon() : null;
         super.addTab(title, scaledIcon, component);
     }
     

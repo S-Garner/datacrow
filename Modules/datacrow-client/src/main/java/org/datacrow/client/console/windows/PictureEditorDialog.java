@@ -40,7 +40,6 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcPictureField;
-import org.datacrow.client.console.components.panels.PicturesPanel;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModules;
@@ -49,18 +48,18 @@ import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 
-public class PictureDialog extends DcDialog implements ActionListener {
+public class PictureEditorDialog extends DcDialog implements ActionListener {
 	
     private final DcPictureField pf = ComponentFactory.getPictureField(true, true);
-    private final PicturesPanel picturesPanel;
+    private final IPictureEditorListener listener;
 
-    public PictureDialog(PicturesPanel picturesPanel, Picture picture) {
+    public PictureEditorDialog(IPictureEditorListener listener, Picture picture) {
 
     	super();
  
         setTitle(DcResources.getText("lblPictureViewer"));
         
-        this.picturesPanel = picturesPanel;
+        this.listener = listener;
         
         getContentPane().setLayout(Layout.getGBL());
         
@@ -128,7 +127,7 @@ public class PictureDialog extends DcDialog implements ActionListener {
         	DcConfig.getInstance().getConnector().savePicture(p);
         	GUI.getInstance().getSearchView(moduleIdx).getCurrent().update(p.getObjectID());
         	
-        	picturesPanel.load(moduleIdx);
+        	listener.reload();
             close();
         }
     }    
