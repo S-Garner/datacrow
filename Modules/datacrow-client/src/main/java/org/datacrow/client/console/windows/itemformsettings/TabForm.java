@@ -32,7 +32,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;

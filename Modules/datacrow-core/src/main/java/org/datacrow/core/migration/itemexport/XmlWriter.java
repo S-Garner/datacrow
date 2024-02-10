@@ -43,14 +43,13 @@ public class XmlWriter extends XmlBaseWriter {
     
     private ItemExporterSettings settings;
     
-    private final ItemExporterUtilities utilities;
+//    private final ItemExporterUtilities utilities;
     private final String schemaFile;
     private final int stepSize = 4;
 
     private int tagIdent;
     private int valueIdent;
     
-    @SuppressWarnings("resource")
 	public XmlWriter(String filename, String schemaFile, ItemExporterSettings properties) throws IOException {
         this(new BufferedOutputStream(new FileOutputStream(filename)), filename, schemaFile, properties);
     }
@@ -58,7 +57,7 @@ public class XmlWriter extends XmlBaseWriter {
     public XmlWriter(BufferedOutputStream bos, String filename, String schemaFile, ItemExporterSettings settings) {
         super(bos);
         
-        this.utilities = new ItemExporterUtilities(filename, settings);
+//        this.utilities = new ItemExporterUtilities(filename, settings);
         this.schemaFile = schemaFile;
         this.settings = settings;
         
@@ -186,7 +185,7 @@ public class XmlWriter extends XmlBaseWriter {
             write(text);
         }
        
-       // TODO: XML Export attachments & pictures
+       // TODO: XML Export attachments, pictures & icons
     }
     
     private void ident(int x) throws IOException {

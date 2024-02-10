@@ -266,7 +266,8 @@ public class Field extends DcBean {
         return enableDownload;
     }
     
-    public StreamedContent getStreamedContent() {
+    @SuppressWarnings("resource")
+	public StreamedContent getStreamedContent() {
         DefaultStreamedContent dsc = null;
         try {
             FileInputStream fis = new FileInputStream(file);

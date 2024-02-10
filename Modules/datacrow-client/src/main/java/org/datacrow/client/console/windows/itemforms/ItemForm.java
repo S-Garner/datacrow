@@ -909,7 +909,11 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     protected void addPictureTabs() {    	
     	PicturesPanel picturesPanel = new PicturesPanel(readonly);
     	picturesPanel.setObjectID(dco.getID());
-    	picturesPanel.load(dco.getModuleIdx());
+    	
+    	if (dco.isNew())
+    		picturesPanel.addPictures(dco.getNewPictures());
+    	else
+    		picturesPanel.load(dco.getModuleIdx());
     	
     	tabbedPane.addTab(DcResources.getText("lblPictures"), IconLibrary._icoPicture, picturesPanel);
     }
