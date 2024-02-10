@@ -61,6 +61,7 @@ public abstract class DcObjectListElement extends DcListElement {
     
     public DcObjectListElement(int module) {
         this.module = module;
+        setPreferredSize(new Dimension(500, fieldHeight));
     }
     
     public int getModule() {

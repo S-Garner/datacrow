@@ -38,6 +38,7 @@ import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.windows.BrowserDialog;
 import org.datacrow.client.util.filefilters.PictureFileFilter;
 import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class DcIconSelectField extends DcImageLabel implements MouseListener {
@@ -91,6 +92,18 @@ public class DcIconSelectField extends DcImageLabel implements MouseListener {
     public Dimension getMaximumSize() {
         return size;
     }
+    
+    @Override
+    public void setValue(Object value) {
+    	
+    	if (value instanceof String) {
+    		byte[] b = Base64.decode(((String) value).toCharArray());
+    		value = new DcImageIcon(b);
+    	}
+    	
+        super.setValue(value);
+    }
+    
     
     private void loadImage() {
         PictureFileFilter filter = new PictureFileFilter();

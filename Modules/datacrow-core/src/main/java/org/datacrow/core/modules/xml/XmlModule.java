@@ -35,6 +35,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository.ValueTypes;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
@@ -315,6 +316,9 @@ public class XmlModule extends XmlObject {
         XmlField xmlField;
         for (int i = 0; i < nodes.getLength(); i++) {
         	xmlField = new XmlField(module, (Element) nodes.item(i));
+        	
+        	if (xmlField.getValueType() == ValueTypes._ICON) 
+        		xmlField.setFieldType(UIComponents._ICONFIELD);
         	
         	if (xmlField.getFieldType() != UIComponents._PICTUREFIELD)
         		fields.add(xmlField);

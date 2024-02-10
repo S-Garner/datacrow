@@ -164,7 +164,7 @@ public class DcPropertyModule extends DcModule {
                 "Name"));
         addField(new DcField(DcProperty._B_ICON, getIndex(), "Icon", 
                 false, true, false, false, 
-                255, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._ICON,
+                255, UIComponents._ICONFIELD, getIndex(), DcRepository.ValueTypes._ICON,
                 "Icon"));
         addField(new DcField(DcProperty._C_ALTERNATIVE_NAMES, getIndex(), "Alternative Names", 
                 false, true, false, false, 

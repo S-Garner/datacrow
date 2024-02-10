@@ -558,7 +558,8 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
             
             changed = isChanged(index);
             
-            if (changed) break;
+            if (changed)
+            	break;
         }
 
         return changed;
@@ -748,7 +749,6 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
             
         	if ((!field.isUiOnly() || field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) && 
         	      field.isEnabled() && 
-                  field.getValueType() != DcRepository.ValueTypes._ICON &&
                  (fieldIdx != dco.getParentReferenceFieldIndex() || 
                   fieldIdx == DcObject._SYS_CONTAINER )) { // not a reference field
 

@@ -423,6 +423,8 @@ public final class ComponentFactory extends UIComponents {
             	return getCollationCombo();
             case _RESOLUTIONCOMBO:
             	return getResolutionCombo();
+            case _ICONFIELD:
+            	return getIconField();
             default:
                 return getShortTextField(maxTextLength);
         }
@@ -525,7 +527,11 @@ public final class ComponentFactory extends UIComponents {
     
     public static final DcResolutionComboBox getResolutionCombo() {
     	return new DcResolutionComboBox();
-    }    
+    }
+    
+    public static final DcIconSelectField getIconField() {
+    	return new DcIconSelectField(new Dimension(64, 64));
+    }  
 
     public static final JComboBox<Object> getDateFormatCombo() {
         return new DcDateFormatComboBox();

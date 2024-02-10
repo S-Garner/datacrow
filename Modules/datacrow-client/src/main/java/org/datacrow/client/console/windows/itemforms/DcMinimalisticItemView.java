@@ -296,23 +296,38 @@ public class DcMinimalisticItemView extends DcFrame
     
     @Override
     public void load() {
-        if (all != null) all.clear();
+        
+    	if (all != null) 
+        	all.clear();
+        
         list.clear();
         
         DcObject dco = DcModules.get(module).getItem();
         
         DataFilter filter = new DataFilter(module);
         
-        if (getParentID() != null) {
-            filter.addEntry(new DataFilterEntry(module, DcModules.get(module).getParentReferenceFieldIndex(), Operator.EQUAL_TO, getParentID()));
-        }
+        if (getParentID() != null)
+            filter.addEntry(
+            		new DataFilterEntry(module, 
+	            		DcModules.get(module).getParentReferenceFieldIndex(), 
+	            		Operator.EQUAL_TO, getParentID()));
         
         filter.setOrder(dco.getField(DcModules.get(module).getDefaultSortFieldIdx()));
         
         Connector connector = DcConfig.getInstance().getConnector();
-        list.add(connector.getKeys(filter));
         
-        storeElements();
+        SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+		        list.add(connector.getKeys(filter));
+		        
+		        storeElements();
+		        
+		        invalidate();
+		        repaint();
+			}
+		});
     }    
 
     @Override
