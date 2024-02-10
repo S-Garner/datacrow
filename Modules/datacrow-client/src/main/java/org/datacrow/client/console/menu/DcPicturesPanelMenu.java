@@ -25,61 +25,58 @@
 
 package org.datacrow.client.console.menu;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import java.awt.event.ActionListener;
+
+import javax.swing.JToolBar;
 
 import org.datacrow.client.console.ComponentFactory;
-import org.datacrow.client.console.components.panels.PicturesPanel;
+import org.datacrow.client.console.components.DcButton;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.resources.DcResources;
 
-public class DcPicturesPanelMenu extends JMenuBar {
+public class DcPicturesPanelMenu extends JToolBar {
     
-    public DcPicturesPanelMenu(PicturesPanel pp) {
-        build(pp);
+    public DcPicturesPanelMenu(ActionListener al) {
+        build(al);
     }
         
-    private void build(PicturesPanel pp) {
-        JMenu menuEdit = ComponentFactory.getMenu(DcResources.getText("lblEdit"));
-
-        JMenuItem miAddFile = ComponentFactory.getMenuItem(DcResources.getText("lblOpenFromFile"));
-        JMenuItem miAddURL = ComponentFactory.getMenuItem(DcResources.getText("lblOpenFromURL"));
-        JMenuItem miAddMemory = ComponentFactory.getMenuItem(DcResources.getText("lblOpenFromClipboard"));
-        JMenuItem miDelete = ComponentFactory.getMenuItem(DcResources.getText("lblDelete"));
-        JMenuItem miOpen = ComponentFactory.getMenuItem(DcResources.getText("lblOpen"));
-        
+    private void build(ActionListener al) {
+    	
+		DcButton miAddFile = ComponentFactory.getIconButton(IconLibrary._icoPictureAddFromFile);
+		DcButton miAddURL = ComponentFactory.getIconButton(IconLibrary._icoPictureAddFromURL);
+		DcButton miAddMemory = ComponentFactory.getIconButton(IconLibrary._icoPictureAddFromMemory);
+		DcButton miDelete = ComponentFactory.getIconButton(IconLibrary._icoDelete);
+		DcButton miOpen = ComponentFactory.getIconButton(IconLibrary._icoOpen);
+    	
         miDelete.setActionCommand("delete");
-        miDelete.setIcon(IconLibrary._icoDelete);
-        miDelete.addActionListener(pp);
+        miDelete.setToolTipText(DcResources.getText("lblDelete"));
+        miDelete.addActionListener(al);
         
         miAddFile.setToolTipText(DcResources.getText("lblOpenFromFile"));
-        miAddFile.setIcon(IconLibrary._icoPictureAddFromFile);
+        miAddFile.setToolTipText(DcResources.getText("lblOpenFromFile"));
         miAddFile.setActionCommand("add_from_file");
-        miAddFile.addActionListener(pp);    	
+        miAddFile.addActionListener(al);    	
 
     	miAddURL.setToolTipText(DcResources.getText("lblOpenFromURL"));
     	miAddURL.setActionCommand("add_from_url");
-    	miAddURL.setIcon(IconLibrary._icoPictureAddFromURL);
-    	miAddURL.addActionListener(pp);    	
+    	miAddURL.setToolTipText(DcResources.getText("lblOpenFromURL"));
+    	miAddURL.addActionListener(al);    	
 
     	miAddMemory.setToolTipText(DcResources.getText("lblOpenFromClipboard"));
     	miAddMemory.setActionCommand("add_from_clipboard");
-    	miAddMemory.setIcon(IconLibrary._icoPictureAddFromMemory);
-    	miAddMemory.addActionListener(pp);    	
+    	miAddMemory.setToolTipText(DcResources.getText("lblOpenFromClipboard"));
+    	miAddMemory.addActionListener(al);    	
 
         miOpen.setActionCommand("open");
-        miOpen.setIcon(IconLibrary._icoOpen);
-        miOpen.addActionListener(pp);
+        miOpen.setToolTipText(DcResources.getText("lblOpen"));
+        miOpen.addActionListener(al);
         
-        menuEdit.add(miOpen);
-        menuEdit.addSeparator();
-        menuEdit.add(miAddFile);
-        menuEdit.add(miAddURL);
-        menuEdit.add(miAddMemory);
-        menuEdit.addSeparator();
-        menuEdit.add(miDelete);
-        
-        add(menuEdit);
+        add(miOpen);
+        addSeparator();
+        add(miAddFile);
+        add(miAddURL);
+        add(miAddMemory);
+        addSeparator();
+        add(miDelete);
     }
 }
