@@ -39,7 +39,6 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
@@ -54,8 +53,9 @@ import org.datacrow.client.console.components.lists.DcListModel;
 import org.datacrow.client.console.components.lists.DcPicturesList;
 import org.datacrow.client.console.menu.DcPicturesPanelMenu;
 import org.datacrow.client.console.windows.BrowserDialog;
+import org.datacrow.client.console.windows.IPictureEditorListener;
 import org.datacrow.client.console.windows.OpenFromUrlDialog;
-import org.datacrow.client.console.windows.PictureDialog;
+import org.datacrow.client.console.windows.PictureEditorDialog;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.client.util.filefilters.PictureFileFilter;
 import org.datacrow.core.DcConfig;
@@ -68,253 +68,310 @@ import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 
-public class PicturesPanel extends DcPanel implements MouseListener, ActionListener {
+public class PicturesPanel extends DcPanel {
 	
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PicturesPanel.class.getName());
     
-	private String objectID;
-    private final DcPicturesList list;
-    private boolean readonly;
+    private final PictureEditList pictureEditList;
     
+//    private boolean readonly = false;
+//    private String objectID;
+//    
     public PicturesPanel(boolean readonly) {
-    	this.list = new DcPicturesList(
-    			readonly ? DcPicturesList._MODE_READONLY : DcPicturesList._MODE_EDIT);
     	
-    	this.list.setModel(new DcListModel<Object>());
-        this.readonly = readonly;
+    	this.pictureEditList = new PictureEditList(readonly);
+//    	this.readonly = readonly;
         
         setTitle(DcResources.getText("lblPictures"));
         
         build();
-        
-        addComponentListener(new ResizeListener());
-    }
-    
-    public void setObjectID(String objectID) {
-    	this.objectID = objectID;
-    	this.list.setObjectID(objectID);
-    }
-
-    private void deletePictures() {
-    	List<Picture> pictures = list.getSelectedPictures();
-    	String msg = pictures.size() > 1 ? "msgDeletePicturesConfirmation" : "msgDeletePictureConfirmation";
-    	   	
-    	if (GUI.getInstance().displayQuestion(msg)) {
-	    	for (Picture picture : pictures)
-	    		deletePicture(picture);
-	    	
-	    	list.clearSelection();
-    	}
-    }
-    
-    private void deletePicture(Picture picture) {
-    	if (picture != null) {
-    		DcConfig.getInstance().getConnector().deletePicture(picture);
-    		
-    		SwingUtilities.invokeLater(new Thread(new Runnable() { 
-                    @Override
-                    public void run() {
-                    	list.remove(picture);
-                    	GUI.getInstance().getSearchView(DcModules.getCurrent().getIndex()).getCurrent().update(picture.getObjectID());
-                    }
-                }));
-    	}
-    }
-    
-    private void addPictureFromFile() {
-    	BrowserDialog dlg = new BrowserDialog(DcResources.getText("lblSelectFile"), new PictureFileFilter());
-    	File[] files = dlg.showSelectMultipleFilesDialog(this, null);
-    	list.addPictures(files);
-    }
-    
-    private void addPictureFromUrl() {
-        OpenFromUrlDialog dialog = new OpenFromUrlDialog();
-        dialog.setVisible(true);
-        
-        DcImageIcon image = dialog.getImage();
-        if (image != null) {
-        	Picture picture = new Picture(objectID, image);
-        	list.addPicture(picture);
-        }
-    }
-    
-    private void addPictureFromMemory() {
-        DcImageIcon image = Utilities.getImageFromClipboard();
-        if (image != null) {
-        	Picture picture = new Picture(objectID, image);
-        	list.addPicture(picture);
-        }
-    }
-    
-    public void openPicture() {
-    	try {
-	    	Picture picture = list.getSelectedPicture();
-	    	
-	    	if (picture != null)
-	    		new PictureDialog(this, picture);
-	    	
-    	} catch (Exception e) {
-    		GUI.getInstance().displayErrorMessage(e.getMessage());
-    		logger.error(e, e);
-    	}
     }
     
     public void addPictures(final Collection<Picture> pictures) {
-    	SwingUtilities.invokeLater(
-                new Thread(new Runnable() { 
-                    @Override
-                    public void run() {
-                    	reset();
-                    	
-                    	for (Picture picture : pictures)
-                    		list.add(picture);
-                    }
-                }));
+    	pictureEditList.addPictures(pictures);
+    }
+    
+    private void build() {
+        setLayout(Layout.getGBL());
+        
+        add(pictureEditList, Layout.getGBC( 0, 2, 1, 1, 100.0, 100.0
+                ,GridBagConstraints.NORTH, GridBagConstraints.BOTH,
+                 new Insets(5, 5, 5, 5), 0, 0));
+    }
+    
+    public void setObjectID(String objectID) {
+//    	this.objectID = objectID;
+    	this.pictureEditList.setObjectID(objectID);
+    }
+
+    public void reset() {
+    	this.pictureEditList.reset();
     }
     
     public void load(int moduleIdx) {
-    	
-    	setObjectID(objectID);
-    	
-    	// check - do we need to this check here and should the menu not be removed then?
-    	this.readonly = !DcConfig.getInstance().getConnector().getUser().isEditingAllowed(DcModules.get(moduleIdx)) || readonly;
-    	
-        SwingUtilities.invokeLater(
-                new Thread(new Runnable() { 
-                    @Override
-                    public void run() {
-                    	
-                    	reset();
-                    	
-                    	Connector conn = DcConfig.getInstance().getConnector();
-                    	Collection<Picture> pictures = conn.getPictures(objectID);
-                    	
-                    	for (Picture picture : pictures)
-                    		list.add(picture);
-                    }
-                }));
+    	this.pictureEditList.load(moduleIdx);
     }
     
-    private boolean allowActions() {
-    	return !readonly;
-    }
-    
-    public void reset() {
-        if (list != null) list.clear();
-    }
-    
-    @Override
-    public void clear() {
-    	reset();
+    private static class PictureEditList extends DcPanel implements MouseListener, ActionListener, IPictureEditorListener {
+    	
+    	private final DcPicturesPanelMenu menu = new DcPicturesPanelMenu(this);
+    	
+        private final DcPicturesList list;
+        private String objectID;
         
-        super.clear();
-    }
+        private boolean readonly = false;
+    	
+    	private PictureEditList(boolean readonly) {
+    		
+    		this.readonly = readonly;
+    		this.list = new DcPicturesList(
+    				readonly ? DcPicturesList._MODE_READONLY : DcPicturesList._MODE_EDIT);
+    		this.list.setModel(new DcListModel<Object>());
+    		
+    		addComponentListener(new ResizeListener());
+    		
+    		build();
+    	}
+    	
+    	private void build() {
+            list.addMouseListener(this);
+            
+            JScrollPane scroller = new JScrollPane(list);
+            scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scroller.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+            scroller.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+            
+            setLayout(Layout.getGBL());
+            
+            if (allowActions()) {
+            	this.add(menu, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
+                         GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                         new Insets(4, 5, 0, 5), 0, 0));
+            }
 
-    private void build() {
-        list.addMouseListener(this);
-        
-        JScrollPane scroller = new JScrollPane(list);
-        scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scroller.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-        scroller.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        
-        setLayout(Layout.getGBL());
-        
-        JPanel panel = new JPanel();
-        panel.setLayout(Layout.getGBL());
-        
-        if (allowActions()) {
-        	DcPicturesPanelMenu menu = new DcPicturesPanelMenu(this);
-            this.add(menu, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
-                     GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(4, 5, 0, 5), 0, 0));
+            add(scroller,  Layout.getGBC( 0, 2, 1, 1, 100.0, 100.0
+                    ,GridBagConstraints.NORTH, GridBagConstraints.BOTH,
+                     new Insets(5, 5, 5, 5), 0, 0));
+    	}
+    	
+        public void setObjectID(String objectID) {
+        	this.objectID = objectID;
+        	this.list.setObjectID(objectID);
+        }
+    	
+        private void deletePictures() {
+        	List<Picture> pictures = list.getSelectedPictures();
+        	String msg = pictures.size() > 1 ? "msgDeletePicturesConfirmation" : "msgDeletePictureConfirmation";
+        	   	
+        	if (GUI.getInstance().displayQuestion(msg)) {
+    	    	for (Picture picture : pictures)
+    	    		deletePicture(picture);
+    	    	
+    	    	list.clearSelection();
+        	}
         }
         
-        add(panel, Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
-                ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                 new Insets( 10, 5, 0, 5), 0, 0));
-        add(scroller,  Layout.getGBC( 0, 2, 1, 1, 100.0, 100.0
-                ,GridBagConstraints.NORTH, GridBagConstraints.BOTH,
-                 new Insets(5, 5, 5, 5), 0, 0));
-        add(getProgressPanel(), Layout.getGBC( 0, 3, 1, 1, 1.0, 1.0
-                ,GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL,
-                 new Insets(5, 5, 5, 5), 0, 0));
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        DcPicturesList list = (DcPicturesList) e.getSource();
+        private void deletePicture(Picture picture) {
+        	if (picture != null) {
+        		DcConfig.getInstance().getConnector().deletePicture(picture);
+        		
+        		SwingUtilities.invokeLater(new Thread(new Runnable() { 
+                        @Override
+                        public void run() {
+                        	list.remove(picture);
+                        	GUI.getInstance().getSearchView(DcModules.getCurrent().getIndex()).getCurrent().update(picture.getObjectID());
+                        }
+                    }));
+        	}
+        }
         
-        if (SwingUtilities.isRightMouseButton(e)) {
-            if (list.getSelectedIndex() == -1) {
-                int index = list.locationToIndex(e.getPoint());
-                list.setSelectedIndex(index);
-            }
+        private void addPictureFromFile() {
+        	BrowserDialog dlg = new BrowserDialog(DcResources.getText("lblSelectFile"), new PictureFileFilter());
+        	File[] files = dlg.showSelectMultipleFilesDialog(this, null);
+        	list.addPictures(files);
+        }
+        
+        private void addPictureFromUrl() {
+            OpenFromUrlDialog dialog = new OpenFromUrlDialog();
+            dialog.setVisible(true);
             
-            if (list.getSelectedIndex() > -1) {
-                JPopupMenu menu = new PicturePopupMenu(this, readonly);                
-                menu.setInvoker(list);
-                menu.show(list, e.getX(), e.getY());
+            DcImageIcon image = dialog.getImage();
+            if (image != null) {
+            	Picture picture = new Picture(objectID, image);
+            	list.addPicture(picture);
             }
         }
         
-        if (e.getClickCount() == 2 && list.getSelectedIndex() > -1) 
-            openPicture();
-    }
+        private void addPictureFromMemory() {
+            DcImageIcon image = Utilities.getImageFromClipboard();
+            if (image != null) {
+            	Picture picture = new Picture(objectID, image);
+            	list.addPicture(picture);
+            }
+        }
         
-    @Override
-    public void mouseEntered(MouseEvent e) {}
-    @Override
-    public void mouseExited(MouseEvent e) {}
-    @Override
-    public void mousePressed(MouseEvent e) {}
-    @Override
-    public void mouseClicked(MouseEvent e) {}
-    
-    @Override
-    public void actionPerformed(ActionEvent e) {
-    	if (e.getActionCommand().equals("open"))
-    		openPicture();
-        else if (e.getActionCommand().equals("delete"))
-            deletePictures();
-        else if (e.getActionCommand().equals("add_from_file"))
-            addPictureFromFile();
-        else if (e.getActionCommand().equals("add_from_url"))
-            addPictureFromUrl();
-        else if (e.getActionCommand().equals("add_from_clipboard"))
-            addPictureFromMemory();
-    }
-    
-    private static class PicturePopupMenu extends DcPopupMenu {
+        public void openPicture() {
+        	try {
+    	    	Picture picture = list.getSelectedPicture();
+    	    	
+    	    	if (picture != null)
+    	    		new PictureEditorDialog(this, picture);
+    	    	
+        	} catch (Exception e) {
+        		GUI.getInstance().displayErrorMessage(e.getMessage());
+        		logger.error(e, e);
+        	}
+        }
         
-		public PicturePopupMenu(PicturesPanel ap, boolean readonly) {
+        public void addPictures(final Collection<Picture> pictures) {
+        	SwingUtilities.invokeLater(
+                    new Thread(new Runnable() { 
+                        @Override
+                        public void run() {
+                        	reset();
+                        	
+                        	for (Picture picture : pictures)
+                        		list.add(picture);
+                        }
+                    }));
+        }
+        
+        public void reload() {
+        	load(DcModules.getCurrent().getIndex());
+        }
+        
+        public void load(int moduleIdx) {
+        	
+        	setObjectID(objectID);
 
-            JMenuItem menuOpen = new DcMenuItem(DcResources.getText("lblOpen", ""));
-            menuOpen.setIcon(IconLibrary._icoOpen);
+        	this.readonly = !DcConfig.getInstance().getConnector().getUser().isEditingAllowed(DcModules.get(moduleIdx)) || readonly;
+        	
+        	if (readonly) {
+        		remove(menu);
+        	} else {
+        		remove(menu);
+        		
+            	this.add(menu, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
+                        GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                        new Insets(4, 5, 0, 5), 0, 0));
+            	
+            	invalidate();
+            	repaint();
+        	}
+        	
+        	
+            SwingUtilities.invokeLater(
+                    new Thread(new Runnable() { 
+                        @Override
+                        public void run() {
+                        	
+                        	reset();
+                        	
+                        	Connector conn = DcConfig.getInstance().getConnector();
+                        	Collection<Picture> pictures = conn.getPictures(objectID);
+                        	
+                        	for (Picture picture : pictures)
+                        		list.add(picture);
+                        }
+                    }));
+        }
+        
+        private boolean allowActions() {
+        	return !readonly;
+        }
+        
+        public void reset() {
+            if (list != null) list.clear();
+        }
+        
+        @Override
+        public void clear() {
+        	reset();
             
-            JMenuItem menuDelete = new DcMenuItem(DcResources.getText("lblDelete", ""));
-            menuDelete.setIcon(IconLibrary._icoDelete);            
+            super.clear();
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        	
+        	if (!allowActions()) {
+        		e.consume();
+        		return;
+        	}
+        	
+            DcPicturesList list = (DcPicturesList) e.getSource();
             
-            menuOpen.addActionListener(ap);
-            menuOpen.setActionCommand("open");
-            add(menuOpen);
+            if (SwingUtilities.isRightMouseButton(e)) {
+                if (list.getSelectedIndex() == -1) {
+                    int index = list.locationToIndex(e.getPoint());
+                    list.setSelectedIndex(index);
+                }
+                
+                if (list.getSelectedIndex() > -1) {
+                    JPopupMenu menu = new PicturePopupMenu(this, readonly);                
+                    menu.setInvoker(list);
+                    menu.show(list, e.getX(), e.getY());
+                }
+            }
             
-            if (!readonly) {
-            	menuDelete.addActionListener(ap);
-            	menuDelete.setActionCommand("delete");
-            	add(menuDelete);
+            if (e.getClickCount() == 2 && list.getSelectedIndex() > -1) 
+                openPicture();
+        }
+            
+        @Override
+        public void mouseEntered(MouseEvent e) {}
+        @Override
+        public void mouseExited(MouseEvent e) {}
+        @Override
+        public void mousePressed(MouseEvent e) {}
+        @Override
+        public void mouseClicked(MouseEvent e) {}
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        	if (e.getActionCommand().equals("open"))
+        		openPicture();
+            else if (e.getActionCommand().equals("delete"))
+                deletePictures();
+            else if (e.getActionCommand().equals("add_from_file"))
+                addPictureFromFile();
+            else if (e.getActionCommand().equals("add_from_url"))
+                addPictureFromUrl();
+            else if (e.getActionCommand().equals("add_from_clipboard"))
+                addPictureFromMemory();
+        }
+        
+    	private class ResizeListener extends ComponentAdapter {
+    		public void componentResized(ComponentEvent e) {
+    			Collection<Picture> pictures = list.getPictures();
+    			list.clear();
+
+    			for (Picture p : pictures)
+    				list.add(p);
+    		}
+    	}
+    	
+        private static class PicturePopupMenu extends DcPopupMenu {
+            
+    		public PicturePopupMenu(ActionListener al, boolean readonly) {
+
+                JMenuItem menuOpen = new DcMenuItem(DcResources.getText("lblOpen", ""));
+                menuOpen.setIcon(IconLibrary._icoOpen);
+                
+                JMenuItem menuDelete = new DcMenuItem(DcResources.getText("lblDelete", ""));
+                menuDelete.setIcon(IconLibrary._icoDelete);            
+                
+                menuOpen.addActionListener(al);
+                menuOpen.setActionCommand("open");
+                add(menuOpen);
+                
+                if (!readonly) {
+                	menuDelete.addActionListener(al);
+                	menuDelete.setActionCommand("delete");
+                	add(menuDelete);
+                }
             }
         }
     }
-    
-	private class ResizeListener extends ComponentAdapter {
-		public void componentResized(ComponentEvent e) {
-			Collection<Picture> pictures = list.getPictures();
-			list.clear();
-
-			for (Picture p : pictures)
-				list.add(p);
-		}
-	}
 }
