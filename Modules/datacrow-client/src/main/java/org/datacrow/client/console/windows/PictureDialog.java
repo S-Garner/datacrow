@@ -37,6 +37,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.datacrow.client.console.ComponentFactory;
+import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcPictureField;
 import org.datacrow.client.console.components.panels.PicturesPanel;
@@ -121,8 +122,13 @@ public class PictureDialog extends DcDialog implements ActionListener {
         	close();
         } else if (ae.getActionCommand().equals("save")) {
         	Picture p = pf.getPicture();
+        	
+        	int moduleIdx = DcModules.getCurrent().getIndex();
+        	
         	DcConfig.getInstance().getConnector().savePicture(p);
-        	picturesPanel.load(DcModules.getCurrent().getIndex());
+        	GUI.getInstance().getSearchView(moduleIdx).getCurrent().update(p.getObjectID());
+        	
+        	picturesPanel.load(moduleIdx);
             close();
         }
     }    
