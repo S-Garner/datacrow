@@ -28,6 +28,7 @@ package org.datacrow.server;
 import java.sql.ResultSet;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -216,6 +217,10 @@ public class LocalServerConnector extends Connector {
     @Override
     public Collection<Picture> getPictures(String ID) {
     	return PictureManager.getInstance().getPictures(ID);
+    }
+    
+    public void savePictureOrder(String ObjectID, LinkedList<String> filenames) {
+    	PictureManager.getInstance().savePictureOrder(ObjectID, filenames);
     }
 
     @Override

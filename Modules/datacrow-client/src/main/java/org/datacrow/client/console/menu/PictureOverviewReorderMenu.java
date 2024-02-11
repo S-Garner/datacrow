@@ -34,47 +34,21 @@ import org.datacrow.client.console.components.DcButton;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.resources.DcResources;
 
-public class DcPicturesPanelMenu extends JToolBar {
+public class PictureOverviewReorderMenu extends JToolBar {
     
-    public DcPicturesPanelMenu(ActionListener al, boolean newItemMode) {
-		DcButton miAddFile = ComponentFactory.getIconButton(IconLibrary._icoPictureAddFromFile);
-		DcButton miAddURL = ComponentFactory.getIconButton(IconLibrary._icoPictureAddFromURL);
-		DcButton miAddMemory = ComponentFactory.getIconButton(IconLibrary._icoPictureAddFromMemory);
-		DcButton miDelete = ComponentFactory.getIconButton(IconLibrary._icoDelete);
+    public PictureOverviewReorderMenu(ActionListener al) {
+    	
+		DcButton miSave = ComponentFactory.getIconButton(IconLibrary._icoSave);
+		miSave.setActionCommand("save_order");
+		miSave.setToolTipText(DcResources.getText("lblSave"));
+		miSave.addActionListener(al);
+
+		DcButton miCancel = ComponentFactory.getIconButton(IconLibrary._icoClose);
+		miCancel.setActionCommand("edit");
+		miCancel.setToolTipText(DcResources.getText("lblCancel"));
+		miCancel.addActionListener(al);
 		
-    	
-        miDelete.setActionCommand("delete");
-        miDelete.setToolTipText(DcResources.getText("lblDelete"));
-        miDelete.addActionListener(al);
-        
-        miAddFile.setToolTipText(DcResources.getText("lblOpenFromFile"));
-        miAddFile.setToolTipText(DcResources.getText("lblOpenFromFile"));
-        miAddFile.setActionCommand("add_from_file");
-        miAddFile.addActionListener(al);    	
-
-    	miAddURL.setToolTipText(DcResources.getText("lblOpenFromURL"));
-    	miAddURL.setActionCommand("add_from_url");
-    	miAddURL.setToolTipText(DcResources.getText("lblOpenFromURL"));
-    	miAddURL.addActionListener(al);    	
-
-    	miAddMemory.setToolTipText(DcResources.getText("lblOpenFromClipboard"));
-    	miAddMemory.setActionCommand("add_from_clipboard");
-    	miAddMemory.setToolTipText(DcResources.getText("lblOpenFromClipboard"));
-    	miAddMemory.addActionListener(al);    	
-
-    	if (!newItemMode) {
-    		DcButton miOpen = ComponentFactory.getIconButton(IconLibrary._icoOpen);
-	        miOpen.setActionCommand("open");
-	        miOpen.setToolTipText(DcResources.getText("lblOpen"));
-	        miOpen.addActionListener(al);
-	        add(miOpen);
-	        addSeparator();
-    	}
-    	
-        add(miAddFile);
-        add(miAddURL);
-        add(miAddMemory);
-        addSeparator();
-        add(miDelete);
+		add(miSave);
+		add(miCancel);
     }
 }

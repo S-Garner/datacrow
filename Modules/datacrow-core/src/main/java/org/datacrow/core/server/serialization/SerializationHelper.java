@@ -53,6 +53,7 @@ import org.datacrow.core.server.requests.ClientRequestPicturesDelete;
 import org.datacrow.core.server.requests.ClientRequestPicturesList;
 import org.datacrow.core.server.requests.ClientRequestReferencingItems;
 import org.datacrow.core.server.requests.ClientRequestRemoveReferenceTo;
+import org.datacrow.core.server.requests.ClientRequestSavePictureOrder;
 import org.datacrow.core.server.requests.ClientRequestSimpleValues;
 import org.datacrow.core.server.requests.ClientRequestValueEnhancers;
 import org.datacrow.core.server.response.DefaultServerResponse;
@@ -247,7 +248,9 @@ public class SerializationHelper {
         else if (type == ClientRequest._REQUEST_PICTURES_DELETE)
             cr = gson.fromJson(json, ClientRequestPicturesDelete.class);
         else if (type == ClientRequest._REQUEST_PICTURES_LIST)
-            cr = gson.fromJson(json, ClientRequestPicturesList.class);        
+            cr = gson.fromJson(json, ClientRequestPicturesList.class);
+        else if (type == ClientRequest._REQUEST_PICTURE_ORDER)
+            cr = gson.fromJson(json, ClientRequestSavePictureOrder.class);
         else
             logger.fatal("No client request implementation found for type [" + type + "]");
             

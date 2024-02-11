@@ -59,6 +59,7 @@ import org.datacrow.core.server.requests.ClientRequestPicturesDelete;
 import org.datacrow.core.server.requests.ClientRequestPicturesList;
 import org.datacrow.core.server.requests.ClientRequestReferencingItems;
 import org.datacrow.core.server.requests.ClientRequestRemoveReferenceTo;
+import org.datacrow.core.server.requests.ClientRequestSavePictureOrder;
 import org.datacrow.core.server.requests.ClientRequestSimpleValues;
 import org.datacrow.core.server.requests.ClientRequestUser;
 import org.datacrow.core.server.requests.ClientRequestValueEnhancers;
@@ -227,7 +228,10 @@ public class DcServerSessionRequestHandler extends Thread {
                 break;
             case ClientRequest._REQUEST_PICTURES_DELETE:
                 sr = processDeletePicturesRequest((ClientRequestPicturesDelete) cr);
-                break;                
+                break;
+            case ClientRequest._REQUEST_PICTURE_ORDER:
+                sr = processPictureOrderRequest((ClientRequestSavePictureOrder) cr);
+                break;
             default:
                 logger.error("No handler found for " + cr);
 	        }
@@ -309,6 +313,11 @@ public class DcServerSessionRequestHandler extends Thread {
     
     private DefaultServerResponse processDeletePicturesRequest(ClientRequestPicturesDelete cr) {
     	context.deleteAttachments(cr.getObjectID());
+    	return new DefaultServerResponse();
+    }
+    
+    private DefaultServerResponse processPictureOrderRequest(ClientRequestSavePictureOrder crspo) {
+    	context.savePictureOrder(crspo.getObjectID(), crspo.getFiles());
     	return new DefaultServerResponse();
     }
     

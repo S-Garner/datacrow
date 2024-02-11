@@ -27,6 +27,7 @@ package org.datacrow.core.server;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -172,6 +173,8 @@ public abstract class Connector {
 	public abstract void deletePictures(String ObjectID);
 
 	public abstract void savePicture(Picture picture);
+	
+	public abstract void savePictureOrder(String ObjectID, LinkedList<String> filenames);
 	
 	public abstract void deleteAttachment(Attachment attachment);
 

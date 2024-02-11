@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -85,6 +86,7 @@ import org.datacrow.core.server.requests.ClientRequestPicturesDelete;
 import org.datacrow.core.server.requests.ClientRequestPicturesList;
 import org.datacrow.core.server.requests.ClientRequestReferencingItems;
 import org.datacrow.core.server.requests.ClientRequestRemoveReferenceTo;
+import org.datacrow.core.server.requests.ClientRequestSavePictureOrder;
 import org.datacrow.core.server.requests.ClientRequestSimpleValues;
 import org.datacrow.core.server.requests.ClientRequestUser;
 import org.datacrow.core.server.requests.ClientRequestValueEnhancers;
@@ -524,11 +526,17 @@ public class ClientToServerConnector extends Connector {
 	}
 	
 	@Override
+	public void savePictureOrder(String objectID, LinkedList<String> files) {
+		ClientRequestSavePictureOrder cr = new ClientRequestSavePictureOrder(su, objectID, files);
+		processClientRequest(cr);
+	}
+	
+	@Override
 	public Collection<Picture> getPictures(String objectID) {
 		ClientRequestPicturesList cr = new ClientRequestPicturesList(su, objectID);
 		ServerPicturesListResponse response = (ServerPicturesListResponse) processClientRequest(cr);
 		return response.getPictures();
-	}	
+	}
 	
 	@Override
 	public void deletePicture(Picture picture) {

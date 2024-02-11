@@ -25,67 +25,29 @@
 
 package org.datacrow.core.server.requests;
 
-import java.io.Serializable;
+import java.util.LinkedList;
 
 import org.datacrow.core.security.SecuredUser;
 
-public class ClientRequest implements Serializable, IClientRequest {
-
+public class ClientRequestSavePictureOrder extends ClientRequest {
+    
 	private static final long serialVersionUID = 1L;
-	
-	public static final int _REQUEST_LOGIN = 0;
-	public static final int _REQUEST_ITEMS = 1;
-	public static final int _REQUEST_ITEM = 2;
-	public static final int _REQUEST_ITEM_KEYS = 3;
-	public static final int _REQUEST_USER_MGT = 4;
-	public static final int _REQUEST_EXECUTE_SQL = 5;
-	public static final int _REQUEST_ITEM_ACTION = 6;
-	public static final int _REQUEST_SIMPLE_VALUES = 7;
-	public static final int _REQUEST_REFERENCING_ITEMS = 8;
-	public static final int _REQUEST_MODULES = 9;
-	public static final int _REQUEST_APPLICATION_SETTINGS = 10;
-	public static final int _REQUEST_VALUE_ENHANCERS_SETTINGS = 11;
-	public static final int _REQUEST_MODULE_SETTINGS = 12;
-	public static final int _REQUEST_REMOVE_REFERENCES_TO = 13;
-	public static final int _REQUEST_ATTACHMENT_ACTION = 14;
-	public static final int _REQUEST_ATTACHMENTS_LIST = 15;
-	public static final int _REQUEST_ATTACHMENTS_DELETE = 16;
-	public static final int _REQUEST_PICTURE_ACTION = 17;
-	public static final int _REQUEST_PICTURES_LIST = 18;
-	public static final int _REQUEST_PICTURES_DELETE = 19;
-	public static final int _REQUEST_PICTURE_ORDER = 20;
-	
-	private int type;
-	
-	private String clientKey;
-	protected String username;
-	protected String password;
-	
-	public ClientRequest(int type, SecuredUser su) {
-		this.type = type;
-		
-		if (su != null) {
-			this.clientKey = su.getUser().getID();
-			this.username = su.getUsername();
-			this.password = su.getPassword();
-		}
-	}
-	
-	public String getUsername() {
-	    return username;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
-	
-	public String getClientKey() {
-		return clientKey;
-	}
-	
-	public int getType() {
-		return type;
-	}
-	
-	public void close() {}
+
+	private final String objectID;
+	private final LinkedList<String> files;
+    
+    public ClientRequestSavePictureOrder(SecuredUser su, String objectID, LinkedList<String> files) {
+        super(ClientRequest._REQUEST_PICTURE_ORDER, su);
+        
+        this.objectID = objectID;
+        this.files = files;
+    }
+
+    public String getObjectID() {
+    	return objectID;
+    }
+    
+    public LinkedList<String> getFiles() {
+    	return files;
+    }
 }

@@ -34,8 +34,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -95,6 +97,30 @@ public class PictureManager {
 		CoreUtilities.writeScaledImageToFile(imageIcon, picture.getTargetScaledFile());
 	}
 	
+	public void savePictureOrder(String objectID, LinkedList<String> filenames) {
+		try {
+			Collection<Picture> pictures = getPictures(objectID);
+			
+			Map<String, String> mapping = setAside(pictures);
+
+			File dir = new File(DcConfig.getInstance().getImageDir(), objectID);
+			
+			int fieldNr;
+			String newName;
+			for (String oldName : mapping.keySet()) {
+				newName = (String) mapping.get(oldName);
+				fieldNr = filenames.indexOf(oldName) + 1;
+				
+				if (fieldNr >= 0) {
+					new File(dir, newName).renameTo(new File(dir, "picture" + fieldNr + ".jpg"));
+					new File(dir, newName + "_small").renameTo(new File(dir, "picture" + fieldNr + "_small.jpg"));
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error renumbering pictures", e);
+		}
+	}
+	
 	public void deletePictures(String objectID) {
 		for (Picture picture : getPictures(objectID)) {
 			picture.getTargetFile().delete();
@@ -124,31 +150,44 @@ public class PictureManager {
 		}
 	}
 	
-	private void updateNumbering(String ID) {
-		File fileOld;
-		File fileTemp;
+	private Map<String, String> setAside(Collection<Picture> pictures) {
 		
+		Map<String, String> mapping = new LinkedHashMap<String, String>();
+		
+		File target;
+		String newName;
+		
+		for (Picture picture : pictures) {
+			target = picture.getTargetFile();
+			newName = CoreUtilities.getUniqueID();
+			
+			mapping.put(target.getName(), newName);
+			
+			picture.getTargetFile().renameTo(new File(target.getParent(), newName));
+			picture.getTargetScaledFile().renameTo(new File(target.getParent(), newName + "_small"));
+		}
+		
+		return mapping;
+	}
+	
+	private void updateNumbering(String ID) {
 		try {
 			Collection<Picture> pictures = getPictures(ID);
 			
-			// move all pictures to temp
-			for (Picture picture : pictures) {
-				
-				fileOld = picture.getTargetFile();
-				fileTemp = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + ".jpg");
-				
-				CoreUtilities.copy(fileOld, fileTemp, false);
-				
-				
-				picture.getTargetFile().delete();
-				picture.getTargetScaledFile().delete();
-				
-				picture.setFilename(fileTemp.toString());
-			}
+			Map<String, String> mapping = setAside(pictures);
+
+			File dir = new File(DcConfig.getInstance().getImageDir(), ID);
 			
-			// save them with their new IDs
-			for (Picture picture : pictures)
-				savePicture(picture);
+			String newName;
+			int numbering = 1;
+			for (Object key : mapping.keySet()) {
+				newName = (String) mapping.get(key);
+				
+				new File(dir, newName).renameTo(new File(dir, "picture" + numbering + ".jpg"));
+				new File(dir, newName + "_small").renameTo(new File(dir, "picture" + numbering + "_small.jpg"));
+				
+				numbering++;
+			}
 
 		} catch (Exception e) {
 			logger.error("Error renumbering pictures", e);

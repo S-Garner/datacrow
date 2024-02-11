@@ -46,6 +46,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -107,7 +108,7 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
     }
 
     public List<Picture> getPictures() {
-        List<Picture> pictures = new ArrayList<Picture>();
+        LinkedList<Picture> pictures = new LinkedList<Picture>();
         for (DcListElement element : getElements())
         	pictures.add(((DcPictureListElement) element).getPicture());
 
