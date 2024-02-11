@@ -93,7 +93,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     private boolean isAllowPopup = true;
     
     private final AttachmentsPanel attachmentsPanel = new AttachmentsPanel(false);
-    private final PicturesPanel picturesPanel = new PicturesPanel(false);
+    private final PictureOverviewPanel picturesPanel = new PictureOverviewPanel(false, false);
     
     private RelatedItemsPanel relatedItemsPanel = null;
     
@@ -119,7 +119,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     }
     
     private void loadTab() {
-		if (tabbedPane.getSelectedComponent() instanceof PicturesPanel) {
+		if (tabbedPane.getSelectedComponent() instanceof PictureOverviewPanel) {
 			
 			picturesPanel.setObjectID(key);
 			

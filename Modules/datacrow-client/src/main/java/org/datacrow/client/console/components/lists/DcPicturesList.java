@@ -78,13 +78,13 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
     private String objectID;
     
     private boolean acceptDraggedFile = false;
+    private boolean newItemMode = false;
 	
-    public DcPicturesList(int mode) {
+    public DcPicturesList(boolean newItemMode, int mode) {
         super(new DcListModel<Object>());
         setCellRenderer(new DcListRenderer<Object>(true));
         setLayoutOrientation(JList.VERTICAL_WRAP);
 
-        
         if (mode == _MODE_REORDER) {
 	        setDragEnabled(false);
 	        setDropMode(DropMode.ON_OR_INSERT);
@@ -96,7 +96,11 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
         if (mode == _MODE_EDIT) {
         	new DropTarget(this, DnDConstants.ACTION_COPY, this);
         }
-    } 
+    }
+    
+    public void setNewItemMode(boolean newItemMode) {
+    	this.newItemMode = newItemMode;
+    }
     
     public void setObjectID(String objectID) {
     	this.objectID = objectID;
@@ -162,15 +166,17 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
     
     public void addPicture(Picture picture) {
     
-    	DcConfig.getInstance().getConnector().savePicture(picture);
+    	if (!newItemMode)
+    		DcConfig.getInstance().getConnector().savePicture(picture);
     	
 		SwingUtilities.invokeLater(new Thread(new Runnable() { 
             @Override
             public void run() {
             	add(picture);
             	
-            	GUI.getInstance().getSearchView(
-            			DcModules.getCurrent().getIndex()).getCurrent().update(picture.getObjectID());
+            	if (!newItemMode)
+	            	GUI.getInstance().getSearchView(
+	            			DcModules.getCurrent().getIndex()).getCurrent().update(picture.getObjectID());
             }
         }));
     }

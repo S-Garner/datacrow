@@ -36,17 +36,12 @@ import org.datacrow.core.resources.DcResources;
 
 public class DcPicturesPanelMenu extends JToolBar {
     
-    public DcPicturesPanelMenu(ActionListener al) {
-        build(al);
-    }
-        
-    private void build(ActionListener al) {
-    	
+    public DcPicturesPanelMenu(ActionListener al, boolean newItemMode) {
 		DcButton miAddFile = ComponentFactory.getIconButton(IconLibrary._icoPictureAddFromFile);
 		DcButton miAddURL = ComponentFactory.getIconButton(IconLibrary._icoPictureAddFromURL);
 		DcButton miAddMemory = ComponentFactory.getIconButton(IconLibrary._icoPictureAddFromMemory);
 		DcButton miDelete = ComponentFactory.getIconButton(IconLibrary._icoDelete);
-		DcButton miOpen = ComponentFactory.getIconButton(IconLibrary._icoOpen);
+		
     	
         miDelete.setActionCommand("delete");
         miDelete.setToolTipText(DcResources.getText("lblDelete"));
@@ -67,12 +62,15 @@ public class DcPicturesPanelMenu extends JToolBar {
     	miAddMemory.setToolTipText(DcResources.getText("lblOpenFromClipboard"));
     	miAddMemory.addActionListener(al);    	
 
-        miOpen.setActionCommand("open");
-        miOpen.setToolTipText(DcResources.getText("lblOpen"));
-        miOpen.addActionListener(al);
-        
-        add(miOpen);
-        addSeparator();
+    	if (!newItemMode) {
+    		DcButton miOpen = ComponentFactory.getIconButton(IconLibrary._icoOpen);
+	        miOpen.setActionCommand("open");
+	        miOpen.setToolTipText(DcResources.getText("lblOpen"));
+	        miOpen.addActionListener(al);
+	        add(miOpen);
+	        addSeparator();
+    	}
+    	
         add(miAddFile);
         add(miAddURL);
         add(miAddMemory);

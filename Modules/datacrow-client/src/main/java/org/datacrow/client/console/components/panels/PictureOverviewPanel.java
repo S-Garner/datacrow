@@ -68,19 +68,19 @@ import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 
-public class PicturesPanel extends DcPanel {
+public class PictureOverviewPanel extends DcPanel {
 	
-	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PicturesPanel.class.getName());
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PictureOverviewPanel.class.getName());
     
-    private final PictureEditList pictureEditList;
+    private final PictureListPanel pictureEditList;
     
-//    private boolean readonly = false;
-//    private String objectID;
-//    
-    public PicturesPanel(boolean readonly) {
+    public PictureOverviewPanel(boolean newItemMode, boolean readonly) {
     	
-    	this.pictureEditList = new PictureEditList(readonly);
-//    	this.readonly = readonly;
+    	this.pictureEditList = new PictureListPanel(
+    			readonly,
+    			newItemMode,
+    			readonly ? DcPicturesList._MODE_READONLY : DcPicturesList._MODE_EDIT);
+
         
         setTitle(DcResources.getText("lblPictures"));
         
@@ -112,94 +112,27 @@ public class PicturesPanel extends DcPanel {
     	this.pictureEditList.load(moduleIdx);
     }
     
-    private static class PictureReorderList extends DcPanel {
-    	
-        private final DcPicturesList list;
-        private String objectID;
-    	
-    	private PictureReorderList() {
-
-    		this.list = new DcPicturesList(DcPicturesList._MODE_REORDER);
-    		this.list.setModel(new DcListModel<Object>());
-    		
-    		addComponentListener(new ResizeListener());
-    		
-    		build();
-    	}
-    	
-    	private void build() {
-            JScrollPane scroller = new JScrollPane(list);
-            scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-            scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            scroller.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-            scroller.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-            
-            setLayout(Layout.getGBL());
-
-            add(scroller,  Layout.getGBC( 0, 2, 1, 1, 100.0, 100.0
-                    ,GridBagConstraints.NORTH, GridBagConstraints.BOTH,
-                     new Insets(5, 5, 5, 5), 0, 0));
-    	}
-    	
-        public void setObjectID(String objectID) {
-        	this.objectID = objectID;
-        	this.list.setObjectID(objectID);
-        }
-    	
-        public void load(int moduleIdx) {
-        	setObjectID(objectID);
-            SwingUtilities.invokeLater(
-                    new Thread(new Runnable() { 
-                        @Override
-                        public void run() {
-                        	
-                        	reset();
-                        	
-                        	Connector conn = DcConfig.getInstance().getConnector();
-                        	Collection<Picture> pictures = conn.getPictures(objectID);
-                        	
-                        	for (Picture picture : pictures)
-                        		list.add(picture);
-                        }
-                    }));
-        }
-        
-        public void reset() {
-            if (list != null) list.clear();
-        }
-        
-        @Override
-        public void clear() {
-        	reset();
-            
-            super.clear();
-        }
-
-    	private class ResizeListener extends ComponentAdapter {
-    		public void componentResized(ComponentEvent e) {
-    			Collection<Picture> pictures = list.getPictures();
-    			list.clear();
-
-    			for (Picture p : pictures)
-    				list.add(p);
-    		}
-    	}
+    public Collection<Picture> getPictures() {
+    	return pictureEditList.getPictures();
     }
     
-    private static class PictureEditList extends DcPanel implements MouseListener, ActionListener, IPictureEditorListener {
+    private static class PictureListPanel extends DcPanel implements MouseListener, ActionListener, IPictureEditorListener {
     	
-    	private final DcPicturesPanelMenu menu = new DcPicturesPanelMenu(this);
+    	private final DcPicturesPanelMenu menu;
+    	
+    	private boolean newItemMode = true;
     	
         private final DcPicturesList list;
         private String objectID;
         
         private boolean readonly = false;
     	
-    	private PictureEditList(boolean readonly) {
+    	private PictureListPanel(boolean readonly, boolean newItemMode, int mode) {
     		
+    		this.newItemMode = newItemMode;
     		this.readonly = readonly;
-    		this.list = new DcPicturesList(
-    				readonly ? DcPicturesList._MODE_READONLY : DcPicturesList._MODE_EDIT);
+    		this.menu = new DcPicturesPanelMenu(this, newItemMode);
+    		this.list = new DcPicturesList(newItemMode, mode);
     		this.list.setModel(new DcListModel<Object>());
     		
     		addComponentListener(new ResizeListener());
@@ -246,15 +179,23 @@ public class PicturesPanel extends DcPanel {
         	}
         }
         
+        public Collection<Picture> getPictures() {
+        	return list.getPictures();
+        }
+        
         private void deletePicture(Picture picture) {
         	if (picture != null) {
-        		DcConfig.getInstance().getConnector().deletePicture(picture);
+        		
+        		if (!newItemMode)
+        			DcConfig.getInstance().getConnector().deletePicture(picture);
         		
         		SwingUtilities.invokeLater(new Thread(new Runnable() { 
                         @Override
                         public void run() {
                         	list.remove(picture);
-                        	GUI.getInstance().getSearchView(DcModules.getCurrent().getIndex()).getCurrent().update(picture.getObjectID());
+                        	
+                        	if (!newItemMode)
+                        		GUI.getInstance().getSearchView(DcModules.getCurrent().getIndex()).getCurrent().update(picture.getObjectID());
                         }
                     }));
         	}
@@ -286,6 +227,10 @@ public class PicturesPanel extends DcPanel {
         }
         
         public void openPicture() {
+        	
+        	if (newItemMode)
+        		return;
+        	
         	try {
     	    	Picture picture = list.getSelectedPicture();
     	    	
@@ -312,7 +257,8 @@ public class PicturesPanel extends DcPanel {
         }
         
         public void reload() {
-        	load(DcModules.getCurrent().getIndex());
+        	if (!newItemMode)
+        		load(DcModules.getCurrent().getIndex());
         }
         
         public void load(int moduleIdx) {
@@ -333,7 +279,6 @@ public class PicturesPanel extends DcPanel {
             	invalidate();
             	repaint();
         	}
-        	
         	
             SwingUtilities.invokeLater(
                     new Thread(new Runnable() { 

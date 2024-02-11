@@ -64,7 +64,7 @@ import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.client.console.components.DcLongTextField;
 import org.datacrow.client.console.components.panels.AttachmentsPanel;
 import org.datacrow.client.console.components.panels.LoanPanel;
-import org.datacrow.client.console.components.panels.PicturesPanel;
+import org.datacrow.client.console.components.panels.PictureOverviewPanel;
 import org.datacrow.client.console.components.panels.RelatedItemsPanel;
 import org.datacrow.client.console.windows.DcFrame;
 import org.datacrow.client.console.windows.ItemTypeDialog;
@@ -121,6 +121,8 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     protected final Map<DcField, JComponent> fields = new HashMap<DcField, JComponent>();
 
     protected final JTabbedPane tabbedPane = ComponentFactory.getTabbedPane();
+    
+    private PictureOverviewPanel picturesPanel;
     
     protected final boolean update;
 
@@ -226,9 +228,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         addInputPanels();
         addChildrenPanel();
         
-        // TODO: maybe add pictures to object even when it is new?
-        if (update)
-        	addPictureTabs();
+    	addPictureTab();
         
         addRelationPanel();
         
@@ -625,6 +625,12 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
             }
         }
 
+        if (!update && picturesPanel != null) {
+        	// add pictures from the list - remove existing pictures as these will already be available on the list
+        	dco.clearNewPictures();
+        	dco.addNewPictures(picturesPanel.getPictures());
+        }
+        
         if (update && dco.getModule().canBeLend())
             dco.setLoanInformation();
     }
@@ -910,8 +916,8 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         tabbedPane.addTab(DcResources.getText("lblLoan"), IconLibrary._icoLoan, new LoanPanel(dco, null));
     }
 
-    protected void addPictureTabs() {    	
-    	PicturesPanel picturesPanel = new PicturesPanel(readonly);
+    protected void addPictureTab() {    	
+    	picturesPanel = new PictureOverviewPanel(dco.isNew(), readonly);
     	picturesPanel.setObjectID(dco.getID());
     	
     	if (dco.isNew())

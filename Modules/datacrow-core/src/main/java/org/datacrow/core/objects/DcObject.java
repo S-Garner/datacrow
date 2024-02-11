@@ -173,6 +173,10 @@ public class DcObject implements Comparable<DcObject>, Serializable {
 		return updateGUI;
 	}
     
+    public void clearNewPictures() {
+    	pictures.clear();
+    }
+    
     public void addNewPicture(Picture picture) {
     	pictures.add(picture);
     }
