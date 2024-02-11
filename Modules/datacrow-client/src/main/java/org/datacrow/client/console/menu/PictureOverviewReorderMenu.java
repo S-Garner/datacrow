@@ -43,7 +43,7 @@ public class PictureOverviewReorderMenu extends JToolBar {
 		miSave.setToolTipText(DcResources.getText("lblSave"));
 		miSave.addActionListener(al);
 
-		DcButton miCancel = ComponentFactory.getIconButton(IconLibrary._icoClose);
+		DcButton miCancel = ComponentFactory.getIconButton(IconLibrary._icoCancel);
 		miCancel.setActionCommand("edit");
 		miCancel.setToolTipText(DcResources.getText("lblCancel"));
 		miCancel.addActionListener(al);
