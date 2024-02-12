@@ -102,7 +102,7 @@ public class SystemUpgrade {
                 checkAudioTables();
             }
             
-            if (dbInitialized && v.isOlder(new Version(4, 12, 0, 0))) {
+            if (dbInitialized && v.isOlder(new Version(5, 0, 0, 0))) {
             	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER) {
             		new ImageConverter(ImageConverter._UPGRADE_CONVERSION);
             	} else if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_STANDALONE) {
