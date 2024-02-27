@@ -560,7 +560,6 @@ public class ClientToServerConnector extends Connector {
 				su, 
 				ClientRequestPictureAction._ACTION_SAVE_PICTURE,
 				picture);
-		processClientRequest(cr);		
 		
 		ServerPictureSaveActionResponse response = (ServerPictureSaveActionResponse) processClientRequest(cr);
 		return response.isSaved();

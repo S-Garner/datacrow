@@ -169,8 +169,9 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
     
     	boolean saved = true;
     	
-    	if (!newItemMode)
+    	if (!newItemMode) {
     		saved = DcConfig.getInstance().getConnector().savePicture(picture);
+    	}
     	
     	if (saved) {
 			SwingUtilities.invokeLater(new Thread(new Runnable() { 

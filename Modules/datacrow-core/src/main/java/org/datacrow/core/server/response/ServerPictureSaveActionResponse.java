@@ -32,7 +32,7 @@ public class ServerPictureSaveActionResponse extends ServerResponse {
 	private final boolean saved;
 	
 	public ServerPictureSaveActionResponse(boolean saved) {
-	    super(_RESPONSE_PICTURE_ACTION);
+	    super(_RESPONSE_PICTURE_SAVE_ACTION);
 	    this.saved = saved;
 	}
 	

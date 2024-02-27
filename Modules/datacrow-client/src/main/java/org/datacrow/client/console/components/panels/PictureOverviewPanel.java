@@ -224,7 +224,7 @@ public class PictureOverviewPanel extends DcPanel {
                 pictureReorderList.clear();
                 
                 for (Picture p : pictureEditList.getPictures())
-                	pictureReorderList.addPicture(p);
+                	pictureReorderList.add(p);
                 
                 scrollerEdit.setVisible(false);
                 menuEdit.setVisible(false);
