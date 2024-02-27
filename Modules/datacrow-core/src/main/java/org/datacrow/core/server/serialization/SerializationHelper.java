@@ -69,6 +69,7 @@ import org.datacrow.core.server.response.ServerLoginResponse;
 import org.datacrow.core.server.response.ServerModulesRequestResponse;
 import org.datacrow.core.server.response.ServerModulesSettingsResponse;
 import org.datacrow.core.server.response.ServerPictureActionResponse;
+import org.datacrow.core.server.response.ServerPictureSaveActionResponse;
 import org.datacrow.core.server.response.ServerPicturesListResponse;
 import org.datacrow.core.server.response.ServerResponse;
 import org.datacrow.core.server.response.ServerSQLResponse;
@@ -198,6 +199,8 @@ public class SerializationHelper {
             sr = gson.fromJson(json, ServerPictureActionResponse.class);
         else if (type == ServerResponse._RESPONSE_PICTURES_LIST)
             sr = gson.fromJson(json, ServerPicturesListResponse.class);
+        else if (type == ServerResponse._RESPONSE_PICTURE_SAVE_ACTION)
+            sr = gson.fromJson(json, ServerPictureSaveActionResponse.class);
         else
             logger.fatal("No server response implementation found for type [" + type + "]");
         

@@ -172,7 +172,7 @@ public abstract class Connector {
 
 	public abstract void deletePictures(String ObjectID);
 
-	public abstract void savePicture(Picture picture);
+	public abstract boolean savePicture(Picture picture);
 	
 	public abstract void savePictureOrder(String ObjectID, LinkedList<String> filenames);
 	

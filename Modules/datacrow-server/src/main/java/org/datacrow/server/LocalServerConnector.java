@@ -409,12 +409,14 @@ public class LocalServerConnector extends Connector {
 	}
 
 	@Override
-	public void savePicture(Picture picture) {
+	public boolean savePicture(Picture picture) {
 		try {
-			PictureManager.getInstance().savePicture(picture);
+			return PictureManager.getInstance().savePicture(picture);
 		} catch (Exception e) {
 			logger.error("Picture could not be saved", e);
 		}
+		
+		return false;
 	}
 	
 	public void displayError(String msg) {

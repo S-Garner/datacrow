@@ -1,6 +1,9 @@
 --------------------------------------------------------------------
-Data Crow version 4.12                        Released on 2024-xx-xx
+Data Crow version 5.0                         Released on 2024-xx-xx
 --------------------------------------------------------------------
+
+[New]
+- Picture management has been completed changed; Data Crow now allows for unlimited number of pictures to be added.
 
 [Updated]
 - Updated libraries as used by Data Crow to avoid exposure to vulnerabilities:

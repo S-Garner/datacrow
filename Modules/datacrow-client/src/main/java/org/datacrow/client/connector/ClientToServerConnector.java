@@ -101,6 +101,7 @@ import org.datacrow.core.server.response.ServerItemsRequestResponse;
 import org.datacrow.core.server.response.ServerLoginResponse;
 import org.datacrow.core.server.response.ServerModulesRequestResponse;
 import org.datacrow.core.server.response.ServerModulesSettingsResponse;
+import org.datacrow.core.server.response.ServerPictureSaveActionResponse;
 import org.datacrow.core.server.response.ServerPicturesListResponse;
 import org.datacrow.core.server.response.ServerResponse;
 import org.datacrow.core.server.response.ServerSQLResponse;
@@ -554,12 +555,16 @@ public class ClientToServerConnector extends Connector {
 	}
 
 	@Override
-	public void savePicture(Picture picture) {
+	public boolean savePicture(Picture picture) {
 		ClientRequestPictureAction cr = new ClientRequestPictureAction(
 				su, 
 				ClientRequestPictureAction._ACTION_SAVE_PICTURE,
 				picture);
-		processClientRequest(cr);		}	
+		processClientRequest(cr);		
+		
+		ServerPictureSaveActionResponse response = (ServerPictureSaveActionResponse) processClientRequest(cr);
+		return response.isSaved();
+	}	
 
 	@Override
 	public void loadAttachment(Attachment attachment) {

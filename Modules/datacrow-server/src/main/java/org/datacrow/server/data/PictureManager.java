@@ -77,7 +77,7 @@ public class PictureManager {
 		return instance;
 	}
 
-	public void savePicture(Picture picture) throws Exception {
+	public boolean savePicture(Picture picture) throws Exception {
 
 		DcImageIcon imageIcon;
 		
@@ -99,8 +99,12 @@ public class PictureManager {
 		CoreUtilities.writeMaxImageToFile(imageIcon, picture.getTargetFile());
 		CoreUtilities.writeScaledImageToFile(imageIcon, picture.getTargetScaledFile());
 		
-		if (exists(picture))
+		if (exists(picture)) {
 			deletePicture(picture);
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	private boolean exists(Picture newPic) {

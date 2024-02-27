@@ -78,6 +78,7 @@ import org.datacrow.core.server.response.ServerLoginResponse;
 import org.datacrow.core.server.response.ServerModulesRequestResponse;
 import org.datacrow.core.server.response.ServerModulesSettingsResponse;
 import org.datacrow.core.server.response.ServerPictureActionResponse;
+import org.datacrow.core.server.response.ServerPictureSaveActionResponse;
 import org.datacrow.core.server.response.ServerPicturesListResponse;
 import org.datacrow.core.server.response.ServerResponse;
 import org.datacrow.core.server.response.ServerSQLResponse;
@@ -326,19 +327,22 @@ public class DcServerSessionRequestHandler extends Thread {
     	return new ServerPicturesListResponse(pictures);
     }    
 
-    private ServerPictureActionResponse processPictureActionRequest(ClientRequestPictureAction cr) {
+    private ServerResponse processPictureActionRequest(ClientRequestPictureAction cr) {
+    	
+    	ServerResponse response = new DefaultServerResponse();
     	
     	switch (cr.getActionType()) {
 	    	case ClientRequestPictureAction._ACTION_DELETE_PICTURE:
 	    		context.deletePicture(cr.getPicture());
+	    		response = new ServerPictureActionResponse(cr.getPicture());
 	    		break;
 	    	case ClientRequestPictureAction._ACTION_SAVE_PICTURE:
-	    		context.deletePicture(cr.getPicture());
+	    		boolean saved = context.savePicture(cr.getPicture());
+	    		response = new ServerPictureSaveActionResponse(saved);
 	    		break;
-
     	}
     	
-    	return new ServerPictureActionResponse(cr.getPicture());
+    	return response; 
     }      
     
     private DefaultServerResponse processDeleteAttachmentsRequest(ClientRequestAttachmentsDelete cr) {

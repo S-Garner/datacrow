@@ -25,36 +25,18 @@
 
 package org.datacrow.core.server.response;
 
-import java.io.Serializable;
+public class ServerPictureSaveActionResponse extends ServerResponse {
 
-public class ServerResponse implements Serializable, IServerResponse {
+	private static final long serialVersionUID = 1L;
 
-    public static final int _RESPONSE_DEFAULT = 0;
-    public static final int _RESPONSE_ACTION = 1;
-    public static final int _RESPONSE_APPLICATION_SETTINGS = 2;
-    public static final int _RESPONSE_ERROR = 3;
-    public static final int _RESPONSE_ITEM_KEYS = 4;
-    public static final int _RESPONSE_ITEM_REQUEST = 5;
-    public static final int _RESPONSE_ITEMS_REQUEST = 6;
-    public static final int _RESPONSE_LOGIN = 7;
-    public static final int _RESPONSE_MODULES = 8;
-    public static final int _RESPONSE_SIMPLE_VALUES = 9;
-    public static final int _RESPONSE_SQL = 10;
-    public static final int _RESPONSE_VALUE_ENHANCERS = 11;
-    public static final int _RESPONSE_MODULE_SETTINGS = 12;
-	public static final int _RESPONSE_ATTACHMENT_ACTION = 13;
-	public static final int _RESPONSE_ATTACHMENTS_LIST = 14;
-	public static final int _RESPONSE_PICTURE_ACTION = 15;
-	public static final int _RESPONSE_PICTURES_LIST = 16;
-	public static final int _RESPONSE_PICTURE_SAVE_ACTION = 17;
+	private final boolean saved;
 	
-    private final int type;
-    
-    public ServerResponse(int type) {
-        this.type = type;
-    }
-    
-    public int getType() {
-        return type;
-    }
+	public ServerPictureSaveActionResponse(boolean saved) {
+	    super(_RESPONSE_PICTURE_ACTION);
+	    this.saved = saved;
+	}
+	
+	public boolean isSaved() {
+		return saved;
+	}
 }
