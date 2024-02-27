@@ -60,8 +60,12 @@ public class DcListRenderer<V> extends DefaultListCellRenderer  {
     		JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
     	
         Component component = (Component) value;
-        component.setFont(ComponentFactory.getStandardFont());
-        setElementColor(isSelected, component, index);
+        
+        if (component != null) {
+        	component.setFont(ComponentFactory.getStandardFont());
+        	setElementColor(isSelected, component, index);
+        }
+        
         return component;
     }
 

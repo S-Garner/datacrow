@@ -25,6 +25,7 @@
 
 package org.datacrow.server.data;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -41,6 +42,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.imageio.ImageIO;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
@@ -75,7 +78,7 @@ public class PictureManager {
 	}
 
 	public void savePicture(Picture picture) throws Exception {
-		
+
 		DcImageIcon imageIcon;
 		
 		File target = picture.getTargetFile();
@@ -85,7 +88,7 @@ public class PictureManager {
 		
 		String name = target.getName();
 		imageIcon = picture.getImageIcon();
-		
+
 		if (!name.startsWith("picture")) {
 			String[] files = dir.list(pictureFilter);
 			int number = files == null || files.length == 0 ? 1 : files.length + 1;
@@ -95,6 +98,46 @@ public class PictureManager {
 		
 		CoreUtilities.writeMaxImageToFile(imageIcon, picture.getTargetFile());
 		CoreUtilities.writeScaledImageToFile(imageIcon, picture.getTargetScaledFile());
+		
+		if (exists(picture))
+			deletePicture(picture);
+	}
+	
+	private boolean exists(Picture newPic) {
+
+		boolean exists = false;
+		
+		BufferedImage bi1 = null;
+		BufferedImage bi2 = null;
+
+		for (Picture oldPic : getPictures(newPic.getObjectID())) {
+			
+			if (oldPic.getTargetFile().equals(newPic.getTargetFile()))
+				continue;
+			
+			try {
+				bi1 = ImageIO.read(newPic.getTargetFile());
+				bi2 = ImageIO.read(oldPic.getTargetFile());
+				
+				exists = CoreUtilities.isSameImage(bi1, bi2);
+
+			} catch (Exception e) {
+				
+				logger.error("Error whilst comparing images", e);
+				
+			} finally {
+				if (bi1 != null)
+					bi1.flush();
+				
+				if (bi2 != null)
+					bi2.flush();
+			}
+			
+			if (exists)
+				break;
+		}
+		
+		return exists;
 	}
 	
 	public void savePictureOrder(String objectID, LinkedList<String> filenames) {

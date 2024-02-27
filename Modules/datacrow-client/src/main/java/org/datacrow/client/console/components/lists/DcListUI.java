@@ -137,7 +137,10 @@ public class DcListUI extends BasicListUI {
                     	
                         try {
 	                        list.setSelectedIndex(index);
-	                        ((DcListElement) list.getSelectedValue()).update();
+	                        
+	                        if (list.getSelectedValue() != null)
+	                        	((DcListElement) list.getSelectedValue()).update();
+	                        
 	                        paintCell(g, index, itemBounds, renderer, dataModel, selModel, leadIndex);
                         } catch (Exception e) {
                             logger.debug("Error while painting cell in DcListUI", e);

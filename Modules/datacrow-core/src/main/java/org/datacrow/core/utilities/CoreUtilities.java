@@ -583,6 +583,21 @@ public class CoreUtilities {
         return bytes;
     }
     
+    public static boolean isSameImage(BufferedImage img1, BufferedImage img2) {
+        if (img1.getWidth() == img2.getWidth() && img1.getHeight() == img2.getHeight()) {
+            for (int x = 0; x < img1.getWidth(); x++) {
+                for (int y = 0; y < img1.getHeight(); y++) {
+                    if (img1.getRGB(x, y) != img2.getRGB(x, y))
+                        return false;
+                }
+            }
+        } else {
+            return false;
+        }
+        
+        return true;
+    }    
+    
     public static String getTempFolder() {
     	return System.getProperty("java.io.tmpdir");    	
     }
@@ -633,7 +648,7 @@ public class CoreUtilities {
         }
         
         bufferedImage.flush();
-    }       
+    }
     
     public static String getHexColor(Color color) {
         String hexColor = "#" + Integer.toHexString(color.getRed());
@@ -734,7 +749,7 @@ public class CoreUtilities {
     }
     
     public static BufferedImage toBufferedImage(ImageIcon icon, int rgbType) {
-        return toBufferedImage(icon, -1, -1, BufferedImage.TYPE_INT_RGB);
+        return toBufferedImage(icon, -1, -1, rgbType);
     }
     
     public static BufferedImage toBufferedImage(ImageIcon icon, int width, int height, int rgbType) {
