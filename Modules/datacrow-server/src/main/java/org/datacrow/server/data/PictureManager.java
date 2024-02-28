@@ -35,6 +35,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -253,12 +254,37 @@ public class PictureManager {
 			
 			try (Stream<Path> streamDirs = Files.list(Paths.get(dir.toString()))) {
 				Set<String> images = streamDirs
-			              .filter(file -> !Files.isDirectory(file) && !file.toString().contains("_small"))
+			              .filter(file -> 
+			              		!Files.isDirectory(file) && 
+			            		!file.getFileName().toString().contains("_small") && 
+			            		 file.getFileName().toString().indexOf(".") > 0 && 
+			            		 file.getFileName().toString().startsWith("picture"))
 			              .map(Path::toString)
 			              .collect(Collectors.toSet());
 				
 				List<String> orderedImages = new ArrayList<String>(images);
-				Collections.sort(orderedImages);
+				Collections.sort(orderedImages, new Comparator<String>() {
+					
+					private String filename1;
+					private String filename2;
+					private Integer i1;
+					private Integer i2;
+					
+					@Override
+					public int compare(String s1, String s2) {
+						
+						filename1 = new File(s1).getName();
+						filename2 = new File(s2).getName();
+						
+						filename1 = filename1.substring(7, filename1.lastIndexOf("."));
+						filename2 = filename2.substring(7, filename2.lastIndexOf("."));
+						
+						i1 = Integer.valueOf(Integer.parseInt(filename1));
+						i2 = Integer.valueOf(Integer.parseInt(filename2));
+						
+						return i1.compareTo(i2);
+					}
+				});
 
 				for (String image : orderedImages) {
 					
