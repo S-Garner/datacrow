@@ -1115,6 +1115,17 @@ public class DcModule implements Comparable<DcModule>, Serializable {
                 addField(getField(DcObject._SYS_FILEHASHTYPE));
             }
             
+            addField(getField(DcObject._SYS_PICTURE_01));
+            addField(getField(DcObject._SYS_PICTURE_02));
+            addField(getField(DcObject._SYS_PICTURE_03));
+            addField(getField(DcObject._SYS_PICTURE_04));
+            addField(getField(DcObject._SYS_PICTURE_05));
+            addField(getField(DcObject._SYS_PICTURE_06));
+            addField(getField(DcObject._SYS_PICTURE_07));
+            addField(getField(DcObject._SYS_PICTURE_08));
+            addField(getField(DcObject._SYS_PICTURE_09));
+            addField(getField(DcObject._SYS_PICTURE_10));
+            
             // do not check whether the contact person module is enabled.
             // just add the fields if the settings allow for this
             if (canBeLended) {
@@ -1127,6 +1138,9 @@ public class DcModule implements Comparable<DcModule>, Serializable {
                 addField(getField(DcObject._SYS_LOANSTARTDATE));
                 addField(getField(DcObject._SYS_LOANENDDATE));
             }
+            
+            
+            
             addField(getField(DcObject._SYS_MODULE));
         } catch (Exception e) {
             logger.error(e, e);
@@ -1209,7 +1223,59 @@ public class DcModule implements Comparable<DcModule>, Serializable {
                 new DcField(DcObject._SYS_LOANENDDATE, getIndex(), "Loan end date",
                             true, true, true, false, 
                             10, UIComponents._DATEFIELD, getIndex(), DcRepository.ValueTypes._DATE,
-                            "LoanEndDate"));    
+                            "LoanEndDate"));
+        
+        // picture fields - which are virtual mind you!
+        systemFields.put(DcObject._SYS_PICTURE_01,
+                new DcField(DcObject._SYS_PICTURE_01, getIndex(), "Picture 01",
+                            true, true, true, false, 
+                            10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
+                            "Picture1"));
+        systemFields.put(DcObject._SYS_PICTURE_02,
+                new DcField(DcObject._SYS_PICTURE_02, getIndex(), "Picture 02",
+                            true, true, true, false, 
+                            10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
+                            "Picture2"));
+        systemFields.put(DcObject._SYS_PICTURE_03,
+                new DcField(DcObject._SYS_PICTURE_03, getIndex(), "Picture 03",
+                            true, true, true, false, 
+                            10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
+                            "Picture3"));           
+        systemFields.put(DcObject._SYS_PICTURE_04,
+                new DcField(DcObject._SYS_PICTURE_04, getIndex(), "Picture 04",
+                            true, true, true, false, 
+                            10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
+                            "Picture4"));           
+        systemFields.put(DcObject._SYS_PICTURE_05,
+                new DcField(DcObject._SYS_PICTURE_05, getIndex(), "Picture 05",
+                            true, true, true, false, 
+                            10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
+                            "Picture5"));           
+        systemFields.put(DcObject._SYS_PICTURE_06,
+                new DcField(DcObject._SYS_PICTURE_06, getIndex(), "Picture 06",
+                            true, true, true, false, 
+                            10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
+                            "Picture6"));           
+        systemFields.put(DcObject._SYS_PICTURE_07,
+                new DcField(DcObject._SYS_PICTURE_07, getIndex(), "Picture 07",
+                            true, true, true, false, 
+                            10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
+                            "Picture7"));           
+        systemFields.put(DcObject._SYS_PICTURE_08,
+                new DcField(DcObject._SYS_PICTURE_08, getIndex(), "Picture 08",
+                            true, true, true, false, 
+                            10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
+                            "Picture8"));           
+        systemFields.put(DcObject._SYS_PICTURE_09,
+                new DcField(DcObject._SYS_PICTURE_09, getIndex(), "Picture 09",
+                            true, true, true, false, 
+                            10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
+                            "Picture9"));           
+        systemFields.put(DcObject._SYS_PICTURE_10,
+                new DcField(DcObject._SYS_PICTURE_10, getIndex(), "Picture 10",
+                            true, true, true, false, 
+                            10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
+                            "Picture10"));           
         
         if (isTopModule() && hasOnlineServices()) {
             systemFields.put(Integer.valueOf(DcObject._SYS_SERVICE),

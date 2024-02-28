@@ -118,6 +118,7 @@ public class DcFieldDefinition extends Definition {
             if ((!field.isUiOnly() || field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) && 
                   field.isEnabled() && 
                   field.getValueType() != DcRepository.ValueTypes._ICON &&
+                  field.getValueType() != DcRepository.ValueTypes._PICTURE &&
                  (index != DcModules.get(module).getParentReferenceFieldIndex() || 
                   index == DcObject._SYS_CONTAINER )) { // not a reference field
                 

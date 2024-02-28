@@ -396,6 +396,7 @@ public abstract class DcRepository {
         public static final int _DOUBLE = 20;
         public static final int _TABLESETTINGS = 21;
         public static final int _DATETIME = 22;
+        public static final int _PICTURE = 23;
     }
 
     /**

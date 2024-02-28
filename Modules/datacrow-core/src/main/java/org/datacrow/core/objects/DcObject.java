@@ -114,6 +114,17 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     public static final int _SYS_TAGS = 222;
     public static final int _SYS_EXTERNAL_REFERENCES = 218;
     
+    public static final int _SYS_PICTURE_01 = 231;
+    public static final int _SYS_PICTURE_02 = 232;
+    public static final int _SYS_PICTURE_03 = 233;
+    public static final int _SYS_PICTURE_04 = 234;
+    public static final int _SYS_PICTURE_05 = 235;
+    public static final int _SYS_PICTURE_06 = 236;
+    public static final int _SYS_PICTURE_07 = 237;
+    public static final int _SYS_PICTURE_08 = 238;
+    public static final int _SYS_PICTURE_09 = 239;
+    public static final int _SYS_PICTURE_10 = 240;
+    
     protected final int module;
     
     private boolean isNew = true;

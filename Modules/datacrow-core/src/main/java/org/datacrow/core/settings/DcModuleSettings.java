@@ -32,6 +32,7 @@ import java.util.List;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.DcRepository.ValueTypes;
 import org.datacrow.core.console.IMasterView;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.modules.DcMediaModule;
@@ -130,7 +131,7 @@ public class DcModuleSettings extends Settings {
         QuickViewFieldDefinitions qvDefinitions = new QuickViewFieldDefinitions(module.getIndex());
         
         for (DcField field : module.getFields()) {
-            boolean enabled = field.isSystemField() ? false : true;
+            boolean enabled = field.isSystemField() || field.getValueType() == ValueTypes._PICTURE ? false : true;
             qvDefinitions.add(new QuickViewFieldDefinition(field.getModule(), field.getIndex(), enabled, DcResources.getText("lblHorizontal"), 0));
         }
         
@@ -749,6 +750,7 @@ public class DcModuleSettings extends Settings {
                         field.getValueType() != DcRepository.ValueTypes._DCOBJECTREFERENCE &&
                         field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION &&
                         field.getValueType() != DcRepository.ValueTypes._ICON &&
+                        field.getValueType() != DcRepository.ValueTypes._PICTURE &&
                         field.getIndex() != DcObject._SYS_DISPLAYVALUE &&
                         field.getIndex() != DcObject._SYS_MODULE &&
                         !field.isLoanField()) {

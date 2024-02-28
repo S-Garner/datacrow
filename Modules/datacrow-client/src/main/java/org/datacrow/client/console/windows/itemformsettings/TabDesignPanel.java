@@ -36,6 +36,7 @@ import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.fileselection.FieldSelectionPanel;
 import org.datacrow.client.console.components.fileselection.IFieldSelectionListener;
 import org.datacrow.client.tabs.Tab;
+import org.datacrow.core.DcRepository.ValueTypes;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
@@ -82,6 +83,7 @@ public class TabDesignPanel extends JPanel implements IFieldSelectionListener {
                !field.isSystemField() &&
                !(field.isLoanField() && field.getIndex() != DcObject._SYS_LOANALLOWED) &&
                 field.getIndex() != DcObject._SYS_DISPLAYVALUE &&
+                field.getValueType() != ValueTypes._PICTURE &&
                 field.getIndex() != DcObject._SYS_MODULE;
     }
 
