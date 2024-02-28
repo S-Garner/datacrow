@@ -35,6 +35,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -102,7 +104,6 @@ public class PictureOverviewPanel extends DcPanel {
     }
     
     public void setObjectID(String objectID) {
-//    	this.objectID = objectID;
     	this.pictureEditList.setObjectID(objectID);
     }
 
@@ -221,8 +222,6 @@ public class PictureOverviewPanel extends DcPanel {
                 scrollerReorder.setVisible(true);
                 menuReorder.setVisible(true);
                 
-//                pictureReorderList.clear();
-                
                 reload();
                 
                 scrollerEdit.setVisible(false);
@@ -242,6 +241,32 @@ public class PictureOverviewPanel extends DcPanel {
         private void deletePictures() {
         	List<Picture> pictures = pictureEditList.getSelectedPictures();
         	String msg = pictures.size() > 1 ? "msgDeletePicturesConfirmation" : "msgDeletePictureConfirmation";
+        	
+        	// sort the pictures so they are removed from highest to lowest - 
+        	// else you get in trouble on the renumbering after a single picture is deleted
+			Collections.sort(pictures, new Comparator<Picture>() {
+				
+				private String filename1;
+				private String filename2;
+				private Integer i1;
+				private Integer i2;
+				
+				@Override
+				public int compare(Picture p1, Picture p2) {
+					
+					filename1 = p1.getTargetFile().getName();
+					filename2 = p2.getTargetFile().getName();
+					
+					filename1 = filename1.substring(7, filename1.lastIndexOf("."));
+					filename2 = filename2.substring(7, filename2.lastIndexOf("."));
+					
+					i1 = Integer.valueOf(Integer.parseInt(filename1));
+					i2 = Integer.valueOf(Integer.parseInt(filename2));
+					
+					return i2.compareTo(i1);
+				}
+			});
+        	
         	   	
         	if (GUI.getInstance().displayQuestion(msg)) {
     	    	for (Picture picture : pictures)
@@ -457,6 +482,14 @@ public class PictureOverviewPanel extends DcPanel {
                 setMode(DcPicturesList._MODE_EDIT);
             else if (e.getActionCommand().equals("save_order"))
                 saveOrder();
+            else if (e.getActionCommand().equals("move_top"))
+            	pictureReorderList.moveRowToTop();
+            else if (e.getActionCommand().equals("move_up"))
+            	pictureReorderList.moveRowUp();
+            else if (e.getActionCommand().equals("move_down"))
+            	pictureReorderList.moveRowDown();
+            else if (e.getActionCommand().equals("move_bottom"))
+            	pictureReorderList.moveRowToBottom();
         }
         
     	private class ResizeListener extends ComponentAdapter {
