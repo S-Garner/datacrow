@@ -1230,52 +1230,52 @@ public class DcModule implements Comparable<DcModule>, Serializable {
                 new DcField(DcObject._SYS_PICTURE_01, getIndex(), "Picture 01",
                             true, true, true, false, 
                             10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
-                            "Picture1"));
+                            "picture1"));
         systemFields.put(DcObject._SYS_PICTURE_02,
                 new DcField(DcObject._SYS_PICTURE_02, getIndex(), "Picture 02",
                             true, true, true, false, 
                             10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
-                            "Picture2"));
+                            "picture2"));
         systemFields.put(DcObject._SYS_PICTURE_03,
                 new DcField(DcObject._SYS_PICTURE_03, getIndex(), "Picture 03",
                             true, true, true, false, 
                             10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
-                            "Picture3"));           
+                            "picture3"));           
         systemFields.put(DcObject._SYS_PICTURE_04,
                 new DcField(DcObject._SYS_PICTURE_04, getIndex(), "Picture 04",
                             true, true, true, false, 
                             10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
-                            "Picture4"));           
+                            "picture4"));           
         systemFields.put(DcObject._SYS_PICTURE_05,
                 new DcField(DcObject._SYS_PICTURE_05, getIndex(), "Picture 05",
                             true, true, true, false, 
                             10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
-                            "Picture5"));           
+                            "picture5"));           
         systemFields.put(DcObject._SYS_PICTURE_06,
                 new DcField(DcObject._SYS_PICTURE_06, getIndex(), "Picture 06",
                             true, true, true, false, 
                             10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
-                            "Picture6"));           
+                            "picture6"));           
         systemFields.put(DcObject._SYS_PICTURE_07,
                 new DcField(DcObject._SYS_PICTURE_07, getIndex(), "Picture 07",
                             true, true, true, false, 
                             10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
-                            "Picture7"));           
+                            "picture7"));           
         systemFields.put(DcObject._SYS_PICTURE_08,
                 new DcField(DcObject._SYS_PICTURE_08, getIndex(), "Picture 08",
                             true, true, true, false, 
                             10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
-                            "Picture8"));           
+                            "picture8"));           
         systemFields.put(DcObject._SYS_PICTURE_09,
                 new DcField(DcObject._SYS_PICTURE_09, getIndex(), "Picture 09",
                             true, true, true, false, 
                             10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
-                            "Picture9"));           
+                            "picture9"));           
         systemFields.put(DcObject._SYS_PICTURE_10,
                 new DcField(DcObject._SYS_PICTURE_10, getIndex(), "Picture 10",
                             true, true, true, false, 
                             10, UIComponents._PICTUREFIELD, getIndex(), DcRepository.ValueTypes._PICTURE,
-                            "Picture10"));           
+                            "picture10"));           
         
         if (isTopModule() && hasOnlineServices()) {
             systemFields.put(Integer.valueOf(DcObject._SYS_SERVICE),

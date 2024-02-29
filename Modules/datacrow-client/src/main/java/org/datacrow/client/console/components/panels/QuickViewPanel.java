@@ -33,6 +33,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -52,6 +53,7 @@ import org.datacrow.client.plugins.PluginHelper;
 import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.DcRepository.ValueTypes;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
@@ -61,6 +63,7 @@ import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
@@ -85,6 +88,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     private DcHtmlEditorPane descriptionPane;
     
 	private DcObject dco;
+	private final List<Picture> pictures = new LinkedList<Picture>();
     
     private String key;
     private int moduleIdx;
@@ -93,7 +97,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     private boolean isAllowPopup = true;
     
     private final AttachmentsPanel attachmentsPanel = new AttachmentsPanel(false);
-    private final PictureOverviewPanel picturesPanel = new PictureOverviewPanel(false, false);
+    private final PictureOverviewPanel picturesPanel = new PictureOverviewPanel(false, false);	
     
     private RelatedItemsPanel relatedItemsPanel = null;
     
@@ -139,6 +143,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         String key = this.key;
         this.dco = null;
         this.key = null;
+        this.pictures.clear();
         
         setObject(key, moduleIdx);
         
@@ -152,7 +157,6 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     public void setObject(String key, int moduleIdx) {
     	
     	if (key == null || key.equals(this.key)) return;
-    	
     	
         Collection<Integer> fields = new ArrayList<Integer>();
         QuickViewFieldDefinitions definitions = 
@@ -191,6 +195,9 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
             
             this.dco = dco;
             this.key = dco.getID();
+            
+            pictures.clear();
+            pictures.addAll(DcConfig.getInstance().getConnector().getPictures(key));
             
             if (DcModules.getCurrent().isAbstract())
             	this.dco.reload();
@@ -285,8 +292,8 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
             dco.getModule().getSettings().getDefinitions(DcRepository.ModuleSettings.stQuickViewFieldDefinitions);
         
         for (QuickViewFieldDefinition def : definitions.getDefinitions()) {
-            
-            if (dco.getField(def.getField()) == null) {
+
+        	if (dco.getField(def.getField()) == null) {
                 logger.error("Field " + def.getField() + " not found for module " + dco.getModule());
                 continue;
             }
@@ -386,14 +393,24 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         String table = htmlTable;
         
         if (	dco.isEnabled(index) && // field must be enabled
-        		(dco.getField(index).getFieldType() != ComponentFactory._PICTUREFIELD || showInlineImages)) {
+        		(dco.getField(index).getValueType() != ValueTypes._PICTURE || showInlineImages)) {
         	
             Font f = ComponentFactory.getStandardFont();
             DcFont fText = new DcFont(f.getName(), f.getStyle(), f.getSize());
             
             boolean horizontal = direction.equals(_DIRECTION_HORIZONTAL) || direction.toLowerCase().equals("horizontal");
-
-            if (!CoreUtilities.isEmpty(dco.getValue(index))) {
+            DcField field = dco.getField(index);
+            
+            // find the corresponding picture
+            Picture picture = null;
+            if (dco.getField(index).getValueType() == ValueTypes._PICTURE) {
+            	for (Picture p : pictures) {
+            		if (p.getFilename().endsWith(field.getDatabaseFieldName() + ".jpg"))
+            			picture = p;
+            	}
+            }
+            
+            if (!CoreUtilities.isEmpty(dco.getValue(index)) || picture != null) {
 
             	table += "<tr><td>";
                 
@@ -409,8 +426,6 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
 
                 String value = "";
                 
-                DcField field = dco.getField(index);
-                
                 if (dco.getModule().getType() == DcModule._TYPE_MEDIA_MODULE && index == DcMediaObject._E_RATING) {
                     int rating = ((Long) dco.getValue(index)).intValue();
                     value = Utilities.getHtmlRating(rating);
@@ -421,16 +436,16 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
                     if (filename.startsWith("./") || filename.startsWith(".\\"))
                         filename = new File(DcConfig.getInstance().getInstallationDir(), filename.substring(2, filename.length())).toString();
                     
-                    value = "<a href=\"file://" + filename +  "?original=" +filename+  "\" " + Utilities.getHtmlStyle(fText) + ">" + new File(filename).getName() + "</a>";                        
-//                } else if (field.getFieldType() == ComponentFactory._PICTUREFIELD && showInlineImages) {
-//                	Picture p = (Picture) dco.getValue(index);
-//                	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
-//                	    value = "<img src=\"" + p.getThumbnailUrl() + "\" alt=\"" + dco.getLabel(index) + "\">";
-//                	} else {
-//                	    value = "<img src=\"file:///" + DcConfig.getInstance().getImageDir() + "/" + p.getScaledFilename() + 
-//                	            "\" alt=\"" + dco.getLabel(index) + "\"\">";
-//                	}
-                    // TODO: Quick View inline images
+                    value = "<a href=\"file://" + filename +  "?original=" +filename+  "\" " + Utilities.getHtmlStyle(fText) + ">" + new File(filename).getName() + "</a>";
+                } else if (field.getValueType() == ValueTypes._PICTURE && showInlineImages) {
+            		if (picture.getFilename().endsWith(field.getDatabaseFieldName() + ".jpg")) {
+                    	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
+                    	    value = "<img src=\"" + picture.getThumbnailUrl() + "\" alt=\"" + field.getLabel() + "\">";
+                    	} else {
+                    	    value = "<img src=\"file:///" + DcConfig.getInstance().getImageDir().replace('\\', '/') + key + '/' + picture.getTargetScaledFile().getName() + 
+                    	            "\" alt=\"" + field.getLabel() + "\">";
+                    	}
+            		}
                 } else if (field.getFieldType() == ComponentFactory._URLFIELD) {
                 	value = "<a href=\"" +  dco.getValue(index) + "\" " + Utilities.getHtmlStyle(fText) + ">" + DcResources.getText("lblLink") + "</a>";
                 } else if (field.getFieldType() == ComponentFactory._REFERENCEFIELD ||
