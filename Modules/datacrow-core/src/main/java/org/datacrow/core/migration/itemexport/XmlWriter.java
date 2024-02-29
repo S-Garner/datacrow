@@ -148,7 +148,10 @@ public class XmlWriter extends XmlBaseWriter {
        Object o = dco.getValue(field);
        
        if (dco.getModule().getType() == DcModule._TYPE_ASSOCIATE_MODULE) {
-           write(((DcAssociate) dco).getNameNormal());
+    	   if (field != DcObject._ID)
+    		   write(((DcAssociate) dco).getNameNormal());
+    	   else
+    		   write(dco.getID());
        } else if (o instanceof Collection) {
             newLine();
 
@@ -163,6 +166,7 @@ public class XmlWriter extends XmlBaseWriter {
 	                startEntity(subDco);
 	                int fieldIdx = subDco.getSystemDisplayFieldIdx();
 	                writeAttribute(subDco, fieldIdx);
+	                writeAttribute(subDco, DcObject._ID);
 	                endEntity(subDco);
                 }
             }

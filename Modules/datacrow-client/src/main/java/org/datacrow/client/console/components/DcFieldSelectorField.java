@@ -48,6 +48,7 @@ import javax.swing.KeyStroke;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
+import org.datacrow.core.DcRepository.ValueTypes;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
@@ -158,6 +159,7 @@ public class DcFieldSelectorField extends JComponent implements IComponent, Acti
         for (DcField field : DcModules.get(module).getFields()) {
             
             if ((field.getIndex() == DcObject._ID && !includeID) ||
+            	 field.getValueType() == ValueTypes._PICTURE ||
                  field.getSystemName().endsWith("_persist") ||
                  field.getIndex() == DcObject._SYS_EXTERNAL_REFERENCES)
                 continue;

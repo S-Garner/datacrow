@@ -66,7 +66,7 @@ public class ItemExporterSettingsPanel extends ItemExporterWizardPanel {
         }
         
         definition.setFile(file);
-        settingsPanel.saveSettings(definition.getSettings(), false);
+        settingsPanel.saveSettings(definition.getSettings());
             
         return definition;
     }

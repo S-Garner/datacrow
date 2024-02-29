@@ -42,10 +42,16 @@ import org.datacrow.core.resources.DcResources;
 
 public class ItemExporterImageSettingsPanel extends JPanel {
     
+	private final JCheckBox cbIncludeAttachments = ComponentFactory.getCheckBox(DcResources.getText("lblIncludeAttachments"));
+	private final JCheckBox cbCopyAttachments = ComponentFactory.getCheckBox(DcResources.getText("lblCopyAttachments"));
+	
+	private final JCheckBox cbIncludeImages = ComponentFactory.getCheckBox(DcResources.getText("lblIncludeImage"));
     private final JCheckBox cbResizeImages = ComponentFactory.getCheckBox(DcResources.getText("lblScaleImages"));
     private final JCheckBox cbCopyImages = ComponentFactory.getCheckBox(DcResources.getText("lblCopyImage"));
+    
     private final DcNumberField nfWidth = ComponentFactory.getNumberField();
     private final DcNumberField nfHeight = ComponentFactory.getNumberField();
+    
     private final DcNumberField nfMaxTextLength = ComponentFactory.getNumberField();
     
     public ItemExporterImageSettingsPanel() {
@@ -54,25 +60,39 @@ public class ItemExporterImageSettingsPanel extends JPanel {
     }
     
     private void applySelection() {
+    	
+    	cbCopyImages.setEnabled(cbIncludeImages.isSelected());
+    	cbCopyImages.setSelected(!cbIncludeImages.isSelected() ? false : cbCopyImages.isSelected());
+    	
         cbResizeImages.setEnabled(cbCopyImages.isSelected());
         cbResizeImages.setSelected(!cbCopyImages.isSelected() ? false : cbResizeImages.isSelected());
         
         nfWidth.setEnabled(cbResizeImages.isSelected());
         nfHeight.setEnabled(cbResizeImages.isSelected());
+        
+        cbCopyAttachments.setEnabled(cbIncludeAttachments.isSelected());
+        cbCopyAttachments.setSelected(!cbIncludeAttachments.isSelected() ? false : cbCopyAttachments.isSelected());
     }
     
-    public void saveSettings(ItemExporterSettings properties, boolean saveToDisk) {
+    public void saveSettings(ItemExporterSettings properties) {
+    	
+    	properties.set(ItemExporterSettings._INCLUDE_IMAGES, cbIncludeImages.isSelected());
         properties.set(ItemExporterSettings._COPY_IMAGES, cbCopyImages.isSelected());
         properties.set(ItemExporterSettings._SCALE_IMAGES, cbResizeImages.isSelected());
         properties.set(ItemExporterSettings._MAX_TEXT_LENGTH, nfMaxTextLength.getValue());
         properties.set(ItemExporterSettings._IMAGE_WIDTH, nfWidth.getValue());
         properties.set(ItemExporterSettings._IMAGE_HEIGHT,nfHeight.getValue());
         
-        if (saveToDisk)
-            properties.save();
+        properties.set(ItemExporterSettings._INCLUDE_ATTACHMENTS, cbIncludeAttachments.isSelected());
+        properties.set(ItemExporterSettings._COPY_ATTACHMENTS, cbCopyAttachments.isSelected());
     }
     
     public void applySettings(ItemExporterSettings properties) {
+    	
+    	cbIncludeAttachments.setSelected(properties.getBoolean(ItemExporterSettings._INCLUDE_ATTACHMENTS));
+    	cbCopyAttachments.setSelected(properties.getBoolean(ItemExporterSettings._COPY_ATTACHMENTS));
+    	
+    	cbIncludeImages.setSelected(properties.getBoolean(ItemExporterSettings._INCLUDE_IMAGES));
         cbCopyImages.setSelected(properties.getBoolean(ItemExporterSettings._COPY_IMAGES));
         cbResizeImages.setSelected(properties.getBoolean(ItemExporterSettings._SCALE_IMAGES));
         nfMaxTextLength.setValue(properties.getInt(ItemExporterSettings._MAX_TEXT_LENGTH));
@@ -85,6 +105,9 @@ public class ItemExporterImageSettingsPanel extends JPanel {
     
     @Override
     public void setEnabled(boolean b) {
+    	cbIncludeAttachments.setEnabled(b);
+    	cbCopyAttachments.setEnabled(b);
+    	cbIncludeImages.setEnabled(b);
         cbResizeImages.setEnabled(b);
         cbCopyImages.setEnabled(b);
         nfWidth.setEnabled(b);
@@ -95,9 +118,12 @@ public class ItemExporterImageSettingsPanel extends JPanel {
     private void build() {
         setLayout(Layout.getGBL());
         
-        ResizeListener rl = new ResizeListener();
+        PictureSettingListener rl = new PictureSettingListener();
         cbResizeImages.addActionListener(rl);
         cbCopyImages.addActionListener(rl);
+        cbIncludeImages.addActionListener(rl);
+        cbIncludeAttachments.addActionListener(rl);
+        cbCopyAttachments.addActionListener(rl);
 
         Dimension size = new Dimension(100, ComponentFactory.getPreferredFieldHeight());
         nfHeight.setMinimumSize(size);
@@ -108,30 +134,45 @@ public class ItemExporterImageSettingsPanel extends JPanel {
         JPanel panelImages = new JPanel();
         panelImages.setLayout(Layout.getGBL());
 
-        panelImages.add(cbCopyImages,  Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
-                       ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                        new Insets( 5, 5, 5, 5), 0, 0));
+        panelImages.add(cbIncludeImages,  Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                 new Insets( 5, 5, 5, 5), 0, 0));
+        panelImages.add(cbCopyImages,  Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
+               ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                new Insets( 5, 5, 5, 5), 0, 0));
         panelImages.add(cbResizeImages,  
-                        Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
-                       ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                        new Insets( 5, 5, 5, 5), 0, 0));
-        panelImages.add(nfWidth,        Layout.getGBC( 0, 2, 1, 1, 1.0, 1.0
-                       ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                        new Insets( 5, 5, 5, 5), 0, 0));
+                Layout.getGBC( 0, 2, 1, 1, 1.0, 1.0
+               ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                new Insets( 5, 5, 5, 5), 0, 0));
+        panelImages.add(nfWidth,        Layout.getGBC( 0, 3, 1, 1, 1.0, 1.0
+               ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                new Insets( 5, 5, 5, 5), 0, 0));
         panelImages.add(ComponentFactory.getLabel(DcResources.getText("lblWidth")), 
-                        Layout.getGBC( 1, 2, 1, 1, 1.0, 1.0
-                       ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                        new Insets( 5, 5, 5, 5), 0, 0));
-        panelImages.add(nfHeight,       Layout.getGBC( 0, 3, 1, 1, 1.0, 1.0
-                       ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                        new Insets( 5, 5, 5, 5), 0, 0));
+                Layout.getGBC( 1, 3, 1, 1, 1.0, 1.0
+               ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets( 5, 5, 5, 5), 0, 0));
+        panelImages.add(nfHeight,       Layout.getGBC( 0, 4, 1, 1, 1.0, 1.0
+               ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                new Insets( 5, 5, 5, 5), 0, 0));
         panelImages.add(ComponentFactory.getLabel(DcResources.getText("lblHeight")), 
-                        Layout.getGBC( 1, 3, 1, 1, 1.0, 1.0
-                       ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                        new Insets( 5, 5, 5, 5), 0, 0));
+                Layout.getGBC( 1, 4, 1, 1, 1.0, 1.0
+               ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+                new Insets( 5, 5, 5, 5), 0, 0));
+        
         panelImages.setBorder(ComponentFactory.getTitleBorder(DcResources.getText("lblImages")));
 
-
+        JPanel panelAttachments = new JPanel();
+        panelAttachments.setLayout(Layout.getGBL());
+        
+        panelAttachments.add(cbIncludeAttachments, Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
+               ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                new Insets( 5, 5, 5, 5), 0, 0));
+        panelAttachments.add(cbCopyAttachments, Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
+               ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                new Insets( 5, 5, 5, 5), 0, 0));
+        
+        panelAttachments.setBorder(ComponentFactory.getTitleBorder(DcResources.getText("lblAttachments")));
+        
         nfMaxTextLength.setMinimumSize(new Dimension(40, ComponentFactory.getPreferredFieldHeight()));
         nfMaxTextLength.setPreferredSize(new Dimension(40, ComponentFactory.getPreferredFieldHeight()));
         
@@ -148,15 +189,18 @@ public class ItemExporterImageSettingsPanel extends JPanel {
         
         panelText.setBorder(ComponentFactory.getTitleBorder(DcResources.getText("lblText")));
         
-        add(panelImages, Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
-                        ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                         new Insets( 5, 5, 5, 5), 0, 0));
-        add(panelText,   Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
-                        ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                         new Insets( 5, 5, 5, 5), 0, 0));
+		add(panelImages, Layout.getGBC(0, 0, 1, 1, 1.0, 1.0, 
+			GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, 
+			new Insets(5, 5, 5, 5), 0, 0));
+		add(panelAttachments, Layout.getGBC(0, 1, 1, 1, 1.0, 1.0, 
+			GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, 
+			new Insets(5, 5, 5, 5), 0, 0));
+		add(panelText, Layout.getGBC(0, 2, 1, 1, 1.0, 1.0, 
+			GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+			new Insets(5, 5, 5, 5), 0, 0));
     }
     
-    private class ResizeListener implements ActionListener {
+    private class PictureSettingListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent arg0) {

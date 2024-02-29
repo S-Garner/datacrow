@@ -36,18 +36,21 @@ public class ItemExporterSettings {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemExporterSettings.class.getName());
     
+    public static final String _INCLUDE_ATTACHMENTS = "include_attachments";
+    public static final String _COPY_ATTACHMENTS = "copy_attachments";
+    
+    public static final String _INCLUDE_IMAGES = "include_images";
     public static final String _COPY_IMAGES = "copy_images";
     public static final String _SCALE_IMAGES = "scale_images";
     public static final String _IMAGE_WIDTH = "image_width";
     public static final String _IMAGE_HEIGHT = "image_height";
+
     public static final String _MAX_TEXT_LENGTH = "max_text_length";
     public static final String _ALLOWRELATIVEIMAGEPATHS = "allowrelativeimagespaths";
     
-    private final String filename;
     private final Properties properties;
     
     public ItemExporterSettings() {
-        filename = null;
         properties = new Properties();
     }    
     
@@ -73,7 +76,7 @@ public class ItemExporterSettings {
         return i;
     }
     
-    public void save() {
+    public void save(String filename) {
         try {
             File file = new File(filename);
             FileOutputStream fos = new FileOutputStream(file);
