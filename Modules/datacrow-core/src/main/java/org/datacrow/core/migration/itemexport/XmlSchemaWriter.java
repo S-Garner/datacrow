@@ -161,6 +161,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
             int field = dco instanceof DcProperty ? DcProperty._A_NAME : DcAssociate._A_NAME;
             String label = getValidTag(dco.getField(field).getSystemName());
             writeLine("<xsd:element name=\"" + label + "\" type=\"xsd:string\"/>", 3);
+            writeLine("<xsd:element name=\"" + getValidTag(dco.getField(DcObject._ID).getSystemName()) + "\" type=\"xsd:string\"/>", 3);
             
         } else if (
                 dco.getModule().getType() == DcModule._TYPE_MEDIA_MODULE || 
