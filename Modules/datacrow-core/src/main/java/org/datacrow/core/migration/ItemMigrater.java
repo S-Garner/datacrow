@@ -66,6 +66,7 @@ public abstract class ItemMigrater {
     
     public abstract DcThread getTask();
     public abstract String getName();
+    
     protected abstract void initialize() throws Exception;
 
     /**

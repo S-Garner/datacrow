@@ -112,7 +112,7 @@ public class XmlExporter extends ItemExporter {
          * @throws IOException
          */
         private void generateXsd(String schemaFile) throws Exception {
-            XmlSchemaWriter schema = new XmlSchemaWriter(schemaFile);
+            XmlSchemaWriter schema = new XmlSchemaWriter(schemaFile, settings);
             schema.setFields(getFields());
             DcObject dco = DcModules.getCurrent().getItem();
             schema.create(dco);
@@ -135,8 +135,6 @@ public class XmlExporter extends ItemExporter {
                 writer.startEntity(dco);
                 client.notify(DcResources.getText("msgExportingX", dco.toString()));
 
-                writer.writeAttribute(dco, DcObject._SYS_MODULE);
-                
                 for (int fieldIdx : getFields()) {
                     DcField field = dco.getField(fieldIdx);
                     if (field != null && !field.getSystemName().endsWith("_persist")) 
@@ -164,6 +162,14 @@ public class XmlExporter extends ItemExporter {
                         writer.resetIdent();
                         writer.endRelations(dco.getModule().getChild());
                     }
+                }
+                
+                if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS)) {
+                	writer.writeAttachments();
+                }
+                
+                if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
+                	writer.writePictures();
                 }
                     
                 writer.endEntity(dco);

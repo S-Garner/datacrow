@@ -36,8 +36,7 @@ public class ItemExporterSettings {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemExporterSettings.class.getName());
     
-    public static final String _INCLUDE_ATTACHMENTS = "include_attachments";
-    public static final String _COPY_ATTACHMENTS = "copy_attachments";
+    public static final String _COPY_AND_INCLUDE_ATTACHMENTS = "copy_and_include_attachments";
     
     public static final String _INCLUDE_IMAGES = "include_images";
     public static final String _COPY_IMAGES = "copy_images";

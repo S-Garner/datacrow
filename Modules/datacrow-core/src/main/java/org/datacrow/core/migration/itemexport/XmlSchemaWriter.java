@@ -45,9 +45,12 @@ public class XmlSchemaWriter extends XmlBaseWriter {
     private final Collection<XmlReference> references = new ArrayList<XmlReference>();
     
     private int[] fields;
+    private final ItemExporterSettings settings;
     
-    public XmlSchemaWriter(String filename) throws IOException {
+    public XmlSchemaWriter(String filename, ItemExporterSettings settings) throws IOException {
         super(filename);
+        
+        this.settings = settings; 
     }
     
     public void create(DcObject dco) throws IOException {
@@ -88,7 +91,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
                 DcObject so = sm.getItem();
 
                 if (!handled.contains(so.getModule().getSystemObjectName())) {
-                    writeDco(so);
+                    writeDco(so, false);
                     newLine();
                 }
                 handled.add(so.getModule().getSystemObjectName());
@@ -96,13 +99,13 @@ public class XmlSchemaWriter extends XmlBaseWriter {
         }
         
         if (dco.getModule().getChild() != null) {
-            writeDco(dco.getModule().getChild().getItem());
+            writeDco(dco.getModule().getChild().getItem(), true);
             newLine();
             
             handled.add(dco.getModule().getChild().getSystemObjectName());
         }
         
-        writeDco(dco);
+        writeDco(dco, true);
         handled.add(dco.getModule().getSystemObjectName());
     }
     
@@ -117,7 +120,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
 
         if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
             DcModule sm = DcModules.get(field.getReferenceIdx());
-            String name = getValidTag(field.getSystemName());
+            String name = getTagName(field);
             String reference = getValidTag(sm.getSystemObjectName());
 
             writeLine("<xsd:element name=\"" + name + "\"/>", 3);
@@ -143,11 +146,11 @@ public class XmlSchemaWriter extends XmlBaseWriter {
                 type = "string";
             }
             
-            writeLine("<xsd:element name=\"" + label + "\" type=\"xsd:" + type + "\"/>", 3);
+            writeLine("<xsd:element name=\"" + label + "\" type=\"xsd:" + type + "\" nillable=\"true\"/>", 3);
         }        
     }
     
-    private void writeDco(DcObject dco) throws IOException {
+    private void writeDco(DcObject dco, boolean detailed) throws IOException {
         String baseName = getValidTag(dco.getModule().getSystemObjectName());
         
         newLine();
@@ -160,27 +163,40 @@ public class XmlSchemaWriter extends XmlBaseWriter {
             
             int field = dco instanceof DcProperty ? DcProperty._A_NAME : DcAssociate._A_NAME;
             String label = getValidTag(dco.getField(field).getSystemName());
-            writeLine("<xsd:element name=\"" + label + "\" type=\"xsd:string\"/>", 3);
+
             writeLine("<xsd:element name=\"" + getValidTag(dco.getField(DcObject._ID).getSystemName()) + "\" type=\"xsd:string\"/>", 3);
+            writeLine("<xsd:element name=\"" + label + "\" type=\"xsd:string\"/>", 3);
             
         } else if (
                 dco.getModule().getType() == DcModule._TYPE_MEDIA_MODULE || 
                 dco.getModule().getType() == DcModule._TYPE_MODULE) {
             
-            writeField(dco.getField(DcObject._SYS_MODULE));
-            
             for (int fieldIdx : fields) {
                 DcField field = dco.getField(fieldIdx);
-                if (field != null && !field.getSystemName().endsWith("_persist")) writeField(field);
+                if (field != null && !field.getSystemName().endsWith("_persist"))
+                	writeField(field);
             }
         }
         
-        if (dco.getModule().getChild() != null) {
+        if (detailed && dco.getModule().getChild() != null) {
             String name = getValidTag(dco.getModule().getChild().getSystemObjectNamePlural());
             String reference = getValidTag(dco.getModule().getChild().getSystemObjectName());
             
-            writeLine("<xsd:element name=\"" + name + "\"/>", 3);
+            writeLine("<xsd:element name=\"" + name + "\" nillable=\"true\"/>", 3);
             addReference(name, reference);
+        }
+
+        // only export images and attachments for top level items or its children
+        if (detailed) {
+            if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
+            	writeLine("<xsd:element name=\"pictures\"/>", 3);
+            	addReference("pictures", "picture");
+            }
+            
+            if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS)) {
+            	writeLine("<xsd:element name=\"attachments\"/>", 3);
+            	addReference("attachments", "attachment");
+            }            
         }
         
         writeLine("</xsd:sequence>", 2);

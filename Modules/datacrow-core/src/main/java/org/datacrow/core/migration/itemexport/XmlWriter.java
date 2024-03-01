@@ -43,7 +43,7 @@ public class XmlWriter extends XmlBaseWriter {
     
     private ItemExporterSettings settings;
     
-//    private final ItemExporterUtilities utilities;
+    private final ItemExporterUtilities utilities;
     private final String schemaFile;
     private final int stepSize = 4;
 
@@ -57,7 +57,7 @@ public class XmlWriter extends XmlBaseWriter {
     public XmlWriter(BufferedOutputStream bos, String filename, String schemaFile, ItemExporterSettings settings) {
         super(bos);
         
-//        this.utilities = new ItemExporterUtilities(filename, settings);
+        this.utilities = new ItemExporterUtilities(filename, settings);
         this.schemaFile = schemaFile;
         this.settings = settings;
         
@@ -108,7 +108,9 @@ public class XmlWriter extends XmlBaseWriter {
             return;   
         
         ident(valueIdent);
-        String tag = getValidTag(dco.getField(field).getSystemName());
+        
+        String tag = getTagName(dco.getField(field));
+        
         writeTag("<" + tag + ">");
         writeValue(dco, field);
         writeTag("</" + tag + ">");
@@ -130,7 +132,19 @@ public class XmlWriter extends XmlBaseWriter {
             newLine();
         }
     }
+    
+    public void writeAttachments() throws IOException {
+    	ident(valueIdent);
+    	
+    	// TODO: implement
+    }
 
+    public void writePictures() throws IOException {
+    	ident(valueIdent);
+    	
+    	// TODO: implement
+    }    
+    
     public void startRelations(DcModule childModule) throws IOException {
         ident(valueIdent);
         writeTag("<" + getValidTag(childModule.getSystemObjectNamePlural()) + ">");
@@ -165,8 +179,8 @@ public class XmlWriter extends XmlBaseWriter {
                 if (subDco != null) { 
 	                startEntity(subDco);
 	                int fieldIdx = subDco.getSystemDisplayFieldIdx();
-	                writeAttribute(subDco, fieldIdx);
 	                writeAttribute(subDco, DcObject._ID);
+	                writeAttribute(subDco, fieldIdx);
 	                endEntity(subDco);
                 }
             }
@@ -188,8 +202,6 @@ public class XmlWriter extends XmlBaseWriter {
             }
             write(text);
         }
-       
-       // TODO: XML Export attachments, pictures & icons
     }
     
     private void ident(int x) throws IOException {

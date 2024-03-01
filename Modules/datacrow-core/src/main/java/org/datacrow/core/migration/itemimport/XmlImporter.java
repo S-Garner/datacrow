@@ -139,6 +139,9 @@ public class XmlImporter extends ItemImporter {
                     continue;
                 
                 if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
+                	
+                	// TODO: tag name has changed - see XmlBaseWriter#getTagName
+                	
                     // retrieve the items by their module name
                     DcModule referenceMod = DcModules.get(field.getReferenceIdx());
                     String referenceName = Converter.getValidXmlTag(referenceMod.getSystemObjectName());

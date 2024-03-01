@@ -42,8 +42,7 @@ import org.datacrow.core.resources.DcResources;
 
 public class ItemExporterImageSettingsPanel extends JPanel {
     
-	private final JCheckBox cbIncludeAttachments = ComponentFactory.getCheckBox(DcResources.getText("lblIncludeAttachments"));
-	private final JCheckBox cbCopyAttachments = ComponentFactory.getCheckBox(DcResources.getText("lblCopyAttachments"));
+	private final JCheckBox cbIncludeAndCopyAttachments = ComponentFactory.getCheckBox(DcResources.getText("lblIncludeAndCopyAttachments"));
 	
 	private final JCheckBox cbIncludeImages = ComponentFactory.getCheckBox(DcResources.getText("lblIncludeImage"));
     private final JCheckBox cbResizeImages = ComponentFactory.getCheckBox(DcResources.getText("lblScaleImages"));
@@ -69,9 +68,6 @@ public class ItemExporterImageSettingsPanel extends JPanel {
         
         nfWidth.setEnabled(cbResizeImages.isSelected());
         nfHeight.setEnabled(cbResizeImages.isSelected());
-        
-        cbCopyAttachments.setEnabled(cbIncludeAttachments.isSelected());
-        cbCopyAttachments.setSelected(!cbIncludeAttachments.isSelected() ? false : cbCopyAttachments.isSelected());
     }
     
     public void saveSettings(ItemExporterSettings properties) {
@@ -83,15 +79,11 @@ public class ItemExporterImageSettingsPanel extends JPanel {
         properties.set(ItemExporterSettings._IMAGE_WIDTH, nfWidth.getValue());
         properties.set(ItemExporterSettings._IMAGE_HEIGHT,nfHeight.getValue());
         
-        properties.set(ItemExporterSettings._INCLUDE_ATTACHMENTS, cbIncludeAttachments.isSelected());
-        properties.set(ItemExporterSettings._COPY_ATTACHMENTS, cbCopyAttachments.isSelected());
+        properties.set(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS, cbIncludeAndCopyAttachments.isSelected());
     }
     
     public void applySettings(ItemExporterSettings properties) {
-    	
-    	cbIncludeAttachments.setSelected(properties.getBoolean(ItemExporterSettings._INCLUDE_ATTACHMENTS));
-    	cbCopyAttachments.setSelected(properties.getBoolean(ItemExporterSettings._COPY_ATTACHMENTS));
-    	
+    	cbIncludeAndCopyAttachments.setSelected(properties.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS));
     	cbIncludeImages.setSelected(properties.getBoolean(ItemExporterSettings._INCLUDE_IMAGES));
         cbCopyImages.setSelected(properties.getBoolean(ItemExporterSettings._COPY_IMAGES));
         cbResizeImages.setSelected(properties.getBoolean(ItemExporterSettings._SCALE_IMAGES));
@@ -105,8 +97,7 @@ public class ItemExporterImageSettingsPanel extends JPanel {
     
     @Override
     public void setEnabled(boolean b) {
-    	cbIncludeAttachments.setEnabled(b);
-    	cbCopyAttachments.setEnabled(b);
+    	cbIncludeAndCopyAttachments.setEnabled(b);
     	cbIncludeImages.setEnabled(b);
         cbResizeImages.setEnabled(b);
         cbCopyImages.setEnabled(b);
@@ -122,8 +113,7 @@ public class ItemExporterImageSettingsPanel extends JPanel {
         cbResizeImages.addActionListener(rl);
         cbCopyImages.addActionListener(rl);
         cbIncludeImages.addActionListener(rl);
-        cbIncludeAttachments.addActionListener(rl);
-        cbCopyAttachments.addActionListener(rl);
+        cbIncludeAndCopyAttachments.addActionListener(rl);
 
         Dimension size = new Dimension(100, ComponentFactory.getPreferredFieldHeight());
         nfHeight.setMinimumSize(size);
@@ -164,10 +154,7 @@ public class ItemExporterImageSettingsPanel extends JPanel {
         JPanel panelAttachments = new JPanel();
         panelAttachments.setLayout(Layout.getGBL());
         
-        panelAttachments.add(cbIncludeAttachments, Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
-               ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                new Insets( 5, 5, 5, 5), 0, 0));
-        panelAttachments.add(cbCopyAttachments, Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
+        panelAttachments.add(cbIncludeAndCopyAttachments, Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
                ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                 new Insets( 5, 5, 5, 5), 0, 0));
         

@@ -60,6 +60,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
@@ -201,6 +202,15 @@ public class CoreUtilities {
     
     public static String getDatabaseColumnName() {
         return "col_" + CoreUtilities.getUniqueID().replaceAll("-", "");
+    }
+    
+    public static int[] getUniqueValues(int[] array) {
+    	LinkedHashSet<Integer> set = new LinkedHashSet<Integer>();
+
+	    for (int i = 0; i < array.length; i++)
+	        set.add(array[i]);
+
+	    return set.stream().mapToInt(Integer::intValue).toArray();
     }
     
     /**

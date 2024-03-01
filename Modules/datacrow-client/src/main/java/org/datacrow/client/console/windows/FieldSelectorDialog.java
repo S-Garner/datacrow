@@ -60,7 +60,7 @@ public class FieldSelectorDialog extends DcDialog implements ActionListener {
         
         this.modIdx = modIdx;
         this.settingsKey = settingsKey;
-        this.fs = new DcFieldSelectorField(modIdx, false, true);
+        this.fs = new DcFieldSelectorField(modIdx, true);
         
         setTitle(DcResources.getText("lblOnlineUpdateFieldSettings"));
         

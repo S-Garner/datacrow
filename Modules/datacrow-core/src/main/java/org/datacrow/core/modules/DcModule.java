@@ -962,7 +962,7 @@ public class DcModule implements Comparable<DcModule>, Serializable {
         				+ "does not match the number of actual fields of module " + this);
         	}
         }
-
+        
         return indices;
     }
     

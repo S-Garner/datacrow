@@ -29,6 +29,9 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.datacrow.core.DcRepository.ValueTypes;
+import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcField;
 import org.datacrow.core.utilities.Converter;
 
 public abstract class XmlBaseWriter {
@@ -44,6 +47,15 @@ public abstract class XmlBaseWriter {
         FileOutputStream fos = new FileOutputStream(filename);
         bos = new BufferedOutputStream(fos);
     }    
+    
+    protected String getTagName(DcField field) {
+    	String tag = getValidTag(field.getSystemName());
+        if (field.getValueType() == ValueTypes._DCOBJECTCOLLECTION)
+        	tag = DcModules.get(field.getReferenceIdx()).getSystemObjectNamePlural().toLowerCase() 
+        		+ "-" + getValidTag(field.getSystemName());
+    	
+    	return tag;
+    }
     
     protected String getValidTag(String s) {
         return Converter.getValidXmlTag(s);

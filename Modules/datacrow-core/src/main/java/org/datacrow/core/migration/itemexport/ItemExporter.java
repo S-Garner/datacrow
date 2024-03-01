@@ -73,13 +73,17 @@ public abstract class ItemExporter extends ItemMigrater {
     }
     
     public int[] getFields() {
-        if (fields == null || fields.length == 0) {
+        if (fields == null || fields.length == 0)
             fields = getModule().getFieldIndices();
 
-            if (!Arrays.contains(fields, DcObject._ID))
-            	Arrays.append(fields, DcObject._ID);
-        }
+        // make sure the module field is always included
+        if (!Arrays.contains(fields, DcObject._SYS_MODULE))
+        	fields = Arrays.prepend(fields, DcObject._SYS_MODULE);
         
+        // make sure the ID field is always included
+        if (!Arrays.contains(fields, DcObject._ID))
+        	fields = Arrays.prepend(fields, DcObject._ID);            
+            
         return fields;
     }
 

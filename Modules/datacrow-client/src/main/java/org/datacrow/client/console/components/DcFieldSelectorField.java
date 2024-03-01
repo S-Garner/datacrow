@@ -59,9 +59,9 @@ public class DcFieldSelectorField extends JComponent implements IComponent, Acti
 	private final Map<DcField, JCheckBox> componentMap = new LinkedHashMap<DcField, JCheckBox>();
     private final int module;
 
-    public DcFieldSelectorField(int module, boolean includeID, boolean showMenu) {
+    public DcFieldSelectorField(int module, boolean showMenu) {
         this.module = module;
-        buildComponent(includeID, showMenu);
+        buildComponent(showMenu);
     }
 
     @Override
@@ -146,7 +146,7 @@ public class DcFieldSelectorField extends JComponent implements IComponent, Acti
         return new DcMultiLineToolTip();
     }
     
-    private void buildComponent(boolean includeID, boolean showMenu) {
+    private void buildComponent(boolean showMenu) {
         setLayout(Layout.getGBL());
 
         JPanel panel = new JPanel();
@@ -158,10 +158,11 @@ public class DcFieldSelectorField extends JComponent implements IComponent, Acti
         JCheckBox checkBox;
         for (DcField field : DcModules.get(module).getFields()) {
             
-            if ((field.getIndex() == DcObject._ID && !includeID) ||
-            	 field.getValueType() == ValueTypes._PICTURE ||
-                 field.getSystemName().endsWith("_persist") ||
-                 field.getIndex() == DcObject._SYS_EXTERNAL_REFERENCES)
+            if (field.getIndex() == DcObject._ID ||
+            	field.getIndex() == DcObject._SYS_MODULE ||	
+            	field.getValueType() == ValueTypes._PICTURE ||
+                field.getSystemName().endsWith("_persist") ||
+                field.getIndex() == DcObject._SYS_EXTERNAL_REFERENCES)
                 continue;
              
             checkBox = ComponentFactory.getCheckBox(field.getLabel());
