@@ -52,13 +52,12 @@ public class ItemExporterUtilities {
         this.exportName = file.getName();
         this.exportDir = file.getParent();
         this.exportName = exportName.lastIndexOf(".") > -1 ? exportName.substring(0, exportName.lastIndexOf(".")) : exportName;
-        
-        if (settings.getBoolean(ItemExporterSettings._COPY_IMAGES))
-            new File(getImageDir()).mkdirs();
     }
     
-    private String getImageDir() {
-        return new File(exportDir, exportName +  "_images/").toString();
+    private File getImageFile(Picture picture) {
+        File dir = new File(exportDir, exportName +  "_images/" + picture.getObjectID() + "/");
+        dir.mkdirs();
+        return new File(dir, picture.getTargetFile().getName());
     }
     
     private File getAttachmentFile(Attachment attachment) {
@@ -86,20 +85,20 @@ public class ItemExporterUtilities {
     
     public String getImageURL(Picture p) {
         String url = "";
-        String imageFilename = p.getFilename(); 
+        File src = p.getTargetFile(); 
+        File imageFile = getImageFile(p);
         
-        if (!CoreUtilities.isEmpty(imageFilename)) {
-            if (settings.getBoolean(ItemExporterSettings._COPY_IMAGES)) {
-                copyImage(p,  new File(getImageDir(), imageFilename));
+        if (settings.getBoolean(ItemExporterSettings._COPY_IMAGES)) {
+            copyImage(p, imageFile);
 
-                if (settings.getBoolean(ItemExporterSettings._ALLOW_RELATIVE_FILE_PATHS))
-                    url = "./" + exportName + "_images/" + imageFilename;
-                else 
-                    url = "file:///" +  new File(getImageDir().replace('\\', '/'), imageFilename);
-            } else {
-            	url = !CoreUtilities.isEmpty(p.getUrl()) ? p.getUrl() : "file:///" + imageFilename;
-            }
+            if (settings.getBoolean(ItemExporterSettings._ALLOW_RELATIVE_FILE_PATHS))
+                url = "./" + exportName + "_images/" + p.getObjectID() + "/" + imageFile.getName();
+            else 
+            	return "file:///" + imageFile.toString().replace('\\', '/');
+        } else {
+        	url = !CoreUtilities.isEmpty(p.getUrl()) ? p.getUrl() : "file:///" + src.toString();
         }
+
         return url;
     }
     

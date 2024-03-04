@@ -40,6 +40,7 @@ import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class XmlWriter extends XmlBaseWriter {
@@ -180,9 +181,41 @@ public class XmlWriter extends XmlBaseWriter {
     }
 
     public void writePictures(String ID) throws IOException {
-    	newLine();
-    	ident(valueIdent);
+    	Collection<Picture> pictures = DcConfig.getInstance().getConnector().getPictures(ID);
+    	
+    	if (pictures.size() > 0) {
+        	setIdent(1);
+        	ident(valueIdent);
 
+    		writeTag("<pictures>");
+    		newLine();
+        	setIdent(2);
+    		ident(tagIdent);
+    		
+    		String url;
+    		for (Picture picture : pictures) {
+    			url = utilities.getImageURL(picture);
+    			
+    			if (!CoreUtilities.isEmpty(url)) {
+    				writeTag("<picture>");
+    				newLine();
+    	        	setIdent(3);
+    				ident(tagIdent);
+    				writeTag("<link>");
+    				write(url);
+    				writeTag("</link>");
+    				newLine();
+    				setIdent(2);
+    				ident(tagIdent);
+    				writeTag("</picture>");
+    				newLine();
+    			}
+    		}
+    		setIdent(1);
+    		ident(valueIdent);
+    		writeTag("</pictures>");
+    		newLine();
+    	}    	
     }    
     
     public void startRelations(DcModule childModule) throws IOException {

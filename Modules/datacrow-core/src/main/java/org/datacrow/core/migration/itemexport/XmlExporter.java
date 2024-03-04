@@ -163,14 +163,12 @@ public class XmlExporter extends ItemExporter {
                         writer.endRelations(dco.getModule().getChild());
                     }
                 }
-                
-                if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS)) {
-                	writer.writeAttachments(dco.getID());
-                }
-                
-                if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
+
+                if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES))
                 	writer.writePictures(dco.getID());
-                }
+                
+                if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS))
+                	writer.writeAttachments(dco.getID());
                 
                 writer.resetIdent();
                 writer.endEntity(dco);
