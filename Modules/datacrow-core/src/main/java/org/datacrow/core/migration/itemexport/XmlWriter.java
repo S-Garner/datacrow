@@ -33,11 +33,14 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
+import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository.ValueTypes;
+import org.datacrow.core.attachments.Attachment;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.utilities.CoreUtilities;
 
 public class XmlWriter extends XmlBaseWriter {
     
@@ -49,6 +52,8 @@ public class XmlWriter extends XmlBaseWriter {
     private int tagIdent;
     private int valueIdent;
     
+    private ItemExporterUtilities utilities;
+    
 	public XmlWriter(String filename, String schemaFile, ItemExporterSettings properties) throws IOException {
         this(new BufferedOutputStream(new FileOutputStream(filename)), filename, schemaFile, properties);
     }
@@ -58,6 +63,7 @@ public class XmlWriter extends XmlBaseWriter {
         
         this.schemaFile = schemaFile;
         this.settings = settings;
+        this.utilities = new ItemExporterUtilities(filename, settings);
         
         resetIdent();
     }    
@@ -115,6 +121,9 @@ public class XmlWriter extends XmlBaseWriter {
         newLine();
         
         if (dco.getField(field).getValueType() == ValueTypes._DCOBJECTCOLLECTION) {
+        	
+        	ident(valueIdent);
+        	
             writeTag("<" + getValidTag(dco.getField(field).getSystemName()) + "-list>");
             
             if (dco.isFilled(field)) {
@@ -131,16 +140,49 @@ public class XmlWriter extends XmlBaseWriter {
         }
     }
     
-    public void writeAttachments() throws IOException {
-    	ident(valueIdent);
+    public void writeAttachments(String ID) throws IOException {
+
+    	Collection<Attachment> attachments = DcConfig.getInstance().getConnector().getAttachmentsList(ID);
     	
-    	// TODO: implement
+    	if (attachments.size() > 0) {
+        	setIdent(1);
+        	ident(valueIdent);
+
+    		writeTag("<attachments>");
+    		newLine();
+        	setIdent(2);
+    		ident(tagIdent);
+    		
+    		String url;
+    		for (Attachment attachment : attachments) {
+    			url = utilities.getAttachmentURL(attachment);
+    			
+    			if (!CoreUtilities.isEmpty(url)) {
+    				writeTag("<attachment>");
+    				newLine();
+    	        	setIdent(3);
+    				ident(tagIdent);
+    				writeTag("<link>");
+    				write(url);
+    				writeTag("</link>");
+    				newLine();
+    				setIdent(2);
+    				ident(tagIdent);
+    				writeTag("</attachment>");
+    				newLine();
+    			}
+    		}
+    		setIdent(1);
+    		ident(valueIdent);
+    		writeTag("</attachments>");
+    		newLine();
+    	}
     }
 
-    public void writePictures() throws IOException {
+    public void writePictures(String ID) throws IOException {
+    	newLine();
     	ident(valueIdent);
-    	
-    	// TODO: implement
+
     }    
     
     public void startRelations(DcModule childModule) throws IOException {

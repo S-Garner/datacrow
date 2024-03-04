@@ -97,11 +97,30 @@ public class XmlSchemaWriter extends XmlBaseWriter {
                 handled.add(so.getModule().getSystemObjectName());
             }
         }
+
+        if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
+        	writeLine("<xsd:element name=\"picture\" type=\"type-picture\"/>", 1);
+        	writeLine("<xsd:complexType name=\"type-picture\">", 1);
+        	writeLine("<xsd:sequence>", 2);
+        	writeLine("<xsd:element name=\"link\" type=\"xsd:string\" />", 3);
+        	writeLine("</xsd:sequence>", 2);
+        	writeLine("</xsd:complexType>", 1);
+        	newLine();
+        }
+
+        if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS)) {
+        	writeLine("<xsd:element name=\"attachment\" type=\"type-attachment\"/>", 1);
+        	writeLine("<xsd:complexType name=\"type-attachment\">", 1);
+        	writeLine("<xsd:sequence>", 2);
+        	writeLine("<xsd:element name=\"link\" type=\"xsd:string\" />", 3);
+        	writeLine("</xsd:sequence>", 2);
+        	writeLine("</xsd:complexType>", 1);        	
+        	newLine();
+        }            
         
         if (dco.getModule().getChild() != null) {
             writeDco(dco.getModule().getChild().getItem(), true);
             newLine();
-            
             handled.add(dco.getModule().getChild().getSystemObjectName());
         }
         
@@ -189,12 +208,12 @@ public class XmlSchemaWriter extends XmlBaseWriter {
         // only export images and attachments for top level items or its children
         if (detailed) {
             if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
-            	writeLine("<xsd:element name=\"pictures\"/>", 3);
+            	writeLine("<xsd:element name=\"pictures\" minOccurs=\"0\" />", 3);
             	addReference("pictures", "picture");
             }
             
             if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS)) {
-            	writeLine("<xsd:element name=\"attachments\"/>", 3);
+            	writeLine("<xsd:element name=\"attachments\" minOccurs=\"0\" />", 3);
             	addReference("attachments", "attachment");
             }            
         }

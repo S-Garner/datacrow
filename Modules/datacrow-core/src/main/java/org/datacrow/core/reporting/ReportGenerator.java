@@ -205,7 +205,7 @@ public class ReportGenerator {
     }
     
     protected void setSettings(ItemExporterSettings properties) {
-        properties.set(ItemExporterSettings._ALLOWRELATIVEIMAGEPATHS, Boolean.TRUE);
+        properties.set(ItemExporterSettings._ALLOW_RELATIVE_FILE_PATHS, Boolean.TRUE);
     }
     
     private class GenerateReportTask extends Thread {

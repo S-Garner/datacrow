@@ -26,7 +26,11 @@
 package org.datacrow.core.migration.itemexport;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
+import org.datacrow.core.DcConfig;
+import org.datacrow.core.attachments.Attachment;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.pictures.Picture;
@@ -57,6 +61,29 @@ public class ItemExporterUtilities {
         return new File(exportDir, exportName +  "_images/").toString();
     }
     
+    private File getAttachmentFile(Attachment attachment) {
+        File dir = new File(exportDir, exportName +  "_attachments/" + attachment.getObjectID() + "/");
+        dir.mkdirs();
+        return new File(dir, attachment.getStorageFile().getName());
+    }   
+    
+    public String getAttachmentURL(Attachment attachment) {
+        File attachmentFile = getAttachmentFile(attachment);
+        copyAttachment(attachment, attachmentFile);
+
+        try {
+        	String attachmentFileName = URLEncoder.encode(attachmentFile.getName(), "UTF8");
+	        if (settings.getBoolean(ItemExporterSettings._ALLOW_RELATIVE_FILE_PATHS))
+	            return "./" + exportName + "_attachments/" + attachment.getObjectID() + "/" + attachmentFileName;
+	        else 
+	            return "file:///" + attachmentFile.getParent().replace('\\', '/') + "/" + attachmentFileName;
+        } catch (UnsupportedEncodingException ueu) {
+        	logger.error("An error occured whilst trying to create an URL for attachment " + attachment, ueu);
+        }
+        
+        return null;
+    }
+    
     public String getImageURL(Picture p) {
         String url = "";
         String imageFilename = p.getFilename(); 
@@ -64,17 +91,29 @@ public class ItemExporterUtilities {
         if (!CoreUtilities.isEmpty(imageFilename)) {
             if (settings.getBoolean(ItemExporterSettings._COPY_IMAGES)) {
                 copyImage(p,  new File(getImageDir(), imageFilename));
-                
-                if (settings.getBoolean(ItemExporterSettings._ALLOWRELATIVEIMAGEPATHS))
+
+                if (settings.getBoolean(ItemExporterSettings._ALLOW_RELATIVE_FILE_PATHS))
                     url = "./" + exportName + "_images/" + imageFilename;
                 else 
-                    url = "file:///" +  new File(getImageDir(), imageFilename);
+                    url = "file:///" +  new File(getImageDir().replace('\\', '/'), imageFilename);
             } else {
             	url = !CoreUtilities.isEmpty(p.getUrl()) ? p.getUrl() : "file:///" + imageFilename;
             }
         }
         return url;
     }
+    
+    private void copyAttachment(Attachment attachment, File target) {
+        try {
+        	
+    		DcConfig.getInstance().getConnector().loadAttachment(attachment);
+    		CoreUtilities.writeToFile(attachment.getData(), target);
+            
+            
+        } catch (Exception e) {
+            logger.error("An error occurred while copying image to " + target, e);
+        }
+    }     
     
     private void copyImage(Picture picture, File target) {
         try {

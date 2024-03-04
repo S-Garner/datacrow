@@ -45,7 +45,7 @@ public class ItemExporterSettings {
     public static final String _IMAGE_HEIGHT = "image_height";
 
     public static final String _MAX_TEXT_LENGTH = "max_text_length";
-    public static final String _ALLOWRELATIVEIMAGEPATHS = "allowrelativeimagespaths";
+    public static final String _ALLOW_RELATIVE_FILE_PATHS = "allow_relative_file_paths";
     
     private final Properties properties;
     

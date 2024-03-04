@@ -298,7 +298,7 @@ public class ModuleExporter {
 			
 			ItemExporterSettings settings = new ItemExporterSettings();
 			settings.set(ItemExporterSettings._COPY_IMAGES, Boolean.TRUE);
-			settings.set(ItemExporterSettings._ALLOWRELATIVEIMAGEPATHS, Boolean.TRUE);
+			settings.set(ItemExporterSettings._ALLOW_RELATIVE_FILE_PATHS, Boolean.TRUE);
 			settings.set(ItemExporterSettings._SCALE_IMAGES, Boolean.FALSE);
 			itemExporter.setSettings(settings);
 			

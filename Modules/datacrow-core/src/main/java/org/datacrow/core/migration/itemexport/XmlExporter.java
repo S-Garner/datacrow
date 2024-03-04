@@ -165,18 +165,18 @@ public class XmlExporter extends ItemExporter {
                 }
                 
                 if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS)) {
-                	writer.writeAttachments();
+                	writer.writeAttachments(dco.getID());
                 }
                 
                 if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
-                	writer.writePictures();
+                	writer.writePictures(dco.getID());
                 }
-                    
+                
+                writer.resetIdent();
                 writer.endEntity(dco);
                 client.notifyProcessed();
                 bos.flush();
                 
-                // release the object
                 dco.cleanup();
             }
             

@@ -14,6 +14,7 @@ Data Crow version 5.0                         Released on 2024-xx-xx
 - Scrolling performance has been improved for the card list.
 - Extended the supported image types for the local art import for movies and music files. 
 - XML export: omit empty values / tags to save space.
+- Attachments are now also exported when performing an XML export.
 
 [Fixed]
 - Right-click menu on attachment: icon size too large.
@@ -21,9 +22,6 @@ Data Crow version 5.0                         Released on 2024-xx-xx
 - View never updated the status bar when only 1 item has been selected.
 - Attachments menu was missing icons.
 - XML export: schema errors fixed.
-
-
-
 
 translations TODO:
 
