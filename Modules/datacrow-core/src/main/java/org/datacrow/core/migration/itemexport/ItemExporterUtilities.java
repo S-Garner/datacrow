@@ -96,7 +96,7 @@ public class ItemExporterUtilities {
             else 
             	return "file:///" + imageFile.toString().replace('\\', '/');
         } else {
-        	url = !CoreUtilities.isEmpty(p.getUrl()) ? p.getUrl() : "file:///" + src.toString();
+        	url = !CoreUtilities.isEmpty(p.getUrl()) ? p.getUrl() : "file:///" + src.toString().replace('\\', '/');
         }
 
         return url;

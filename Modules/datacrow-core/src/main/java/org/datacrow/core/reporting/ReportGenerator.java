@@ -123,7 +123,6 @@ public class ReportGenerator {
     @SuppressWarnings({ "incomplete-switch", "unchecked" })
 	private void createReport() throws Exception {
     	
-    	@SuppressWarnings("resource")
 		FileOutputStream fos = null;
     	InputStream is = null;
     	
@@ -223,6 +222,8 @@ public class ReportGenerator {
                 
                 ItemExporterSettings settings = new ItemExporterSettings();
                 settings.set(ItemExporterSettings._MAX_TEXT_LENGTH, Integer.valueOf(0));
+                settings.set(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS, Boolean.FALSE);
+                settings.set(ItemExporterSettings._INCLUDE_IMAGES, Boolean.TRUE);
                 settings.set(ItemExporterSettings._COPY_IMAGES, Boolean.TRUE);
                 settings.set(ItemExporterSettings._SCALE_IMAGES, Boolean.TRUE);
                 settings.set(ItemExporterSettings._IMAGE_HEIGHT, Integer.valueOf(200));
@@ -258,28 +259,13 @@ public class ReportGenerator {
             } catch (Exception exp) {
                 logger.error(DcResources.getText("msgErrorWhileCreatingReport", exp.toString()), exp);
                 client.notify(DcResources.getText("msgErrorWhileCreatingReport", exp.toString()));
-            } finally {
-                if (client != null) client.notifyTaskCompleted(true, null);
                 
-                try {
-                    source.delete();
-                    String name = source.getName();
-                    name = name.replace(".xml", ".xsd");
-                    File xsd = new File(source.getParent(), name);
-                    xsd.delete();
-                    
-                    File imgDir = new File(target.getParent(), name.replace(".xsd", "") + "_images/");
-                    File imgFile;
-                    for (String imgName : imgDir.list()) {
-                        imgFile = new File(imgDir, imgName);
-                        imgFile.delete();
-                    }
-                    
-                    imgDir.delete();
-                    
-                } catch (Exception ignore) {
-                    logger.debug("Could not cleanup reporting files.", ignore);
-                }
+            } finally {
+            	
+                if (client != null) 
+                	client.notifyTaskCompleted(true, null);
+                
+                cleanup();
                 
                 source = null;
                 exporter = null;
@@ -289,6 +275,30 @@ public class ReportGenerator {
                 } catch (IOException e) {
                     logger.debug("Error while closing resource", e);
                 }
+            }
+        }
+        
+        private void cleanup() {
+            try {
+                source.delete();
+                String name = source.getName();
+                name = name.replace(".xml", ".xsd");
+                File xsd = new File(source.getParent(), name);
+                xsd.delete();
+                
+                File imgDir = new File(target.getParent(), name.replace(".xsd", "") + "_images/");
+                
+                if (imgDir.exists()) {
+	                File imgFile;
+	                for (String imgName : imgDir.list()) {
+	                    imgFile = new File(imgDir, imgName);
+	                    imgFile.delete();
+	                }
+	                
+	                imgDir.delete();
+                }
+            } catch (Exception ignore) {
+                logger.debug("Could not cleanup reporting files.", ignore);
             }
         }
     }
