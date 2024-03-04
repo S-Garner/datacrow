@@ -30,7 +30,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.datacrow.core.DcRepository.ValueTypes;
-import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.utilities.Converter;
 
@@ -51,8 +50,7 @@ public abstract class XmlBaseWriter {
     protected String getTagName(DcField field) {
     	String tag = getValidTag(field.getSystemName());
         if (field.getValueType() == ValueTypes._DCOBJECTCOLLECTION)
-        	tag = DcModules.get(field.getReferenceIdx()).getSystemObjectNamePlural().toLowerCase() 
-        		+ "-" + getValidTag(field.getSystemName());
+        	tag = "related-" + getValidTag(field.getSystemName());
     	
     	return tag;
     }

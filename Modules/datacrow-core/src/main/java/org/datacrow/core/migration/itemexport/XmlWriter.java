@@ -43,7 +43,6 @@ public class XmlWriter extends XmlBaseWriter {
     
     private ItemExporterSettings settings;
     
-    private final ItemExporterUtilities utilities;
     private final String schemaFile;
     private final int stepSize = 4;
 
@@ -57,7 +56,6 @@ public class XmlWriter extends XmlBaseWriter {
     public XmlWriter(BufferedOutputStream bos, String filename, String schemaFile, ItemExporterSettings settings) {
         super(bos);
         
-        this.utilities = new ItemExporterUtilities(filename, settings);
         this.schemaFile = schemaFile;
         this.settings = settings;
         
@@ -104,7 +102,7 @@ public class XmlWriter extends XmlBaseWriter {
     @SuppressWarnings("unchecked")
     public void writeAttribute(DcObject dco, int field) throws IOException {
         
-        if (dco.getField(field) == null)
+        if (dco.getField(field) == null || !dco.isFilled(field))
             return;   
         
         ident(valueIdent);
@@ -117,7 +115,7 @@ public class XmlWriter extends XmlBaseWriter {
         newLine();
         
         if (dco.getField(field).getValueType() == ValueTypes._DCOBJECTCOLLECTION) {
-            writeTag("<" + tag + "-list>");
+            writeTag("<" + getValidTag(dco.getField(field).getSystemName()) + "-list>");
             
             if (dco.isFilled(field)) {
                 StringBuffer sb = new StringBuffer();
@@ -128,7 +126,7 @@ public class XmlWriter extends XmlBaseWriter {
                 write(sb.toString());
             }
             
-            writeTag("</" + tag + "-list>");
+            writeTag("</" + getValidTag(dco.getField(field).getSystemName()) + "-list>");
             newLine();
         }
     }

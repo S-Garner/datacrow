@@ -123,9 +123,9 @@ public class XmlSchemaWriter extends XmlBaseWriter {
             String name = getTagName(field);
             String reference = getValidTag(sm.getSystemObjectName());
 
-            writeLine("<xsd:element name=\"" + name + "\"/>", 3);
+            writeLine("<xsd:element name=\"" + name + "\" minOccurs=\"0\" />", 3);
             addReference(name, reference);
-            writeLine("<xsd:element name=\"" + label + "-list\" type=\"xsd:string\"/>", 3);
+            writeLine("<xsd:element name=\"" + label + "-list\" type=\"xsd:string\" minOccurs=\"0\" nillable=\"true\" />", 3);
         } else {
             String type;
             switch (field.getValueType()) {
@@ -146,7 +146,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
                 type = "string";
             }
             
-            writeLine("<xsd:element name=\"" + label + "\" type=\"xsd:" + type + "\" nillable=\"true\"/>", 3);
+            writeLine("<xsd:element name=\"" + label + "\" type=\"xsd:" + type + "\" nillable=\"true\" minOccurs=\"0\" />", 3);
         }        
     }
     
