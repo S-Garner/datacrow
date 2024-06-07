@@ -28,8 +28,8 @@
 	<description>The ultimate cataloger</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.target>18</maven.compiler.target>
-		<maven.compiler.source>18</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>11</maven.compiler.source>
 		<twelvemonkeys.imageio.version>3.10.1</twelvemonkeys.imageio.version>
 	</properties>
 	<modules>

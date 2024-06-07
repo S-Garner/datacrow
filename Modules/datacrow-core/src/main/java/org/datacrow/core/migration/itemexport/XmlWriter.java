@@ -264,6 +264,8 @@ public class XmlWriter extends XmlBaseWriter {
         } else if (o instanceof Date) {
             Date date = (Date) o;
             write(new SimpleDateFormat("yyyy-MM-dd").format(date));
+        }  else if (o instanceof Number) {
+           write(o.toString());
         } else {
             String text = dco.getDisplayString(field);
             int maximumLength = settings.getInt(ItemExporterSettings._MAX_TEXT_LENGTH);
