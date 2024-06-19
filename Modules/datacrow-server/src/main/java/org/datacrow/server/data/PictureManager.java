@@ -245,6 +245,9 @@ public class PictureManager {
 	public Collection<Picture> getPictures(String ID) {
 		Collection<Picture> pictures = new LinkedList<Picture>();
 		
+		if (ID == null)
+			return pictures; 
+			
 		File dir = new File(DcConfig.getInstance().getImageDir(), ID); 
 		
 		if (dir.exists()) {

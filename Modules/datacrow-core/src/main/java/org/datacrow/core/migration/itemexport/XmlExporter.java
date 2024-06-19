@@ -28,11 +28,15 @@ package org.datacrow.core.migration.itemexport;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcThread;
+import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
@@ -118,14 +122,64 @@ public class XmlExporter extends ItemExporter {
             schema.create(dco);
         }
         
+        
+        
         private void generateXml(String schemaFile) throws Exception {
-            if (items == null || items.size() == 0) return;
+            
+        	if (items == null || items.size() == 0) return;
             
             XmlWriter writer = new XmlWriter(bos, file.toString(), schemaFile, settings);
             writer.startDocument();
             
             Connector conn = DcConfig.getInstance().getConnector();
             DcObject dco;
+            
+            for (String item : items) {
+            	
+                if (isCanceled()) break;
+                
+                dco = conn.getItem(getModule().getIndex(), item, null);
+                
+                
+                Collection<String> handled = new ArrayList<String>();
+                List<DcObject> references;
+                
+                for (int fieldIdx : fields) {
+                    DcField field = dco.getField(fieldIdx);
+                    
+                    if (field == null) continue;
+                    
+                    if (	field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
+                    		field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
+                    	
+                        DcModule sm = DcModules.get(field.getReferenceIdx());
+                        
+                        references = conn.getItems(new DataFilter(sm.getIndex()));
+                        if (!handled.contains(sm.getSystemObjectName())) {
+                            for (DcObject reference : references) {
+                            	
+                            	writer.startEntity(reference);
+                            	
+                                writer.writeAttribute(reference, DcObject._SYS_MODULE);
+                                int[] fields = reference.getFieldIndices();
+                                for (int i = 0; i < fields.length; i++) {
+                                	if (sm.getField(fields[i]).getFieldType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION &&
+                                		sm.getField(fields[i]).getFieldType() != DcRepository.ValueTypes._DCOBJECTREFERENCE)	
+                                		writer.writeAttribute(reference, fields[i]);
+                                }
+                                
+                                writer.endEntity(reference);
+                                reference.cleanup();
+                            }
+                        }
+
+                        handled.add(sm.getSystemObjectName());
+                    }
+                    
+                    dco.cleanup();
+                }                
+            }
+            
             for (String item : items) {
             	
                 if (isCanceled()) break;

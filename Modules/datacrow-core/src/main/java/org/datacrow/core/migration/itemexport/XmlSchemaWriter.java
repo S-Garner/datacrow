@@ -56,6 +56,26 @@ public class XmlSchemaWriter extends XmlBaseWriter {
     public void create(DcObject dco) throws IOException {
         startDocument(dco);
         
+        if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
+        	writeLine("<xsd:element name=\"picture\" type=\"type-picture\"/>", 1);
+        	writeLine("<xsd:complexType name=\"type-picture\">", 1);
+        	writeLine("<xsd:sequence>", 2);
+        	writeLine("<xsd:element name=\"link\" type=\"xsd:string\" />", 3);
+        	writeLine("</xsd:sequence>", 2);
+        	writeLine("</xsd:complexType>", 1);
+        	newLine();
+        }
+
+        if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS)) {
+        	writeLine("<xsd:element name=\"attachment\" type=\"type-attachment\"/>", 1);
+        	writeLine("<xsd:complexType name=\"type-attachment\">", 1);
+        	writeLine("<xsd:sequence>", 2);
+        	writeLine("<xsd:element name=\"link\" type=\"xsd:string\" />", 3);
+        	writeLine("</xsd:sequence>", 2);
+        	writeLine("</xsd:complexType>", 1);        	
+        	newLine();
+        }
+        
         Collection<String> handled = new ArrayList<String>();
         if (dco.getModule().isAbstract()) {
             for (DcModule module : DcModules.getModules()) {
@@ -86,7 +106,12 @@ public class XmlSchemaWriter extends XmlBaseWriter {
     private void handle(DcObject dco, Collection<String> handled) throws IOException {
         for (int fieldIdx : fields) {
             DcField field = dco.getField(fieldIdx);
-            if (field != null && field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
+            
+            if (field == null) continue;
+            
+            if (	field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
+            		field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
+            	
                 DcModule sm = DcModules.get(field.getReferenceIdx());
                 DcObject so = sm.getItem();
 
@@ -94,30 +119,11 @@ public class XmlSchemaWriter extends XmlBaseWriter {
                     writeDco(so, false);
                     newLine();
                 }
+                
                 handled.add(so.getModule().getSystemObjectName());
             }
         }
 
-        if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
-        	writeLine("<xsd:element name=\"picture\" type=\"type-picture\"/>", 1);
-        	writeLine("<xsd:complexType name=\"type-picture\">", 1);
-        	writeLine("<xsd:sequence>", 2);
-        	writeLine("<xsd:element name=\"link\" type=\"xsd:string\" />", 3);
-        	writeLine("</xsd:sequence>", 2);
-        	writeLine("</xsd:complexType>", 1);
-        	newLine();
-        }
-
-        if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS)) {
-        	writeLine("<xsd:element name=\"attachment\" type=\"type-attachment\"/>", 1);
-        	writeLine("<xsd:complexType name=\"type-attachment\">", 1);
-        	writeLine("<xsd:sequence>", 2);
-        	writeLine("<xsd:element name=\"link\" type=\"xsd:string\" />", 3);
-        	writeLine("</xsd:sequence>", 2);
-        	writeLine("</xsd:complexType>", 1);        	
-        	newLine();
-        }            
-        
         if (dco.getModule().getChild() != null) {
             writeDco(dco.getModule().getChild().getItem(), true);
             newLine();
