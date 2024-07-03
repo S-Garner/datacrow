@@ -28,14 +28,9 @@ package org.datacrow.core.migration.itemexport;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModule;
-import org.datacrow.core.modules.DcModules;
-import org.datacrow.core.objects.DcAssociate;
-import org.datacrow.core.objects.DcField;
-import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.DcProperty;
 
 /**
  * @author Robert Jan van der Waals
@@ -44,17 +39,24 @@ public class XmlSchemaWriter extends XmlBaseWriter {
     
     private final Collection<XmlReference> references = new ArrayList<XmlReference>();
     
-    private int[] fields;
     private final ItemExporterSettings settings;
     
-    public XmlSchemaWriter(String filename, ItemExporterSettings settings) throws IOException {
+    private final List<DcModule> modules;
+    
+    public XmlSchemaWriter(
+    		String filename,
+    		ItemExporterSettings settings,
+    		List<DcModule> modules) throws IOException {
+    	
         super(filename);
         
-        this.settings = settings; 
+        this.settings = settings;
+        this.modules = modules;
     }
     
-    public void create(DcObject dco) throws IOException {
-        startDocument(dco);
+    public void create() throws IOException {
+    	    	
+        startDocument();
         
         if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
         	writeLine("<xsd:element name=\"picture\" type=\"type-picture\"/>", 1);
@@ -76,167 +78,153 @@ public class XmlSchemaWriter extends XmlBaseWriter {
         	newLine();
         }
         
-        Collection<String> handled = new ArrayList<String>();
-        if (dco.getModule().isAbstract()) {
-            for (DcModule module : DcModules.getModules()) {
-                if ((module.getType() == DcModule._TYPE_MEDIA_MODULE || 
-                     dco.getModule().getIndex() != DcModules._MEDIA) && 
-                     module.isTopModule() && !module.isAbstract()) {
-                    
-                    DcObject tmp = module.getItem();
-                    handle(tmp, handled);
-                    tmp.cleanup();
-                }
-            }
-        } else {
-            handle(dco, handled);
-        }
-        
         endDocument();
     }
     
-    public int[] getFields() {
-        return fields;
-    }
-
-    public void setFields(int[] fields) {
-        this.fields = fields;
-    }
-
-    private void handle(DcObject dco, Collection<String> handled) throws IOException {
-        for (int fieldIdx : fields) {
-            DcField field = dco.getField(fieldIdx);
-            
-            if (field == null) continue;
-            
-            if (	field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
-            		field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
-            	
-                DcModule sm = DcModules.get(field.getReferenceIdx());
-                DcObject so = sm.getItem();
-
-                if (!handled.contains(so.getModule().getSystemObjectName())) {
-                    writeDco(so, false);
-                    newLine();
-                }
-                
-                handled.add(so.getModule().getSystemObjectName());
-            }
-        }
-
-        if (dco.getModule().getChild() != null) {
-            writeDco(dco.getModule().getChild().getItem(), true);
-            newLine();
-            handled.add(dco.getModule().getChild().getSystemObjectName());
-        }
-        
-        writeDco(dco, true);
-        handled.add(dco.getModule().getSystemObjectName());
-    }
+//    private void handle(DcObject dco, Collection<String> handled) throws IOException {
+//    	
+//    	DcField field;
+//    	DcModule sm;
+//    	DcObject so;
+//        
+//    	for (int fieldIdx : dco.getFieldIndices()) {
+//            
+//        	field = dco.getField(fieldIdx);
+//            
+//            if (field == null) continue;
+//            
+//            if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
+//            	field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
+//            	
+//                sm = DcModules.get(field.getReferenceIdx());
+//                so = sm.getItem();
+//
+//                if (!handled.contains(so.getModule().getSystemObjectName())) {
+//                    writeDco(so, false);
+//                    newLine();
+//                }
+//                
+//                handled.add(so.getModule().getSystemObjectName());
+//            }
+//        }
+//
+//        if (dco.getModule().getChild() != null) {
+//            writeDco(dco.getModule().getChild().getItem(), true);
+//            newLine();
+//            handled.add(dco.getModule().getChild().getSystemObjectName());
+//        }
+//        
+//        writeDco(dco, true);
+//        handled.add(dco.getModule().getSystemObjectName());
+//    }
     
-    private void addReference(String name, String reference) {
-        XmlReference xmlReference = new XmlReference(name, reference);
-        if (!references.contains(xmlReference))
-            references.add(xmlReference);
-    }
+//    private void addReference(String name, String reference) {
+//        XmlReference xmlReference = new XmlReference(name, reference);
+//        if (!references.contains(xmlReference))
+//            references.add(xmlReference);
+//    }
     
-    private void writeField(DcField field) throws IOException {
-        String label = getValidTag(field.getSystemName());
-
-        if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
-            DcModule sm = DcModules.get(field.getReferenceIdx());
-            String name = getTagName(field);
-            String reference = getValidTag(sm.getSystemObjectName());
-
-            writeLine("<xsd:element name=\"" + name + "\" minOccurs=\"0\" />", 3);
-            addReference(name, reference);
-            writeLine("<xsd:element name=\"" + label + "-list\" type=\"xsd:string\" minOccurs=\"0\" nillable=\"true\" />", 3);
-        } else {
-            String type;
-            switch (field.getValueType()) {
-            case DcRepository.ValueTypes._BIGINTEGER :
-                type = "long";
-                break;
-            case DcRepository.ValueTypes._BOOLEAN :
-                type = "boolean";
-                break;
-            case DcRepository.ValueTypes._DATETIME :
-            case DcRepository.ValueTypes._DATE :
-                type = "date";
-                break;
-            case DcRepository.ValueTypes._LONG :
-                type = "integer";
-                break;
-            default:
-                type = "string";
-            }
-            
-            writeLine("<xsd:element name=\"" + label + "\" type=\"xsd:" + type + "\" nillable=\"true\" minOccurs=\"0\" />", 3);
-        }        
-    }
+//    private void writeField(DcField field) throws IOException {
+//        String label = getValidTag(field.getSystemName());
+//
+//        if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
+//            DcModule sm = DcModules.get(field.getReferenceIdx());
+//            String name = getTagName(field);
+//            String reference = getValidTag(sm.getSystemObjectName());
+//
+//            writeLine("<xsd:element name=\"" + name + "\" minOccurs=\"0\" />", 3);
+//            addReference(name, reference);
+//            writeLine("<xsd:element name=\"" + label + "-list\" type=\"xsd:string\" minOccurs=\"0\" nillable=\"true\" />", 3);
+//        } else {
+//            String type;
+//            switch (field.getValueType()) {
+//            case DcRepository.ValueTypes._BIGINTEGER :
+//                type = "long";
+//                break;
+//            case DcRepository.ValueTypes._BOOLEAN :
+//                type = "boolean";
+//                break;
+//            case DcRepository.ValueTypes._DATETIME :
+//            case DcRepository.ValueTypes._DATE :
+//                type = "date";
+//                break;
+//            case DcRepository.ValueTypes._LONG :
+//                type = "integer";
+//                break;
+//            default:
+//                type = "string";
+//            }
+//            
+//            writeLine("<xsd:element name=\"" + label + "\" type=\"xsd:" + type + "\" nillable=\"true\" minOccurs=\"0\" />", 3);
+//        }        
+//    }
     
-    private void writeDco(DcObject dco, boolean detailed) throws IOException {
-        String baseName = getValidTag(dco.getModule().getSystemObjectName());
-        
-        newLine();
-        writeLine("<xsd:element name=\"" + baseName + "\" type=\"type-" + baseName + "\"/>", 1);
-        writeLine("<xsd:complexType name=\"type-" + baseName + "\">", 1);
-        writeLine("<xsd:sequence>", 2);
-        
-        if (    dco.getModule().getType() == DcModule._TYPE_PROPERTY_MODULE || 
-                dco.getModule().getType() == DcModule._TYPE_ASSOCIATE_MODULE) {
-            
-            int field = dco instanceof DcProperty ? DcProperty._A_NAME : DcAssociate._A_NAME;
-            String label = getValidTag(dco.getField(field).getSystemName());
-
-            writeLine("<xsd:element name=\"" + getValidTag(dco.getField(DcObject._ID).getSystemName()) + "\" type=\"xsd:string\"/>", 3);
-            writeLine("<xsd:element name=\"" + label + "\" type=\"xsd:string\"/>", 3);
-            
-        } else if (
-                dco.getModule().getType() == DcModule._TYPE_MEDIA_MODULE || 
-                dco.getModule().getType() == DcModule._TYPE_MODULE) {
-            
-            for (int fieldIdx : fields) {
-                DcField field = dco.getField(fieldIdx);
-                if (field != null && !field.getSystemName().endsWith("_persist"))
-                	writeField(field);
-            }
-        }
-        
-        if (detailed && dco.getModule().getChild() != null) {
-            String name = getValidTag(dco.getModule().getChild().getSystemObjectNamePlural());
-            String reference = getValidTag(dco.getModule().getChild().getSystemObjectName());
-            
-            writeLine("<xsd:element name=\"" + name + "\" nillable=\"true\"/>", 3);
-            addReference(name, reference);
-        }
-
-        // only export images and attachments for top level items or its children
-        if (detailed) {
-            if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
-            	writeLine("<xsd:element name=\"pictures\" minOccurs=\"0\" />", 3);
-            	addReference("pictures", "picture");
-            }
-            
-            if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS)) {
-            	writeLine("<xsd:element name=\"attachments\" minOccurs=\"0\" />", 3);
-            	addReference("attachments", "attachment");
-            }            
-        }
-        
-        writeLine("</xsd:sequence>", 2);
-        writeLine("</xsd:complexType>", 1);
-    }
+//    private void writeDco(DcObject dco, boolean detailed) throws IOException {
+//        String baseName = getValidTag(dco.getModule().getSystemObjectName());
+//        
+//        newLine();
+//        writeLine("<xsd:element name=\"" + baseName + "\" type=\"type-" + baseName + "\"/>", 1);
+//        writeLine("<xsd:complexType name=\"type-" + baseName + "\">", 1);
+//        writeLine("<xsd:sequence>", 2);
+//        
+//        if (    dco.getModule().getType() == DcModule._TYPE_PROPERTY_MODULE || 
+//                dco.getModule().getType() == DcModule._TYPE_ASSOCIATE_MODULE) {
+//            
+//            int field = dco instanceof DcProperty ? DcProperty._A_NAME : DcAssociate._A_NAME;
+//            String label = getValidTag(dco.getField(field).getSystemName());
+//
+//            writeLine("<xsd:element name=\"" + getValidTag(dco.getField(DcObject._ID).getSystemName()) + "\" type=\"xsd:string\"/>", 3);
+//            writeLine("<xsd:element name=\"" + label + "\" type=\"xsd:string\"/>", 3);
+//            
+//        } else if (
+//                dco.getModule().getType() == DcModule._TYPE_MEDIA_MODULE || 
+//                dco.getModule().getType() == DcModule._TYPE_MODULE) {
+//            
+//            for (int fieldIdx : dco.getFieldIndices()) {
+//                DcField field = dco.getField(fieldIdx);
+//                if (field != null && !field.getSystemName().endsWith("_persist"))
+//                	writeField(field);
+//            }
+//        }
+//        
+//        if (detailed && dco.getModule().getChild() != null) {
+//            String name = getValidTag(dco.getModule().getChild().getSystemObjectNamePlural());
+//            String reference = getValidTag(dco.getModule().getChild().getSystemObjectName());
+//            
+//            writeLine("<xsd:element name=\"" + name + "\" nillable=\"true\"/>", 3);
+//            addReference(name, reference);
+//        }
+//
+//        // only export images and attachments for top level items or its children
+//        if (detailed) {
+//            if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
+//            	writeLine("<xsd:element name=\"pictures\" minOccurs=\"0\" />", 3);
+//            	addReference("pictures", "picture");
+//            }
+//            
+//            if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS)) {
+//            	writeLine("<xsd:element name=\"attachments\" minOccurs=\"0\" />", 3);
+//            	addReference("attachments", "attachment");
+//            }            
+//        }
+//        
+//        writeLine("</xsd:sequence>", 2);
+//        writeLine("</xsd:complexType>", 1);
+//    }
     
-    private void startDocument(DcObject dco) throws IOException{
+    private void startDocument() throws IOException{
         writeLine("<?xml version=\"1.0\"?>", 0);
         writeLine("<xsd:schema xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"qualified\">", 0);
         writeLine("<xsd:element name=\"data-crow-objects\">", 1);
         writeLine("<xsd:complexType>", 1);
         writeLine("<xsd:sequence>", 2);
-        writeLine("<xsd:element maxOccurs=\"unbounded\" ref=\"" + 
-                    getValidTag(dco.getModule().getSystemObjectName())  + 
-                  "\"/>", 3);
+        
+        for (DcModule m : modules) {
+            writeLine(
+            		"<xsd:element maxOccurs=\"unbounded\" ref=\"" + 
+                    getValidTag(m.getSystemObjectName() + "-items")  + "\"/>", 3);
+        }
+        
         writeLine("</xsd:sequence>", 2);
         writeLine("</xsd:complexType>", 1);
         writeLine("</xsd:element>", 0);

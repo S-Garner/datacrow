@@ -87,13 +87,25 @@ public class XmlWriter extends XmlBaseWriter {
         writeTag("<" + uberTag + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"" + xsd + "\">");
         newLine();
     }
-    
+
     public void endDocument() throws IOException  {
         writeTag("</" + uberTag + ">");
         newLine();
         bos.close();
-    }    
-    
+    }
+
+    public void startModule(DcModule m) throws IOException {
+		ident(tagIdent);
+		writeTag("<" + getValidTag(m.getSystemObjectName()) + "-items>");
+		newLine();
+    }
+
+    public void endModule(DcModule m) throws IOException {
+		ident(tagIdent);
+		writeTag("</" + getValidTag(m.getSystemObjectName()) + "-items>");
+		newLine();
+    }        
+
     public void startEntity(DcObject dco) throws IOException {
 		ident(tagIdent);
 		writeTag("<" + getValidTag(dco.getModule().getSystemObjectName()) + ">");

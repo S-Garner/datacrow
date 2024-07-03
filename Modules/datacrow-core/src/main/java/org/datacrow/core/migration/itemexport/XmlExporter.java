@@ -28,17 +28,20 @@ package org.datacrow.core.migration.itemexport;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcThread;
-import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
+import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
@@ -74,17 +77,18 @@ public class XmlExporter extends ItemExporter {
     @Override
     public String getName() {
         return DcResources.getText("lblXmlExport");
-    }    
+    }
     
     private class Task extends DcThread {
         
-        private Collection<String> items;
+    	private final Collection<String> items = new ArrayList<String>();
         
-        public Task(Collection<String> items) {
+        public Task(
+        		Collection<String> items) {
+        	
             super(null, "XML export to " + file);
             
-            this.items = new ArrayList<String>();
-            this.items.addAll(items);            
+            this.items.addAll(items);
         }
 
         @Override
@@ -93,12 +97,13 @@ public class XmlExporter extends ItemExporter {
                 
                 String schemaFile = file.toString();
                 schemaFile = schemaFile.substring(0, schemaFile.lastIndexOf(".xml")) + ".xsd";
-
-                if (!isCanceled())
-                    generateXsd(schemaFile);
                 
-                if (!isCanceled())
-                    generateXml(schemaFile);
+                if (!isCanceled()) {
+                    List<DcModule> exportedModules = generateXml(schemaFile);
+                    
+                    if (!isCanceled() && exportedModules != null && exportedModules.size() > 0)
+                    	generateXsd(schemaFile, exportedModules);
+                }
                 
             } catch (Exception exp) {
                 success = false;
@@ -115,18 +120,20 @@ public class XmlExporter extends ItemExporter {
          * @param schemaFile
          * @throws IOException
          */
-        private void generateXsd(String schemaFile) throws Exception {
-            XmlSchemaWriter schema = new XmlSchemaWriter(schemaFile, settings);
-            schema.setFields(getFields());
-            DcObject dco = DcModules.getCurrent().getItem();
-            schema.create(dco);
+        private void generateXsd(String schemaFile, List<DcModule> modules) throws Exception {
+            XmlSchemaWriter schema = new XmlSchemaWriter(schemaFile, settings, modules);
+            schema.create();
         }
         
-        
-        
-        private void generateXml(String schemaFile) throws Exception {
+        private List<DcModule> generateXml(String schemaFile) throws Exception {
             
-        	if (items == null || items.size() == 0) return;
+        	// NEW PROCESS:
+        	// - Process main items - DONE
+        	// - Identify references (IDs per module) - DONE
+        	// - Add a reference as per current: ID and display field index - DONE
+        	// - Then export the referenced items as separate full items, by module.
+        	
+        	if (items == null || items.size() == 0) return null;
             
             XmlWriter writer = new XmlWriter(bos, file.toString(), schemaFile, settings);
             writer.startDocument();
@@ -134,108 +141,118 @@ public class XmlExporter extends ItemExporter {
             Connector conn = DcConfig.getInstance().getConnector();
             DcObject dco;
             
-            for (String item : items) {
-            	
-                if (isCanceled()) break;
-                
-                dco = conn.getItem(getModule().getIndex(), item, null);
-                
-                
-                Collection<String> handled = new ArrayList<String>();
-                List<DcObject> references;
-                
-                for (int fieldIdx : fields) {
-                    DcField field = dco.getField(fieldIdx);
-                    
-                    if (field == null) continue;
-                    
-                    if (	field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
-                    		field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
-                    	
-                        DcModule sm = DcModules.get(field.getReferenceIdx());
-                        
-                        references = conn.getItems(new DataFilter(sm.getIndex()));
-                        if (!handled.contains(sm.getSystemObjectName())) {
-                            for (DcObject reference : references) {
-                            	
-                            	writer.startEntity(reference);
-                            	
-                                writer.writeAttribute(reference, DcObject._SYS_MODULE);
-                                int[] fields = reference.getFieldIndices();
-                                for (int i = 0; i < fields.length; i++) {
-                                	if (sm.getField(fields[i]).getFieldType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION &&
-                                		sm.getField(fields[i]).getFieldType() != DcRepository.ValueTypes._DCOBJECTREFERENCE)	
-                                		writer.writeAttribute(reference, fields[i]);
-                                }
-                                
-                                writer.endEntity(reference);
-                                reference.cleanup();
-                            }
-                        }
+            Map<DcModule, Collection<String>> references = new LinkedHashMap<DcModule, Collection<String>>();
 
-                        handled.add(sm.getSystemObjectName());
-                    }
-                    
-                    dco.cleanup();
-                }                
-            }
+            writer.startModule(getModule());
+            writer.setIdent(2);
             
             for (String item : items) {
             	
                 if (isCanceled()) break;
                 
                 dco = conn.getItem(getModule().getIndex(), item, null);
-                
-                writer.startEntity(dco);
-                client.notify(DcResources.getText("msgExportingX", dco.toString()));
-
-                for (int fieldIdx : getFields()) {
-                    DcField field = dco.getField(fieldIdx);
-                    if (field != null && !field.getSystemName().endsWith("_persist")) 
-                        writer.writeAttribute(dco, field.getIndex());
-                }
-
-                if (processChildren) {
-                    if (dco.getModule().getChild() != null) {
-                    
-                        dco.loadChildren(null);
-                        
-                        writer.startRelations(dco.getModule().getChild());
-                        writer.setIdent(2);
-    
-                        for (DcObject child : dco.getChildren()) {
-                            writer.startEntity(child);
-                            writer.writeAttribute(child, DcObject._SYS_MODULE);
-                            int[] fields = child.getFieldIndices();
-                            for (int i = 0; i < fields.length; i++)
-                                writer.writeAttribute(child, fields[i]);
-                            
-                            writer.endEntity(child);
-                        }
-                        
-                        writer.resetIdent();
-                        writer.endRelations(dco.getModule().getChild());
-                    }
-                }
-
-                if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES))
-                	writer.writePictures(dco.getID());
-                
-                if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS))
-                	writer.writeAttachments(dco.getID());
-                
-                writer.resetIdent();
-                writer.endEntity(dco);
+                processDCO(writer, dco, references, true);
                 client.notifyProcessed();
-                bos.flush();
-                
-                dco.cleanup();
+            }
+            
+            writer.resetIdent();
+            writer.endModule(getModule());
+            
+            // TODO: reinit the progress bar for the references!
+            for (DcModule module : references.keySet()) {
+            	
+            	writer.startModule(module);
+            	writer.setIdent(2);
+            	
+            	for (String id : references.get(module)) {
+	                 dco = conn.getItem(module.getIndex(), id, null);
+	                 processDCO(writer, dco, references, true);
+            	}
+            	
+            	writer.setIdent(1);
+            	writer.endModule(module);
             }
             
             writer.endDocument();
             
             if (!isCanceled())
             	client.notify(DcResources.getText("lblExportHasFinished"));
+            
+            List<DcModule> exportedModules = new LinkedList<DcModule>();
+            exportedModules.add(getModule());
+            exportedModules.addAll(references.keySet());
+            return exportedModules;
+        }
+        
+        private void processDCO(XmlWriter writer, DcObject dco,  Map<DcModule, Collection<String>> references, boolean full) throws Exception {
+        	
+            writeDCO(writer, dco, references);
+
+            if (full && processChildren) {
+                if (dco.getModule().getChild() != null) {
+                
+                    dco.loadChildren(null);
+                    
+                    writer.startRelations(dco.getModule().getChild());
+                    writer.setIdent(3);
+
+                    for (DcObject child : dco.getChildren()) {
+                        writeDCO(writer, child, references);
+                        writer.endEntity(child);
+                    }
+                    
+                    writer.setIdent(2);
+                    writer.endRelations(dco.getModule().getChild());
+                }
+            }
+
+            if (full && settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES))
+            	writer.writePictures(dco.getID());
+            
+            if (full && settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS))
+            	writer.writeAttachments(dco.getID());
+            
+            writer.resetIdent();
+            writer.endEntity(dco);
+            bos.flush();
+            dco.cleanup();
+        }        
+        
+        @SuppressWarnings({ "unchecked" })
+		private void writeDCO(XmlWriter writer, DcObject dco, Map<DcModule, Collection<String>> references) throws Exception {
+        	
+        	writer.startEntity(dco);
+            client.notify(DcResources.getText("msgExportingX", dco.toString()));
+
+            Collection<String> currentReferences;
+            DcObject reference;
+            for (int fieldIdx : getFields()) {
+                DcField field = dco.getField(fieldIdx);
+                
+                if (	dco.isFilled(fieldIdx) &&
+                		(field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
+                		 field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE)) {
+                	
+                	currentReferences = references.get(DcModules.get(field.getReferenceIdx()));
+                	currentReferences = currentReferences == null ? new ArrayList<String>() : currentReferences;
+                	
+                	if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
+                		for (DcObject r : (Collection<DcObject>) dco.getValue(fieldIdx)) {
+                			if (!currentReferences.contains(r.getValue(DcMapping._B_REFERENCED_ID)))
+                				currentReferences.add((String) r.getValue(DcMapping._B_REFERENCED_ID));
+                		}
+                	} else {
+                		reference = (DcObject) dco.getValue(fieldIdx);
+            			if (!currentReferences.contains(reference.getID()))
+            				currentReferences.add(reference.getID());
+                	}
+                	
+                	references.put(DcModules.getReferencedModule(field), currentReferences);
+                }
+                
+                if (field != null && !field.getSystemName().endsWith("_persist")) 
+                    writer.writeAttribute(dco, field.getIndex());
+            }
         }
     }    
 }

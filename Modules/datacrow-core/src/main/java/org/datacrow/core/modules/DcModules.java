@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -830,7 +831,7 @@ public class DcModules implements Serializable {
     }
     
     public static Collection<DcModule> getReferencedModules(int moduleIdx) {
-        Collection<DcModule> references = new ArrayList<DcModule>();
+        Collection<DcModule> references = new LinkedList<DcModule>();
         DcModule module = DcModules.get(moduleIdx);
         module = module == null ? DcModules.getPropertyBaseModule(moduleIdx) : module;
         
