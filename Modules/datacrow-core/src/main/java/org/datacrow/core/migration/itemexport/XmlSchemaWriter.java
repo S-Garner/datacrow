@@ -93,7 +93,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
             writeLine(
         		"<xsd:element" +
         		" name=\"" + XmlUtilities.getElementTagForList(m) + "\"" + 
-        		" type =\"" + XmlUtilities.getElementTagTypeForList(m) + "-items-type\"/>", 3);
+        		" type =\"" + XmlUtilities.getElementTagTypeForList(m) + "\"/>", 3);
         }
         
         writeLine("</xsd:sequence>", 2);
