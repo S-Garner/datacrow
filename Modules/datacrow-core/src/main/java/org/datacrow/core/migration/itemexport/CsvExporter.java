@@ -120,12 +120,14 @@ public class CsvExporter extends ItemExporter {
             
             // create the table and the header
             int counter = 0;
-            
+           
+            DcModule module = getModule();
+
             DcField field;
-            for (int fieldIdx : getFields()) {
+            for (int fieldIdx : getFields(getModule())) {
                if (isCanceled()) break;
 
-               field = DcModules.get(moduleIdx).getField(fieldIdx);
+               field = module.getField(fieldIdx);
                if (field != null) {
                     writeBytes(field.getSystemName(), counter != 0);
                     counter++;
@@ -140,7 +142,7 @@ public class CsvExporter extends ItemExporter {
             
             for (String item : items) {
             	
-            	DcObject dco = conn.getItem(getModule().getIndex(), item, null);
+            	DcObject dco = conn.getItem(moduleIdx, item, null);
                 
                 if (isCanceled()) break;
                 
@@ -148,10 +150,10 @@ public class CsvExporter extends ItemExporter {
                 int fieldCounter = 0;
                 Object o;
                 s = "";
-                for (int fieldIdx : getFields()) {
+                for (int fieldIdx : getFields(getModule())) {
                     if (isCanceled()) break;
 
-                    field = DcModules.get(moduleIdx).getField(fieldIdx);
+                    field = module.getField(fieldIdx);
                     
                     if (isCanceled()) break;
 

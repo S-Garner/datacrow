@@ -30,11 +30,10 @@ import java.io.FileOutputStream;
 import java.util.Collection;
 import java.util.List;
 
-import org.bouncycastle.util.Arrays;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.clients.IItemExporterClient;
 import org.datacrow.core.migration.ItemMigrater;
-import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.modules.DcModule;
 
 public abstract class ItemExporter extends ItemMigrater {
     
@@ -72,19 +71,12 @@ public abstract class ItemExporter extends ItemMigrater {
         this.items = items;
     }
     
-    public int[] getFields() {
-        if (fields == null || fields.length == 0)
-            fields = getModule().getFieldIndices();
-
-        // make sure the module field is always included
-        if (!Arrays.contains(fields, DcObject._SYS_MODULE))
-        	fields = Arrays.prepend(fields, DcObject._SYS_MODULE);
-        
-        // make sure the ID field is always included
-        if (!Arrays.contains(fields, DcObject._ID))
-        	fields = Arrays.prepend(fields, DcObject._ID);            
-            
-        return fields;
+    public int[] getFields(DcModule m) {
+    	
+    	if (m.getIndex() == moduleIdx)
+    		return fields == null ? m.getFieldIndices() : fields;
+    	else
+    		return m.getFieldIndices();
     }
 
     public void setFields(int[] fields) {

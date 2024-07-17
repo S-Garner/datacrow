@@ -30,14 +30,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcRepository.ValueTypes;
 import org.datacrow.core.attachments.Attachment;
 import org.datacrow.core.modules.DcModule;
-import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.pictures.Picture;
@@ -126,7 +127,7 @@ public class XmlWriter extends XmlBaseWriter {
         
         ident(valueIdent);
         
-        String tag = getTagName(dco.getField(field));
+        String tag = XmlUtilities.getFieldTag(dco.getField(field));
         
         writeTag("<" + tag + ">");
         writeValue(dco, field);
@@ -137,7 +138,7 @@ public class XmlWriter extends XmlBaseWriter {
         	
         	ident(valueIdent);
         	
-            writeTag("<" + getValidTag(dco.getField(field).getSystemName()) + "-list>");
+            writeTag("<" + XmlUtilities.getFieldTag(dco.getField(field)) + "-list>");
             
             if (dco.isFilled(field)) {
                 StringBuffer sb = new StringBuffer();
@@ -148,7 +149,7 @@ public class XmlWriter extends XmlBaseWriter {
                 write(sb.toString());
             }
             
-            writeTag("</" + getValidTag(dco.getField(field).getSystemName()) + "-list>");
+            writeTag("</" + XmlUtilities.getFieldTag(dco.getField(field)) + "-list>");
             newLine();
         }
     }
@@ -232,49 +233,53 @@ public class XmlWriter extends XmlBaseWriter {
     
     public void startRelations(DcModule childModule) throws IOException {
         ident(valueIdent);
-        writeTag("<" + getValidTag(childModule.getSystemObjectNamePlural()) + ">");
+        writeTag("<" + getValidTag(childModule.getSystemObjectName()) + "-children>");
         newLine();
     }
 
     public void endRelations(DcModule childModule) throws IOException {
         ident(valueIdent);
-        writeTag("</" + getValidTag(childModule.getSystemObjectNamePlural()) + ">");
+        writeTag("</" + getValidTag(childModule.getSystemObjectName()) + "-children>");
         newLine();
     }
     
     @SuppressWarnings("unchecked")
     private void writeValue(DcObject dco, int field) throws IOException {
        Object o = dco.getValue(field);
-       
-       if (dco.getModule().getType() == DcModule._TYPE_ASSOCIATE_MODULE) {
-    	   if (field != DcObject._ID)
-    		   write(((DcAssociate) dco).getNameNormal());
-    	   else
-    		   write(dco.getID());
-       } else if (o instanceof Collection) {
+
+       if (	dco.getField(field).getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
+    		dco.getField(field).getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
+    	   
             newLine();
 
             tagIdent += (stepSize * 2);
             valueIdent += (stepSize * 2);
             
-            for (DcObject subDco : (Collection<DcObject>) o) {
-               if (subDco instanceof DcMapping)
-                    subDco = ((DcMapping) subDco).getReferencedObject();
+            Collection<DcObject> items = new ArrayList<DcObject>();
+            if (dco.getField(field).getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE)
+            	items.add((DcObject) o);	
+            else
+            	items.addAll((Collection<? extends DcObject>) o);
+            
+            for (DcObject ref : items) {
+               if (ref instanceof DcMapping)
+                    ref = ((DcMapping) ref).getReferencedObject();
 
-                if (subDco != null) { 
-	                startEntity(subDco);
-	                int fieldIdx = subDco.getSystemDisplayFieldIdx();
-	                writeAttribute(subDco, DcObject._ID);
-	                writeAttribute(subDco, fieldIdx);
-	                endEntity(subDco);
+                if (ref != null) { 
+	                startEntity(ref);
+	                int fieldIdx = ref.getSystemDisplayFieldIdx();
+	                writeAttribute(ref, DcObject._ID);
+	                writeAttribute(ref, fieldIdx);
+	                endEntity(ref);
                 }
             }
+
             valueIdent -= (stepSize * 2);
             tagIdent -= (stepSize * 2);
             ident(valueIdent);            
             
         } else if (o instanceof Date) {
-            Date date = (Date) o;
+        	Date date = (Date) o;
             write(new SimpleDateFormat("yyyy-MM-dd").format(date));
         }  else if (o instanceof Number) {
            write(o.toString());

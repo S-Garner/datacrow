@@ -124,14 +124,19 @@ public class XmlExporter extends ItemExporter {
             XmlSchemaWriter schema = new XmlSchemaWriter(schemaFile, settings, modules);
             schema.create();
         }
-        
+
+        /**
+         * Create the XML file as follows:
+         * - First, process the main items (as selected by the user)
+         * - Capture the references (by module)
+         * - Pass the ordered list of modules + (used) references onto the next generation part
+         * - Export the references (used references, as assigned to the main items)
+         * @param schemaFile
+         * @return the ordered module list
+         * @throws Exception
+         */
         private List<DcModule> generateXml(String schemaFile) throws Exception {
             
-        	// NEW PROCESS:
-        	// - Process main items - DONE
-        	// - Identify references (IDs per module) - DONE
-        	// - Add a reference as per current: ID and display field index - DONE
-        	// - Then export the referenced items as separate full items, by module.
         	
         	if (items == null || items.size() == 0) return null;
             
@@ -155,21 +160,23 @@ public class XmlExporter extends ItemExporter {
                 client.notifyProcessed();
             }
             
-            writer.resetIdent();
+            writer.setIdent(1);
             writer.endModule(getModule());
             
             // TODO: reinit the progress bar for the references!
+            
             for (DcModule module : references.keySet()) {
             	
+            	writer.resetIdent();
             	writer.startModule(module);
-            	writer.setIdent(2);
             	
             	for (String id : references.get(module)) {
-	                 dco = conn.getItem(module.getIndex(), id, null);
-	                 processDCO(writer, dco, references, true);
+            		writer.setIdent(1);
+	                dco = conn.getItem(module.getIndex(), id, null);
+	                processDCO(writer, dco, null, true);
             	}
             	
-            	writer.setIdent(1);
+            	writer.resetIdent();
             	writer.endModule(module);
             }
             
@@ -212,7 +219,7 @@ public class XmlExporter extends ItemExporter {
             if (full && settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS))
             	writer.writeAttachments(dco.getID());
             
-            writer.resetIdent();
+            //writer.resetIdent();
             writer.endEntity(dco);
             bos.flush();
             dco.cleanup();
@@ -226,10 +233,13 @@ public class XmlExporter extends ItemExporter {
 
             Collection<String> currentReferences;
             DcObject reference;
-            for (int fieldIdx : getFields()) {
+            
+            for (int fieldIdx : getFields(dco.getModule())) {
                 DcField field = dco.getField(fieldIdx);
                 
                 if (	dco.isFilled(fieldIdx) &&
+                		references != null &&
+                		DcModules.getReferencedModule(field).getIndex() != moduleIdx &&
                 		(field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
                 		 field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE)) {
                 	
