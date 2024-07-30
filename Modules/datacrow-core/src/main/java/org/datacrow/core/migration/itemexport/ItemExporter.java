@@ -28,6 +28,7 @@ package org.datacrow.core.migration.itemexport;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.datacrow.core.DcConfig;
@@ -71,12 +72,23 @@ public abstract class ItemExporter extends ItemMigrater {
         this.items = items;
     }
     
-    public int[] getFields(DcModule m) {
-    	
-    	if (m.getIndex() == moduleIdx)
-    		return fields == null ? m.getFieldIndices() : fields;
-    	else
-    		return m.getFieldIndices();
+    public List<Integer> getFields(DcModule m) {
+		List<Integer> l = new LinkedList<Integer>();
+		
+		for (int fieldIdx : m.getFieldIndices()) {
+			// for other modules; simply add all fields
+			if (fields == null || m.getIndex() != moduleIdx) {
+				l.add(fieldIdx);
+			} else {
+				// for the main modules; add fields as selected by the user in the same order as the XSD
+				for (int fld : fields) {
+					if (fieldIdx == fld)
+						l.add(Integer.valueOf(fieldIdx));
+				}
+			}
+		}
+		
+		return l;
     }
 
     public void setFields(int[] fields) {

@@ -185,7 +185,9 @@ public class XmlSchemaWriter extends XmlBaseWriter {
 
         for (int fieldIdx : m.getFieldIndices()) {
             DcField field = m.getField(fieldIdx);
-            if (field != null && !field.getSystemName().endsWith("_persist"))
+            if (	field != null &&
+            		field.getValueType() != DcRepository.ValueTypes._PICTURE &&
+            		!field.getSystemName().endsWith("_persist"))
             	writeField(field);
         }
         
