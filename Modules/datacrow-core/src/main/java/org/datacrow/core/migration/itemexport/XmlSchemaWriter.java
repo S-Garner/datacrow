@@ -62,6 +62,13 @@ public class XmlSchemaWriter extends XmlBaseWriter {
         	handle(m);
         
         if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
+        	writeLine("<xsd:complexType name=\"picture-items-type\">", 1);
+        	writeLine("<xsd:sequence>", 2);
+        	writeLine("<xsd:element name=\"picture\" type=\"picture-type\" />", 3);
+        	writeLine("</xsd:sequence>", 2);
+        	writeLine("</xsd:complexType>", 1);
+        	newLine();
+        	
         	writeLine("<xsd:complexType name=\"picture-type\">", 1);
         	writeLine("<xsd:sequence>", 2);
         	writeLine("<xsd:element name=\"link\" type=\"xsd:string\" />", 3);
@@ -71,6 +78,13 @@ public class XmlSchemaWriter extends XmlBaseWriter {
         }
 
         if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS)) {
+        	writeLine("<xsd:complexType name=\"attachment-items-type\">", 1);
+        	writeLine("<xsd:sequence>", 2);
+        	writeLine("<xsd:element name=\"attachment\" type=\"attachment-type\" />", 3);
+        	writeLine("</xsd:sequence>", 2);
+        	writeLine("</xsd:complexType>", 1);
+        	newLine();
+        	
         	writeLine("<xsd:complexType name=\"attachment-type\">", 1);
         	writeLine("<xsd:sequence>", 2);
         	writeLine("<xsd:element name=\"link\" type=\"xsd:string\" />", 3);
@@ -127,7 +141,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
             writeLine("<xsd:sequence>", 5);
             
             
-            writeLine("<xsd:element name=\"" + XmlUtilities.getElementTag(field) + "\">", 6);
+            writeLine("<xsd:element name=\"" + XmlUtilities.getElementTag(field) + "\" maxOccurs=\"unbounded\">", 6);
             writeLine("<xsd:complexType>", 7);
             writeLine("<xsd:sequence>", 8);
 
@@ -164,7 +178,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
                 type = "string";
             }
             
-            writeLine("<xsd:element name=\"" + XmlUtilities.getFieldTag(field) + "\" type=\"xsd:" + type + "\" nillable=\"true\" minOccurs=\"0\" />", 3);
+            writeLine("<xsd:element name=\"" + XmlUtilities.getFieldTag(field) + "\" type=\"xsd:" + type + "\" nillable=\"true\" minOccurs=\"0\"/>" , 3);
         }        
     }
     
@@ -173,7 +187,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
         
         writeLine("<xsd:complexType name=\"" + XmlUtilities.getElementTagTypeForList(m) + "\" >", 1);
         writeLine("<xsd:sequence>", 2);
-        writeLine("<xsd:element type=\"" + XmlUtilities.getElementTagType(m) +  "\" name=\"" + XmlUtilities.getElementTag(m) + "\"/>", 3);
+        writeLine("<xsd:element type=\"" + XmlUtilities.getElementTagType(m) +  "\" name=\"" + XmlUtilities.getElementTag(m) + "\" maxOccurs=\"unbounded\"/>", 3);
         writeLine("</xsd:sequence>", 2);
         writeLine("</xsd:complexType>", 1);
         
@@ -200,11 +214,13 @@ public class XmlSchemaWriter extends XmlBaseWriter {
 
         // only export images and attachments for top level items or its children
         if (detailed) {
-            if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES))
-            	writeLine("<xsd:element name=\"pictures\" minOccurs=\"0\" type=\"picture-type\" />", 3);
+            if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
+            	writeLine("<xsd:element name=\"pictures\" minOccurs=\"0\" maxOccurs=\"unbounded\" type=\"picture-items-type\" />", 3);
+            }
             
-            if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS))
-            	writeLine("<xsd:element name=\"attachments\" minOccurs=\"0\" type=\"attachment-type\" />", 3);
+            if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS)) {
+            	writeLine("<xsd:element name=\"attachments\" minOccurs=\"0\" maxOccurs=\"unbounded\" type=\"attachment-items-type\" />", 3);
+            }
         }
         
         writeLine("</xsd:sequence>", 2);
