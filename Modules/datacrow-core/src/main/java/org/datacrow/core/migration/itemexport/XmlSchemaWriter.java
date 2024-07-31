@@ -195,7 +195,6 @@ public class XmlSchemaWriter extends XmlBaseWriter {
         
         writeLine("<xsd:complexType name=\"" + XmlUtilities.getElementTagType(m) + "\" >", 1);
         writeLine("<xsd:sequence>", 2);
-        
 
         for (int fieldIdx : m.getFieldIndices()) {
             DcField field = m.getField(fieldIdx);
@@ -204,7 +203,6 @@ public class XmlSchemaWriter extends XmlBaseWriter {
             		!field.getSystemName().endsWith("_persist"))
             	writeField(field);
         }
-        
         
         // TODO: incorrect!
         if (detailed && m.getChild() != null) {

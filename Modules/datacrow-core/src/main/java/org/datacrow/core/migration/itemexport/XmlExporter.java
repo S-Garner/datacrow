@@ -83,9 +83,7 @@ public class XmlExporter extends ItemExporter {
         
     	private final Collection<String> items = new ArrayList<String>();
         
-        public Task(
-        		Collection<String> items) {
-        	
+        public Task(Collection<String> items) {
             super(null, "XML export to " + file);
             
             this.items.addAll(items);
@@ -156,7 +154,16 @@ public class XmlExporter extends ItemExporter {
                 if (isCanceled()) break;
                 
                 dco = conn.getItem(getModule().getIndex(), item, null);
-                processDCO(writer, dco, references, true);
+                
+                if (getModule().getIndex() == DcModules._MEDIA) {
+                	DcObject media = getModule().getItem();
+                	media.copy(dco, fields, true, true);
+                	
+                	processDCO(writer, media, references, true);
+                } else {
+                	processDCO(writer, dco, references, true);
+                }
+                
                 client.notifyProcessed();
             }
             
@@ -228,7 +235,8 @@ public class XmlExporter extends ItemExporter {
         @SuppressWarnings({ "unchecked" })
 		private void writeDCO(XmlWriter writer, DcObject dco, Map<DcModule, Collection<String>> references) throws Exception {
         	
-        	writer.startEntity(dco);
+    		writer.startEntity(dco);
+        	
             client.notify(DcResources.getText("msgExportingX", dco.toString()));
 
             Collection<String> currentReferences;
