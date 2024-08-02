@@ -84,6 +84,13 @@
             </exclusions>
         </dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.jfree/jfreechart -->
+		<dependency>
+		    <groupId>org.jfree</groupId>
+		    <artifactId>jfreechart</artifactId>
+		    <version>1.5.5</version>
+		</dependency>
+
         <dependency>
             <groupId>com.jtattoo</groupId>
             <artifactId>JTattoo</artifactId>

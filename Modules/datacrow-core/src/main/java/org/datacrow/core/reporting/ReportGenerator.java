@@ -51,7 +51,6 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.query.JRXPathQueryExecuterFactory;
@@ -175,10 +174,6 @@ public class ReportGenerator {
                     break;            	
                 case XLSX:
                     exporter = new JRXlsxExporter();
-                    exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(fos));
-                    break;            	
-                case XLS:
-                    exporter = new JRXlsExporter();
                     exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(fos));
                     break;            	
                 }

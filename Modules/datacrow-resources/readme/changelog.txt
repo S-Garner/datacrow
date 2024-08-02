@@ -8,12 +8,18 @@ Data Crow version 5.0                         Released on 2024-xx-xx
 [Updated]
 - Updated libraries as used by Data Crow to avoid exposure to vulnerabilities:
   Apache Maven plugins, IZ Pack, Metadata-extractor, Log4j, Bouncy Castle, twelvemonkeys.imageio, org.apache.tika,
-  org.apache.pdfbox, org.jsoup, com.google.code.gson, net.sf.jasperreports, Xalan, org.hsqldb, org.apache.xmlgraphics
+  org.apache.pdfbox, org.jsoup, com.google.code.gson, Xalan, org.hsqldb, org.apache.xmlgraphics.
+- XML Export has been updated;
+  * empty values are no longer exported.
+  * a valid XSD is now generated for both individual modules as well as for the media module.
+  * IDs of items are now exported.
+  * attachments can now be exported.
+  * related references items are exported in full as well as the current summary for the item that references these. 
+- Jasper Reports libraries have been bumped up to version 7.0.
 - Data Crow minimum Java version has been increased from Java 11 to Java 18.
 - Small layout improvements for the item form and the login dialog.
 - Scrolling performance has been improved for the card list.
 - Extended the supported image types for the local art import for movies and music files. 
-- XML export: omit empty values / tags to save space.
 - Attachments are now also exported when performing an XML export.
 
 [Fixed]
