@@ -34,9 +34,8 @@ public enum ReportType {
 	HTML("html",DcResources.getText("lblReportTypeHTML")),
 	RTF("rtf", DcResources.getText("lblReportTypeRTF")),
 	DOCX("docx", DcResources.getText("lblReportTypeDOCX")),
-	XLSX("xlsx", DcResources.getText("lblReportTypeXLSX")),
-	XLS("xls", DcResources.getText("lblReportTypeXLS"));
-
+	XLSX("xlsx", DcResources.getText("lblReportTypeXLSX"));
+	
 	private final String extension;
 	private final String name;
 	
