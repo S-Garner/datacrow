@@ -54,13 +54,13 @@ public class FieldSelectorDialog extends DcDialog implements ActionListener {
     private final String settingsKey;
     private final DcFieldSelectorField fs;
     
-    public FieldSelectorDialog(JFrame parent, int modIdx, String settingsKey) {
+    public FieldSelectorDialog(JFrame parent, int modIdx, boolean allowPictureFields, String settingsKey) {
         
         super(parent);
         
         this.modIdx = modIdx;
         this.settingsKey = settingsKey;
-        this.fs = new DcFieldSelectorField(modIdx, true);
+        this.fs = new DcFieldSelectorField(modIdx, allowPictureFields, true);
         
         setTitle(DcResources.getText("lblOnlineUpdateFieldSettings"));
         

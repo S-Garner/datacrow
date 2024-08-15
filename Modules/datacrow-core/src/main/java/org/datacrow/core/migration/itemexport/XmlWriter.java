@@ -121,8 +121,8 @@ public class XmlWriter extends XmlBaseWriter {
     
     @SuppressWarnings("unchecked")
     public void writeAttribute(DcObject dco, int field) throws IOException {
-        
-        if (dco.getField(field) == null || !dco.isFilled(field))
+    	
+        if (dco.getField(field) == null || (!dco.isFilled(field) && dco.getModule().getField(field).getValueType() != DcRepository.ValueTypes._PICTURE))
             return;   
         
         ident(valueIdent);
@@ -276,8 +276,13 @@ public class XmlWriter extends XmlBaseWriter {
 
             valueIdent -= (stepSize * 2);
             tagIdent -= (stepSize * 2);
-            ident(valueIdent);            
-            
+            ident(valueIdent);
+       	} else if (dco.getField(field).getValueType() == DcRepository.ValueTypes._PICTURE) {
+       		Collection<Picture> pictures =  DcConfig.getInstance().getConnector().getPictures(dco.getID());
+        	for (Picture p : pictures) {
+        		if (p.getFilename().endsWith(dco.getField(field).getDatabaseFieldName() + ".jpg"))
+        			write(utilities.getImageURL(p));
+        	}       		
         } else if (o instanceof Date) {
         	Date date = (Date) o;
             write(new SimpleDateFormat("yyyy-MM-dd").format(date));

@@ -64,7 +64,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
         if (settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES)) {
         	writeLine("<xsd:complexType name=\"picture-items-type\">", 1);
         	writeLine("<xsd:sequence>", 2);
-        	writeLine("<xsd:element name=\"picture\" type=\"picture-type\" />", 3);
+        	writeLine("<xsd:element name=\"picture\" type=\"picture-type\" minOccurs=\"0\" maxOccurs=\"unbounded\" />", 3);
         	writeLine("</xsd:sequence>", 2);
         	writeLine("</xsd:complexType>", 1);
         	newLine();
@@ -199,7 +199,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
         for (int fieldIdx : m.getFieldIndices()) {
             DcField field = m.getField(fieldIdx);
             if (	field != null &&
-            		field.getValueType() != DcRepository.ValueTypes._PICTURE &&
+            		//field.getValueType() != DcRepository.ValueTypes._PICTURE &&
             		!field.getSystemName().endsWith("_persist"))
             	writeField(field);
         }

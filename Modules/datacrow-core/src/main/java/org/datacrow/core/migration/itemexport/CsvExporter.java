@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcThread;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
@@ -40,12 +41,15 @@ import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 
 public class CsvExporter extends ItemExporter {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(CsvExporter.class.getName());
+    
+    
     
     public CsvExporter(
     		int moduleIdx, 
@@ -112,9 +116,7 @@ public class CsvExporter extends ItemExporter {
         
         @SuppressWarnings("unchecked")
         public void create() throws Exception {
-            
-        	// TODO: CSV export pictures and attachments
-//            ItemExporterUtilities utilities = new ItemExporterUtilities(file.toString(), settings);
+            ItemExporterUtilities utilities = new ItemExporterUtilities(file.toString(), settings);
            
             if (items == null || items.size() == 0) return;
             
@@ -174,6 +176,12 @@ public class CsvExporter extends ItemExporter {
                                     s += ((DcAssociate) subDco).getNameNormal(); 
                                 }
                             }
+                       	} else if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
+                       		Collection<Picture> pictures =  DcConfig.getInstance().getConnector().getPictures(dco.getID());
+                        	for (Picture p : pictures) {
+                        		if (p.getFilename().endsWith(field.getDatabaseFieldName() + ".jpg"))
+                        			s = utilities.getImageURL(p);
+                        	}
                         } else {
                             s = dco.getDisplayString(field.getIndex());
                         }

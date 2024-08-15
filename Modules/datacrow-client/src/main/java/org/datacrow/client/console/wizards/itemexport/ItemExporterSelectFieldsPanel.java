@@ -72,7 +72,7 @@ public class ItemExporterSelectFieldsPanel extends ItemExporterWizardPanel {
     }
 
     private void build() {
-        fldFields = new DcFieldSelectorField(wizard.getModule().getIndex(), true);
+        fldFields = new DcFieldSelectorField(wizard.getModule().getIndex(), true, true);
         setLayout(Layout.getGBL());
         add(fldFields,  Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
             ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,

@@ -30,6 +30,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Properties;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -37,6 +38,7 @@ import javax.swing.JPanel;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcNumberField;
+import org.datacrow.core.migration.itemexport.ItemExporter;
 import org.datacrow.core.migration.itemexport.ItemExporterSettings;
 import org.datacrow.core.resources.DcResources;
 
@@ -82,7 +84,7 @@ public class ItemExporterImageSettingsPanel extends JPanel {
         properties.set(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS, cbIncludeAndCopyAttachments.isSelected());
     }
     
-    public void applySettings(ItemExporterSettings properties) {
+    public void applySettings(ItemExporterSettings properties, String type) {
     	cbIncludeAndCopyAttachments.setSelected(properties.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS));
     	cbIncludeImages.setSelected(properties.getBoolean(ItemExporterSettings._INCLUDE_IMAGES));
         cbCopyImages.setSelected(properties.getBoolean(ItemExporterSettings._COPY_IMAGES));
@@ -93,6 +95,9 @@ public class ItemExporterImageSettingsPanel extends JPanel {
         nfHeight.setValue(properties.getInt(ItemExporterSettings._IMAGE_HEIGHT));
         
         applySelection();
+        
+        if (!type.equalsIgnoreCase("XML"))
+        	cbIncludeAndCopyAttachments.setEnabled(false);
     }
     
     @Override
@@ -114,7 +119,7 @@ public class ItemExporterImageSettingsPanel extends JPanel {
         cbCopyImages.addActionListener(rl);
         cbIncludeImages.addActionListener(rl);
         cbIncludeAndCopyAttachments.addActionListener(rl);
-
+        
         Dimension size = new Dimension(100, ComponentFactory.getPreferredFieldHeight());
         nfHeight.setMinimumSize(size);
         nfHeight.setPreferredSize(size);

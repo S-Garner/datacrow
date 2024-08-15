@@ -74,7 +74,7 @@ public class ItemExporterSettingsPanel extends ItemExporterWizardPanel {
     @Override
     public void onActivation() {
         if (definition != null && definition.getExporter() != null) {
-            settingsPanel.applySettings(definition.getSettings());
+            settingsPanel.applySettings(definition.getSettings(), definition.getExporter().getKey());
             target.setFileFilter(new DcFileFilter(definition.getExporter().getFileType()));
             target.setFile(definition.getFile());
         }

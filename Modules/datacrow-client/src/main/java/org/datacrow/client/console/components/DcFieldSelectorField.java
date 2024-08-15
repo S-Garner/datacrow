@@ -48,7 +48,7 @@ import javax.swing.KeyStroke;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
-import org.datacrow.core.DcRepository.ValueTypes;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
@@ -58,9 +58,12 @@ public class DcFieldSelectorField extends JComponent implements IComponent, Acti
 
 	private final Map<DcField, JCheckBox> componentMap = new LinkedHashMap<DcField, JCheckBox>();
     private final int module;
+    private final boolean allowPictureFields;
 
-    public DcFieldSelectorField(int module, boolean showMenu) {
+    // TODO: add option to include picture y/n
+    public DcFieldSelectorField(int module, boolean allowPictureFields, boolean showMenu) {
         this.module = module;
+        this.allowPictureFields = allowPictureFields;
         buildComponent(showMenu);
     }
 
@@ -160,7 +163,7 @@ public class DcFieldSelectorField extends JComponent implements IComponent, Acti
             
             if (field.getIndex() == DcObject._ID ||
             	field.getIndex() == DcObject._SYS_MODULE ||	
-            	field.getValueType() == ValueTypes._PICTURE ||
+            	(field.getValueType() == DcRepository.ValueTypes._PICTURE && !allowPictureFields) ||
                 field.getSystemName().endsWith("_persist") ||
                 field.getIndex() == DcObject._SYS_EXTERNAL_REFERENCES)
                 continue;

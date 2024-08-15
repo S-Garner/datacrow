@@ -137,7 +137,6 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     // these are new pictures, to be saved after the main item has been saved
     private final LinkedList<Picture> pictures = new LinkedList<Picture>();
     
-    
     /**
      * Creates a new instance.
      * @param module

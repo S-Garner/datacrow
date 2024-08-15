@@ -185,7 +185,7 @@ public class OnlineServiceSettingsPanel extends JPanel implements ActionListener
                              DcRepository.ModuleSettings.stOnlineSearchFieldOverwriteSettings :
                              DcRepository.ModuleSettings.stOnlineSearchRetrievedFields;
         
-        FieldSelectorDialog dlg = new FieldSelectorDialog(parent, module, settingsKey);
+        FieldSelectorDialog dlg = new FieldSelectorDialog(parent, module, false, settingsKey);
         dlg.setVisible(true);
     }    
     

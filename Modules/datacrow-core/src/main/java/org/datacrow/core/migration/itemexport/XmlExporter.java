@@ -266,7 +266,7 @@ public class XmlExporter extends ItemExporter {
                 	}
                 	
                 	references.put(DcModules.getReferencedModule(field), currentReferences);
-                }
+                } 
                 
                 if (field != null && !field.getSystemName().endsWith("_persist")) 
                     writer.writeAttribute(dco, field.getIndex());
