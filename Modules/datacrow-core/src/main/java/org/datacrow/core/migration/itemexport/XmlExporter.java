@@ -149,6 +149,8 @@ public class XmlExporter extends ItemExporter {
             writer.startModule(getModule());
             writer.setIdent(2);
             
+            ExportItem exportItem;
+            
             for (String item : items) {
             	
                 if (isCanceled()) break;
@@ -158,10 +160,11 @@ public class XmlExporter extends ItemExporter {
                 if (getModule().getIndex() == DcModules._MEDIA) {
                 	DcObject media = getModule().getItem();
                 	media.copy(dco, fields, true, true);
-                	
-                	processDCO(writer, media, references, true);
+                	exportItem = new ExportItem(media, DcConfig.getInstance().getConnector().getPictures(item));
+                	processItem(writer, exportItem, references, true);
                 } else {
-                	processDCO(writer, dco, references, true);
+                	exportItem = new ExportItem(dco, DcConfig.getInstance().getConnector().getPictures(item));
+                	processItem(writer, exportItem, references, true);
                 }
                 
                 client.notifyProcessed();
@@ -171,7 +174,6 @@ public class XmlExporter extends ItemExporter {
             writer.endModule(getModule());
             
             // TODO: reinit the progress bar for the references!
-            
             for (DcModule module : references.keySet()) {
             	
             	writer.resetIdent();
@@ -180,7 +182,7 @@ public class XmlExporter extends ItemExporter {
             	for (String id : references.get(module)) {
             		writer.setIdent(1);
 	                dco = conn.getItem(module.getIndex(), id, null);
-	                processDCO(writer, dco, null, true);
+	                processItem(writer, new ExportItem(dco), null, true);
             	}
             	
             	writer.resetIdent();
@@ -198,9 +200,11 @@ public class XmlExporter extends ItemExporter {
             return exportedModules;
         }
         
-        private void processDCO(XmlWriter writer, DcObject dco,  Map<DcModule, Collection<String>> references, boolean full) throws Exception {
+        private void processItem(XmlWriter writer, ExportItem exportItem,  Map<DcModule, Collection<String>> references, boolean full) throws Exception {
         	
-            writeDCO(writer, dco, references);
+        	DcObject dco = exportItem.getDco();
+        	
+            writeDCO(writer, exportItem, references);
 
             if (full && processChildren) {
                 if (dco.getModule().getChild() != null) {
@@ -211,7 +215,7 @@ public class XmlExporter extends ItemExporter {
                     writer.setIdent(3);
 
                     for (DcObject child : dco.getChildren()) {
-                        writeDCO(writer, child, references);
+                        writeDCO(writer, new ExportItem(child), references);
                         writer.endEntity(child);
                     }
                     
@@ -221,7 +225,7 @@ public class XmlExporter extends ItemExporter {
             }
 
             if (full && settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES))
-            	writer.writePictures(dco.getID());
+            	writer.writePictures(exportItem.getPictures());
             
             if (full && settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS))
             	writer.writeAttachments(dco.getID());
@@ -233,7 +237,9 @@ public class XmlExporter extends ItemExporter {
         }        
         
         @SuppressWarnings({ "unchecked" })
-		private void writeDCO(XmlWriter writer, DcObject dco, Map<DcModule, Collection<String>> references) throws Exception {
+		private void writeDCO(XmlWriter writer, ExportItem exportItem, Map<DcModule, Collection<String>> references) throws Exception {
+        	
+        	DcObject dco = exportItem.getDco();
         	
     		writer.startEntity(dco);
         	
@@ -269,7 +275,7 @@ public class XmlExporter extends ItemExporter {
                 } 
                 
                 if (field != null && !field.getSystemName().endsWith("_persist")) 
-                    writer.writeAttribute(dco, field.getIndex());
+                    writer.writeAttribute(exportItem, field.getIndex());
             }
         }
     }    

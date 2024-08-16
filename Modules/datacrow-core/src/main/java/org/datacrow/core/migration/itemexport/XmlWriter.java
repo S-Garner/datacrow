@@ -120,17 +120,20 @@ public class XmlWriter extends XmlBaseWriter {
     }
     
     @SuppressWarnings("unchecked")
-    public void writeAttribute(DcObject dco, int field) throws IOException {
+    public void writeAttribute(ExportItem exportItem, int field) throws IOException {
     	
-        if (dco.getField(field) == null || (!dco.isFilled(field) && dco.getModule().getField(field).getValueType() != DcRepository.ValueTypes._PICTURE))
-            return;   
+    	DcObject dco = exportItem.getDco();
+    	
+        if (	dco.getField(field) == null || 
+        		(!dco.isFilled(field) && dco.getModule().getField(field).getValueType() != DcRepository.ValueTypes._PICTURE))
+            return; 
         
         ident(valueIdent);
         
         String tag = XmlUtilities.getFieldTag(dco.getField(field));
         
         writeTag("<" + tag + ">");
-        writeValue(dco, field);
+        writeValue(exportItem, field);
         writeTag("</" + tag + ">");
         newLine();
         
@@ -193,8 +196,7 @@ public class XmlWriter extends XmlBaseWriter {
     	}
     }
 
-    public void writePictures(String ID) throws IOException {
-    	Collection<Picture> pictures = DcConfig.getInstance().getConnector().getPictures(ID);
+    public void writePictures(Collection<Picture> pictures) throws IOException {
     	
     	if (pictures.size() > 0) {
         	setIdent(1);
@@ -244,13 +246,16 @@ public class XmlWriter extends XmlBaseWriter {
     }
     
     @SuppressWarnings("unchecked")
-    private void writeValue(DcObject dco, int field) throws IOException {
-       Object o = dco.getValue(field);
+    private void writeValue(ExportItem exportItem, int field) throws IOException {
+    	
+    	Collection<Picture> pictures = exportItem.getPictures();
+    	DcObject dco = exportItem.getDco();
+    	Object o = dco.getValue(field);
 
-       if (	dco.getField(field).getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
-    		dco.getField(field).getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
+    	if (	dco.getField(field).getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
+    			dco.getField(field).getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
     	   
-            newLine();
+    		newLine();
 
             tagIdent += (stepSize * 2);
             valueIdent += (stepSize * 2);
@@ -261,6 +266,9 @@ public class XmlWriter extends XmlBaseWriter {
             else
             	items.addAll((Collection<? extends DcObject>) o);
             
+            
+            ExportItem eiRef;
+            
             for (DcObject ref : items) {
                if (ref instanceof DcMapping)
                     ref = ((DcMapping) ref).getReferencedObject();
@@ -268,8 +276,12 @@ public class XmlWriter extends XmlBaseWriter {
                 if (ref != null) { 
 	                startEntity(ref);
 	                int fieldIdx = ref.getSystemDisplayFieldIdx();
-	                writeAttribute(ref, DcObject._ID);
-	                writeAttribute(ref, fieldIdx);
+	                
+	                eiRef = new ExportItem(ref);
+	                		
+	                writeAttribute(eiRef, DcObject._ID);
+	                writeAttribute(eiRef, fieldIdx);
+	                
 	                endEntity(ref);
                 }
             }
@@ -278,7 +290,6 @@ public class XmlWriter extends XmlBaseWriter {
             tagIdent -= (stepSize * 2);
             ident(valueIdent);
        	} else if (dco.getField(field).getValueType() == DcRepository.ValueTypes._PICTURE) {
-       		Collection<Picture> pictures =  DcConfig.getInstance().getConnector().getPictures(dco.getID());
         	for (Picture p : pictures) {
         		if (p.getFilename().endsWith(dco.getField(field).getDatabaseFieldName() + ".jpg"))
         			write(utilities.getImageURL(p));
