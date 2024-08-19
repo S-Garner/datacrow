@@ -1108,7 +1108,7 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         if (hasPrimaryKey()) {
             String ID = getID();
             
-            while (CoreUtilities.isEmpty(ID))
+            if (CoreUtilities.isEmpty(ID))
                 ID = CoreUtilities.getUniqueID();
             
             setValue(DcObject._ID, ID);

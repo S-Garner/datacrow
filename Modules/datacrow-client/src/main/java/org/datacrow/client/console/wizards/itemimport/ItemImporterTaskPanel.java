@@ -189,12 +189,9 @@ public class ItemImporterTaskPanel extends ItemImporterWizardPanel implements II
                 created++;
                 item.setUpdateGUI(false);
                 item.setValidate(false);
-                
-                item.setValueLowLevel(DcObject._ID, null);
                 item.setIDs();
                 
                 for (DcObject child : item.getChildren()) {
-                    child.setValueLowLevel(DcObject._ID, null);
                     child.setIDs();
                 }
                 

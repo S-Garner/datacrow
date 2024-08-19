@@ -59,6 +59,8 @@ public class DcObjectListRenderer extends DcListRenderer<Object>  {
 				
 				@Override
 				public void run() {
+					if (c == null) return;
+					
 		            c.load();
 		            
 		            if (c.getDcObject() != null)

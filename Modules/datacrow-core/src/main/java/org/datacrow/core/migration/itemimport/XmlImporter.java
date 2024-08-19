@@ -40,6 +40,7 @@ import org.datacrow.core.DcThread;
 import org.datacrow.core.clients.IItemImporterClient;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.migration.XmlUtilities;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
@@ -76,7 +77,7 @@ public class XmlImporter extends ItemImporter {
 
     @Override
     public DcThread getTask() {
-        return new Task(file, getModule(), client);
+        return new Task(file, client);
     }
 
     @Override
@@ -96,12 +97,10 @@ public class XmlImporter extends ItemImporter {
         
         private File file;
         private IItemImporterClient listener;
-        private DcModule module;
         
-        public Task(File file, DcModule module, IItemImporterClient listener) {
+        public Task(File file, IItemImporterClient listener) {
             super(null, "XML import for " + file);
             this.file = file;
-            this.module = module;
             this.listener = listener;
         }
     
@@ -109,58 +108,73 @@ public class XmlImporter extends ItemImporter {
             DcObject dco = module.getItem();
             Node node;
             
-            dco.setIDs();
             String value;
-            // get the object
+            String fieldTag;
+
             for (DcField field : module.getFields()) {
-                
+            	
                 if ((   field.isUiOnly() && 
                         field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION) ||  
                         field.getIndex() == DcObject._SYS_EXTERNAL_REFERENCES) 
                     continue;
                 
-                String fieldName = Converter.getValidXmlTag(field.getSystemName());
+                fieldTag = XmlUtilities.getFieldTag(field);
+                
                 NodeList nlField = eItem.getChildNodes();
                 Element eField = null;
                 
                 try {
                     for (int i = 0; i < nlField.getLength(); i++) {
                         node = nlField.item(i);
-                        if (node.getNodeName().equals(fieldName)) {
+                        if (node.getNodeName().equals(fieldTag)) {
                             eField = (Element) node;
                         }
                     }
                 } catch (Exception e) {
-                    logger.error("Could not match " + fieldName + " with an existing child tag", e);
+                    logger.error("Could not match " + fieldTag + " with an existing child tag", e);
                 }
                 
-                // field was not found; skip
+                // field was not found; skip - TODO: log!
                 if (eField == null) 
                     continue;
                 
-                if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
-                	
-                	// TODO: tag name has changed - see XmlBaseWriter#getTagName
+                if (	field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
+                		field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
                 	
                     // retrieve the items by their module name
                     DcModule referenceMod = DcModules.get(field.getReferenceIdx());
                     String referenceName = Converter.getValidXmlTag(referenceMod.getSystemObjectName());
                     NodeList elReferences = eField.getElementsByTagName(referenceName);
+                    
+                    String id;
+                    String name;
+                    
+                    DcField fieldId = referenceMod.getField(DcObject._ID);
+                    DcField fieldDisplay = referenceMod.getField(referenceMod.getSystemDisplayFieldIdx());
+                    
+                    DcObject reference;
+                    DcObject existingReference;
+                    
                     for (int j = 0; elReferences != null && j < elReferences.getLength(); j++) {
                         // retrieve the values by the display field index (the system display field index)
-                        Element eReference = (Element) elReferences.item(j);
-                        DcObject reference = referenceMod.getItem();
-                        String referenceField = Converter.getValidXmlTag(reference.getField(reference.getSystemDisplayFieldIdx()).getSystemName());
-                        NodeList nlRefField = eReference.getElementsByTagName(referenceField);
-                        if (nlRefField != null && nlRefField.getLength() > 0) {
-                            Node eRefField = nlRefField.item(0);
-                            setValue(dco, field.getIndex(), eRefField.getTextContent(), listener);
-                        } else {
-                            logger.debug("Could not set value for field " + referenceField + ". The field name does not exist in the XML file");
-                        }
+                    	Element eReference = (Element) elReferences.item(j);
+                        reference = referenceMod.getItem();
+                        
+                        id = eReference.getElementsByTagName(XmlUtilities.getFieldTag(fieldId)).getLength() > 0 ?
+                        	 eReference.getElementsByTagName(XmlUtilities.getFieldTag(fieldId)).item(0).getTextContent() : null;
+                        name = eReference.getElementsByTagName(XmlUtilities.getFieldTag(fieldDisplay)).getLength() > 0 ?
+                           	 eReference.getElementsByTagName(XmlUtilities.getFieldTag(fieldDisplay)).item(0).getTextContent() : null;
+                        
+                        if (name == null || id == null)
+                        	continue;
+                        
+                        existingReference = DcConfig.getInstance().getConnector().getItem(referenceMod.getIndex(), id);
+                        
+                        reference.setValue(fieldId.getIndex(), id);
+                        reference.setValue(fieldDisplay.getIndex(), name);
+                        
+                    	dco.createReference(field.getIndex(), existingReference != null ? existingReference : reference);
                     }
-                } else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
-                    setValue(dco, field.getIndex(), eField.getTextContent(), listener);
                 } else {
                     value = eField.getTextContent();
                     if (!CoreUtilities.isEmpty(value))
@@ -169,6 +183,15 @@ public class XmlImporter extends ItemImporter {
             }
             
             return dco;
+        }
+        
+        private DcModule getModule(String holderTag) {
+        	for (DcModule module : DcModules.getAllModules()) {
+        		if (XmlUtilities.getElementTagForList(module).equals(holderTag))
+        			return module;
+        	}
+        	
+        	return null;
         }
         
         @Override
@@ -188,43 +211,62 @@ public class XmlImporter extends ItemImporter {
 
                 Document document = db.parse(input);
                 
-                Element eTop = document.getDocumentElement();
+                NodeList nlTop = document.getElementsByTagName("data-crow-objects");
                 
-                String name = Converter.getValidXmlTag(module.getSystemObjectName());
-                NodeList nlItems = eTop.getElementsByTagName(name);
-    
-                listener.notifyTaskStarted(nlItems != null ? nlItems.getLength() : 0);
-                
-                Element eItem;
-                DcObject dco;
-                DcObject child;
-                DcModule cm;
-                String childName;
-                NodeList nlChildren;
-                Element eChild;
-                for (int i = 0; !isCanceled() && nlItems != null && i < nlItems.getLength(); i++) {
-                    try {
-                    	eItem = (Element) nlItems.item(i);
+                if (nlTop != null && nlTop.getLength() > 0) {
+                	
+                	NodeList nlItemHolders = nlTop.item(0).getChildNodes();
+                	
+                	NodeList nlItems;
+                	Node eItemHolder;
+                	Element eItem;
+                	DcModule module;
+                	DcObject dco;
+
+                	for (int i = nlItemHolders.getLength() - 1; i >= 0 && !isCanceled(); i--) {
+                        
+                    	if(nlItemHolders.item(i).getNodeType() != Node.ELEMENT_NODE)
+                    		continue;
                     	
-                    	if (eItem.getParentNode() != eTop) continue;
+                    	eItemHolder = (Element) nlItemHolders.item(i);
+                    	module = getModule(eItemHolder.getNodeName());
                     	
-                    	dco = parseItem(module, eItem);
-                    	cm = module.getChild();
+                    	// skip if not found
+                    	// TODO: log this as an issue
+                    	if (module == null || module.isAbstract())
+                    		continue;
                     	
-                    	if (cm != null && !cm.isAbstract()) {
-                    	    childName = Converter.getValidXmlTag(cm.getSystemObjectName());
-                            nlChildren = eItem.getElementsByTagName(childName);
-                            
-                            for (int j = 0; nlChildren != null && j < nlChildren.getLength(); j++) {
-                                eChild = (Element) nlChildren.item(j);
-                                child = parseItem(cm, eChild);
-                                dco.addChild(child);
+                    	nlItems = eItemHolder.getChildNodes();
+                    	for (int j = 0; j < nlItems.getLength() && !isCanceled(); j++) {
+                    		
+                    		try {
+                    			
+                            	if(nlItems.item(j).getNodeType() != Node.ELEMENT_NODE)
+                            		continue;
+                    			
+	                    		eItem = (Element) nlItems.item(j);
+	                    		dco = parseItem(module, eItem);
+	                    		
+	                    		// TODO: rewrite...
+//	                        	cm = module.getChild();
+//	                        	
+//	                        	if (cm != null && !cm.isAbstract()) {
+//	                        	    childName = Converter.getValidXmlTag(cm.getSystemObjectName());
+//	                                nlChildren = eItem.getElementsByTagName(childName);
+//	                                
+//	                                for (int j = 0; nlChildren != null && j < nlChildren.getLength(); j++) {
+//	                                    eChild = (Element) nlChildren.item(j);
+//	                                    child = parseItem(cm, eChild);
+//	                                    dco.addChild(child);
+//	                                }
+//	                        	}
+	                        	
+	                        	listener.notifyProcessed(dco);
+                            } catch (Exception e) {
+                                listener.notify(e.getMessage());
+                                logger.error(e, e) ;
                             }
                     	}
-                    	listener.notifyProcessed(dco);
-                    } catch (Exception e) {
-                        listener.notify(e.getMessage());
-                        logger.error(e, e) ;
                     }
                 }
                 

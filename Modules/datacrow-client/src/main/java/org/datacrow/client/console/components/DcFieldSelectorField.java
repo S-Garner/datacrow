@@ -161,8 +161,7 @@ public class DcFieldSelectorField extends JComponent implements IComponent, Acti
         JCheckBox checkBox;
         for (DcField field : DcModules.get(module).getFields()) {
             
-            if (field.getIndex() == DcObject._ID ||
-            	field.getIndex() == DcObject._SYS_MODULE ||	
+            if (field.getIndex() == DcObject._SYS_MODULE ||	
             	(field.getValueType() == DcRepository.ValueTypes._PICTURE && !allowPictureFields) ||
                 field.getSystemName().endsWith("_persist") ||
                 field.getIndex() == DcObject._SYS_EXTERNAL_REFERENCES)

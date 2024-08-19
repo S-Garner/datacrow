@@ -38,6 +38,7 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcRepository.ValueTypes;
 import org.datacrow.core.attachments.Attachment;
+import org.datacrow.core.migration.XmlUtilities;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;

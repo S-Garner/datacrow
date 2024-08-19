@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.migration.XmlUtilities;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
