@@ -29,6 +29,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -37,6 +38,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcThread;
+import org.datacrow.core.attachments.Attachment;
 import org.datacrow.core.clients.IItemImporterClient;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
@@ -44,7 +46,9 @@ import org.datacrow.core.migration.XmlUtilities;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.Converter;
 import org.datacrow.core.utilities.CoreUtilities;
@@ -126,9 +130,9 @@ public class XmlImporter extends ItemImporter {
                 try {
                     for (int i = 0; i < nlField.getLength(); i++) {
                         node = nlField.item(i);
-                        if (node.getNodeName().equals(fieldTag)) {
+                        
+                        if (node.getNodeName().equals(fieldTag))
                             eField = (Element) node;
-                        }
                     }
                 } catch (Exception e) {
                     logger.error("Could not match " + fieldTag + " with an existing child tag", e);
@@ -157,6 +161,9 @@ public class XmlImporter extends ItemImporter {
                     
                     for (int j = 0; elReferences != null && j < elReferences.getLength(); j++) {
                         // retrieve the values by the display field index (the system display field index)
+                    	
+                    	
+                    	
                     	Element eReference = (Element) elReferences.item(j);
                         reference = referenceMod.getItem();
                         
@@ -181,6 +188,61 @@ public class XmlImporter extends ItemImporter {
                         setValue(dco, field.getIndex(), value, listener);
                 }
             }
+            
+            dco.setIDs();
+            
+            NodeList nlPictures = eItem.getElementsByTagName("picture");
+            Element ePicture;
+            String link;
+            Picture picture;
+            for (int i = 0; i < nlPictures.getLength(); i++) {
+            	
+            	if (nlPictures.item(i).getNodeType() != Node.ELEMENT_NODE)
+            		continue;
+            	
+            	ePicture = (Element) nlPictures.item(i);
+            	
+            	if (ePicture.getElementsByTagName("link").getLength() > 0) {
+            		
+                	if (ePicture.getElementsByTagName("link").item(0).getNodeType() == Node.ELEMENT_NODE) {
+	                	link = ePicture.getElementsByTagName("link").item(0).getTextContent();
+	                	picture = new Picture(dco.getID(), new DcImageIcon(new URL(link)));
+	                	dco.addNewPicture(picture);
+                	}
+            	}
+            }
+            
+            NodeList nlAttachments = eItem.getElementsByTagName("attachment");
+            Element eAttachment;
+            Attachment attachment;
+            File file;
+            for (int i = 0; i < nlAttachments.getLength(); i++) {
+            	
+            	if (nlAttachments.item(i).getNodeType() != Node.ELEMENT_NODE)
+            		continue;
+            	
+            	eAttachment = (Element) nlAttachments.item(i);
+            	
+            	
+            	if (eAttachment.getElementsByTagName("link").getLength() > 0) {
+            		
+                	if (eAttachment.getElementsByTagName("link").item(0).getNodeType() == Node.ELEMENT_NODE) {
+	                	link = eAttachment.getElementsByTagName("link").item(0).getTextContent();
+	                	
+	                	try {
+	    	            	file = new File(new URL(link).getFile());
+	    	            	
+	    	            	attachment = new Attachment(dco.getID(), file);
+	    	            	attachment.setData(CoreUtilities.readFile(file));
+	    	            	
+	    	            	dco.addNewAttachment(attachment);
+	                	} catch (Exception e) {
+	                		// TODO: log to client
+	                		logger.error(e, e);
+	                	}
+                	}
+            	}
+            }            
             
             return dco;
         }
@@ -222,10 +284,15 @@ public class XmlImporter extends ItemImporter {
                 	Element eItem;
                 	DcModule module;
                 	DcObject dco;
-
+                	
+                	DcModule cm;
+                	NodeList nlChildren;
+                	Element eChild;
+                	DcObject child;
+                	
                 	for (int i = nlItemHolders.getLength() - 1; i >= 0 && !isCanceled(); i--) {
                         
-                    	if(nlItemHolders.item(i).getNodeType() != Node.ELEMENT_NODE)
+                    	if (nlItemHolders.item(i).getNodeType() != Node.ELEMENT_NODE)
                     		continue;
                     	
                     	eItemHolder = (Element) nlItemHolders.item(i);
@@ -246,20 +313,17 @@ public class XmlImporter extends ItemImporter {
                     			
 	                    		eItem = (Element) nlItems.item(j);
 	                    		dco = parseItem(module, eItem);
-	                    		
-	                    		// TODO: rewrite...
-//	                        	cm = module.getChild();
-//	                        	
-//	                        	if (cm != null && !cm.isAbstract()) {
-//	                        	    childName = Converter.getValidXmlTag(cm.getSystemObjectName());
-//	                                nlChildren = eItem.getElementsByTagName(childName);
-//	                                
-//	                                for (int j = 0; nlChildren != null && j < nlChildren.getLength(); j++) {
-//	                                    eChild = (Element) nlChildren.item(j);
-//	                                    child = parseItem(cm, eChild);
-//	                                    dco.addChild(child);
-//	                                }
-//	                        	}
+
+	                    		cm = module.getChild();
+	                        	if (cm != null && !cm.isAbstract()) {
+	                                nlChildren = eItem.getElementsByTagName(XmlUtilities.getElementTag(cm));
+	                                
+	                                for (int k = 0; nlChildren != null && k < nlChildren.getLength(); k++) {
+	                                    eChild = (Element) nlChildren.item(k);
+	                                    child = parseItem(cm, eChild);
+	                                    dco.addChild(child);
+	                                }
+	                        	}
 	                        	
 	                        	listener.notifyProcessed(dco);
                             } catch (Exception e) {

@@ -41,7 +41,7 @@ public class Attachment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private final String name;
-	private final String objectID;
+	private String objectID;
 	
 	// this points to the temp folder / local folder of the client
 	private File localFile;
@@ -81,6 +81,10 @@ public class Attachment implements Serializable {
 		return name;
 	}
 	
+	public void setObjectID(String ID) {
+		this.objectID = ID;
+	}
+	
 	public String getObjectID() {
 		return objectID;
 	}
@@ -117,6 +121,17 @@ public class Attachment implements Serializable {
 	public void setSize(long size) {
 		this.size = size;
 	}
+	
+    public Attachment clone() {
+    	Attachment attachment = new Attachment(objectID, name);
+    	
+    	attachment.setCreated(getCreated());
+    	attachment.setData(getData());
+    	attachment.setSize(getSize());
+    	attachment.setLocalFile(getLocalFile());
+    	
+    	return attachment;
+    }	
 	
 	@Override
 	public String toString() {

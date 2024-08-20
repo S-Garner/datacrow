@@ -96,7 +96,6 @@ public class ItemImporterTaskPanel extends ItemImporterWizardPanel implements II
     	importer.setClient(this);
     	
     	try { 
-    	    
     	    created = 0;
     	    updated = 0;
     	    

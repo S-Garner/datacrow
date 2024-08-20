@@ -1,11 +1,16 @@
 --------------------------------------------------------------------
 Data Crow version 5.0                         Released on 2024-xx-xx
 --------------------------------------------------------------------
+Data Crow 5.0 is the accumulation of all releases made since picking up Data Crow development.
+Version 4.0 has been alive for a long time.. since July the 23th of 2014 to be exact.
+Lots of things have changed since then, many of the changes could easily have triggered the release of a new major version.
+These past changes combined with the changes as listed below make it justifiable to release a new major version.
 
 [New]
 - Picture management has been completed changed; Data Crow now allows for unlimited number of pictures to be added.
 
 [Updated]
+- Scrolling performance has been improved for the card list.
 - Updated libraries as used by Data Crow to avoid exposure to vulnerabilities:
   Apache Maven plugins, IZ Pack, Metadata-extractor, Log4j, Bouncy Castle, twelvemonkeys.imageio, org.apache.tika,
   org.apache.pdfbox, org.jsoup, com.google.code.gson, Xalan, org.hsqldb, org.apache.xmlgraphics.
@@ -16,11 +21,8 @@ Data Crow version 5.0                         Released on 2024-xx-xx
   * attachments can now be exported.
   * related references items are exported in full as well as the current summary for the item that references these. 
 - Jasper Reports libraries have been bumped up to version 7.0.
-- Data Crow minimum Java version has been increased from Java 11 to Java 18.
 - Small layout improvements for the item form and the login dialog.
-- Scrolling performance has been improved for the card list.
 - Extended the supported image types for the local art import for movies and music files. 
-- Attachments are now also exported when performing an XML export.
 
 [Fixed]
 - Right-click menu on attachment: icon size too large.
@@ -29,12 +31,18 @@ Data Crow version 5.0                         Released on 2024-xx-xx
 - Attachments menu was missing icons.
 - XML export: schema errors fixed.
 
-translations TODO:
 
+-------- TODO --------
+translations:
 lblIncludeImage = Include Pictures
 lblIncludeAttachments = Include Attachments
 lblCopyAttachments = Copy Attachments
 
+import:
+import pictures
+import attachment
+change wizard for import - skip the module select for the XML import
+save children
 
 --------------------------------------------------------------------
 Data Crow version 4.11                        Released on 2023-12-04

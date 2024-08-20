@@ -39,6 +39,7 @@ import java.util.Map;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.attachments.Attachment;
 import org.datacrow.core.data.DcIconCache;
 import org.datacrow.core.enhancers.IValueEnhancer;
 import org.datacrow.core.enhancers.ValueEnhancers;
@@ -134,8 +135,11 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     private transient boolean validate = true;
     private transient boolean updateGUI = true;
     
-    // these are new pictures, to be saved after the main item has been saved
-    private final LinkedList<Picture> pictures = new LinkedList<Picture>();
+    // these are new pictures, to be saved after the main item has been saved only
+    private final LinkedList<Picture> newPictures = new LinkedList<Picture>();
+    
+    // these are new attachments, to be saved after the main item has been saved only
+    private final Collection<Attachment> newAttachments = new ArrayList<Attachment>();
     
     /**
      * Creates a new instance.
@@ -184,20 +188,30 @@ public class DcObject implements Comparable<DcObject>, Serializable {
 	}
     
     public void clearNewPictures() {
-    	pictures.clear();
+    	newPictures.clear();
     }
     
     public void addNewPicture(Picture picture) {
-    	pictures.add(picture);
+    	if (!this.newPictures.contains(picture))
+    		newPictures.add(picture);
     }
     
     public void addNewPictures(Collection<Picture> pictures) {
     	for (Picture picture : pictures)
-    		this.pictures.add(picture);
+    		this.newPictures.add(picture);
     }
-    
+
+    public void addNewAttachment(Attachment attachment) {
+    	if (!this.newAttachments.contains(attachment))
+    		this.newAttachments.add(attachment);
+    }    
+
+    public Collection<Attachment> getNewAttachments() {
+    	return newAttachments;
+    }
+
     public Collection<Picture> getNewPictures() {
-    	return pictures;
+    	return newPictures;
     }
 
     /**
@@ -295,10 +309,10 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     
     public DcImageIcon getScaledImage() {
     	
-    	if (pictures.size() > 0 && isNew()) {
+    	if (newPictures.size() > 0 && isNew()) {
     		
     		return new DcImageIcon(
-    				CoreUtilities.getScaledImage(pictures.getFirst().getImageIcon()));
+    				CoreUtilities.getScaledImage(newPictures.getFirst().getImageIcon()));
     		
     	} else {
     		
@@ -1169,6 +1183,12 @@ public class DcObject implements Comparable<DcObject>, Serializable {
      */
     public void copy(DcObject dco, boolean overwrite, boolean allowDeletes) {
         copy(dco, dco.getFieldIndices(), overwrite, allowDeletes);
+        
+        for (Attachment a : dco.getNewAttachments())
+        	addNewAttachment(a.clone());
+        
+        for (Picture p : dco.getNewPictures())
+        	addNewPicture(p.clone());        
     }
     
     @SuppressWarnings("unchecked")
@@ -1274,8 +1294,12 @@ public class DcObject implements Comparable<DcObject>, Serializable {
                 dco.addChild(child.clone());
         }
         
-        for (Picture picture : pictures)
+        for (Picture picture : newPictures)
         	dco.addNewPicture(picture.clone());
+
+        
+        for (Attachment attachment : newAttachments)
+        	dco.addNewAttachment(attachment.clone());
         
         return dco;
     }
@@ -1316,9 +1340,14 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     }
     
     public void afterSave() {
-    	for (Picture picture : pictures) {
+    	for (Picture picture : newPictures) {
     		picture.setObjectID(getID());
     		DcConfig.getInstance().getConnector().savePicture(picture);
+    	}
+    	
+    	for (Attachment attachment : newAttachments ) {
+    		attachment.setObjectID(getID());
+    		DcConfig.getInstance().getConnector().saveAttachment(attachment);
     	}
     }
     
