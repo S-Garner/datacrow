@@ -68,10 +68,10 @@ public class CsvImporter extends ItemImporter {
         return settingKeys;
     }
     
-    @Override
-    public boolean requiresMapping() {
-        return true;
-    }    
+	@Override
+	public int getType() {
+		return _TYPE_CSV;
+	}    
     
     private String getCharacterSet() {
         String charSet = getSetting(_CHARACTER_SET);

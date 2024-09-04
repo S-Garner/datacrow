@@ -75,6 +75,11 @@ public class XmlImporter extends ItemImporter {
         settingKeys.add(DcRepository.Settings.stImportMatchAndMerge);
         return settingKeys;
     }
+ 
+	@Override
+	public int getType() {
+		return _TYPE_XML;
+	}    
     
     @Override
     protected void initialize() {}

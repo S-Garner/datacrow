@@ -25,7 +25,7 @@
 
 package org.datacrow.client.console.wizards.itemimport;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.datacrow.client.console.GUI;
@@ -35,18 +35,21 @@ import org.datacrow.client.console.wizards.WizardException;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.console.IMasterView;
+import org.datacrow.core.migration.itemimport.ItemImporter;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 
 public class ItemImporterWizard extends Wizard {
 
-    public static final int _STEP_MAPPING = 2;
+	public static final int _STEP_MODULE_SELECT = 1;
+    public static final int _STEP_MAPPING = 3;
+    
     
 	private ItemImporterDefinition definition;
 	
-	public ItemImporterWizard(int moduleIdx) {
-		super(moduleIdx);
+	public ItemImporterWizard() {
+		super();
 		
 		setTitle(getWizardName());
 		setHelpIndex("dc.migration.wizard.importer");
@@ -89,13 +92,19 @@ public class ItemImporterWizard extends Wizard {
     
     @Override
     public void next() throws WizardException {
+    	
+    	getCurrent().apply();
+    	
         if (getDefinition() != null && getDefinition().getImporter() != null) {
-            if (!getDefinition().getImporter().requiresMapping()) {
+            if (getDefinition().getImporter().getType() == ItemImporter._TYPE_XML) {
                 if (!skip.contains(Integer.valueOf(_STEP_MAPPING)))
                     skip.add(Integer.valueOf(_STEP_MAPPING));
+                
+                if (!skip.contains(Integer.valueOf(_STEP_MODULE_SELECT)))
+                    skip.add(Integer.valueOf(_STEP_MODULE_SELECT));
             } else {
-                while (skip.contains(Integer.valueOf(_STEP_MAPPING)))
-                    skip.remove(Integer.valueOf(_STEP_MAPPING));
+                skip.remove(Integer.valueOf(_STEP_MAPPING));
+                skip.remove(Integer.valueOf(_STEP_MODULE_SELECT));
             }
         }
         
@@ -104,8 +113,9 @@ public class ItemImporterWizard extends Wizard {
 
     @Override
     protected List<IWizardPanel> getWizardPanels() {
-    	List<IWizardPanel> panels = new ArrayList<IWizardPanel>();
+    	List<IWizardPanel> panels = new LinkedList<IWizardPanel>();
     	panels.add(new ItemImporterSelectionPanel(this));
+    	panels.add(new ItemImporterModuleSelectionPanel(this));
     	panels.add(new ItemImporterDefinitionPanel(this));
     	panels.add(new ItemImporterMappingPanel(this));
     	panels.add(new ItemImporterTaskPanel(this));

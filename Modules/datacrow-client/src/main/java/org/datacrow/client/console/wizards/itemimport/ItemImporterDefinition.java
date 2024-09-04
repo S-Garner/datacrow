@@ -33,8 +33,17 @@ public class ItemImporterDefinition {
     
     private File file;
     private ItemImporter importer;
+    private int moduleIdx;
     
-    public ItemImporterDefinition() {}
+    public int getModule() {
+		return moduleIdx;
+	}
+
+	public void setModule(int moduleIdx) {
+		this.moduleIdx = moduleIdx;
+	}
+
+	public ItemImporterDefinition() {}
     
     public void setImporter(ItemImporter importer) {
         this.importer = importer;

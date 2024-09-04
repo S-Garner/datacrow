@@ -128,7 +128,7 @@ public abstract class Wizard extends DcFrame implements ActionListener {
             
             current += 1;
             
-            if (skip.contains(Integer.valueOf(current)))
+            while (skip.contains(Integer.valueOf(current)))
                 current += 1;
             
             if (current <= getStepCount()) {

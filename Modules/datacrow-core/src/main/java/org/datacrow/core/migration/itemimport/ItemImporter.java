@@ -58,6 +58,9 @@ public abstract class ItemImporter extends ItemMigrater {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporter.class.getName());
     
+    public static final int _TYPE_CSV = 0;
+    public static final int _TYPE_XML = 1;
+    
     protected IItemImporterClient client;
     protected ItemImporterFieldMappings mappings = new ItemImporterFieldMappings();
 
@@ -72,9 +75,7 @@ public abstract class ItemImporter extends ItemMigrater {
         super(su, moduleIdx, key, mode, true);
     }
     
-    public boolean requiresMapping() {
-        return false;
-    }
+    public abstract int getType();
     
     public void setSetting(String key, String value) {
         settings.put(key, value);

@@ -39,14 +39,10 @@ lblIncludeAttachments = Include Attachments
 lblCopyAttachments = Copy Attachments
 
 import:
-import pictures
-import attachment
 change wizard for import - skip the module select for the XML import
-save children
 
 other:
 XML file for all items, loaded on new installations, needs to be updated
-
 
 --------------------------------------------------------------------
 Data Crow version 4.11                        Released on 2023-12-04

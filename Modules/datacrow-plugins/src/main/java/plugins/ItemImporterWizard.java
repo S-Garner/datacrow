@@ -26,16 +26,11 @@
 package plugins;
 
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.ImageIcon;
 
-import org.datacrow.client.console.windows.ItemTypeDialog;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.UserMode;
-import org.datacrow.core.modules.DcModule;
-import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
 import org.datacrow.core.plugin.Plugin;
@@ -61,18 +56,7 @@ public class ItemImporterWizard extends Plugin {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        DcModule module = DcModules.getCurrent();
-        Collection<DcModule> modules = new ArrayList<DcModule>();
-        modules.add(module);
-        modules.addAll(DcModules.getReferencedModules(module.getIndex()));
-        
-        ItemTypeDialog dlg = new ItemTypeDialog(modules, DcResources.getText("msgSelectModuleImport"));
-        dlg.setVisible(true);
-
-        int moduleIdx = dlg.getSelectedModule();
-        
-        if (moduleIdx > 0)
-            new org.datacrow.client.console.wizards.itemimport.ItemImporterWizard(moduleIdx).setVisible(true);
+        new org.datacrow.client.console.wizards.itemimport.ItemImporterWizard().setVisible(true);
     }
     
     @Override
