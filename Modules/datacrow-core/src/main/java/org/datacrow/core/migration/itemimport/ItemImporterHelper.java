@@ -33,6 +33,7 @@ import org.datacrow.core.clients.IItemImporterClient;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.ItemMigrater;
+import org.datacrow.core.migration.itemimport.ItemImporters.ImporterType;
 import org.datacrow.core.objects.DcObject;
 
 public class ItemImporterHelper implements IItemImporterClient {
@@ -43,7 +44,7 @@ public class ItemImporterHelper implements IItemImporterClient {
     private final File file;
     private final ItemImporter reader;
     
-    public ItemImporterHelper(String type, int moduleIdx, File file) throws Exception {
+    public ItemImporterHelper(ImporterType type, int moduleIdx, File file) throws Exception {
         this.file = file;
         this.reader = ItemImporters.getInstance().getImporter(type, moduleIdx, ItemMigrater._MODE_NON_THREADED);
         this.reader.setClient(this);

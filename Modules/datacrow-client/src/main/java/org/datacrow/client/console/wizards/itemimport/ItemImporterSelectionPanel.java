@@ -63,9 +63,8 @@ public class ItemImporterSelectionPanel extends ItemImporterWizardPanel {
         String command = bg.getSelection().getActionCommand();
         for (ItemImporter reader : readers) {
             if (reader.getKey().equals(command))
-                wizard.getDefinition().setImporter(reader);
+                wizard.getDefinition().setType(reader.getType());;
         }
-        
 	    return wizard.getDefinition();
     }
 
@@ -81,9 +80,9 @@ public class ItemImporterSelectionPanel extends ItemImporterWizardPanel {
         int x = 0;
         
         JRadioButton rb;
+        // we'll get the importers of the main module - they're all the same any way..
         for (ItemImporter reader : ItemImporters.getInstance().getImporters(wizard.getModuleIdx())) {
         	readers.add(reader);
-
         	rb = ComponentFactory.getRadioButton(reader.getName(), reader.getIcon(), reader.getKey());
             bg.add(rb);
             add(rb, Layout.getGBC( x, y++, 1, 1, 1.0, 1.0

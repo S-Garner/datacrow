@@ -35,8 +35,9 @@ import org.datacrow.client.console.wizards.WizardException;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.console.IMasterView;
-import org.datacrow.core.migration.itemimport.ItemImporter;
+import org.datacrow.core.migration.itemimport.ItemImporters.ImporterType;
 import org.datacrow.core.modules.DcModule;
+import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 
@@ -45,8 +46,7 @@ public class ItemImporterWizard extends Wizard {
 	public static final int _STEP_MODULE_SELECT = 1;
     public static final int _STEP_MAPPING = 3;
     
-    
-	private ItemImporterDefinition definition;
+	private final ItemImporterDefinition definition;
 	
 	public ItemImporterWizard() {
 		super();
@@ -63,6 +63,24 @@ public class ItemImporterWizard extends Wizard {
 	protected ItemImporterDefinition getDefinition() {
 		return definition;
 	}
+	
+	@Override
+	public DcModule getModule() {
+		if (definition == null) {
+			return super.getModule();
+		} else {
+			return DcModules.get(definition.getModule());
+		}
+	}
+	
+	@Override
+	public int getModuleIdx() {
+		if (definition == null) {
+			return super.getModuleIdx();
+		} else {
+			return definition.getModule();
+		}
+	}  	
 
 	@Override
     protected boolean isRestartSupported() {
@@ -71,17 +89,11 @@ public class ItemImporterWizard extends Wizard {
 	
     @Override
     public void finish() throws WizardException {
-        if (definition != null && definition.getImporter() != null)
-            definition.getImporter().cancel();
-
+    	// TODO: need to cancel the importer - do this from the final step though!
         if (!isCancelled()) {
-            DcModule m = getModule();
-            IMasterView view = GUI.getInstance().getSearchView(m.getIndex());
-            
+            IMasterView view = GUI.getInstance().getSearchView(DcModules.getCurrent().getIndex());
             if (view != null) view.refresh();
         }
-        
-        definition = null;
         close();
     }
 
@@ -95,19 +107,15 @@ public class ItemImporterWizard extends Wizard {
     	
     	getCurrent().apply();
     	
-        if (getDefinition() != null && getDefinition().getImporter() != null) {
-            if (getDefinition().getImporter().getType() == ItemImporter._TYPE_XML) {
-                if (!skip.contains(Integer.valueOf(_STEP_MAPPING)))
-                    skip.add(Integer.valueOf(_STEP_MAPPING));
-                
-                if (!skip.contains(Integer.valueOf(_STEP_MODULE_SELECT)))
-                    skip.add(Integer.valueOf(_STEP_MODULE_SELECT));
-            } else {
-                skip.remove(Integer.valueOf(_STEP_MAPPING));
-                skip.remove(Integer.valueOf(_STEP_MODULE_SELECT));
-            }
+        if (getDefinition().getType().equals(ImporterType.XML)) {
+            if (!skip.contains(Integer.valueOf(_STEP_MAPPING)))
+                skip.add(Integer.valueOf(_STEP_MAPPING));
+            if (!skip.contains(Integer.valueOf(_STEP_MODULE_SELECT)))
+                skip.add(Integer.valueOf(_STEP_MODULE_SELECT));
+        } else {
+            skip.remove(Integer.valueOf(_STEP_MAPPING));
+            skip.remove(Integer.valueOf(_STEP_MODULE_SELECT));
         }
-        
         super.next();
     }
 

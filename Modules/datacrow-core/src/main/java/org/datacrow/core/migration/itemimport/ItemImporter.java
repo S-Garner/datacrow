@@ -39,6 +39,7 @@ import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.ItemMigrater;
+import org.datacrow.core.migration.itemimport.ItemImporters.ImporterType;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
@@ -58,10 +59,8 @@ public abstract class ItemImporter extends ItemMigrater {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporter.class.getName());
     
-    public static final int _TYPE_CSV = 0;
-    public static final int _TYPE_XML = 1;
-    
     protected IItemImporterClient client;
+    
     protected ItemImporterFieldMappings mappings = new ItemImporterFieldMappings();
 
     // Local settings and properties > overrule the general settings
@@ -75,7 +74,7 @@ public abstract class ItemImporter extends ItemMigrater {
         super(su, moduleIdx, key, mode, true);
     }
     
-    public abstract int getType();
+    public abstract ImporterType getType();
     
     public void setSetting(String key, String value) {
         settings.put(key, value);

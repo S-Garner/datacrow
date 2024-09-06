@@ -40,15 +40,19 @@ public class ItemImporters {
 	
     private static final ItemImporters instance;
     
-    private final Map<String, Class<?>> importers = new HashMap<String, Class<?>>();
+    public enum ImporterType {
+    	CSV, XML;
+    }
+    
+    private final Map<ImporterType, Class<?>> importers = new HashMap<ImporterType, Class<?>>();
     
     static {
     	instance = new ItemImporters();
     }
     
     private ItemImporters() {
-        importers.put("CSV", CsvImporter.class);
-        importers.put("XML", XmlImporter.class);
+        importers.put(ImporterType.CSV, CsvImporter.class);
+        importers.put(ImporterType.XML, XmlImporter.class);
     }
 
     public static ItemImporters getInstance() {
@@ -57,16 +61,16 @@ public class ItemImporters {
 
     public Collection<ItemImporter> getImporters(int moduleIdx) {
     	Collection<ItemImporter> c = new ArrayList<ItemImporter>();
-    	for (String key : importers.keySet()) {
+    	for (ImporterType type: importers.keySet()) {
     		try {
-    			c.add(getImporter(key, moduleIdx));
+    			c.add(getImporter(type, moduleIdx));
     		} catch (Exception e) {
     			logger.error(e, e);
     		}
     	}
     	return c;
     }
-    
+
     /**
      * Gets a (threaded) importer which can handle the specified file type.
      * This method only looks at the default (not module specific) importers.
@@ -74,7 +78,7 @@ public class ItemImporters {
      * @param moduleIdx
      * @throws Exception
      */
-    public ItemImporter getImporter(String type, int moduleIdx) throws Exception {
+    public ItemImporter getImporter(ImporterType type, int moduleIdx) throws Exception {
         return getImporter(type, moduleIdx, ItemMigrater._MODE_THREADED);
     }
     
@@ -86,8 +90,8 @@ public class ItemImporters {
      * @param mode
      * @throws Exception
      */
-    public ItemImporter getImporter(String type, int moduleIdx, int mode) throws Exception {
-        Class<?> clazz = importers.get(type.toUpperCase());
+    public ItemImporter getImporter(ImporterType type, int moduleIdx, int mode) throws Exception {
+        Class<?> clazz = importers.get(type);
         if (clazz != null) {
             return (ItemImporter) clazz.getConstructors()[0].newInstance(
                     new Object[] {Integer.valueOf(moduleIdx), Integer.valueOf(mode)});

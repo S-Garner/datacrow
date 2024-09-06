@@ -38,6 +38,7 @@ import org.datacrow.core.DcThread;
 import org.datacrow.core.clients.IItemImporterClient;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.migration.itemimport.ItemImporters.ImporterType;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
@@ -69,8 +70,8 @@ public class CsvImporter extends ItemImporter {
     }
     
 	@Override
-	public int getType() {
-		return _TYPE_CSV;
+	public ImporterType getType() {
+		return ItemImporters.ImporterType.CSV;
 	}    
     
     private String getCharacterSet() {

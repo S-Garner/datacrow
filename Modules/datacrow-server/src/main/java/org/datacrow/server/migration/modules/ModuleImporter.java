@@ -43,6 +43,7 @@ import org.datacrow.core.clients.IModuleWizardClient;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.itemimport.ItemImporterHelper;
+import org.datacrow.core.migration.itemimport.ItemImporters.ImporterType;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.modules.ModuleJar;
@@ -333,7 +334,7 @@ public class ModuleImporter {
     	        
 		        client.notify("Loading items");
 		        
-		        ItemImporterHelper reader = new ItemImporterHelper("XML", moduleIdx, file);
+		        ItemImporterHelper reader = new ItemImporterHelper(ImporterType.XML, moduleIdx, file);
                 reader.start();
                 Collection<DcObject> items = reader.getItems();
                 

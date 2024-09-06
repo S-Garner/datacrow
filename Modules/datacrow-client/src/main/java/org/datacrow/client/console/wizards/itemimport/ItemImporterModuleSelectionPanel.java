@@ -27,6 +27,10 @@ package org.datacrow.client.console.wizards.itemimport;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -40,12 +44,16 @@ import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.tables.DcTable;
 import org.datacrow.client.console.wizards.WizardException;
 import org.datacrow.core.IconLibrary;
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.resources.DcResources;
 
-public class ItemImporterModuleSelectionPanel extends ItemImporterWizardPanel {
+public class ItemImporterModuleSelectionPanel extends ItemImporterWizardPanel implements ActionListener {
 
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporterModuleSelectionPanel.class.getName());
+	
 	private final DcTable table = ComponentFactory.getDCTable(false, false);
     private final ItemImporterWizard wizard;
     private final ButtonGroup buttonGroup = new ButtonGroup();
@@ -74,6 +82,22 @@ public class ItemImporterModuleSelectionPanel extends ItemImporterWizardPanel {
     @Override
     public void onActivation() {}
     
+    private class SelectModuleAction implements ItemListener {
+        @Override
+        public void itemStateChanged(ItemEvent ev) {
+        	
+        	if (ev.getStateChange() == ItemEvent.SELECTED) {
+        	
+	        	try {
+	        		apply();
+	        		wizard.next();
+	        	} catch (Exception e) {
+	        		logger.error(e, e);
+	        	}
+        	}
+        }
+    }   
+    
     private void build() {
         setLayout(Layout.getGBL());
         
@@ -92,6 +116,7 @@ public class ItemImporterModuleSelectionPanel extends ItemImporterWizardPanel {
             icon = module.getIcon32() == null ? module.getIcon16() : module.getIcon32();
             icon = icon == null ? IconLibrary._icoModuleTypeProperty32 : icon;
             radioButton = ComponentFactory.getRadioButton(module.getLabel(), icon, "" + module.getIndex());
+            radioButton.addItemListener(new SelectModuleAction());
             
             buttonGroup.add(radioButton);
             panelModules.add(radioButton, Layout.getGBC( x, y++, 1, 1, 1.0, 1.0
@@ -115,5 +140,11 @@ public class ItemImporterModuleSelectionPanel extends ItemImporterWizardPanel {
 	@Override
 	public void cleanup() {
 		table.clear();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

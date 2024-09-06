@@ -43,7 +43,7 @@ import org.datacrow.client.console.wizards.WizardException;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
-import org.datacrow.core.migration.itemimport.ItemImporter;
+import org.datacrow.core.migration.itemimport.ItemImporterFieldMappings;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
@@ -56,6 +56,8 @@ public class ItemImporterMappingPanel extends ItemImporterWizardPanel {
 	
     private final ItemImporterWizard wizard;
     
+    JComboBox<Object> comboFields = ComponentFactory.getComboBox();
+    
     public ItemImporterMappingPanel(ItemImporterWizard wizard) {
         this.wizard = wizard;
         
@@ -64,7 +66,7 @@ public class ItemImporterMappingPanel extends ItemImporterWizardPanel {
     
 	@Override
     public Object apply() throws WizardException {
-        ItemImporter importer = wizard.getDefinition().getImporter();
+		ItemImporterFieldMappings mappings = wizard.getDefinition().getMappings();
         
         String source;
         DcField target;
@@ -72,8 +74,9 @@ public class ItemImporterMappingPanel extends ItemImporterWizardPanel {
         	source = (String) table.getValueAt(i, 1, true);
         	target = (DcField) table.getValueAt(i, 2, true);
         	if (target != null)
-        		importer.addMapping(source,  target);
+        		mappings.setMapping(source, target);
         }
+        
         return wizard.getDefinition();
     }
 
@@ -87,18 +90,29 @@ public class ItemImporterMappingPanel extends ItemImporterWizardPanel {
     	if (wizard.getDefinition() != null && 
     	    wizard.getDefinition().getFile() != null) {
     	    
+//    		wizard.getDefinition().getMappings().clear();
+
             table.clear();
+
+            comboFields.removeAllItems();
+            for (DcField field : wizard.getModule().getFields()) {
+                if (    (!field.isUiOnly() || 
+                         field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) && 
+                         field.getIndex() != DcObject._ID)
+                    
+                    comboFields.addItem(field);
+            }
             
             try {
-                ItemImporter reader = wizard.getDefinition().getImporter();
+            	ItemImporterFieldMappings mappings = wizard.getDefinition().getMappings();
                 int veld = 1;
-                for (String source : reader.getSourceFields())
-                    table.addRow(new Object[] {Integer.valueOf(veld++), source, reader.getTargetField(source)});
+                for (String source : mappings.getSourceFields())
+                    table.addRow(new Object[] {Integer.valueOf(veld++), source, mappings.getTarget(source)});
 
             } catch (Exception exp) {
                 GUI.getInstance().displayErrorMessage(DcResources.getText("msgFileCannotBeUsed") + ": " + exp.getMessage());
                 logger.error("Error while reading from file", exp);
-            }        
+            }
     	}
     }
     
@@ -120,17 +134,7 @@ public class ItemImporterMappingPanel extends ItemImporterWizardPanel {
         columnName.setHeaderValue(DcResources.getText("lblSourceName"));
 
         TableColumn columnField = table.getColumnModel().getColumn(2);
-        JComboBox<Object> comboFields = ComponentFactory.getComboBox();
         columnField.setHeaderValue(DcResources.getText("lblTargetName"));
-
-        for (DcField field : wizard.getModule().getFields()) {
-            if (    (!field.isUiOnly() || 
-                     field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) && 
-                     field.getIndex() != DcObject._ID)
-                
-                comboFields.addItem(field);
-        }
-        
         columnField.setCellEditor(new DefaultCellEditor(comboFields));
 
         table.applyHeaders();

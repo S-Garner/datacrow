@@ -70,48 +70,49 @@ public class ItemImporterDefinitionPanel extends ItemImporterWizardPanel {
 
     @Override
 	public void onActivation() {
+
+		if (wizard.getDefinition() == null)
+			return;
+
+    	
     	removeAll();
 		build();
 
-		if (	wizard.getDefinition() != null && 
-				wizard.getDefinition().getImporter() != null) {
-			
-			settings.clear();
-			
-			source.setFileFilter(new DcFileFilter(wizard.getDefinition().getImporter().getSupportedFileTypes()));
-			source.setFile(wizard.getDefinition().getFile());
-			
-			int y = 1;
-			Setting setting;
-			JComponent c;
-			JLabel label;
-	        for (String key : wizard.getDefinition().getImporter().getSettingKeys()) {
-	        	setting = DcSettings.getSetting(key) != null ? DcSettings.getSetting(key) : 
-	        		wizard.getModule().getSettings().getSetting(key);
-	        	
-	        	c = getUIComponent(setting);
-	        	settings.put(key, (IComponent) c);
-	        	label = ComponentFactory.getLabel(setting.getLabelText());
-	        	
-	        	if (!(c instanceof DcCheckBox)) {
-    	        	add(label, 
-    	        	         Layout.getGBC( 0, y, 1, 1, 1.0, 1.0
-    	                    ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-    	                     new Insets( 0, 5, 5, 5), 0, 0));
-    	            add(c,   Layout.getGBC( 1, y, 1, 1, 1.0, 1.0
-    	                    ,GridBagConstraints.NORTHEAST, GridBagConstraints.HORIZONTAL,
-    	                     new Insets( 0, 5, 5, 5), 0, 0));
-	        	} else {
-                    add(c,   Layout.getGBC( 0, y, 2, 1, 1.0, 1.0
-                            ,GridBagConstraints.NORTHEAST, GridBagConstraints.HORIZONTAL,
-                             new Insets( 0, 5, 5, 5), 0, 0));	        	    
-	        	}
-            	
-	            ((IComponent) c).setValue(setting.getValue());
-	             
-	        	y++;
-	        }
-		}
+		settings.clear();
+		
+		source.setFileFilter(new DcFileFilter(wizard.getDefinition().getSupportedFileTypes()));
+		source.setFile(wizard.getDefinition().getFile());
+		
+		int y = 1;
+		Setting setting;
+		JComponent c;
+		JLabel label;
+        for (String key : wizard.getDefinition().getSettingKeys()) {
+        	setting = DcSettings.getSetting(key) != null ? DcSettings.getSetting(key) : 
+        		wizard.getModule().getSettings().getSetting(key);
+        	
+        	c = getUIComponent(setting);
+        	settings.put(key, (IComponent) c);
+        	label = ComponentFactory.getLabel(setting.getLabelText());
+        	
+        	if (!(c instanceof DcCheckBox)) {
+	        	add(label, 
+	        	         Layout.getGBC( 0, y, 1, 1, 1.0, 1.0
+	                    ,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+	                     new Insets( 0, 5, 5, 5), 0, 0));
+	            add(c,   Layout.getGBC( 1, y, 1, 1, 1.0, 1.0
+	                    ,GridBagConstraints.NORTHEAST, GridBagConstraints.HORIZONTAL,
+	                     new Insets( 0, 5, 5, 5), 0, 0));
+        	} else {
+                add(c,   Layout.getGBC( 0, y, 2, 1, 1.0, 1.0
+                        ,GridBagConstraints.NORTHEAST, GridBagConstraints.HORIZONTAL,
+                         new Insets( 0, 5, 5, 5), 0, 0));	        	    
+        	}
+        	
+            ((IComponent) c).setValue(setting.getValue());
+             
+        	y++;
+        }
 	}
 
 	@Override
@@ -122,8 +123,6 @@ public class ItemImporterDefinitionPanel extends ItemImporterWizardPanel {
         if (!source.getFile().exists() || !source.getFile().canRead())
             throw new WizardException(DcResources.getText("msgFileCannotBeUsed"));
         
-        wizard.getDefinition().getImporter().clearMappings();
-        
         // store the settings
         // note: I have made sure this works for both module and application settings 
         Setting setting;
@@ -132,12 +131,6 @@ public class ItemImporterDefinitionPanel extends ItemImporterWizardPanel {
             setting.setValue(settings.get(key).getValue());
         }        
         
-        try {
-            wizard.getDefinition().getImporter().setFile(source.getFile());
-        } catch (Exception e) {
-            throw new WizardException(e.getMessage());
-        }
-            
         wizard.getDefinition().setFile(source.getFile());
         return wizard.getDefinition();
     }

@@ -43,6 +43,7 @@ import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.itemimport.CsvImporter;
 import org.datacrow.core.migration.itemimport.ItemImporterHelper;
+import org.datacrow.core.migration.itemimport.ItemImporters.ImporterType;
 import org.datacrow.core.modules.security.PermissionModule;
 import org.datacrow.core.modules.security.UserModule;
 import org.datacrow.core.modules.upgrade.ModuleUpgradeResult;
@@ -1001,10 +1002,10 @@ public class DcModules implements Serializable {
             return null;
         
         if (csvFile.exists()) {
-            reader = new ItemImporterHelper("CSV", module.getIndex(), csvFile);
+            reader = new ItemImporterHelper(ImporterType.CSV, module.getIndex(), csvFile);
             reader.setSetting(CsvImporter._SEPERATOR, "\t");
         } else if (xmlFile.exists()) {
-            reader = new ItemImporterHelper("XML", module.getIndex(), xmlFile);
+            reader = new ItemImporterHelper(ImporterType.XML, module.getIndex(), xmlFile);
         }
         
         if (reader != null) {

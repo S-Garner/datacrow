@@ -38,6 +38,7 @@ import org.datacrow.core.clients.IItemImporterClient;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.itemimport.ItemImporter;
+import org.datacrow.core.migration.itemimport.ItemImporters;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.resources.DcResources;
@@ -82,8 +83,20 @@ public class ItemImporterTaskPanel extends ItemImporterWizardPanel implements II
     @Override
     public void onActivation() {
     	if (wizard.getDefinition() != null) {
-    		this.importer = wizard.getDefinition().getImporter();
-    		start();
+    		ItemImporterDefinition definition = wizard.getDefinition();
+    		
+    		try {
+    			this.importer = ItemImporters.getInstance().getImporter(definition.getType(), definition.getModule());
+    			
+    			for (String field : definition.getMappings().getSourceFields()) 
+    				this.importer.addMapping(field, definition.getMappings().getTarget(field));
+    			
+        		start();
+    		
+    		} catch (Exception e) {
+    			logger.error(e, e);
+    		}
+    		
     	}
 	}
 

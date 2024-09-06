@@ -26,14 +26,27 @@
 package org.datacrow.client.console.wizards.itemimport;
 
 import java.io.File;
+import java.util.Collection;
 
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.itemimport.ItemImporter;
+import org.datacrow.core.migration.itemimport.ItemImporterFieldMappings;
+import org.datacrow.core.migration.itemimport.ItemImporters;
+import org.datacrow.core.migration.itemimport.ItemImporters.ImporterType;
+import org.datacrow.core.modules.DcModules;
 
 public class ItemImporterDefinition {
+	
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemImporterDefinition.class.getName());
     
-    private File file;
-    private ItemImporter importer;
     private int moduleIdx;
+    private File file;
+    
+    private ItemImporterFieldMappings mappings;
+    
+    private ItemImporter template;
+    private ImporterType type;
     
     public int getModule() {
 		return moduleIdx;
@@ -42,19 +55,45 @@ public class ItemImporterDefinition {
 	public void setModule(int moduleIdx) {
 		this.moduleIdx = moduleIdx;
 	}
+	
+	public void setType(ImporterType type) {
+		this.type = type;
+		// we'll just get an importer - for the current module. They're all the same in the end
+		try {
+			this.template = ItemImporters.getInstance().getImporter(type, DcModules.getCurrent().getIndex());
+		} catch (Exception e) {
+			logger.error(e, e);
+		}
+	}
+	
+	public Collection<String> getSettingKeys() {
+		return template.getSettingKeys();
+	}
+	
+	public String[] getSupportedFileTypes() {
+		return template.getSupportedFileTypes();
+	}	
+	
+	public ImporterType getType() {
+		return type;
+	}
 
 	public ItemImporterDefinition() {}
-    
-    public void setImporter(ItemImporter importer) {
-        this.importer = importer;
-    }
-
-    public ItemImporter getImporter() {
-        return importer;
-    }
-    
+	
+	public ItemImporterFieldMappings getMappings() {
+		return mappings;
+	}
+	
     public void setFile(File file) {
         this.file = file;
+        
+        try {
+        	ItemImporter importer = ItemImporters.getInstance().getImporter(type, moduleIdx); 
+        	importer.setFile(file);
+        	mappings = importer.getSourceMappings();
+		} catch (Exception e) {
+			logger.error(e, e);
+		}
     }
 
     public File getFile() {
