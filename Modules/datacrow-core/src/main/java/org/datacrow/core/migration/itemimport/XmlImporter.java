@@ -243,8 +243,7 @@ public class XmlImporter extends ItemImporter {
 	    	            	
 	    	            	dco.addNewAttachment(attachment);
 	                	} catch (Exception e) {
-	                		// TODO: log to client
-	                		logger.error(e, e);
+	                		listener.notifyError(e);
 	                	}
                 	}
             	}

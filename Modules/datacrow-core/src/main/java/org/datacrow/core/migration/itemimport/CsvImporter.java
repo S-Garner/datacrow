@@ -28,6 +28,7 @@ package org.datacrow.core.migration.itemimport;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -41,7 +42,9 @@ import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.migration.itemimport.ItemImporters.ImporterType;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcField;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CSVReader;
@@ -157,6 +160,18 @@ public class CsvImporter extends ItemImporter {
                         DcField field = mappings.getTarget(fieldIdx);
                         
                         if (field == null) continue;
+                        
+                        if (field.getValueType() == DcRepository.ValueTypes._PICTURE) {
+                        	if (value.length() > 0) {
+        	                	try {
+                            		DcImageIcon icon = new DcImageIcon(new File(new URL(value).getFile()));
+                                	Picture pic = new Picture(dco.getID(), icon);
+                                	dco.addNewPicture(pic);
+        	                	} catch (Exception e) {
+        	                		listener.notifyError(e);
+        	                	}                            	
+                        	}
+                        }                       	
                         
                         if ((   field.isUiOnly() && 
                                 field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION) ||  

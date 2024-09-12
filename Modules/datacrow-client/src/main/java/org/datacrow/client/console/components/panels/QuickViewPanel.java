@@ -123,14 +123,17 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     }
     
     private void loadTab() {
-		if (tabbedPane.getSelectedComponent() instanceof PictureOverviewPanel) {
+    	
+    	if (tabbedPane.getSelectedComponent() instanceof PictureOverviewPanel) {
 			
 			picturesPanel.setObjectID(key);
 			
-			if (dco.isNew())
-				picturesPanel.addPictures(dco.getNewPictures());
-			else
-				picturesPanel.load(moduleIdx);
+			if (dco != null) {
+				if (dco.isNew())
+					picturesPanel.addPictures(dco.getNewPictures());
+				else
+					picturesPanel.load(moduleIdx);
+			}
 		}
     	
 		if (tabbedPane.getSelectedComponent() instanceof AttachmentsPanel)
