@@ -138,6 +138,14 @@ public class XmlWriter extends XmlBaseWriter {
         writeTag("</" + tag + ">");
         newLine();
         
+        if (dco.getField(field).getValueType() == ValueTypes._DCOBJECTREFERENCE && dco.isFilled(field)) {
+        	ident(valueIdent);
+            writeTag("<" + XmlUtilities.getFieldTag(dco.getField(field)) + "-list>");
+            write(dco.getValue(field).toString());
+            writeTag("</" + XmlUtilities.getFieldTag(dco.getField(field)) + "-list>");
+            newLine();
+        }
+        
         if (dco.getField(field).getValueType() == ValueTypes._DCOBJECTCOLLECTION) {
         	
         	ident(valueIdent);
