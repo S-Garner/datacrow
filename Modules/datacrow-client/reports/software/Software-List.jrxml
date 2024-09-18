@@ -3,7 +3,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Software-List" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fe51a17b-d332-4957-9da1-2daeb25fec50">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Software-XML"/>
 	<queryString language="xPath">
-		<![CDATA[/data-crow-objects/software-item]]>
+		<![CDATA[/data-crow-objects/software-item-items/software-item]]>
 	</queryString>
 	<field name="item" class="java.lang.String">
 		<fieldDescription><![CDATA[item]]></fieldDescription>
@@ -14,8 +14,8 @@
 	<field name="categories" class="java.lang.String">
 		<fieldDescription><![CDATA[categories]]></fieldDescription>
 	</field>
-	<field name="categories-list" class="java.lang.String">
-		<fieldDescription><![CDATA[categories-list]]></fieldDescription>
+	<field name="category-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[category-items-list]]></fieldDescription>
 	</field>
 	<field name="categories_persist" class="java.lang.String">
 		<fieldDescription><![CDATA[categories_persist]]></fieldDescription>
@@ -23,8 +23,8 @@
 	<field name="container" class="java.lang.String">
 		<fieldDescription><![CDATA[container]]></fieldDescription>
 	</field>
-	<field name="container-list" class="java.lang.String">
-		<fieldDescription><![CDATA[container-list]]></fieldDescription>
+	<field name="container-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[container-items-list]]></fieldDescription>
 	</field>
 	<field name="container_persist" class="java.lang.String">
 		<fieldDescription><![CDATA[container_persist]]></fieldDescription>
@@ -131,17 +131,17 @@
 	<field name="picture-cd" class="java.lang.String">
 		<fieldDescription><![CDATA[picture-cd]]></fieldDescription>
 	</field>
-	<field name="picture-front" class="java.lang.String">
-		<fieldDescription><![CDATA[picture-front]]></fieldDescription>
+	<field name="picture-01" class="java.lang.String">
+		<fieldDescription><![CDATA[picture-01]]></fieldDescription>
 	</field>
-	<field name="platform" class="java.lang.String">
-		<fieldDescription><![CDATA[platform]]></fieldDescription>
+	<field name="platform-list" class="java.lang.String">
+		<fieldDescription><![CDATA[platform-list]]></fieldDescription>
 	</field>
 	<field name="publishers" class="java.lang.String">
 		<fieldDescription><![CDATA[publishers]]></fieldDescription>
 	</field>
-	<field name="publishers-list" class="java.lang.String">
-		<fieldDescription><![CDATA[publishers-list]]></fieldDescription>
+	<field name="publisher-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[publisher-items-list]]></fieldDescription>
 	</field>
 	<field name="publishers_persist" class="java.lang.String">
 		<fieldDescription><![CDATA[publishers_persist]]></fieldDescription>
@@ -176,8 +176,8 @@
 	<field name="state_persist" class="java.lang.String">
 		<fieldDescription><![CDATA[state_persist]]></fieldDescription>
 	</field>
-	<field name="storage-medium" class="java.lang.String">
-		<fieldDescription><![CDATA[storage-medium]]></fieldDescription>
+	<field name="storage-medium-list" class="java.lang.String">
+		<fieldDescription><![CDATA[storage-medium-list]]></fieldDescription>
 	</field>
 	<field name="tags" class="java.lang.String">
 		<fieldDescription><![CDATA[tags]]></fieldDescription>
@@ -243,7 +243,7 @@
 		<band height="87" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="80" height="80" uuid="dfd67e67-d798-4bb6-b425-f9dc8d785b49"/>
-				<imageExpression><![CDATA[$F{picture-front}]]></imageExpression>
+				<imageExpression><![CDATA[$F{picture-01}]]></imageExpression>
 			</image>
 			<textField isBlankWhenNull="true">
 				<reportElement x="180" y="0" width="290" height="20" uuid="85981349-e63f-4550-b387-000a6a216ff6"/>
@@ -258,7 +258,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="180" y="20" width="290" height="20" uuid="162b5d49-ac70-40b1-9de0-ed4df2fc765d"/>
-				<textFieldExpression><![CDATA[$F{categories-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{category-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="90" y="20" width="90" height="20" uuid="2f6a1c04-f0e4-466d-9a95-996cf6369055"/>
@@ -269,7 +269,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="180" y="40" width="290" height="20" uuid="cdd55a9b-ab91-484e-8247-e633feb849dd"/>
-				<textFieldExpression><![CDATA[$F{storage-medium}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{storage-medium-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="90" y="40" width="90" height="20" uuid="899d3932-9a0c-48c7-8fc7-e206ed3bf5f3"/>
@@ -283,7 +283,7 @@
 			</line>
 			<textField isBlankWhenNull="true">
 				<reportElement x="570" y="0" width="231" height="20" uuid="37e39622-23fb-4f82-b698-de034f5ff155"/>
-				<textFieldExpression><![CDATA[$F{container-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{container-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="480" y="0" width="90" height="20" uuid="0ba1e749-197f-4681-a6c4-7e61dfb640f0"/>
@@ -294,7 +294,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="570" y="20" width="231" height="20" uuid="d0156ec9-cc05-4255-8923-6fd8fd5c3e0f"/>
-				<textFieldExpression><![CDATA[$F{publishers-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{publisher-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="480" y="20" width="90" height="20" uuid="df246fcc-1561-4ac1-93d9-dafe135b30f5"/>
@@ -327,7 +327,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="570" y="60" width="232" height="20" uuid="c0445657-8978-4925-add7-2f97e3f5c706"/>
-				<textFieldExpression><![CDATA[$F{platform}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{platform-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="480" y="60" width="90" height="20" uuid="d2ec3498-d124-4403-9c92-4f412d7a95fc"/>
