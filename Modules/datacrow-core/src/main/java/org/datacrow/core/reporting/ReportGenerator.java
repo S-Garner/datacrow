@@ -218,6 +218,7 @@ public class ReportGenerator {
                 ItemExporterSettings settings = new ItemExporterSettings();
                 settings.set(ItemExporterSettings._MAX_TEXT_LENGTH, Integer.valueOf(0));
                 settings.set(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS, Boolean.FALSE);
+                settings.set(ItemExporterSettings._NICELY_FORMATTED_VALUES, Boolean.TRUE);
                 settings.set(ItemExporterSettings._INCLUDE_IMAGES, Boolean.TRUE);
                 settings.set(ItemExporterSettings._COPY_IMAGES, Boolean.TRUE);
                 settings.set(ItemExporterSettings._SCALE_IMAGES, Boolean.TRUE);
