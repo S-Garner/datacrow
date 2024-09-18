@@ -52,7 +52,7 @@ public class Reports {
                 folders.put(module.getIndex(), path);
             }
         }
-   }
+    }
     
     public Collection<String> getFolders() {
         return folders.values();

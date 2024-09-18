@@ -1,508 +1,429 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version last-->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MusicAlbum-Details" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="80b728f9-376e-4339-9aae-2f8c36206f73">
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="MusicAlbum-Details" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="80b728f9-376e-4339-9aae-2f8c36206f73">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Music-Album-XML"/>
-	<subDataset name="MusicTracks" uuid="975c57f5-3f7d-4a47-84ab-02575a115a66">
+	<dataset name="MusicTracks" uuid="975c57f5-3f7d-4a47-84ab-02575a115a66">
 		<parameter name="AlbumID" class="java.lang.String">
 			<defaultValueExpression><![CDATA[new String()]]></defaultValueExpression>
 		</parameter>
-		<queryString language="xPath">
-			<![CDATA[/data-crow-objects/music-album/music-tracks/music-track[album-id="$P{AlbumID}"]]]>
-		</queryString>
+		<query language="xPath"><![CDATA[/data-crow-objects/music-album-items/music-album/music-track-children/music-track[album-id="$P{AlbumID}"]]]></query>
 		<field name="item" class="java.lang.String">
-			<fieldDescription><![CDATA[item]]></fieldDescription>
+			<description><![CDATA[item]]></description>
 		</field>
 		<field name="track" class="java.lang.String">
-			<fieldDescription><![CDATA[track]]></fieldDescription>
+			<description><![CDATA[track]]></description>
 		</field>
 		<field name="title" class="java.lang.String">
-			<fieldDescription><![CDATA[title]]></fieldDescription>
+			<description><![CDATA[title]]></description>
 		</field>
 		<field name="artists" class="java.lang.String">
-			<fieldDescription><![CDATA[artists]]></fieldDescription>
+			<description><![CDATA[artists]]></description>
 		</field>
-		<field name="artists-list" class="java.lang.String">
-			<fieldDescription><![CDATA[artists-list]]></fieldDescription>
+		<field name="artist-items-list" class="java.lang.String">
+			<description><![CDATA[artist-items-list]]></description>
 		</field>
 		<field name="description" class="java.lang.String">
-			<fieldDescription><![CDATA[description]]></fieldDescription>
+			<description><![CDATA[description]]></description>
 		</field>
 		<field name="genres" class="java.lang.String">
-			<fieldDescription><![CDATA[genres]]></fieldDescription>
+			<description><![CDATA[genres]]></description>
 		</field>
-		<field name="genres-list" class="java.lang.String">
-			<fieldDescription><![CDATA[genres-list]]></fieldDescription>
+		<field name="music-genre-items-list" class="java.lang.String">
+			<description><![CDATA[music-genre-items-list]]></description>
 		</field>
 		<field name="countries" class="java.lang.String">
-			<fieldDescription><![CDATA[countries]]></fieldDescription>
+			<description><![CDATA[countries]]></description>
 		</field>
 		<field name="countries-list" class="java.lang.String">
-			<fieldDescription><![CDATA[countries-list]]></fieldDescription>
+			<description><![CDATA[countries-list]]></description>
 		</field>
 		<field name="languages" class="java.lang.String">
-			<fieldDescription><![CDATA[languages]]></fieldDescription>
+			<description><![CDATA[languages]]></description>
 		</field>
 		<field name="languages-list" class="java.lang.String">
-			<fieldDescription><![CDATA[languages-list]]></fieldDescription>
+			<description><![CDATA[languages-list]]></description>
 		</field>
 		<field name="lyrics" class="java.lang.String">
-			<fieldDescription><![CDATA[lyrics]]></fieldDescription>
+			<description><![CDATA[lyrics]]></description>
 		</field>
 		<field name="playlength" class="java.lang.String">
-			<fieldDescription><![CDATA[playlength]]></fieldDescription>
+			<description><![CDATA[playlength]]></description>
 		</field>
 		<field name="quality" class="java.lang.String">
-			<fieldDescription><![CDATA[quality]]></fieldDescription>
+			<description><![CDATA[quality]]></description>
 		</field>
 		<field name="rating" class="java.lang.String">
-			<fieldDescription><![CDATA[rating]]></fieldDescription>
+			<description><![CDATA[rating]]></description>
 		</field>
-		<field name="state" class="java.lang.String">
-			<fieldDescription><![CDATA[state]]></fieldDescription>
+		<field name="state-list" class="java.lang.String">
+			<description><![CDATA[state-list]]></description>
 		</field>
 		<field name="year" class="java.lang.String">
-			<fieldDescription><![CDATA[year]]></fieldDescription>
+			<description><![CDATA[year]]></description>
 		</field>
 		<field name="created" class="java.lang.String">
-			<fieldDescription><![CDATA[created]]></fieldDescription>
+			<description><![CDATA[created]]></description>
 		</field>
 		<field name="encoding" class="java.lang.String">
-			<fieldDescription><![CDATA[encoding]]></fieldDescription>
+			<description><![CDATA[encoding]]></description>
 		</field>
 		<field name="filehash" class="java.lang.String">
-			<fieldDescription><![CDATA[filehash]]></fieldDescription>
+			<description><![CDATA[filehash]]></description>
 		</field>
 		<field name="filehash-type" class="java.lang.String">
-			<fieldDescription><![CDATA[filehash-type]]></fieldDescription>
+			<description><![CDATA[filehash-type]]></description>
 		</field>
 		<field name="filename" class="java.lang.String">
-			<fieldDescription><![CDATA[filename]]></fieldDescription>
+			<description><![CDATA[filename]]></description>
 		</field>
 		<field name="filesize" class="java.lang.String">
-			<fieldDescription><![CDATA[filesize]]></fieldDescription>
+			<description><![CDATA[filesize]]></description>
 		</field>
 		<field name="modified" class="java.lang.String">
-			<fieldDescription><![CDATA[modified]]></fieldDescription>
+			<description><![CDATA[modified]]></description>
 		</field>
 		<field name="album-id" class="java.lang.String">
-			<fieldDescription><![CDATA[album-id]]></fieldDescription>
+			<description><![CDATA[album-id]]></description>
 		</field>
 		<field name="artists_persist" class="java.lang.String">
-			<fieldDescription><![CDATA[artists_persist]]></fieldDescription>
+			<description><![CDATA[artists_persist]]></description>
 		</field>
 		<field name="countries_persist" class="java.lang.String">
-			<fieldDescription><![CDATA[countries_persist]]></fieldDescription>
+			<description><![CDATA[countries_persist]]></description>
 		</field>
 		<field name="genres_persist" class="java.lang.String">
-			<fieldDescription><![CDATA[genres_persist]]></fieldDescription>
+			<description><![CDATA[genres_persist]]></description>
 		</field>
 		<field name="id" class="java.lang.String">
-			<fieldDescription><![CDATA[id]]></fieldDescription>
+			<description><![CDATA[id]]></description>
 		</field>
 		<field name="label" class="java.lang.String">
-			<fieldDescription><![CDATA[label]]></fieldDescription>
+			<description><![CDATA[label]]></description>
 		</field>
 		<field name="languages_persist" class="java.lang.String">
-			<fieldDescription><![CDATA[languages_persist]]></fieldDescription>
+			<description><![CDATA[languages_persist]]></description>
 		</field>
 		<field name="user-long-text-field" class="java.lang.String">
-			<fieldDescription><![CDATA[user-long-text-field]]></fieldDescription>
+			<description><![CDATA[user-long-text-field]]></description>
 		</field>
 		<field name="user-numeric-field-1" class="java.lang.String">
-			<fieldDescription><![CDATA[user-numeric-field-1]]></fieldDescription>
+			<description><![CDATA[user-numeric-field-1]]></description>
 		</field>
 		<field name="user-numeric-field-2" class="java.lang.String">
-			<fieldDescription><![CDATA[user-numeric-field-2]]></fieldDescription>
+			<description><![CDATA[user-numeric-field-2]]></description>
 		</field>
 		<field name="user-short-text-field-1" class="java.lang.String">
-			<fieldDescription><![CDATA[user-short-text-field-1]]></fieldDescription>
+			<description><![CDATA[user-short-text-field-1]]></description>
 		</field>
 		<field name="user-short-text-field-2" class="java.lang.String">
-			<fieldDescription><![CDATA[user-short-text-field-2]]></fieldDescription>
+			<description><![CDATA[user-short-text-field-2]]></description>
 		</field>
-	</subDataset>
-	<queryString language="xPath">
-		<![CDATA[/data-crow-objects/music-album]]>
-	</queryString>
+	</dataset>
+	<query language="xPath"><![CDATA[/data-crow-objects/music-album-items/music-album]]></query>
 	<field name="item" class="java.lang.String">
-		<fieldDescription><![CDATA[item]]></fieldDescription>
+		<description><![CDATA[item]]></description>
 	</field>
 	<field name="artists" class="java.lang.String">
-		<fieldDescription><![CDATA[artists]]></fieldDescription>
+		<description><![CDATA[artists]]></description>
 	</field>
-	<field name="artists-list" class="java.lang.String">
-		<fieldDescription><![CDATA[artists-list]]></fieldDescription>
+	<field name="artist-items-list" class="java.lang.String">
+		<description><![CDATA[artist-items-list]]></description>
 	</field>
 	<field name="artists_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[artists_persist]]></fieldDescription>
+		<description><![CDATA[artists_persist]]></description>
 	</field>
 	<field name="available" class="java.lang.String">
-		<fieldDescription><![CDATA[available]]></fieldDescription>
+		<description><![CDATA[available]]></description>
 	</field>
 	<field name="container" class="java.lang.String">
-		<fieldDescription><![CDATA[container]]></fieldDescription>
+		<description><![CDATA[container]]></description>
 	</field>
-	<field name="container-list" class="java.lang.String">
-		<fieldDescription><![CDATA[container-list]]></fieldDescription>
+	<field name="container-items-list" class="java.lang.String">
+		<description><![CDATA[container-items-list]]></description>
 	</field>
 	<field name="container_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[container_persist]]></fieldDescription>
+		<description><![CDATA[container_persist]]></description>
 	</field>
 	<field name="countries" class="java.lang.String">
-		<fieldDescription><![CDATA[countries]]></fieldDescription>
+		<description><![CDATA[countries]]></description>
 	</field>
 	<field name="countries-list" class="java.lang.String">
-		<fieldDescription><![CDATA[countries-list]]></fieldDescription>
+		<description><![CDATA[countries-list]]></description>
 	</field>
 	<field name="countries_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[countries_persist]]></fieldDescription>
+		<description><![CDATA[countries_persist]]></description>
 	</field>
 	<field name="created" class="java.lang.String">
-		<fieldDescription><![CDATA[created]]></fieldDescription>
+		<description><![CDATA[created]]></description>
 	</field>
 	<field name="days" class="java.lang.String">
-		<fieldDescription><![CDATA[days]]></fieldDescription>
+		<description><![CDATA[days]]></description>
 	</field>
 	<field name="days-loaned" class="java.lang.String">
-		<fieldDescription><![CDATA[days-loaned]]></fieldDescription>
+		<description><![CDATA[days-loaned]]></description>
 	</field>
 	<field name="description" class="java.lang.String">
-		<fieldDescription><![CDATA[description]]></fieldDescription>
+		<description><![CDATA[description]]></description>
 	</field>
 	<field name="due-date" class="java.lang.String">
-		<fieldDescription><![CDATA[due-date]]></fieldDescription>
+		<description><![CDATA[due-date]]></description>
 	</field>
 	<field name="ean" class="java.lang.String">
-		<fieldDescription><![CDATA[ean]]></fieldDescription>
+		<description><![CDATA[ean]]></description>
 	</field>
 	<field name="external-references" class="java.lang.String">
-		<fieldDescription><![CDATA[external-references]]></fieldDescription>
+		<description><![CDATA[external-references]]></description>
 	</field>
 	<field name="external-references-list" class="java.lang.String">
-		<fieldDescription><![CDATA[external-references-list]]></fieldDescription>
+		<description><![CDATA[external-references-list]]></description>
 	</field>
 	<field name="external-references_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[external-references_persist]]></fieldDescription>
+		<description><![CDATA[external-references_persist]]></description>
 	</field>
 	<field name="genres" class="java.lang.String">
-		<fieldDescription><![CDATA[genres]]></fieldDescription>
+		<description><![CDATA[genres]]></description>
 	</field>
-	<field name="genres-list" class="java.lang.String">
-		<fieldDescription><![CDATA[genres-list]]></fieldDescription>
+	<field name="music-genre-items-list" class="java.lang.String">
+		<description><![CDATA[music-genre-items-list]]></description>
 	</field>
 	<field name="genres_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[genres_persist]]></fieldDescription>
+		<description><![CDATA[genres_persist]]></description>
 	</field>
 	<field name="id" class="java.lang.String">
-		<fieldDescription><![CDATA[id]]></fieldDescription>
+		<description><![CDATA[id]]></description>
 	</field>
 	<field name="item-value" class="java.lang.String">
-		<fieldDescription><![CDATA[item-value]]></fieldDescription>
+		<description><![CDATA[item-value]]></description>
 	</field>
 	<field name="label" class="java.lang.String">
-		<fieldDescription><![CDATA[label]]></fieldDescription>
+		<description><![CDATA[label]]></description>
 	</field>
 	<field name="languages" class="java.lang.String">
-		<fieldDescription><![CDATA[languages]]></fieldDescription>
+		<description><![CDATA[languages]]></description>
 	</field>
 	<field name="languages-list" class="java.lang.String">
-		<fieldDescription><![CDATA[languages-list]]></fieldDescription>
+		<description><![CDATA[languages-list]]></description>
 	</field>
 	<field name="languages_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[languages_persist]]></fieldDescription>
+		<description><![CDATA[languages_persist]]></description>
 	</field>
 	<field name="lend-by" class="java.lang.String">
-		<fieldDescription><![CDATA[lend-by]]></fieldDescription>
+		<description><![CDATA[lend-by]]></description>
 	</field>
 	<field name="loan-end-date" class="java.lang.String">
-		<fieldDescription><![CDATA[loan-end-date]]></fieldDescription>
+		<description><![CDATA[loan-end-date]]></description>
 	</field>
 	<field name="loan-start-date" class="java.lang.String">
-		<fieldDescription><![CDATA[loan-start-date]]></fieldDescription>
+		<description><![CDATA[loan-start-date]]></description>
 	</field>
 	<field name="loan-status" class="java.lang.String">
-		<fieldDescription><![CDATA[loan-status]]></fieldDescription>
+		<description><![CDATA[loan-status]]></description>
 	</field>
 	<field name="modified" class="java.lang.String">
-		<fieldDescription><![CDATA[modified]]></fieldDescription>
+		<description><![CDATA[modified]]></description>
 	</field>
-	<field name="picture-back" class="java.lang.String">
-		<fieldDescription><![CDATA[picture-back]]></fieldDescription>
+	<field name="picture-02" class="java.lang.String">
+		<description><![CDATA[picture-02]]></description>
 	</field>
-	<field name="picture-cd" class="java.lang.String">
-		<fieldDescription><![CDATA[picture-cd]]></fieldDescription>
+	<field name="picture-03" class="java.lang.String">
+		<description><![CDATA[picture-03]]></description>
 	</field>
-	<field name="picture-front" class="java.lang.String">
-		<fieldDescription><![CDATA[picture-front]]></fieldDescription>
+	<field name="picture-01" class="java.lang.String">
+		<description><![CDATA[picture-01]]></description>
 	</field>
 	<field name="rating" class="java.lang.String">
-		<fieldDescription><![CDATA[rating]]></fieldDescription>
+		<description><![CDATA[rating]]></description>
 	</field>
 	<field name="record-label" class="java.lang.String">
-		<fieldDescription><![CDATA[record-label]]></fieldDescription>
+		<description><![CDATA[record-label]]></description>
 	</field>
 	<field name="service" class="java.lang.String">
-		<fieldDescription><![CDATA[service]]></fieldDescription>
+		<description><![CDATA[service]]></description>
 	</field>
 	<field name="service-url" class="java.lang.String">
-		<fieldDescription><![CDATA[service-url]]></fieldDescription>
+		<description><![CDATA[service-url]]></description>
 	</field>
 	<field name="state" class="java.lang.String">
-		<fieldDescription><![CDATA[state]]></fieldDescription>
+		<description><![CDATA[state]]></description>
 	</field>
 	<field name="storage-medium" class="java.lang.String">
-		<fieldDescription><![CDATA[storage-medium]]></fieldDescription>
+		<description><![CDATA[storage-medium]]></description>
 	</field>
 	<field name="tags" class="java.lang.String">
-		<fieldDescription><![CDATA[tags]]></fieldDescription>
+		<description><![CDATA[tags]]></description>
 	</field>
-	<field name="tags-list" class="java.lang.String">
-		<fieldDescription><![CDATA[tags-list]]></fieldDescription>
+	<field name="tag-items-list" class="java.lang.String">
+		<description><![CDATA[tag-items-list]]></description>
 	</field>
 	<field name="tags_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[tags_persist]]></fieldDescription>
+		<description><![CDATA[tags_persist]]></description>
 	</field>
 	<field name="title" class="java.lang.String">
-		<fieldDescription><![CDATA[title]]></fieldDescription>
+		<description><![CDATA[title]]></description>
 	</field>
 	<field name="user-long-text-field" class="java.lang.String">
-		<fieldDescription><![CDATA[user-long-text-field]]></fieldDescription>
+		<description><![CDATA[user-long-text-field]]></description>
 	</field>
 	<field name="user-numeric-field-1" class="java.lang.String">
-		<fieldDescription><![CDATA[user-numeric-field-1]]></fieldDescription>
+		<description><![CDATA[user-numeric-field-1]]></description>
 	</field>
 	<field name="user-numeric-field-2" class="java.lang.String">
-		<fieldDescription><![CDATA[user-numeric-field-2]]></fieldDescription>
+		<description><![CDATA[user-numeric-field-2]]></description>
 	</field>
 	<field name="user-short-text-field-1" class="java.lang.String">
-		<fieldDescription><![CDATA[user-short-text-field-1]]></fieldDescription>
+		<description><![CDATA[user-short-text-field-1]]></description>
 	</field>
 	<field name="user-short-text-field-2" class="java.lang.String">
-		<fieldDescription><![CDATA[user-short-text-field-2]]></fieldDescription>
+		<description><![CDATA[user-short-text-field-2]]></description>
 	</field>
 	<field name="webpage" class="java.lang.String">
-		<fieldDescription><![CDATA[webpage]]></fieldDescription>
+		<description><![CDATA[webpage]]></description>
 	</field>
 	<field name="year" class="java.lang.String">
-		<fieldDescription><![CDATA[year]]></fieldDescription>
+		<description><![CDATA[year]]></description>
 	</field>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
+	<background splitType="Stretch"/>
 	<detail>
 		<band height="434" splitType="Stretch">
-			<textField>
-				<reportElement key="" mode="Opaque" x="0" y="-10" width="570" height="30" forecolor="#FFFFFF" backcolor="#030303" uuid="4fa2b770-4ba9-4e1d-ab09-c1ae1e88c026"/>
+			<element kind="textField" uuid="4fa2b770-4ba9-4e1d-ab09-c1ae1e88c026" key="" mode="Opaque" x="0" y="-10" width="570" height="30" forecolor="#FFFFFF" backcolor="#030303" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<paragraph leftIndent="0"/>
+				<expression><![CDATA[$F{title}]]></expression>
 				<box padding="0" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<topPen lineColor="#A39B9B"/>
 					<leftPen lineColor="#A39B9B"/>
 					<bottomPen lineColor="#A39B9B"/>
 					<rightPen lineColor="#A39B9B"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-					<paragraph leftIndent="0"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
-			</textField>
-			<image>
-				<reportElement x="0" y="30" width="170" height="150" uuid="d19d5a03-c04d-45f4-a1f1-58bc046a2c63"/>
-				<imageExpression><![CDATA[$F{picture-front}]]></imageExpression>
-			</image>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="190" width="560" height="20" isRemoveLineWhenBlank="true" uuid="bd21e9fe-a37d-423a-8c11-670d03a31afd"/>
-				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="260" y="130" width="300" height="20" uuid="fd4b8e60-99db-4fe3-8ab0-2125d52596a9"/>
-				<textFieldExpression><![CDATA[$F{tags-list}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement key="" x="180" y="130" width="80" height="20" uuid="4c6e64a0-23e7-4d55-8bf9-f70126a64c61"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
+			</element>
+			<element kind="image" uuid="d19d5a03-c04d-45f4-a1f1-58bc046a2c63" x="0" y="30" width="170" height="150">
+				<expression><![CDATA[$F{picture-01}]]></expression>
+			</element>
+			<element kind="textField" uuid="bd21e9fe-a37d-423a-8c11-670d03a31afd" positionType="Float" x="0" y="190" width="560" height="20" textAdjust="StretchHeight" blankWhenNull="true" removeLineWhenBlank="true">
+				<expression><![CDATA[$F{description}]]></expression>
+			</element>
+			<element kind="textField" uuid="fd4b8e60-99db-4fe3-8ab0-2125d52596a9" x="260" y="130" width="300" height="20" blankWhenNull="true">
+				<expression><![CDATA[$F{tag-items-list}]]></expression>
+			</element>
+			<element kind="staticText" uuid="4c6e64a0-23e7-4d55-8bf9-f70126a64c61" key="" x="180" y="130" width="80" height="20" bold="true">
 				<text><![CDATA[Tags]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="260" y="70" width="300" height="20" uuid="da4f4cb0-fbba-4566-8628-f547421dc13c"/>
-				<textFieldExpression><![CDATA[$F{rating}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement key="" x="180" y="70" width="80" height="20" uuid="3ab2aa06-ca28-4cd0-9f19-b850f0fcb412"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
+			</element>
+			<element kind="textField" uuid="da4f4cb0-fbba-4566-8628-f547421dc13c" x="260" y="70" width="300" height="20" blankWhenNull="true">
+				<expression><![CDATA[$F{rating}]]></expression>
+			</element>
+			<element kind="staticText" uuid="3ab2aa06-ca28-4cd0-9f19-b850f0fcb412" key="" x="180" y="70" width="80" height="20" bold="true">
 				<text><![CDATA[Rating]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="260" y="30" width="299" height="20" uuid="3f4489dd-47fe-4045-90bb-d6a0f4ac0180"/>
-				<textFieldExpression><![CDATA[$F{year}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement key="" positionType="Float" x="180" y="30" width="80" height="20" uuid="d3df1807-8bcf-44bd-84d7-a037503afb24"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
+			</element>
+			<element kind="textField" uuid="3f4489dd-47fe-4045-90bb-d6a0f4ac0180" positionType="Float" x="260" y="30" width="299" height="20" blankWhenNull="true">
+				<expression><![CDATA[$F{year}]]></expression>
+			</element>
+			<element kind="staticText" uuid="d3df1807-8bcf-44bd-84d7-a037503afb24" key="" positionType="Float" x="180" y="30" width="80" height="20" bold="true">
 				<text><![CDATA[Year]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="260" y="110" width="300" height="20" uuid="93ae3d6e-cb2e-47d1-81b8-f7d9f9de0d2c"/>
-				<textFieldExpression><![CDATA[$F{webpage}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement key="" positionType="Float" x="180" y="110" width="80" height="20" uuid="2a559f7e-29c9-47f2-942c-bf225950059c"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
+			</element>
+			<element kind="textField" uuid="93ae3d6e-cb2e-47d1-81b8-f7d9f9de0d2c" positionType="Float" x="260" y="110" width="300" height="20" blankWhenNull="true">
+				<expression><![CDATA[$F{webpage}]]></expression>
+			</element>
+			<element kind="staticText" uuid="2a559f7e-29c9-47f2-942c-bf225950059c" key="" positionType="Float" x="180" y="110" width="80" height="20" bold="true">
 				<text><![CDATA[Webpage]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="261" y="150" width="299" height="20" uuid="70cce6be-c944-4997-8485-4e212eb36bd1"/>
-				<textFieldExpression><![CDATA[$F{item-value}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="180" y="150" width="80" height="20" uuid="b8bdbebb-33fb-4b43-8934-3ae4ae905669"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
+			</element>
+			<element kind="textField" uuid="70cce6be-c944-4997-8485-4e212eb36bd1" x="261" y="150" width="299" height="20" blankWhenNull="true">
+				<expression><![CDATA[$F{item-value}]]></expression>
+			</element>
+			<element kind="staticText" uuid="b8bdbebb-33fb-4b43-8934-3ae4ae905669" x="180" y="150" width="80" height="20" bold="true">
 				<text><![CDATA[Value]]></text>
-			</staticText>
-			<componentElement>
-				<reportElement positionType="Float" x="2" y="231" width="559" height="16" uuid="ff15e2bf-b632-4b42-a3d4-38265ca4c96c"/>
-				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
-					<datasetRun subDataset="MusicTracks" uuid="83cb34bd-8fb0-45e6-a975-ff9a0afc5f34">
-						<datasetParameter name="AlbumID">
-							<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="XML_DATA_DOCUMENT">
-							<datasetParameterExpression><![CDATA[$P{XML_DATA_DOCUMENT}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="XML_DATE_PATTERN">
-							<datasetParameterExpression><![CDATA[$P{XML_DATE_PATTERN}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="XML_FILE">
-							<datasetParameterExpression><![CDATA[$P{XML_FILE}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="XML_INPUT_STREAM">
-							<datasetParameterExpression><![CDATA[$P{XML_INPUT_STREAM}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="XML_LOCALE">
-							<datasetParameterExpression><![CDATA[$P{XML_LOCALE}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="XML_NUMBER_PATTERN">
-							<datasetParameterExpression><![CDATA[$P{XML_NUMBER_PATTERN}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="XML_TIME_ZONE">
-							<datasetParameterExpression><![CDATA[$P{XML_TIME_ZONE}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="net.sf.jasperreports.xml.source">
-							<datasetParameterExpression><![CDATA[$P{net.sf.jasperreports.xml.source}]]></datasetParameterExpression>
-						</datasetParameter>
+			</element>
+			<element kind="component" uuid="ff15e2bf-b632-4b42-a3d4-38265ca4c96c" positionType="Float" x="2" y="231" width="559" height="16">
+				<component kind="list" printOrder="Vertical">
+					<datasetRun uuid="83cb34bd-8fb0-45e6-a975-ff9a0afc5f34" subDataset="MusicTracks">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						<parameter name="AlbumID">
+							<expression><![CDATA[$F{id}]]></expression>
+						</parameter>
+						<parameter name="XML_DATA_DOCUMENT">
+							<expression><![CDATA[$P{XML_DATA_DOCUMENT}]]></expression>
+						</parameter>
+						<parameter name="XML_DATE_PATTERN">
+							<expression><![CDATA[$P{XML_DATE_PATTERN}]]></expression>
+						</parameter>
+						<parameter name="XML_FILE">
+							<expression><![CDATA[$P{XML_FILE}]]></expression>
+						</parameter>
+						<parameter name="XML_INPUT_STREAM">
+							<expression><![CDATA[$P{XML_INPUT_STREAM}]]></expression>
+						</parameter>
+						<parameter name="XML_LOCALE">
+							<expression><![CDATA[$P{XML_LOCALE}]]></expression>
+						</parameter>
+						<parameter name="XML_NUMBER_PATTERN">
+							<expression><![CDATA[$P{XML_NUMBER_PATTERN}]]></expression>
+						</parameter>
+						<parameter name="XML_TIME_ZONE">
+							<expression><![CDATA[$P{XML_TIME_ZONE}]]></expression>
+						</parameter>
+						<parameter name="net.sf.jasperreports.xml.source">
+							<expression><![CDATA[$P{net.sf.jasperreports.xml.source}]]></expression>
+						</parameter>
 					</datasetRun>
-					<jr:listContents height="16" width="559">
-						<textField isBlankWhenNull="true">
-							<reportElement x="0" y="0" width="100" height="15" uuid="19f0f1bf-a130-46c7-8a2c-015d7a85ce24"/>
-							<textFieldExpression><![CDATA[$F{track}]]></textFieldExpression>
-						</textField>
-						<textField isBlankWhenNull="true">
-							<reportElement x="100" y="0" width="359" height="15" uuid="1a15a092-85e9-44d4-9f3c-ca4898a6ba55"/>
-							<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
-						</textField>
-						<textField isBlankWhenNull="true">
-							<reportElement x="459" y="0" width="100" height="15" uuid="237572b9-f85b-427d-9332-b0770bffb7df"/>
-							<textFieldExpression><![CDATA[$F{playlength}]]></textFieldExpression>
-						</textField>
-					</jr:listContents>
-				</jr:list>
-			</componentElement>
-			<textField>
-				<reportElement positionType="Float" x="0" y="215" width="81" height="13" uuid="1cb0516e-8ba2-495e-8b2d-9d3f68eebf1a"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Track"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement positionType="Float" x="101" y="215" width="81" height="13" uuid="2e2111ec-c0e6-41dd-aae7-344ef27157d3"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Title"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement positionType="Float" x="461" y="215" width="98" height="13" uuid="f552ffb0-b182-4119-9283-f430949cdcb3"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Playlength"]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="260" y="90" width="299" height="20" uuid="64403dd8-f501-4688-9a01-a38b8953d3b7"/>
-				<textFieldExpression><![CDATA[$F{genres-list}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="180" y="90" width="80" height="20" uuid="a7552975-2d22-4a5f-b676-8b4ea0e47b22"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
+					<contents height="16" width="559">
+						<element kind="textField" uuid="19f0f1bf-a130-46c7-8a2c-015d7a85ce24" x="0" y="0" width="100" height="15" blankWhenNull="true">
+							<expression><![CDATA[$F{track}]]></expression>
+						</element>
+						<element kind="textField" uuid="1a15a092-85e9-44d4-9f3c-ca4898a6ba55" x="100" y="0" width="359" height="15" blankWhenNull="true">
+							<expression><![CDATA[$F{title}]]></expression>
+						</element>
+						<element kind="textField" uuid="237572b9-f85b-427d-9332-b0770bffb7df" x="459" y="0" width="100" height="15" blankWhenNull="true">
+							<expression><![CDATA[$F{playlength}]]></expression>
+						</element>
+					</contents>
+				</component>
+			</element>
+			<element kind="textField" uuid="1cb0516e-8ba2-495e-8b2d-9d3f68eebf1a" positionType="Float" x="0" y="215" width="81" height="13" bold="true">
+				<expression><![CDATA["Track"]]></expression>
+			</element>
+			<element kind="textField" uuid="2e2111ec-c0e6-41dd-aae7-344ef27157d3" positionType="Float" x="101" y="215" width="81" height="13" bold="true">
+				<expression><![CDATA["Title"]]></expression>
+			</element>
+			<element kind="textField" uuid="f552ffb0-b182-4119-9283-f430949cdcb3" positionType="Float" x="461" y="215" width="98" height="13" bold="true">
+				<expression><![CDATA["Playlength"]]></expression>
+			</element>
+			<element kind="textField" uuid="64403dd8-f501-4688-9a01-a38b8953d3b7" x="260" y="90" width="299" height="20" blankWhenNull="true">
+				<expression><![CDATA[$F{music-genre-items-list}]]></expression>
+			</element>
+			<element kind="staticText" uuid="a7552975-2d22-4a5f-b676-8b4ea0e47b22" x="180" y="90" width="80" height="20" bold="true">
 				<text><![CDATA[Genres]]></text>
-			</staticText>
-			<image>
-				<reportElement positionType="Float" x="0" y="260" width="180" height="150" uuid="931d801b-d003-4a00-a4f9-a62bca8314f5">
-					<property name="local_mesure_unitwidth" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<imageExpression><![CDATA[$F{picture-back}]]></imageExpression>
-			</image>
-			<image>
-				<reportElement positionType="Float" x="191" y="260" width="180" height="150" uuid="88759171-ee33-4213-b725-ee14d2dd2292">
-					<property name="local_mesure_unitwidth" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<imageExpression><![CDATA[$F{picture-cd}]]></imageExpression>
-			</image>
-			<textField isBlankWhenNull="true">
-				<reportElement x="260" y="50" width="301" height="20" uuid="8de5e9fa-a6ba-4283-8ee3-35ce6f8f867e"/>
-				<textFieldExpression><![CDATA[$F{artists-list}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="180" y="50" width="80" height="20" uuid="44d4bd60-d744-44f7-8745-9f6d5f151754"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
+			</element>
+			<element kind="image" uuid="931d801b-d003-4a00-a4f9-a62bca8314f5" positionType="Float" x="0" y="260" width="180" height="150">
+				<expression><![CDATA[$F{picture-02}]]></expression>
+				<property name="local_mesure_unitwidth" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="local_mesure_unitheight" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="image" uuid="88759171-ee33-4213-b725-ee14d2dd2292" positionType="Float" x="191" y="260" width="180" height="150">
+				<expression><![CDATA[$F{picture-03}]]></expression>
+				<property name="local_mesure_unitwidth" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="local_mesure_unitheight" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="textField" uuid="8de5e9fa-a6ba-4283-8ee3-35ce6f8f867e" x="260" y="50" width="301" height="20" blankWhenNull="true">
+				<expression><![CDATA[$F{artist-items-list}]]></expression>
+			</element>
+			<element kind="staticText" uuid="44d4bd60-d744-44f7-8745-9f6d5f151754" x="180" y="50" width="80" height="20" bold="true">
 				<text><![CDATA[Artists]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="261" y="170" width="298" height="20" uuid="ddc1010a-ce2e-445b-a99f-2a1f807aff13"/>
-				<textFieldExpression><![CDATA[$F{container-list}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" x="180" y="170" width="81" height="20" uuid="2f19ffaf-eeab-4ffd-9314-38651e4b8051"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
+			</element>
+			<element kind="textField" uuid="ddc1010a-ce2e-445b-a99f-2a1f807aff13" positionType="Float" x="261" y="170" width="298" height="20" textAdjust="StretchHeight" blankWhenNull="true">
+				<expression><![CDATA[$F{container-items-list}]]></expression>
+			</element>
+			<element kind="staticText" uuid="2f19ffaf-eeab-4ffd-9314-38651e4b8051" positionType="Float" x="180" y="170" width="81" height="20" bold="true">
 				<text><![CDATA[Containers]]></text>
-			</staticText>
+			</element>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="54" splitType="Stretch">
-			<textField>
-				<reportElement x="180" y="20" width="100" height="20" uuid="d37bbb64-925d-4702-8f6f-3356553f8926"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="280" y="20" width="100" height="20" uuid="6afae056-0e03-44f3-bc6b-459d481a8823"/>
-				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-		</band>
+	<pageFooter height="54" splitType="Stretch">
+		<element kind="textField" uuid="d37bbb64-925d-4702-8f6f-3356553f8926" x="180" y="20" width="100" height="20" hTextAlign="Right">
+			<expression><![CDATA["Page " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="textField" uuid="6afae056-0e03-44f3-bc6b-459d481a8823" x="280" y="20" width="100" height="20" evaluationTime="Report" hTextAlign="Left">
+			<expression><![CDATA[" of " + $V{PAGE_NUMBER}]]></expression>
+		</element>
 	</pageFooter>
 </jasperReport>

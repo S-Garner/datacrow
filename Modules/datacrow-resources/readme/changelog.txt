@@ -42,7 +42,10 @@ import:
 change wizard for import - skip the module select for the XML import
 
 other:
-XML file for all items, loaded on new installations, needs to be updated
+- XML file for all items, loaded on new installations, needs to be updated
+- Check on startup whether the .jasper file on the installation folder is newer than the one in the user dir (copy & overwrite)
+  (do this as part of the upgrade only!)
+
 
 --------------------------------------------------------------------
 Data Crow version 4.11                        Released on 2023-12-04

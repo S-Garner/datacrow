@@ -3,7 +3,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MusicAlbum-List" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4c26a90a-f71e-471a-8c75-1a0e9a83303b">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MusicAlbum-XML"/>
 	<queryString language="xPath">
-		<![CDATA[/data-crow-objects/music-album]]>
+		<![CDATA[/data-crow-objects/music-album-items/music-album]]>
 	</queryString>
 	<field name="item" class="java.lang.String">
 		<fieldDescription><![CDATA[item]]></fieldDescription>
@@ -11,8 +11,8 @@
 	<field name="artists" class="java.lang.String">
 		<fieldDescription><![CDATA[artists]]></fieldDescription>
 	</field>
-	<field name="artists-list" class="java.lang.String">
-		<fieldDescription><![CDATA[artists-list]]></fieldDescription>
+	<field name="artist-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[artist-items-list]]></fieldDescription>
 	</field>
 	<field name="artists_persist" class="java.lang.String">
 		<fieldDescription><![CDATA[artists_persist]]></fieldDescription>
@@ -23,8 +23,8 @@
 	<field name="container" class="java.lang.String">
 		<fieldDescription><![CDATA[container]]></fieldDescription>
 	</field>
-	<field name="container-list" class="java.lang.String">
-		<fieldDescription><![CDATA[container-list]]></fieldDescription>
+	<field name="container-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[container-items-list]]></fieldDescription>
 	</field>
 	<field name="container_persist" class="java.lang.String">
 		<fieldDescription><![CDATA[container_persist]]></fieldDescription>
@@ -68,8 +68,8 @@
 	<field name="genres" class="java.lang.String">
 		<fieldDescription><![CDATA[genres]]></fieldDescription>
 	</field>
-	<field name="genres-list" class="java.lang.String">
-		<fieldDescription><![CDATA[genres-list]]></fieldDescription>
+	<field name="music-genre-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[music-genre-items-list]]></fieldDescription>
 	</field>
 	<field name="genres_persist" class="java.lang.String">
 		<fieldDescription><![CDATA[genres_persist]]></fieldDescription>
@@ -113,14 +113,14 @@
 	<field name="picture-cd" class="java.lang.String">
 		<fieldDescription><![CDATA[picture-cd]]></fieldDescription>
 	</field>
-	<field name="picture-front" class="java.lang.String">
-		<fieldDescription><![CDATA[picture-front]]></fieldDescription>
+	<field name="picture-01" class="java.lang.String">
+		<fieldDescription><![CDATA[picture-01]]></fieldDescription>
 	</field>
 	<field name="rating" class="java.lang.String">
 		<fieldDescription><![CDATA[rating]]></fieldDescription>
 	</field>
-	<field name="record-label" class="java.lang.String">
-		<fieldDescription><![CDATA[record-label]]></fieldDescription>
+	<field name="record-label-list" class="java.lang.String">
+		<fieldDescription><![CDATA[record-label-list]]></fieldDescription>
 	</field>
 	<field name="service" class="java.lang.String">
 		<fieldDescription><![CDATA[service]]></fieldDescription>
@@ -137,8 +137,8 @@
 	<field name="tags" class="java.lang.String">
 		<fieldDescription><![CDATA[tags]]></fieldDescription>
 	</field>
-	<field name="tags-list" class="java.lang.String">
-		<fieldDescription><![CDATA[tags-list]]></fieldDescription>
+	<field name="tag-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[tag-items-list]]></fieldDescription>
 	</field>
 	<field name="tags_persist" class="java.lang.String">
 		<fieldDescription><![CDATA[tags_persist]]></fieldDescription>
@@ -198,7 +198,7 @@
 		<band height="89" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="80" height="80" uuid="dfd67e67-d798-4bb6-b425-f9dc8d785b49"/>
-				<imageExpression><![CDATA[$F{picture-front}]]></imageExpression>
+				<imageExpression><![CDATA[$F{picture-01}]]></imageExpression>
 			</image>
 			<textField isBlankWhenNull="true">
 				<reportElement x="180" y="0" width="290" height="20" uuid="85981349-e63f-4550-b387-000a6a216ff6"/>
@@ -213,7 +213,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="180" y="20" width="290" height="20" uuid="162b5d49-ac70-40b1-9de0-ed4df2fc765d"/>
-				<textFieldExpression><![CDATA[$F{genres-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{music-genre-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="90" y="20" width="90" height="20" uuid="2f6a1c04-f0e4-466d-9a95-996cf6369055"/>
@@ -227,7 +227,7 @@
 			</line>
 			<textField isBlankWhenNull="true">
 				<reportElement x="570" y="0" width="231" height="20" uuid="37e39622-23fb-4f82-b698-de034f5ff155"/>
-				<textFieldExpression><![CDATA[$F{container-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{container-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="480" y="0" width="90" height="20" uuid="0ba1e749-197f-4681-a6c4-7e61dfb640f0"/>
@@ -238,7 +238,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="180" y="40" width="290" height="20" uuid="d0156ec9-cc05-4255-8923-6fd8fd5c3e0f"/>
-				<textFieldExpression><![CDATA[$F{artists-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{artist-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="90" y="40" width="90" height="20" uuid="df246fcc-1561-4ac1-93d9-dafe135b30f5"/>
@@ -271,7 +271,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="180" y="60" width="200" height="20" uuid="0d65dd74-7a48-424a-9ead-0176f496d93b"/>
-				<textFieldExpression><![CDATA[$F{record-label}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{record-label-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="90" y="60" width="90" height="20" uuid="73aa9a6e-b854-4a4d-9da0-1fbb9cbf4619"/>
@@ -282,7 +282,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="570" y="60" width="230" height="20" uuid="c79e525e-d06d-4a45-af8f-056459b1ab15"/>
-				<textFieldExpression><![CDATA[$F{tags}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tag-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="480" y="60" width="90" height="20" uuid="95ae2d49-2630-49d4-9ca0-8026427b8031"/>
