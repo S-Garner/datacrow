@@ -1,5 +1,12 @@
 --------------------------------------------------------------------
-Data Crow version 5.0                         Released on 2024-xx-xx
+Data Crow version 5.0  BETA II                Released on 2024-xx-xx
+--------------------------------------------------------------------
+
+[Fixed]
+- An issue has been fixed where Data Crow is not correctly positioning itself on the main monitor.
+
+--------------------------------------------------------------------
+Data Crow version 5.0  BETA I                 Released on 2024-09-19
 --------------------------------------------------------------------
 Data Crow 5.0 is the accumulation of all releases made since picking up Data Crow development.
 Version 4.0 has been alive for a long time.. since July the 23th of 2014 to be exact.
@@ -10,17 +17,18 @@ These past changes combined with the changes as listed below make it justifiable
 - Picture management has been completed changed; Data Crow now allows for unlimited number of pictures to be added.
 
 [Updated]
-- Scrolling performance has been improved for the card list.
-- Updated libraries as used by Data Crow to avoid exposure to vulnerabilities:
-  Apache Maven plugins, IZ Pack, Metadata-extractor, Log4j, Bouncy Castle, twelvemonkeys.imageio, org.apache.tika,
-  org.apache.pdfbox, org.jsoup, com.google.code.gson, Xalan, org.hsqldb, org.apache.xmlgraphics.
+- Scrolling performance has been significantly improved for the card list.
+- Updated libraries as used by Data Crow to avoid exposure to vulnerabilities: Apache Maven plugins, IZ Pack, Metadata-extractor, Log4j, Bouncy Castle, twelvemonkeys.imageio, org.apache.tika, org.apache.pdfbox, org.jsoup, com.google.code.gson, Xalan, org.hsqldb, org.apache.xmlgraphics.
+- Jasper Reports libraries have been bumped up to version 7.0.
 - XML Export has been updated;
   * empty values are no longer exported.
   * a valid XSD is now generated for both individual modules as well as for the media module.
   * IDs of items are now exported.
   * attachments can now be exported.
-  * related references items are exported in full as well as the current summary for the item that references these. 
-- Jasper Reports libraries have been bumped up to version 7.0.
+  * related references items are exported in full as well as the current summary for the item that references these.
+- XML Import has been updated:
+  * No longer need to select the module for which the items are imported. The items as part of the XML know to which module they need to imported for.
+  * IDs are respected  
 - Small layout improvements for the item form and the login dialog.
 - Extended the supported image types for the local art import for movies and music files. 
 
@@ -31,20 +39,15 @@ These past changes combined with the changes as listed below make it justifiable
 - Attachments menu was missing icons.
 - XML export: schema errors fixed.
 
-
--------- TODO --------
-translations:
-lblIncludeImage = Include Pictures
-lblIncludeAttachments = Include Attachments
-lblCopyAttachments = Copy Attachments
-
-import:
-change wizard for import - skip the module select for the XML import
-
-other:
+[TODO]
+- Web module needs to be updated
+- Update the translations 
+  lblIncludeImage = Include Pictures
+  lblIncludeAttachments = Include Attachments
+  lblCopyAttachments = Copy Attachments
 - XML file for all items, loaded on new installations, needs to be updated
-- Check on startup whether the .jasper file on the installation folder is newer than the one in the user dir (copy & overwrite)
-  (do this as part of the upgrade only!)
+- The new reports need to be moved into the user folder - probably on upgrade only (TBD)
+- Outstanding tickets 
 
 
 --------------------------------------------------------------------

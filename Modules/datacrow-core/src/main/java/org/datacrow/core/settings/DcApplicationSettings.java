@@ -1003,15 +1003,6 @@ public class DcApplicationSettings extends Settings {
                             false, -1));
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._DIMENSION,
-                            DcRepository.Settings.stMainViewLocation,
-                            null,
-                            -1,
-                            "",
-                            "",
-                            false,
-                            false, -1));        
-        addSetting(_General,
-                new Setting(DcRepository.ValueTypes._DIMENSION,
                             DcRepository.Settings.stTextViewerSize,
                             new DcDimension(500, 700),
                             -1,

@@ -83,6 +83,9 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
 	
     public DcPicturesList(boolean newItemMode, int mode) {
         super(new DcListModel<Object>());
+        
+        setNewItemMode(newItemMode);
+        
         setCellRenderer(new DcListRenderer<Object>(true));
         setLayoutOrientation(JList.VERTICAL_WRAP);
 
