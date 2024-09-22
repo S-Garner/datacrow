@@ -66,7 +66,7 @@
             <fileset dir="datacrow-build/staging/dc-client/modules" targetdir="$INSTALL_PATH/modules"/>
             <fileset dir="datacrow-build/staging/dc-client/upgrade" targetdir="$INSTALL_PATH/upgrade"/>
             <fileset dir="datacrow-build/staging/dc-client/lib" targetdir="${INSTALL_PATH}/lib"/>
-			<fileset dir="datacrow-build/staging/dc-client/java" targetdir="${INSTALL_PATH}/java"/>
+			<fileset dir="datacrow-build/staging/java" targetdir="${INSTALL_PATH}/java"/>
         </pack>
     </packs>
     
