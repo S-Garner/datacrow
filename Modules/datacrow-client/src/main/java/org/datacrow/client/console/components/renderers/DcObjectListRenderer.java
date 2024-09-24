@@ -59,20 +59,20 @@ public class DcObjectListRenderer extends DcListRenderer<Object>  {
 				
 				@Override
 				public void run() {
-					if (c == null) return;
-					
-		            c.load();
-		            
-		            if (c.getDcObject() != null)
-		                setElementColor(isSelected, c, index);
-		            
-		            list.invalidate();
-		            
-		            validate();
-		            repaint();
-		            
-		            list.validate();
-		            list.repaint();
+					if (c != null) {
+			            c.load();
+			            
+			            if (c.getDcObject() != null)
+			                setElementColor(isSelected, c, index);
+			            
+			            list.invalidate();
+			            
+			            validate();
+			            repaint();
+			            
+			            list.validate();
+			            list.repaint();
+					}
 				}
 			});
         }

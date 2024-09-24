@@ -257,7 +257,7 @@ public class DcServerSessionRequestHandler extends Thread {
      */
     private ServerResponse processUserManagementAction(ClientRequestUser cr) {
         if (cr.getActionType() == ClientRequestUser._ACTIONTYPE_CHANGEPASSWORD) {
-            SecurityCenter.getInstance().changePassword(cr.getUser(), cr.getPassword());
+            SecurityCenter.getInstance().changePassword(cr.getUser(), cr.getNewPassword());
         } else {
             logger.error("Client Request User action type not supported");
         }

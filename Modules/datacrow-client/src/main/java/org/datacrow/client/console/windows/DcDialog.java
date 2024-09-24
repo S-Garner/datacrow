@@ -147,10 +147,6 @@ public class DcDialog extends JDialog implements IDialog {
         
         dispose();
         
-        GUI gui = GUI.getInstance();
-        if (gui.isSplashScreenActive())
-            gui.showSplashScreen(true);
-        
         if (logger.isDebugEnabled()) {
             long end = new Date().getTime();
             logger.debug("Disposing of the dialog and its resources took " + (end - start) + "ms");

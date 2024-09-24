@@ -191,51 +191,60 @@ public class OpenLibrarySearch extends SearchTask {
            	 	query = "https://openlibrary.org/isbn/" + getQuery() + ".json";
            	 	
                 HttpConnection conn = new HttpConnection(new URL(query), userAgent);
-                String json = conn.getString(StandardCharsets.UTF_8);
-                conn.close();
-           	 	
-                Map<?, ?> item = gson.fromJson(json, Map.class);
                 
-                if (item != null && item.containsKey("key")) {
-	                DcObject dco = DcModules.get(getServer().getModule()).getItem();
-	                OpenLibrarySearchResult olsr = new OpenLibrarySearchResult(dco);
-	                
-	        		olsr.setEditionData(item);
-	        		
-	            	Collection works = (Collection) item.get("works");
-	            	String workId;
-	            	String link;
-	            	for (Object work : works) {
-	            		workId = (String) ((Map<?, ?>) work).get("key");
-	            		
-	            		olsr.setWorkId(workId);
-	            		waitBetweenRequest();
-	            		
-	            		link = "https://openlibrary.org/search.json?q="+ workId;
-	            		
-	                    conn = new HttpConnection(new URL(link), userAgent);
-	                    json = conn.getString(StandardCharsets.UTF_8);
-	                    conn.close();
-	            		
-	                    item = gson.fromJson(json, Map.class);
-	                    
-	                    if (item.containsKey("docs")) {
-	                        // get the correct record here as there could be multiple!
-	                        for (LinkedTreeMap<?, ?> r : (ArrayList<LinkedTreeMap<?, ?>>) item.get("docs")) {
-	                            if (r.get("key").equals(workId)) {
-	                                setWorkInformation(r, olsr);
-	                                olsr.setWorkData(r);
-	                                
-	                                result.add(olsr);
-	                                
-	                                // pick the first matching record
-	                                break;
-	                            }
-	                        }
-	                    }
-	            		
-	            		break; // we assume we're dealing with one work, not multiple
-	            	}
+                try {
+                    String json = conn.getString(StandardCharsets.UTF_8);
+                    conn.close();
+               	 	
+                    Map<?, ?> item = gson.fromJson(json, Map.class);
+                    
+                    if (item != null && item.containsKey("key")) {
+    	                DcObject dco = DcModules.get(getServer().getModule()).getItem();
+    	                OpenLibrarySearchResult olsr = new OpenLibrarySearchResult(dco);
+    	                
+    	        		olsr.setEditionData(item);
+    	        		
+    	            	Collection works = (Collection) item.get("works");
+    	            	String workId;
+    	            	String link;
+    	            	for (Object work : works) {
+    	            		workId = (String) ((Map<?, ?>) work).get("key");
+    	            		
+    	            		olsr.setWorkId(workId);
+    	            		waitBetweenRequest();
+    	            		
+    	            		link = "https://openlibrary.org/search.json?q="+ workId;
+    	            		
+    	                    conn = new HttpConnection(new URL(link), userAgent);
+    	                    json = conn.getString(StandardCharsets.UTF_8);
+    	                    conn.close();
+    	            		
+    	                    item = gson.fromJson(json, Map.class);
+    	                    
+    	                    if (item.containsKey("docs")) {
+    	                        // get the correct record here as there could be multiple!
+    	                        for (LinkedTreeMap<?, ?> r : (ArrayList<LinkedTreeMap<?, ?>>) item.get("docs")) {
+    	                            if (r.get("key").equals(workId)) {
+    	                                setWorkInformation(r, olsr);
+    	                                olsr.setWorkData(r);
+    	                                
+    	                                result.add(olsr);
+    	                                
+    	                                // pick the first matching record
+    	                                break;
+    	                            }
+    	                        }
+    	                    }
+    	            		
+    	            		break; // we assume we're dealing with one work, not multiple
+    	            	}
+                    }
+                } catch (HttpConnectionException hce) {
+                    // simply skip
+                } finally {
+                    try {
+                        conn.close();
+                    } catch (Exception e) {}
                 }
             }
         } catch (Exception e) {
@@ -248,6 +257,7 @@ public class OpenLibrarySearch extends SearchTask {
     private String getDescription(Map<?, ?> work, String key) {
     	
     	String description = "";
+    	String url;
     	
     	try {
     		// if the description has been retrieved before for the given work key - use this
@@ -259,7 +269,7 @@ public class OpenLibrarySearch extends SearchTask {
 	    		description = getDescriptionValue(work, "description");
 	    		workDescription.put(key, description);
 	    	} else { 
-	    		query = "https://openlibrary.org" + key + ".json";
+	    	    url = "https://openlibrary.org" + key + ".json";
 	    		
 	            try {
 	                sleep(200);
@@ -267,7 +277,7 @@ public class OpenLibrarySearch extends SearchTask {
 	                listener.addError("Error, could not wait while retrieving description");
 	            }
 	    		
-	            HttpConnection conn = new HttpConnection(new URL(query), userAgent);
+	            HttpConnection conn = new HttpConnection(new URL(url), userAgent);
 	            String json = conn.getString(StandardCharsets.UTF_8);
 	            conn.close();
 	       	 	

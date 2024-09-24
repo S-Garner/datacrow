@@ -529,8 +529,6 @@ public class GUI {
       */
      public void openDialogNativeModal(final IDialog dialog) {
          
-         GUI.getInstance().showSplashScreen(false);
-         
          try {
              final AtomicBoolean active = new AtomicBoolean(true);
              
@@ -558,9 +556,6 @@ public class GUI {
              // can't depend on the logger; most likely the logger has not yet been initialized
              ite.printStackTrace();
          }
-         
-         if (GUI.getInstance().isSplashScreenActive()) 
-             GUI.getInstance().showSplashScreen(true);
      }
     
      public Graphics setRenderingHint(Graphics g) {

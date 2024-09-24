@@ -166,15 +166,20 @@ public class DirectConnector extends LocalServerConnector {
                 boolean success = false;
                 int retry = 0;
                 
-                GUI.getInstance().showSplashScreen(false);
                 while (!success && retry < 3) {
-                    LoginDialog dlg = new LoginDialog();
+                	GUI.getInstance().showSplashScreen(false);
+                	
+                	LoginDialog dlg = new LoginDialog();
                     GUI.getInstance().openDialogNativeModal(dlg);
                     if (dlg.isCanceled()) break;
                     
                     su = super.login(dlg.getLoginName(), dlg.getPassword());
-                    
                     success = su != null;
+
+                    if (!success)
+                    	GUI.getInstance().displayErrorMessage(DcResources.getText("msgUserOrPasswordIncorrect"));
+                    
+                    retry++;
                 }
                 
                 if (!success) 

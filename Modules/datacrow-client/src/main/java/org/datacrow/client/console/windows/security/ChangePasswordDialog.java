@@ -90,6 +90,7 @@ public class ChangePasswordDialog extends DcDialog implements ActionListener, Ke
                 GUI.getInstance().displayMessage("msgPleaseEnterNewPassword");
             } else if (newPass1.equals(newPass2)){
                 connector.changePassword(su.getUser(), newPass1);
+                connector.login(connector.getUser().getUsername(), newPass2);
                 close();
             } else {
                 GUI.getInstance().displayMessage("msgPasswordsDoNotMatch");

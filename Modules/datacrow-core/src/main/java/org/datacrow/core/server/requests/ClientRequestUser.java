@@ -39,14 +39,14 @@ public class ClientRequestUser extends ClientRequest {
 	
 	private final int actionType;
 	private final User user;
-	private final String password;
+	private final String newPassword;
 	
 	public ClientRequestUser(int actionType, SecuredUser su, User user, String password) {
 		super(ClientRequest._REQUEST_USER_MGT, su);
 		
 		this.actionType = actionType;
 		this.user = user;
-		this.password = password;
+		this.newPassword = password;
 	}
 	
 	public User getUser() {
@@ -57,8 +57,7 @@ public class ClientRequestUser extends ClientRequest {
 		return actionType;
 	}
 
-	@Override
-	public String getPassword() {
-		return password;
+	public String getNewPassword() {
+		return newPassword;
 	}
 }

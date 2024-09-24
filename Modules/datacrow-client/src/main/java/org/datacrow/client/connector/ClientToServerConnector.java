@@ -110,6 +110,7 @@ import org.datacrow.core.server.response.ServerValueEnhancersRequestResponse;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.Setting;
 import org.datacrow.core.settings.Settings;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.SystemMonitor;
 import org.datacrow.core.wf.tasks.DcTask;
 
@@ -261,29 +262,41 @@ public class ClientToServerConnector extends Connector {
         int retry = 0;
         
         GUI.getInstance().showSplashScreen(false);
-        while (!success && retry < 3) {
-                               
-            LoginDialog dlg = new LoginDialog();
-            GUI.getInstance().openDialogNativeModal(dlg);
-            if (dlg.isCanceled()) break;
-            
-            ClientRequest cr = new ClientRequestLogin(dlg.getLoginName(), dlg.getPassword());
-            ServerLoginResponse response = (ServerLoginResponse) processClientRequest(cr);
-            
-            // register this user as the logged in user
-            if (response != null)
-                su = response.getUser();
-            
-            success = su != null;
-            retry++;
-        }
         
-        if (!success) {
-            System.exit(0);
+        if (CoreUtilities.isEmpty(username)) {
+            while (!success && retry < 3) {
+
+                LoginDialog dlg = new LoginDialog();
+                GUI.getInstance().openDialogNativeModal(dlg);
+                if (dlg.isCanceled()) break;
+                
+                ClientRequest cr = new ClientRequestLogin(dlg.getLoginName(), dlg.getPassword());
+                ServerLoginResponse response = (ServerLoginResponse) processClientRequest(cr);
+                
+                // register this user as the logged in user
+                if (response != null)
+                    su = response.getUser();
+                
+                success = su != null;
+                
+                if (!success)
+                	GUI.getInstance().displayErrorMessage(DcResources.getText("msgUserOrPasswordIncorrect"));
+                
+                retry++;
+            }
+
+            if (!success) {
+                System.exit(0);
+            } else {
+                GUI.getInstance().showSplashScreen(true);
+    		}
         } else {
-            GUI.getInstance().showSplashScreen(true);
-		}
-		return su;
+            ClientRequest cr = new ClientRequestLogin(username, password);
+            ServerLoginResponse response = (ServerLoginResponse) processClientRequest(cr);
+            su = response.getUser();
+        }
+
+        return su;
 	}
 	
 	@Override
