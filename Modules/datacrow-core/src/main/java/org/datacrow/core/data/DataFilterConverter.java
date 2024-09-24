@@ -222,7 +222,14 @@ public class DataFilterConverter {
                 field.getValueType() != DcRepository.ValueTypes._DCPARENTREFERENCE &&
                 field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION;
             
-            if (field.getValueType() == DcRepository.ValueTypes._STRING) {
+            if (operator == Operator.REGEX.getIndex()) {
+            	
+            	// create the correct query value
+            	queryValue = String.valueOf(value);
+            	queryValue = queryValue.replaceAll("\'", "''");
+            	
+            	sql.append(" REGEXP_MATCHES(UPPER(" + field.getDatabaseFieldName() + "), '^.*?" + queryValue.toUpperCase() + ".*?$')");
+            } else if (field.getValueType() == DcRepository.ValueTypes._STRING) {
                 if (useUpper) sql.append("UPPER(");
                 sql.append(field.getDatabaseFieldName());
                 if (useUpper) sql.append(")");

@@ -77,7 +77,8 @@ public class FindReplaceTaskDialog extends DcDialog implements ActionListener, I
     private final Object value;
     private final List<DcObject> items;
     
-    private DcTable tblItems;
+    private DcTable tblItemsNew;
+    private DcTable tblItemsPrev;
 
     public FindReplaceTaskDialog(
             JFrame parent, 
@@ -177,28 +178,28 @@ public class FindReplaceTaskDialog extends DcDialog implements ActionListener, I
 
             try {
                 DcObject item = module.getItem();
-                int colID = tblItems.getColumnIndexForField(DcObject._ID);
-                int colValue = tblItems.getColumnIndexForField(field);
+                int colID = tblItemsNew.getColumnIndexForField(DcObject._ID);
+                int colValue = tblItemsNew.getColumnIndexForField(field);
                 int colParent = -1;
                 
                 if (item.getParentReferenceFieldIndex() > 0)
-                    colParent = tblItems.getColumnIndexForField(item.getParentReferenceFieldIndex());
+                    colParent = tblItemsNew.getColumnIndexForField(item.getParentReferenceFieldIndex());
                 
                 Connector connector = DcConfig.getInstance().getConnector();
                 String ID;
-                for (int row = 0; row < tblItems.getRowCount(); row++) {
+                for (int row = 0; row < tblItemsNew.getRowCount(); row++) {
                     
 	                if (client.isCancelled()) break;
 	                
-	                ID = (String) tblItems.getValueAt(row, colID, true);
+	                ID = (String) tblItemsNew.getValueAt(row, colID, true);
 	                
 	                item.markAsUnchanged();
 	                item.setNew(false);
 	                item.setValueLowLevel(DcObject._ID, ID);
-	                item.setValue(field, tblItems.getValueAt(row, colValue, true));
+	                item.setValue(field, tblItemsNew.getValueAt(row, colValue, true));
 	                
 	                if (colParent > -1)
-	                    item.setValueLowLevel(item.getParentReferenceFieldIndex(), tblItems.getValueAt(row, colParent, true));
+	                    item.setValueLowLevel(item.getParentReferenceFieldIndex(), tblItemsNew.getValueAt(row, colParent, true));
 	                
 	                try {
 	                    item.setUpdateGUI(false);
@@ -232,7 +233,9 @@ public class FindReplaceTaskDialog extends DcDialog implements ActionListener, I
     public void close() {
         DcSettings.set(DcRepository.Settings.stFindReplaceTaskDialogSize, getSize());
         
-        tblItems.clear();
+        tblItemsNew.clear();
+        tblItemsPrev.clear();
+        
         items.clear();
         
         super.close();
@@ -245,17 +248,30 @@ public class FindReplaceTaskDialog extends DcDialog implements ActionListener, I
         JPanel panelInput = new JPanel();
         panelInput.setLayout(Layout.getGBL());
         
-        tblItems = ComponentFactory.getDCTable(module, false, false);
-        JScrollPane sp = new JScrollPane(tblItems);
-        sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        tblItems.activate();
-        tblItems.setVisibleColumns(fields);
+        tblItemsNew = ComponentFactory.getDCTable(module, false, false);
+        JScrollPane spNew = new JScrollPane(tblItemsNew);
+        spNew.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        tblItemsNew.activate();
+        tblItemsNew.setVisibleColumns(fields);
+        spNew.setBorder(ComponentFactory.getTitleBorder(DcResources.getText("lblAfter")));
+        
+        tblItemsPrev = ComponentFactory.getDCTable(module, false, false);
+        JScrollPane spPrev = new JScrollPane(tblItemsPrev);
+        spPrev.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        tblItemsPrev.activate();
+        tblItemsPrev.setVisibleColumns(fields);
+        spPrev.setBorder(ComponentFactory.getTitleBorder(DcResources.getText("lblBefore")));
         
         Object oldValue;
         Object newValue;
         String s;
+        
+        DcObject itemPrev;
         for (DcObject item : items) {
-            oldValue = (Object) item.getValue(field);
+            
+        	itemPrev = item.clone();
+        	
+        	oldValue = (Object) item.getValue(field);
             
             if (oldValue instanceof String) {
                 try {
@@ -285,12 +301,16 @@ public class FindReplaceTaskDialog extends DcDialog implements ActionListener, I
                 item.setValue(field, replacement);
             }
             
-            tblItems.add(item);
+            tblItemsPrev.add(itemPrev);
+            tblItemsNew.add(item);
         }
 
-        panelInput.add(sp, Layout.getGBC( 0, 0, 1, 1, 10.0, 10.0
+        panelInput.add(spPrev, Layout.getGBC( 0, 0, 1, 1, 10.0, 10.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
-                new Insets(5, 5, 5, 5), 0, 0));        
+                new Insets(5, 5, 5, 5), 0, 0));
+        panelInput.add(spNew, Layout.getGBC( 1, 0, 1, 1, 10.0, 10.0
+                ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                new Insets(5, 5, 5, 5), 0, 0));              
   
         //**********************************************************
         //Action panel

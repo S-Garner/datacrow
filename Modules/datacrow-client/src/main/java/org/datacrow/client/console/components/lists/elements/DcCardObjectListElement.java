@@ -112,7 +112,10 @@ public class DcCardObjectListElement extends DcObjectListElement {
     
     private void setPicture() {
     	
-    	if (dco == null) return;
+    	if (dco == null) {
+    		build = false;
+    		return;
+    	}
     	
     	DcImageIcon icon = dco.getScaledImage();
     	

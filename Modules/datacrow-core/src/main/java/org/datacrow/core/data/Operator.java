@@ -90,8 +90,12 @@ public enum Operator {
     YEARS_AGO(17, DcResources.getText("lblYearsAgo"), true),
     
     /** The string or collection contains a certain value */
-    CONTAINSVALUE(18, DcResources.getText("lblContainsValue"), true);
-    
+    CONTAINSVALUE(18, DcResources.getText("lblContainsValue"), true),
+
+    /** The string or collection contains a certain value */
+    REGEX(19, DcResources.getText("lblRegularExpression"), true);
+	
+	
     private final int index;  
     private final String name; 
     private boolean needsValue;

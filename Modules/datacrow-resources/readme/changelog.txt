@@ -5,6 +5,11 @@ Data Crow version 5.0  BETA II                Released on 2024-xx-xx
 [Fixed]
 - An issue has been fixed where Data Crow is not correctly positioning itself on the main monitor.
 
+[Updated]
+- Improved the preview for the find and replace.
+- Improved the find and replace regular expression support.
+
+
 --------------------------------------------------------------------
 Data Crow version 5.0  BETA I                 Released on 2024-09-19
 --------------------------------------------------------------------
@@ -45,6 +50,7 @@ These past changes combined with the changes as listed below make it justifiable
   lblIncludeImage = Include Pictures
   lblIncludeAttachments = Include Attachments
   lblCopyAttachments = Copy Attachments
+  lblAfter = After
 - XML file for all items, loaded on new installations, needs to be updated
 - The new reports need to be moved into the user folder - probably on upgrade only (TBD)
 - Outstanding tickets 

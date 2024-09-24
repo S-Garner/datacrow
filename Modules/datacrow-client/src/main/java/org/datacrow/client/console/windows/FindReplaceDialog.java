@@ -150,7 +150,11 @@ public class FindReplaceDialog extends DcFrame implements ActionListener {
         
         final DcField field = (DcField) cbFields.getSelectedItem();
         DataFilter df = new DataFilter(module.getIndex());
-        df.addEntry(new DataFilterEntry(module.getIndex(), field.getIndex(), Operator.CONTAINS, cbOld.getValue()));
+        
+        if (field.getValueType() == DcRepository.ValueTypes._STRING)
+        	df.addEntry(new DataFilterEntry(module.getIndex(), field.getIndex(), Operator.REGEX, cbOld.getValue()));
+        else
+        	df.addEntry(new DataFilterEntry(module.getIndex(), field.getIndex(), Operator.CONTAINS, cbOld.getValue()));
 
         Collection<Integer> include = new ArrayList<Integer>();
         include.add(field.getIndex());
@@ -160,7 +164,7 @@ public class FindReplaceDialog extends DcFrame implements ActionListener {
                 this, 
                 view,
                 connector.getItems(df, module.getMinimalFields(include)), 
-                new int[] {module.getDisplayFieldIdx(), field.getIndex()}, 
+                new int[] {DcObject._SYS_DISPLAYVALUE, field.getIndex()}, 
                 field.getIndex(),
                 cbOld.getValue(), 
                 cbNew.getValue());
