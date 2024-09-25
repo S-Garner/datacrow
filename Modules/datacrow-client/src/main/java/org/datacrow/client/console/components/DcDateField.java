@@ -69,6 +69,10 @@ public class DcDateField extends JComponent implements IComponent {
         dateSettings.setFontValidDate(ComponentFactory.getStandardFont());
         dateSettings.setFontVetoedDate(ComponentFactory.getStandardFont());
 
+        String format = DcSettings.getString(DcRepository.Settings.stDateFormat);
+        dateSettings.setFormatForDatesBeforeCommonEra(format);
+        dateSettings.setFormatForDatesCommonEra(format);
+        
         this.datePicker = new DatePicker(dateSettings);
         add(datePicker,
         		Layout.getGBC( 0, 0, 1, 1, 80.0, 80.0
