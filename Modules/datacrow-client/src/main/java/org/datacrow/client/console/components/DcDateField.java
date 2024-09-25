@@ -25,53 +25,55 @@
 
 package org.datacrow.client.console.components;
 
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
-import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JTextField;
 import javax.swing.JToolTip;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
-import org.datacrow.client.console.windows.datepicker.DatePickerDialog;
 import org.datacrow.core.DcRepository;
-import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.settings.DcSettings;
 
-public class DcDateField extends JComponent implements IComponent, ActionListener {
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
+
+public class DcDateField extends JComponent implements IComponent {
 
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcDateField.class.getName());
     
-    private JTextField text;
-    private JButton button;
-
+    private final DatePicker datePicker;
+    
     public DcDateField() {
-
-        text = ComponentFactory.getTextFieldDisabled();
-        button = ComponentFactory.getIconButton(IconLibrary._icoCalendar);
-        
         this.setLayout(Layout.getGBL());
-        
-        button.addActionListener(this);
 
-        add( text,   Layout.getGBC( 0, 0, 1, 1, 80.0, 80.0
-                    ,GridBagConstraints.WEST, GridBagConstraints.BOTH,
-                     new Insets(0, 0, 0, 0), 0, 0));
-        add( button, Layout.getGBC( 1, 0, 1, 1, 1.0, 1.0
-                    ,GridBagConstraints.EAST, GridBagConstraints.NONE,
-                     new Insets(0, 0, 0, 0), 0, 0));
+        DatePickerSettings dateSettings = new DatePickerSettings();
+        
+        dateSettings.setFontCalendarWeekdayLabels(ComponentFactory.getSystemFont());
+        dateSettings.setFontCalendarDateLabels(ComponentFactory.getSystemFont());
+        dateSettings.setFontCalendarWeekNumberLabels(ComponentFactory.getSystemFont());
+        dateSettings.setFontClearLabel(ComponentFactory.getSystemFont());
+        dateSettings.setFontInvalidDate(ComponentFactory.getStandardFont());
+        dateSettings.setFontMonthAndYearMenuLabels(ComponentFactory.getSystemFont());
+        dateSettings.setFontMonthAndYearNavigationButtons(ComponentFactory.getSystemFont());
+        dateSettings.setFontTodayLabel(ComponentFactory.getSystemFont());
+        dateSettings.setFontValidDate(ComponentFactory.getStandardFont());
+        dateSettings.setFontVetoedDate(ComponentFactory.getStandardFont());
+
+        this.datePicker = new DatePicker(dateSettings);
+        add(datePicker,
+        		Layout.getGBC( 0, 0, 1, 1, 80.0, 80.0
+               ,GridBagConstraints.WEST, GridBagConstraints.BOTH,
+                new Insets(0, 0, 0, 0), 0, 0));
     }
 
     private SimpleDateFormat getDateFormat() {
@@ -81,19 +83,12 @@ public class DcDateField extends JComponent implements IComponent, ActionListene
     
     @Override
     public void setEditable(boolean b) {
-        button.setEnabled(b);
+        setEnabled(false);
     }
     
     @Override 
     public void setEnabled(boolean b) {
-        button.setEnabled(b);
-        text.setEnabled(b);
-    }
-    
-    @Override
-    public void clear() {
-        text = null;
-        button = null;
+    	datePicker.setEnabled(b);
     }
     
     @Override
@@ -110,25 +105,22 @@ public class DcDateField extends JComponent implements IComponent, ActionListene
     }      
     
     public void setValue(Date date) {
-        if (date == null)
-            text.setText("");
-        else 
-            text.setText(getDateFormat().format(date));
+    	if (date instanceof java.sql.Date) {
+    		java.util.Date utilDate = new java.util.Date(date.getTime());
+    		date = utilDate;
+    	}
+    	
+    	if (date == null) {
+    		datePicker.clear();
+    	} else {
+        	datePicker.setDate(LocalDate.ofInstant(date.toInstant(), ZoneId.systemDefault()));
+    	}
     }
     
     @Override
     public Object getValue() {
-        String date = text.getText();
-        
-        if (date != null && date.length() > 0) {
-	        try {
-	            return getDateFormat().parse(date);
-	        } catch (Exception e) {
-	            logger.warn("Could not parse [" + date + "]. Not a valid date", e);
-	        }
-        }
-        
-        return null;
+    	LocalDate localDate = datePicker.getDate();
+    	return localDate == null ? null : Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
     
     @Override
@@ -142,27 +134,10 @@ public class DcDateField extends JComponent implements IComponent, ActionListene
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        
-        Component top = null;
-        Component parent = getParent();
-        while (parent != null) {
-            parent = parent.getParent();
-            top = parent != null ? parent : top;
-        }
-        
-        DatePickerDialog dp;
-        if (top != null && top instanceof JFrame)
-            dp = new DatePickerDialog((JFrame) top);
-        else
-            dp = new DatePickerDialog();
-            
-        dp.setDate((Date) getValue());
-        dp.setVisible(true);
-        
-        setValue(dp.getDate() != null ? dp.getDate().getTime() : null);
-    }
-    
-    @Override
     public void refresh() {}
+
+	@Override
+	public void clear() {
+		datePicker.clear();
+	}
 }
