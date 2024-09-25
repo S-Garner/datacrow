@@ -62,12 +62,12 @@ public class DcUrlField extends JComponent implements IComponent, ActionListener
         buttonLaunch.addActionListener(this);
         
         setLayout(Layout.getGBL());
-        add( text,         Layout.getGBC( 0, 0, 1, 1, 80.0, 80.0
+        add( text,         Layout.getGBC( 0, 0, 1, 1, 1000.0, 1000.0
                 ,GridBagConstraints.WEST, GridBagConstraints.BOTH,
                  new Insets(0, 0, 0, 0), 0, 0));
         add( buttonLaunch, Layout.getGBC( 1, 0, 1, 1, 1.0, 1.0
                 ,GridBagConstraints.EAST, GridBagConstraints.NONE,
-                 new Insets(0, 0, 0, 0), 0, 0));    
+                 new Insets(0, 2, 0, 0), 0, 0));    
         
         addMouseListener(new DcEditorMouseListener());
     }

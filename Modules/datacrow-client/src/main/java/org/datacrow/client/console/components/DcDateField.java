@@ -25,21 +25,27 @@
 
 package org.datacrow.client.console.components;
 
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JTextField;
 import javax.swing.JToolTip;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.settings.DcSettings;
@@ -68,12 +74,40 @@ public class DcDateField extends JComponent implements IComponent {
         dateSettings.setFontTodayLabel(ComponentFactory.getSystemFont());
         dateSettings.setFontValidDate(ComponentFactory.getStandardFont());
         dateSettings.setFontVetoedDate(ComponentFactory.getStandardFont());
-
+        
         String format = DcSettings.getString(DcRepository.Settings.stDateFormat);
         dateSettings.setFormatForDatesBeforeCommonEra(format);
         dateSettings.setFormatForDatesCommonEra(format);
+        dateSettings.setFormatForTodayButton(DateTimeFormatter.ofPattern(format));
         
         this.datePicker = new DatePicker(dateSettings);
+
+        for (Component c : datePicker.getComponents()) {
+        	
+        	if (c instanceof JButton) {
+        		((JButton) c).setIcon(IconLibrary._icoCalendar);
+        		((JButton) c).setText("");
+        		
+            	int iconHeight = DcSettings.getInt(DcRepository.Settings.stIconSize);
+                int minHeight = DcSettings.getSettings() != null ? DcSettings.getInt(DcRepository.Settings.stInputFieldHeight) : 20;
+                
+                int size = iconHeight > minHeight ? iconHeight : minHeight;
+
+                Dimension dim = new Dimension(size, size);
+
+                ((JButton) c).setMaximumSize(dim);
+                ((JButton) c).setMinimumSize(dim);
+                ((JButton) c).setPreferredSize(dim);
+                
+                ((JButton) c).setBorder(ComponentFactory.getButton("").getBorder());
+        	}
+
+        	if (c instanceof JTextField) {
+        		((JTextField) c).setBorder(ComponentFactory.getShortTextField(0).getBorder());
+        	}
+        	
+        }
+        
         add(datePicker,
         		Layout.getGBC( 0, 0, 1, 1, 80.0, 80.0
                ,GridBagConstraints.WEST, GridBagConstraints.BOTH,

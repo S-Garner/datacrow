@@ -89,15 +89,15 @@ public class DcReferencesField extends JComponent implements IComponent, ActionL
         scrollIn.setPreferredSize(new Dimension(350,50));
         ComponentFactory.setBorder(scrollIn);
         
-        add(scrollIn, Layout.getGBC( 0, 0, 1, 2, 80.0, 80.0
+        add(scrollIn, Layout.getGBC( 0, 0, 1, 2, 1000.0, 1000.0
                 ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                  new Insets( 0, 0, 0, 0), 0, 0));        
         add(btCreate, Layout.getGBC( 1, 0, 1, 1, 1.0, 1.0
                 ,GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE,
-                 new Insets( 0, 0, 0, 0), 0, 0));        
+                 new Insets( 0, 2, 0, 0), 0, 0));        
         add(btOpen,   Layout.getGBC( 1, 1, 1, 1, 1.0, 1.0
                 ,GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE,
-                 new Insets( 0, 0, 0, 0), 0, 0));        
+                 new Insets( 0, 2, 0, 0), 0, 0));        
         
         btOpen.addActionListener(this);
         btOpen.setActionCommand("openDialog");

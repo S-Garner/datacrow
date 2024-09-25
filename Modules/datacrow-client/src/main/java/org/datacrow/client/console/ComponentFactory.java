@@ -807,6 +807,9 @@ public final class ComponentFactory extends UIComponents {
         button.setMinimumSize(dim);
         button.setPreferredSize(dim);
         
+        button.setBorder(null);
+        button.setBackground(new DcLabel().getBackground());
+        
         return button;
     }
     

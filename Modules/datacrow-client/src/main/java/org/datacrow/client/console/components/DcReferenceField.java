@@ -73,7 +73,7 @@ public class DcReferenceField extends JComponent implements IComponent, ActionLi
         if (connector.getUser().isEditingAllowed(DcModules.get(referenceModIdx)))
             add(btCreate, Layout.getGBC( 1, 0, 1, 1, 0.0, 0.0
                     ,GridBagConstraints.NORTHEAST, GridBagConstraints.NONE,
-                     new Insets( 0, 0, 0, 0), 0, 0));        
+                     new Insets( 0, 2, 0, 0), 0, 0));        
         
         btCreate.addActionListener(this);
         btCreate.setActionCommand("create");
