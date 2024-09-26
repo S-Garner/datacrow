@@ -88,6 +88,11 @@ public class DcReferenceField extends JComponent implements IComponent, ActionLi
     }
     
     @Override
+    public void reset() {
+    	cb.reset();
+    }   
+    
+    @Override
     public void setEnabled(boolean b) {
     	setEditable(b);
     }

@@ -93,6 +93,12 @@ public class DcTagField extends JTextArea implements IComponent, KeyListener, Mo
     }
     
     @Override
+    public void reset() {
+    	references.clear();
+    	setText("");
+    }
+    
+    @Override
     public void clear() {
         if (existingTags != null) existingTags.clear();
         existingTags = null;

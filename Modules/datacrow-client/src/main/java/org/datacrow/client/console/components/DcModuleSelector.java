@@ -25,6 +25,7 @@
 
 package org.datacrow.client.console.components;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -56,6 +57,14 @@ public class DcModuleSelector extends JComponent implements IComponent {
     
     @Override
     public void clear() {} 
+    
+    @Override
+    public void reset() {
+    	for (Component c : getComponents()) {
+    		if (c instanceof IComponent)
+    			((IComponent) c).reset();
+    	}
+    }     
     
     @Override
     public void setEditable(boolean b) {}

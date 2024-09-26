@@ -62,6 +62,7 @@ import org.datacrow.client.console.clients.UIClient;
 import org.datacrow.client.console.components.DcCheckBox;
 import org.datacrow.client.console.components.DcLabel;
 import org.datacrow.client.console.components.DcLongTextField;
+import org.datacrow.client.console.components.IComponent;
 import org.datacrow.client.console.components.panels.AttachmentsPanel;
 import org.datacrow.client.console.components.panels.LoanPanel;
 import org.datacrow.client.console.components.panels.PictureOverviewPanel;
@@ -393,6 +394,16 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         DcModules.get(moduleIdx).setSetting(DcRepository.ModuleSettings.stItemFormSize, getSize());        
     }
 
+    public void reset() {
+    	if (picturesPanel != null)
+    		picturesPanel.reset();
+    	
+    	for (JComponent c : fields.values()) {
+    		if (c instanceof IComponent)
+    			((IComponent) c).reset();
+    	}
+    }
+    
     public void setData(DcObject object, boolean overwrite, boolean overwriteChildren) {
         try {
             dco.applyEnhancers(update);

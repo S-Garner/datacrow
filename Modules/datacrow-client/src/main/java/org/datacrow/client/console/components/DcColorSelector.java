@@ -78,5 +78,10 @@ public class DcColorSelector extends JColorChooser implements IComponent, Change
     }
     
     @Override
+    public void reset() {
+    	color = null;
+    }    
+    
+    @Override
     public void refresh() {}
 }

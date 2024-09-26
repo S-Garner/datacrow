@@ -13,6 +13,7 @@ Data Crow version 5.0  BETA II                Released on 2024-xx-xx
 - Improved the preview for the find and replace.
 - Improved the find and replace regular expression support.
 - Added failed login message if credentials are incorrect.
+- Added clear option to the update all form
 
 
 --------------------------------------------------------------------

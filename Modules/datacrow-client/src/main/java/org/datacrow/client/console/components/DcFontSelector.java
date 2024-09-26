@@ -107,6 +107,13 @@ public class DcFontSelector extends JComponent implements IComponent, ActionList
     }
     
     @Override
+    public void reset() {
+    	comboFontSize.setSelectedIndex(0);
+    	comboFontName.setSelectedIndex(0);
+    	comboFontStyle.setSelectedIndex(0);
+    }
+    
+    @Override
     public void clear() {
     	removeAll();
     }

@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -114,6 +115,11 @@ public class DcDateField extends JComponent implements IComponent {
                 new Insets(0, 0, 0, 0), 0, 0));
     }
 
+    @Override
+    public void reset() {
+    	datePicker.clear();
+    }
+    
     private SimpleDateFormat getDateFormat() {
         return new SimpleDateFormat(
                 DcSettings.getString(DcRepository.Settings.stDateFormat));

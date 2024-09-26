@@ -45,6 +45,11 @@ public class DcPasswordField extends JPasswordField implements IComponent {
 		super.setText(s);
 	}
 
+    @Override
+    public void reset() {
+    	setText("");
+    }
+	
 	@Override
     public Object getValue() {
         String password = "";

@@ -87,6 +87,14 @@ public class DcProgramDefinitionsField extends JComponent implements IComponent,
     }
     
     @Override
+    public void reset() {
+    	programTable.removeAllRows();
+    	extensionField.reset();
+    	programField.reset();
+    	parametersFields.reset();
+    }       
+    
+    @Override
     public void clear() {
         programTable.clear();
     }     

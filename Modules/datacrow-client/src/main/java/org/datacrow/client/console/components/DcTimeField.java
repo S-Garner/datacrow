@@ -85,6 +85,13 @@ public class DcTimeField extends JComponent implements IComponent {
     }
     
     @Override
+    public void reset() {
+    	fldMinutes.reset();
+    	fldSeconds.reset();
+    	fldHours.reset();
+    }   
+    
+    @Override
     public void clear() {}
     
     /**

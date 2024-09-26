@@ -76,6 +76,19 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
     }
     
     @Override
+    public void reset() {
+    	cbFieldHeight.setSelectedIndex(0);
+    	cbButtonHeight.setSelectedIndex(0);
+    	cbTreeNodeHeight.setSelectedIndex(0);
+    	cbTableRowHeight.setSelectedIndex(0);
+    	cbIconSize.setSelectedIndex(0);
+    	cbUIScale.setSelectedIndex(0);
+    	checkNoLF.setSelected(false);
+    	checkSystemLF.setSelected(false);
+    	comboSystemLF.setSelectedIndex(0);
+    }    
+    
+    @Override
     public void clear() {
     	cbFieldHeight.clear();
     	cbButtonHeight.clear();

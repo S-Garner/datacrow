@@ -71,7 +71,12 @@ public class DcCheckBox extends JCheckBox implements IComponent {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(GUI.getInstance().setRenderingHint(g));
-    } 
+    }
+    
+    @Override
+    public void reset() {
+    	setSelected(false);
+    }
     
     @Override
     public void refresh() {}

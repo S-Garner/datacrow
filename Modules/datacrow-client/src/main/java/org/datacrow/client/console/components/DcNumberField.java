@@ -61,6 +61,11 @@ public class DcNumberField extends JTextField implements IComponent {
     @Override
     public void clear() {} 
     
+    @Override
+    public void reset() {
+    	setText("");
+    }         
+    
     public void setValue(int i) {
         setText(i + "");
     }

@@ -68,6 +68,11 @@ public class DcDecimalField extends JTextField implements IComponent {
     }
     
     @Override
+    public void reset() {
+    	setText("");
+    }
+    
+    @Override
     public void clear() {} 
     
     @Override

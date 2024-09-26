@@ -118,6 +118,12 @@ public class DcReferencesField extends JComponent implements IComponent, ActionL
     }
     
     @Override
+    public void reset() {
+    	references.clear();
+    	setDescription();
+    }    
+    
+    @Override
     public Object getValue() {
         return references;
     }

@@ -86,6 +86,11 @@ public class DcFieldSelectorField extends JComponent implements IComponent, Acti
     }
     
     @Override
+    public void reset() {
+    	unselectAll();
+    }
+    
+    @Override
     public void clear() {
         componentMap.clear();
     }    

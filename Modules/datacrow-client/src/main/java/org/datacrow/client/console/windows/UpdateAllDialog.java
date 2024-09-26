@@ -55,6 +55,7 @@ import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.ValidationException;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
@@ -71,6 +72,7 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
     private JCheckBox checkSelectedItemsOnly;
     private JButton buttonApply;
     private JButton buttonClose;
+    private JButton buttonClear;
 
     private boolean keepOnRunning = true;
 
@@ -157,6 +159,11 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
 	                item.markAsUnchanged();
 	                item.copy(dco, true, false);
 	                
+	                for (Picture pic : dco.getNewPictures()) {
+	                	pic.setObjectID(item.getID());
+	                	connector.savePicture(pic);
+	                }
+	                
                     if (item.isChanged()) {
                         try {
                             if (view.getType() == View._TYPE_INSERT) {
@@ -210,6 +217,12 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
     	return checkSelectedItemsOnly.isSelected();
     }
 
+    public void reset() {
+        if (itemForm != null) {
+            itemForm.reset();
+        }
+    }
+    
     @Override
     public void close() {
         DcSettings.set(DcRepository.Settings.stUpdateAllDialogSize, getSize());
@@ -237,6 +250,8 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
         panelInput.setLayout(Layout.getGBL());
         
         itemForm = new ItemForm(null, false, false, module.getItem(), false);
+        
+        
         for (DcField field : module.getFields()) {
             if (field.getIndex() == DcObject._ID)
                 itemForm.hide(field);
@@ -271,6 +286,7 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
 
         buttonApply = ComponentFactory.getButton(DcResources.getText("lblApply"));
         buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
+        buttonClear = ComponentFactory.getButton(DcResources.getText("lblClear"));
 
         buttonApply.addActionListener(this);
         buttonApply.setActionCommand("updateAll");
@@ -278,7 +294,11 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
         buttonClose.addActionListener(this);
         buttonClose.setActionCommand("close");
 
+        buttonClear.addActionListener(this);
+        buttonClear.setActionCommand("clear");
+        
         panelActions.add(buttonApply);
+        panelActions.add(buttonClear);
         panelActions.add(buttonClose);
         
         //**********************************************************
@@ -314,6 +334,8 @@ public class UpdateAllDialog extends DcFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getActionCommand().equals("close"))
             close();
+        else if (ae.getActionCommand().equals("clear"))
+            reset();
         else if (ae.getActionCommand().equals("updateAll"))
             updateAll();
     }  

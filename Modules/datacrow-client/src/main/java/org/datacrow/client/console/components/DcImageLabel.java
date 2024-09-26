@@ -107,4 +107,9 @@ public class DcImageLabel extends JComponent implements IComponent {
     
     @Override
     public void refresh() {}
+    
+    @Override
+    public void reset() {
+    	flush();
+    }    
 }

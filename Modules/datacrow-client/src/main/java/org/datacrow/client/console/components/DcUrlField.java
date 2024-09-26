@@ -73,6 +73,11 @@ public class DcUrlField extends JComponent implements IComponent, ActionListener
     }
     
     @Override
+    public void reset() {
+    	text.setText("");
+    }      
+    
+    @Override
     public void clear() {}
     
     @Override

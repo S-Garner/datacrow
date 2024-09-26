@@ -36,4 +36,6 @@ public interface IComponent {
     public void refresh();
     
     public void clear();
+    
+    public void reset();
 }

@@ -98,6 +98,11 @@ public class DcFileLauncherField extends JComponent implements IComponent, Actio
     }
     
     @Override
+    public void reset() {
+    	text.setText("");
+    }    
+    
+    @Override
     public void clear() {
         text = null;
         file = null;

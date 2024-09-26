@@ -72,6 +72,12 @@ public class DriveSelectorField extends JComponent implements IComponent {
     }
     
     @Override
+    public void reset() {
+    	for (JCheckBox c : componentMap.values())
+    		c.setSelected(false);
+    }     
+    
+    @Override
     public void clear() {
         componentMap.clear();
     }    

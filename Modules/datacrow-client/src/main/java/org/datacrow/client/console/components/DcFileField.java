@@ -103,6 +103,11 @@ public class DcFileField extends JComponent implements IComponent, ActionListene
     }
     
     @Override
+    public void reset() {
+    	text.setText("");
+    }
+    
+    @Override
     public void clear() {
         text = null;
         button = null;

@@ -77,6 +77,11 @@ public class DcLongTextField extends JTextArea implements ITextComponent, MouseL
     public Object getValue() {
         return getText();
     }
+    
+    @Override
+    public void reset() {
+    	setText("");
+    }    
 
     @Override
     public void clear() {

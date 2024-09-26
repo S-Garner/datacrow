@@ -88,6 +88,13 @@ public class DcDriveMappingField extends JComponent implements IComponent, Actio
         return mappings;
     }
     
+    @Override
+    public void reset() {
+    	mappingTable.removeAllRows();
+    	fldDrive.setText("");
+    	fldMapsTo.setText("");
+    }    
+    
     /**
      * Applies a value to this field
      */

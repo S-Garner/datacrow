@@ -60,6 +60,11 @@ public class DcShortTextField extends JTextField implements ITextComponent {
     }
     
     @Override
+    public void reset() {
+    	setText("");
+    }
+    
+    @Override
     public void clear() {
         textFieldActions = null;
     }

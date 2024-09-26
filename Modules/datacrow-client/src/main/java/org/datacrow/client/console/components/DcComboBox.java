@@ -82,6 +82,11 @@ public class DcComboBox<E> extends JComboBox<Object> implements IComponent {
     }
     
     @Override
+    public void reset() {
+    	setSelectedIndex(0);
+    }
+    
+    @Override
     public void clear() {
         removeAllItems();
     }

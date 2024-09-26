@@ -52,6 +52,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -145,6 +146,10 @@ public class DcTable extends JTable implements IViewComponent, MouseListener {
         
         JTableHeader header = getTableHeader();
         header.addMouseListener(this);
+    }
+    
+    public void removeAllRows() {
+    	((DefaultTableModel) getModel()).setRowCount(0);    	
     }
     
     public void setDynamicLoading(boolean b) {

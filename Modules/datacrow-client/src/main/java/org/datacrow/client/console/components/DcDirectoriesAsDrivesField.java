@@ -39,6 +39,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import org.datacrow.client.console.ComponentFactory;
@@ -86,6 +87,11 @@ public class DcDirectoriesAsDrivesField extends JComponent implements IComponent
             dirs[i] = (String) tableDirectoriesAsDrives.getValueAt(i, 0);
         }
         return dirs;
+    }
+    
+    @Override
+    public void reset() {
+    	tableDirectoriesAsDrives.removeAllRows();
     }
     
     /**
