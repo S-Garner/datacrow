@@ -140,9 +140,9 @@ public class XmlWriter extends XmlBaseWriter {
         
         if (dco.getField(field).getValueType() == ValueTypes._DCOBJECTREFERENCE && dco.isFilled(field)) {
         	ident(valueIdent);
-            writeTag("<" + XmlUtilities.getElementTagForList(dco.getField(field)));
+            writeTag("<" + XmlUtilities.getElementTagForList(dco.getField(field)) + ">");
             write(dco.getValue(field).toString());
-            writeTag("</" + XmlUtilities.getElementTagForList(dco.getField(field)));
+            writeTag("</" + XmlUtilities.getElementTagForList(dco.getField(field)) + ">");
             newLine();
         }
         
@@ -150,7 +150,7 @@ public class XmlWriter extends XmlBaseWriter {
         	
         	ident(valueIdent);
         	
-            writeTag("<" + XmlUtilities.getElementTagForList(dco.getField(field)) + ">");
+            writeTag("<" + XmlUtilities.getElementTagForList(dco.getField(field)) + "-list>");
             
             if (dco.isFilled(field)) {
                 StringBuffer sb = new StringBuffer();

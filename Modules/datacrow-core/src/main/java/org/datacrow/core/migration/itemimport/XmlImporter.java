@@ -153,7 +153,7 @@ public class XmlImporter extends ItemImporter {
                 	
                     // retrieve the items by their module name
                     DcModule referenceMod = DcModules.get(field.getReferenceIdx());
-                    String referenceName = Converter.getValidXmlTag(referenceMod.getSystemObjectName());
+                    String referenceName = Converter.getValidXmlTag(XmlUtilities.getElementTag(referenceMod));
                     NodeList elReferences = eField.getElementsByTagName(referenceName);
                     
                     String id;
