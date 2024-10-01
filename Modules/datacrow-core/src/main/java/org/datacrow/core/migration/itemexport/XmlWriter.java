@@ -161,7 +161,7 @@ public class XmlWriter extends XmlBaseWriter {
                 write(sb.toString());
             }
             
-            writeTag("</" + XmlUtilities.getElementTagForList(dco.getField(field)) + ">");
+            writeTag("</" + XmlUtilities.getElementTagForList(dco.getField(field)) + "-list>");
             
             newLine();
         }
