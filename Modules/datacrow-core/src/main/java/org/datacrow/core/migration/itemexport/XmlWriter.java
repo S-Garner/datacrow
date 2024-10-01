@@ -98,25 +98,25 @@ public class XmlWriter extends XmlBaseWriter {
 
     public void startModule(DcModule m) throws IOException {
 		ident(tagIdent);
-		writeTag("<" + getValidTag(m.getSystemObjectName()) + "-items>");
+		writeTag("<" + XmlUtilities.getElementTagForList(m) + ">");
 		newLine();
     }
 
     public void endModule(DcModule m) throws IOException {
 		ident(tagIdent);
-		writeTag("</" + getValidTag(m.getSystemObjectName()) + "-items>");
+		writeTag("</" + XmlUtilities.getElementTagForList(m) + ">");
 		newLine();
     }        
 
     public void startEntity(DcObject dco) throws IOException {
 		ident(tagIdent);
-		writeTag("<" + getValidTag(dco.getModule().getSystemObjectName()) + ">");
+		writeTag("<" + XmlUtilities.getElementTag(dco.getModule()) + ">");
 		newLine();
     }
 
     public void endEntity(DcObject dco) throws IOException {
         ident(tagIdent);
-        writeTag("</" + getValidTag(dco.getModule().getSystemObjectName()) + ">");
+        writeTag("</" + XmlUtilities.getElementTag(dco.getModule()) + ">");
         newLine();
     }
     
@@ -140,9 +140,9 @@ public class XmlWriter extends XmlBaseWriter {
         
         if (dco.getField(field).getValueType() == ValueTypes._DCOBJECTREFERENCE && dco.isFilled(field)) {
         	ident(valueIdent);
-            writeTag("<" + XmlUtilities.getFieldTag(dco.getField(field)) + "-list>");
+            writeTag("<" + XmlUtilities.getElementTagForList(dco.getField(field)));
             write(dco.getValue(field).toString());
-            writeTag("</" + XmlUtilities.getFieldTag(dco.getField(field)) + "-list>");
+            writeTag("</" + XmlUtilities.getElementTagForList(dco.getField(field)));
             newLine();
         }
         
@@ -150,7 +150,7 @@ public class XmlWriter extends XmlBaseWriter {
         	
         	ident(valueIdent);
         	
-            writeTag("<" + XmlUtilities.getFieldTag(dco.getField(field)) + "-list>");
+            writeTag("<" + XmlUtilities.getElementTagForList(dco.getField(field)) + ">");
             
             if (dco.isFilled(field)) {
                 StringBuffer sb = new StringBuffer();
@@ -161,7 +161,8 @@ public class XmlWriter extends XmlBaseWriter {
                 write(sb.toString());
             }
             
-            writeTag("</" + XmlUtilities.getFieldTag(dco.getField(field)) + "-list>");
+            writeTag("</" + XmlUtilities.getElementTagForList(dco.getField(field)) + ">");
+            
             newLine();
         }
     }
@@ -242,15 +243,15 @@ public class XmlWriter extends XmlBaseWriter {
     	}    	
     }    
     
-    public void startRelations(DcModule childModule) throws IOException {
+    public void startRelations(DcModule cm) throws IOException {
         ident(valueIdent);
-        writeTag("<" + getValidTag(childModule.getSystemObjectName()) + "-children>");
+        writeTag("<" + XmlUtilities.getElementTag(cm) + "-children>");
         newLine();
     }
 
-    public void endRelations(DcModule childModule) throws IOException {
+    public void endRelations(DcModule cm) throws IOException {
         ident(valueIdent);
-        writeTag("</" + getValidTag(childModule.getSystemObjectName()) + "-children>");
+        writeTag("</" + XmlUtilities.getElementTag(cm) + "-children>");
         newLine();
     }
     

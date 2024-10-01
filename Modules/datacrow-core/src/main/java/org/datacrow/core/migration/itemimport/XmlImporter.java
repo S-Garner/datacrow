@@ -167,9 +167,6 @@ public class XmlImporter extends ItemImporter {
                     
                     for (int j = 0; elReferences != null && j < elReferences.getLength(); j++) {
                         // retrieve the values by the display field index (the system display field index)
-                    	
-                    	
-                    	
                     	Element eReference = (Element) elReferences.item(j);
                         reference = referenceMod.getItem();
                         
@@ -324,6 +321,10 @@ public class XmlImporter extends ItemImporter {
 	                                nlChildren = eItem.getElementsByTagName(XmlUtilities.getElementTag(cm));
 	                                
 	                                for (int k = 0; nlChildren != null && k < nlChildren.getLength(); k++) {
+	                                	
+	                                	if (nlChildren.item(k).getNodeType() != Node.ELEMENT_NODE)
+	                                		continue;
+	                                	
 	                                    eChild = (Element) nlChildren.item(k);
 	                                    child = parseItem(cm, eChild);
 	                                    dco.addChild(child);

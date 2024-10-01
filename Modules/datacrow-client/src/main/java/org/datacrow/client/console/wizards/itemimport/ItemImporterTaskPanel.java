@@ -204,6 +204,7 @@ public class ItemImporterTaskPanel extends ItemImporterWizardPanel implements II
                 item.setIDs();
                 
                 for (DcObject child : item.getChildren()) {
+                	child.setValidate(false);
                     child.setIDs();
                 }
                 

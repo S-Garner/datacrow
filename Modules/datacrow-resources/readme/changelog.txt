@@ -15,6 +15,18 @@ Data Crow version 5.0  BETA II                Released on 2024-xx-xx
 - Added failed login message if credentials are incorrect.
 - Added clear option to the update all form
 
+[TODO]
+- Web module needs to be updated
+- Update the translations 
+  lblIncludeImage = Include Pictures
+  lblIncludeAttachments = Include Attachments
+  lblCopyAttachments = Copy Attachments
+  lblAfter = After
+- XML file for all items, loaded on new installations, needs to be updated
+- The new reports need to be moved into the user folder - probably on upgrade only (TBD)
+- Outstanding tickets 
+- icon field missin on property item forms
+
 
 --------------------------------------------------------------------
 Data Crow version 5.0  BETA I                 Released on 2024-09-19
@@ -49,17 +61,6 @@ These past changes combined with the changes as listed below make it justifiable
 - View never updated the status bar when only 1 item has been selected.
 - Attachments menu was missing icons.
 - XML export: schema errors fixed.
-
-[TODO]
-- Web module needs to be updated
-- Update the translations 
-  lblIncludeImage = Include Pictures
-  lblIncludeAttachments = Include Attachments
-  lblCopyAttachments = Copy Attachments
-  lblAfter = After
-- XML file for all items, loaded on new installations, needs to be updated
-- The new reports need to be moved into the user folder - probably on upgrade only (TBD)
-- Outstanding tickets 
 
 
 --------------------------------------------------------------------

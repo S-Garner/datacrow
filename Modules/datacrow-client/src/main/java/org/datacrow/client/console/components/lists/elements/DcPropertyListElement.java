@@ -59,7 +59,11 @@ public class DcPropertyListElement extends DcObjectListElement {
 
     @Override
     public void build() {
-        setLayout(layout);
+
+    	if (dco == null)
+        	return;
+    	
+    	setLayout(layout);
         JPanel panelInfo = getPanel();
         
         JLabel label = ComponentFactory.getLabel(dco.toString());

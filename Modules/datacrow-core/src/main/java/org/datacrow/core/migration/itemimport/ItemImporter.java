@@ -138,13 +138,14 @@ public abstract class ItemImporter extends ItemMigrater {
         file = file.exists() ? file : new File(DcConfig.getInstance().getDataDir(), value);
         
         if (!file.exists()) {
-            
-            // maybe the path is relative ?
-            String importName = getFile().getName();
-            importName = importName.lastIndexOf(".") > -1 ?  importName.substring(0, importName.lastIndexOf(".")) : importName; 
-            file = new File(getFile().getParent(), importName + "_images/" + file.getName());    
 
-            if (!file.exists())
+        	// maybe the path is relative ?
+        	if (s.indexOf("_images/") > -1) {
+            	String path = getFile().getParent();
+            	file = new File(path, s.substring(s.indexOf("_images/") + 8));
+        	}
+
+            if (!file.exists() || s.indexOf("_images/") == -1)
                 file = new File(DcConfig.getInstance().getDataDir() , value);
         }
 
