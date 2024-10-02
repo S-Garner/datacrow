@@ -18,8 +18,8 @@
 		<field name="artists" class="java.lang.String">
 			<description><![CDATA[artists]]></description>
 		</field>
-		<field name="artist-items-list" class="java.lang.String">
-			<description><![CDATA[artist-items-list]]></description>
+		<field name="musicartist-items-list" class="java.lang.String">
+			<description><![CDATA[musicartist-items-list]]></description>
 		</field>
 		<field name="description" class="java.lang.String">
 			<description><![CDATA[description]]></description>
@@ -27,8 +27,8 @@
 		<field name="genres" class="java.lang.String">
 			<description><![CDATA[genres]]></description>
 		</field>
-		<field name="music-genre-items-list" class="java.lang.String">
-			<description><![CDATA[music-genre-items-list]]></description>
+		<field name="musicgenre-items-list" class="java.lang.String">
+			<description><![CDATA[musicgenre-items-list]]></description>
 		</field>
 		<field name="countries" class="java.lang.String">
 			<description><![CDATA[countries]]></description>
@@ -125,8 +125,8 @@
 	<field name="artists" class="java.lang.String">
 		<description><![CDATA[artists]]></description>
 	</field>
-	<field name="artist-items-list" class="java.lang.String">
-		<description><![CDATA[artist-items-list]]></description>
+	<field name="musicartist-items-list" class="java.lang.String">
+		<description><![CDATA[musicartist-items-list]]></description>
 	</field>
 	<field name="artists_persist" class="java.lang.String">
 		<description><![CDATA[artists_persist]]></description>
@@ -182,8 +182,8 @@
 	<field name="genres" class="java.lang.String">
 		<description><![CDATA[genres]]></description>
 	</field>
-	<field name="music-genre-items-list" class="java.lang.String">
-		<description><![CDATA[music-genre-items-list]]></description>
+	<field name="musicgenre-items-list" class="java.lang.String">
+		<description><![CDATA[musicgenre-items-list]]></description>
 	</field>
 	<field name="genres_persist" class="java.lang.String">
 		<description><![CDATA[genres_persist]]></description>
@@ -385,7 +385,7 @@
 				<expression><![CDATA["Playlength"]]></expression>
 			</element>
 			<element kind="textField" uuid="64403dd8-f501-4688-9a01-a38b8953d3b7" x="260" y="90" width="299" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{music-genre-items-list}]]></expression>
+				<expression><![CDATA[$F{musicgenre-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="a7552975-2d22-4a5f-b676-8b4ea0e47b22" x="180" y="90" width="80" height="20" bold="true">
 				<text><![CDATA[Genres]]></text>
@@ -405,7 +405,7 @@
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			</element>
 			<element kind="textField" uuid="8de5e9fa-a6ba-4283-8ee3-35ce6f8f867e" x="260" y="50" width="301" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{artist-items-list}]]></expression>
+				<expression><![CDATA[$F{musicartist-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="44d4bd60-d744-44f7-8745-9f6d5f151754" x="180" y="50" width="80" height="20" bold="true">
 				<text><![CDATA[Artists]]></text>

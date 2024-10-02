@@ -11,8 +11,8 @@
 	<field name="artists" class="java.lang.String">
 		<fieldDescription><![CDATA[artists]]></fieldDescription>
 	</field>
-	<field name="artist-items-list" class="java.lang.String">
-		<fieldDescription><![CDATA[artist-items-list]]></fieldDescription>
+	<field name="musicartist-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[musicartist-items-list]]></fieldDescription>
 	</field>
 	<field name="artists_persist" class="java.lang.String">
 		<fieldDescription><![CDATA[artists_persist]]></fieldDescription>
@@ -68,8 +68,8 @@
 	<field name="genres" class="java.lang.String">
 		<fieldDescription><![CDATA[genres]]></fieldDescription>
 	</field>
-	<field name="music-genre-items-list" class="java.lang.String">
-		<fieldDescription><![CDATA[music-genre-items-list]]></fieldDescription>
+	<field name="musicgenre-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[musicgenre-items-list]]></fieldDescription>
 	</field>
 	<field name="genres_persist" class="java.lang.String">
 		<fieldDescription><![CDATA[genres_persist]]></fieldDescription>
@@ -213,7 +213,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="180" y="20" width="290" height="20" uuid="162b5d49-ac70-40b1-9de0-ed4df2fc765d"/>
-				<textFieldExpression><![CDATA[$F{music-genre-items-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{musicgenre-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="90" y="20" width="90" height="20" uuid="2f6a1c04-f0e4-466d-9a95-996cf6369055"/>
@@ -238,7 +238,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="180" y="40" width="290" height="20" uuid="d0156ec9-cc05-4255-8923-6fd8fd5c3e0f"/>
-				<textFieldExpression><![CDATA[$F{artist-items-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{musicartist-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="90" y="40" width="90" height="20" uuid="df246fcc-1561-4ac1-93d9-dafe135b30f5"/>

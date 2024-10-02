@@ -128,8 +128,8 @@
 	<field name="genres" class="java.lang.String">
 		<description><![CDATA[genres]]></description>
 	</field>
-	<field name="genre-items-list" class="java.lang.String">
-		<description><![CDATA[genre-items-list]]></description>
+	<field name="movie-genre-items-list" class="java.lang.String">
+		<description><![CDATA[movie-genre-items-list]]></description>
 	</field>
 	<field name="genres_persist" class="java.lang.String">
 		<description><![CDATA[genres_persist]]></description>
@@ -280,7 +280,7 @@
 				<text><![CDATA[Tags]]></text>
 			</element>
 			<element kind="textField" uuid="4023c752-d937-40a0-8b9c-2ec9bc50159d" x="280" y="70" width="280" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{genre-items-list}]]></expression>
+				<expression><![CDATA[$F{movie-genre-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="3f10bdeb-e334-4a90-9f39-89582fe9cf6d" key="" x="180" y="70" width="80" height="20" bold="true">
 				<text><![CDATA[Genres]]></text>
