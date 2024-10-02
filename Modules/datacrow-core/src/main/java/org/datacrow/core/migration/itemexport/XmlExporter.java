@@ -182,7 +182,7 @@ public class XmlExporter extends ItemExporter {
             	for (String id : references.get(module)) {
             		writer.setIdent(1);
 	                dco = conn.getItem(module.getIndex(), id, null);
-	                processItem(writer, new ExportItem(dco), null, true);
+	                processItem(writer, new ExportItem(dco), null, false);
             	}
             	
             	writer.resetIdent();

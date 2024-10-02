@@ -3,7 +3,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Software-List" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fe51a17b-d332-4957-9da1-2daeb25fec50">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Software-XML"/>
 	<queryString language="xPath">
-		<![CDATA[/data-crow-objects/software-item-items/software-item]]>
+		<![CDATA[/data-crow-objects/software-items/software]]>
 	</queryString>
 	<field name="item" class="java.lang.String">
 		<fieldDescription><![CDATA[item]]></fieldDescription>
@@ -14,8 +14,8 @@
 	<field name="categories" class="java.lang.String">
 		<fieldDescription><![CDATA[categories]]></fieldDescription>
 	</field>
-	<field name="category-items-list" class="java.lang.String">
-		<fieldDescription><![CDATA[category-items-list]]></fieldDescription>
+	<field name="software-category-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[software-category-items-list]]></fieldDescription>
 	</field>
 	<field name="categories_persist" class="java.lang.String">
 		<fieldDescription><![CDATA[categories_persist]]></fieldDescription>
@@ -140,8 +140,8 @@
 	<field name="publishers" class="java.lang.String">
 		<fieldDescription><![CDATA[publishers]]></fieldDescription>
 	</field>
-	<field name="publisher-items-list" class="java.lang.String">
-		<fieldDescription><![CDATA[publisher-items-list]]></fieldDescription>
+	<field name="softwarepublisher-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[softwarepublisher-items-list]]></fieldDescription>
 	</field>
 	<field name="publishers_persist" class="java.lang.String">
 		<fieldDescription><![CDATA[publishers_persist]]></fieldDescription>
@@ -258,7 +258,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="180" y="20" width="290" height="20" uuid="162b5d49-ac70-40b1-9de0-ed4df2fc765d"/>
-				<textFieldExpression><![CDATA[$F{category-items-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{software-category-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="90" y="20" width="90" height="20" uuid="2f6a1c04-f0e4-466d-9a95-996cf6369055"/>
@@ -294,7 +294,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="570" y="20" width="231" height="20" uuid="d0156ec9-cc05-4255-8923-6fd8fd5c3e0f"/>
-				<textFieldExpression><![CDATA[$F{publisher-items-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{softwarepublisher-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="480" y="20" width="90" height="20" uuid="df246fcc-1561-4ac1-93d9-dafe135b30f5"/>

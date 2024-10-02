@@ -38,7 +38,13 @@ public class Converter {
         tag = tag.replaceAll("[()]", "");
         tag = tag.replaceAll("[?]", "");
         tag = tag.toLowerCase();
-        tag = Character.isDigit(tag.charAt(0)) ? "fld-" + tag : tag; 
+        
+        try {
+        	tag = Character.isDigit(tag.charAt(0)) ? "fld-" + tag : tag;
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+        	
         return tag;        
     }
     

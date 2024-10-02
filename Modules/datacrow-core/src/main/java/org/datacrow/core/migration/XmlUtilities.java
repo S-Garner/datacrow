@@ -34,18 +34,22 @@ public final class XmlUtilities {
 	}
 	
 	public static String getElementTagForList(DcModule m) {
-		return Converter.getValidXmlTag(m.getTableName().replaceAll("\\_", "-") + "-items");
+		return Converter.getValidXmlTag(getName(m) + "-items");
 	}
 
 	public static String getElementTagTypeForList(DcModule m) {
-		return Converter.getValidXmlTag(m.getTableName().replaceAll("\\_", "-") + "-items-type");
+		return Converter.getValidXmlTag(getName(m) + "-items-type");
 	}	
 
 	public static String getElementTag(DcModule m) {
-		return Converter.getValidXmlTag(m.getTableName().replaceAll("\\_", "-"));
+		return Converter.getValidXmlTag(getName(m));
 	}
 
 	public static String getElementTagType(DcModule m) {
-		return Converter.getValidXmlTag(m.getTableName().replaceAll("\\_", "-") + "-type");
-	}	
+		return Converter.getValidXmlTag(getName(m) + "-type");
+	}
+	
+	private static String getName(DcModule m) {
+		return m.isAbstract() ? m.getSystemObjectName().replaceAll("\\_", "-") : m.getTableName().replaceAll("\\_", "-");
+	}
 }
