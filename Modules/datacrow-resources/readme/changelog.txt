@@ -14,6 +14,7 @@ Data Crow version 5.0  BETA II                Released on 2024-xx-xx
 - Improved the find and replace regular expression support.
 - Added failed login message if credentials are incorrect.
 - Added clear option to the update all form
+- On startup the report versions (based on modification date) are checked against the systems reports. If the system reports are newer, the reports in the user folder are updated.
 
 [TODO]
 - Web module needs to be updated
@@ -22,9 +23,8 @@ Data Crow version 5.0  BETA II                Released on 2024-xx-xx
   lblIncludeAttachments = Include Attachments
   lblCopyAttachments = Copy Attachments
   lblAfter = After
-- The new reports need to be moved into the user folder - probably on upgrade only (TBD)
 - Outstanding tickets 
-- icon field missin on property item forms
+- icon field missing on property item forms
 
 
 --------------------------------------------------------------------

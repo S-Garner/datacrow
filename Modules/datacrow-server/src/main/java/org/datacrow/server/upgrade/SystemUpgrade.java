@@ -103,6 +103,12 @@ public class SystemUpgrade {
             }
             
             if (dbInitialized && v.isOlder(new Version(5, 0, 0, 0))) {
+            	
+            	
+            	// add icons to all item forms
+            	
+            	
+            	
             	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER) {
             		new ImageConverter(ImageConverter._UPGRADE_CONVERSION);
             	} else if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_STANDALONE) {

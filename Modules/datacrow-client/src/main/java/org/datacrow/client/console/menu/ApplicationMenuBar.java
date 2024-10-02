@@ -198,8 +198,8 @@ public class ApplicationMenuBar extends org.datacrow.client.console.components.D
         menuSettings.addSeparator();
         PluginHelper.add(menuSettings, "ResourceEditor");
 
-        if (new Reports().hasReports(module.getIndex()))
-                PluginHelper.add(menuTools, "Report");
+        if (Reports.getInstance().hasReports(module.getIndex()))
+        	PluginHelper.add(menuTools, "Report");
         
         PluginHelper.add(menuTools, "Charts");
         

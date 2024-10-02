@@ -684,19 +684,19 @@ public class CoreUtilities {
         return CoreUtilities.isEmpty(o) ? "" : o instanceof String ? ((String) o) : o.toString();
     }
     
-    public static void copy(File currentFile, File newFile, boolean overwrite) throws IOException {
+    public static void copy(File source, File target, boolean overwrite) throws IOException {
         
-        if (currentFile.equals(newFile))
+        if (source.equals(target))
             return;
         
-        if (!overwrite && newFile.exists())
+        if (!overwrite && target.exists())
             return;
         
         // native code failed to move the file; do it the custom way
-        FileInputStream fis = new FileInputStream(currentFile);
+        FileInputStream fis = new FileInputStream(source);
         BufferedInputStream bis = new BufferedInputStream(fis);
     
-        FileOutputStream fos = new FileOutputStream(newFile);
+        FileOutputStream fos = new FileOutputStream(target);
         BufferedOutputStream bos = new BufferedOutputStream(fos);
         
         int count = 0;

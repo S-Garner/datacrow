@@ -178,7 +178,7 @@ public class Tabs {
     
             if (tab.getIcon() == null) {
                 if (    name.equalsIgnoreCase(DcResources.getText("lblInformation")) || 
-                        name.equals(DcResources.getText("lblSummary")) ||
+                        name.equalsIgnoreCase(DcResources.getText("lblSummary")) ||
                         name.equalsIgnoreCase("lblInformation") ||
                         name.equalsIgnoreCase("lblSummary")) {
                     tab.setIcon(new DcImageIcon(DcConfig.getInstance().getInstallationDir() + "icons" + File.separator + "information.png"));

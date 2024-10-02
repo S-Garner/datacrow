@@ -85,8 +85,6 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
     
     private final List<String> items;
     
-    private final Reports reports = new Reports();
-    
     private boolean canceled = false;
     
     private ReportGenerator rg;
@@ -124,7 +122,7 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
 
     	String selectedReport = (String) module.getSetting(DcRepository.ModuleSettings.stSelectedReport);
     	if (!CoreUtilities.isEmpty(selectedReport)) {
-    		for (Report report : reports.getReports(DcModules.getCurrent().getIndex())) {
+    		for (Report report : Reports.getInstance().getReports(DcModules.getCurrent().getIndex())) {
     			if (report.getName().equals(selectedReport))
     				cbReports.setSelectedItem(report);
     		}
@@ -264,10 +262,10 @@ public class ReportingDialog extends DcFrame implements IItemExporterClient, Act
         for (ReportType rt : ReportType.values())
             cbReportType.addItem(rt);
 
-        for (Report report : reports.getReports(DcModules.getCurrent().getIndex()))
+        for (Report report : Reports.getInstance().getReports(DcModules.getCurrent().getIndex()))
             cbReports.addItem(report);
         
-        cbReports.setSelectedItem(reports);
+        cbReports.setSelectedItem(Reports.getInstance());
         
         JLabel lblReportFormat = ComponentFactory.getLabel(DcResources.getText("lblReportFormat"));
         JLabel lblReports = ComponentFactory.getLabel(DcResources.getText("lblReport"));

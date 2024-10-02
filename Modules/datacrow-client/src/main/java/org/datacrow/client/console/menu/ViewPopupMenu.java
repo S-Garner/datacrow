@@ -191,7 +191,7 @@ public class ViewPopupMenu extends DcPopupMenu implements ActionListener, IMerge
         }
         
         if (viewType == View._TYPE_SEARCH) {
-            Reports templates = new Reports();
+            Reports templates = Reports.getInstance();
             if (templates.hasReports(current.getIndex()))
                 PluginHelper.add(this, "Report", "", dco, null, viewIdx, current.getIndex(), viewType);
         }

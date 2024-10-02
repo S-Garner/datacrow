@@ -199,8 +199,7 @@ public class ModuleExporter {
 					}
 					
 					// reports
-					Reports rt = new Reports();
-					if (rt.hasReports(module.getIndex())) {
+					if (Reports.getInstance().hasReports(module.getIndex())) {
 					    String reportDir = DcConfig.getInstance().getReportDir() + module.getName().toLowerCase().replaceAll("[/\\*%., ]", "");
 				        Directory dir = new Directory(reportDir, true, new String[] {"jasper"});
 				        String name;

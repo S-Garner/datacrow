@@ -26,32 +26,107 @@
 package org.datacrow.core.reporting;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.Directory;
 
 public class Reports {
+	
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Reports.class.getName());
 
     private final Map<Integer, String> folders = new HashMap<Integer, String>();
     
-    public Reports() {
+    private static Reports instance = new Reports();
+    
+    public static Reports getInstance() {
+        return instance;
+    }
+    
+    private Reports() {
+    	
+    	updateUserDir();
+    	
         for (DcModule module : DcModules.getModules()) {
             if (module.isSelectableInUI()) {
                 String path = DcConfig.getInstance().getReportDir() + module.getName().toLowerCase().replaceAll("[/\\*%., ]", "");
                 File file = new File(path);
-                if (	!file.exists() && 
-                		!file.getParentFile().equals(new File(DcConfig.getInstance().getInstallationDir())))
+                if (!file.exists() && 
+                	!file.getParentFile().equals(new File(DcConfig.getInstance().getInstallationDir())))
                     file.mkdirs();
                 
                 folders.put(module.getIndex(), path);
             }
         }
+    }
+    
+    private void updateUserDir() {
+    	
+    	Directory dir = new Directory(
+    			 new File(DcConfig.getInstance().getInstallationDir(), "reports").toString(), 
+    			 true,
+    			 new String[] {"jasper"});
+    	
+    	logger.info("Checking for report file updates from the application folder.");
+    	
+    	Collection<String> applicationReports = dir.read();
+    	
+    	Path applicationFile;
+    	Path userFile;
+    	String moduleName;
+    	
+    	BasicFileAttributes bfaApp;
+    	BasicFileAttributes bfaUsr;
+    	
+    	for (String applicationReport : applicationReports) {
+    		applicationFile = Paths.get(applicationReport);
+
+    		moduleName = applicationFile.getName(applicationFile.getNameCount() - 2).toString();
+    		userFile = Paths.get(DcConfig.getInstance().getReportDir(), moduleName, applicationFile.getFileName().toString());
+
+    		if (userFile.toFile().exists()) {
+    		
+    			try {
+    				bfaApp = Files.readAttributes(applicationFile, BasicFileAttributes.class);
+    				bfaUsr = Files.readAttributes(userFile, BasicFileAttributes.class);
+    				
+    				if (bfaApp.lastModifiedTime().compareTo(bfaUsr.lastModifiedTime()) > 0) {
+    					CoreUtilities.copy(applicationFile.toFile(), userFile.toFile(), true);
+    					
+    					logger.info("Updated report " + applicationFile.getFileName() + " in user folder as the application report file is newer.");
+    				}
+    				
+    			} catch (Exception e) {
+    				logger.error(
+    						"An error occured whilst checking whether the report file [" +
+    						applicationFile + "] is newer than its counterpart in the user folder. SKipping the check on this file.", e);
+    			}
+    		} else {
+    			try {
+    				CoreUtilities.copy(applicationFile.toFile(), userFile.toFile(), true);
+
+    				logger.info("Copied report " + applicationFile.getFileName() + " to the user folder as it didn't exist.");
+				} catch (Exception e) {
+					logger.error(
+							"An error occured whilst checking whether the report file [" +
+							applicationFile + "] is newer than its counterpart in the user folder. SKipping the check on this file.", e);
+				}    			
+    		}
+    	}
+    	
+    	logger.info("Finished checking for report file updates.");
     }
     
     public Collection<String> getFolders() {
