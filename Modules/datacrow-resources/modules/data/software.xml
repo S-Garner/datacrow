@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data-crow-objects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="software.xsd">
-    <software-item-items>
-            <software-item>
-                <picture-01>file:////home/rwaals/datacrow-defaultdata/software_images/129225663996473/picture1.jpg</picture-01>
+    <software-items>
+            <software>
+                <picture-01>file:////home/rwaals/development/datacrow/Modules/datacrow-resources/modules/data/software_images/129225663996473/picture1.jpg</picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
                 <picture-04></picture-04>
@@ -18,12 +18,12 @@
                 <year>2009</year>
                 <rating>8</rating>
                 <platform>
-                    <platform>
+                    <software-platform>
                         <id>9d5c3ae7-da7b-4ac3-9d4f-7113dd33c156</id>
                         <name>OS Independent</name>
-                    </platform>
+                    </software-platform>
                 </platform>
-                <platform-list>OS Independent</platform-list>
+                <software-platform-items>OS Independent</software-platform-items>
                 <modified>2024-10-01</modified>
                 <created>2024-10-01</created>
                 <country-items>
@@ -67,181 +67,11 @@
                 <id>129225663996473</id>
                 <label>Data Crow</label>
                 <available>true</available>
-        <pictures>
-            <picture>
-                <link>file:////home/rwaals/datacrow-defaultdata/software_images/129225663996473/picture1.jpg</link>
-            </picture>
-        </pictures>
-        </software-item>
-        </software-item-items>
-    <platform-items>
-        <platform>
-        <picture-01></picture-01>
-        <picture-02></picture-02>
-        <picture-03></picture-03>
-        <picture-04></picture-04>
-        <picture-05></picture-05>
-        <picture-06></picture-06>
-        <picture-07></picture-07>
-        <picture-08></picture-08>
-        <picture-09></picture-09>
-        <picture-10></picture-10>
-        <name>OS Independent</name>
-        <modified>2024-10-01</modified>
-        <created>2024-10-01</created>
-        <item>Platforms</item>
-        <label>OS Independent</label>
-        <id>9d5c3ae7-da7b-4ac3-9d4f-7113dd33c156</id>
-        </platform>
-    </platform-items>
-    <country-items>
-        <country>
-        <picture-01></picture-01>
-        <picture-02></picture-02>
-        <picture-03></picture-03>
-        <picture-04></picture-04>
-        <picture-05></picture-05>
-        <picture-06></picture-06>
-        <picture-07></picture-07>
-        <picture-08></picture-08>
-        <picture-09></picture-09>
-        <picture-10></picture-10>
-        <name>Netherlands</name>
-        <alternative-names>;Holland;The Netherlands;Netherlands, The;</alternative-names>
-        <modified>2024-10-01</modified>
-        <created>2024-10-01</created>
-        <icon>iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAIAAAD5gJpuAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAFXSURBVHjaYvzPgAD/UNlYEUAAkuTgCAAIBgJggq5VoAs1qM0vdzmMz362vezjokxPGimkEQ5WoAQEKuK71zwCCKyB4c//J8+BShn+/vv/+w/D399AEox+//8FJH/9/wUU+cUoKw20ASCAWBhEDf/LyDOw84BU//kDtgGI/oARmAHRDJQSFwVqAAggxo8fP/Ly8oKc9P8/AxjiAoyMjA8ePAAIIJZ///5BVIM0MOBWDpRlZPzz5w9AALH8gyvCbz7QBrCJAAHEyKDYX15r/+j1199//v35++/Xn7+///77DST/wMl/f4Dk378K4jx7O2cABBALw7NP77/+ev3xB0gOpOHfr99AdX9/gTVASKCGP//+8XCyMjC8AwggFoZfIHWSwpwQk4CW/AYjsKlA8u+ff////v33998/YPgBnQQQQIzAaGNg+AVGf5AYf5BE/oCjGEIyAQQYAGvKZ4C6+xXRAAAAAElFTkSuQmCC</icon>
-        <item>Countries</item>
-        <label>Netherlands</label>
-        <id>101711389864777</id>
-        </country>
-    </country-items>
-    <language-items>
-        <language>
-        <picture-01></picture-01>
-        <picture-02></picture-02>
-        <picture-03></picture-03>
-        <picture-04></picture-04>
-        <picture-05></picture-05>
-        <picture-06></picture-06>
-        <picture-07></picture-07>
-        <picture-08></picture-08>
-        <picture-09></picture-09>
-        <picture-10></picture-10>
-        <name>Dutch</name>
-        <modified>2024-10-01</modified>
-        <created>2024-10-01</created>
-        <item>Languages</item>
-        <label>Dutch</label>
-        <id>101760829946470</id>
-        </language>
-        <language>
-        <picture-01></picture-01>
-        <picture-02></picture-02>
-        <picture-03></picture-03>
-        <picture-04></picture-04>
-        <picture-05></picture-05>
-        <picture-06></picture-06>
-        <picture-07></picture-07>
-        <picture-08></picture-08>
-        <picture-09></picture-09>
-        <picture-10></picture-10>
-        <name>English</name>
-        <modified>2024-10-01</modified>
-        <created>2024-10-01</created>
-        <item>Languages</item>
-        <label>English</label>
-        <id>101744247437899</id>
-        </language>
-        <language>
-        <picture-01></picture-01>
-        <picture-02></picture-02>
-        <picture-03></picture-03>
-        <picture-04></picture-04>
-        <picture-05></picture-05>
-        <picture-06></picture-06>
-        <picture-07></picture-07>
-        <picture-08></picture-08>
-        <picture-09></picture-09>
-        <picture-10></picture-10>
-        <name>French</name>
-        <modified>2024-10-01</modified>
-        <created>2024-10-01</created>
-        <item>Languages</item>
-        <label>French</label>
-        <id>101766020412018</id>
-        </language>
-        <language>
-        <picture-01></picture-01>
-        <picture-02></picture-02>
-        <picture-03></picture-03>
-        <picture-04></picture-04>
-        <picture-05></picture-05>
-        <picture-06></picture-06>
-        <picture-07></picture-07>
-        <picture-08></picture-08>
-        <picture-09></picture-09>
-        <picture-10></picture-10>
-        <name>German</name>
-        <modified>2024-10-01</modified>
-        <created>2024-10-01</created>
-        <item>Languages</item>
-        <label>German</label>
-        <id>101749645482518</id>
-        </language>
-        <language>
-        <picture-01></picture-01>
-        <picture-02></picture-02>
-        <picture-03></picture-03>
-        <picture-04></picture-04>
-        <picture-05></picture-05>
-        <picture-06></picture-06>
-        <picture-07></picture-07>
-        <picture-08></picture-08>
-        <picture-09></picture-09>
-        <picture-10></picture-10>
-        <name>Italian</name>
-        <modified>2024-10-01</modified>
-        <created>2024-10-01</created>
-        <item>Languages</item>
-        <label>Italian</label>
-        <id>101755066525653</id>
-        </language>
-        <language>
-        <picture-01></picture-01>
-        <picture-02></picture-02>
-        <picture-03></picture-03>
-        <picture-04></picture-04>
-        <picture-05></picture-05>
-        <picture-06></picture-06>
-        <picture-07></picture-07>
-        <picture-08></picture-08>
-        <picture-09></picture-09>
-        <picture-10></picture-10>
-        <name>Polish</name>
-        <modified>2024-10-01</modified>
-        <created>2024-10-01</created>
-        <item>Languages</item>
-        <label>Polish</label>
-        <id>e0160ef8-2781-426e-b9ff-0b9aba642237</id>
-        </language>
-        <language>
-        <picture-01></picture-01>
-        <picture-02></picture-02>
-        <picture-03></picture-03>
-        <picture-04></picture-04>
-        <picture-05></picture-05>
-        <picture-06></picture-06>
-        <picture-07></picture-07>
-        <picture-08></picture-08>
-        <picture-09></picture-09>
-        <picture-10></picture-10>
-        <name>Spanish</name>
-        <modified>2024-10-01</modified>
-        <created>2024-10-01</created>
-        <item>Languages</item>
-        <label>Spanish</label>
-        <id>101752296754327</id>
-        </language>
-    </language-items>
+            <pictures>
+                <picture>
+                    <link>file:////home/rwaals/development/datacrow/Modules/datacrow-resources/modules/data/software_images/129225663996473/picture1.jpg</link>
+                </picture>
+            </pictures>
+        </software>
+    </software-items>
 </data-crow-objects>

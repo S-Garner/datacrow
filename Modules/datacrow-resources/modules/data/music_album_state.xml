@@ -1,37 +1,77 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data-crow-objects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="music_album_state.xsd">
-    <state-items>
-            <state>
+    <music-album-state-items>
+            <music-album-state>
+                <picture-01></picture-01>
+                <picture-02></picture-02>
+                <picture-03></picture-03>
+                <picture-04></picture-04>
+                <picture-05></picture-05>
+                <picture-06></picture-06>
+                <picture-07></picture-07>
+                <picture-08></picture-08>
+                <picture-09></picture-09>
+                <picture-10></picture-10>
                 <name>Heard</name>
                 <modified>2024-10-01</modified>
                 <created>2024-10-01</created>
                 <icon>R0lGODlhDwAPALMLAAAAAADMmQDMZgCZZgD/mRAAADPMmTOZZjPMZgCZmTOZmQAAAAAAAAAAAAAAAAAAACH5BAEAAAsALAAAAAAPAA8AAARMcMlJF7g1gyACyBRABB4oiVxhnsH4mRshqCc2beQLDLzOBTTLgHAYfAAdxMsiUJAEG0MpJBiQDtVpyDDokIKVnUHAXWoECePqVDBPIgA7</icon>
                 <label>Heard</label>
                 <id>101711157809329</id>
-            </state>
-            <state>
+            </music-album-state>
+            <music-album-state>
+                <picture-01></picture-01>
+                <picture-02></picture-02>
+                <picture-03></picture-03>
+                <picture-04></picture-04>
+                <picture-05></picture-05>
+                <picture-06></picture-06>
+                <picture-07></picture-07>
+                <picture-08></picture-08>
+                <picture-09></picture-09>
+                <picture-10></picture-10>
                 <name>Lost</name>
                 <modified>2024-10-01</modified>
                 <created>2024-10-01</created>
                 <icon>R0lGODlhDgAMALMPAAAAAP9mZswzM/8zM8xmZv8zZrwAAAAYAJkAAMxmM/9mM8wAM8wzAAAAEOcAAAAAACH5BAEAAA8ALAAAAAAOAAwAAARFEMj53rwhZ6kHAVYgCAEyiCJYAcFJksNRzSwcJM2ss0nx6btAQSFQAWuogXHVEpFSNBTBgShkFiCWS3kwCBgCw4ViGUcAADs=</icon>
                 <label>Lost</label>
                 <id>101723576043420</id>
-            </state>
-            <state>
+            </music-album-state>
+            <music-album-state>
+                <picture-01></picture-01>
+                <picture-02></picture-02>
+                <picture-03></picture-03>
+                <picture-04></picture-04>
+                <picture-05></picture-05>
+                <picture-06></picture-06>
+                <picture-07></picture-07>
+                <picture-08></picture-08>
+                <picture-09></picture-09>
+                <picture-10></picture-10>
                 <name>Not heard</name>
                 <modified>2024-10-01</modified>
                 <created>2024-10-01</created>
                 <icon>R0lGODlhDgAQALMPAAAAAMzMzJmZmcwzM60AAOfn58xmZu/378xmmf+ZmcwzZpkAM/+ZzAAYAMwAMwAAACH5BAEAAA8ALAAAAAAOABAAAARi8MlJG50NTDA0BUUBjAPSbY4RckN5sooCEEQ3PsARGsayjIeABhDQGRAJHiMgxAkEhkQixEg2Ac9jsRAwDK7PgULADAwIYEHtyaSlaeQ2wTNSE9iB+WV0L3suOFhNgB9/ExEAOw==</icon>
                 <label>Not heard</label>
                 <id>101780806671707</id>
-            </state>
-            <state>
+            </music-album-state>
+            <music-album-state>
+                <picture-01></picture-01>
+                <picture-02></picture-02>
+                <picture-03></picture-03>
+                <picture-04></picture-04>
+                <picture-05></picture-05>
+                <picture-06></picture-06>
+                <picture-07></picture-07>
+                <picture-08></picture-08>
+                <picture-09></picture-09>
+                <picture-10></picture-10>
                 <name>Want to have</name>
                 <modified>2024-10-01</modified>
                 <created>2024-10-01</created>
                 <icon>R0lGODlhDwAPALMAAAAAAACEAADGAITG/4T/hP///////////////////////////////////////4DA/yH5BAEAAA8ALAAAAAAPAA8AAARB8EkJap34WcLtpRwnCKEAgMSoqsGppWMgzy0Ye549hl0GBCsVwTX50Vgu3OaG4sEEtVeQFQVAZbEZEaf9ZDQ5TAQAOw==</icon>
                 <label>Want to have</label>
                 <id>101772276479019</id>
-            </state>
-        </state-items>
+            </music-album-state>
+        </music-album-state-items>
 </data-crow-objects>

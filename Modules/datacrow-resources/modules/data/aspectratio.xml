@@ -1,36 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data-crow-objects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="aspectratio.xsd">
-    <aspect-ratio>
-        <item>Aspect ratios</item>
-        <alternative-names></alternative-names>
-        <created>2009-10-17</created>
-        <id>101755416704005</id>
-        <icon></icon>
-        <item>Aspect ratios</item>
-        <label>14:9</label>
-        <modified></modified>
-        <name>14:9</name>
-    </aspect-ratio>
-    <aspect-ratio>
-        <item>Aspect ratios</item>
-        <alternative-names></alternative-names>
-        <created>2009-10-17</created>
-        <id>101719137846695</id>
-        <icon></icon>
-        <item>Aspect ratios</item>
-        <label>16:9</label>
-        <modified></modified>
-        <name>16:9</name>
-    </aspect-ratio>
-    <aspect-ratio>
-        <item>Aspect ratios</item>
-        <alternative-names></alternative-names>
-        <created>2009-10-17</created>
-        <id>101717914238435</id>
-        <icon></icon>
-        <item>Aspect ratios</item>
-        <label>4:3</label>
-        <modified></modified>
-        <name>4:3</name>
-    </aspect-ratio>
+    <aspectratio-items>
+            <aspectratio>
+                <picture-01></picture-01>
+                <picture-02></picture-02>
+                <picture-03></picture-03>
+                <picture-04></picture-04>
+                <picture-05></picture-05>
+                <picture-06></picture-06>
+                <picture-07></picture-07>
+                <picture-08></picture-08>
+                <picture-09></picture-09>
+                <picture-10></picture-10>
+                <name>14:9</name>
+                <modified>2024-10-01</modified>
+                <created>2024-10-01</created>
+                <label>14:9</label>
+                <id>101755416704005</id>
+            </aspectratio>
+            <aspectratio>
+                <picture-01></picture-01>
+                <picture-02></picture-02>
+                <picture-03></picture-03>
+                <picture-04></picture-04>
+                <picture-05></picture-05>
+                <picture-06></picture-06>
+                <picture-07></picture-07>
+                <picture-08></picture-08>
+                <picture-09></picture-09>
+                <picture-10></picture-10>
+                <name>16:9</name>
+                <modified>2024-10-01</modified>
+                <created>2024-10-01</created>
+                <label>16:9</label>
+                <id>101719137846695</id>
+            </aspectratio>
+            <aspectratio>
+                <picture-01></picture-01>
+                <picture-02></picture-02>
+                <picture-03></picture-03>
+                <picture-04></picture-04>
+                <picture-05></picture-05>
+                <picture-06></picture-06>
+                <picture-07></picture-07>
+                <picture-08></picture-08>
+                <picture-09></picture-09>
+                <picture-10></picture-10>
+                <name>4:3</name>
+                <modified>2024-10-01</modified>
+                <created>2024-10-01</created>
+                <label>4:3</label>
+                <id>101717914238435</id>
+            </aspectratio>
+        </aspectratio-items>
 </data-crow-objects>

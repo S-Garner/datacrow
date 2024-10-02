@@ -969,8 +969,14 @@ public class DcModules implements Serializable {
 	        	
 	        	if (items == null) continue;
 	        	
+	        	DcObject existing;
+	        	
                 for (DcObject item : items) {
                     item.setValidate(false);
+                    
+                    // check if the item already exists
+                    existing = conn.getItem(module.getIndex(), item.getID());
+                    item.setNew(existing == null);
                 	conn.saveItem(item);
                 	
                     for (DcObject child : item.getCurrentChildren()) {

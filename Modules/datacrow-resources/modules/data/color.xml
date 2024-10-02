@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data-crow-objects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="color.xsd">
-    <color>
-        <item>Colors</item>
-        <alternative-names>;BW;Black &amp; White;B&amp;W;Greyscale;</alternative-names>
-        <created>2009-10-17</created>
-        <id>101722445510084</id>
-        <icon></icon>
-        <item>Colors</item>
-        <label>Black and White</label>
-        <modified></modified>
-        <name>Black and White</name>
-    </color>
-    <color>
-        <item>Colors</item>
-        <alternative-names></alternative-names>
-        <created>2009-10-17</created>
-        <id>101756062040470</id>
-        <icon></icon>
-        <item>Colors</item>
-        <label>Color</label>
-        <modified></modified>
-        <name>Color</name>
-    </color>
+    <color-items>
+            <color>
+                <picture-01></picture-01>
+                <picture-02></picture-02>
+                <picture-03></picture-03>
+                <picture-04></picture-04>
+                <picture-05></picture-05>
+                <picture-06></picture-06>
+                <picture-07></picture-07>
+                <picture-08></picture-08>
+                <picture-09></picture-09>
+                <picture-10></picture-10>
+                <name>Black and White</name>
+                <alternative-names>;BW;Black &amp; White;B&amp;W;Greyscale;</alternative-names>
+                <modified>2024-10-01</modified>
+                <created>2024-10-01</created>
+                <label>Black and White</label>
+                <id>101722445510084</id>
+            </color>
+            <color>
+                <picture-01></picture-01>
+                <picture-02></picture-02>
+                <picture-03></picture-03>
+                <picture-04></picture-04>
+                <picture-05></picture-05>
+                <picture-06></picture-06>
+                <picture-07></picture-07>
+                <picture-08></picture-08>
+                <picture-09></picture-09>
+                <picture-10></picture-10>
+                <name>Color</name>
+                <modified>2024-10-01</modified>
+                <created>2024-10-01</created>
+                <label>Color</label>
+                <id>101756062040470</id>
+            </color>
+        </color-items>
 </data-crow-objects>
