@@ -1,5 +1,5 @@
 --------------------------------------------------------------------
-Data Crow version 5.0  BETA II                Released on 2024-xx-xx
+Data Crow version 5.0  BETA II                Released on 2024-10-02
 --------------------------------------------------------------------
 
 [Fixed]
@@ -24,7 +24,6 @@ Data Crow version 5.0  BETA II                Released on 2024-xx-xx
   lblCopyAttachments = Copy Attachments
   lblAfter = After
 - Outstanding tickets 
-- icon field missing on property item forms
 
 
 --------------------------------------------------------------------

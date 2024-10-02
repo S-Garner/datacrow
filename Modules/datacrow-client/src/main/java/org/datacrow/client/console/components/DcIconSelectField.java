@@ -35,6 +35,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.datacrow.client.console.GUI;
+import org.datacrow.client.console.components.fileselection.ImageFilePreviewPanel;
 import org.datacrow.client.console.windows.BrowserDialog;
 import org.datacrow.client.util.filefilters.PictureFileFilter;
 import org.datacrow.core.objects.DcImageIcon;
@@ -108,6 +109,8 @@ public class DcIconSelectField extends DcImageLabel implements MouseListener {
     private void loadImage() {
         PictureFileFilter filter = new PictureFileFilter();
         BrowserDialog dlg = new BrowserDialog("", filter);
+        dlg.setPreview(new ImageFilePreviewPanel());
+        
         File file = dlg.showOpenFileDialog(this, null);
         
         if (file == null)

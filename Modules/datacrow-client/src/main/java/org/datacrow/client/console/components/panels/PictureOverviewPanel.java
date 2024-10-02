@@ -52,6 +52,7 @@ import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcMenuItem;
 import org.datacrow.client.console.components.DcPanel;
 import org.datacrow.client.console.components.DcPopupMenu;
+import org.datacrow.client.console.components.fileselection.ImageFilePreviewPanel;
 import org.datacrow.client.console.components.lists.DcListModel;
 import org.datacrow.client.console.components.lists.DcPicturesList;
 import org.datacrow.client.console.menu.PictureOverviewEditMenu;
@@ -300,6 +301,8 @@ public class PictureOverviewPanel extends DcPanel {
         
         private void addPictureFromFile() {
         	BrowserDialog dlg = new BrowserDialog(DcResources.getText("lblSelectFile"), new PictureFileFilter());
+        	dlg.setPreview(new ImageFilePreviewPanel());
+        	
         	File[] files = dlg.showSelectMultipleFilesDialog(this, null);
         	pictureEditList.addPictures(files);
         }

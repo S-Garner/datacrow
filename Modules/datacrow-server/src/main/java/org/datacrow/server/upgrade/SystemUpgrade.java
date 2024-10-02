@@ -103,12 +103,22 @@ public class SystemUpgrade {
             }
             
             if (dbInitialized && v.isOlder(new Version(5, 0, 0, 0))) {
+
+            	// add the icon field to the form - for existing installations.
+            	DcFieldDefinition def;
             	
+            	for (DcModule m : DcModules.getAllModules()) {
+            		if (m.getType() == DcModule._TYPE_PROPERTY_MODULE) {
+            			def = m.getFieldDefinitions().get(DcProperty._B_ICON);
+            			
+            			if (CoreUtilities.isEmpty(def.getTab())) {
+            				def.setTab("lblInformation");
+            				def.setEnabled(true);
+            			}
+            		}
+            	}
             	
-            	// add icons to all item forms
-            	
-            	
-            	
+            	// next, convert all images.
             	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER) {
             		new ImageConverter(ImageConverter._UPGRADE_CONVERSION);
             	} else if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_STANDALONE) {
