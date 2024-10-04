@@ -59,7 +59,6 @@ import org.datacrow.core.server.Connector;
 import org.datacrow.core.services.Servers;
 import org.datacrow.core.settings.DcModuleSettings;
 import org.datacrow.core.settings.Settings;
-import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 import org.datacrow.core.utilities.definitions.DcFieldDefinitions;
 import org.datacrow.core.utilities.definitions.QuickViewFieldDefinition;
@@ -250,7 +249,6 @@ public class DcModule implements Comparable<DcModule>, Serializable {
         
         initializeSystemFields();
         initializeFields();
-        initializeMultiReferenceFields();
         initializeSettings();
         initializeProperties();
     }
@@ -314,7 +312,6 @@ public class DcModule implements Comparable<DcModule>, Serializable {
             addField(new DcField(xmlField, getIndex()));
         
         initializeFields();
-        initializeMultiReferenceFields();
         initializeSettings();
         initializeProperties();
 
@@ -988,43 +985,6 @@ public class DcModule implements Comparable<DcModule>, Serializable {
      */
     public boolean isContainerManaged() {
         return isContainerManaged;
-    }
-    
-    public DcField getPersistentField(int fieldIdx) {
-        return getField(fieldIdx + 100000000);
-    }
-    
-    /**
-     * Creates a simple reference field for each multiple references field for ordering purposes.
-     * It does need to have all modules registered before this method can be called.
-     */
-    public void initializeMultiReferenceFields() {
-        
-        if (    getType() == DcModule._TYPE_TEMPLATE_MODULE ||
-                getType() == DcModule._TYPE_MAPPING_MODULE ||
-                getType() == DcModule._TYPE_EXTERNALREFERENCE_MODULE)
-            return;
-        
-        for (DcField field : getFields()) {
-            
-            if (field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION) 
-                continue;
-            
-            DcField fld = new DcField(
-                    field.getIndex() + 100000000, 
-                    field.getModule(), 
-                    field.getSystemName() + "_persist", 
-                    false, 
-                    false, 
-                    true, 
-                    false, 256, 
-                    UIComponents._SHORTTEXTFIELD, 
-                    field.getModule(), 
-                    DcRepository.ValueTypes._STRING,
-                    CoreUtilities.toDatabaseName(field.getSystemName()) + "_persist");
-            
-            addField(fld);
-        }
     }
     
     /**

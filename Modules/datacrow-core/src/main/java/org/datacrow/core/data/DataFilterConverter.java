@@ -121,6 +121,8 @@ public class DataFilterConverter {
 					field = m.getField(idx);
 					if (field != null && !field.isUiOnly()) {
 						if (columnCounter > 0) sql.append(", ");
+						
+						sql.append(m.getTableName() + ".");		
 						sql.append(field.getDatabaseFieldName());
 						columnCounter++;
 					}
@@ -131,7 +133,7 @@ public class DataFilterConverter {
 			sql.append(module.getTableName());
 
 			if (orderResults)
-			    addOrderByClause(sql);
+			    addOrderByClause(module, sql);
 			
 	        addEntries(sql, module);
 
@@ -141,7 +143,9 @@ public class DataFilterConverter {
         if (m.isAbstract()) sql.append(") media ");
 	        
         // add a join to the reference table part of the sort
-        if (orderResults) addOrderBy(sql);
+        if (orderResults) 
+        	addOrderBy(sql);
+        
         return sql.toString();
     }
     
@@ -451,23 +455,58 @@ public class DataFilterConverter {
         addLoanConditions(this.df.getEntries(), module, sql, hasConditions);
     }
     
-    private void addOrderByClause(StringBuffer sql) {
+    private void addOrderByClause(DcModule module, StringBuffer sql) {
     	Collection<DcField> order = df.getOrder();
+    	
+    	String column;
+    	String referenceTableName;
+    	
+    	DcModule mappingMod;
+    	DcModule referenceMod;
+    	
         for (DcField orderOn : order) {
-            if (orderOn.getFieldType() == UIComponents._REFERENCEFIELD ||
-                orderOn.getFieldType() == UIComponents._REFERENCESFIELD) {
-                
-                String column = orderOn.getFieldType() == UIComponents._REFERENCESFIELD ?
-                        DcModules.get(orderOn.getModule()).getPersistentField(orderOn.getIndex()).getDatabaseFieldName() :
-                        orderOn.getDatabaseFieldName();
-                
-            	String referenceTableName = DcModules.get(orderOn.getReferenceIdx()).getTableName();
+            if (orderOn.getFieldType() == UIComponents._REFERENCEFIELD) {
+                column = orderOn.getDatabaseFieldName();
+            	referenceTableName = DcModules.get(orderOn.getReferenceIdx()).getTableName();
                 sql.append(" LEFT OUTER JOIN ");
                 sql.append(referenceTableName);
                 sql.append(" ON ");
                 sql.append(referenceTableName);
                 sql.append(".ID = ");
                 sql.append(column);
+            } 
+            
+            if (orderOn.getFieldType() == UIComponents._REFERENCESFIELD) {
+                column = orderOn.getDatabaseFieldName();
+                
+                mappingMod = DcModules.get(DcModules.getMappingModIdx(orderOn.getModule(), orderOn.getReferenceIdx(), orderOn.getIndex()));
+                referenceMod = DcModules.getReferencedModule(orderOn);
+                
+                sql.append(" LEFT OUTER JOIN ");
+                sql.append(referenceMod.getTableName());
+                sql.append(" ON ");
+                sql.append(referenceMod.getTableName());
+                sql.append(".ID = ");
+                sql.append("(SELECT TOP 1 ");
+                sql.append(mappingMod.getField(DcMapping._B_REFERENCED_ID).getDatabaseFieldName());
+                sql.append(" from ");
+                sql.append(mappingMod.getTableName());
+                sql.append(" inner join ");
+                sql.append(referenceMod.getTableName());
+                sql.append(" on ");
+                sql.append(mappingMod.getField(DcMapping._B_REFERENCED_ID).getDatabaseFieldName());
+                sql.append(" = ");
+                sql.append(referenceMod.getTableName());
+                sql.append(".ID");
+                
+                sql.append(" where ");
+                sql.append(mappingMod.getField(DcMapping._A_PARENT_ID).getDatabaseFieldName());
+                sql.append("=");
+                sql.append(module.getTableName());
+                sql.append(".ID");
+                sql.append(" order by ");
+                sql.append(referenceMod.getField(referenceMod.getDefaultSortFieldIdx()).getDatabaseFieldName());
+                sql.append(")");
             } 
         }
     }

@@ -8,13 +8,15 @@ Data Crow version 5.0  BETA II                Released on 2024-10-02
 - The service information was incorrectly stored for the open library online book search. This fix only works for newly added items (after this fix).
 - Password could not be reset from the client (client - server mode)
 - Linux: resizing dialog/forms from the right hand side scrambles the dialog
+- Sorting on multi-reference fields was incorrect.
 
 [Updated]
 - Improved the preview for the find and replace.
 - Improved the find and replace regular expression support.
 - Added failed login message if credentials are incorrect.
-- Added clear option to the update all form
+- Added clear option to the update all form.
 - On startup the report versions (based on modification date) are checked against the systems reports. If the system reports are newer, the reports in the user folder are updated.
+- Also added the picture preview pane to the icon browser.
 
 [TODO]
 - Web module needs to be updated
@@ -24,7 +26,7 @@ Data Crow version 5.0  BETA II                Released on 2024-10-02
   lblCopyAttachments = Copy Attachments
   lblAfter = After
 - Outstanding tickets 
-
+- retest upgrade for images and image conversion
 
 --------------------------------------------------------------------
 Data Crow version 5.0  BETA I                 Released on 2024-09-19

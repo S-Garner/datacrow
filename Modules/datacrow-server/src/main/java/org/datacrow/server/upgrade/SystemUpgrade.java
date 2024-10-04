@@ -103,28 +103,9 @@ public class SystemUpgrade {
             }
             
             if (dbInitialized && v.isOlder(new Version(5, 0, 0, 0))) {
-
-            	// add the icon field to the form - for existing installations.
-            	DcFieldDefinition def;
-            	
-            	for (DcModule m : DcModules.getAllModules()) {
-            		if (m.getType() == DcModule._TYPE_PROPERTY_MODULE) {
-            			def = m.getFieldDefinitions().get(DcProperty._B_ICON);
-            			
-            			if (CoreUtilities.isEmpty(def.getTab())) {
-            				def.setTab("lblInformation");
-            				def.setEnabled(true);
-            			}
-            		}
-            	}
-            	
-            	// next, convert all images.
-            	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER) {
-            		new ImageConverter(ImageConverter._UPGRADE_CONVERSION);
-            	} else if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_STANDALONE) {
-            		DcSettings.set(DcRepository.Settings.stImageConversionNeeded, Boolean.TRUE);
-            		DcSettings.set(DcRepository.Settings.stImageUpgradeConversionNeeded, Boolean.TRUE);
-            	}
+            	moveAllImages();
+            	addIconFieldToPropertyForms();
+            	removePersistencyColumns();
             }
             
             if (!dbInitialized)
@@ -207,6 +188,72 @@ public class SystemUpgrade {
                 "if the error persists";
             throw new SystemUpgradeException(msg);
         }
+    }
+    
+    private void moveAllImages() {
+    	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER) {
+    		new ImageConverter(ImageConverter._UPGRADE_CONVERSION);
+    	} else if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_STANDALONE) {
+    		DcSettings.set(DcRepository.Settings.stImageConversionNeeded, Boolean.TRUE);
+    		DcSettings.set(DcRepository.Settings.stImageUpgradeConversionNeeded, Boolean.TRUE);
+    	}
+    }
+    
+    private void addIconFieldToPropertyForms() {
+    	// add the icon field to the form - for existing installations.
+    	DcFieldDefinition def;
+    	
+    	for (DcModule m : DcModules.getAllModules()) {
+    		if (m.getType() == DcModule._TYPE_PROPERTY_MODULE) {
+    			def = m.getFieldDefinitions().get(DcProperty._B_ICON);
+    			
+    			if (CoreUtilities.isEmpty(def.getTab())) {
+    				def.setTab("lblInformation");
+    				def.setEnabled(true);
+    			}
+    		}
+    	}    	
+    }
+    
+    private void removePersistencyColumns() {
+        @SuppressWarnings("resource")
+		Connection conn = DatabaseManager.getInstance().getAdminConnection();
+        Connector connector = DcConfig.getInstance().getConnector();
+        Statement stmt = null;
+        
+		try {
+			stmt = conn.createStatement();
+
+			String column;
+			String sql;
+			// remove the _persist fields from all tables
+			for (DcModule m : DcModules.getAllModules()) {
+
+				if (m.isAbstract() || m.getType() == DcModule._TYPE_TEMPLATE_MODULE ||
+					m.getType() == DcModule._TYPE_MAPPING_MODULE ||
+					m.getType() == DcModule._TYPE_EXTERNALREFERENCE_MODULE)
+					continue;
+
+				for (DcField field : m.getFields()) {
+
+					if (field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION)
+						continue;
+
+					column = CoreUtilities.toDatabaseName(field.getSystemName()) + "_persist";
+					sql = "ALTER TABLE " + m.getTableName() + " DROP COLUMN " + column;
+					stmt.execute(sql);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Upgrade failed; could not remove the persistency columns.", e);
+			connector.displayError("Upgrade failed; could not remove the persistency columns.");
+			System.exit(0);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (Exception e) {};
+		}
     }
     
     private void removeSelfReferencingItems() {

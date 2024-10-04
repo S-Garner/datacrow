@@ -71,7 +71,7 @@ public class ImageUpgradeConverter extends Thread {
 		// add images located in the images folder (these will need to be moved)
 		try (Stream<Path> streamFiles = Files.list(Paths.get(imageDir))) {
 			filenames.addAll(streamFiles
-	              .filter(file -> !Files.isDirectory(file) && !file.toString().endsWith("_small.jpg") && !file.toFile().getName().startsWith("icon_"))
+	              .filter(file -> file.toString().endsWith(".jpg") && !Files.isDirectory(file) && !file.toString().endsWith("_small.jpg") && !file.toFile().getName().startsWith("icon_"))
 	              .map(Path::toAbsolutePath)
 	              .map(Path::toString)
 	              .collect(Collectors.toSet()));

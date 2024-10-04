@@ -1376,24 +1376,6 @@ public class DcObject implements Comparable<DcObject>, Serializable {
             		getDisplayString(getSystemDisplayFieldIdx()));
         }
         
-        DcField fld;
-        for (DcField field : getFields()) {
-            if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
-                if (isChanged(field.getIndex())) {
-                    fld = getModule().getPersistentField(field.getIndex());
-                    @SuppressWarnings("unchecked")
-                    List<DcObject> references = (List<DcObject>) getValue(field.getIndex());
-                    references = CoreUtilities.sort(references);
-                    
-                    if (references == null || references.size() == 0) {
-                    	setValue(fld.getIndex(), null);
-                    } else {
-                    	setValue(fld.getIndex(), references.get(0).getValue(DcMapping._B_REFERENCED_ID));
-                    }
-                }
-            }
-        }
-        
         for (DcObject child : getChildren())
             child.beforeSave();
         

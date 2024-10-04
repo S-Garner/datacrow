@@ -74,7 +74,7 @@ public class ImageSizeConverter extends Thread {
 			for (String imageFolder : imageFolders) {
 				try (Stream<Path> streamFiles = Files.list(Paths.get(new File(imageDir, imageFolder).toString()))) {
 		        	images.addAll(streamFiles
-			              .filter(file -> !Files.isDirectory(file) && !file.getParent().endsWith("icons") && !file.toString().endsWith("_small.jpg") && !file.toFile().getName().startsWith("icon_"))
+			              .filter(file -> !Files.isDirectory(file) && !file.getParent().endsWith("icons") && file.toString().endsWith(".jpg") && !file.toString().endsWith("_small.jpg") && !file.toFile().getName().startsWith("icon_"))
 			              .map(Path::toAbsolutePath)
 			              .map(Path::toString)
 			              .collect(Collectors.toSet()));
