@@ -157,9 +157,7 @@ public class ImageUpgradeConverter extends Thread {
 	        		}
 	        		
         		} catch (Error e) {
-        			logger.error("An image could not be moved due to an error. The upgrade has failed. Please correct the error "
-        					+ "and then restart the upgrade", e);
-       				throw e;
+        			logger.error("Image could not be moved. Skipping. Continuing with the other images. Item ID = [" + ID + "]", e);
         		}
         		
         		listener.notifyImageProcessed();

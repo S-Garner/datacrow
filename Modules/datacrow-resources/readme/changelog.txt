@@ -9,6 +9,7 @@ Data Crow version 5.0  BETA II                Released on 2024-10-02
 - Password could not be reset from the client (client - server mode)
 - Linux: resizing dialog/forms from the right hand side scrambles the dialog
 - Sorting on multi-reference fields was incorrect.
+- Backups created on Windows do not restore correctly on Linux.
 
 [Updated]
 - Improved the preview for the find and replace.
@@ -17,16 +18,17 @@ Data Crow version 5.0  BETA II                Released on 2024-10-02
 - Added clear option to the update all form.
 - On startup the report versions (based on modification date) are checked against the systems reports. If the system reports are newer, the reports in the user folder are updated.
 - Also added the picture preview pane to the icon browser.
+- Create Multiple now adds items in top to bottom order
 
 [TODO]
 - Web module needs to be updated
+- Outstanding tickets 
 - Update the translations 
   lblIncludeImage = Include Pictures
   lblIncludeAttachments = Include Attachments
   lblCopyAttachments = Copy Attachments
   lblAfter = After
-- Outstanding tickets 
-- retest upgrade for images and image conversion
+
 
 --------------------------------------------------------------------
 Data Crow version 5.0  BETA I                 Released on 2024-09-19

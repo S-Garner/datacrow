@@ -169,25 +169,24 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
     }
     
     public void addPicture(Picture picture) {
-    
-    	boolean saved = true;
-    	
-    	if (!newItemMode) {
-    		saved = DcConfig.getInstance().getConnector().savePicture(picture);
-    	}
-    	
-    	if (saved) {
-			SwingUtilities.invokeLater(new Thread(new Runnable() { 
-	            @Override
-	            public void run() {
+		SwingUtilities.invokeLater(new Thread(new Runnable() { 
+            @Override
+            public void run() {
+		    	boolean saved = true;
+		    	
+		    	if (!newItemMode) {
+		    		saved = DcConfig.getInstance().getConnector().savePicture(picture);
+		    	}
+		    	
+		    	if (saved) {
 	            	add(picture);
-	            	
+		            	
 	            	if (!newItemMode)
 		            	GUI.getInstance().getSearchView(
 		            			DcModules.getCurrent().getIndex()).getCurrent().update(picture.getObjectID());
 	            }
-	        }));
-    	}
+	        }
+        }));
     }
     
     public void remove(Picture picture) {

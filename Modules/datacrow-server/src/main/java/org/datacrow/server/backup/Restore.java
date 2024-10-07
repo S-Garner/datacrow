@@ -160,6 +160,9 @@ public class Restore extends Thread {
             restore = false;
         }
    
+        // fix for backups created on Windows being restored on Linux
+        filename = filename.replaceAll("\\\\", "/");
+        
         return restore ? new File(DcConfig.getInstance().getDataDir(), filename).toString() : null;
     }
     

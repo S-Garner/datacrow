@@ -220,8 +220,8 @@ public class CreateMultipleItemsDialog extends DcDialog implements ActionListene
 		    
 		    StringBuffer sb = new StringBuffer();
 		    
-			for (int row = table.getRowCount(); row > 0; row--) {
-				dco = table.getItemAt(row - 1);
+			while (table.getRowCount() > 0) {
+				dco = table.getItemAt(0);
 				dco.setIDs();
 				
 				try {
@@ -230,7 +230,7 @@ public class CreateMultipleItemsDialog extends DcDialog implements ActionListene
 					    GUI.getInstance().getSearchView(dco.getModuleIdx()).add(dco);
 					}
 					
-					table.removeRow(row - 1);
+					table.removeRow(0);
 				} catch (ValidationException e) {
 					
 					if (sb.length() > 0)
