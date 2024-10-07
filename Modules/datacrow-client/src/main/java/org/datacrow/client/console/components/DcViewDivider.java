@@ -30,9 +30,13 @@ import javax.swing.JComponent;
 import javax.swing.JSplitPane;
 import javax.swing.border.Border;
 
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.settings.DcSettings;
 
 public class DcViewDivider extends JSplitPane {
+	
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcViewDivider.class.getName());
     
     private final String settingKey;
     
@@ -50,7 +54,21 @@ public class DcViewDivider extends JSplitPane {
     
     public void applyDividerLocation() {
         if (isEnabled()) {
-            setDividerLocation(DcSettings.getInt(settingKey));
+
+        	setResizeWeight(0.2);
+        	
+        	try {
+        		int loc = DcSettings.getInt(settingKey);
+        		
+        		if ((getWidth() > 0 && loc > getWidth()) || loc <= 0) {
+        			setDividerLocation(0.5d);
+        		} else {
+        			setDividerLocation(loc);	
+        		}
+        		
+        	} catch (Exception e) {
+        		logger.error(e, e);
+        	}
         }
     }
 }

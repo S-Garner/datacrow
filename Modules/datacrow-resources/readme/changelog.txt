@@ -11,6 +11,9 @@ Data Crow version 5.0  BETA II                Released on 2024-10-02
 - Sorting on multi-reference fields was incorrect.
 - Backups created on Windows do not restore correctly on Linux.
 
+[To be verified]
+- Possible fix for Quick View not showing (to be tested) - issue cannot be reproduced
+
 [Updated]
 - Improved the preview for the find and replace.
 - Improved the find and replace regular expression support.
