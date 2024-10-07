@@ -63,7 +63,7 @@ public class DcViewDivider extends JSplitPane {
         		if ((getWidth() > 0 && loc > getWidth()) || loc <= 0) {
         			setDividerLocation(0.5d);
         		} else {
-        			setDividerLocation(loc);	
+        			setDividerLocation(loc);
         		}
         		
         	} catch (Exception e) {
