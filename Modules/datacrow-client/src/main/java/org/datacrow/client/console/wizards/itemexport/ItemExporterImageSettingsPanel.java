@@ -30,7 +30,6 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Properties;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -38,7 +37,6 @@ import javax.swing.JPanel;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcNumberField;
-import org.datacrow.core.migration.itemexport.ItemExporter;
 import org.datacrow.core.migration.itemexport.ItemExporterSettings;
 import org.datacrow.core.resources.DcResources;
 

@@ -261,7 +261,8 @@ public class ChartPanel extends JPanel implements ActionListener {
             this.fieldIdx = field;
         }
         
-        @Override
+        @SuppressWarnings("unchecked")
+		@Override
         public void run() {
             
             DcField field = DcModules.get(module).getField(fieldIdx);
@@ -275,7 +276,8 @@ public class ChartPanel extends JPanel implements ActionListener {
             	return;
             }
 
-            DefaultPieDataset dataset = new DefaultPieDataset();
+            @SuppressWarnings("rawtypes")
+			DefaultPieDataset dataset = new DefaultPieDataset();
             int value;
             int total = 0;
             for (String key : dataMap.keySet()) {
