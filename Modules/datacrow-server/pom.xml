@@ -16,9 +16,8 @@
 
     <properties>
         <jetty.version>11.0.14</jetty.version>
-        <jakarta.el.version>5.0.0-M1</jakarta.el.version>
-        <jakarta.faces.version>4.0.1</jakarta.faces.version>
         <weld.version>5.1.0.Final</weld.version>
+        <jersey.version>3.1.2</jersey.version>
     </properties>
 
     <repositories>
@@ -102,20 +101,19 @@
 			<version>2.0.6</version>
 		</dependency>        
 
-        <!-- primefaces 12 -->
-        <dependency>
-            <groupId>org.primefaces</groupId>
-            <artifactId>primefaces</artifactId>
-            <version>12.0.0</version>
-            <classifier>jakarta</classifier>
-        </dependency>
-
         <!-- Jakarta -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <version>6.0.0</version>
         </dependency>
+
+		<!-- dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+		</dependency -->
+        
         <dependency>
             <groupId>jakarta.websocket</groupId>
             <artifactId>jakarta.websocket-client-api</artifactId>
@@ -126,46 +124,28 @@
             <artifactId>jakarta.websocket-api</artifactId>
             <version>2.1.0</version>
         </dependency>
-        <dependency>
-            <groupId>jakarta.el</groupId>
-            <artifactId>jakarta.el-api</artifactId>
-            <version>5.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet.jsp.jstl</groupId>
-            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-            <version>3.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.el</artifactId>
-            <version>${jakarta.el.version}</version>
-        </dependency>
 
-        <!-- Jakarta faces -->
+		<!-- Jersey -->
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>jakarta.faces</artifactId>
-            <version>${jakarta.faces.version}</version>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>${jersey.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>        
+        
+        
+        
 
-        <!-- Weld for CDI support -->
-        <dependency>
-            <groupId>org.jboss.weld.servlet</groupId>
-            <artifactId>weld-servlet-core</artifactId>
-            <version>${weld.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>jakarta.el</groupId>
-                    <artifactId>jakarta.el-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+
     </dependencies>
 
     <build>

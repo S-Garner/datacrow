@@ -39,7 +39,6 @@
 		<module>datacrow-server</module>
 		<module>datacrow-client</module>
 		<module>datacrow-plugins</module>
-		<module>datacrow-beans</module>
 	</modules>
 	<build>
 		<pluginManagement>

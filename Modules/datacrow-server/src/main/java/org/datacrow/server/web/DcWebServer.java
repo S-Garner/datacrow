@@ -65,44 +65,44 @@ public class DcWebServer {
 	public DcWebServer(int port, String ip) throws Exception {
         this.server = new Server();
         
-        SecureRequestCustomizer src = new SecureRequestCustomizer();
-        src.setSniHostCheck(false);
-        
-        final HttpConfiguration httpConfiguration = new HttpConfiguration();
-        httpConfiguration.setSecureScheme("https");
-        httpConfiguration.setSecurePort(port);
-        
-        HttpConfiguration httpConfig = new HttpConfiguration();
-        httpConfig.addCustomizer(src);
-
-        HttpConnectionFactory http11 = new HttpConnectionFactory(httpConfig);
-
-        Properties p = new Properties();
-        FileInputStream fis = new FileInputStream(
-                        new File(DcConfig.getInstance().getInstallationDir(), 
-                                 "ssl/datacrow-ssl.properties"));
-        p.load(new InputStreamReader(fis, StandardCharsets.UTF_8));
-        fis.close();
-    
-        // Configure the SslContextFactory with the keyStore information.
-        SslContextFactory.Server sslContextFactory = new SslContextFactory.Server();
-        String keyStoreFile = p.getProperty("keystore_file");
-        String keyStorePassword = p.getProperty("keystore_password");
-        
-        if (!new File(keyStoreFile).exists()) {
-            keyStoreFile =  new File(DcConfig.getInstance().getInstallationDir(), 
-                    "ssl/" + keyStoreFile).toString();
-        }
-        
-        sslContextFactory.setKeyStorePath(keyStoreFile);
-        sslContextFactory.setKeyStorePassword(keyStorePassword);
-
-        // The ConnectionFactory for TLS.
-        SslConnectionFactory tls = new SslConnectionFactory(sslContextFactory, http11.getProtocol());
+//        SecureRequestCustomizer src = new SecureRequestCustomizer();
+//        src.setSniHostCheck(false);
+//        
+//        final HttpConfiguration httpConfiguration = new HttpConfiguration();
+//        httpConfiguration.setSecureScheme("https");
+//        httpConfiguration.setSecurePort(port);
+//        
+//        HttpConfiguration httpConfig = new HttpConfiguration();
+//        httpConfig.addCustomizer(src);
+//
+//        HttpConnectionFactory http11 = new HttpConnectionFactory(httpConfig);
+//
+//        Properties p = new Properties();
+//        FileInputStream fis = new FileInputStream(
+//                        new File(DcConfig.getInstance().getInstallationDir(), 
+//                                 "ssl/datacrow-ssl.properties"));
+//        p.load(new InputStreamReader(fis, StandardCharsets.UTF_8));
+//        fis.close();
+//    
+//        // Configure the SslContextFactory with the keyStore information.
+//        SslContextFactory.Server sslContextFactory = new SslContextFactory.Server();
+//        String keyStoreFile = p.getProperty("keystore_file");
+//        String keyStorePassword = p.getProperty("keystore_password");
+//        
+//        if (!new File(keyStoreFile).exists()) {
+//            keyStoreFile =  new File(DcConfig.getInstance().getInstallationDir(), 
+//                    "ssl/" + keyStoreFile).toString();
+//        }
+//        
+//        sslContextFactory.setKeyStorePath(keyStoreFile);
+//        sslContextFactory.setKeyStorePassword(keyStorePassword);
+//
+//        // The ConnectionFactory for TLS.
+//        SslConnectionFactory tls = new SslConnectionFactory(sslContextFactory, http11.getProtocol());
 
         // The ServerConnector instance.
         @SuppressWarnings("resource")
-		ServerConnector connector = new ServerConnector(server, tls, http11);
+		ServerConnector connector = new ServerConnector(server);
         connector.setPort(port);
         connector.setHost(ip);
         connector.setIdleTimeout(30000);
