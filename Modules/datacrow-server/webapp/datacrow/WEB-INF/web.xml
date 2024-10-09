@@ -6,10 +6,10 @@
     <servlet>
         <servlet-name>jerseyServlet</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-        <!--  init-param>
+        <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>dev.dag.service</param-value>
-        </init-param -->
+            <param-value>org.datacrow.server.web.api.service</param-value>
+        </init-param>
     </servlet>
 
     <servlet-mapping>
