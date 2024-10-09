@@ -26,11 +26,7 @@
 package org.datacrow.server.web;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Properties;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
@@ -40,13 +36,8 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.Directory;
-import org.eclipse.jetty.server.HttpConfiguration;
-import org.eclipse.jetty.server.HttpConnectionFactory;
-import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.SslConnectionFactory;
-import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class DcWebServer {
@@ -65,42 +56,6 @@ public class DcWebServer {
 	public DcWebServer(int port, String ip) throws Exception {
         this.server = new Server();
         
-//        SecureRequestCustomizer src = new SecureRequestCustomizer();
-//        src.setSniHostCheck(false);
-//        
-//        final HttpConfiguration httpConfiguration = new HttpConfiguration();
-//        httpConfiguration.setSecureScheme("https");
-//        httpConfiguration.setSecurePort(port);
-//        
-//        HttpConfiguration httpConfig = new HttpConfiguration();
-//        httpConfig.addCustomizer(src);
-//
-//        HttpConnectionFactory http11 = new HttpConnectionFactory(httpConfig);
-//
-//        Properties p = new Properties();
-//        FileInputStream fis = new FileInputStream(
-//                        new File(DcConfig.getInstance().getInstallationDir(), 
-//                                 "ssl/datacrow-ssl.properties"));
-//        p.load(new InputStreamReader(fis, StandardCharsets.UTF_8));
-//        fis.close();
-//    
-//        // Configure the SslContextFactory with the keyStore information.
-//        SslContextFactory.Server sslContextFactory = new SslContextFactory.Server();
-//        String keyStoreFile = p.getProperty("keystore_file");
-//        String keyStorePassword = p.getProperty("keystore_password");
-//        
-//        if (!new File(keyStoreFile).exists()) {
-//            keyStoreFile =  new File(DcConfig.getInstance().getInstallationDir(), 
-//                    "ssl/" + keyStoreFile).toString();
-//        }
-//        
-//        sslContextFactory.setKeyStorePath(keyStoreFile);
-//        sslContextFactory.setKeyStorePassword(keyStorePassword);
-//
-//        // The ConnectionFactory for TLS.
-//        SslConnectionFactory tls = new SslConnectionFactory(sslContextFactory, http11.getProtocol());
-
-        // The ServerConnector instance.
         @SuppressWarnings("resource")
 		ServerConnector connector = new ServerConnector(server);
         connector.setPort(port);
