@@ -1,6 +1,15 @@
 --------------------------------------------------------------------
-Data Crow version 5.0  BETA II                Released on 2024-10-02
+Data Crow version 5.0  BETA II                Released on 2024-10-10
 --------------------------------------------------------------------
+
+[In Progress]
+The web server is being rebuild. The old web server, based on Java Server Faces (PrimeFaces), is dropped.
+In its stead a new, for now, read-only Web version is being build. Over the next few beta versions you see the addition of;
+- a REST web interface API
+- a web application based on ReactJS 
+This has been decided to future proof the Data Crow web server. The web application will be completely decoupled from the Data Crow main code through the use of the REST web api interface.
+The web application could therefore also be deployed on a separate web server and is therefore no longer integrated in the Data Crow server. It will still needs the Data Crow server as this is the server that hosts the data, making it available through the REST web interface (JSON based). 
+This also makes it possible, although unlikely that someone will do this, to integrate with the Data Crow server.
 
 [Fixed]
 - An issue has been fixed where Data Crow is not correctly positioning itself on the main monitor.
@@ -24,14 +33,12 @@ Data Crow version 5.0  BETA II                Released on 2024-10-02
 - Create Multiple now adds items in top to bottom order
 
 [TODO]
-- Web module needs to be updated
-- Outstanding tickets 
+- Web module is being rebuild
 - Update the translations 
   lblIncludeImage = Include Pictures
   lblIncludeAttachments = Include Attachments
   lblCopyAttachments = Copy Attachments
   lblAfter = After
-
 
 --------------------------------------------------------------------
 Data Crow version 5.0  BETA I                 Released on 2024-09-19
