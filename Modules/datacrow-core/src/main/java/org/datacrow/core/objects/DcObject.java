@@ -1503,6 +1503,9 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     public void cleanup() {
         children.clear();
         values.clear();
+        newAttachments.clear();
+        newPictures.clear();
+        
         loaded = false;
     }    
 }

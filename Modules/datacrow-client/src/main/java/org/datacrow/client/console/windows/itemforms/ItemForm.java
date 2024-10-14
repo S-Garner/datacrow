@@ -437,6 +437,10 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                 if ((empty || overwrite) && (!CoreUtilities.isEmpty(newValue)))
                     ComponentFactory.setValue(component, newValue);
             }
+            
+            if (object.getNewPictures().size() > 0 && !update)
+            	picturesPanel.addPictures(object.getNewPictures());
+            
         } catch (Exception e) {
             logger.error("Error while setting values of [" + dco + "] on the item form", e);
         }
