@@ -91,6 +91,11 @@ public class PictureOverviewPanel extends DcPanel {
         
         build();
     }
+
+    public void addPicture(Picture picture) {
+    	pictureEditList.addPicture(picture);
+    }
+    
     
     public void addPictures(final Collection<Picture> pictures) {
     	pictureEditList.addPictures(pictures);
@@ -342,6 +347,16 @@ public class PictureOverviewPanel extends DcPanel {
         		logger.error(e, e);
         	}
         }
+        
+        public void addPicture(final Picture picture) {
+        	SwingUtilities.invokeLater(
+                    new Thread(new Runnable() { 
+                        @Override
+                        public void run() {
+                    		pictureEditList.add(picture);
+                        }
+                    }));
+        }        
         
         public void addPictures(final Collection<Picture> pictures) {
         	SwingUtilities.invokeLater(

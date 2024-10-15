@@ -93,6 +93,7 @@ import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcTemplate;
 import org.datacrow.core.objects.ValidationException;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
@@ -438,8 +439,17 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                     ComponentFactory.setValue(component, newValue);
             }
             
-            if (object.getNewPictures().size() > 0 && !update)
-            	picturesPanel.addPictures(object.getNewPictures());
+            if (update) {
+            	for (Picture p : object.getNewPictures()) {
+            		//DcConfig.getInstance().getConnector().savePicture(p);
+            		picturesPanel.addPicture(p);
+            		dco.addNewPicture(p);
+            	}
+            } else {
+                if (object.getNewPictures().size() > 0)
+                	picturesPanel.addPictures(object.getNewPictures());
+            }
+            
             
         } catch (Exception e) {
             logger.error("Error while setting values of [" + dco + "] on the item form", e);
@@ -565,7 +575,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         if (dcoOrig.isDestroyed()) 
             return false;
         
-        boolean changed = dcoOrig.isChanged();
+        boolean changed = dcoOrig.isChanged() || dco.getNewPictures().size() > 0;
 
         int[] indices = dcoOrig.getFieldIndices();
         int index;

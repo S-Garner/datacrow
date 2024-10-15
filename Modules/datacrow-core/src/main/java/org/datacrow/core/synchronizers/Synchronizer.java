@@ -110,6 +110,8 @@ public abstract class Synchronizer implements Serializable{
         	
             setValue(target, field, queried.getValue(field));
         }
+        
+        target.addNewPictures(source.getNewPictures());
     }
     
     public void synchronize(ISynchronizerClient client) {
