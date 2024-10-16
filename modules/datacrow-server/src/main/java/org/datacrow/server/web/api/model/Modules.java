@@ -12,7 +12,8 @@ public class Modules {
 
     private static Modules instance = new Modules();
     
-    private final Collection<Module> modules = new ArrayList<Module>();
+    private final Collection<Module> allModules = new ArrayList<Module>();
+    private final Collection<Module> mainModules = new ArrayList<Module>();
     
     /**
      * Returns the sole instance of this configuration class.
@@ -24,10 +25,19 @@ public class Modules {
 	
     private Modules() {
     	for (DcModule m : DcModules.getAllModules())
-    		modules.add(new Module(m.getIndex(), m.getName()));
+    		allModules.add(new Module(m.getIndex(), m.getName(), m.getIcon32()));
+    	
+    	for (DcModule m : DcModules.getAllModules()) {
+    		if (m.isTopModule())
+    			mainModules.add(new Module(m.getIndex(), m.getName(), m.getIcon32()));
+    	}
+    }
+    
+    public List<Module> getMainModules() {
+        return mainModules.stream().collect(Collectors.toList());
     }
     
     public List<Module> getAll() {
-        return modules.stream().collect(Collectors.toList());
+        return allModules.stream().collect(Collectors.toList());
     }
 }

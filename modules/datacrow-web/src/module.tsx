@@ -22,7 +22,7 @@ const ApiExample = () => {
       <h1>Modules</h1>
       <ul>
         {data.map((item) => (
-          <li key={item.id}>{item.name}</li>
+          <li key={item.index}>{item.name}</li>
         ))}
       </ul>
     </div>
