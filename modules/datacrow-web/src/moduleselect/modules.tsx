@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const ApiExample = () => {
+const Modules = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -19,7 +19,6 @@ const ApiExample = () => {
 
   return (
     <div>
-      <h1>Modules</h1>
       <ul>
         {data.map((item) => (
           <li key={item.index}>{item.name}</li>
@@ -29,4 +28,4 @@ const ApiExample = () => {
   );
 };
 
-export default ApiExample;
+export default Modules;

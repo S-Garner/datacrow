@@ -1,4 +1,6 @@
 import * as React from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import {
   Routes,
   Route,
@@ -8,8 +10,9 @@ import {
   Navigate,
   Outlet,
 } from "react-router-dom";
+
 import { fakeAuthProvider } from "./auth";
-import ApiExample from "./module";
+import ModuleMenu from "./moduleselect/modulemenu";
 
 export default function App() {
   return (
@@ -32,8 +35,6 @@ function Layout() {
   return (
     <div>
       <AuthStatus />
-
-
       <Outlet />
     </div>
   );
@@ -149,5 +150,8 @@ function LoginPage() {
 }
 
 function PublicPage() {
-  return <ApiExample />
+  return (
+    <div>      
+      <ModuleMenu />
+    </div>);
 }
