@@ -25,11 +25,11 @@ public class Modules {
 	
     private Modules() {
     	for (DcModule m : DcModules.getAllModules())
-    		allModules.add(new Module(m.getIndex(), m.getName(), m.getIcon32()));
+    		allModules.add(new Module(m.getIndex(), m.getLabel(), m.getIcon32()));
     	
     	for (DcModule m : DcModules.getAllModules()) {
-    		if (m.isTopModule())
-    			mainModules.add(new Module(m.getIndex(), m.getName(), m.getIcon32()));
+    		if (m.isSelectableInUI() && m.isEnabled())
+    			mainModules.add(new Module(m.getIndex(), m.getLabel(), m.getIcon32()));
     	}
     }
     

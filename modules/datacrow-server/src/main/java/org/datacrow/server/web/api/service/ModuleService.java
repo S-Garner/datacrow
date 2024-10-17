@@ -12,12 +12,6 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/modules")
 public class ModuleService {
 
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public List<org.datacrow.server.web.api.model.Module> getAll() {
-//        return Modules.getInstance().getAll();
-//    }
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<org.datacrow.server.web.api.model.Module> getMainModules() {
