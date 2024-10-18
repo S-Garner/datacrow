@@ -11,8 +11,8 @@ import {
   Outlet,
 } from "react-router-dom";
 
-import { fakeAuthProvider } from "./auth";
-import ModuleMenu from "./moduleselect/modulemenu";
+import { fakeAuthProvider } from "./security/auth";
+import ModuleMenu from "./components/modulemenu";
 
 export default function App() {
   return (
