@@ -1,7 +1,7 @@
 import Accordion from 'react-bootstrap/Accordion';
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, type MouseEvent} from 'react';
 import { fetchModules, type Module } from '../api/datacrow_api';
+import { Button } from 'react-bootstrap';
 
 function ModuleMenu() {
 
@@ -9,23 +9,33 @@ function ModuleMenu() {
 	useEffect(() => {
 		fetchModules().then((data) => setModules(data));
 	}, []);
-
+	
+	
+	function setSelectedModule(m : Module) {
+		const [module, setModule] = useState<Module>();
+		setModule(m);
+	}
+	
 	return (
 		<Accordion>
 			<Accordion.Item eventKey="0">
 				<Accordion.Header>Module Selection</Accordion.Header>
 				<Accordion.Body>
-					<div>
-						<ul>
-							{modules.map((module) => (
-								<li key={module.index}>
-									<img src={"data:image/png;base64, " + module.icon} />
-									&nbsp;
-									{module.name}
-								</li>
-							))}
-						</ul>
+					<div style={{ display: "flex", flexWrap: "wrap" }} id="mainModules">
+						{modules.map((module) => (
+							<Button onClick={() => setSelectedModule(module)}>
+								<img src={"data:image/png;base64, " + module.icon} />
+								&nbsp;
+								{module.name}
+							</Button>
+						))}
 					</div>
+					
+					<div style={{ display: "flex", flexWrap: "wrap" }} id="referenceModules">
+					
+					
+					</div>
+					
 				</Accordion.Body>
 			</Accordion.Item>
 		</Accordion>
