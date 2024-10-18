@@ -224,6 +224,10 @@ public class XmlExporter extends ItemExporter {
                 }
             }
 
+            settings.set(
+            		ItemExporterSettings._ALLOW_RELATIVE_FILE_PATHS, 
+            		settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES));
+            
             if (full && settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES))
             	writer.writePictures(exportItem.getPictures());
             

@@ -2,7 +2,7 @@
 <data-crow-objects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="software.xsd">
     <software-items>
             <software>
-                <picture-01>file:////home/rwaals/development/datacrow/Modules/datacrow-resources/modules/data/software_images/129225663996473/picture1.jpg</picture-01>
+                <picture-01>./software_images/129225663996473/picture1.jpg</picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
                 <picture-04></picture-04>
@@ -69,7 +69,7 @@
                 <available>true</available>
             <pictures>
                 <picture>
-                    <link>file:////home/rwaals/development/datacrow/Modules/datacrow-resources/modules/data/software_images/129225663996473/picture1.jpg</link>
+                    <link>./software_images/129225663996473/picture1.jpg</link>
                 </picture>
             </pictures>
         </software>
