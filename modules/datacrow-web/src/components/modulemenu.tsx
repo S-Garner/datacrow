@@ -10,7 +10,6 @@ function ModuleMenu() {
 		fetchModules().then((data) => setModules(data));
 	}, []);
 
-
 	return (
 		<Accordion>
 			<Accordion.Item eventKey="0">
@@ -18,8 +17,12 @@ function ModuleMenu() {
 				<Accordion.Body>
 					<div>
 						<ul>
-							{modules.map((item) => (
-								<li key={item.index}>{item.name}</li>
+							{modules.map((module) => (
+								<li key={module.index}>
+									<img src={"data:image/png;base64, " + module.icon} />
+									&nbsp;
+									{module.name}
+								</li>
 							))}
 						</ul>
 					</div>
