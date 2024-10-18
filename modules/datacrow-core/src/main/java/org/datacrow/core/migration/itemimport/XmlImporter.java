@@ -209,7 +209,13 @@ public class XmlImporter extends ItemImporter {
             		
                 	if (ePicture.getElementsByTagName("link").item(0).getNodeType() == Node.ELEMENT_NODE) {
 	                	link = ePicture.getElementsByTagName("link").item(0).getTextContent();
-	                	picture = new Picture(dco.getID(), new DcImageIcon(new URL(link)));
+	                	
+	                	DcImageIcon icon = 
+	                			link.startsWith(".") ? 
+	                					new DcImageIcon(new File(file.getParent(), link.substring(1)))
+	                				 	 : new DcImageIcon(new URL(link));
+	                	                	
+	                	picture = new Picture(dco.getID(), icon);
 	                	dco.addNewPicture(picture);
                 	}
             	}
