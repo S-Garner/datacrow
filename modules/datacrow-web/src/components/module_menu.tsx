@@ -1,17 +1,18 @@
 import Accordion from 'react-bootstrap/Accordion';
-import React, { useState, useEffect, type MouseEvent } from 'react';
+import React, { useEffect, type MouseEvent } from 'react';
 import { fetchModules, type Module } from '../api/datacrow_api';
 import { Button } from 'react-bootstrap';
+import { createContext, useContext, useState } from 'react';
+import { ModuleContext, useModuleContext } from "../context";
 
 function ModuleMenu() {
 
 	const [modules, setModules] = useState<Module[]>([]);
 	const [currentModule, setCurrentModule] = useState<Module>();
-
+	
 	useEffect(() => {
 		fetchModules().then((data) => setModules(data));
 	}, []);
-
 
 	function setSelectedModule(m: Module) {
 		setCurrentModule(m);
@@ -33,18 +34,20 @@ function ModuleMenu() {
 
 	function DisplayReferenceModules() {
 		return (
-			<div style={{ display: "flex", flexWrap: "wrap" }} id="referencedModules">
-				{currentModule?.children.map((child) => (
-					<Button>
-						<img src={"data:image/png;base64, " + child.icon} />
-						&nbsp;
-						{child.name}
-					</Button>
-				))}
-			</div>
+			<ModuleContext.Provider value={currentModule}>
+				<div style={{ display: "flex", flexWrap: "wrap" }} id="referencedModules">
+					{currentModule?.children.map((child) => (
+						<Button>
+							<img src={"data:image/png;base64, " + child.icon} />
+							&nbsp;
+							{child.name}
+						</Button>
+					))}
+				</div>
+			</ModuleContext.Provider>
 		);
 	}
-
+	
 	return (
 		<Accordion>
 			<Accordion.Item eventKey="0">
