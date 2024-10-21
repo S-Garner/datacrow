@@ -2,6 +2,7 @@ export interface Module {
 	index: number;
 	name: string;
 	icon: string;
+	children: Module[];
 }
 
 const baseUrl = 'http://localhost:8080/datacrow/api/';

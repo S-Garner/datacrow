@@ -251,7 +251,8 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
 
         setRequiredFields();
         setReadonly(readonly);
-        setData(dco, true, false);
+        // pictures have already been added
+        setData(dco, true, false, false);
 
         pack();
         
@@ -405,7 +406,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     	}
     }
     
-    public void setData(DcObject object, boolean overwrite, boolean overwriteChildren) {
+    public void setData(DcObject object, boolean overwrite, boolean overwriteChildren, boolean addPictures) {
         try {
             dco.applyEnhancers(update);
             
@@ -441,12 +442,11 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
             
             if (update) {
             	for (Picture p : object.getNewPictures()) {
-            		//DcConfig.getInstance().getConnector().savePicture(p);
             		picturesPanel.addPicture(p);
             		dco.addNewPicture(p);
             	}
             } else {
-                if (object.getNewPictures().size() > 0)
+                if (object.getNewPictures().size() > 0 && addPictures)
                 	picturesPanel.addPictures(object.getNewPictures());
             }
             

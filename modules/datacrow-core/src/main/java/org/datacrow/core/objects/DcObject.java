@@ -1294,8 +1294,8 @@ public class DcObject implements Comparable<DcObject>, Serializable {
                 dco.addChild(child.clone());
         }
         
-        for (Picture picture : newPictures)
-        	dco.addNewPicture(picture.clone());
+//        for (Picture picture : newPictures)
+//        	dco.addNewPicture(picture.clone());
 
         
         for (Attachment attachment : newAttachments)

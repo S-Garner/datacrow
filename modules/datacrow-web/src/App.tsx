@@ -12,7 +12,7 @@ import {
 } from "react-router-dom";
 
 import { fakeAuthProvider } from "./security/auth";
-import ModuleMenu from "./components/modulemenu";
+import ModuleMenu from "./components/module_menu";
 
 export default function App() {
   return (

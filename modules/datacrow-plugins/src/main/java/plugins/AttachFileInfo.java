@@ -132,7 +132,7 @@ public class AttachFileInfo extends Plugin implements IFileImportClient {
             // TODO: AttachFileInfo: loop through the pictures and update where necessary?
             
             if (form != null) {
-                form.setData(dco, true, false);
+                form.setData(dco, true, false, true);
             } else {
                 if (dco.isChanged()) {
                     try {

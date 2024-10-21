@@ -403,7 +403,7 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
                             new Thread(new Runnable() { 
                                 @Override
                                 public void run() {
-                                    itemForm.setData(newDco, panelSettings.isOverwriteAllowed(), true);
+                                    itemForm.setData(newDco, panelSettings.isOverwriteAllowed(), true, true);
                                     close();
                                 }
                             }));
