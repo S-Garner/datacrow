@@ -18,7 +18,10 @@ export default function App() {
 				<Route element={<Layout />}>
 					<Route path="/" element={
 						<RequireAuth>
-							<PublicPage />
+							<div>
+								<ModuleMenu />
+								<ItemOverview />
+							</div>
 						</RequireAuth>
 					} />
 					<Route path="/login" element={<LoginPage />} />
@@ -37,10 +40,3 @@ function Layout() {
 	);
 }
 
-function PublicPage() {
-	return (
-		<div>
-			<ModuleMenu />
-			<ItemOverview />
-		</div>);
-}
