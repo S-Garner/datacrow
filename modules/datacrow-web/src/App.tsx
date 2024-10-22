@@ -19,8 +19,9 @@ export default function App() {
 					<Route path="/" element={
 						<RequireAuth>
 							<div>
-								<ModuleMenu />
-								<ItemOverview />
+								<ModuleMenu>
+									<ItemOverview />
+								</ModuleMenu>
 							</div>
 						</RequireAuth>
 					} />

@@ -3,8 +3,9 @@ import React, { useEffect, type MouseEvent } from 'react';
 import { fetchModules, type Module } from '../api/datacrow_api';
 import { Button } from 'react-bootstrap';
 import { createContext, useContext, useState } from 'react';
+import { CurrentModuleContext } from '../module_context';
 
-function ModuleMenu() {
+function ModuleMenu({ children }: { children: JSX.Element }) {
 
 	const [modules, setModules] = useState<Module[]>([]);
 	const [currentModule, setCurrentModule] = useState<Module>();
@@ -46,16 +47,20 @@ function ModuleMenu() {
 	}
 	
 	return (
-		<Accordion>
-			<Accordion.Item eventKey="0">
-				<Accordion.Header>Module Menu</Accordion.Header>
-				<Accordion.Body>
-					<DisplayMainModules />
-					<br />
-					<DisplayReferenceModules />
-				</Accordion.Body>
-			</Accordion.Item>
-		</Accordion>
+		<CurrentModuleContext.Provider value={currentModule === null ? 1 : currentModule?.index}>
+			<Accordion>
+				<Accordion.Item eventKey="0">
+					<Accordion.Header>Module Menu</Accordion.Header>
+					<Accordion.Body>
+						<DisplayMainModules />
+						<br />
+						<DisplayReferenceModules />
+						
+						{children}
+					</Accordion.Body>
+				</Accordion.Item>
+			</Accordion>
+		</CurrentModuleContext.Provider>
 	);
 }
 

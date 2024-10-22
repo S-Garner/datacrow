@@ -1,17 +1,16 @@
-import Accordion from 'react-bootstrap/Accordion';
+import { useCurrentModule } from '../module_context';
 
 export function ItemOverview() {
 
-		return (
-		<Accordion>
-			<Accordion.Item eventKey="0">
-				<Accordion.Header>Item Overview</Accordion.Header>
-				<Accordion.Body>
-				</Accordion.Body>
-			</Accordion.Item>
-		</Accordion>
-	);
+	const currentModule = useCurrentModule();
 
+	if (!currentModule) {
+		
+	} else {
+		return <div>
+		{currentModule}
+		</div>		
+	}
 }
 
 export default ItemOverview;
