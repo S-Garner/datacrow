@@ -47,7 +47,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 	}
 	
 	return (
-		<CurrentModuleContext.Provider value={currentModule === null ? 1 : currentModule?.index}>
+		<CurrentModuleContext.Provider value={currentModule === null ? 50 : currentModule?.index}>
 			<Accordion>
 				<Accordion.Item eventKey="0">
 					<Accordion.Header>Module Menu</Accordion.Header>
@@ -56,10 +56,14 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 						<br />
 						<DisplayReferenceModules />
 						
-						{children}
 					</Accordion.Body>
 				</Accordion.Item>
 			</Accordion>
+			
+			<br />
+			
+			{children}
+
 		</CurrentModuleContext.Provider>
 	);
 }
