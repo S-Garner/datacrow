@@ -135,7 +135,6 @@ public class DcPicturePane extends JComponent {
         }
     }   	
     
-	
     public void grayscale() {
     	
     	if (imageIcon == null) return;

@@ -1,3 +1,5 @@
+const baseUrl = 'http://localhost:8080/datacrow/api/';
+
 export interface Module {
 	index: number;
 	name: string;
@@ -6,9 +8,9 @@ export interface Module {
 }
 
 export interface Item {
-	index: number;
+	id: number;
 	name: string;
-	icon: string;
+	scaledImageUrl: string;
 	fields: FieldValue[];
 }
 
@@ -24,8 +26,6 @@ export interface Field {
 	referencedModuleIdx: number;
 	maximumLength: number;
 }
-
-const baseUrl = 'http://localhost:8080/datacrow/api/';
 
 export async function fetchModules(): Promise<Module[]> {
 	const response = await fetch(baseUrl + 'modules/');

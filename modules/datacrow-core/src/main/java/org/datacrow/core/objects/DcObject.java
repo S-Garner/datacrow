@@ -307,6 +307,13 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         return name;
     }
     
+    public String getScaledImageUrl() {
+    	Connector conn = DcConfig.getInstance().getConnector();
+    	String url = "http://" + conn.getServerAddress() + ":" + 
+        		conn.getImageServerPort() +"/" + getID() + "/picture1_small.jpg";
+    	return url;
+    }
+    
     public DcImageIcon getScaledImage() {
     	
     	if (newPictures.size() > 0 && isNew()) {
@@ -315,18 +322,10 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     				CoreUtilities.getScaledImage(newPictures.getFirst().getImageIcon()));
     		
     	} else {
-    		
-        	Connector conn = DcConfig.getInstance().getConnector();
-        	
         	try {
-        	
     	    	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
     	    		
-    	            String address = 
-    	            		"http://" + conn.getServerAddress() + ":" + 
-    	            		conn.getImageServerPort() +"/" + getID() + "/picture1_small.jpg";
-    	            
-    	            URL url = new URL(address);
+    	            URL url = new URL(getScaledImageUrl());
     	            
     	            return new DcImageIcon(url);
     			
@@ -337,7 +336,7 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     				if (file.exists())
     					return new DcImageIcon(file);
     			}
-        	}catch (Exception e) {
+        	} catch (Exception e) {
         		logger.error("An error occured while retrieving the scaled image", e);
         	}
     	}

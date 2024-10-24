@@ -1,3 +1,4 @@
+import { Button, Card } from 'react-bootstrap';
 import { fetchItems, type Item } from '../api/datacrow_api';
 import { useCurrentModule } from '../module_context';
 import { useEffect, useState } from 'react';
@@ -15,9 +16,16 @@ export function ItemOverview() {
 	return (
 		<div>
 			{items!.map((item) => (
-				<div>
-					{item.name}
-				</div>
+				<Card style={{ width: '18rem' }}>
+			      <Card.Img variant="top" src={item.scaledImageUrl} />
+			      <Card.Body>
+			        <Card.Title>{item.name}</Card.Title>
+			        <Card.Text>
+			          {item.name}
+			        </Card.Text>
+			        <Button variant="primary">open</Button>
+			      </Card.Body>
+			    </Card>
 			))}
 		</div>)
 }

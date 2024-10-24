@@ -13,12 +13,17 @@ public class Item {
 	private String id;
 	@JsonProperty("name")
 	private String name;
+	@JsonProperty("scaledImageUrl")
+	private String scaledImageUrl;
+
 	@JsonProperty("fields")
 	private final List<FieldValue> fields = new LinkedList<FieldValue>();
 	
 	public Item(DcObject src, int[] fields) {
-		
+
+		id = src.getID();
 		name = src.toString();
+		scaledImageUrl = src.getScaledImageUrl();
 		
 		Module m = Modules.getInstance().getModule(src.getModuleIdx());
 		Field field;
@@ -27,6 +32,10 @@ public class Item {
 			field = m.getField(fieldIdx);
 			this.fields.add(new FieldValue(field, src.getValue(fieldIdx)));
 		}
+	}
+	
+	public String getScaledImageUrl() {
+		return scaledImageUrl;
 	}
 	
 	public String getId() {
