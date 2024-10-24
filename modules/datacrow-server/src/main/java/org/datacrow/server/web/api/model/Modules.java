@@ -15,10 +15,6 @@ public class Modules {
     private final Collection<Module> allModules = new ArrayList<Module>();
     private final Collection<Module> mainModules = new ArrayList<Module>();
     
-    /**
-     * Returns the sole instance of this configuration class.
-     * @return  the only instance of this class as used for the current session.
-     */
     public static Modules getInstance() {
         return instance;
     }
@@ -31,6 +27,15 @@ public class Modules {
     		if (m.isSelectableInUI() && m.isEnabled())
     			mainModules.add(new Module(m.getIndex(), m.getLabel(), m.getIcon32()));
     	}
+    }
+    
+    public Module getModule(int index) {
+    	for (Module module : allModules) {
+    		if (module.getIndex() == index)
+    			return module;
+    	}
+    	
+    	return null;
     }
     
     public List<Module> getMainModules() {

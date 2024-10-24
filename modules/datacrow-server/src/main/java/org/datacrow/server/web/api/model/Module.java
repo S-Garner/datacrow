@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.utilities.Base64;
 
@@ -21,12 +22,17 @@ public class Module {
 
 	@JsonProperty("children")
 	private Collection<Module> children = new ArrayList<Module>();
+	@JsonProperty("fields")
+	private Collection<Field> fields = new ArrayList<Field>();
 
 	public Module(int index, String name, DcImageIcon icon) {
 		this.index = index;
 		this.name = name;
 		this.icon = icon == null ? null : String.valueOf(Base64.encode(icon.getBytes()));
 
+		for (DcField field : DcModules.get(index).getFields())
+			fields.add(new Field(field));
+		
 		for (DcModule child : DcModules.getReferencedModules(index)) {
 
 			if (child.isEnabled() && 
@@ -43,6 +49,19 @@ public class Module {
 		}
 	}
 
+	public Collection<Field> getFields() {
+		return fields;
+	}
+	
+	public Field getField(int idx) {
+		for (Field fld : fields) {
+			if (fld.getIndex() == idx)
+				return fld;
+		}
+		
+		return null;
+	}
+	
 	public int getIndex() {
 		return index;
 	}

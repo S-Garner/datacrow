@@ -1,0 +1,22 @@
+package org.datacrow.server.web.api.service;
+
+import java.util.List;
+
+import org.datacrow.server.web.api.model.Items;
+
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+
+@Path("/items")
+public class ItemService {
+
+    @GET
+    @Path("/{moduleIndex}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<org.datacrow.server.web.api.model.Item> getItemsForModule(@PathParam("moduleIndex") Long id) {
+        return Items.getInstance().getItems(id.intValue());
+    }
+}

@@ -8,8 +8,8 @@ import {
 	Outlet,
 } from "react-router-dom";
 import ModuleMenu from "./components/module_menu";
-import ItemOverview from "./components/item_overview";
 import { AuthProvider, AuthStatus, LoginPage, RequireAuth } from "./security/authentication";
+import { ItemOverview } from './components/item_overview';
 
 export default function App() {
 	return (
