@@ -1,15 +1,23 @@
+import { fetchItems, type Item } from '../api/datacrow_api';
 import { useCurrentModule } from '../module_context';
+import { useEffect, useState } from 'react';
 
 export function ItemOverview() {
 
 	const currentModule = useCurrentModule();
 
-	if (!currentModule) {
-		return <div />
-	} else {
-		return (
+	const [items, setItems] = useState<Item[]>([]);
+	
+	useEffect(() => {
+		fetchItems(currentModule!).then((data) => setItems(data));
+	}, [currentModule]);
+
+	return (
 		<div>
-			{currentModule}
+			{items!.map((item) => (
+				<div>
+					{item.name}
+				</div>
+			))}
 		</div>)
-	}
 }

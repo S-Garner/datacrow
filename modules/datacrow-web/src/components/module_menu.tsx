@@ -2,7 +2,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import React, { useEffect, type MouseEvent } from 'react';
 import { fetchModules, type Module } from '../api/datacrow_api';
 import { Button } from 'react-bootstrap';
-import { createContext, useContext, useState } from 'react';
+import { useState } from 'react';
 import { CurrentModuleContext } from '../module_context';
 
 function ModuleMenu({ children }: { children: JSX.Element }) {
@@ -23,7 +23,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 			<div style={{ display: "flex", flexWrap: "wrap" }} id="mainModules">
 				{modules.map((module) => (
 					<Button onClick={() => setSelectedModule(module)}>
-						<img src={"data:image/png;base64, " + module.icon} />
+						<img src={"data:image/png;base64, " + module.icon} id={module.index} />
 						&nbsp;
 						{module.name}
 					</Button>
@@ -36,7 +36,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 		return (
 			<div style={{ display: "flex", flexWrap: "wrap" }} id="referencedModules">
 				{currentModule?.children.map((child) => (
-					<Button>
+					<Button id={child.index}>
 						<img src={"data:image/png;base64, " + child.icon} />
 						&nbsp;
 						{child.name}
