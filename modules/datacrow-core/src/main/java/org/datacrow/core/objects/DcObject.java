@@ -314,6 +314,13 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     	return url;
     }
     
+    public String getImageUrl() {
+    	Connector conn = DcConfig.getInstance().getConnector();
+    	String url = "http://" + conn.getServerAddress() + ":" + 
+        		conn.getImageServerPort() +"/" + getID() + "/picture1.jpg";
+    	return url;
+    }    
+    
     public DcImageIcon getScaledImage() {
     	
     	if (newPictures.size() > 0 && isNew()) {

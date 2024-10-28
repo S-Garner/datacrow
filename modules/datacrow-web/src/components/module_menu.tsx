@@ -23,7 +23,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 			<div style={{ display: "flex", flexWrap: "wrap" }} id="mainModules">
 				{modules.map((module) => (
 					<Button onClick={() => setSelectedModule(module)}>
-						<img src={"data:image/png;base64, " + module.icon} id={module.index} />
+						<img src={"data:image/png;base64, " + module.icon} />
 						&nbsp;
 						{module.name}
 					</Button>
@@ -36,7 +36,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 		return (
 			<div style={{ display: "flex", flexWrap: "wrap" }} id="referencedModules">
 				{currentModule?.children.map((child) => (
-					<Button id={child.index}>
+					<Button>
 						<img src={"data:image/png;base64, " + child.icon} />
 						&nbsp;
 						{child.name}
