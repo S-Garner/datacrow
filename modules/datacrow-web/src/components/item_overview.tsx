@@ -30,7 +30,7 @@ export function ItemOverview() {
 		setCurrentPage(pageNumber);
 	};
 
-	if (currentItems.length === 0) {
+	if (currentItems.length === 0 && totalItems > 0) {
 		setCurrentPage(1);
 	};
 
@@ -55,6 +55,8 @@ export function ItemOverview() {
 							</Card.Footer>
 						</Card>
 					))}
+				</div>
+
 
 				<Pagination
 					itemsPerPage={itemsPerPage}
@@ -63,7 +65,6 @@ export function ItemOverview() {
 				/>
 
 
-				</div>
 			</div>
 		</div>
 	);
