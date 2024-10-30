@@ -2,6 +2,9 @@
 Data Crow version 5.0  BETA III               Released on 2024-xx-xx
 --------------------------------------------------------------------
 
+[Fixed]
+- Database was not operating in logging mode - there was a fair chance information would be lost in case of a crash.
+
 Beta fixes:
 - XML Exporter will always make the paths relative when the pictures are exported for the picture list.
 - Default Data: Data Crow did not show image.

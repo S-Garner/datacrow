@@ -268,6 +268,7 @@ public class DcDatabase {
         try {
             Statement stmt = connection.createStatement();
             stmt.execute("SET FILES SCRIPT FORMAT COMPRESSED");
+            stmt.execute("SET FILES LOG TRUE");
             stmt.close();
         } catch (Exception e) {
             logger.error(DcResources.getText("msgUnableToChangeDbSettings"), e);
