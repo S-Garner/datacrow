@@ -133,7 +133,6 @@ public class SecurityCenter {
      * @return
      * @throws SecurityException
      */
-    @SuppressWarnings("resource")
 	public SecuredUser login(String clientKey, String username, String password) throws SecurityException {
     	SecuredUser su = users.get(clientKey);
     	
@@ -152,8 +151,15 @@ public class SecurityCenter {
     			// the user still exists. Check if the DB accepts the user as well.
     			Connection connection = DatabaseManager.getInstance().getConnection(username, password);
     			// if the database connection cannot be establish, the user is invalid.
-    			if (connection == null)
+    			if (connection == null) {
     				throw new SecurityException("Invalid user / password: " + su);
+    			} else {
+    				try {
+    					connection.close();
+    				} catch (SQLException se) {
+    					logger.error("Failed to close connection after login", se);
+    				}
+    			}
     			
     			logger.debug("User " + su + " re-used");
     			
@@ -179,6 +185,12 @@ public class SecurityCenter {
         if (connection == null) 
             throw new SecurityException(DcResources.getText("msgUserOrPasswordIncorrect"));
            
+		try {
+			connection.close();
+		} catch (SQLException se) {
+			logger.error("Failed to close connection after login", se);
+		}
+        
         ResultSet rs = null;
         Statement stmt = null;
         try {
@@ -191,6 +203,12 @@ public class SecurityCenter {
             		rs, 
             		new int[] {User._ID, User._A_LOGINNAME, User._B_ENABLED, User._C_NAME, User._L_ADMIN});
 
+			try {
+				rs.close();
+			} catch (SQLException se) {
+				logger.error("Failed to close connection after login", se);
+			}
+            
             User user;
             if (users.size() == 1) {
                 user = (User) users.get(0);
@@ -206,13 +224,11 @@ public class SecurityCenter {
                                    Permission._D_VIEW,
                                    Permission._E_EDIT,
                                    Permission._F_USER});
+                
                 for (DcObject permission : permissions)
                     user.addChild(permission);
                 
-                stmt.close();
             } else {
-                stmt.close();
-                connection.close();
                 throw new SecurityException(DcResources.getText("msgUserOrPasswordIncorrect"));
             }
             
@@ -234,7 +250,6 @@ public class SecurityCenter {
             try {
                 if (rs != null) rs.close();
                 if (stmt != null) stmt.close();
-                if (connection != null) connection.close();
             } catch (Exception e) {
                 logger.info(e, e);
             }

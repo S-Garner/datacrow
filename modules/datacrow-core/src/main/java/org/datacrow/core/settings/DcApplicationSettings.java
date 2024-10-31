@@ -122,6 +122,15 @@ public class DcApplicationSettings extends Settings {
 
     protected void createSettings() {
         addSetting(_General,
+                new Setting(DcRepository.ValueTypes._LONG,
+                            DcRepository.Settings.stDatabaseCheckpointIntervalMs,
+                            43200000,
+                            -1,
+                            "",
+                            "",
+                            true,
+                            false, -1));
+        addSetting(_General,
                 new Setting(DcRepository.ValueTypes._BOOLEAN,
                             DcRepository.Settings.stIsUpgraded,
                             Boolean.FALSE,
@@ -129,7 +138,7 @@ public class DcApplicationSettings extends Settings {
                             "",
                             "",
                             true,
-                            false, -1));
+                            false, -1));        
         addSetting(_SizeLimits,
                 new Setting(DcRepository.ValueTypes._LONG,
                             DcRepository.Settings.stMaximumAttachmentFileSize,

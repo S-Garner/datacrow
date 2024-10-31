@@ -431,6 +431,9 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                 index = indices[i];
                 
                 field = dco.getField(index);
+                
+                if (field.isUiOnly()) continue;
+                
                 component = fields.get(field);
                 oldValue = ComponentFactory.getValue(component);
                 newValue = object.getValue(index);
@@ -579,10 +582,12 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
 
         int[] indices = dcoOrig.getFieldIndices();
         int index;
+        DcField field;
         for (int i = 0; i < indices.length && !changed; i++) {
             index = indices[i];
+            field = dcoOrig.getField(index);
             
-            if (index == DcObject._ID || index == DcObject._SYS_CREATED || index == DcObject._SYS_MODIFIED)
+            if (index == DcObject._ID || index == DcObject._SYS_CREATED || index == DcObject._SYS_MODIFIED || field.isUiOnly())
                 continue;
             
             changed = isChanged(index);
@@ -624,6 +629,9 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         Object value;
         for (DcField field : fields.keySet()) {
             component = fields.get(field);
+            
+            if (field.isUiOnly()) continue;
+            
             value = ComponentFactory.getValue(component);
             value = value == null ? "" : value;
             

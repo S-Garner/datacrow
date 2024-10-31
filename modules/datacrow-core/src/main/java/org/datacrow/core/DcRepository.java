@@ -125,6 +125,7 @@ public abstract class DcRepository {
     	public static final String stImageUpgradeConversionNeeded = "image_upgrade_conversion_needed";
     	public static final String stMaximumImageResolution = "maximum_image_resolution";
     	public static final String stIsUpgraded = "is_upgraded";
+    	public static final String stDatabaseCheckpointIntervalMs = "database_checkpoint_interval_ms";
     	public static final String stMaximumAttachmentFileSize = "max_attachment_file_size";
     	public static final String stUIScaling = "ui_scaling";
     	public static final String stComicVineAddEnemiesAndFriends = "comicvine_add_enemies_and_friends";

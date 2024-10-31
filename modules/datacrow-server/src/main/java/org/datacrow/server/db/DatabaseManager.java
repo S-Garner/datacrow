@@ -76,9 +76,10 @@ public class DatabaseManager {
     private final ConcurrentHashMap<String, Connection> connections = new ConcurrentHashMap<String, Connection>();
     
     private Connection adminConnection;
-    private Connection checkConnection;
 
     private boolean initialized = false;
+    
+    private final DatabaseCheckpointCreator checker;
     
     /**
      * Retrieves the sole instance of this class
@@ -91,7 +92,9 @@ public class DatabaseManager {
         return initialized;
     }
     
-    private DatabaseManager() {}
+    private DatabaseManager() {
+    	checker = new DatabaseCheckpointCreator();
+    }
     
     /**
      * Initializes the database. A connection with the HSQL database engine is established
@@ -128,9 +131,18 @@ public class DatabaseManager {
                 logger.debug("Database cleanup took " + (end - start) + "ms");
             }  
             
-            checkConnection = getConnection("DC_ADMIN", "UK*SOCCER*96");
+            Connection conn = getConnection("DC_ADMIN", "UK*SOCCER*96");
+            conn.close();
+            
             initialized = true;
-
+            
+            // start the database monitoring
+            checker.start();
+            
+        } catch (SQLException se) {
+            logger.fatal("Connection failure. The database cannot be connected to.", se);
+            Connector conn = DcConfig.getInstance().getConnector();
+            conn.notifyDatabaseFailure(se.getMessage());
         } catch (SystemUpgradeException sue) {
             logger.fatal("The upgrade of the database has failed.", sue);
             Connector conn = DcConfig.getInstance().getConnector();
@@ -209,13 +221,6 @@ public class DatabaseManager {
                 if (DcConfig.getInstance().getDatabaseDir() != null) {
 	                Connection c = getAdminConnection();
 	                
-	                try {
-	                	if (checkConnection != null)
-	                		checkConnection.close();
-	                } catch (SQLException se) {
-	                    logger.error(se, se);
-	                }
-	                
 	                if (c != null) {
 	                    Statement stmt = c.createStatement();
 	
@@ -259,9 +264,9 @@ public class DatabaseManager {
 	@SuppressWarnings("resource")
 	public Connection getConnection(SecuredUser su) {
     	
-    	Connection connection = connections.get(su.getUser().getID());
-    	
-        if (isClosed(connection)) {
+		Connection connection = connections.get(su.getUser().getID());
+
+    	if (connection == null || isClosed(connection)) {
         	
         	// for good measure
         	try {
@@ -274,15 +279,16 @@ public class DatabaseManager {
             connection = getConnection(su.getUsername(), su.getPassword());
             logger.debug("Created a new, normal, database connection");
             
-            try {
-            	connections.put(su.getUser().getID(), connection);
-            } catch (Exception e) {
-            	e.printStackTrace();
-            }
+        	connections.put(su.getUser().getID(), connection);
         }
         
         return connection;
     }
+	
+	@SuppressWarnings("resource")
+	public void createCheckpoint() {
+		db.createCheckpoint(getAdminConnection());
+	}
 	
 	@SuppressWarnings("resource")
 	public void doDatabaseHealthCheck() throws DatabaseInvalidException {
@@ -581,7 +587,7 @@ public class DatabaseManager {
         }
         
         // Do not store this connection.
-        // This is only needed when the default admin user has not been created
+        // This is only needed when the default administrator user has not been created
         if (adminConnection == null)
         	return getConnection("SA", "");
 

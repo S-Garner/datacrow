@@ -260,6 +260,16 @@ public class DcDatabase {
         queue.addQuery(query);
     }
 
+    protected void createCheckpoint(Connection connection) {
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.execute("CHECKPOINT");
+            stmt.close();
+        } catch (Exception e) {
+            logger.error("Checkpoint could not be created.", e);
+        }
+    }
+    
     /**
      * Applies the default settings on the database.
      * @param connection
