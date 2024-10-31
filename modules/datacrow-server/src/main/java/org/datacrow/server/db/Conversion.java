@@ -101,6 +101,9 @@ public class Conversion {
         
         DcModule refMod = DcModules.get(moduleIdx + referencingModuleIdx) != null ? DcModules.get(moduleIdx + referencingModuleIdx) : DcModules.get(referencingModuleIdx);
         
+        if (refMod == null)
+        	return false;
+        
         // check if the column exists (old version with old module will not have the column)
         if (getNewFieldType() != UIComponents._REFERENCESFIELD) {
             String sql = "select top 1 " + columnName + " from " + DcModules.get(moduleIdx).getTableName();

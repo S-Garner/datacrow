@@ -279,6 +279,7 @@ public class DcDatabase {
             Statement stmt = connection.createStatement();
             stmt.execute("SET FILES SCRIPT FORMAT COMPRESSED");
             stmt.execute("SET FILES LOG TRUE");
+            stmt.execute("SET FILES WRITE DELAY FALSE");
             stmt.close();
         } catch (Exception e) {
             logger.error(DcResources.getText("msgUnableToChangeDbSettings"), e);

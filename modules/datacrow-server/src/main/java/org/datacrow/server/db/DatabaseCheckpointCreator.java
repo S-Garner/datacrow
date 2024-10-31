@@ -13,6 +13,13 @@ public class DatabaseCheckpointCreator extends Thread {
 	public void run() {
 		long wait = DcSettings.getLong(DcRepository.Settings.stDatabaseCheckpointIntervalMs);
 		
+		if (wait < 10000) {
+			logger.info("Cannot schedule the checkpoint task to a value lower than 10.000ms. Reverting back to the default of 43.200.000ms (12h).");
+			wait = 43200000;
+		}
+		
+		logger.info("Scheduling the checkpoint task run every " + wait + " milliseconds.");
+		
 		while (true) {
             try {
             	// every so many milliseconds (commonly every 12 hours, a checkpoint is created.
