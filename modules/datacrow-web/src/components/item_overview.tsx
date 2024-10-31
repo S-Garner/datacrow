@@ -57,14 +57,11 @@ export function ItemOverview() {
 					))}
 				</div>
 
-
 				<Pagination
 					itemsPerPage={itemsPerPage}
 					totalItems={totalItems}
 					paginate={paginate}
 				/>
-
-
 			</div>
 		</div>
 	);

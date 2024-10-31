@@ -1,32 +1,32 @@
 import Accordion from 'react-bootstrap/Accordion';
 import React, { useEffect, type MouseEvent } from 'react';
 import { fetchModules, type Module } from '../api/datacrow_api';
-import { Button } from 'react-bootstrap';
+import { Button, Dropdown } from 'react-bootstrap';
 import { useState } from 'react';
 import { CurrentModuleContext } from '../module_context';
 
 function ModuleMenu({ children }: { children: JSX.Element }) {
 
 	const [modules, setModules] = useState<Module[]>([]);
-	const [currentModule, setCurrentModule] = useState<Module>();
+	
+	const [mainModule, setMainModule] = useState<Module>();
+	const [selectedModule, setSelectedModule] = useState<Module>();
 	
 	useEffect(() => {
 		fetchModules().then((data) => setModules(data));
 	}, []);
 
-	function setSelectedModule(m: Module) {
-		setCurrentModule(m);
+	function setSelectedMainModule(m: Module) {
+		setMainModule(m);
 	}
 
 	function DisplayMainModules() {
 		return (
 			<div style={{ display: "flex", flexWrap: "wrap" }} id="mainModules">
 				{modules.map((module) => (
-					<Button onClick={() => setSelectedModule(module)}>
+					<Button onClick={() => setSelectedMainModule(module)}>
 						<img src={"data:image/png;base64, " + module.icon} />
-						&nbsp;
-						{module.name}
-					</Button>
+					</Button>				
 				))}
 			</div>
 		);
@@ -35,8 +35,17 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 	function DisplayReferenceModules() {
 		return (
 			<div style={{ display: "flex", flexWrap: "wrap" }} id="referencedModules">
-				{currentModule?.children.map((child) => (
-					<Button>
+			
+				{mainModule && (
+					<Button onClick={() => setSelectedModule(mainModule)}>
+							<img src={"data:image/png;base64, " + mainModule.icon} />
+							&nbsp;
+							{mainModule.name}
+						</Button>
+				)}
+			
+				{mainModule?.children.map((child) => (
+					<Button onClick={() => setSelectedModule(child)}>
 						<img src={"data:image/png;base64, " + child.icon} />
 						&nbsp;
 						{child.name}
@@ -47,10 +56,10 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 	}
 	
 	return (
-		<CurrentModuleContext.Provider value={currentModule === null ? 50 : currentModule?.index}>
+		<CurrentModuleContext.Provider value={selectedModule === null ? 50 : selectedModule?.index}>
 			<Accordion>
 				<Accordion.Item eventKey="0">
-					<Accordion.Header>Module Menu</Accordion.Header>
+					<Accordion.Header>Modules</Accordion.Header>
 					<Accordion.Body>
 						<DisplayMainModules />
 						<br />
