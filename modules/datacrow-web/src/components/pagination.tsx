@@ -16,10 +16,10 @@ export default function Pagination({
 	);
 
 	return (
-			<div style={{ display: "flex", flexWrap: "wrap" }}>
-				{pageNumbers.map((number) => (
-					<a onClick={() => paginate(number)} href="#" className="pagination-button">{number}</a>
-				))}
-			</div>
+		<div style={{ display: "flex", flexWrap: "wrap" }}>
+			{pageNumbers.map((number) => (
+				<a onClick={() => paginate(number)} href="#" className="pagination-button">{number}</a>
+			))}
+		</div>
 	);
 }

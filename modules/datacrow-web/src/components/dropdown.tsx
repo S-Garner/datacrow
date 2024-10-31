@@ -25,7 +25,7 @@ export default function Dropdown({
 			</Button>
 
 			{isOpen && (
-				<ul style={{ display: "flex", flexWrap: "wrap" }}>
+				<div style={{ display: "flex", flexWrap: "wrap" }}>
 					{options.map((option) => (
 						<a
 							className="pagination-button"
@@ -38,7 +38,7 @@ export default function Dropdown({
 							{option}
 						</a>
 					))}
-				</ul>
+				</div>
 			)}
 		</div>
 	);
