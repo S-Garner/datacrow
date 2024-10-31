@@ -12,8 +12,10 @@ public class DatabaseCheckpointCreator extends Thread {
 	@Override
 	public void run() {
 		long wait = DcSettings.getLong(DcRepository.Settings.stDatabaseCheckpointIntervalMs);
-		
-		if (wait < 10000) {
+
+		if (wait == -1) {
+			logger.info("Checkpoint task will not be scheduled, as per settings (-1).");
+		} else if (wait < 10000) {
 			logger.info("Cannot schedule the checkpoint task to a value lower than 10.000ms. Reverting back to the default of 43.200.000ms (12h).");
 			wait = 43200000;
 		}

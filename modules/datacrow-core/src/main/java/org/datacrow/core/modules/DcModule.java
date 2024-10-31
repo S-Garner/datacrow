@@ -559,17 +559,11 @@ public class DcModule implements Comparable<DcModule>, Serializable {
      * Tells if the module is created by a user.
      */
     public boolean isCustomModule() {
-    	
-    	if (getIndex() == 10000000)
-    		System.out.println();
-    	
         return ((getIndex() < 50 ||
-                //(getIndex() >= 20000 && getIndex() <= 30000)) ||
                  getIndex() >= 10000000)) &&
                 getType() != DcModule._TYPE_TEMPLATE_MODULE && 
-                getType() != DcModule._TYPE_MAPPING_MODULE; //&&
-                //DcModules.getPropertyBaseModule(getIndex()) == null;
-    } 
+                getType() != DcModule._TYPE_MAPPING_MODULE;
+    }
     
     /**
      * Creates a new instance of an item belonging to this module.
