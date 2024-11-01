@@ -113,8 +113,6 @@ public abstract class DcRepository {
         public static final String stQuickFilterDefaultField = "quick_filter_default_field";
         public static final String stTreePanelShownItems = "tree_panel_shown_items";
         public static final String stContainerTreePanelFlat = "container_tree_panel_flat";
-        public static final String stWebItemFormFields = "web_item_form_fields";
-        public static final String stWebOverviewFields = "web_overview_fields";
     }
     
     /**

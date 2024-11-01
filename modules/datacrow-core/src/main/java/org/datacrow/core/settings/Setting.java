@@ -140,14 +140,6 @@ public class Setting implements Serializable {
         return showToUser;   
     }
     
-//    public int getSettingsGroup() {
-//        return settingsGroup;   
-//    }
-//
-//    public int getSettingsGroupParent() {
-//        return parentGroup;   
-//    }
-    
     /**
      * The value type.
      * @return {@link DcRepository.ValueTypes}

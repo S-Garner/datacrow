@@ -4,6 +4,12 @@ Data Crow version 5.0  BETA III               Released on 2024-xx-xx
 
 [Fixed]
 - Database was not operating in logging mode - there was a fair chance information would be lost in case of a crash.
+- Database write to file delay has been set to zero meaning that Data Crow will write the information more often to disk.
+- IP address not remembered on next startup for the network client. Server details should be stored to the client settings instead.
+- Module settings are now correctly retrieved from the server. For existing clients, not much will change other than the fact that the field settings will be applied as configured on the server. New clients will have their settings based on the server configuration which can then be, in part, overwritten by the user. 
+
+[Changed]
+- Every 12 hours a hard synch to disk is performed (by the database). The system will be a bit slower for a few seconds but operations will not be aborted. I chose to do this deliberately for long running systems - to avoid database corruption. Sessions and operations are NOT aborted when this activity is performed. 
 
 Beta fixes:
 - XML Exporter will always make the paths relative when the pictures are exported for the picture list.

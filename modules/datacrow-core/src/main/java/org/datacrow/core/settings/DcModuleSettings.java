@@ -28,7 +28,6 @@ package org.datacrow.core.settings;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
@@ -38,12 +37,9 @@ import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.modules.DcMediaModule;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
-import org.datacrow.core.objects.DcAssociate;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
-import org.datacrow.core.objects.DcProperty;
-import org.datacrow.core.objects.helpers.ContactPerson;
 import org.datacrow.core.objects.helpers.Container;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.objects.DcDimension;
@@ -91,10 +87,10 @@ public class DcModuleSettings extends Settings {
 
         // load the user settings
         if (DcConfig.getInstance().isAllowLoadSettings()) {
-            setSettingsFile(new File(DcConfig.getInstance().getModuleSettingsDir(), module.getName().toLowerCase() + ".properties"));
+        	setSettingsFile(new File(DcConfig.getInstance().getModuleSettingsDir(), module.getName().toLowerCase() + ".properties"));
             load();
         }
-        
+
         correctSettings(module);
     }
     
@@ -699,87 +695,6 @@ public class DcModuleSettings extends Settings {
                             "",
                             false,
                             false, module.getIndex()));
-        
-        List<Integer> cWebFormFields = new ArrayList<Integer>();
-        for (DcField field : module.getFields()) {
-            if (!field.isLoanField())
-                cWebFormFields.add(Integer.valueOf(field.getIndex()));
-        }
-        
-        int[] webFormFields = new int[cWebFormFields.size()];
-        int counter = 0;
-        for (Integer i : cWebFormFields)
-            webFormFields[counter++] = i.intValue();
-        
-        addSetting(_General,
-                new Setting(DcRepository.ValueTypes._INTEGERARRAY,
-                            DcRepository.ModuleSettings.stWebItemFormFields,
-                            webFormFields,
-                            -1,
-                            "",
-                            "",
-                            false,
-                            false,
-                            module.getIndex()));
-        
-        List<Integer> cWebOverviewFields = new ArrayList<Integer>();
-        if (module.getType() == DcModule._TYPE_MEDIA_MODULE) {
-            cWebOverviewFields.add(Integer.valueOf(DcMediaObject._A_TITLE));
-            cWebOverviewFields.add(Integer.valueOf(DcMediaObject._B_DESCRIPTION));
-            cWebOverviewFields.add(Integer.valueOf(DcMediaObject._C_YEAR));            
-            cWebOverviewFields.add(Integer.valueOf(DcMediaObject._E_RATING));
-        } else if (module.getType() == DcModule._TYPE_PROPERTY_MODULE) {
-            cWebOverviewFields.add(Integer.valueOf(DcProperty._A_NAME));           
-        } else if (module.getType() == DcModule._TYPE_ASSOCIATE_MODULE) {
-            cWebOverviewFields.add(Integer.valueOf(DcAssociate._A_NAME));
-            cWebOverviewFields.add(Integer.valueOf(DcAssociate._B_DESCRIPTION));
-        } else if (module.getIndex() == DcModules._CONTAINER) {
-            cWebOverviewFields.add(Integer.valueOf(Container._A_NAME));
-            cWebOverviewFields.add(Integer.valueOf(Container._B_TYPE));
-            cWebOverviewFields.add(Integer.valueOf(Container._D_DESCRIPTION));              
-        } else if (module.getIndex() == DcModules._CONTACTPERSON) {
-            cWebOverviewFields.add(Integer.valueOf(ContactPerson._A_NAME));
-            cWebOverviewFields.add(Integer.valueOf(ContactPerson._B_DESCRIPTION));
-            cWebOverviewFields.add(Integer.valueOf(ContactPerson._D_CATEGORY));   
-        } else {
-            boolean longtext = false;
-            for (DcField field : module.getFields()) {
-                if (    field.isEnabled() && 
-                        !field.isSystemField() && 
-                        !field.isUiOnly() &&
-                        field.getValueType() != DcRepository.ValueTypes._DCOBJECTREFERENCE &&
-                        field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION &&
-                        field.getValueType() != DcRepository.ValueTypes._ICON &&
-                        field.getValueType() != DcRepository.ValueTypes._PICTURE &&
-                        field.getIndex() != DcObject._SYS_DISPLAYVALUE &&
-                        field.getIndex() != DcObject._SYS_MODULE &&
-                        !field.isLoanField()) {
-                    
-                    if (field.getFieldType() == UIComponents._LONGTEXTFIELD && !longtext) {
-                        longtext = true;
-                        cWebFormFields.add(field.getIndex());
-                    } else if (field.getFieldType() != UIComponents._LONGTEXTFIELD) {
-                        cWebFormFields.add(field.getIndex());
-                    }
-                }
-            }
-        }
-        
-        int[] webOverviewFields = new int[cWebOverviewFields.size()];
-        counter = 0;
-        for (Integer i : cWebOverviewFields)
-            webOverviewFields[counter++] = i.intValue();
-        
-        addSetting(_General,
-                new Setting(DcRepository.ValueTypes._INTEGERARRAY,
-                            DcRepository.ModuleSettings.stWebOverviewFields,
-                            webOverviewFields,
-                            -1,
-                            "",
-                            "",
-                            false,
-                            false,
-                            module.getIndex()));
     }
     
     private void createSystemSettings(DcModule module) {

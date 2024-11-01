@@ -56,6 +56,7 @@ import org.datacrow.core.server.response.ServerModulesRequestResponse;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.Setting;
 import org.datacrow.core.settings.Settings;
+import org.datacrow.core.settings.SettingsFile;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.StringUtils;
 import org.datacrow.core.utilities.filefilters.FileNameFilter;
@@ -156,40 +157,20 @@ public class DcModules implements Serializable {
     public static void load() throws ModuleUpgradeException, InvalidModuleXmlException, ModuleJarException {
     	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
             // retrieve modules from server
-            Connector conn = DcConfig.getInstance().getConnector();
-            ServerModulesRequestResponse moduleResponse = conn.getModules();
+            ServerModulesRequestResponse moduleResponse = DcConfig.getInstance().getConnector().getModules();
             
 	        propertyBaseModules.clear();
 	        modules.clear();
 	        
-	        for (DcModule m : moduleResponse.getModules()) {
+	        for (DcModule m : moduleResponse.getModules())
 	        	modules.put(m.getIndex(), m);
-	        }
 
-	        for (DcPropertyModule m : moduleResponse.getPropertyBaseModules()) {
+	        for (DcPropertyModule m : moduleResponse.getPropertyBaseModules())
 	        	propertyBaseModules.put(Integer.valueOf(m.getIndex()), m);
-	        }
 
 	        // now that modules have been loaded (without any settings) the settings need to be requested for;
-            HashMap<Integer, Settings> modSettings = conn.getModuleSettings();
-            
-            Settings settings;
-            DcModule module;
-            
-            // apply the settings to the module:
-            for (Integer i : modSettings.keySet()) {
-                settings = modSettings.get(i);
-                module = DcModules.get(i.intValue());
-                settings.setSettingsFile(
-                        new File(DcConfig.getInstance().getModuleSettingsDir(), module.getName().toLowerCase() + ".properties"));
-
-                module.initializeSettings();
-                
-                for (Setting setting : settings.getSettings()) {
-                    if (!setting.isReadonly()) 
-                        module.setSetting(setting.getKey(), setting.getValue());
-                }   
-            }
+	        initializeServerClientSettings();
+	                
     	} else {
 	        propertyBaseModules.clear();
 	        modules.clear();
@@ -199,7 +180,39 @@ public class DcModules implements Serializable {
 	        loadModuleJars();
     	}
     	
-    	loaded = false;
+    	loaded = true;
+    }
+    
+    private static void initializeServerClientSettings() {
+        
+        HashMap<Integer, Settings> modSettings = DcConfig.getInstance().getConnector().getModuleSettings();
+        
+        Settings settings;
+        DcModule module;
+        File settingsFile;
+        
+        for (Integer idx : modSettings.keySet()) {
+            settings = modSettings.get(idx);
+            module = DcModules.get(idx.intValue());
+            settingsFile = new File(DcConfig.getInstance().getModuleSettingsDir(), module.getName().toLowerCase() + ".properties");
+
+            // if the local settings do not yet exist, take them from the remote server
+            if (!settingsFile.exists()) {
+            	settings.setSettingsFile(settingsFile);
+            	SettingsFile.save(settings);
+            }  
+        }
+
+        // apply the settings to the main module:
+        for (DcModule m : DcModules.getAllModules()) {
+    		m.initializeSettings();
+    	
+    		settings = modSettings.get(Integer.valueOf(m.getIndex()));
+            for (Setting setting : settings.getSettings()) {
+                if (setting.isReadonly()) 
+                    m.setSetting(setting.getKey(), setting.getValue());
+            }
+        }
     }
     
     public static boolean isLoaded() {

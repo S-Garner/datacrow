@@ -115,7 +115,8 @@ public class DcFieldDefinition extends Definition {
         if (CoreUtilities.isEmpty(tab)) {
             DcField field = DcModules.get(module).getField(index);
             
-            if ((!field.isUiOnly() || field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) && 
+            if (field != null &&
+            	(!field.isUiOnly() || field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) && 
                   field.isEnabled() && 
                   field.getValueType() != DcRepository.ValueTypes._ICON &&
                   field.getValueType() != DcRepository.ValueTypes._PICTURE &&
