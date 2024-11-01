@@ -1,3 +1,5 @@
+@import "bootstrap";
+
 body {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
 		"Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
@@ -11,15 +13,24 @@ code {
 		monospace;
 }
 
-.pagination-button {
-	background-color: grey;
-	color: white;
-	border: none;
-	padding: 5px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 12px;
-	margin: 1px 1px;
-	border-radius: 12px;
+
+$mynewcolor: black;
+
+
+
+
+.red {
+.btn-primary {
+    @include button-variant($mynewcolor, darken($mynewcolor, 7.5%), darken($mynewcolor, 10%), lighten($mynewcolor,5%), lighten($mynewcolor, 10%), darken($mynewcolor,30%));
+}
+
+.btn-outline-primary {
+    @include button-outline-variant($mynewcolor, #222222, lighten($mynewcolor,5%), $mynewcolor);
+}
+}
+
+.green {
+	background-color: red !important;
+	color: red;
+	transform: rotate(90deg);
 }

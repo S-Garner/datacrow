@@ -44,12 +44,11 @@ import org.datacrow.client.console.components.DcNumberField;
 import org.datacrow.client.console.components.DcPasswordField;
 import org.datacrow.client.console.components.DcShortTextField;
 import org.datacrow.client.console.windows.DcDialog;
+import org.datacrow.core.ClientSettings;
 import org.datacrow.core.DcConfig;
-import org.datacrow.core.DcRepository;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.server.Connector;
-import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
 public class LoginDialog extends DcDialog implements ActionListener, KeyListener {
@@ -110,9 +109,11 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
             String address = fldServerAddress.getText();
             conn.setServerAddress(address);
             
-            DcSettings.set(DcRepository.Settings.stServerAddress, address);
-            DcSettings.set(DcRepository.Settings.stApplicationServerPort, applicationServerPort);
-            DcSettings.set(DcRepository.Settings.stImageServerPort, imageServerPort);
+            DcConfig.getInstance().getClientSettings().setServerDetails(
+            		address, 
+            		applicationServerPort == null ? 0 : applicationServerPort.intValue(), 
+            		address,
+            		imageServerPort == null ? 0 : imageServerPort.intValue());
             
             close();
         }
@@ -160,23 +161,21 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
                      GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                      new Insets(10, 5, 5, 5), 0, 0));
              
+             ClientSettings cs = DcConfig.getInstance().getClientSettings();
+             
              String serverAddress = connector.getServerAddress();
              if (CoreUtilities.isEmpty(serverAddress))
-                 serverAddress = DcSettings.getString(DcRepository.Settings.stServerAddress);
+            	 serverAddress = cs.getServerAddress();
              fldServerAddress.setText(serverAddress);
              
              int applicationServerPort = connector.getApplicationServerPort();
-             if (applicationServerPort > 0) {
-                 Long port = DcSettings.getLong(DcRepository.Settings.stApplicationServerPort);
-                 applicationServerPort = port != null ? port.intValue() : 9000;
-             }
+             if (applicationServerPort <= 0)
+            	 applicationServerPort = cs.getServerPort();
              fldApplicationServerPort.setValue(applicationServerPort);
              
              int imageServerPort = connector.getImageServerPort();
-             if (imageServerPort > 0) {
-                 Long port = DcSettings.getLong(DcRepository.Settings.stImageServerPort);
-                 imageServerPort = port != null ? port.intValue() : 9001;
-             }
+             if (imageServerPort <= 0)
+            	 imageServerPort = cs.getImageServerPort();
              fldImageServerPort.setValue(imageServerPort);
          }
          

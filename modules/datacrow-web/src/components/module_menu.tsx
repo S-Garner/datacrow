@@ -37,15 +37,15 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 			<div style={{ display: "flex", flexWrap: "wrap" }} id="referencedModules">
 			
 				{mainModule && (
-					<Button onClick={() => setSelectedModule(mainModule)}>
+					<Button onClick={() => setSelectedModule(mainModule)} className={`${mainModule.index === selectedModule?.index ? "red" : "green"}`}>
 							<img src={"data:image/png;base64, " + mainModule.icon} />
 							&nbsp;
 							{mainModule.name}
 						</Button>
 				)}
 			
-				{mainModule?.children.map((child) => (
-					<Button onClick={() => setSelectedModule(child)}>
+				{mainModule && mainModule.children.map((child) => (
+					<Button onClick={() => setSelectedModule(child)} className={`${child.index === selectedModule?.index ? "red" : "green"}`}>
 						<img src={"data:image/png;base64, " + child.icon} />
 						&nbsp;
 						{child.name}
@@ -64,7 +64,6 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 						<DisplayMainModules />
 						<br />
 						<DisplayReferenceModules />
-						
 					</Accordion.Body>
 				</Accordion.Item>
 			</Accordion>

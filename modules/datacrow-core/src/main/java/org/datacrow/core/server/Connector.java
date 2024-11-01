@@ -46,7 +46,6 @@ import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.response.ServerModulesRequestResponse;
 import org.datacrow.core.settings.Settings;
-import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.wf.tasks.DcTask;
 
 public abstract class Connector {
@@ -58,10 +57,7 @@ public abstract class Connector {
     private String password;
     
     public void setServerAddress(String serverAddress) {
-    	if (serverAddress == null || serverAddress.length() == 0)
-    		Connector.serverAddress = CoreUtilities.getLocalIPAddress();
-    	else
-    		Connector.serverAddress = serverAddress;
+		Connector.serverAddress = serverAddress;
 	}
     
     public DcServerConnection getServerConnection()  throws Exception {

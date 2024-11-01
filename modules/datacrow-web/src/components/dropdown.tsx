@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
+import "./dropdown.css";
+
 
 type DropdownProps = {
 	title: string;

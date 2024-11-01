@@ -74,7 +74,7 @@ public class DcConfig {
     private ClientSettings clientSettings;
     private Connector connector;
     
-    private static DcConfig dcc = new DcConfig();
+    private static final DcConfig dcc = new DcConfig();
     
     /**
      * Returns the sole instance of this configuration class.

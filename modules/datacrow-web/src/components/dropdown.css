@@ -1,0 +1,14 @@
+@import "bootstrap";
+
+.pagination-button {
+	background-color: grey;
+	color: white;
+	border: none;
+	padding: 5px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 12px;
+	margin: 1px 1px;
+	border-radius: 12px;
+}

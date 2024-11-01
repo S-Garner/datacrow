@@ -592,7 +592,6 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
         
         panelSettings = new OnlineServiceSettingsPanel(this, true, ID != null, false, false, module);
         
-        
         JPanel panel2 = new JPanel();
         panel2.setLayout(Layout.getGBL());
         panel2.add(panelSettings, Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
@@ -668,9 +667,9 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
     	// table tab
         table = new DcTable(getModule(), true, false);
         table.setDynamicLoading(false);
-        table.activate();
         table.addSelectionListener(new TableSelectionListener());
         table.addMouseListener(this);
+        table.activate();
         
         JScrollPane spTable = new JScrollPane(table);
         spTable.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -872,10 +871,10 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
     private class TableSelectionListener implements ListSelectionListener {
     	
 		public void valueChanged(ListSelectionEvent e) {
-			if (table.getSelectedIndex() == -1 || table.getSelectedItem() == null) return;
+			if (table.getSelectedIndex() == -1 || table.getSelectedItem() == null)
+				return;
 
-			if (e.getValueIsAdjusting())
-	            qvTable.setObject(getSelectedObject()); 
+            qvTable.setObject(getSelectedObject()); 
 		}    	
     }
 }

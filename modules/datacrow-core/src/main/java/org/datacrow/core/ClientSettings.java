@@ -45,20 +45,19 @@ public class ClientSettings {
     
     private static final String _USERDIR = "user.home";
     private static final String _CLIENTID = "user.clientid";
-    
-    private static final File file = new File(System.getProperty("user.home"), "datacrow.properties");
-    
-    private static final Properties properties;
-    
-    static {
-        properties = new Properties();
-    }
+    private static final String _SERVER_ADDRESS = "server.address";
+    private static final String _SERVER_PORT = "server.port";
+    private static final String _IMAGE_SERVER_ADDRESS = "imageserver.address";
+    private static final String _IMAGE_SERVER_PORT = "imageserver.port";
+
+    private final File file = new File(System.getProperty("user.home"), "datacrow.properties");
+    private final Properties properties = new Properties();
     
     /**
      * Creates a new instance and loads the data_crow.properties file from the user folder
      * (user_home) if it exists. The file is then saved with the client ID to the user folder.
      */
-    public ClientSettings() {
+    protected ClientSettings() {
         
         if (file.exists()) {
             try {
@@ -94,6 +93,38 @@ public class ClientSettings {
             e.printStackTrace(); // logger not yet available at this stage
         }  
     }
+    
+    public int getServerPort() {
+    	Object o = properties.get(_SERVER_PORT);
+    	return CoreUtilities.isEmpty(o) ? 9000 : Integer.valueOf(o.toString());
+    }
+    
+    public String getServerAddress() {
+    	Object o = properties.get(_SERVER_ADDRESS);
+    	return CoreUtilities.isEmpty(o) ? "localhost" : o.toString();    	
+    }
+    
+    public int getImageServerPort() {
+    	Object o = properties.get(_IMAGE_SERVER_PORT);
+    	return CoreUtilities.isEmpty(o) ? 9001 : Integer.valueOf(o.toString());
+    }
+    
+    public String getImageServerAddress() {
+    	Object o = properties.get(_IMAGE_SERVER_ADDRESS);
+    	return CoreUtilities.isEmpty(o) ? "localhost" : o.toString();    	
+    }
+    
+    public void setServerDetails(
+    		String serverAddress, 
+    		int serverPort,
+    		String imageServerAddress,
+    		int imageServerPort) {
+        
+    	properties.setProperty(_SERVER_ADDRESS, serverAddress);
+    	properties.setProperty(_SERVER_PORT, String.valueOf(serverPort));
+    	properties.setProperty(_IMAGE_SERVER_ADDRESS, imageServerAddress);
+    	properties.setProperty(_IMAGE_SERVER_PORT, String.valueOf(imageServerPort));
+    }    
     
     public void setUiScaling() {
         properties.setProperty(

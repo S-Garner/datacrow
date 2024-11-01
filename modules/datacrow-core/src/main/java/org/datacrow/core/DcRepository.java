@@ -131,10 +131,7 @@ public abstract class DcRepository {
     	public static final String stComicVineAddEnemiesAndFriends = "comicvine_add_enemies_and_friends";
         public static final String stMobyGamesApiKey = "mobygames_api_key";
         public static final String stComicVineApiKey = "comicvine_api_key";
-        public static final String stServerAddress = "server_address";
-        public static final String stApplicationServerPort = "application_server_port";
         public static final String stOnlineSearchSelectedView = "online_search_selected_view";
-        public static final String stImageServerPort = "image_server_port";
         public static final String stMaintainTabsDialogSize = "maintain_tabs_dialog_size";
         public static final String stMergeItemsDialogSize = "merge_items_dialog_size";
         public static final String stPictureViewerDialogSize = "picture_viewer_dialog_size";
