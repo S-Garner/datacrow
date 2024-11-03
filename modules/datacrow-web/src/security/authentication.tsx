@@ -6,6 +6,7 @@ import {
 	useNavigate,
 	useLocation,
 } from "react-router-dom";
+import { Button } from 'react-bootstrap';
 
 interface AuthContextType {
 	user: any;
@@ -47,7 +48,7 @@ export function LoginPage() {
 				<label>
 					Username: <input name="username" type="text" />
 				</label>{" "}
-				<button type="submit">Login</button>
+				<Button type="submit">Login</Button>
 			</form>
 		</div>
 	);

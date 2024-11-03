@@ -8,7 +8,6 @@ import { CurrentModuleContext } from '../module_context';
 function ModuleMenu({ children }: { children: JSX.Element }) {
 
 	const [modules, setModules] = useState<Module[]>([]);
-	
 	const [mainModule, setMainModule] = useState<Module>();
 	const [selectedModule, setSelectedModule] = useState<Module>();
 	
@@ -56,7 +55,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 	}
 	
 	return (
-		<CurrentModuleContext.Provider value={selectedModule === null ? 50 : selectedModule?.index}>
+		<CurrentModuleContext.Provider value={selectedModule?.index}>
 			<Accordion>
 				<Accordion.Item eventKey="0">
 					<Accordion.Header>Modules</Accordion.Header>

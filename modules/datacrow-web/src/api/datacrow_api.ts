@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:8080/datacrow/api/';
+const baseUrl = 'http://192.168.178.244:8080/datacrow/api/';
 
 export interface Module {
 	index: number;
