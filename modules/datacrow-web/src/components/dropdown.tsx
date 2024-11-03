@@ -1,7 +1,6 @@
+import "./dropdown.scss";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
-import "./dropdown.scss";
-
 
 type DropdownProps = {
 	title: string;
