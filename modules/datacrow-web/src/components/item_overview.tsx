@@ -11,10 +11,9 @@ export function ItemOverview() {
 
 	const [items, setItems] = useState<Item[]>([]);
 
-	useEffect(() => {
+	useEffect(() => {currentModule &&
 		fetchItems(currentModule!).then((data) => setItems(data));
 	}, [currentModule]);
-
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
