@@ -45,7 +45,7 @@ export function ItemOverview() {
 				
 				<div style={{ display: "flex", flexWrap: "wrap" }}>
 					{currentItems!.map((item) => (
-						<Card style={{ width: '18rem' }}>
+						<Card style={{ width: '18rem' }} key={"card" + item.id}>
 							<Card.Header style={{ height: '92px' }} >{item.name}</Card.Header>
 							<Card.Body>
 								{item.imageUrl ? <Card.Img src={ item.imageUrl} /> : <div style={{ height: '300px' }} />}

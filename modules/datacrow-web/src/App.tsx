@@ -2,9 +2,6 @@ import './App.scss';
 import {
 	Routes,
 	Route,
-	useNavigate,
-	useLocation,
-	Navigate,
 	Outlet,
 } from "react-router-dom";
 import ModuleMenu from "./components/module_menu";
