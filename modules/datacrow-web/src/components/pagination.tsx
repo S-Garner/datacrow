@@ -18,7 +18,7 @@ export default function Pagination({
 	return (
 		<div style={{ display: "flex", flexWrap: "wrap" }} id="pagination">
 			{pageNumbers.map((number) => (
-				<a onClick={() => paginate(number)} href="#" className="pagination-button">{number}</a>
+				<a onClick={() => paginate(number)} href="#" className="pagination-button" key={"page" + number}>{number}</a>
 			))}
 		</div>
 	);

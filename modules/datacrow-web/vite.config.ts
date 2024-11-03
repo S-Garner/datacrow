@@ -5,6 +5,13 @@ import rollupReplace from "@rollup/plugin-replace";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  css :{
+    preprocessorOptions : {
+      scss: {
+        api: "modern",
+      }        
+    } 
+  },
   server: {
     port: 3000,
   },
