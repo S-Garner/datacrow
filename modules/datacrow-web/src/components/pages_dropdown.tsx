@@ -1,4 +1,4 @@
-import "./dropdown.scss";
+import "./pages_dropdown.scss";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 
@@ -8,7 +8,7 @@ type DropdownProps = {
 	handleSelectOption: (option: string) => void;
 };
 
-export default function Dropdown({
+export default function PagesDropdown({
 	title,
 	options,
 	handleSelectOption,

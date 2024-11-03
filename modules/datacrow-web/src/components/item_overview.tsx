@@ -2,7 +2,7 @@ import { Button, Card, Figure } from 'react-bootstrap';
 import { fetchItems, type Item } from '../api/datacrow_api';
 import { useCurrentModule } from '../module_context';
 import { useEffect, useState } from 'react';
-import Dropdown from './dropdown';
+import PagesDropdown from './pages_dropdown';
 import Pagination from './pagination';
 
 export function ItemOverview() {
@@ -36,7 +36,7 @@ export function ItemOverview() {
 	return (
 		<div className="py-20 bg-slate-900 h-full">
 			<div className="max-w-5xl mx-auto px-4 p-10">
-				<Dropdown
+				<PagesDropdown
 					title={`Items per page: ${itemsPerPage}`}
 					options={itemsPerPageOptions}
 					handleSelectOption={(option: string) => setItemsPerPage(+option)}
