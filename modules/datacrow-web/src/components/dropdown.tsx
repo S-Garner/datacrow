@@ -21,13 +21,14 @@ export default function Dropdown({
 	};
 
 	return (
-		<div className="relative">
-			<Button onClick={toggleDropdown}>
+		<div className="relative" id="pageSelect">
+		
+			<Button onClick={toggleDropdown} key="pageDropDown">
 				<span>{title}</span>
 			</Button>
 
 			{isOpen && (
-				<div style={{ display: "flex", flexWrap: "wrap" }}>
+				<div style={{ display: "flex", flexWrap: "wrap" }} id="pageSelectOverview">
 					{options.map((option) => (
 						<a
 							className="pagination-button"
