@@ -42,7 +42,7 @@ public class QueryQueue extends Thread {
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(QueryQueue.class.getName());
 
     private final LinkedList<Query> lQueryQueue = new LinkedList<Query>();
-    private boolean isLazy = true;
+    private boolean stuffToDo = false;
     
     public QueryQueue() {}
 
@@ -66,13 +66,27 @@ public class QueryQueue extends Thread {
         synchronized(this) {
             while (true) {
                 try {
-                    if (lQueryQueue.size() > 0 && isLazy) {
-                        isLazy = false;
+                	
+                	stuffToDo = lQueryQueue.size() > 0;
+                	
+                    if (stuffToDo) {
                         Query query = lQueryQueue.removeFirst();
                         query.run();
+
+                        try {
+                        	// work quickly when there's less to do
+	                        sleep(20);
+	                    } catch (Exception e) {
+	                        logger.error(e, e);
+	                    }
+                        
                     } else {
-                        isLazy = true;
-                        sleep(10);
+                    	// wait longer if there was nothing do to avoid heavy CPU usage on standstill
+                        try {
+	                        sleep(500);
+	                    } catch (Exception e) {
+	                        logger.error(e, e);
+	                    }
                     }
                 } catch (Exception e) {
                     logger.error(e, e);

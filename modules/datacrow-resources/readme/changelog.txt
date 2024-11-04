@@ -10,6 +10,7 @@ Data Crow version 5.0  BETA III               Released on 2024-xx-xx
 
 [Changed]
 - Every 12 hours a hard synch to disk is performed (by the database). The system will be a bit slower for a few seconds but operations will not be aborted. I chose to do this deliberately for long running systems - to avoid database corruption. Sessions and operations are NOT aborted when this activity is performed. 
+- Certain processes in Data Crow were too actively for things to do; lowered the polling frequency.
 
 Beta fixes:
 - XML Exporter will always make the paths relative when the pictures are exported for the picture list.
