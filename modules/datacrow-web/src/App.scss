@@ -1,7 +1,8 @@
+@use 'components' as comp;
+@use 'themes' as themes;
+
 #root {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
-
-$color-red: #FF0000;

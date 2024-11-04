@@ -4,24 +4,15 @@ import {
 	Route,
 	Outlet,
 } from "react-router-dom";
-import ModuleMenu from "./components/module_menu";
-import { AuthProvider, AuthStatus, LoginPage, RequireAuth } from "./security/authentication";
-import { ItemOverview } from './components/item_overview';
+import { AuthProvider, AuthStatus, LoginPage } from "./pages/login/authentication";
+import { OverviewPage } from './pages/overview/overview';
 
 export default function App() {
 	return (
 		<AuthProvider>
 			<Routes>
 				<Route element={<Layout />}>
-					<Route path="/" element={
-						<RequireAuth>
-							<div>
-								<ModuleMenu>
-									<ItemOverview />
-								</ModuleMenu>
-							</div>
-						</RequireAuth>
-					} />
+					<Route path="/" element={<OverviewPage />} />
 					<Route path="/login" element={<LoginPage />} />
 				</Route>
 			</Routes>

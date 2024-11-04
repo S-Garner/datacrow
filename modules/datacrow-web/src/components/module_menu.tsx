@@ -1,9 +1,8 @@
-import './module_menu.scss'
 import Accordion from 'react-bootstrap/Accordion';
 import { useEffect, useState} from 'react';
-import { fetchModules, type Module } from '../api/datacrow_api';
+import { fetchModules, type Module } from '../services/datacrow_api';
 import { Button } from 'react-bootstrap';
-import { CurrentModuleContext } from '../module_context';
+import { CurrentModuleContext } from '../context/module';
 
 function ModuleMenu({ children }: { children: JSX.Element }) {
 

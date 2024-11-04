@@ -1,6 +1,6 @@
-import { Button, Card, Figure } from 'react-bootstrap';
-import { fetchItems, type Item } from '../api/datacrow_api';
-import { useCurrentModule } from '../module_context';
+import { Button, Card } from 'react-bootstrap';
+import { fetchItems, type Item } from '../services/datacrow_api';
+import { useCurrentModule } from '../context/module';
 import { useEffect, useState } from 'react';
 import PagesDropdown from './pages_dropdown';
 import Pagination from './pagination';

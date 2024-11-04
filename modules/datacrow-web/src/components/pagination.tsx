@@ -1,5 +1,4 @@
 import { Button } from "react-bootstrap";
-import "./pagination.scss";
 
 type PaginationProps = {
 	totalItems: number;

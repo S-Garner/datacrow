@@ -1,4 +1,3 @@
-import "./pages_dropdown.scss";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 
