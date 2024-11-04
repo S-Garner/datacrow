@@ -20,17 +20,17 @@ export default function PagesDropdown({
 	};
 
 	return (
-		<div className="relative" id="pageSelect">
+		<div style={{ display: "flex", flexWrap: "wrap" }} id="pageSelect">
 		
-			<Button onClick={toggleDropdown} key="pageDropDown">
+			<Button onClick={toggleDropdown} key="pageDropDown" className="page-menu-button">
 				<span>{title}</span>
 			</Button>
 
 			{isOpen && (
 				<div style={{ display: "flex", flexWrap: "wrap" }} id="pageSelectOverview">
 					{options.map((option) => (
-						<a
-							className="pagination-button"
+						<Button
+							className="page-button"
 							key={option}
 							onClick={() => {
 								handleSelectOption("" + option);
@@ -38,7 +38,7 @@ export default function PagesDropdown({
 							}}
 						>
 							{option}
-						</a>
+						</Button>
 					))}
 				</div>
 			)}

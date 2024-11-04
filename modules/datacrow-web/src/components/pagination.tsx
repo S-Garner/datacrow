@@ -1,3 +1,6 @@
+import { Button } from "react-bootstrap";
+import "./pagination.scss";
+
 type PaginationProps = {
 	totalItems: number;
 	itemsPerPage: number;
@@ -18,7 +21,7 @@ export default function Pagination({
 	return (
 		<div style={{ display: "flex", flexWrap: "wrap" }} id="pagination">
 			{pageNumbers.map((number) => (
-				<a onClick={() => paginate(number)} href="#" className="pagination-button" key={"page" + number}>{number}</a>
+				<Button onClick={() => paginate(number)} className="pagination-button" key={"page" + number}>{number}</Button>
 			))}
 		</div>
 	);

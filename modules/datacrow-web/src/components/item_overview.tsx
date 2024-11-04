@@ -36,11 +36,16 @@ export function ItemOverview() {
 	return (
 		<div className="py-20 bg-slate-900 h-full">
 			<div className="max-w-5xl mx-auto px-4 p-10">
+				
+				<div style={{ right: "0px" }}>
+			
 				{currentModule && <PagesDropdown
 					title={`Items per page: ${itemsPerPage}`}
 					options={itemsPerPageOptions}
 					handleSelectOption={(option: string) => setItemsPerPage(+option)}
 				/>}
+				
+				</div>
 				
 				<div style={{ display: "flex", flexWrap: "wrap" }}>
 					{currentItems!.map((item) => (
