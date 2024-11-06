@@ -64,7 +64,8 @@ export function ItemOverview() {
 				<Pagination
 					itemsPerPage={itemsPerPage}
 					totalItems={totalItems}
-					paginate={paginate}
+					currentPage={currentPage}
+					paginate={paginate}					
 				/>
 			</div>
 		</div>

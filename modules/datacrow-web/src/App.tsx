@@ -23,7 +23,7 @@ export default function App() {
 
 function Layout() {
 	return (
-		<div style={{ left: "0px" }}>
+		<div>
 			<ColorStyleMenu />
 			<AuthStatus />
 			<Outlet />

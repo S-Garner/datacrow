@@ -1,3 +1,20 @@
-.main-module-menu-button {
-	color: black;
+.main-module-button {
+	border-style: none;
+	background-color: var(--bs-body-bg);
+	padding: 5px;
+	text-align: center;
+	font-size: 11px;
+	margin: 1px 1px;
+}
+
+.sub-module-button {
+	background-color: var(--bs-body-bg);
+	color: var(--bs-body-bg-subtle);
+	border-style: none;
+}
+
+.sub-module-button-selected {
+	background-color: var(--bs-primary-bg);
+	color: var(--bs-body-bg-subtle);
+	border-color: var(--bs-success-border);
 }

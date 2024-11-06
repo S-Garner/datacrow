@@ -22,7 +22,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 		return (
 			<div style={{ display: "flex", flexWrap: "wrap" }} id="mainModules">
 				{modules.map((module) => (
-					<Button onClick={() => setSelectedMainModule(module)} key={"moduleMenu" + module.index} className="main-module-menu-button">
+					<Button onClick={() => setSelectedMainModule(module)} key={"moduleMenu" + module.index} className="main-module-button">
 						<img src={"data:image/png;base64, " + module.icon} />
 					</Button>				
 				))}
@@ -37,7 +37,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 				{mainModule && (
 					<Button
 						onClick={() => setSelectedModule(mainModule)} 
-						className={`${mainModule.index === selectedModule?.index ? "red" : "green"}`} 
+						className={`${mainModule.index === selectedModule?.index ? "sub-module-button-selected" : "sub-module-button"}`} 
 						key={"moduleSubMenu" + mainModule.index}>
 							<img src={"data:image/png;base64, " + mainModule.icon} />
 							&nbsp;
@@ -48,7 +48,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 				{mainModule && mainModule.children.map((child) => (
 					<Button 
 						onClick={() => setSelectedModule(child)}
-						className={`${child.index === selectedModule?.index ? "red" : "green"}`}
+						className={`${child.index === selectedModule?.index ? "sub-module-button-selected" : "sub-module-button"}`}
 						key={"moduleSubMenu" + child.index}>
 						
 						<img src={"data:image/png;base64, " + child.icon} />

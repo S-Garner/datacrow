@@ -1,8 +1,9 @@
+
 .page-button {
 	border: 1px;
 	border-style: solid;
-	color: black;
-	background-color: white;
+	background-color: var(--bs-primary-bg-subtle);
+	color: var(--bs-primary-bg);
 	padding: 5px;
 	text-align: center;
 	font-size: 11px;
@@ -11,6 +12,6 @@
 }
 
 .page-menu-button {
-	background-color: rgb(192, 191, 188);
-	color: black;
+	background-color: var(--bs-primary-bg-subtle);
+	color: var(--bs-primary-bg);
 }
