@@ -79,11 +79,13 @@ public class ImageSizeConverter extends Thread {
 			              .map(Path::toString)
 			              .collect(Collectors.toSet()));
 		        } catch (Exception e) {
+		        	logger.error(e, e);
 		        	listener.notifyError(DcResources.getText("msgImageConversionFailed"));
 		        	break;
 		        }
 			}
         } catch (Exception e) {
+        	logger.error(e, e);
         	listener.notifyError(DcResources.getText("msgImageConversionFailed"));
         }
 		
@@ -95,6 +97,7 @@ public class ImageSizeConverter extends Thread {
 	              .map(Path::toString)
 	              .collect(Collectors.toSet()));
         } catch (Exception e) {
+        	logger.error(e, e);
         	listener.notifyError(DcResources.getText("msgImageConversionFailed"));
         }
 
@@ -160,6 +163,7 @@ public class ImageSizeConverter extends Thread {
             listener.notifyFinished();
             
         } catch (Exception e) {
+        	logger.error(e, e);
         	listener.notifyError(DcResources.getText("msgImageConversionFailed"));
         }
 	}

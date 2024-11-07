@@ -82,6 +82,8 @@ public class CreateQuery extends Query {
                 stmt.execute("CREATE UNIQUE INDEX " + module.getTableName() + "_IDX ON " + module.getTableName() + " (" +
                         module.getField(DcMapping._A_PARENT_ID).getDatabaseFieldName() + ", " +
                         module.getField(DcMapping._B_REFERENCED_ID).getDatabaseFieldName() + ")");
+                stmt.execute("CREATE INDEX " + module.getTableName() + "_REFERENCEID_IDX ON " + module.getTableName() + " (" +
+                        module.getField(DcMapping._B_REFERENCED_ID).getDatabaseFieldName() + ")");
             } catch (SQLException se) {
                 if (isLog())
                     logger.error(se, se);

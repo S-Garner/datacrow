@@ -71,11 +71,17 @@ public class ImageUpgradeConverter extends Thread {
 		// add images located in the images folder (these will need to be moved)
 		try (Stream<Path> streamFiles = Files.list(Paths.get(imageDir))) {
 			filenames.addAll(streamFiles
-	              .filter(file -> file.toString().endsWith(".jpg") && !Files.isDirectory(file) && !file.toString().endsWith("_small.jpg") && !file.toFile().getName().startsWith("icon_"))
+	              .filter(file -> 
+	              			file.toString().endsWith(".jpg") && 
+	              			file.toString().indexOf("_") > 0 && 
+	              			!Files.isDirectory(file) && 
+	              			!file.toString().endsWith("_small.jpg") && 
+	              			!file.toFile().getName().startsWith("icon_"))
 	              .map(Path::toAbsolutePath)
 	              .map(Path::toString)
 	              .collect(Collectors.toSet()));
         } catch (Exception e) {
+        	logger.error(e, e);
         	listener.notifyError(DcResources.getText("msgImageConversionFailed"));
         }
 		
@@ -100,18 +106,22 @@ public class ImageUpgradeConverter extends Thread {
 	private void savePicture(String ID, File file) throws Exception {
 		
 		Picture picture = new Picture(ID, file.toString());
-		PictureManager.getInstance().savePicture(picture);
 		
-		// clean up the old files
-		if (!file.delete())
-			file.deleteOnExit();
-		
-		File small = new File(file.toString().replace(".jpg", "_small.jpg")); 
-		if (small.exists()) {
-			if (!small.delete())
-				small.deleteOnExit();
+		try {
+			PictureManager.getInstance().savePicture(picture);
+		} catch (Exception e) {
+			logger.error("Corrupted image found. Skipping from conversion.", e);
+		} finally {
+			if (!file.delete())
+				file.deleteOnExit();
+			
+			File small = new File(file.toString().replace(".jpg", "_small.jpg"));
+			if (small.exists()) {
+				if (!small.delete())
+					small.deleteOnExit();
+			}
 		}
-
+		
         try {
         	sleep(20);
         } catch (Exception e) {
@@ -169,6 +179,7 @@ public class ImageUpgradeConverter extends Thread {
             listener.notifyFinished();
             
         } catch (Exception e) {
+        	logger.error(e, e);
         	listener.notifyError(DcResources.getText("msgImageConversionFailed"));
         }
 	}

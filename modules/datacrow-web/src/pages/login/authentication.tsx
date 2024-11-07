@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { useState } from 'react';
 import { fakeAuthProvider } from "../../security/authentication_provider";
 import { Navigate } from 'react-router-dom';
 
@@ -7,14 +7,7 @@ import {
 	useLocation,
 } from "react-router-dom";
 import { Button } from 'react-bootstrap';
-
-interface AuthContextType {
-	user: any;
-	signin: (user: string, callback: VoidFunction) => void;
-	signout: (callback: VoidFunction) => void;
-}
-
-let AuthContext = createContext<AuthContextType>(null!);
+import { AuthContext, useAuth } from '../../context/authentication_context';
 
 export function LoginPage() {
 	let navigate = useNavigate();
@@ -42,8 +35,6 @@ export function LoginPage() {
 
 	return (
 		<div>
-			<p>You must log in to view the page at {from}</p>
-
 			<form onSubmit={handleSubmit}>
 				<label>
 					Username: <input name="username" type="text" />
@@ -74,32 +65,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	let value = { user, signin, signout };
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-export function useAuth() {
-	return useContext(AuthContext);
-}
-
-export function AuthStatus() {
-	let auth = useAuth();
-	let navigate = useNavigate();
-
-	if (!auth.user) {
-		return <p>You are not logged in.</p>;
-	}
-
-	return (
-		<p>
-			Welcome {auth.user}!{" "}
-			<button
-				onClick={() => {
-					auth.signout(() => navigate("/"));
-				}}
-			>
-				Sign out
-			</button>
-		</p>
-	);
 }
 
 export function RequireAuth({ children }: { children: JSX.Element }) {

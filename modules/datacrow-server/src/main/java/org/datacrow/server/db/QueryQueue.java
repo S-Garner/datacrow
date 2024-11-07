@@ -83,7 +83,7 @@ public class QueryQueue extends Thread {
                     } else {
                     	// wait longer if there was nothing do to avoid heavy CPU usage on standstill
                         try {
-	                        sleep(500);
+	                        sleep(300);
 	                    } catch (Exception e) {
 	                        logger.error(e, e);
 	                    }

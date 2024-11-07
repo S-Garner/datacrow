@@ -26,6 +26,9 @@
 package org.datacrow.server.upgrade;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -35,7 +38,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
@@ -104,8 +111,11 @@ public class SystemUpgrade {
             
             if (dbInitialized && v.isOlder(new Version(5, 0, 0, 0))) {
             	moveAllImages();
+            	cleanupImages();
+            	
             	addIconFieldToPropertyForms();
             	removePersistencyColumns();
+            	addMissingIndexes();
             }
             
             if (!dbInitialized)
@@ -213,6 +223,57 @@ public class SystemUpgrade {
     			}
     		}
     	}    	
+    }
+    
+    private void cleanupImages() {
+		String imageDir = DcConfig.getInstance().getImageDir();
+		
+		Set<String> filenames = new HashSet<>();
+		
+		// add images located in the images folder (these will need to be moved)
+		try (Stream<Path> streamFiles = Files.list(Paths.get(imageDir))) {
+			filenames.addAll(streamFiles
+		              .filter(file -> file.toString().endsWith("_small.jpg"))
+		              .map(Path::toAbsolutePath)
+		              .map(Path::toString)
+		              .collect(Collectors.toSet()));
+        } catch (Exception e) {
+        	logger.error(e, e);
+        }
+		
+		File file;
+	    for (String filename : filenames) {
+	    	file = new File(filename);
+	    	if (!file.delete())
+	    		file.deleteOnExit();
+	    }		
+    }
+    
+    private void addMissingIndexes() {
+        @SuppressWarnings("resource")
+		Connection conn = DatabaseManager.getInstance().getAdminConnection();
+        Connector connector = DcConfig.getInstance().getConnector();
+        Statement stmt = null;
+        
+		try {
+			stmt = conn.createStatement();
+
+			for (DcModule m : DcModules.getAllModules()) {
+				if (m.getType() == DcModule._TYPE_MAPPING_MODULE) {
+	                stmt.execute("CREATE INDEX IF NOT EXISTS " + m.getTableName() + "_REFERENCEID_IDX ON " + m.getTableName() + " (" +
+	                        m.getField(DcMapping._B_REFERENCED_ID).getDatabaseFieldName() + ")");
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Upgrade failed; could not add missing indexes.", e);
+			connector.displayError("Upgrade failed; could not add missing indexes.");
+			System.exit(0);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (Exception e) {};
+		}
     }
     
     private void removePersistencyColumns() {

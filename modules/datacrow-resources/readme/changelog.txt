@@ -1,20 +1,31 @@
 --------------------------------------------------------------------
-Data Crow version 5.0  BETA III               Released on 2024-xx-xx
+Data Crow version 5.0  BETA III               Released on 2024-11-07
 --------------------------------------------------------------------
+I am releasing this version as people had issues upgrading - image conversion was failing.
+This releases addresses this issue (many thanks to Bert for sharing his data with me).
 
 [Fixed]
 - Database was not operating in logging mode - there was a fair chance information would be lost in case of a crash.
 - Database write to file delay has been set to zero meaning that Data Crow will write the information more often to disk.
 - IP address not remembered on next startup for the network client. Server details should be stored to the client settings instead.
 - Module settings are now correctly retrieved from the server. For existing clients, not much will change other than the fact that the field settings will be applied as configured on the server. New clients will have their settings based on the server configuration which can then be, in part, overwritten by the user. 
+- Performance on larger databases was very bad when grouping on multi-reference fields.
 
 [Changed]
 - Every 12 hours a hard synch to disk is performed (by the database). The system will be a bit slower for a few seconds but operations will not be aborted. I chose to do this deliberately for long running systems - to avoid database corruption. Sessions and operations are NOT aborted when this activity is performed. 
-- Certain processes in Data Crow were too actively for things to do; lowered the polling frequency.
+- Certain processes in Data Crow were too actively checking for things to do; lowered the polling frequency.
 
-Beta fixes:
+[Beta fixes]:
 - XML Exporter will always make the paths relative when the pictures are exported for the picture list.
 - Default Data: Data Crow did not show image.
+- Edit as new created too many copies of the images of the original item.
+- Upgrade errors when trying to move / convert the images.
+
+[In Progress]
+- The web version is still in development. Currently a REST service sits on the old web address.
+  I am working on a React (JavaScript) web application (using TypeScript and Bootstrap). 
+- For the future, the Data Crow server will run the images server, the application server and the REST server.
+  The web application is completely decoupled from the application server and can be / has to be deployed into a separate web server. 
 
 
 --------------------------------------------------------------------
@@ -58,6 +69,7 @@ This also makes it possible, although unlikely that someone will do this, to int
   lblIncludeAttachments = Include Attachments
   lblCopyAttachments = Copy Attachments
   lblAfter = After
+
 
 --------------------------------------------------------------------
 Data Crow version 5.0  BETA I                 Released on 2024-09-19

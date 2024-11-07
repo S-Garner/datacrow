@@ -4,9 +4,9 @@ import {
 	Route,
 	Outlet,
 } from "react-router-dom";
-import { AuthProvider, AuthStatus, LoginPage } from "./pages/login/authentication";
+import { AuthProvider, LoginPage } from "./pages/login/authentication";
 import { OverviewPage } from './pages/overview/overview';
-import ColorStyleMenu from './components/color_style_menu';
+import MainMenuBar from './components/main_menu_bar';
 
 export default function App() {
 	return (
@@ -24,8 +24,7 @@ export default function App() {
 function Layout() {
 	return (
 		<div>
-			<ColorStyleMenu />
-			<AuthStatus />
+			<MainMenuBar />
 			<Outlet />
 		</div>
 	);

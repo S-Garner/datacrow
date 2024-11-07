@@ -2,7 +2,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import { useEffect, useState} from 'react';
 import { fetchModules, type Module } from '../services/datacrow_api';
 import { Button } from 'react-bootstrap';
-import { CurrentModuleContext } from '../context/module';
+import { CurrentModuleContext } from '../context/module_context';
 
 function ModuleMenu({ children }: { children: JSX.Element }) {
 
@@ -67,13 +67,10 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 					<Accordion.Header>Modules</Accordion.Header>
 					<Accordion.Body>
 						<DisplayMainModules />
-						<br />
 						<DisplayReferenceModules />
 					</Accordion.Body>
 				</Accordion.Item>
 			</Accordion>
-			
-			<br />
 			
 			{children}
 

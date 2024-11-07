@@ -40,6 +40,7 @@ import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcProgressBar;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.IconLibrary;
+import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.settings.objects.DcDimension;
@@ -138,12 +139,15 @@ public class ConvertImagesDialog extends DcDialog implements IImageConverterList
 
 	@Override
 	public void notifyFinished() {
-		
 		GUI.getInstance().displayMessage(DcResources.getText("msgSuccessfullyConvertedAllImages"));
 		
 		SwingUtilities.invokeLater(new Thread(new Runnable() { 
             @Override
             public void run() {
+            	if (DcModules.getCurrent() != null &&
+            		GUI.getInstance().getSearchView(DcModules.getCurrent().getIndex()) != null)
+            		GUI.getInstance().getSearchView(DcModules.getCurrent().getIndex()).refresh();
+            	
     	        close();
             }
         }));

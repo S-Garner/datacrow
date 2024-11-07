@@ -282,7 +282,6 @@ public class GUI {
         return mv;
     }
     
-    
     public UpdateAllDialog getUpdateAllDialog(IView view) {
         UpdateAllDialog dialog = new UpdateAllDialog(view);
         return dialog;

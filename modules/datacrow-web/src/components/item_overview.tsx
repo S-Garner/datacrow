@@ -1,6 +1,6 @@
 import { Button, Card } from 'react-bootstrap';
 import { fetchItems, type Item } from '../services/datacrow_api';
-import { useCurrentModule } from '../context/module';
+import { useCurrentModule } from '../context/module_context';
 import { useEffect, useState } from 'react';
 import PagesDropdown from './pages_dropdown';
 import Pagination from './pagination';
@@ -16,9 +16,9 @@ export function ItemOverview() {
 	}, [currentModule]);
 
 	const [currentPage, setCurrentPage] = useState(1);
-	const [itemsPerPage, setItemsPerPage] = useState(10);
+	const [itemsPerPage, setItemsPerPage] = useState(30);
 
-	const itemsPerPageOptions = [10, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
+	const itemsPerPageOptions = [30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
 
 	const totalItems = items.length;
 	const lastItemIndex = currentPage * itemsPerPage;
