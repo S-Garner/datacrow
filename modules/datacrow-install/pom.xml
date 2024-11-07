@@ -302,7 +302,6 @@
 								<argument>${project.basedir}/../datacrow-server</argument>
 								<argument>${project.basedir}/../datacrow-services</argument>
 								<argument>${project.basedir}/../datacrow-resources</argument>
-								<argument>${project.basedir}/../datacrow-beans</argument>
 								<argument>${project.basedir}/../datacrow-plugins</argument>
 								<argument>${project.basedir}/../datacrow-synch-service</argument>
 								<argument>${project.basedir}/../pom.xml</argument>
