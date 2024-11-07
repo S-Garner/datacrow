@@ -931,7 +931,6 @@ public class SystemUpgrade {
     	private static final int _SIZE_CONVERSION = 0;
     	private static final int _UPGRADE_CONVERSION = 1;
     	
-    	
     	private int counter = 1;
     	private int total;
     	

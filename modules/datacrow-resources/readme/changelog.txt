@@ -20,6 +20,7 @@ This releases addresses this issue (many thanks to Bert for sharing his data wit
 - Default Data: Data Crow did not show image.
 - Edit as new created too many copies of the images of the original item.
 - Upgrade errors when trying to move / convert the images.
+- Overview will now be refreshed after the images have been converted to make the images appear.
 
 [In Progress]
 - The web version is still in development. Currently a REST service sits on the old web address.
