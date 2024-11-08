@@ -62,15 +62,10 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 	
 	return (
 		<CurrentModuleContext.Provider value={selectedModule?.index}>
-			<Accordion>
-				<Accordion.Item eventKey="0">
-					<Accordion.Header>Modules</Accordion.Header>
-					<Accordion.Body>
-						<DisplayMainModules />
-						<DisplayReferenceModules />
-					</Accordion.Body>
-				</Accordion.Item>
-			</Accordion>
+			<nav className="navbar navbar-expand-lg bs-body-bg">
+				<DisplayMainModules />
+				<DisplayReferenceModules />
+			</nav>
 			
 			{children}
 

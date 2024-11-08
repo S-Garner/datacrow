@@ -11,7 +11,8 @@ export function ItemOverview() {
 
 	const [items, setItems] = useState<Item[]>([]);
 
-	useEffect(() => {currentModule &&
+	useEffect(() => {
+		currentModule &&
 		fetchItems(currentModule!).then((data) => setItems(data));
 	}, [currentModule]);
 
@@ -24,7 +25,7 @@ export function ItemOverview() {
 	const lastItemIndex = currentPage * itemsPerPage;
 	const firstItemIndex = lastItemIndex - itemsPerPage;
 	const currentItems = items.slice(firstItemIndex, lastItemIndex);
-	
+
 	const paginate = (pageNumber: number) => {
 		setCurrentPage(pageNumber);
 	};
@@ -35,24 +36,21 @@ export function ItemOverview() {
 
 	return (
 		<div className="py-20 bg-slate-900 h-full">
-			<div className="max-w-5xl mx-auto px-4 p-10">
-				
+			<div>
 				<div style={{ right: "0px" }}>
-			
-				{currentModule && <PagesDropdown
-					title={`Items per page: ${itemsPerPage}`}
-					options={itemsPerPageOptions}
-					handleSelectOption={(option: string) => setItemsPerPage(+option)}
-				/>}
-				
+					{currentModule && <PagesDropdown
+						title={`Items per page: ${itemsPerPage}`}
+						options={itemsPerPageOptions}
+						handleSelectOption={(option: string) => setItemsPerPage(+option)}
+					/>}
 				</div>
-				
+
 				<div style={{ display: "flex", flexWrap: "wrap" }}>
 					{currentItems!.map((item) => (
 						<Card style={{ width: '18rem' }} key={"card" + item.id}>
 							<Card.Header style={{ height: '92px' }} >{item.name}</Card.Header>
 							<Card.Body>
-								{item.imageUrl ? <Card.Img src={ item.imageUrl} /> : <div style={{ height: '300px' }} />}
+								{item.imageUrl ? <Card.Img src={item.imageUrl} /> : <div style={{ height: '300px' }} />}
 							</Card.Body>
 							<Card.Footer>
 								<Button variant="primary">open</Button>
@@ -65,7 +63,7 @@ export function ItemOverview() {
 					itemsPerPage={itemsPerPage}
 					totalItems={totalItems}
 					currentPage={currentPage}
-					paginate={paginate}					
+					paginate={paginate}
 				/>
 			</div>
 		</div>
