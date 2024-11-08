@@ -1,6 +1,7 @@
 import { useAuth } from "../context/authentication_context";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import ModuleMenu from "./module_menu";
 
 export function UserStatus() {
 	let auth = useAuth();

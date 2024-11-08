@@ -1,4 +1,3 @@
-import Accordion from 'react-bootstrap/Accordion';
 import { useEffect, useState } from 'react';
 import { fetchModules, type Module } from '../services/datacrow_api';
 import { Button } from 'react-bootstrap';
@@ -11,8 +10,16 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 	const [selectedModule, setSelectedModule] = useState<Module>();
 
 	useEffect(() => {
-		fetchModules().then((data) => setModules(data));
+		fetchModules().then((data) => setModuleData(data));
 	}, []);
+
+	function setModuleData(modules: Module[]) {
+		setModules(modules);
+
+		// make sure there's always a selected module		
+		if (modules.length > 1)
+			setMainModule(modules[0])	
+	}
 
 	function setSelectedMainModule(m: Module) {
 		setMainModule(m);
@@ -22,8 +29,9 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 	function DisplayMainModules() {
 		return (
 			<div className="nav-item dropdown">
-				<a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-					Modules
+				<a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"  onClick={() => mainModule && setSelectedModule(mainModule)}>
+								<img src={"data:image/png;base64, " + mainModule?.icon} />
+								&nbsp;{mainModule?.name}
 				</a>
 				
 				<div className="dropdown-menu">
@@ -43,22 +51,10 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 	function DisplayReferenceModules() {
 		return (
 			<div style={{ display: "flex", flexWrap: "wrap" }} id="referencedModules">
-
-				{mainModule && (
-					<Button
-						onClick={() => setSelectedModule(mainModule)}
-						className={`${mainModule.index === selectedModule?.index ? "sub-module-button-selected" : "sub-module-button"}`}
-						key={"moduleSubMenu" + mainModule.index}>
-						<img src={"data:image/png;base64, " + mainModule.icon} />
-						&nbsp;
-						{mainModule.name}
-					</Button>
-				)}
-
 				{mainModule && mainModule.children.map((child) => (
 					<Button
 						onClick={() => setSelectedModule(child)}
-						className={`${child.index === selectedModule?.index ? "sub-module-button-selected" : "sub-module-button"}`}
+							className={`${child.index === selectedModule?.index ? "sub-module-button-selected" : "sub-module-button"}`}
 						key={"moduleSubMenu" + child.index}>
 
 						<img src={"data:image/png;base64, " + child.icon} />
@@ -78,7 +74,6 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 			</nav>
 
 			{children}
-
 		</CurrentModuleContext.Provider>
 	);
 }
