@@ -432,7 +432,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                 
                 field = dco.getField(index);
                 
-                if (field.isUiOnly()) continue;
+                if (field.isUiOnly() && field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION) continue;
                 
                 component = fields.get(field);
                 oldValue = ComponentFactory.getValue(component);
@@ -587,7 +587,10 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
             index = indices[i];
             field = dcoOrig.getField(index);
             
-            if (index == DcObject._ID || index == DcObject._SYS_CREATED || index == DcObject._SYS_MODIFIED || field.isUiOnly())
+            if (	index == DcObject._ID || 
+            		index == DcObject._SYS_CREATED || 
+            		index == DcObject._SYS_MODIFIED || 
+            		(field.isUiOnly() && field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION))
                 continue;
             
             changed = isChanged(index);
@@ -630,7 +633,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         for (DcField field : fields.keySet()) {
             component = fields.get(field);
             
-            if (field.isUiOnly()) continue;
+            if (field.isUiOnly() && field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION) continue;
             
             value = ComponentFactory.getValue(component);
             value = value == null ? "" : value;
@@ -794,7 +797,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         	      field.isEnabled() && 
                  (fieldIdx != dco.getParentReferenceFieldIndex() || 
                   fieldIdx == DcObject._SYS_CONTAINER )) { // not a reference field
-
+        		
         	    stretch = GridBagConstraints.HORIZONTAL;
                 factor = 10;
 

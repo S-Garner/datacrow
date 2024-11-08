@@ -4,3 +4,12 @@
   overflow: hidden;
   position: relative;
 }
+
+.main-menu-button {
+	border-style: none;
+	background-color: var(--bs-primary-bg-subtle);
+	padding: 5px;
+	text-align: center;
+	font-size: 1.0em;
+	margin: 1px 1px;
+}
