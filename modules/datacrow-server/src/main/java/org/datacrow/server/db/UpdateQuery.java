@@ -137,7 +137,7 @@ public class UpdateQuery extends Query {
             ResultSet rs;
             Query query;
             for (DcObject child : dco.getCurrentChildren()) {
-                if (child.isChanged()) {
+                if (child.isChanged() || child.isNew()) {
                     exists = false;
                     if (child.getID() != null) {
                         rs = DatabaseManager.getInstance().executeSQL(getUser(), "select count(*) from " + 
