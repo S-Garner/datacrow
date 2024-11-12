@@ -1,4 +1,12 @@
 --------------------------------------------------------------------
+Data Crow version 5.0  BETA IV                Released on 2024-xx-xx
+--------------------------------------------------------------------
+
+[Beta fixes]:
+- Multi-reference fields were all broken.
+ 
+
+--------------------------------------------------------------------
 Data Crow version 5.0  BETA III               Released on 2024-11-07
 --------------------------------------------------------------------
 I am releasing this version as people had issues upgrading - image conversion was failing.

@@ -87,6 +87,7 @@ public class DataDirSetupDialog extends NativeDialog implements ActionListener, 
                               String selectedDataDir) {
         setTitle("User Folder Configuration");
         setIconImage(new DcImageIcon(new File(DcConfig.getInstance().getInstallationDir(), "icons/user_folder.png")).getImage());
+
         this.args = args;
         this.selectedDataDir = selectedDataDir;
     }
@@ -99,7 +100,7 @@ public class DataDirSetupDialog extends NativeDialog implements ActionListener, 
         buildDialog();
         pack();
         setSize(new Dimension(450, 300));
-        setLocation(Utilities.getCenteredWindowLocation(getSize(), false));
+        setLocation(Utilities.getCenteredWindowLocation(getSize(), true));
         enableActions(true);
     }
     
