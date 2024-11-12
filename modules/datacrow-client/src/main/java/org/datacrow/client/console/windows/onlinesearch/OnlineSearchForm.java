@@ -376,12 +376,11 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
             @Override
             public void run() {
                 DcObject o = getSelectedObject();
+                Collection<DcObject> children = o.getCurrentChildren();
                 
                 saveSettings();
-        
-                if (o == null) return;
                     
-                if (itemForm.isVisible()) {
+                if (itemForm.isVisible() && o != null) {
                     
                     final DcObject dco = itemForm.getItem();
                     Synchronizer synchronizer = Synchronizers.getInstance().getSynchronizer(o.getModuleIdx());
@@ -389,13 +388,15 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
                     
                     final DcObject newDco = dco.clone();
                     
-                    if (dco.getModule().getChild() != null && o.getCurrentChildren().size() > 0) {
+                    if (children.size() > 0) {
                         // instead of merging, delete the existing children
                         dco.setDeleteExistingChildren(true);
                         
                         // this clone is necessary as otherwise the items in the form are first destroyed and then used to updated them again..
                         newDco.removeChildren();
-                        newDco.setChildren(o.getCurrentChildren());
+                        for (DcObject child : children)
+                        	newDco.addChild(child);
+                        
                         newDco.setDeleteExistingChildren(true);
                     }
                     

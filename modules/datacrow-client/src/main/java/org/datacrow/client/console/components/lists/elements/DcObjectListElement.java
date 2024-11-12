@@ -177,10 +177,8 @@ public abstract class DcObjectListElement extends DcListElement {
         
         removeAll();
         
-        if (dco != null && !dco.isNew()) {
-            dco.release();
-            dco = null;
-        }
+//        if (dco != null && !dco.isNew())
+//            dco.release();
             
         revalidate();
         repaint();

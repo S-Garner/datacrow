@@ -323,6 +323,9 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     
     public DcImageIcon getScaledImage() {
     	
+    	if (getID() == null)
+    		return null;
+    	
     	if (newPictures.size() > 0 && isNew()) {
     		
     		return new DcImageIcon(
@@ -559,8 +562,10 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         this.children.clear();
         this.children.addAll(children);
         
-        for (DcObject child : children)
+        for (DcObject child : children) {
+        	child.setNew(true);
             child.setValue(child.getParentReferenceFieldIndex(), getID());
+        }
     }
 
     public void addChild(DcObject child) {
@@ -964,11 +969,15 @@ public class DcObject implements Comparable<DcObject>, Serializable {
      * @param index The field index
      */
     public String getDisplayString(int index) {
+    	
+    	if (values.size() == 0)
+    		return "";
+    	
         if (index == _SYS_DISPLAYVALUE)
             return getValueDef(getSystemDisplayFieldIdx()).getDisplayString(getField(getSystemDisplayFieldIdx()));
         else if (index == _SYS_MODULE)
             return getModule().getObjectNamePlural();
-        
+    
         return getValueDef(index) != null ? getValueDef(index).getDisplayString(getField(index)) : "";
     }
 
@@ -1299,10 +1308,6 @@ public class DcObject implements Comparable<DcObject>, Serializable {
             for (DcObject child : children)
                 dco.addChild(child.clone());
         }
-        
-//        for (Picture picture : newPictures)
-//        	dco.addNewPicture(picture.clone());
-
         
         for (Attachment attachment : newAttachments)
         	dco.addNewAttachment(attachment.clone());

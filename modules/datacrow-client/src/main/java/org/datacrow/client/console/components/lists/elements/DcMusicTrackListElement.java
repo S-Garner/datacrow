@@ -55,6 +55,7 @@ public class DcMusicTrackListElement extends DcObjectListElement {
         setLayout(layout);
 
         panelInfo = getPanel();
+        
         JLabel labelTrack = getLabel(MusicTrack._F_TRACKNUMBER, false, 30);
         JLabel labelTitle = getLabel(MusicTrack._A_TITLE, false, 300);
         JLabel labelPlaylength = getLabel(MusicTrack._J_PLAYLENGTH, false, 100);
@@ -66,10 +67,4 @@ public class DcMusicTrackListElement extends DcObjectListElement {
         panelInfo.setPreferredSize(new Dimension(50000, fieldHeight));
         add(panelInfo);
     } 
-    
-	@Override
-	public void clear() {
-		super.clear();
-		panelInfo = null;
-	}
 }

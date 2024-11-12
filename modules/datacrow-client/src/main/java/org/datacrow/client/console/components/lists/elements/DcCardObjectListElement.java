@@ -32,10 +32,14 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.components.DcPicturePane;
 import org.datacrow.client.console.components.DcTextPane;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 
 public class DcCardObjectListElement extends DcObjectListElement {
+	
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcCardObjectListElement.class.getName());
 	
 	public static final Dimension size = new Dimension(250, 250);
 	
@@ -76,28 +80,35 @@ public class DcCardObjectListElement extends DcObjectListElement {
     }    
     
     private String getDescription() {
-    	if (dco == null) return "";
+    	try {
     	
-        int[] fields = (int[]) dco.getModule().getSetting(DcRepository.ModuleSettings.stCardViewItemDescription);
-        if (fields != null && fields.length > 0) {
-            StringBuilder sb = new StringBuilder();
-            String disp;
-            for (int field :  fields) {
-                disp = dco.getDisplayString(field);
-                if (disp.length() > 0) {
-                    if (sb.length() > 0)
-                        sb.append(" / ");
-                    sb.append(disp);
-                }
-            }
-            
-            if (sb.length() == 0) {
-                return dco.toString();
-            } else {
-                return sb.toString();
-            }
-        } 
-        return dco.toString();
+	    	if (dco == null) return "";
+	    	
+	        int[] fields = (int[]) dco.getModule().getSetting(DcRepository.ModuleSettings.stCardViewItemDescription);
+	        if (fields != null && fields.length > 0) {
+	            StringBuilder sb = new StringBuilder();
+	            String disp = "";
+	            for (int field :  fields) {
+            		disp = dco.getDisplayString(field);
+	                if (disp.length() > 0) {
+	                    if (sb.length() > 0)
+	                        sb.append(" / ");
+	                    sb.append(disp);
+	                }
+	            }
+	            
+	            if (sb.length() == 0) {
+	                return dco.toString();
+	            } else {
+	                return sb.toString();
+	            }
+	        }
+    		return dco.toString();
+    		
+    	} catch (Exception e) {
+    		logger.debug(e, e);
+    		return "";
+    	}
     }
 
     public boolean isBuild() {
@@ -117,14 +128,19 @@ public class DcCardObjectListElement extends DcObjectListElement {
     		return;
     	}
     	
-    	DcImageIcon icon = dco.getScaledImage();
-    	
-    	if (icon != null) {
-    		fldPicture.setImageIcon(icon);
-			fldPicture.setScaled(false);
-    	}
+        try {    	
+	    	DcImageIcon icon = dco.getScaledImage();
+	    	
+	    	if (icon != null) {
+	    		fldPicture.setImageIcon(icon);
+				fldPicture.setScaled(false);
+	    	}
+	
+	        add(fldPicture);
 
-        add(fldPicture);
+        } catch (Exception e) {
+        	build = false;
+        }
     }
     
     @Override
@@ -132,7 +148,7 @@ public class DcCardObjectListElement extends DcObjectListElement {
         build = true;
 
         fldTitle.setText(getDescription());
-        
+	        
         setPicture();
         add(fldTitle);
           
