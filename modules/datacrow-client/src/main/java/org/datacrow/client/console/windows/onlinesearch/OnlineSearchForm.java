@@ -382,8 +382,7 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
                 if (itemForm.isVisible() && target != null) {
                     
                     final DcObject dco = itemForm.getItem();
-                    
-                    Synchronizer synchronizer = Synchronizers.getInstance().getSynchronizer(o.getModuleIdx());
+                    Synchronizer synchronizer = Synchronizers.getInstance().getSynchronizer(dco.getModuleIdx());
                     
                     final DcObject source = dco.clone();
                     synchronizer.merge(source, target);
