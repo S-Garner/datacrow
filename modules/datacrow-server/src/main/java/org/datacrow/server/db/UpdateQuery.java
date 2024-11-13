@@ -27,7 +27,6 @@ package org.datacrow.server.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -127,31 +126,6 @@ public class UpdateQuery extends Query {
                 }
             }
 
-            if (dco.getDeleteExistingChildren()) {
-                DatabaseManager.getInstance().execute(getUser(),
-                        "DELETE FROM " + dco.getModule().getChild().getTableName() + " WHERE " + 
-                        dco.getModule().getChild().getField(dco.getModule().getChild().getParentReferenceFieldIndex()).getDatabaseFieldName() + " = '" + dco.getID() + "'");
-            }
-            
-            boolean exists = false;
-            ResultSet rs;
-            Query query;
-            for (DcObject child : dco.getCurrentChildren()) {
-                if (child.isChanged() || child.isNew()) {
-                    exists = false;
-                    if (child.getID() != null) {
-                        rs = DatabaseManager.getInstance().executeSQL(getUser(), "select count(*) from " + 
-                                child.getModule().getTableName() + " where ID = '" + child.getID() + "'");
-                        rs.next();
-                        exists = rs.getInt(1) > 0;
-                        rs.close();
-                    }
-                    
-                    query = exists ? new UpdateQuery(getUser(), child) : new InsertQuery(getUser(), child);
-                    query.run();
-                }
-            }
-            
             setSuccess(true);
         } catch (SQLException e) {
             setSuccess(false);

@@ -383,10 +383,10 @@ public class GUI {
     	        new ItemForm(readonly, update, dco, applyTemplate);
     }
     
-    public ISimpleItemView getItemViewForm(int moduleIdx) {
+    public ISimpleItemView getItemViewForm(int moduleIdx, boolean readonly) {
     	return DcModules.get(moduleIdx).getType() == DcModule._TYPE_TEMPLATE_MODULE ?
-    			new TemplateForm(moduleIdx, false) :
-    			new DcMinimalisticItemView(moduleIdx, false);
+    			new TemplateForm(moduleIdx, readonly) :
+    			new DcMinimalisticItemView(moduleIdx, readonly);
     }
     
 	  /**

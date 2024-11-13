@@ -426,4 +426,17 @@ public class LocalServerConnector extends Connector {
 	public void displayMessage(String msg) {
 		System.out.println(msg);
 	}
+
+	@Override
+	public void deleteChildren(int moduleIdx, String parentID) {
+		DcModule m = DcModules.get(moduleIdx);
+		
+		try {
+	        DatabaseManager.getInstance().execute(getUser(),
+	                "DELETE FROM " + m.getChild().getTableName() + " WHERE " + 
+	                		m.getChild().getField(m.getChild().getParentReferenceFieldIndex()).getDatabaseFieldName() + " = '" + parentID + "'");
+		} catch (Exception e) {
+			logger.error("Child record could not be deleted", e);
+		}
+	}
 }

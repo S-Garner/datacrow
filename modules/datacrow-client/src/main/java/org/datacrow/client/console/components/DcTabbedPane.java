@@ -35,14 +35,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolTip;
 
 import org.datacrow.client.console.GUI;
-import org.datacrow.core.log.DcLogManager;
-import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
 
 public class DcTabbedPane extends JTabbedPane {
 	
-    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcTabbedPane.class.getName());
-    
     public DcTabbedPane() {
         setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
     }
@@ -51,9 +47,7 @@ public class DcTabbedPane extends JTabbedPane {
     protected void paintComponent(Graphics g) {
     	try {
     		super.paintComponent(GUI.getInstance().setRenderingHint(g));
-    	} catch (Exception e) {
-    	    logger.debug(e, e);
-    	}
+    	} catch (Exception e) {}
     }
     
     @Override

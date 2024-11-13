@@ -229,18 +229,14 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
 
         addInputPanels();
         addChildrenPanel();
-        
     	addPictureTab();
-        
         addRelationPanel();
         
-        if (module.isTopModule() && update && connector.getUser().isAuthorized("EditAttachments")) {
+        if (module.isTopModule() && update && connector.getUser().isAuthorized("EditAttachments"))
         	addAttachmentsPanel();
-        }
         
-        if (module.canBeLend() && connector.getUser().isAuthorized("Loan") && update && !readonly) {
+        if (module.canBeLend() && connector.getUser().isAuthorized("Loan") && update && !readonly)
             addLoanTab();
-        }
 
         getContentPane().add(tabbedPane,  Layout.getGBC(0, 0, 1, 1, 100.0, 100.0
                             ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
@@ -252,7 +248,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         setRequiredFields();
         setReadonly(readonly);
         // pictures have already been added
-        setData(dco, true, false, false);
+        setData(dco, true, false);
 
         pack();
         
@@ -406,7 +402,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     	}
     }
     
-    public void setData(DcObject object, boolean overwrite, boolean overwriteChildren, boolean addPictures) {
+    public void setData(DcObject object, boolean overwrite, boolean addPictures) {
         try {
             dco.applyEnhancers(update);
             
@@ -414,9 +410,9 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
                 dco.applyTemplate(template);  
             
             if (childView != null) {
-                if (update && !overwriteChildren)
+                if (update)
                     childView.load();
-                else 
+                else
                     childView.setItems(object.getCurrentChildren());
             }
     
@@ -616,14 +612,18 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     }
 
     public void apply() {
-        
-        removeChildren();
-        
-        if (DcModules.get(moduleIdx).getChild() != null && childView != null) {
-            for (DcObject child : childView.getItems()) {
-                dco.addChild(child);
-            }
-        }
+    	
+    	if (!update) {
+	        removeChildren();
+	        if (DcModules.get(moduleIdx).getChild() != null && childView != null) {
+	            for (DcObject child : childView.getItems()) {
+	            	child.setNew(true);
+	            	child.setValue(DcObject._ID, null);
+	            	child.setIDs();
+	                dco.addChild(child);
+	            }
+	        }
+    	}
 
         if (update) 
             dco.markAsUnchanged();
@@ -898,11 +898,12 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         DcModule childModule = module.getChild();
         
         if (childModule != null) {
-            childView = GUI.getInstance().getItemViewForm(childModule.getIndex());
+            childView = GUI.getInstance().getItemViewForm(childModule.getIndex(), !update);
             
             // this makes sure the parent reference ID is set
             childView.setParentID(dcoOrig.getID());
             childView.hideDialogActions(true);
+            
             tabbedPane.addTab(
                     childModule.getObjectNamePlural(), 
                     childModule.getIcon16(), 

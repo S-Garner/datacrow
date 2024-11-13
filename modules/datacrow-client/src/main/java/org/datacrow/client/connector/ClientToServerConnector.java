@@ -73,6 +73,7 @@ import org.datacrow.core.server.requests.ClientRequestApplicationSettings;
 import org.datacrow.core.server.requests.ClientRequestAttachmentAction;
 import org.datacrow.core.server.requests.ClientRequestAttachmentsDelete;
 import org.datacrow.core.server.requests.ClientRequestAttachmentsList;
+import org.datacrow.core.server.requests.ClientRequestDeleteChildren;
 import org.datacrow.core.server.requests.ClientRequestExecuteSQL;
 import org.datacrow.core.server.requests.ClientRequestItem;
 import org.datacrow.core.server.requests.ClientRequestItemAction;
@@ -506,6 +507,12 @@ public class ClientToServerConnector extends Connector {
 	public void dropUser(User user) {
     	ClientRequestUser cr = new ClientRequestUser(ClientRequestUser._ACTIONTYPE_DROP, getUser(), user, null);
         processClientRequest(cr);
+	}
+
+	@Override
+	public void deleteChildren(int moduleIdx, String parentID) {
+		ClientRequestDeleteChildren cr = new ClientRequestDeleteChildren(su, moduleIdx, parentID);
+		processClientRequest(cr);	
 	}
 	
 	@Override

@@ -40,6 +40,7 @@ import org.datacrow.core.server.requests.ClientRequestApplicationSettings;
 import org.datacrow.core.server.requests.ClientRequestAttachmentAction;
 import org.datacrow.core.server.requests.ClientRequestAttachmentsDelete;
 import org.datacrow.core.server.requests.ClientRequestAttachmentsList;
+import org.datacrow.core.server.requests.ClientRequestDeleteChildren;
 import org.datacrow.core.server.requests.ClientRequestExecuteSQL;
 import org.datacrow.core.server.requests.ClientRequestItem;
 import org.datacrow.core.server.requests.ClientRequestItemAction;
@@ -257,6 +258,8 @@ public class SerializationHelper {
             cr = gson.fromJson(json, ClientRequestSavePictureOrder.class);
         else if (type == ClientRequest._REQUEST_USER_MGT)
             cr = gson.fromJson(json, ClientRequestUser.class);
+        else if (type == ClientRequest._REQUEST_DELETE_CHILDREN)
+            cr = gson.fromJson(json, ClientRequestDeleteChildren.class);
         else
             logger.fatal("No client request implementation found for type [" + type + "]");
             

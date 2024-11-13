@@ -131,7 +131,6 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     private boolean isNew = true;
     private transient boolean loaded = false;  
     private transient boolean lastInLine = true;
-    private transient boolean deleteExistingChildren = false;
     private transient boolean validate = true;
     private transient boolean updateGUI = true;
     
@@ -156,14 +155,6 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         markAsUnchanged();
     } 
 
-    public void setDeleteExistingChildren(boolean b) {
-        deleteExistingChildren = b;
-    }
-    
-    public boolean getDeleteExistingChildren() {
-        return deleteExistingChildren;
-    }
-    
     /**
      * Indicates the item is last in line of a save or delete action. 
      * Items last in line (of a batch) will cause additional GUI updates to be performed.
@@ -562,10 +553,8 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         this.children.clear();
         this.children.addAll(children);
         
-        for (DcObject child : children) {
-        	child.setNew(true);
+        for (DcObject child : children)
             child.setValue(child.getParentReferenceFieldIndex(), getID());
-        }
     }
 
     public void addChild(DcObject child) {

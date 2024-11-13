@@ -71,7 +71,7 @@ public class ManageItem extends Plugin {
     public void actionPerformed(ActionEvent e) {
         DcModule module = getModule();
         if (module instanceof DcPropertyModule) {
-        	ISimpleItemView view = GUI.getInstance().getItemViewForm(getModuleIdx());
+        	ISimpleItemView view = GUI.getInstance().getItemViewForm(getModuleIdx(), false);
         	view.setVisible(true);
         } else {
             logger.error("Invalid module! Module is not an instance of DcPropertyModule: " + module);

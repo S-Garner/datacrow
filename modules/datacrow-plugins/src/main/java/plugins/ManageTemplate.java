@@ -61,7 +61,7 @@ public class ManageTemplate extends Plugin {
     public void actionPerformed(ActionEvent e) {
         TemplateModule templateMod = getModule().getTemplateModule();
         if (templateMod != null) {
-        	GUI.getInstance().getItemViewForm(templateMod.getIndex()).setVisible(true);
+        	GUI.getInstance().getItemViewForm(templateMod.getIndex(), false).setVisible(true);
         }
     }
     

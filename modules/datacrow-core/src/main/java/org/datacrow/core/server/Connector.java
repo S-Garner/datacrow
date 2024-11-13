@@ -157,6 +157,8 @@ public abstract class Connector {
 	public abstract void executeTask(DcTask task);
 	
 	public abstract boolean deleteItem(DcObject dco) throws ValidationException;
+
+	public abstract void deleteChildren(int moduleIdx, String parentID);
 	
 	public abstract void removeReferencesTo(int moduleIdx, String ID);
 	

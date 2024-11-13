@@ -37,7 +37,7 @@ import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.services.OnlineSearchHelper;
 import org.datacrow.core.utilities.CoreUtilities;
 
-public abstract class Synchronizer implements Serializable{
+public abstract class Synchronizer implements Serializable {
     
 	private static final long serialVersionUID = 1L;
 
@@ -123,8 +123,6 @@ public abstract class Synchronizer implements Serializable{
     
     protected void setValue(DcObject dco, int field, Object value) {
     	
-    	// TODO: Item Synchronizer: make sure pictures are included
-
         // empty value, no need to update
         if (CoreUtilities.isEmpty(value))
             return;

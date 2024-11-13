@@ -375,36 +375,24 @@ public class OnlineSearchForm extends DcFrame implements IOnlineSearchClient, Ac
         new Thread(new Runnable() {
             @Override
             public void run() {
-                DcObject o = getSelectedObject();
-                Collection<DcObject> children = o.getCurrentChildren();
-                
+                DcObject target = getSelectedObject();
+
                 saveSettings();
                     
-                if (itemForm.isVisible() && o != null) {
+                if (itemForm.isVisible() && target != null) {
                     
                     final DcObject dco = itemForm.getItem();
+                    
                     Synchronizer synchronizer = Synchronizers.getInstance().getSynchronizer(o.getModuleIdx());
-                    synchronizer.merge(dco, o);
                     
-                    final DcObject newDco = dco.clone();
-                    
-                    if (children.size() > 0) {
-                        // instead of merging, delete the existing children
-                        dco.setDeleteExistingChildren(true);
-                        
-                        // this clone is necessary as otherwise the items in the form are first destroyed and then used to updated them again..
-                        newDco.removeChildren();
-                        for (DcObject child : children)
-                        	newDco.addChild(child);
-                        
-                        newDco.setDeleteExistingChildren(true);
-                    }
-                    
+                    final DcObject source = dco.clone();
+                    synchronizer.merge(source, target);
+
                     SwingUtilities.invokeLater(
                             new Thread(new Runnable() { 
                                 @Override
                                 public void run() {
-                                    itemForm.setData(newDco, panelSettings.isOverwriteAllowed(), true, true);
+                                    itemForm.setData(source, panelSettings.isOverwriteAllowed(), true);
                                     close();
                                 }
                             }));

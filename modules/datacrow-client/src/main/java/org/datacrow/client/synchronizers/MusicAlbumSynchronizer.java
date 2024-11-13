@@ -43,7 +43,6 @@ import org.datacrow.core.server.Connector;
 import org.datacrow.core.services.OnlineSearchHelper;
 import org.datacrow.core.synchronizers.DefaultSynchronizer;
 import org.datacrow.core.synchronizers.Synchronizer;
-import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.StringUtils;
 
 /**
@@ -150,34 +149,32 @@ public class MusicAlbumSynchronizer extends DefaultSynchronizer {
     @Override
     protected void merge(DcObject target, DcObject source, OnlineSearchHelper osh) {
         super.merge(target, source, osh);
-
-        Collection<DcObject> oldTracks = target.getChildren() == null ? new ArrayList<DcObject>() : target.getChildren();
-        Collection<DcObject> newTracks = source.getChildren() == null ? new ArrayList<DcObject>() : source.getChildren();
         
-        if (oldTracks.size() == 0) {
-            Connector connector = DcConfig.getInstance().getConnector();
-            for (DcObject track : newTracks) {
-                track.setValue(track.getParentReferenceFieldIndex(), target.getID());
-                target.addChild(track);
-                try {
-                    connector.saveItem(track);
-                } catch (Exception e) {
-                    logger.error("Unable to save new music track " + track, e);
-                }
-            }
-        } else {
-            for (DcObject currentTrack : oldTracks) {
-                for (DcObject newTrack : newTracks) {
-                    if (StringUtils.equals(currentTrack.getDisplayString(MusicTrack._A_TITLE), newTrack.getDisplayString(MusicTrack._A_TITLE))) {
-                        currentTrack.copy(newTrack, true, false);
-                        break;
-                    } else if (newTracks.size() == oldTracks.size() && 
-                              !CoreUtilities.isEmpty(currentTrack.getValue(MusicTrack._J_PLAYLENGTH)) && 
-                               currentTrack.getDisplayString(MusicTrack._J_PLAYLENGTH).equals(newTrack.getDisplayString(MusicTrack._J_PLAYLENGTH))) {    
-                        currentTrack.copy(newTrack, true, false);
-                        break;
-                    }
-                }
+        Collection<DcObject> children = source.getCurrentChildren();
+        Connector conn = DcConfig.getInstance().getConnector();
+
+        if (children.size() > 0 ) {
+            
+        	target.removeChildren();
+        	
+            if (target.isNew()) {
+            	for (DcObject child : children)
+            		target.addChild(child.clone());
+            } else {
+            	conn.deleteChildren(
+            			target.getModuleIdx(), target.getID());
+            	
+            	for (DcObject child : children) {
+            		child.setValue(child.getParentReferenceFieldIndex(), target.getID());
+            		child.setNew(true);
+            		child.setValidate(false);
+            		
+            		try {
+            			conn.saveItem(child);
+            		} catch (Exception e) {
+            			logger.error("Could not save child item", e);
+            		}
+            	}
             }
         }
     }
