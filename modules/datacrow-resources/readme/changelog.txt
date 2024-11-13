@@ -2,10 +2,14 @@
 Data Crow version 5.0  BETA IV                Released on 2024-xx-xx
 --------------------------------------------------------------------
 
+[Fixed]
+- Database: added missing index for music tracks (performance fix).
+
 [Beta fixes]:
 - Multi-reference fields were all broken.
 - Online search: item was not correctly updated with the music tracks.
- 
+- Various issues with new pictures are now resolved.
+
 
 --------------------------------------------------------------------
 Data Crow version 5.0  BETA III               Released on 2024-11-07

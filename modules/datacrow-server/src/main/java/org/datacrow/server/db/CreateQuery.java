@@ -97,6 +97,14 @@ public class CreateQuery extends Query {
                 if (isLog())
                     logger.error(se, se);
             }
+        } else if (module.isChildModule() && !module.isAbstract()) {
+            try { 
+		    	stmt.execute("CREATE INDEX IF NOT EXISTS " + module.getTableName() + "_PARENTID_IDX ON " + module.getTableName() + " (" +
+		        		module.getField(module.getParentReferenceFieldIndex()).getDatabaseFieldName() + ")");
+		    } catch (SQLException se) {
+		        if (isLog())
+		            logger.error(se, se);
+		    }
         }
         
         try {

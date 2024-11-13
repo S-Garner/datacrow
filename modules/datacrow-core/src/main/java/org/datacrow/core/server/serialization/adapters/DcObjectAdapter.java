@@ -27,10 +27,12 @@ package org.datacrow.core.server.serialization.adapters;
 
 import java.lang.reflect.Type;
 
+import org.datacrow.core.attachments.Attachment;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcValue;
+import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.server.serialization.SerializationHelper;
 import org.datacrow.core.server.serialization.helpers.DcFieldValue;
 
@@ -57,6 +59,20 @@ public class DcObjectAdapter implements JsonDeserializer<DcObject>, JsonSerializ
         	arrChildren.add(toJsonObject(child, context));
         
         jdco.add("children", arrChildren);  
+        
+        JsonArray arrNewPictures = new JsonArray();
+        for (Picture pic : src.getNewPictures()) {
+        	pic.prepareForTransfer();
+        	arrNewPictures.add(context.serialize(pic, Picture.class));
+        }
+        
+        jdco.add("newPictures", arrNewPictures);
+        
+        JsonArray arrNewAttachments = new JsonArray();
+        for (Attachment attachment : src.getNewAttachments())
+        	arrNewAttachments.add(context.serialize(attachment, Attachment.class));
+        
+        jdco.add("newAttachments", arrNewAttachments);  
         
         return jdco;
     }
@@ -104,6 +120,16 @@ public class DcObjectAdapter implements JsonDeserializer<DcObject>, JsonSerializ
             dco.setValue(fieldValue.getFieldIndex(), fieldValue.getValue());
             dco.setChanged(fieldValue.getFieldIndex(), fieldValue.isChanged());
         }
+
+        JsonArray newAttachments = jsonObject.getAsJsonArray("newAttachments");
+        
+        if (newAttachments != null) {
+	        Attachment attachment;
+	        for (JsonElement je : newAttachments) {
+	        	attachment = SerializationHelper.getInstance().getGson().fromJson(je, Attachment.class);
+	        	dco.addNewAttachment(attachment);
+	        }
+        }
         
         JsonArray children = jsonObject.getAsJsonArray("children");
         
@@ -112,6 +138,16 @@ public class DcObjectAdapter implements JsonDeserializer<DcObject>, JsonSerializ
 	        for (JsonElement je : children) {
 	        	child = SerializationHelper.getInstance().getGson().fromJson(je, DcObject.class);
 	        	dco.addChild(child);
+	        }
+        }
+        
+        JsonArray newPictures = jsonObject.getAsJsonArray("newPictures");
+        
+        if (newPictures != null) {
+	        Picture pic;
+	        for (JsonElement je : newPictures) {
+	        	pic = SerializationHelper.getInstance().getGson().fromJson(je, Picture.class);
+	        	dco.addNewPicture(pic);
 	        }
         }
         

@@ -116,6 +116,8 @@ public class SystemUpgrade {
             	addIconFieldToPropertyForms();
             	removePersistencyColumns();
             	addMissingIndexes();
+            	
+            	correctFieldSettings();
             }
             
             if (!dbInitialized)
@@ -225,6 +227,32 @@ public class SystemUpgrade {
     	}    	
     }
     
+    private void correctFieldSettings() {
+    	
+    	Collection<DcFieldDefinition> invalid;
+    	DcFieldDefinitions definitions;
+    	
+    	for (DcModule m : DcModules.getAllModules()) {
+    		invalid = new ArrayList<DcFieldDefinition>();
+    		definitions = m.getFieldDefinitions();
+    		
+    		for (DcFieldDefinition def : definitions.getDefinitions()) {
+    			if (m.getField(def.getIndex()) == null) {
+    				invalid.add(def);
+    			}
+    		}
+    		
+    		for (DcFieldDefinition def : invalid) {
+    			definitions.getDefinitions().remove(def);
+    		}
+    		
+    		if (invalid.size() > 0) {
+    			m.setSetting(DcRepository.ModuleSettings.stFieldDefinitions, definitions);
+    			m.getSettings().save();
+    		}
+    	}
+    }
+    
     private void cleanupImages() {
 		String imageDir = DcConfig.getInstance().getImageDir();
 		
@@ -263,7 +291,13 @@ public class SystemUpgrade {
 	                stmt.execute("CREATE INDEX IF NOT EXISTS " + m.getTableName() + "_REFERENCEID_IDX ON " + m.getTableName() + " (" +
 	                        m.getField(DcMapping._B_REFERENCED_ID).getDatabaseFieldName() + ")");
 				}
+				
+				if (m.isChildModule() && !m.isAbstract()) {
+	                stmt.execute("CREATE INDEX IF NOT EXISTS " + m.getTableName() + "_PARENTID_IDX ON " + m.getTableName() + " (" +
+	                        m.getField(m.getParentReferenceFieldIndex()).getDatabaseFieldName() + ")");
+				}
 			}
+			
 		} catch (Exception e) {
 			logger.error("Upgrade failed; could not add missing indexes.", e);
 			connector.displayError("Upgrade failed; could not add missing indexes.");
