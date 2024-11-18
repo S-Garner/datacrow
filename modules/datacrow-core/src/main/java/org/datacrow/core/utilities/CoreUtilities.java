@@ -630,7 +630,7 @@ public class CoreUtilities {
     }   
 
     public static BufferedImage getScaledImage(DcImageIcon icon) {
-        return getScaledImage(icon, 250, 200);
+        return getScaledImage(icon, 500, 400);
     }    
 
     public static Image getScaledImage(byte[] bytes, int width, int height) {
@@ -642,7 +642,7 @@ public class CoreUtilities {
     }    
     
     public static void writeScaledImageToFile(DcImageIcon icon, File file) throws Exception {
-    	writeScaledImageToFile(icon, file, 250, 200);
+    	writeScaledImageToFile(icon, file, 500, 400);
     }
     
     public static void writeMaxImageToFile(DcImageIcon icon, File file) throws Exception {

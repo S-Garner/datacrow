@@ -54,7 +54,7 @@ public class DcCardObjectListElement extends DcObjectListElement {
     public DcCardObjectListElement(int module) {
         super(module);
         
-        fldPicture = new DcPicturePane(false);
+        fldPicture = new DcPicturePane(true);
         fldPicture.setPreferredSize(dimPicLbl);
         fldPicture.setMinimumSize(dimPicLbl);
         fldPicture.setMaximumSize(dimPicLbl);
@@ -133,7 +133,7 @@ public class DcCardObjectListElement extends DcObjectListElement {
 	    	
 	    	if (icon != null) {
 	    		fldPicture.setImageIcon(icon);
-				fldPicture.setScaled(false);
+				fldPicture.setScaled(true);
 	    	}
 	
 	        add(fldPicture);

@@ -49,7 +49,7 @@ export function ItemOverview() {
 					{currentItems!.map((item) => (
 						<Card style={{ width: '18rem' }} key={"card" + item.id}>
 							<Card.Body>
-								{item.imageUrl ? <Card.Img src={item.imageUrl} /> : <div style={{ height: '300px' }} />}
+								{item.imageUrl ? <Card.Img src={item.scaledImageUrl} /> : <div style={{ height: '300px' }} />}
 							</Card.Body>
 							<Card.Header style={{ height: '112px' }} >{item.name}</Card.Header>
 							<Card.Footer>
