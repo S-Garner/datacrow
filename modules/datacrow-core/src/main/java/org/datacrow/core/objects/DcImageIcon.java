@@ -26,8 +26,10 @@
 package org.datacrow.core.objects;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
@@ -228,4 +230,44 @@ public class DcImageIcon extends ImageIcon {
 		
 	    return bi;    	
     }
+    
+    /**
+     * Waits until image is fully loaded, so ready for drawing.
+     */
+    public void waitForLoading() {
+        BufferedImage bufferedImage = new BufferedImage(1, 1,
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = bufferedImage.createGraphics();
+        // prepare observer
+        final Object done = new Object();
+        ImageObserver imageObserver = new ImageObserver() {
+            public boolean imageUpdate(java.awt.Image img, int flags,
+                    int x, int y, int width, int height) {
+                if (flags < ALLBITS) {
+                    return true;
+                } else {
+                    synchronized (done) {
+                        done.notify();
+                    }
+                    return false;
+                }
+            }
+        };
+        // draw Image with wait
+        synchronized (done) {
+            boolean completelyLoaded = g2.drawImage(getImage(), 0, 0,
+                    imageObserver);
+            if (!completelyLoaded) {
+                while (true) {
+                    try {
+                        done.wait(0);
+                        break;
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }
+        }
+        // clean up
+        g2.dispose();
+    }    
 }

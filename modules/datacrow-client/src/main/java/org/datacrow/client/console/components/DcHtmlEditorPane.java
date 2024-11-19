@@ -33,7 +33,6 @@ import java.util.Collection;
 import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
 import org.datacrow.client.console.ComponentFactory;
@@ -60,13 +59,14 @@ public class DcHtmlEditorPane extends JEditorPane implements HyperlinkListener, 
 
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcHtmlEditorPane.class.getName());
     
-    private final HTMLEditorKit kit = new HTMLEditorKit();
-    private final HTMLDocument document = new HTMLDocument();
-    
     public DcHtmlEditorPane() {
+    	
+    	super();
+    	
+        setContentType("text/html");
+
+        setEditorKit(new HTMLEditorKit());
         setFont(ComponentFactory.getStandardFont());
-        setEditorKit(kit);
-        setDocument(document);
         setEditable(false);
         setBounds(1,1,1,10);
 
@@ -75,13 +75,13 @@ public class DcHtmlEditorPane extends JEditorPane implements HyperlinkListener, 
     }
     
     public void setHtml(String s) {
-        try {
-            StringReader sr = new StringReader(s);
-            read(sr, "Data Crow");
-            sr.close();
-        } catch (Exception e) {
-            logger.error("Error while loading Html", e);
-        }
+    	try {
+			StringReader reader = new StringReader(s);
+			read(reader, "Data Crow");
+			reader.close();
+    	} catch (Exception e) {
+    		logger.debug(e, e);
+    	}
     }
     
     public String createLink(DcObject dco, String description) {
@@ -192,5 +192,5 @@ public class DcHtmlEditorPane extends JEditorPane implements HyperlinkListener, 
         } catch (Exception e) {
             logger.debug(e, e);
         }
-    }    
+    }
 }

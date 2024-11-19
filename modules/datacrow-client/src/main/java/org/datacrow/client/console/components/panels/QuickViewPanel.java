@@ -28,9 +28,12 @@ package org.datacrow.client.console.components.panels;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -60,6 +63,7 @@ import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
+import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcMediaObject;
 import org.datacrow.core.objects.DcObject;
@@ -73,7 +77,7 @@ import org.datacrow.core.utilities.StringUtils;
 import org.datacrow.core.utilities.definitions.QuickViewFieldDefinition;
 import org.datacrow.core.utilities.definitions.QuickViewFieldDefinitions;
 
-public class QuickViewPanel extends JPanel implements ChangeListener, MouseListener {
+public class QuickViewPanel extends JPanel implements ChangeListener, MouseListener, ComponentListener {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(QuickViewPanel.class.getName());
     
@@ -111,6 +115,8 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         tabbedPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         buildPanel();
+        
+        addComponentListener(this);
     }    
     
     public void reloadImage() {
@@ -141,6 +147,8 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     }
     
     public void refresh() {
+    	removeComponentListener(this);
+    	
         int caret = descriptionPane.getCaretPosition();
         
         String key = this.key;
@@ -155,6 +163,8 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         } catch (Exception e) {
             logger.debug("Error while setting the quick view caret position", e);
         }
+        
+        addComponentListener(this);
     }
     
     public void setObject(String key, int moduleIdx) {
@@ -442,12 +452,36 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
                     value = "<a href=\"file://" + filename +  "?original=" +filename+  "\" " + Utilities.getHtmlStyle(fText) + ">" + new File(filename).getName() + "</a>";
                 } else if (field.getValueType() == ValueTypes._PICTURE && showInlineImages) {
             		if (picture.getFilename().endsWith(field.getDatabaseFieldName() + ".jpg")) {
-                    	if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
-                    	    value = "<img src=\"" + picture.getThumbnailUrl() + "\" alt=\"" + field.getLabel() + "\">";
-                    	} else {
-                    	    value = "<img src=\"file:///" + DcConfig.getInstance().getImageDir().replace('\\', '/') + key + '/' + picture.getTargetScaledFile().getName() + 
-                    	            "\" alt=\"" + field.getLabel() + "\">";
-                    	}
+
+            			int width = getWidth() - 50;
+            			int height = (width / 100) * 80;
+            			
+                		String address = 
+                				DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT ?
+                						picture.getThumbnailUrl() :
+                				"file:///" + DcConfig.getInstance().getImageDir().replace('\\', '/') + key + '/' + 
+                        	    		picture.getTargetScaledFile().getName();
+                		
+                		try {
+                			DcImageIcon icon = new DcImageIcon(new URL(address));
+                			int iconWidth = icon.getIconWidth();
+                			int iconHeight = icon.getIconHeight();
+                			
+                			if (iconWidth < width) {
+                				width = iconWidth;
+                				height = iconHeight;
+                			} else {
+                				height = (int) ((double) width * ( (double) iconHeight / (double) iconWidth));
+                			}
+                			
+                			icon.flush();
+                			
+                		} catch (Exception e) {
+                			logger.debug("Quick view could not prepare the image size", e);
+                		}
+                		
+                		value = "<img src=\"" + address + "\" alt=\"" + field.getLabel() + "\"" +
+                	    		" width=\""+ width +"\" height=\""+ height +"\" />";
             		}
                 } else if (field.getFieldType() == ComponentFactory._URLFIELD) {
                 	value = "<a href=\"" +  dco.getValue(index) + "\" " + Utilities.getHtmlStyle(fText) + ">" + DcResources.getText("lblLink") + "</a>";
@@ -591,5 +625,19 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
             PluginHelper.add(this, "ToggleQuickView");
             PluginHelper.add(this, "QuickViewSettings");
         }
-    }   
+    }
+
+	@Override
+	public void componentHidden(ComponentEvent e) {}
+
+	@Override
+	public void componentMoved(ComponentEvent e) {}
+
+	@Override
+	public void componentResized(ComponentEvent e) {
+		refresh();
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {}   
 }

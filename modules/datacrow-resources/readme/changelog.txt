@@ -4,12 +4,22 @@ Data Crow version 5.0  BETA IV                Released on 2024-xx-xx
 
 [Fixed]
 - Database: added missing index for music tracks (performance fix).
+- Port numbers were not remembered.
+- Quick view in client-server mode sometimes did not load the pictures fully.
+
+[Changed]
+- Larger pictures in the quick view description panel (max 500x400).
 
 [Beta fixes]:
 - Multi-reference fields were all broken.
 - Online search: item was not correctly updated with the music tracks.
 - Various issues with new pictures are now resolved.
 
+
+To do:
+- port numbers are not remembered
+- 127.0.0.1 vs localhost: images not shown
+- image server address (was this completed??)
 
 --------------------------------------------------------------------
 Data Crow version 5.0  BETA III               Released on 2024-11-07
