@@ -51,6 +51,7 @@ import org.datacrow.core.wf.tasks.DcTask;
 public abstract class Connector {
 
     protected static String serverAddress;
+    protected static String imageServerAddress;
     protected static int applicationServerPort;
     protected static int imageServerPort;
     private String username;
@@ -59,6 +60,10 @@ public abstract class Connector {
     public void setServerAddress(String serverAddress) {
 		Connector.serverAddress = serverAddress;
 	}
+    
+    public void setImageServerAddress(String imageServerAddress) {
+		Connector.imageServerAddress = imageServerAddress;
+	}    
     
     public DcServerConnection getServerConnection()  throws Exception {
         throw new Exception("Not available");
@@ -78,6 +83,10 @@ public abstract class Connector {
 
 	public String getServerAddress() {
 		return serverAddress;
+	}
+	
+	public String getImageServerAddress() {
+		return imageServerAddress;
 	}
 	
 	public void setImageServerPort(int imageServerPort) {

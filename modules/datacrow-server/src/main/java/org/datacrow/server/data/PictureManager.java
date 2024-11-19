@@ -295,7 +295,7 @@ public class PictureManager {
 					
 					if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER) {
 						
-		                String address = "http://" + conn.getServerAddress() + ":" + conn.getImageServerPort() +"/" + dir.getName() + "/";
+		                String address = "http://" + conn.getImageServerAddress() + ":" + conn.getImageServerPort() +"/" + dir.getName() + "/";
 		                picture.setUrl(address + new File(image).getName());
 		                picture.setThumbnailUrl(address + picture.getTargetScaledFile().getName());
 		            }

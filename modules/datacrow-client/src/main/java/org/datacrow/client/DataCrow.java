@@ -123,8 +123,9 @@ public class DataCrow implements IStarterClient {
         String db = null;
 
         String serverAddress = null;
-        int applicationServerPort = 9000;
-        int imageServerPort = 9001;
+        String imageServerAddress = null;
+        int applicationServerPort = 0;
+        int imageServerPort = 0;
         String username = null;
         String password = null;
 
@@ -143,13 +144,16 @@ public class DataCrow implements IStarterClient {
                 dataDir = arg.substring("-userdir:".length(), arg.length());
                 determiningUserDir = true;
                 determiningInstallDir = false;
-            } else if (arg.toLowerCase().startsWith("-imageserverport:")) {
-                String s = "";
+            } else if (arg.toLowerCase().startsWith("-imageserver:")) {
+                String server = arg.substring("-imageserver:".length(), arg.length());
+                int index = server.indexOf(":");
+                imageServerAddress = index > -1 ? server.substring(0, index) : server;
+                String port = index > -1 ? server.substring(index + 1) : "";
+
                 try {
-                    s = arg.substring("-imageserverport:".length(), arg.length());
-                    imageServerPort = Integer.parseInt(s);
+                	imageServerPort = Integer.parseInt(port);
                 } catch (NumberFormatException nfe) {
-                    logger.error("Incorrect port number " + s, nfe);
+                    logger.error("Incorrect port number for the image server: " + port, nfe);
                 }
             } else if (arg.toLowerCase().startsWith("-server:")) {
                 String server = arg.substring("-server:".length(), arg.length());
@@ -160,7 +164,7 @@ public class DataCrow implements IStarterClient {
                 try {
                     applicationServerPort = Integer.parseInt(port);
                 } catch (NumberFormatException nfe) {
-                    logger.error("Incorrect port number " + port, nfe);
+                    logger.error("Incorrect port number for the server: " + port, nfe);
                 }
 
             } else if (arg.toLowerCase().startsWith("-db:")) {
@@ -213,9 +217,9 @@ public class DataCrow implements IStarterClient {
                 System.out.println("Specifies the address and port of the Data Crow application server.");
                 System.out.println("Example: java -jar datacrow.jar -server:192.168.0.100:9000");
                 System.out.println("");
-                System.out.println("-imageserverport:<port number>");
+                System.out.println("-imageserver:<IP address>:<port>");
                 System.out.println("Specifies the port to be used by the HTTP images server.");
-                System.out.println("Example: java -jar datacrow.jar -imageserverport:9001");
+                System.out.println("Example: java -jar datacrow.jar -imageserverport:192.168.0.100:9000");
                 System.exit(0);
             }
         }
@@ -253,7 +257,7 @@ public class DataCrow implements IStarterClient {
         	
             GUI.getInstance().showSplashScreen();
             
-            dc.initializeConnector(serverAddress, applicationServerPort, imageServerPort, username, password);
+            dc.initializeConnector(serverAddress, applicationServerPort, imageServerAddress, imageServerPort, username, password);
             dc.start();    
         }
     }
@@ -334,8 +338,7 @@ public class DataCrow implements IStarterClient {
             new NativeMessageBox("Error", "Data Crow could not be started: " + e);
             
             try {
-                DcSettings.set(DcRepository.Settings.stGracefulShutdown,
-                        Boolean.FALSE);
+                DcSettings.set(DcRepository.Settings.stGracefulShutdown, Boolean.FALSE);
                 DcSettings.save();
             } catch (Exception exp) {
                 logger.debug(exp, exp);
@@ -431,8 +434,9 @@ public class DataCrow implements IStarterClient {
     }
 
     private void initializeConnector(
-            String serverAddress, 
-            int applicationServerPort, 
+            String serverAddress,
+            int applicationServerPort,
+            String imageServerAddress,
             int imageServerPort, 
             String username, 
             String password) {
@@ -449,6 +453,7 @@ public class DataCrow implements IStarterClient {
 
         connector.setPassword(password);
         connector.setServerAddress(serverAddress);
+        connector.setImageServerAddress(imageServerAddress);
         connector.setApplicationServerPort(applicationServerPort);
         connector.setImageServerPort(imageServerPort);
 

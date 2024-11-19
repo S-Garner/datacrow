@@ -57,6 +57,7 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
     private final DcPasswordField fldPassword = ComponentFactory.getPasswordField();
     private final DcShortTextField fldServerAddress = ComponentFactory.getShortTextField(255);
     private final DcNumberField fldApplicationServerPort = ComponentFactory.getNumberField();
+    private final DcShortTextField fldImageServerAddress = ComponentFactory.getShortTextField(255);
     private final DcNumberField fldImageServerPort = ComponentFactory.getNumberField();
     
     private boolean canceled = false;
@@ -106,13 +107,16 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
             if (imageServerPort != null)
                 conn.setImageServerPort(imageServerPort.intValue());
             
-            String address = fldServerAddress.getText();
-            conn.setServerAddress(address);
-            
+            String serverAddress = fldServerAddress.getText();
+            conn.setServerAddress(serverAddress);
+
+            String imageServerAddress = fldImageServerAddress.getText();
+            conn.setImageServerAddress(imageServerAddress);
+
             DcConfig.getInstance().getClientSettings().setServerDetails(
-            		address, 
+            		serverAddress, 
             		applicationServerPort == null ? 0 : applicationServerPort.intValue(), 
-            		address,
+            		(CoreUtilities.isEmpty(imageServerAddress) ? serverAddress : imageServerAddress),
             		imageServerPort == null ? 0 : imageServerPort.intValue());
             
             close();
@@ -120,44 +124,53 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
     }
 
     private void build() {
-         getContentPane().setLayout(Layout.getGBL());
-         getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblLoginname")),   
-                 Layout.getGBC(0, 0, 1, 1, 1.0, 1.0,
+    	int y = 0;
+    	
+        getContentPane().setLayout(Layout.getGBL());
+        getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblLoginname")),   
+                 Layout.getGBC(0, y, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                  new Insets(10, 5, 5, 5), 0, 0));
-         getContentPane().add(fldLoginName, Layout.getGBC(1, 0, 1, 1, 1.0, 1.0,
+        getContentPane().add(fldLoginName, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                  new Insets(10, 5, 5, 5), 0, 0));
-         getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblPassword")),   
-                 Layout.getGBC(0, 1, 1, 1, 1.0, 1.0,
+        getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblPassword")),   
+                 Layout.getGBC(0, y, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                  new Insets(10, 5, 5, 5), 0, 0));
-         getContentPane().add(fldPassword, Layout.getGBC(1, 1, 1, 1, 1.0, 1.0,
+        getContentPane().add(fldPassword, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                  new Insets(10, 5, 5, 5), 0, 0));
          
-         Connector connector = DcConfig.getInstance().getConnector();
-         
-         if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
+        Connector connector = DcConfig.getInstance().getConnector();
+        
+        if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
              getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblServerAddress")),   
-                     Layout.getGBC(0, 2, 1, 1, 1.0, 1.0,
+                     Layout.getGBC(0, y, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                      new Insets(10, 5, 5, 5), 0, 0));
-             getContentPane().add(fldServerAddress, Layout.getGBC(1, 2, 1, 1, 1.0, 1.0,
+             getContentPane().add(fldServerAddress, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                      new Insets(10, 5, 5, 5), 0, 0));
              getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblApplicationServerPort")),   
-                     Layout.getGBC(0, 3, 1, 1, 1.0, 1.0,
+                     Layout.getGBC(0, y, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                      new Insets(10, 5, 5, 5), 0, 0));
-             getContentPane().add(fldApplicationServerPort, Layout.getGBC(1, 3, 1, 1, 1.0, 1.0,
+             getContentPane().add(fldApplicationServerPort, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(10, 5, 5, 5), 0, 0)); 
-             getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblImageServerPort")),   
-                     Layout.getGBC(0, 4, 1, 1, 1.0, 1.0,
+                     new Insets(10, 5, 5, 5), 0, 0));
+             getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblImageServerAddress")),   
+                     Layout.getGBC(0, y, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                      new Insets(10, 5, 5, 5), 0, 0));
-             getContentPane().add(fldImageServerPort, Layout.getGBC(1, 4, 1, 1, 1.0, 1.0,
+             getContentPane().add(fldImageServerAddress, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
+                     GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                     new Insets(10, 5, 5, 5), 0, 0));
+             getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblImageServerPort")),   
+                     Layout.getGBC(0, y, 1, 1, 1.0, 1.0,
+                     GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+                     new Insets(10, 5, 5, 5), 0, 0));
+             getContentPane().add(fldImageServerPort, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                      new Insets(10, 5, 5, 5), 0, 0));
              
@@ -167,6 +180,13 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
              if (CoreUtilities.isEmpty(serverAddress))
             	 serverAddress = cs.getServerAddress();
              fldServerAddress.setText(serverAddress);
+             
+             String imageServerAddress = connector.getImageServerAddress();
+             if (CoreUtilities.isEmpty(imageServerAddress))
+            	 imageServerAddress = cs.getImageServerAddress();
+             if (CoreUtilities.isEmpty(imageServerAddress))
+            	 imageServerAddress = serverAddress;
+             fldImageServerAddress.setText(imageServerAddress);             
              
              int applicationServerPort = connector.getApplicationServerPort();
              if (applicationServerPort <= 0)
@@ -195,7 +215,7 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
          panelActions.add(btOk);
          panelActions.add(btCancel);
          
-         getContentPane().add(panelActions, Layout.getGBC(0, 5, 2, 1, 1.0, 1.0,
+         getContentPane().add(panelActions, Layout.getGBC(0, y, 2, 1, 1.0, 1.0,
                  GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE,
                  new Insets(10, 5, 5, 0), 0, 0));
     }

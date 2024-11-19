@@ -108,7 +108,8 @@ public class DcServer implements Runnable, IStarterClient, IClient {
         String username = "sa";
         String password = null;
         
-        String ip = null;
+        String serverIP = null;
+        String imageIP = null;
         
         boolean determiningInstallDir = false;
         boolean determiningUserDir = false;
@@ -120,7 +121,9 @@ public class DcServer implements Runnable, IStarterClient, IClient {
                 determiningInstallDir = true;
                 determiningUserDir = false;
             } else if (arg.toLowerCase().startsWith("-ip:")) {
-                ip = arg.substring(4, arg.length());
+                serverIP = arg.substring(4, arg.length());
+            } else if (arg.toLowerCase().startsWith("-imageip:")) {
+            	imageIP = arg.substring(9, arg.length());
             } else if (arg.toLowerCase().startsWith("-userdir:")) {
                 dataDir = arg.substring("-userdir:".length(), arg.length());
                 determiningUserDir = true;
@@ -191,7 +194,7 @@ public class DcServer implements Runnable, IStarterClient, IClient {
         
         enableWebServer = webServerPort > -1;
 	    
-        if (CoreUtilities.isEmpty(ip)) {
+        if (CoreUtilities.isEmpty(serverIP)) {
             System.out.println("The IP address (-ip:<IP address>) is a required parameters. "
             		+ "It is used to generated URLs to server resources, such as images.\r\n");
             printParameterHelp();
@@ -206,6 +209,8 @@ public class DcServer implements Runnable, IStarterClient, IClient {
     	    dcc.setInstallationDir(installationDir);
     	    dcc.setDataDir(dataDir);
     	    
+    	    imageIP = CoreUtilities.isEmpty(imageIP) ? serverIP : imageIP;
+     	    
     	    server = new DcServer(port);
     	    
             if (server.initialize(username, password, db)) {
@@ -214,14 +219,15 @@ public class DcServer implements Runnable, IStarterClient, IClient {
                 if (connector != null) {
                     connector.setApplicationServerPort(port);
                     connector.setImageServerPort(imageServerPort);
-                    connector.setServerAddress(ip);
+                    connector.setServerAddress(serverIP);
+                    connector.setImageServerAddress(imageIP);
                 }
                 
-                imgServer = new DcImageWebServer(imageServerPort, ip);
+                imgServer = new DcImageWebServer(imageServerPort, imageIP);
                 
                 if (enableWebServer) {
                     try {
-                        webServer = new DcWebServer(webServerPort, ip);
+                        webServer = new DcWebServer(webServerPort, serverIP);
                         webServer.setup();
                     } catch (Exception e) {
                         logger.error("Web server could not be started", e);
