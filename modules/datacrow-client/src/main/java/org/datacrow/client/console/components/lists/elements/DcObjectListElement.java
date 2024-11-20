@@ -99,10 +99,12 @@ public abstract class DcObjectListElement extends DcListElement {
     	return module.isAbstract() ? new int[] {DcObject._ID} : module.getMinimalFields(getFields(getModule()));
     }
     
+    public boolean toBeLoaded() {
+        return getComponentCount() == 0 && !loading;
+    }
+    
     public void load() {
-        int count = getComponentCount();
-        if (count == 0 && !loading) {
-
+        if (toBeLoaded()) {
         	loading = true;
         	
         	DcModule module = DcModules.get(getModule());
@@ -115,7 +117,6 @@ public abstract class DcObjectListElement extends DcListElement {
             }
 
             build();
-            
             loading = false;
         }
     }

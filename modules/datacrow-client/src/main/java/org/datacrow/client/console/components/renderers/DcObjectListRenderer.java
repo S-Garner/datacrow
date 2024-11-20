@@ -55,26 +55,39 @@ public class DcObjectListRenderer extends DcListRenderer<Object>  {
         if (render && !vc.isIgnoringPaintRequests()) {
             c.setFont(ComponentFactory.getStandardFont());
             
-            SwingUtilities.invokeLater(new Runnable() {
-				
-				@Override
-				public void run() {
-					if (c != null) {
-			            c.load();
-			            
-			            if (c.getDcObject() != null)
-			                setElementColor(isSelected, c, index);
-			            
-			            list.invalidate();
-			            
-			            validate();
-			            repaint();
-			            
-			            list.validate();
-			            list.repaint();
-					}
-				}
-			});
+            
+            if (c != null) {
+
+            	if (!c.toBeLoaded()) {
+    	        
+            		// just set the correct colors
+            		setElementColor(isSelected, c, index);
+
+            	} else {
+            		// else, invoke a delayed build of the component
+    	            SwingUtilities.invokeLater(new Runnable() {
+    					@Override
+    					public void run() {
+    						if (c != null) {
+    	
+    							// build it
+    							c.load();
+
+    							// set the color
+    				            setElementColor(isSelected, c, index);
+    							
+    				            // redraw
+    							list.invalidate();
+    				            validate();
+    				            repaint();
+    				            
+    				            list.validate();
+    				            list.repaint();
+    						}
+    					}
+    				});
+            	}
+            }
         }
         
     	return c;

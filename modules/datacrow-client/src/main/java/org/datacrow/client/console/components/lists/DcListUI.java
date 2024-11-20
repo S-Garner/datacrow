@@ -114,10 +114,11 @@ public class DcListUI extends BasicListUI {
             int leadIndex = list.getLeadSelectionIndex();
             int startItemBoundX = itemBounds.x;
    
-            for(int row = firstPaintRow; row <= lastPaintRow; row++) {
+            for (int row = firstPaintRow; row <= lastPaintRow; row++) {
                 itemBounds.x = startItemBoundX;
 
-                for(int column = firstPaintColumn; column <= lastPaintColumn; column++) {
+                for (int column = firstPaintColumn; column <= lastPaintColumn; column++) {
+                	
                     int index = row * columnsPerRow + column;
                     if(index >= dataModel.getSize())
                         break;
@@ -133,7 +134,7 @@ public class DcListUI extends BasicListUI {
                     try {
                         paintCell(g, index, itemBounds, renderer, dataModel, selModel, leadIndex);
                     } catch (Exception exp) {
-                        // An exception occured. Probably an incorrect element. Rebuild and retry
+                        // An exception occurred. Probably an incorrect element. Rebuild and retry
                     	
                         try {
 	                        list.setSelectedIndex(index);

@@ -1,5 +1,5 @@
 --------------------------------------------------------------------
-Data Crow version 5.0  BETA IV                Released on 2024-xx-xx
+Data Crow version 5.0  BETA IV                Released on 2024-11-20
 --------------------------------------------------------------------
 
 [Fixed]
@@ -14,8 +14,8 @@ Data Crow version 5.0  BETA IV                Released on 2024-xx-xx
 [Beta fixes]:
 - Multi-reference fields were all broken.
 - Online search: item was not correctly updated with the music tracks.
-- Various issues with new pictures are now resolved.
-
+- Various issues with new pictures have been resolved.
+- High CPU usage when the card view is shown.
 
 [TODO]:
 - Translate: 
