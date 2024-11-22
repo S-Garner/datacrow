@@ -297,8 +297,10 @@ public class PictureOverviewPanel extends DcPanel {
                         public void run() {
                         	pictureEditList.remove(picture);
                         	
-                        	if (!newItemMode)
+                        	if (!newItemMode) {
                         		GUI.getInstance().getSearchView(DcModules.getCurrent().getIndex()).getCurrent().update(picture.getObjectID());
+        		            	GUI.getInstance().getSearchView(DcModules.getCurrent().getIndex()).getCurrent().refreshQuickView();
+                        	}
                         }
                     }));
         	}
@@ -474,6 +476,7 @@ public class PictureOverviewPanel extends DcPanel {
 					DcConfig.getInstance().getConnector().savePictureOrder(objectID, order);
 					reload();
 					GUI.getInstance().getSearchView(DcModules.getCurrent().getIndex()).getCurrent().update(objectID);
+					GUI.getInstance().getSearchView(DcModules.getCurrent().getIndex()).getCurrent().refreshQuickView();
 				}
 			});
         }

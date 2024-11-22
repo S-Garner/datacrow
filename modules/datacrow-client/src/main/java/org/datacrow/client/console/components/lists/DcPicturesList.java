@@ -181,9 +181,12 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
 		    	if (saved) {
 	            	add(picture);
 		            	
-	            	if (!newItemMode)
+	            	if (!newItemMode) {
 		            	GUI.getInstance().getSearchView(
 		            			DcModules.getCurrent().getIndex()).getCurrent().update(picture.getObjectID());
+		            	GUI.getInstance().getSearchView(
+		            			DcModules.getCurrent().getIndex()).getCurrent().refreshQuickView();
+	            	}
 	            }
 	        }
         }));

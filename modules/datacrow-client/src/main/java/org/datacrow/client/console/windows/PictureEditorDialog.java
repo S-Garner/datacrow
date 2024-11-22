@@ -126,6 +126,7 @@ public class PictureEditorDialog extends DcDialog implements ActionListener {
         	
         	DcConfig.getInstance().getConnector().savePicture(p);
         	GUI.getInstance().getSearchView(moduleIdx).getCurrent().update(p.getObjectID());
+        	GUI.getInstance().getSearchView(moduleIdx).getCurrent().refreshQuickView();
         	
         	listener.reload();
             close();

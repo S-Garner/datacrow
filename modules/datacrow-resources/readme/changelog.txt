@@ -8,6 +8,7 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
 [Beta fixes]
 - List view text not updated after updating item.
 - Add from memory for pictures had a memory leak.
+- All picture actions are now also immediately reflected on the quick view.
 
 [TODO]:
 - Translate: 
