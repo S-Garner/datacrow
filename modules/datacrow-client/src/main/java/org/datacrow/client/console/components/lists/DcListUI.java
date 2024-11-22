@@ -60,7 +60,7 @@ public class DcListUI extends BasicListUI {
     protected final static int columnsPerRowChanged = cellRendererChanged << 1;
     
     protected int columnsPerRow = 1;
-    protected int[] cellWidths    = null;
+    protected int[] cellWidths = null;
 
     /**
      * Paint the rows that intersect the Graphics objects clipRect.
@@ -94,9 +94,8 @@ public class DcListUI extends BasicListUI {
             int firstPaintRow = convertYToRow(paintBounds.y);
             int lastPaintColumn = convertXToColumn((paintBounds.x+ paintBounds.width) - 1);
             int lastPaintRow = convertYToRow((paintBounds.y + paintBounds.height) - 1);
-   
-            if (firstPaintRow == -1)
-                firstPaintRow = 0;
+            
+            firstPaintRow = firstPaintRow == -1 ? 0 : firstPaintRow;
 
             if (lastPaintRow == -1)
                 lastPaintRow = (dataModel.getSize()-1)/columnsPerRow;

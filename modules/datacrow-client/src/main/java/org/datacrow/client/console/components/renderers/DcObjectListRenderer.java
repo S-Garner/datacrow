@@ -57,7 +57,7 @@ public class DcObjectListRenderer extends DcListRenderer<Object>  {
             
             
             if (c != null) {
-
+            	
             	if (!c.toBeLoaded()) {
     	        
             		// just set the correct colors

@@ -29,6 +29,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import org.datacrow.client.console.ComponentFactory;
+import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.components.DcPicturePane;
 import org.datacrow.client.console.components.DcTextPane;
 import org.datacrow.core.DcRepository;
@@ -68,7 +69,24 @@ public class DcCardObjectListElement extends DcObjectListElement {
         setMaximumSize(size);
         setMinimumSize(size);
     }
+    
+    /*
+     * This is used to update the component in the list view.
+     * Noticing that this does not trigger a repaint per se we are triggering a repaint of the main frame instead.
+     * This trickles down to all components, triggering a repaint by #DcListUI.
+     */
+    @Override
+    public void update() {
+        clear();
 
+        GUI.getInstance().getMainFrame().repaint();
+    } 
+
+    /*
+     * This is used to update the component in the list view.
+     * Noticing that this does not trigger a repaint per se we are triggering a repaint of the main frame instead.
+     * This trickles down to all components, triggering a repaint by #DcListUI.
+     */
     @Override
     public void update(DcObject dco) {
         if (this.dco == null || this.dco.isNew()) {
@@ -77,6 +95,8 @@ public class DcCardObjectListElement extends DcObjectListElement {
         } else {
             clear();
         }
+
+        GUI.getInstance().getMainFrame().repaint();
     }    
     
     private String getDescription() {
@@ -154,7 +174,7 @@ public class DcCardObjectListElement extends DcObjectListElement {
           
         super.setBackground(ComponentFactory.getColor(DcRepository.Settings.stCardViewBackgroundColor));
         
-        validate();
+        revalidate();
         repaint();
     }
     
@@ -168,10 +188,8 @@ public class DcCardObjectListElement extends DcObjectListElement {
         	fldPicture.clear();
         	fldPicture.setImageIcon(null);
         }
-
-        validate();
-        repaint();
         
+        dco = null;
         build = false;
     }
 }

@@ -45,9 +45,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -55,6 +58,8 @@ import java.util.Collection;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.imageio.ImageIO;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
@@ -85,13 +90,36 @@ public class Utilities {
     }
     
     public static DcImageIcon getImageFromClipboard() {
-        Transferable clipData = clipboard.getContents(clipboard);
+        Transferable clipData = clipboard.getContents(null);
+        
         if (clipData != null) {
-            if (clipData.isDataFlavorSupported(DataFlavor.imageFlavor)) {
+        	if (clipData.isDataFlavorSupported(DataFlavor.imageFlavor)) {
                 try {
                     Image image = (Image) clipData.getTransferData(DataFlavor.imageFlavor);
-                    return new DcImageIcon(CoreUtilities.getBytes(new DcImageIcon(image)));
+                    File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + ".jpg");
+                    CoreUtilities.writeToFile(new DcImageIcon(image), file);
+                    return new DcImageIcon(file);
                 } catch (Exception ignore) {}
+            } else {
+            	Reader reader = null;
+
+            	try {
+            		reader = new DataFlavor("text/plain; charset=ASCII", "Plain ASCII text").getReaderForText(clipData);
+            	} catch (Exception ignore) {}
+            	
+            	if (reader != null) {
+                    try {
+                		StringWriter sw = new StringWriter();
+                		reader.transferTo(sw);
+                		String s = sw.toString();
+                		URL url = new URL(s);
+                		Image img = ImageIO.read(url);
+                		
+                		if (img != null)
+                			return new DcImageIcon(img);
+                		
+                    } catch (Exception ignore) {}
+            	}
             }
         }
         return null;

@@ -324,11 +324,16 @@ public class PictureOverviewPanel extends DcPanel {
         }
         
         private void addPictureFromMemory() {
-            DcImageIcon image = Utilities.getImageFromClipboard();
-            if (image != null) {
-            	Picture picture = new Picture(objectID, image);
-            	pictureEditList.addPicture(picture);
-            }
+    		SwingUtilities.invokeLater(new Thread(new Runnable() { 
+                @Override
+                public void run() {
+                    DcImageIcon image = Utilities.getImageFromClipboard();
+                    if (image != null) {
+                    	Picture picture = new Picture(objectID, image);
+                    	pictureEditList.addPicture(picture);
+                    }
+    	        }
+            }));
         }
         
         public void openPicture() {

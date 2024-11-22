@@ -1,6 +1,17 @@
 --------------------------------------------------------------------
-Data Crow version 5.0  BETA V                Released on 
+Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
 --------------------------------------------------------------------
+
+[Changed]
+- Add from memory for pictures now also allowed URLs to be pasted.
+
+[Beta fixes]
+- List view text not updated after updating item.
+- Add from memory for pictures had a memory leak.
+
+[TODO]:
+- Translate: 
+  lblImageServerAddress = Image Server Address
 
 
 --------------------------------------------------------------------
@@ -21,10 +32,6 @@ Data Crow version 5.0  BETA IV                Released on 2024-11-20
 - Online search: item was not correctly updated with the music tracks.
 - Various issues with new pictures have been resolved.
 - High CPU usage when the card view is shown.
-
-[TODO]:
-- Translate: 
-  lblImageServerAddress = Image Server Address
 
 
 --------------------------------------------------------------------

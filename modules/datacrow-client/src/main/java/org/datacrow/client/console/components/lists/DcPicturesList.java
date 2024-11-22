@@ -200,6 +200,7 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
 	@Override
 	public void dragEnter(DropTargetDragEvent dtde) {
         Transferable t = dtde.getTransferable();
+        
         if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
         	
         	acceptDraggedFile = true;
@@ -253,8 +254,7 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
 	@Override
     public void drop(DropTargetDropEvent dtde) {
     	
-    	if (!acceptDraggedFile) 
-    		return;
+    	if (!acceptDraggedFile) return;
     	
         Transferable transferable = dtde.getTransferable();
         if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {

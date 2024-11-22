@@ -118,6 +118,10 @@ public abstract class DcObjectListElement extends DcListElement {
 
             build();
             loading = false;
+            
+            invalidate();
+            revalidate();
+            repaint();
         }
     }
     
@@ -178,9 +182,10 @@ public abstract class DcObjectListElement extends DcListElement {
         
         removeAll();
         
-//        if (dco != null && !dco.isNew())
-//            dco.release();
-            
+        dco = null;
+        loading = false;
+        
+        invalidate();
         revalidate();
         repaint();
     }

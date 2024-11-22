@@ -46,6 +46,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JToolTip;
+import javax.swing.SwingUtilities;
 
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
@@ -197,11 +198,16 @@ public class DcPictureField extends JComponent implements ActionListener, DropTa
     }
     
     private void paste() {
-        DcImageIcon icon = Utilities.getImageFromClipboard();
-        if (icon != null) {
-        	pane.setImageIcon(icon);
-            changed = true;
-        }
+		SwingUtilities.invokeLater(new Thread(new Runnable() { 
+            @Override
+            public void run() {
+		        DcImageIcon icon = Utilities.getImageFromClipboard();
+		        if (icon != null) {
+		        	pane.setImageIcon(icon);
+		            changed = true;
+		        }
+	        }
+        }));
     }
     
     @Override
