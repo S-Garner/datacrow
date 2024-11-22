@@ -13,7 +13,9 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
 [TODO]:
 - Translate: 
   lblImageServerAddress = Image Server Address
-
+- File import - test local art
+- File import - test online search
+- Date format... 
 
 --------------------------------------------------------------------
 Data Crow version 5.0  BETA IV                Released on 2024-11-20
