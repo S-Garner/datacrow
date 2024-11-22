@@ -16,6 +16,7 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
 - File import - test local art
 - File import - test online search
 - Date format... 
+- Backup did not unlock the UI after completion. 
 
 --------------------------------------------------------------------
 Data Crow version 5.0  BETA IV                Released on 2024-11-20
