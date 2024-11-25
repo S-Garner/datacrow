@@ -25,6 +25,7 @@
 
 package org.datacrow.server.backup;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -81,6 +82,7 @@ public class Backup extends Thread {
     private File[] getFiles() {
         Collection<File> files = new ArrayList<File>();
         String paths[] = {
+        		DcConfig.getInstance().getAttachmentDir(),
                 DcConfig.getInstance().getApplicationSettingsDir(),
                 DcConfig.getInstance().getModuleSettingsDir(),
                 DcConfig.getInstance().getDatabaseDir(),
@@ -88,8 +90,7 @@ public class Backup extends Thread {
                 DcConfig.getInstance().getReportDir(),
                 DcConfig.getInstance().getResourcesDir(),
                 DcConfig.getInstance().getUpgradeDir(),
-                DcConfig.getInstance().getImageDir(),
-                DcConfig.getInstance().getAttachmentDir()};
+                DcConfig.getInstance().getImageDir()};
         
         Directory dir;
         for (String path : paths) {
@@ -139,28 +140,31 @@ public class Backup extends Thread {
         
         @SuppressWarnings("resource")
 		FileOutputStream fos = null;
-        ZipOutputStream zipOut = null;
+        BufferedOutputStream bos = null;
+        ZipOutputStream zos = null;
         
         try {
             String zipFileName = getZipFile(directory.toString());
             
             fos = new FileOutputStream(zipFileName);
-            zipOut = new ZipOutputStream(fos);
-            zipOut.setLevel(Deflater.BEST_COMPRESSION);
+            bos = new BufferedOutputStream(fos);
+            
+            zos = new ZipOutputStream(bos);
+            zos.setLevel(Deflater.BEST_COMPRESSION);
             
             // add the version and add the comment entered by the customer
-            zipOut.putNextEntry(new ZipEntry("version.txt"));
-            zipOut.write(DcConfig.getInstance().getVersion().toString().getBytes());
+            zos.putNextEntry(new ZipEntry("version.txt"));
+            zos.write(DcConfig.getInstance().getVersion().toString().getBytes());
             
             if (comment.length() > 0)
-                zipOut.write(("\n" + comment).getBytes());
+                zos.write(("\n" + comment).getBytes());
             
-            zipOut.closeEntry();
+            zos.closeEntry();
             
             // add all the file
             for (File file : files) {
 
-                zipDirectory(zipOut, file, DcConfig.getInstance().getDataDir());
+                zipDirectory(zos, file, DcConfig.getInstance().getDataDir());
                 client.notifyProcessed();
                 
                 try {
@@ -177,19 +181,19 @@ public class Backup extends Thread {
             client.notifyError(e);
             client.notifyWarning(DcResources.getText("msgBackupFinishedUnsuccessful"));
         } finally {
-        	try { if (zipOut != null) zipOut.close(); } catch (Exception e) {logger.error("Could not close resource");}
+        	try { if (zos != null) zos.close(); } catch (Exception e) {logger.error("Could not close resource");}
+        	try { if (bos != null) bos.close(); } catch (Exception e) {logger.error("Could not close resource");}
         	try { if (fos != null) fos.close(); } catch (Exception e) {logger.error("Could not close resource");}
         }
         
         DcSettings.set(DcRepository.Settings.stBackupLocation, directory.toString());
-        
         client.notify(DcResources.getText("msgRestartingDb"));
         
         DatabaseManager.getInstance().initialize();
         client.notifyTaskCompleted(true, null);
     }
     
-    private void zipDirectory(ZipOutputStream zipOut, File fileToZip, String parentDirectoryName) throws Exception
+    private void zipDirectory(ZipOutputStream zos, File fileToZip, String parentDirectoryName) throws Exception
     {
         if (fileToZip == null || !fileToZip.exists()) 
             return;
@@ -207,7 +211,7 @@ public class Backup extends Thread {
                 zipEntryName = "";
 
             for (File file : fileToZip.listFiles()) {
-                zipDirectory(zipOut, file, fileToZip.getAbsolutePath());
+                zipDirectory(zos, file, fileToZip.getAbsolutePath());
             }
         } else {
             byte[] buffer = new byte[1024];
@@ -215,14 +219,15 @@ public class Backup extends Thread {
             FileInputStream fis = null;
             try {
                 fis = new FileInputStream(fileToZip);
-                zipOut.putNextEntry(new ZipEntry(zipEntryName));
+                zos.putNextEntry(new ZipEntry(zipEntryName));
                 
                 int length;
                 while ((length = fis.read(buffer)) > 0) {
-                    zipOut.write(buffer, 0, length);
+                    zos.write(buffer, 0, length);
                 }
+
             } finally {
-                zipOut.closeEntry();
+                zos.closeEntry();
                 if (fis != null) fis.close();
             }
         }

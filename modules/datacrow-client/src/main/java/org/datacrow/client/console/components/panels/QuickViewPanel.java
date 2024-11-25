@@ -105,6 +105,8 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     
     private RelatedItemsPanel relatedItemsPanel = null;
     
+    private boolean refreshing = false;
+    
     public QuickViewPanel(boolean showInlineImages, boolean showAttachments) {
         this.showInlineImages = showInlineImages;
         this.showAttachments = showAttachments;
@@ -147,24 +149,35 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     }
     
     public void refresh() {
-    	removeComponentListener(this);
     	
-        int caret = descriptionPane.getCaretPosition();
-        
-        String key = this.key;
-        this.dco = null;
-        this.key = null;
-        this.pictures.clear();
-        
-        setObject(key, moduleIdx);
-        
-        try {
-            descriptionPane.setCaretPosition(caret);
-        } catch (Exception e) {
-            logger.debug("Error while setting the quick view caret position", e);
-        }
-        
-        addComponentListener(this);
+    	if (!refreshing) {
+    	
+    		refreshing = true;
+    		
+	    	try {
+	    	
+		    	removeComponentListener(this);
+		    	
+		        int caret = descriptionPane.getCaretPosition();
+		        
+		        String key = this.key;
+		        this.dco = null;
+		        this.key = null;
+		        this.pictures.clear();
+		        
+		        setObject(key, moduleIdx);
+		        
+		        try {
+		            descriptionPane.setCaretPosition(caret);
+		        } catch (Exception e) {
+		            logger.debug("Error while setting the quick view caret position", e);
+		        }
+		        
+		        addComponentListener(this);
+	    	} finally {
+	    		refreshing = false;
+	    	}
+    	}
     }
     
     public void setObject(String key, int moduleIdx) {

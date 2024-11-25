@@ -64,6 +64,6 @@ public class SystemMonitor extends Thread {
         
         long available = max - used;
 
-        logger.info("Memory usage (max " + max + " MB) (used " + used + " MB) (available " + available + " MB)");
+        logger.debug("Memory usage (max " + max + " MB) (used " + used + " MB) (available " + available + " MB)");
     }
 }

@@ -137,7 +137,8 @@ public class DatabaseManager {
             initialized = true;
             
             // start the database monitoring
-            checker.start();
+            if (!checker.isAlive())
+            	checker.start();
             
         } catch (SQLException se) {
             logger.fatal("Connection failure. The database cannot be connected to.", se);
