@@ -74,8 +74,14 @@ public class DcDateField extends JComponent implements IComponent {
         dateSettings.setFontTodayLabel(ComponentFactory.getSystemFont());
         dateSettings.setFontValidDate(ComponentFactory.getStandardFont());
         dateSettings.setFontVetoedDate(ComponentFactory.getStandardFont());
-        
+
+        // we need to convert the simple date format to the DateTimeFormatter pattern.
+        // it's pretty straightforward, luckily.
         String format = DcSettings.getString(DcRepository.Settings.stDateFormat);
+        format = format.replaceAll("E", "e");
+        format = format.replaceAll("eeeee", "eeee");
+        format = format.replaceAll("MMMMM", "MMMM");
+        
         dateSettings.setFormatForDatesBeforeCommonEra(format);
         dateSettings.setFormatForDatesCommonEra(format);
         dateSettings.setFormatForTodayButton(DateTimeFormatter.ofPattern(format));

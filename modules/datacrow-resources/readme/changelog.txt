@@ -6,6 +6,9 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
 - Add from memory for pictures now also allowed URLs to be pasted.
 - Removed the memory usage message from the log; only shown now using the -debug option.
 
+[Fixed]
+- Date format for date input fields was incorrect for long date formats (including name of the day/month).
+
 [Beta fixes]
 - List view text not updated after updating item.
 - Add from memory for pictures had a memory leak.
@@ -15,7 +18,10 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
 [TODO]:
 - Translate: 
   lblImageServerAddress = Image Server Address
-- Date format... 
+  lblIncludeImage = Include Pictures
+  lblIncludeAttachments = Include Attachments
+  lblCopyAttachments = Copy Attachments
+  lblAfter = After
 
 
 --------------------------------------------------------------------
@@ -105,11 +111,6 @@ This also makes it possible, although unlikely that someone will do this, to int
 
 [TODO]
 - Web module is being rebuild
-- Update the translations 
-  lblIncludeImage = Include Pictures
-  lblIncludeAttachments = Include Attachments
-  lblCopyAttachments = Copy Attachments
-  lblAfter = After
 
 
 --------------------------------------------------------------------
