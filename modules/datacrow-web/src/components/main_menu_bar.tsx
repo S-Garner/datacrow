@@ -26,15 +26,8 @@ export function UserStatus() {
 }
 
 export function ColorStyleMenu() {
-	
-	let auth = useAuth();
-	
-	if (!auth.user) {
-		return <div />;
-	}
-	
 	return (
-		<div className="mode-switch" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0" }} >
+		<div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0" }} >
 			<Button className="main-menu-button" data-bs-theme-value="light" aria-pressed="false">
 				<i className="bi bi-sun"></i>
 			</Button>
