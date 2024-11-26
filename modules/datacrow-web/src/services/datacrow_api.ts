@@ -27,6 +27,7 @@ export interface Field {
 	moduleIdx: number;
 	referencedModuleIdx: number;
 	maximumLength: number;
+	label: string;
 }
 
 export async function fetchModules(): Promise<Module[]> {

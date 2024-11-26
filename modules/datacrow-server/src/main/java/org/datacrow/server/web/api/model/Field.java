@@ -33,13 +33,17 @@ public class Field {
     @JsonProperty("referencedMouleIdx")
     private final int referencedMouleIdx;
     @JsonProperty("maximumLength")
-    private final int maximumLength;	
+    private final int maximumLength;
+    @JsonProperty("label")
+    private final String label;
+
 	
 	public Field(DcField src) {
 		index = src.getIndex();
 		moduleIdx = src.getModule();
 		referencedMouleIdx = src.getReferenceIdx();
 		maximumLength = src.getMaximumLength();
+		label = src.getLabel();
 		setType(src);
 	}
 	
