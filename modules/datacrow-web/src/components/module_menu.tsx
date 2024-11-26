@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchModules, type Module } from '../services/datacrow_api';
-import { Button } from 'react-bootstrap';
+import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { CurrentModuleContext } from '../context/module_context';
 
 function ModuleMenu({ children }: { children: JSX.Element }) {
@@ -28,23 +28,23 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 
 	function DisplayMainModules() {
 		return (
-			<div className="nav-item dropdown">
-				<a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"  onClick={() => mainModule && setSelectedModule(mainModule)}>
-								<img src={"data:image/png;base64, " + mainModule?.icon} />
-								&nbsp;{mainModule?.name}
-				</a>
-				
-				<div className="dropdown-menu">
+			<Dropdown as={ButtonGroup}>
+				<Button onClick={() => mainModule && setSelectedModule(mainModule)} key="button-selected-module">
+					<img src={"data:image/png;base64, " + mainModule?.icon} />
+					&nbsp;{mainModule?.name}
+				</Button>
+
+				<Dropdown.Toggle split id="module-select-dropdown" />
+
+				<Dropdown.Menu>
 					{modules.map((module) => (
-						<li>
-							<Button onClick={() => setSelectedMainModule(module)} key={"moduleMenu" + module.index} className="dropdown-item">
-								<img src={"data:image/png;base64, " + module.icon} />
-								&nbsp;{module.name}
-							</Button>
-						</li>
+						<Dropdown.Item onClick={() => setSelectedMainModule(module)} key={"moduleMenu" + module.index}>
+							<img src={"data:image/png;base64, " + module.icon} />
+							&nbsp;{module.name}
+						</Dropdown.Item>
 					))}
-				</div>
-			</div>
+				</Dropdown.Menu>
+			</Dropdown>			
 		);
 	}
 
