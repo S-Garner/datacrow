@@ -1,4 +1,4 @@
-import { Button, Card } from 'react-bootstrap';
+import { Button, Card, InputGroup } from 'react-bootstrap';
 import { fetchItems, type Item } from '../services/datacrow_api';
 import { useCurrentModule } from '../context/module_context';
 import { useEffect, useState } from 'react';
@@ -50,10 +50,10 @@ export function ItemOverview() {
 		<div className="py-20 bg-slate-900 h-full">
 			
 			<form onSubmit={handleSubmit}>
-				<div className="input-group mb-3">
+				<InputGroup className="mb-3">
 					<input type="text" name="searchFor" />
 					<Button className="search-button" type="submit">search</Button>
-				</div>
+				</InputGroup>
 			</form>
 			
 			<div style={{ right: "0px" }}>

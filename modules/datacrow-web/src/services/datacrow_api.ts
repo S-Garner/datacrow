@@ -5,6 +5,7 @@ export interface Module {
 	name: string;
 	icon: string;
 	children: Module[];
+	fields: Field[];
 }
 
 export interface Item {
