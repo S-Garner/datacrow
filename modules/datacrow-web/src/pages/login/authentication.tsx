@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { fakeAuthProvider } from "../../security/authentication_provider";
 import { Navigate } from 'react-router-dom';
-
-import {
-	useNavigate,
-	useLocation,
-} from "react-router-dom";
+import { useNavigate, useLocation} from "react-router-dom";
 import { Button } from 'react-bootstrap';
 import { AuthContext, useAuth } from '../../context/authentication_context';
 
@@ -34,7 +30,7 @@ export function LoginPage() {
 	}
 
 	return (
-		<div>
+		<div style={{position:"absolute", top:"50%", left:"50%", marginTop: "-50px", marginLeft: "-200px", width: "400px", height: "100px"}}>
 			<form onSubmit={handleSubmit}>
 				<label>
 					Username: <input name="username" type="text" />

@@ -1,7 +1,7 @@
 import { useAuth } from "../context/authentication_context";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import ModuleMenu from "./module_menu";
+import logo from '../assets/datacrow.png';
 
 export function UserStatus() {
 	let auth = useAuth();
@@ -10,7 +10,6 @@ export function UserStatus() {
 	if (!auth.user) {
 		return <div />;
 	}
-
 
 	return (
 		<div style={{ float: "right", top: "0", right: "0"}}>
@@ -27,6 +26,13 @@ export function UserStatus() {
 }
 
 export function ColorStyleMenu() {
+	
+	let auth = useAuth();
+	
+	if (!auth.user) {
+		return <div />;
+	}
+	
 	return (
 		<div className="mode-switch" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0" }} >
 			<Button className="main-menu-button" data-bs-theme-value="light" aria-pressed="false">
@@ -44,9 +50,16 @@ export function ColorStyleMenu() {
 
 export default function MainMenuBar() {
 	return (
-		<div className="main-menu-bar" style={{paddingBottom: "8px"}}>
-			<UserStatus />
-			<ColorStyleMenu />
+		<div style={{paddingBottom: "8px"}}>
+		
+			<div style={{float:"left", position: "relative", width:"50em", left: "50%", marginLeft: "-25em"}}>
+				<img src={logo} alt="Logo" width={"50em"} /><b>Data Crow Web</b>
+			</div>
+			
+			<div className="main-menu-bar" style={{float:"right", display: "inline-block"}}>
+				<UserStatus />
+				<ColorStyleMenu />
+			</div>
 		</div>
 	);
 }

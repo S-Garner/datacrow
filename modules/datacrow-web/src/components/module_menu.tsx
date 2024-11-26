@@ -17,8 +17,8 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 		setModules(modules);
 
 		// make sure there's always a selected module		
-		if (modules.length > 1)
-			setMainModule(modules[0])	
+		if (modules.length > 0)
+			setSelectedMainModule(modules[0])
 	}
 
 	function setSelectedMainModule(m: Module) {

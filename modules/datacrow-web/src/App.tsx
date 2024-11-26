@@ -1,9 +1,5 @@
 import './App.scss';
-import {
-	Routes,
-	Route,
-	Outlet,
-} from "react-router-dom";
+import {Routes, Route, Outlet} from "react-router-dom";
 import { AuthProvider, LoginPage } from "./pages/login/authentication";
 import { OverviewPage } from './pages/overview/overview';
 import MainMenuBar from './components/main_menu_bar';
