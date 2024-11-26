@@ -13,11 +13,11 @@ export function ItemOverview() {
 
 	if (searchTerm) {
 		useEffect(() => {
-			currentModule && fetchItems(currentModule!).then((data) => setItems(data));
+			currentModule && fetchItems(currentModule!.index).then((data) => setItems(data));
 		}, [currentModule]);
 	} else {
 		useEffect(() => {
-			currentModule && fetchItems(currentModule!).then((data) => setItems(data));
+			currentModule && fetchItems(currentModule!.index).then((data) => setItems(data));
 		}, [currentModule]);
 	}
 

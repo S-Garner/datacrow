@@ -67,7 +67,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 	}
 
 	return (
-		<CurrentModuleContext.Provider value={selectedModule?.index}>
+		<CurrentModuleContext.Provider value={selectedModule}>
 			<nav className="navbar navbar-expand-lg bs-body-bg">
 				<DisplayMainModules />
 				<DisplayReferenceModules />
