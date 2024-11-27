@@ -1,5 +1,5 @@
 import { Button, Card, InputGroup } from 'react-bootstrap';
-import { fetchItems, type Item } from '../services/datacrow_api';
+import { fetchItems, searchItems, type Item } from '../services/datacrow_api';
 import { useCurrentModule } from '../context/module_context';
 import { useEffect, useState } from 'react';
 import PagesDropdown from './pages_dropdown';
@@ -9,17 +9,10 @@ export function ItemOverview() {
 
 	const currentModule = useCurrentModule();
 	const [items, setItems] = useState<Item[]>([]);
-	const [searchTerm, setSearchTerm] = useState<String>();
 
-	if (searchTerm) {
-		useEffect(() => {
-			currentModule && fetchItems(currentModule!.index).then((data) => setItems(data));
-		}, [currentModule]);
-	} else {
-		useEffect(() => {
-			currentModule && fetchItems(currentModule!.index).then((data) => setItems(data));
-		}, [currentModule]);
-	}
+	useEffect(() => {
+		currentModule && fetchItems(currentModule!.index).then((data) => setItems(data));
+	}, [currentModule]);
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(30);
@@ -43,11 +36,12 @@ export function ItemOverview() {
 		event.preventDefault();
 		let formData = new FormData(event.currentTarget);
 		let searchFor = formData.get("searchFor") as string;
-		setSearchTerm(searchFor);
+		
+		searchItems(currentModule!.index, searchFor).then((data) => setItems(data));
 	}
-
+	
 	return (
-		<div className="py-20 bg-slate-900 h-full">
+		<div className="py-20 bg-slate-900 h-full" style={{width: "100%"}}>
 			
 			<form onSubmit={handleSubmit}>
 				<InputGroup className="mb-3">
@@ -74,13 +68,13 @@ export function ItemOverview() {
 					</Card>
 				))}
 			</div>
-
 			<Pagination
 				itemsPerPage={itemsPerPage}
 				totalItems={totalItems}
 				currentPage={currentPage}
 				paginate={paginate}
 			/>
+
 		</div>
 	);
 }

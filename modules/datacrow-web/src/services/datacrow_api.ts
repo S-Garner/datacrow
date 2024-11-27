@@ -41,3 +41,9 @@ export async function fetchItems(moduleIdx: number): Promise<Item[]> {
 	const result = await response.json();
 	return result;
 }
+
+export async function searchItems(moduleIdx: number, searchTerm: String): Promise<Item[]> {
+	const response = await fetch(baseUrl + 'items/' + moduleIdx + '/' + searchTerm);
+	const result = await response.json();
+	return result;
+}

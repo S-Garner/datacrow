@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.data.DataFilter;
+import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
@@ -30,4 +31,20 @@ public class Items {
 		
 		return items;
 	}
+	
+	
+	public List<Item> getItems(int moduleIdx, String search) {
+		List<Item> items = new ArrayList<Item>();
+		
+		DcModule module = DcModules.get(moduleIdx);
+		int[] fields = module.getMinimalFields(null);
+		DataFilter df = DataFilters.createSearchAllFilter(moduleIdx, search);
+		List<DcObject> objects = DcConfig.getInstance().getConnector().getItems(df, fields);
+
+		for (DcObject dco : objects)
+			items.add(new Item(dco, fields));
+		
+		return items;
+	}	
+	
 }

@@ -5,7 +5,7 @@ import { ItemOverview } from "../../components/item_overview";
 export function OverviewPage() {
 	return (
 		<RequireAuth>
-			<div style={{display: "inline-block"}}>
+			<div style={{display: "inline-block", width:"100%"}}>
 				<ModuleMenu>
 					<ItemOverview />
 				</ModuleMenu>
