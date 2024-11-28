@@ -1,6 +1,6 @@
 import { Button, Card, InputGroup } from 'react-bootstrap';
 import { fetchItems, searchItems, type Item } from '../services/datacrow_api';
-import { useCurrentModule } from '../context/module_context';
+import { useModule } from '../context/module_context';
 import { useEffect, useState } from 'react';
 import PagesDropdown from './pages_dropdown';
 import Pagination from './pagination';
@@ -8,13 +8,13 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 export function ItemOverview() {
 
-	const currentModule = useCurrentModule();
+	const currentModule = useModule();
 	const navigate = useNavigate();
 	const [items, setItems] = useState<Item[]>([]);
 
 	useEffect(() => {
-		currentModule && fetchItems(currentModule!.index).then((data) => setItems(data));
-	}, [currentModule]);
+		currentModule.module && fetchItems(currentModule.module.index).then((data) => setItems(data));
+	}, [currentModule.module]);
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(30);
@@ -39,11 +39,11 @@ export function ItemOverview() {
 		let formData = new FormData(event.currentTarget);
 		let searchFor = formData.get("searchFor") as string;
 		
-		searchItems(currentModule!.index, searchFor).then((data) => setItems(data));
+		searchItems(currentModule!.module.index, searchFor).then((data) => setItems(data));
 	}
 	
 	function openItem(itemID : string) {
-		navigate('/item', { state: { itemID, module : currentModule }});
+		navigate('/item', { state: { itemID }});
 	}
 	
 	return (

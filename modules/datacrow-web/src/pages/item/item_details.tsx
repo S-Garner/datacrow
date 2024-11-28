@@ -2,8 +2,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchItem, type FieldValue, type Item } from "../../services/datacrow_api";
 import { RequireAuth } from "../../context/authentication_context";
+import { useModule } from "../../context/module_context";
 
 export function ItemPage() {
+
+	const currentModule = useModule();
 
 	const navigate = useNavigate();
 	const [item, setItem] = useState<Item>();
@@ -16,7 +19,7 @@ export function ItemPage() {
 	  }, []);
 	
 	useEffect(() => {
-			state && fetchItem(state.module.index, state.itemID).then((data) => setItem(data));
+			state && currentModule.module && fetchItem(currentModule.module.index, state.itemID).then((data) => setItem(data));
 		}, []);
 	
 	

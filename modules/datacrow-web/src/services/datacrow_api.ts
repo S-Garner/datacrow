@@ -6,6 +6,7 @@ export interface Module {
 	icon: string;
 	children: Module[];
 	fields: Field[];
+	isTop: boolean;
 }
 
 export interface Item {

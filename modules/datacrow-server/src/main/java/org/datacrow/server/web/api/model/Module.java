@@ -18,16 +18,18 @@ public class Module {
 	@JsonProperty("name")
 	private final String name;
 	@JsonProperty("icon")
-	private String icon;
-
+	private final String icon;
+	@JsonProperty("isTop")
+	private final boolean isTop;
 	@JsonProperty("children")
 	private Collection<Module> children = new ArrayList<Module>();
 	@JsonProperty("fields")
 	private Collection<Field> fields = new ArrayList<Field>();
 
-	public Module(int index, String name, DcImageIcon icon) {
+	public Module(int index, String name, DcImageIcon icon, boolean top) {
 		this.index = index;
 		this.name = name;
+		this.isTop = top;
 		this.icon = icon == null ? null : String.valueOf(Base64.encode(icon.getBytes()));
 
 		for (DcField field : DcModules.get(index).getFields())
@@ -44,7 +46,7 @@ public class Module {
 			    child.getIndex() != DcModules._TAG &&
 				child.getIndex() != DcModules._CONTAINER) {
 
-				children.add(new Module(child.getIndex(), child.getLabel(), child.getIcon32()));
+				children.add(new Module(child.getIndex(), child.getLabel(), child.getIcon32(), false));
 			}
 		}
 	}
@@ -73,6 +75,10 @@ public class Module {
 	public String getIcon() {
 		return icon;
 	}
+	
+	public boolean getIsTop() {
+		return isTop;
+	}	
 
 	public Module[] getChildren() {
 		Module[] moduleArray = new Module[children.size()];

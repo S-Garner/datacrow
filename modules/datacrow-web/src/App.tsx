@@ -5,17 +5,20 @@ import { OverviewPage } from './pages/overview/overview';
 import MainMenuBar from './components/main_menu_bar';
 import { ItemPage } from './pages/item/item_details';
 import { AuthProvider } from './context/authentication_context';
+import { ModuleProvider } from './context/module_context';
 
 export default function App() {
 	return (
 		<AuthProvider>
-			<Routes>
-				<Route element={<Layout />}>
-					<Route path="/" element={<OverviewPage />} />
-					<Route path="/item" element={<ItemPage />} />
-					<Route path="/login" element={<LoginPage />} />
-				</Route>
-			</Routes>
+			<ModuleProvider>
+				<Routes>
+					<Route element={<Layout />}>
+						<Route path="/" element={<OverviewPage />} />
+						<Route path="/item" element={<ItemPage />} />
+						<Route path="/login" element={<LoginPage />} />
+					</Route>
+				</Routes>
+			</ModuleProvider>
 		</AuthProvider>
 	);
 }
