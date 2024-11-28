@@ -1,6 +1,6 @@
 package org.datacrow.server.web.api.service;
 
-import org.datacrow.server.web.api.model.Items;
+import org.datacrow.server.web.api.manager.ItemManager;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -15,6 +15,6 @@ public class ItemService {
     @Path("/{moduleIndex}/{itemID}")
     @Produces(MediaType.APPLICATION_JSON)
     public org.datacrow.server.web.api.model.Item getItem(@PathParam("moduleIndex") Long id, @PathParam("itemID") String ID) {
-        return Items.getInstance().getItem(id.intValue(), ID);
+        return ItemManager.getInstance().getItem(id.intValue(), ID);
     }
 }

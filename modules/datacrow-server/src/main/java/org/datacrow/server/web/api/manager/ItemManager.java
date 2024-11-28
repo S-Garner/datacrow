@@ -1,4 +1,4 @@
-package org.datacrow.server.web.api.model;
+package org.datacrow.server.web.api.manager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +9,13 @@ import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.server.web.api.model.Item;
 
-public class Items {
+public class ItemManager {
 	
-	private static Items instance = new Items();
+	private static ItemManager instance = new ItemManager();
 	 
-    public static Items getInstance() {
+    public static ItemManager getInstance() {
         return instance;
     }
 

@@ -2,7 +2,7 @@ package org.datacrow.server.web.api.service;
 
 import java.util.List;
 
-import org.datacrow.server.web.api.model.Items;
+import org.datacrow.server.web.api.manager.ItemManager;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -17,13 +17,13 @@ public class ItemsService {
     @Path("/{moduleIndex}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<org.datacrow.server.web.api.model.Item> getItemsForModule(@PathParam("moduleIndex") Long id) {
-        return Items.getInstance().getItems(id.intValue());
+        return ItemManager.getInstance().getItems(id.intValue());
     }
     
     @GET
     @Path("/{moduleIndex}/{searchTerm}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<org.datacrow.server.web.api.model.Item> getItemsForModule(@PathParam("moduleIndex") Long id, @PathParam("searchTerm") String search) {
-        return Items.getInstance().getItems(id.intValue(), search);
+        return ItemManager.getInstance().getItems(id.intValue(), search);
     }
 }

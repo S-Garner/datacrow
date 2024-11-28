@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.server.web.api.manager.ModuleManager;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -39,7 +40,7 @@ public class Item {
 			imageUrl = null;
 		}
 		
-		Module m = Modules.getInstance().getModule(src.getModuleIdx());
+		Module m = ModuleManager.getInstance().getModule(src.getModuleIdx());
 		Field field;
 		
 		for (int fieldIdx : fields) {

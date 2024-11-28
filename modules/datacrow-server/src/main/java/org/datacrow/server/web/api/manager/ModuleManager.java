@@ -1,4 +1,4 @@
-package org.datacrow.server.web.api.model;
+package org.datacrow.server.web.api.manager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,19 +7,20 @@ import java.util.stream.Collectors;
 
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.server.web.api.model.Module;
 
-public class Modules {
+public class ModuleManager {
 
-    private static Modules instance = new Modules();
+    private static ModuleManager instance = new ModuleManager();
     
     private final Collection<Module> allModules = new ArrayList<Module>();
     private final Collection<Module> mainModules = new ArrayList<Module>();
     
-    public static Modules getInstance() {
+    public static ModuleManager getInstance() {
         return instance;
     }
 	
-    private Modules() {
+    private ModuleManager() {
     	for (DcModule m : DcModules.getAllModules())
     		allModules.add(
     				new Module(m.getIndex(), m.getLabel(), m.getIcon32(), m.isSelectableInUI() && m.isEnabled()));

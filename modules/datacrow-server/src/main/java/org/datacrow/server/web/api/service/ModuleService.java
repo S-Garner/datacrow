@@ -2,7 +2,7 @@ package org.datacrow.server.web.api.service;
 
 import java.util.List;
 
-import org.datacrow.server.web.api.model.Modules;
+import org.datacrow.server.web.api.manager.ModuleManager;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -15,6 +15,6 @@ public class ModuleService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<org.datacrow.server.web.api.model.Module> getMainModules() {
-        return Modules.getInstance().getMainModules();
+        return ModuleManager.getInstance().getMainModules();
     }
 }
