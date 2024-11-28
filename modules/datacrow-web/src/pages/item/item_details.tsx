@@ -29,8 +29,6 @@ export function ItemPage() {
 		);
 	}
 	
-	
-	
 	if (state && item) {
 		return (
 			<RequireAuth>
