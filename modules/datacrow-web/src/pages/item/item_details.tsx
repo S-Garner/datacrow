@@ -1,16 +1,13 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { RequireAuth } from "../login/authentication";
 import { useEffect, useState } from "react";
 import { fetchItem, type FieldValue, type Item } from "../../services/datacrow_api";
-import { CurrentModuleContext, useCurrentModule } from "../../context/module_context";
+import { RequireAuth } from "../../context/authentication_context";
 
 export function ItemPage() {
 
 	const navigate = useNavigate();
 	const [item, setItem] = useState<Item>();
 	const {state} = useLocation();
-	
-	const currentModule = useCurrentModule();
 	
 	useEffect(() => {
 	    if (!state) {

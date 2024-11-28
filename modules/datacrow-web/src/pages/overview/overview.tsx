@@ -1,6 +1,6 @@
 import ModuleMenu from "../../components/module_menu";
-import { RequireAuth } from "../login/authentication";
 import { ItemOverview } from "../../components/item_overview";
+import { RequireAuth } from "../../context/authentication_context";
 
 export function OverviewPage() {
 	return (

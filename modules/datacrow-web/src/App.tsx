@@ -1,9 +1,10 @@
 import './App.scss';
 import {Routes, Route, Outlet} from "react-router-dom";
-import { AuthProvider, LoginPage } from "./pages/login/authentication";
+import { LoginPage } from "./pages/login/authentication";
 import { OverviewPage } from './pages/overview/overview';
 import MainMenuBar from './components/main_menu_bar';
 import { ItemPage } from './pages/item/item_details';
+import { AuthProvider } from './context/authentication_context';
 
 export default function App() {
 	return (
