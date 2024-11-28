@@ -9,7 +9,8 @@ export interface Module {
 }
 
 export interface Item {
-	id: number;
+	id: string;
+	moduleIdx: number;
 	name: string;
 	scaledImageUrl: string;
 	imageUrl: string;
@@ -18,7 +19,7 @@ export interface Item {
 
 export interface FieldValue {
 	field: Field;
-	value: object;
+	value: string;
 }
 
 export interface Field {
@@ -32,6 +33,12 @@ export interface Field {
 
 export async function fetchModules(): Promise<Module[]> {
 	const response = await fetch(baseUrl + 'modules/');
+	const result = await response.json();
+	return result;
+}
+
+export async function fetchItem(moduleIdx: number, itemId: string): Promise<Item> {
+	const response = await fetch(baseUrl + 'item/' + moduleIdx + '/' + itemId);
 	const result = await response.json();
 	return result;
 }

@@ -1,7 +1,5 @@
 package org.datacrow.server.web.api.service;
 
-import java.util.List;
-
 import org.datacrow.server.web.api.model.Items;
 
 import jakarta.ws.rs.GET;
@@ -10,20 +8,13 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("/items")
+@Path("/item")
 public class ItemService {
 
     @GET
-    @Path("/{moduleIndex}")
+    @Path("/{moduleIndex}/{itemID}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<org.datacrow.server.web.api.model.Item> getItemsForModule(@PathParam("moduleIndex") Long id) {
-        return Items.getInstance().getItems(id.intValue());
-    }
-    
-    @GET
-    @Path("/{moduleIndex}/{searchTerm}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<org.datacrow.server.web.api.model.Item> getItemsForModule(@PathParam("moduleIndex") Long id, @PathParam("searchTerm") String search) {
-        return Items.getInstance().getItems(id.intValue(), search);
+    public org.datacrow.server.web.api.model.Item getItem(@PathParam("moduleIndex") Long id, @PathParam("itemID") String ID) {
+        return Items.getInstance().getItem(id.intValue(), ID);
     }
 }

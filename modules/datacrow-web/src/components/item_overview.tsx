@@ -4,10 +4,12 @@ import { useCurrentModule } from '../context/module_context';
 import { useEffect, useState } from 'react';
 import PagesDropdown from './pages_dropdown';
 import Pagination from './pagination';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 export function ItemOverview() {
 
 	const currentModule = useCurrentModule();
+	const navigate = useNavigate();
 	const [items, setItems] = useState<Item[]>([]);
 
 	useEffect(() => {
@@ -40,6 +42,10 @@ export function ItemOverview() {
 		searchItems(currentModule!.index, searchFor).then((data) => setItems(data));
 	}
 	
+	function openItem(itemID : string) {
+		navigate('/item', { state: { itemID, module : currentModule }});
+	}
+	
 	return (
 		<div className="py-20 bg-slate-900 h-full" style={{width: "100%"}}>
 			
@@ -62,7 +68,9 @@ export function ItemOverview() {
 				{currentItems!.map((item) => (
 					<Card style={{ width: '18rem' }} key={"card" + item.id}>
 						<Card.Body>
-							{item.imageUrl ? <Card.Img src={item.scaledImageUrl} /> : <div style={{ height: '300px' }} />}
+							<Button onClick={() => openItem(item.id)}>
+							  {item.imageUrl ? <Card.Img src={item.scaledImageUrl} /> : <div style={{ height: '300px' }} />}
+							</Button>
 						</Card.Body>
 						<Card.Header style={{ height: '112px' }} >{item.name}</Card.Header>
 					</Card>

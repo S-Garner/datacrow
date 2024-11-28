@@ -18,6 +18,16 @@ public class Items {
         return instance;
     }
 
+	public Item getItem(int moduleIdx, String id) {
+		DcModule module = DcModules.get(moduleIdx);
+		DcObject dco = DcConfig.getInstance().getConnector().getItem(moduleIdx, id);
+		
+		if (dco != null)
+			return new Item(dco, module.getFieldIndices());
+		
+		return null;
+	}
+    
 	public List<Item> getItems(int moduleIdx) {
 		List<Item> items = new ArrayList<Item>();
 		
@@ -31,7 +41,6 @@ public class Items {
 		
 		return items;
 	}
-	
 	
 	public List<Item> getItems(int moduleIdx, String search) {
 		List<Item> items = new ArrayList<Item>();

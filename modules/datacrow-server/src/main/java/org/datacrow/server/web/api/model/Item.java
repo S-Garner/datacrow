@@ -13,6 +13,8 @@ public class Item {
 
 	@JsonProperty("id")
 	private String id;
+	@JsonProperty("moduleIdx")
+	private int moduleIdx;
 	@JsonProperty("name")
 	private String name;
 	@JsonProperty("scaledImageUrl")
@@ -27,6 +29,7 @@ public class Item {
 
 		id = src.getID();
 		name = src.toString();
+		moduleIdx = src.getModuleIdx();
 		
 		if (new File(new File(DcConfig.getInstance().getImageDir(), id), "picture1.jpg").exists()) {
 			scaledImageUrl = src.getScaledImageUrl();
@@ -36,15 +39,15 @@ public class Item {
 			imageUrl = null;
 		}
 		
-		
 		Module m = Modules.getInstance().getModule(src.getModuleIdx());
 		Field field;
 		
 		for (int fieldIdx : fields) {
 			field = m.getField(fieldIdx);
-			this.fields.add(new FieldValue(field, src.getValue(fieldIdx)));
+			this.fields.add(new FieldValue(field, src.getDisplayString(fieldIdx)));
 		}
 	}
+	
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -60,6 +63,10 @@ public class Item {
 	public String getName() {
 		return name;
 	}
+	
+	public int getModuleIdx() {
+		return moduleIdx;
+	}	
 
 	public List<FieldValue> getFields() {
 		return fields;
