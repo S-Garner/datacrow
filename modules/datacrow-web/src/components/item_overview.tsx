@@ -13,8 +13,8 @@ export function ItemOverview() {
 	const [items, setItems] = useState<Item[]>([]);
 
 	useEffect(() => {
-		currentModule.module && fetchItems(currentModule.module.index).then((data) => setItems(data));
-	}, [currentModule.module]);
+		currentModule.selectedModule && fetchItems(currentModule.selectedModule.index).then((data) => setItems(data));
+	}, [currentModule.selectedModule]);
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(30);
@@ -39,7 +39,7 @@ export function ItemOverview() {
 		let formData = new FormData(event.currentTarget);
 		let searchFor = formData.get("searchFor") as string;
 		
-		searchItems(currentModule!.module.index, searchFor).then((data) => setItems(data));
+		searchItems(currentModule!.selectedModule.index, searchFor).then((data) => setItems(data));
 	}
 	
 	function openItem(itemID : string) {

@@ -19,7 +19,7 @@ export function ItemPage() {
 	  }, []);
 	
 	useEffect(() => {
-			state && currentModule.module && fetchItem(currentModule.module.index, state.itemID).then((data) => setItem(data));
+			state && currentModule.selectedModule && fetchItem(currentModule.selectedModule!.index, state.itemID).then((data) => setItem(data));
 		}, []);
 	
 	

@@ -2,8 +2,9 @@ import { createContext, useContext, useState } from "react";
 import type { Module } from "src/services/datacrow_api";
 
 export interface ModuleType {
-	module: Module;
-	switchModule: (newModule: Module) => void;
+	selectedModule: Module;
+	mainModule: Module;
+	switchModule: (newSelectedModule: Module, newMainModule: Module) => void;
 }
 
 export const ModuleContext = createContext<ModuleType>(null!);
@@ -13,14 +14,18 @@ export function useModule() {
 }
 
 export function ModuleProvider({ children }: { children: React.ReactNode }) {
-	let [module, setModule] = useState<any>(null);
+	let [selectedModule, setSelectedModule] = useState<any>(null);
+	let [mainModule, setMainModule] = useState<any>(null);
 	
 	
-	let switchModule = (newModule: Module) => {
-		{setModule(newModule)}
+	let switchModule = (newSelectedModule: Module, newMainModule: Module) => {
+		{	
+			setSelectedModule(newSelectedModule);
+		 	setMainModule(newMainModule);
+		}
 	};
 	
-	let value = { module, switchModule};
+	let value = { selectedModule, mainModule, switchModule};
 	
 	return <ModuleContext.Provider value={value}>{children}</ModuleContext.Provider>;
 }

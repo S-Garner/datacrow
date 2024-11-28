@@ -20,14 +20,14 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 
 		// make sure there's always a selected module
 		if (modules.length > 0) {
-			if (currentModule.module === null) {
+			if (currentModule.selectedModule === null) {
 				// set the first module as selected
 				switchMainModule(modules[0])
 			} else {
 				// force a reload as the item might have been edited
 				// switchMainModule(currentModule.module);
-				setMainModule(currentModule.module);
-				setSelectedModule(currentModule.module);
+				setMainModule(currentModule.mainModule);
+				setSelectedModule(currentModule.selectedModule);
 			}
 		}
 	}
@@ -35,12 +35,12 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 	function switchMainModule(m: Module) {
 		setMainModule(m);
 		setSelectedModule(m);
-		currentModule.switchModule(m);
+		currentModule.switchModule(m, m);
 	}
 	
 	function switchModule(m : Module) {
 		setSelectedModule(m);
-		currentModule.switchModule(m);
+		currentModule.switchModule(m, mainModule!);
 	}
 
 	function DisplayMainModules() {
