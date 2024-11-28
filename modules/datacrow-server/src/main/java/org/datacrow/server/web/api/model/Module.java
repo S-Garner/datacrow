@@ -35,6 +35,7 @@ public class Module {
 		for (DcField field : DcModules.get(index).getFields())
 			fields.add(new Field(field));
 		
+		Module childModule;
 		for (DcModule child : DcModules.getReferencedModules(index)) {
 
 			if (child.isEnabled() && 
@@ -46,11 +47,12 @@ public class Module {
 			    child.getIndex() != DcModules._TAG &&
 				child.getIndex() != DcModules._CONTAINER) {
 
-				children.add(new Module(child.getIndex(), child.getLabel(), child.getIcon32(), false));
+				childModule = new Module(child.getIndex(), child.getLabel(), child.getIcon32(), false);
+				children.add(childModule);
 			}
 		}
 	}
-
+	
 	public Collection<Field> getFields() {
 		return fields;
 	}

@@ -22,20 +22,15 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 		if (modules.length > 0) {
 			if (currentModule.module === null) {
 				// set the first module as selected
-				setSelectedMainModule(modules[0])
+				switchMainModule(modules[0])
 			} else {
 				// force a reload as the item might have been edited
-				if (currentModule.module.isTop) {
-					setSelectedMainModule(currentModule.module);
-				} else {
-					setMainModule(mainModule);
-					switchModule(currentModule.module);
-				}
+				switchMainModule(currentModule.module);
 			}
 		}
 	}
 
-	function setSelectedMainModule(m: Module) {
+	function switchMainModule(m: Module) {
 		setMainModule(m);
 		setSelectedModule(m);
 		currentModule.switchModule(m);
@@ -58,7 +53,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 
 				<Dropdown.Menu>
 					{modules.map((module) => (
-						<Dropdown.Item onClick={() => setSelectedMainModule(module)} key={"moduleMenu" + module.index}>
+						<Dropdown.Item onClick={() => switchMainModule(module)} key={"moduleMenu" + module.index}>
 							<img src={"data:image/png;base64, " + module.icon} />
 							&nbsp;{module.name}
 						</Dropdown.Item>
