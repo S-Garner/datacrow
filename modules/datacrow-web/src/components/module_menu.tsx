@@ -25,7 +25,9 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 				switchMainModule(modules[0])
 			} else {
 				// force a reload as the item might have been edited
-				switchMainModule(currentModule.module);
+				// switchMainModule(currentModule.module);
+				setMainModule(currentModule.module);
+				setSelectedModule(currentModule.module);
 			}
 		}
 	}

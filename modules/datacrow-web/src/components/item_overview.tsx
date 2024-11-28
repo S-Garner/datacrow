@@ -66,13 +66,13 @@ export function ItemOverview() {
 
 			<div style={{ display: "flex", flexWrap: "wrap" }}>
 				{currentItems!.map((item) => (
-					<Card style={{ width: '18rem' }} key={"card" + item.id}>
+					<Card style={{ width: '18rem' }} key={"card" + item.id} onClick={() => openItem(item.id)}>
 						<Card.Body>
-							<Button onClick={() => openItem(item.id)}>
-							  {item.imageUrl ? <Card.Img src={item.scaledImageUrl} /> : <div style={{ height: '300px' }} />}
-							</Button>
+						    {item.imageUrl ? <Card.Img src={item.scaledImageUrl} /> : <div style={{ height: '300px' }} />}
 						</Card.Body>
-						<Card.Header style={{ height: '112px' }} >{item.name}</Card.Header>
+						<Card.Header style={{ height: '112px' }}>
+							{item.name}
+						</Card.Header>
 					</Card>
 				))}
 			</div>
