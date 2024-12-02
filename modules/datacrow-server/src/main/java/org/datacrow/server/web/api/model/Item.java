@@ -44,8 +44,10 @@ public class Item {
 		Field field;
 		
 		for (int fieldIdx : fields) {
-			field = m.getField(fieldIdx);
-			this.fields.add(new FieldValue(field, src.getDisplayString(fieldIdx)));
+			if (src.isFilled(fieldIdx)) {
+				field = m.getField(fieldIdx);
+				this.fields.add(new FieldValue(field, src.getDisplayString(fieldIdx)));
+			}
 		}
 	}
 	

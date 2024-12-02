@@ -2,6 +2,7 @@ import { Button } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authentication_context';
 
+
 export function LoginPage() {
 	let navigate = useNavigate();
 	let location = useLocation();
@@ -29,10 +30,17 @@ export function LoginPage() {
 	return (
 		<div style={{position:"absolute", top:"50%", left:"50%", marginTop: "-50px", marginLeft: "-200px", width: "400px", height: "100px"}}>
 			<form onSubmit={handleSubmit}>
-				<label>
-					Username: <input name="username" type="text" />
-				</label>{" "}
-				<Button type="submit">Login</Button>
+				<div className="row mb-2">
+					<input name="username" type="text" placeholder="Username" className="form-control" />
+				</div>
+
+				<div className="row mb-2">
+					<input name="password" type="Password" placeholder="Password" className="form-control" />
+				</div>
+
+				<div className="row mb-2">
+					<Button type="submit">Login</Button>
+				</div>
 			</form>
 		</div>
 	);

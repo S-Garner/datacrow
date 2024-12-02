@@ -18,11 +18,11 @@ public class Field {
     public static final int _DATE = 6;
     public static final int _FILE = 7;
     public static final int _TAGFIELD = 8;
-    public static final int _RATING = 11;
-    public static final int _ICON = 12;
-    public static final int _NUMBER = 13;
-    public static final int _DOUBLE = 14;
-    public static final int _DURATION = 15;
+    public static final int _RATING = 9;
+    public static final int _ICON = 10;
+    public static final int _NUMBER = 11;
+    public static final int _DOUBLE = 12;
+    public static final int _DURATION = 13;
 	
     @JsonProperty("type")
 	private int type;
