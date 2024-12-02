@@ -18,13 +18,10 @@ export default function Pagination({
 	let max = totalPages > 10 ? 11 : totalPages;
 	let startAt = currentPage < 5 ? 1 : currentPage - 5;
 
+	// correction to make sure we do render page button over the maximum number of pages
+	// we also make sure we display 10 buttons at a minimum (if possible)
 	if (startAt > 1 && currentPage + 5 > totalPages) {
-		
-		console.log("startAt1 " + startAt);
-		
 		startAt = startAt - ((currentPage + 5) - totalPages)
-		
-		console.log("startAt2 " + startAt);
 	}
 	
 	const pageNumbers = Array.from(
