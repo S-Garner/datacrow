@@ -15,13 +15,13 @@ export default function Pagination({
 }: PaginationProps) {
 	
 	const totalPages = Math.ceil(totalItems / itemsPerPage);
-	let max = totalPages > 10 ? 11 : totalPages;
-	let startAt = currentPage < 5 ? 1 : currentPage - 5;
+	let max = totalPages > 5 ? 5 : totalPages;
+	let startAt = currentPage < 3 ? 1 : currentPage - 2;
 
 	// correction to make sure we do render page button over the maximum number of pages
 	// we also make sure we display 10 buttons at a minimum (if possible)
-	if (startAt > 1 && currentPage + 5 > totalPages) {
-		startAt = startAt - ((currentPage + 5) - totalPages)
+	if (startAt > 1 && currentPage + 2 > totalPages) {
+		startAt = startAt - ((currentPage + 2) - totalPages)
 	}
 	
 	const pageNumbers = Array.from(
@@ -30,7 +30,7 @@ export default function Pagination({
 	);
 
 	return (
-		<div style={{ display: "flex", flexWrap: "wrap", marginTop: "1em" }} id="pagination">
+		<div style={{ display: "flex", flexWrap: "wrap", marginTop: "1em", marginBottom: "1em" }} id="pagination">
 
 			<Button onClick={() => paginate(1)} 
 					className="pagination-button"
