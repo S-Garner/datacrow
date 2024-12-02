@@ -64,6 +64,13 @@ export function ItemOverview() {
 				/>}
 			</div>
 
+			<Pagination
+				itemsPerPage={itemsPerPage}
+				totalItems={totalItems}
+				currentPage={currentPage}
+				paginate={paginate}
+			/>
+
 			<div style={{ display: "flex", flexWrap: "wrap" }}>
 				{currentItems!.map((item) => (
 					<Card style={{ width: '18rem' }} key={"card" + item.id} onClick={() => openItem(item.id)}>
@@ -76,12 +83,6 @@ export function ItemOverview() {
 					</Card>
 				))}
 			</div>
-			<Pagination
-				itemsPerPage={itemsPerPage}
-				totalItems={totalItems}
-				currentPage={currentPage}
-				paginate={paginate}
-			/>
 
 		</div>
 	);

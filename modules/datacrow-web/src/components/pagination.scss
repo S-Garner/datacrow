@@ -1,11 +1,16 @@
 .pagination-button {
 	border: 1px;
 	border-style: solid;
-	background-color: var(--bs-primary-bg-subtle);
+	background-color: var(--bs-primary-bg);
 	color: var(--bs-primary-bg);
 	padding: 5px;
 	text-align: center;
 	font-size: 11px;
 	margin: 1px 1px;
 	width: 2rem;
+}
+
+.pagination-button-selected {
+	@extend .pagination-button;
+	background-color: var(--bs-primary-bg-subtle);
 }
