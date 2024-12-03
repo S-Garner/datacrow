@@ -26,6 +26,7 @@ export interface FieldValue {
 export interface Field {
 	type: number;
 	index: number;
+	readOnly: boolean;
 	moduleIdx: number;
 	referencedModuleIdx: number;
 	maximumLength: number;

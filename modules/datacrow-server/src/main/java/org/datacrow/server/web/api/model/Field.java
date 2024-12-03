@@ -36,7 +36,8 @@ public class Field {
     private final int maximumLength;
     @JsonProperty("label")
     private final String label;
-
+    @JsonProperty("readOnly")
+    private final boolean readOnly;
 	
 	public Field(DcField src) {
 		index = src.getIndex();
@@ -44,6 +45,7 @@ public class Field {
 		referencedMouleIdx = src.getReferenceIdx();
 		maximumLength = src.getMaximumLength();
 		label = src.getLabel();
+		readOnly = src.isReadOnly();
 		setType(src);
 	}
 	
@@ -65,6 +67,10 @@ public class Field {
 	
 	public int getModuleIdx() {
 		return moduleIdx;
+	}
+	
+	public boolean isReadOnly() {
+		return readOnly;
 	}
 	
 	private void setType(DcField src) {

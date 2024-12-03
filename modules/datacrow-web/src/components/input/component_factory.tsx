@@ -1,11 +1,12 @@
-import Form from 'react-bootstrap/Form';
-import type { Field } from "../,,/../services/datacrow_api";
-import { InputGroup } from 'react-bootstrap';
+import { Form } from "react-bootstrap";
+import type { Field } from "../,,/../../services/datacrow_api";
+import { DcTextField } from "./dc_textfield";
+import { DcLongTextField } from "./dc_long_textfield";
 
 enum FieldType {
-	CheckBox = 1,
-	TextField = 2,
-	LongTextField = 3,
+	CheckBox = 0,
+	TextField = 1,
+	LongTextField = 2,
 	DropDown = 3,
 	UrlField = 4,
 	ReferencesField = 5,
@@ -19,16 +20,15 @@ enum FieldType {
 	DurationField = 13
 }
 
-export function InputField(field : Field, value : Object) {
-	
+function Field(field : Field, value : Object) {
 	if (field.type === FieldType.CheckBox) {
 
 	} else if (field.type === FieldType.TextField) {
-
+		return DcTextField(field, value);
 	} else if (field.type === FieldType.LongTextField) {
-		
+		return DcLongTextField(field, value);
 	} else if (field.type === FieldType.DropDown) {
-		
+
 	} else if (field.type === FieldType.UrlField) {
 		
 	} else if (field.type === FieldType.ReferencesField) {
@@ -50,22 +50,18 @@ export function InputField(field : Field, value : Object) {
 	} else if (field.type === FieldType.DurationField) {
 		
 	}
+}
+
+export function InputField(field : Field, value : Object) {
+	return (<div className="row mb-3" key={"input-row-" + field.index}>
+				<Form.Label
+					style={{ width: "10em", textAlign: "left" }}
+					key={"label-" + field.index}
+					htmlFor={"field-" + field.index}>
 	
-	return (
-		<div>
-		 	<label for="email" className="form-label">Email:</label>
-    		<input type="email" className="form-control" id="email" placeholder="Enter email" name="email" />
-		</div>
-		
-	)
+					{field.label}
+				</Form.Label>
 	
-	
-/*	return 	(<InputGroup className="mb-3">
-				<InputGroup.Text>{field.label}</InputGroup.Text>
-				<Form.Control 
-					id={"field-" + field.index} 
-					value={(value as string)} 
-					placeholder={field.label}
-          			aria-label={field.label} />
-			 </InputGroup>); */
+				{Field(field, value)}
+			</div>)
 }
