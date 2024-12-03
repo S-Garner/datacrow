@@ -2,6 +2,7 @@ import { Form } from "react-bootstrap";
 import type { Field } from "../,,/../../services/datacrow_api";
 import { DcTextField } from "./dc_textfield";
 import { DcLongTextField } from "./dc_long_textfield";
+import { DcCheckBox } from "./dc_checkbox";
 
 enum FieldType {
 	CheckBox = 0,
@@ -22,7 +23,7 @@ enum FieldType {
 
 function Field(field : Field, value : Object) {
 	if (field.type === FieldType.CheckBox) {
-
+		return DcCheckBox(field, value);
 	} else if (field.type === FieldType.TextField) {
 		return DcTextField(field, value);
 	} else if (field.type === FieldType.LongTextField) {
@@ -56,7 +57,7 @@ export function InputField(field: Field, value: Object) {
 	return (
 		<div className="row mb-3" key={"input-row-" + field.index}>
 			<Form.Label
-				style={{ width: "10em", textAlign: "left" }}
+				style={{ textAlign: "left" }}
 				className="text-secondary"
 				key={"label-" + field.index}
 				htmlFor={"field-" + field.index}>
