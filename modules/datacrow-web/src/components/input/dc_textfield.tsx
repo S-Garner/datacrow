@@ -1,4 +1,4 @@
-import { Form, InputGroup } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import type { Field } from "../.././services/datacrow_api";
 
 export function DcTextField(field : Field, value : Object) {

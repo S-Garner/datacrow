@@ -56,14 +56,15 @@ function Field(field : Field, value : Object) {
 export function InputField(field: Field, value: Object) {
 	return (
 		<div className="row mb-3" key={"input-row-" + field.index}>
-			<Form.Label
+		
+			{field.type != FieldType.CheckBox ? <Form.Label
 				style={{ textAlign: "left" }}
 				className="text-secondary"
 				key={"label-" + field.index}
 				htmlFor={"field-" + field.index}>
 
 				{field.label}
-			</Form.Label>
+			</Form.Label> : ""}
 
 			{Field(field, value)}
 		</div>)
