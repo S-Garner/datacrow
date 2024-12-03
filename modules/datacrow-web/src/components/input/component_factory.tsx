@@ -52,16 +52,18 @@ function Field(field : Field, value : Object) {
 	}
 }
 
-export function InputField(field : Field, value : Object) {
-	return (<div className="row mb-3" key={"input-row-" + field.index}>
-				<Form.Label
-					style={{ width: "10em", textAlign: "left" }}
-					key={"label-" + field.index}
-					htmlFor={"field-" + field.index}>
-	
-					{field.label}
-				</Form.Label>
-	
-				{Field(field, value)}
-			</div>)
+export function InputField(field: Field, value: Object) {
+	return (
+		<div className="row mb-3" key={"input-row-" + field.index}>
+			<Form.Label
+				style={{ width: "10em", textAlign: "left" }}
+				className="text-secondary"
+				key={"label-" + field.index}
+				htmlFor={"field-" + field.index}>
+
+				{field.label}
+			</Form.Label>
+
+			{Field(field, value)}
+		</div>)
 }
