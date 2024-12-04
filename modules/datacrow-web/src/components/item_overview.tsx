@@ -49,9 +49,9 @@ export function ItemOverview() {
 	return (
 		<div className="py-20 bg-slate-900 h-full" style={{width: "100%"}}>
 			
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit} style={{width: "20em"}}>
 				<InputGroup className="mb-3">
-					<input type="text" name="searchFor" />
+					<input type="text" name="searchFor" className="form-control" />
 					<Button className="search-button" type="submit">search</Button>
 				</InputGroup>
 			</form>
