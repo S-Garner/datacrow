@@ -21,9 +21,9 @@ export function ItemPage() {
 	}, []);
 	
 	useEffect(() => {
-		state && currentModule.selectedModule && fetchItem(currentModule.selectedModule!.index, state.itemID).then((data) => setItem(data));
+		currentModule.selectedModule && fetchItem(currentModule.selectedModule.index, state.itemID).then((data) => setItem(data));
 	}, []);
-
+	
 	return (
 		<RequireAuth>
 			<div style={{ display: "inline-block", width: "100%" }} key="item-details">

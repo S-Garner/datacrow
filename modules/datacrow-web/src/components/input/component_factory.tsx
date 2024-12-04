@@ -4,6 +4,8 @@ import { DcTextField } from "./dc_textfield";
 import { DcLongTextField } from "./dc_long_textfield";
 import { DcCheckBox } from "./dc_checkbox";
 import { DcUrlField } from "./dc_url_field";
+import { DcDateField } from "./dc_datefield";
+import { DcNumberField } from "./dc_numberfield";
 
 enum FieldType {
 	CheckBox = 0,
@@ -36,7 +38,7 @@ function Field(field : Field, value : Object) {
 	} else if (field.type === FieldType.ReferencesField) {
 		
 	} else if (field.type === FieldType.DateField) {
-		
+		return DcDateField(field, value);
 	} else if (field.type === FieldType.FileField) {
 		
 	} else if (field.type === FieldType.TagField) {
@@ -46,7 +48,7 @@ function Field(field : Field, value : Object) {
 	} else if (field.type === FieldType.IconField) {
 
 	} else if (field.type === FieldType.NumberField) {
-
+		return DcNumberField(field, value);
 	} else if (field.type === FieldType.DecimalField) {
 
 	} else if (field.type === FieldType.DurationField) {

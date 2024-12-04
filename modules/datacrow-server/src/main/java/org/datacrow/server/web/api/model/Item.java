@@ -1,10 +1,13 @@
 package org.datacrow.server.web.api.model;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.server.web.api.manager.ModuleManager;
 
@@ -46,10 +49,26 @@ public class Item {
 		for (int fieldIdx : fields) {
 			if (src.isFilled(fieldIdx)) {
 				field = m.getField(fieldIdx);
-				this.fields.add(new FieldValue(field, src.getDisplayString(fieldIdx)));
+				this.fields.add(new FieldValue(field, toValidValue(src.getValue(fieldIdx))));
 			}
 		}
 	}
+	
+	private Object toValidValue(Object o) {
+		Object value = o;
+		
+		if (o instanceof Collection<?> || o instanceof DcObject || o instanceof DcModule) {
+			value = "";
+		} 
+		
+		if (o instanceof Date)
+			value = o.toString();
+		
+		//System.out.println()
+		
+		return value;
+	}
+	
 	
 	public String getImageUrl() {
 		return imageUrl;
