@@ -3,6 +3,7 @@ import type { Field } from "../,,/../../services/datacrow_api";
 import { DcTextField } from "./dc_textfield";
 import { DcLongTextField } from "./dc_long_textfield";
 import { DcCheckBox } from "./dc_checkbox";
+import { DcUrlField } from "./dc_url_field";
 
 enum FieldType {
 	CheckBox = 0,
@@ -31,7 +32,7 @@ function Field(field : Field, value : Object) {
 	} else if (field.type === FieldType.DropDown) {
 
 	} else if (field.type === FieldType.UrlField) {
-		
+		return DcUrlField(field, value);
 	} else if (field.type === FieldType.ReferencesField) {
 		
 	} else if (field.type === FieldType.DateField) {
@@ -57,14 +58,16 @@ export function InputField(field: Field, value: Object) {
 	return (
 		<div className="row mb-3" key={"input-row-" + field.index}>
 		
-			{field.type != FieldType.CheckBox ? <Form.Label
-				style={{ textAlign: "left" }}
-				className="text-secondary"
-				key={"label-" + field.index}
-				htmlFor={"field-" + field.index}>
-
-				{field.label}
-			</Form.Label> : ""}
+			{field.type != FieldType.CheckBox ?
+			 	<Form.Label
+					style={{ textAlign: "left" }}
+				 	className="text-secondary"
+					key={"label-" + field.index}
+					htmlFor={"field-" + field.index}>
+						{field.label}
+					</Form.Label> 
+				: 
+					""}
 
 			{Field(field, value)}
 		</div>)
