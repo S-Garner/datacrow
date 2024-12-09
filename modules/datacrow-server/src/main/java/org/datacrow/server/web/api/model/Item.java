@@ -9,6 +9,7 @@ import java.util.List;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.utilities.Base64;
 import org.datacrow.server.web.api.manager.ModuleManager;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,6 +26,9 @@ public class Item {
 	private final String scaledImageUrl;
 	@JsonProperty("imageUrl")
 	private final String imageUrl;
+	@JsonProperty("icon")
+	private String icon;
+	
 	
 	@JsonProperty("fields")
 	private final List<FieldValue> fields = new LinkedList<FieldValue>();
@@ -43,6 +47,9 @@ public class Item {
 			imageUrl = null;
 		}
 		
+		if (src.getIcon() != null)
+			icon = String.valueOf(Base64.encode(src.getIcon().getBytes()));
+		
 		Module m = ModuleManager.getInstance().getModule(src.getModuleIdx());
 		Field field;
 		
@@ -57,14 +64,12 @@ public class Item {
 	private Object toValidValue(Object o) {
 		Object value = o;
 		
-		if (o instanceof Collection<?> || o instanceof DcObject || o instanceof DcModule) {
+		if (o instanceof DcObject)
+			value = ((DcObject) o).getID();
+		else if (o instanceof Collection<?> || o instanceof DcModule)
 			value = "";
-		} 
-		
-		if (o instanceof Date)
+		else if (o instanceof Date)
 			value = o.toString();
-		
-		//System.out.println()
 		
 		return value;
 	}
@@ -80,6 +85,10 @@ public class Item {
 	
 	public String getId() {
 		return id;
+	}
+	
+	public String getIcon() {
+		return icon;
 	}
 	
 	public String getName() {
