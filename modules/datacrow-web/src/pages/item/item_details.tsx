@@ -16,7 +16,7 @@ export function ItemPage() {
 	const { state } = useLocation();
 
 	useEffect(() => {
-		if (!state && !item) {
+		if (!state) {
 			navigate('/');
 		}
 	}, []);
