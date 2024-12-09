@@ -1,7 +1,7 @@
 import { Form } from "react-bootstrap";
 import type { Field } from "../.././services/datacrow_api";
 
-export function DcNumberField(field: Field, value: Object) {
+export function DcDecimalField(field: Field, value: Object) {
 	return (
 		<>
 			<Form.Control
@@ -9,7 +9,7 @@ export function DcNumberField(field: Field, value: Object) {
 				key={"field-" + field.index}
 				type="number"
 				onKeyDown={(event) => {
-					if (!/[0-9]/.test(event.key)) {
+					if (!/[0-9,\.,\,]/.test(event.key)) {
 						event.preventDefault();
 					}
 				}}

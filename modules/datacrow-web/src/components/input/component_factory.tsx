@@ -1,4 +1,4 @@
-import { Form } from "react-bootstrap";
+import { Col, Form, InputGroup, Row } from "react-bootstrap";
 import type { Field } from "../,,/../../services/datacrow_api";
 import { DcTextField } from "./dc_textfield";
 import { DcLongTextField } from "./dc_long_textfield";
@@ -6,6 +6,7 @@ import { DcCheckBox } from "./dc_checkbox";
 import { DcUrlField } from "./dc_url_field";
 import { DcDateField } from "./dc_datefield";
 import { DcNumberField } from "./dc_numberfield";
+import { DcDecimalField } from "./dc_decimalfield";
 
 enum FieldType {
 	CheckBox = 0,
@@ -50,7 +51,7 @@ function Field(field : Field, value : Object) {
 	} else if (field.type === FieldType.NumberField) {
 		return DcNumberField(field, value);
 	} else if (field.type === FieldType.DecimalField) {
-
+		return DcDecimalField(field, value);
 	} else if (field.type === FieldType.DurationField) {
 		
 	}
@@ -58,19 +59,26 @@ function Field(field : Field, value : Object) {
 
 export function InputField(field: Field, value: Object) {
 	return (
-		<div className="row mb-3" key={"input-row-" + field.index}>
-		
+		<Col key={"detailsColField" + field.index}>
 			{field.type != FieldType.CheckBox ?
-			 	<Form.Label
-					style={{ textAlign: "left" }}
-				 	className="text-secondary"
-					key={"label-" + field.index}
-					htmlFor={"field-" + field.index}>
+				<Row key={"detailsRowLabelField" + field.index}>
+					<Form.Label
+						style={{ textAlign: "left" }}
+						className="text-secondary"
+						key={"label-" + field.index}
+						htmlFor={"field-" + field.index}>
 						{field.label}
-					</Form.Label> 
-				: 
-					""}
+					</Form.Label>
+				</Row>
+				:
+				""}
 
-			{Field(field, value)}
-		</div>)
+			<Row key={"detailsRowInputField" + field.index} className="mb-3">
+				<Form.Group>
+					{Field(field, value)}
+					<Form.Control.Feedback>ok</Form.Control.Feedback>
+				</Form.Group>
+			</Row>
+		</Col>
+	)
 }

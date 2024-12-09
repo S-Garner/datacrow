@@ -1,10 +1,11 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchItem, type Item } from "../../services/datacrow_api";
-import { RequireAuth, useAuth } from "../../context/authentication_context";
+import { RequireAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
 import { InputField } from "../../components/input/component_factory";
 import Form from 'react-bootstrap/Form';
+import { Button } from "react-bootstrap";
 
 export function ItemPage() {
 
@@ -15,7 +16,7 @@ export function ItemPage() {
 	const { state } = useLocation();
 
 	useEffect(() => {
-		if (!state) {
+		if (!state && !item) {
 			navigate('/');
 		}
 	}, []);
@@ -24,15 +25,28 @@ export function ItemPage() {
 		currentModule.selectedModule && fetchItem(currentModule.selectedModule.index, state.itemID).then((data) => setItem(data));
 	}, []);
 	
+	const [validated, setValidated] = useState(false);
+	
+	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		event.stopPropagation();
+
+		setValidated(true);
+	};
+	
 	return (
 		<RequireAuth>
 			<div style={{ display: "inline-block", width: "100%" }} key="item-details">
-				<Form className="align-items-left" key="form-item-detail">
+				<Form key="form-item-detail" noValidate validated={validated} onSubmit={handleSubmit} >
 					{item?.fields.map((fieldValue) => (
 						InputField(fieldValue.field, fieldValue.value)
 					))}
+					
+					<Button type="submit">Submit form</Button>
 				</Form>
 			</div>
 		</RequireAuth>
 	);
 }
+
+export default ItemPage;
