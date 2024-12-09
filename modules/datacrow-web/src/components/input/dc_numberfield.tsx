@@ -9,7 +9,12 @@ export function DcNumberField(field: Field, value: Object) {
 				key={"field-" + field.index}
 				type="number"
 				onKeyDown={(event) => {
-					if (!/[0-9]/.test(event.key)) {
+					if (!/[0-9]/.test(event.key) && 
+						event.key != "Backspace" && 
+						event.key != "Delete" && 
+						event.key != "ArrowLeft" &&
+						event.key != "ArrowRight" &&
+						event.key != "Tab") {
 						event.preventDefault();
 					}
 				}}
