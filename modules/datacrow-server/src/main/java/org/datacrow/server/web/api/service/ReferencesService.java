@@ -39,7 +39,7 @@ public class ReferencesService {
     			allReferences.put(Integer.valueOf(field.getReferencedMouleIdx()), references);
     		}
     	}
-    	
+
     	return allReferences;
     }
 }

@@ -1,5 +1,6 @@
-import { Col, Form, InputGroup, Row } from "react-bootstrap";
-import type { Field } from "../,,/../../services/datacrow_api";
+import type { Field, References } from "../,,/../../services/datacrow_api";
+
+import { Col, Form, Row } from "react-bootstrap";
 import { DcTextField } from "./dc_textfield";
 import { DcLongTextField } from "./dc_long_textfield";
 import { DcCheckBox } from "./dc_checkbox";
@@ -58,7 +59,7 @@ function Field(field : Field, value : Object) {
 	}
 }
 
-export function InputField(field: Field, value: Object) {
+export function InputField(field: Field, value: Object, references: References) {
 	return (
 		<Col key={"detailsColField" + field.index}>
 			{field.type != FieldType.CheckBox ?

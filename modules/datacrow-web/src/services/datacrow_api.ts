@@ -9,6 +9,11 @@ export interface Module {
 	isTop: boolean;
 }
 
+export interface References {
+    moduleIdx: number;
+    items: Reference[];
+}
+
 export interface Item {
 	id: string;
 	moduleIdx: number;
@@ -36,6 +41,12 @@ export interface Field {
 export interface Reference {
     name: string;
     iconUrl: string;
+}
+
+export async function fetchReferences(moduleIdx: number): Promise<References> {
+    const response = await fetch(baseUrl + 'references/' + moduleIdx);
+    const result = await response.json();
+    return result;
 }
 
 export async function fetchModules(): Promise<Module[]> {
