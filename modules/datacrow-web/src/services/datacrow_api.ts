@@ -33,6 +33,11 @@ export interface Field {
 	label: string;
 }
 
+export interface Reference {
+    name: string;
+    iconUrl: string;
+}
+
 export async function fetchModules(): Promise<Module[]> {
 	const response = await fetch(baseUrl + 'modules/');
 	const result = await response.json();

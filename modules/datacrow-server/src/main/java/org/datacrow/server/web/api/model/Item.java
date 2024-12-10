@@ -29,7 +29,6 @@ public class Item {
 	@JsonProperty("icon")
 	private String icon;
 	
-	
 	@JsonProperty("fields")
 	private final List<FieldValue> fields = new LinkedList<FieldValue>();
 	

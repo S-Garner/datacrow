@@ -42,7 +42,7 @@ export function ItemPage() {
 						InputField(fieldValue.field, fieldValue.value)
 					))}
 					
-					<Button type="submit">Submit form</Button>
+					<Button type="submit">Save</Button>
 				</Form>
 			</div>
 		</RequireAuth>
