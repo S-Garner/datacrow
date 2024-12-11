@@ -1,4 +1,4 @@
-import type { Field, References } from "../,,/../../services/datacrow_api";
+import type { Field, Reference, References } from "../,,/../../services/datacrow_api";
 
 import { Col, Form, Row } from "react-bootstrap";
 import { DcTextField } from "./dc_textfield";
@@ -27,7 +27,7 @@ enum FieldType {
 	DurationField = 13
 }
 
-function Field(field : Field, value : Object) {
+function Field(field : Field, value : Object, references?: References) {
 	if (field.type === FieldType.CheckBox) {
 		return DcCheckBox(field, value);
 	} else if (field.type === FieldType.TextField) {
@@ -35,7 +35,7 @@ function Field(field : Field, value : Object) {
 	} else if (field.type === FieldType.LongTextField) {
 		return DcLongTextField(field, value);
 	} else if (field.type === FieldType.DropDown) {
-        return DcDropDown(field, value);
+        return DcDropDown(field, value, references);
 	} else if (field.type === FieldType.UrlField) {
 		return DcUrlField(field, value);
 	} else if (field.type === FieldType.ReferencesField) {
@@ -59,7 +59,7 @@ function Field(field : Field, value : Object) {
 	}
 }
 
-export function InputField(field: Field, value: Object, references: References) {
+export function InputField(field: Field, value: Object, references?: References) {
 	return (
 		<Col key={"detailsColField" + field.index}>
 			{field.type != FieldType.CheckBox ?
@@ -77,7 +77,7 @@ export function InputField(field: Field, value: Object, references: References) 
 
 			<Row key={"detailsRowInputField" + field.index} className="mb-3">
 				<Form.Group>
-					{Field(field, value)}
+					{Field(field, value, references)}
 					<Form.Control.Feedback>ok</Form.Control.Feedback>
 				</Form.Group>
 			</Row>

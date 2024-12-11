@@ -39,11 +39,12 @@ export interface Field {
 }
 
 export interface Reference {
+    id: string;
     name: string;
     iconUrl: string;
 }
 
-export async function fetchReferences(moduleIdx: number): Promise<References> {
+export async function fetchReferences(moduleIdx: number): Promise<References[]> {
     const response = await fetch(baseUrl + 'references/' + moduleIdx);
     const result = await response.json();
     return result;

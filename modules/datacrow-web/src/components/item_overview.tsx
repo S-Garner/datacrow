@@ -73,7 +73,7 @@ export function ItemOverview() {
 
 			<div style={{ display: "flex", flexWrap: "wrap" }}>
 				{currentItems!.map((item) => (
-					<Card style={{ width: '18rem' }} key={"card" + item.id} onClick={() => openItem(item.id)}>
+					<Card style={{ width: '18rem' }} key={"card" + item.id} onClick={() =>  openItem(item.id)}>
 						<Card.Body>
 						    {item.imageUrl ? <Card.Img src={item.scaledImageUrl} /> : <div style={{ height: '300px' }} />}
 						</Card.Body>

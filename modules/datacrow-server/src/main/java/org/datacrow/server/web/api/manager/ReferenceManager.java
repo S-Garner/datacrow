@@ -42,7 +42,7 @@ public class ReferenceManager {
         		icon.flush();
         	}
         	
-        	references.add(new Reference(dco.toString(), address));
+        	references.add(new Reference(dco.getID(), dco.toString(), address));
         }
 		
         return references;

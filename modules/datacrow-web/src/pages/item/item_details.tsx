@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchItem, fetchReferences, type Item, type References } from "../../services/datacrow_api";
+import { fetchItem, fetchReferences, type Field, type Item, type References } from "../../services/datacrow_api";
 import { RequireAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
 import { InputField } from "../../components/input/component_factory";
@@ -14,7 +14,7 @@ export function ItemPage() {
 	const { state } = useLocation();
 
     const [item, setItem] = useState<Item>();
-    const [references, setReferences] = useState<References>();
+    const [references, setReferences] = useState<References[]>();
 
 	useEffect(() => {
 		if (!state) {
@@ -38,13 +38,26 @@ export function ItemPage() {
 
 		setValidated(true);
 	};
+	
+    function ReferencesForField(field: Field) {
+
+        var i = 0;
+        while (i < references!.length) {
+            if (references![i].moduleIdx === field.referencedModuleIdx)
+                return references![i];
+
+            i++;
+        }
+
+        return undefined;
+    }
 
 	return (
 		<RequireAuth>
 			<div style={{ display: "inline-block", width: "100%" }} key="item-details">
 				<Form key="form-item-detail" noValidate validated={validated} onSubmit={handleSubmit} >
 					{references && item?.fields.map((fieldValue) => (
-						InputField(fieldValue.field, fieldValue.value, references)
+						InputField(fieldValue.field, fieldValue.value, ReferencesForField(fieldValue.field))
 					))}
 					
 					<Button type="submit">Save</Button>

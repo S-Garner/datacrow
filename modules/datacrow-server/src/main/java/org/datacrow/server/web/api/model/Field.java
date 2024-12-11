@@ -30,8 +30,8 @@ public class Field {
     private final int index;
     @JsonProperty("moduleIdx")
     private final int moduleIdx;
-    @JsonProperty("referencedMouleIdx")
-    private final int referencedMouleIdx;
+    @JsonProperty("referencedModuleIdx")
+    private final int referencedModuleIdx;
     @JsonProperty("maximumLength")
     private final int maximumLength;
     @JsonProperty("label")
@@ -42,7 +42,7 @@ public class Field {
 	public Field(DcField src) {
 		index = src.getIndex();
 		moduleIdx = src.getModule();
-		referencedMouleIdx = src.getReferenceIdx();
+		referencedModuleIdx = src.getReferenceIdx();
 		maximumLength = src.getMaximumLength();
 		label = src.getLabel();
 		readOnly = src.isReadOnly();
@@ -61,8 +61,8 @@ public class Field {
 		return maximumLength;
 	}
 
-	public int getReferencedMouleIdx() {
-		return referencedMouleIdx;
+	public int getReferencedModuleIdx() {
+		return referencedModuleIdx;
 	}
 	
 	public int getModuleIdx() {
