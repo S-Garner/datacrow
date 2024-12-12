@@ -5,20 +5,21 @@ export function DcDropDown(field: Field, value: Object, references?: References)
 
     function getOptions() {
 
+        let options: { value: string; label: string; }[] = [];
+
         if (references && references.items) {
-            let options = [{ value: '-1', label: '..' }];
             references.items.map(reference =>
                 options.push({ value: reference.id, label: reference.name }),
             );
-
-            return options;
-
-        } else {
-            return [{ value: '-1', label: '..' }]
         }
+        
+        return options;
     }
 
     return (
-        <Select options={getOptions()} />
+        <Select 
+            options={getOptions()}
+            isClearable
+            isSearchable />
     );
 }
