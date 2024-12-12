@@ -1,13 +1,24 @@
-import { Form } from "react-bootstrap";
-import { type Field, type Reference, type References } from "../.././services/datacrow_api";
+import Select, { components } from 'react-select'
+import { type Field, type References } from "../.././services/datacrow_api";
 
 export function DcDropDown(field: Field, value: Object, references?: References) {
-    
-	return (
-        <Form.Select aria-label="" key={"field-select-" + field.index}>
-            {references!.items!.map((item) => (
-                   <option id={item.id} key={item.id}> {item.name} </option>
-                ))}
-        </Form.Select>				
-	);
+
+    function getOptions() {
+
+        if (references && references.items) {
+            let options = [{ value: '-1', label: '..' }];
+            references.items.map(reference =>
+                options.push({ value: reference.id, label: reference.name }),
+            );
+
+            return options;
+
+        } else {
+            return [{ value: '-1', label: '..' }]
+        }
+    }
+
+    return (
+        <Select options={getOptions()} />
+    );
 }
