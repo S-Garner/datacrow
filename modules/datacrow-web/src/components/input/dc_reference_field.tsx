@@ -12,7 +12,6 @@ export function DcReferenceField(field: Field, value: Object, references?: Refer
             <img
                 src={props.data.iconUrl}
                 style={{ width: 24}}
-                //alt={props.data.label}
             />
             
             &nbsp;
@@ -20,8 +19,22 @@ export function DcReferenceField(field: Field, value: Object, references?: Refer
             {props.data.label}
         </Option>
     );
+    
+    function CurrentValue() {
+        
+        let idx = 0;
+        let selectedIdx = -1;
+        
+        options.forEach((option) => {
+            if (option.value === value)
+                selectedIdx = idx;
+            idx++;
+        });
+        
+        return options[selectedIdx];
+    }
 
-    function getOptions() {
+    function Options() {
 
         let options: { value: string; label: string; iconUrl: string}[] = [];
 
@@ -34,11 +47,18 @@ export function DcReferenceField(field: Field, value: Object, references?: Refer
         return options;
     }
 
+    const options = Options();
+    const currentValue = CurrentValue();
+
     return (
         <Select 
-            options={getOptions()}
+            className="basic-single"
+            classNamePrefix="select"
+            options={ options }
+            defaultValue={ currentValue }
             isClearable
-            isSearchable 
+            isSearchable
+            placeholder="..."
             components={{ Option: IconOption }}/>
     );
 }
