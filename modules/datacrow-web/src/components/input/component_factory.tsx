@@ -1,4 +1,4 @@
-import type { Field, Reference, References } from "../,,/../../services/datacrow_api";
+import type { Field, References } from "../,,/../../services/datacrow_api";
 
 import { Col, Form, Row } from "react-bootstrap";
 import { DcTextField } from "./dc_textfield";
@@ -8,7 +8,7 @@ import { DcUrlField } from "./dc_url_field";
 import { DcDateField } from "./dc_datefield";
 import { DcNumberField } from "./dc_numberfield";
 import { DcDecimalField } from "./dc_decimalfield";
-import { DcDropDown } from "./dc_dropdown";
+import { DcReferenceField } from "./dc_reference_field";
 
 enum FieldType {
 	CheckBox = 0,
@@ -35,7 +35,7 @@ function Field(field : Field, value : Object, references?: References) {
 	} else if (field.type === FieldType.LongTextField) {
 		return DcLongTextField(field, value);
 	} else if (field.type === FieldType.DropDown) {
-        return DcDropDown(field, value, references);
+        return DcReferenceField(field, value, references);
 	} else if (field.type === FieldType.UrlField) {
 		return DcUrlField(field, value);
 	} else if (field.type === FieldType.ReferencesField) {
