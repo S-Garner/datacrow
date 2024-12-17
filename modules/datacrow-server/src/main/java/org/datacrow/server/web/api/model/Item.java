@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.modules.DcModule;
+import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.server.web.api.manager.ModuleManager;
@@ -50,11 +51,15 @@ public class Item {
 			icon = String.valueOf(Base64.encode(src.getIcon().getBytes()));
 		
 		Module m = ModuleManager.getInstance().getModule(src.getModuleIdx());
+		DcModule module = DcModules.get(m.getIndex());
+		
 		Field field;
 		
 		for (int fieldIdx : fields) {
 			field = m.getField(fieldIdx);
-			this.fields.add(new FieldValue(field, toValidValue(src.getValue(fieldIdx))));
+			
+			if (module.getField(fieldIdx).isEnabled())
+				this.fields.add(new FieldValue(field, toValidValue(src.getValue(fieldIdx))));
 		}
 	}
 	
