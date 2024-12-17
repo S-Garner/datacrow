@@ -7,16 +7,14 @@ export function DcLongTextField({
     value
 }: InputFieldProperties) {
 	return (
-		<>
-			<Form.Control
-				id={"inputfield-" + field.index}
-				key={"inputfield-" + field.index}
-				defaultValue={(value as string)}
-				placeholder={field.label}
-				aria-label={field.label}
-				readOnly={field.readOnly}
-				as="textarea" 
-				rows={5} />
-		</>
+		<Form.Control
+			id={"inputfield-" + field.index}
+			key={"inputfield-" + field.index}
+			defaultValue={(value as string)}
+			placeholder={field.label}
+			aria-label={field.label}
+			readOnly={field.readOnly}
+			as="textarea" 
+			rows={5} />
 	);
 }
