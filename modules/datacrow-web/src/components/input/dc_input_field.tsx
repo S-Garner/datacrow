@@ -1,7 +1,10 @@
 import type { Field, References } from "../,,/../../services/datacrow_api";
-
 import { Col, Form, Row } from "react-bootstrap";
 import DcReferenceField from "./dc_reference_field";
+import { DcLongTextField } from "./dc_long_text_field";
+import { DcTextField } from "./dc_text_field";
+import DcCheckBox from "./dc_checkbox";
+import { DcUrlField } from "./dc_url_field";
 
 export interface InputFieldProperties {
 field: Field,
@@ -47,6 +50,23 @@ export default function InputField({
 
             <Row key={"detailsRowInputField" + field.index} className="mb-3">
                 <Form.Group>
+                    {field.type === FieldType.CheckBox && (
+                        <DcCheckBox
+                            key={"field-" + field.index}
+                            field={field}
+                            value={value} />)}
+
+                    {field.type === FieldType.TextField && (
+                        <DcTextField
+                            key={"field-" + field.index}
+                            field={field}
+                            value={value} />)}
+
+                    {field.type === FieldType.LongTextField && (
+                        <DcLongTextField
+                            key={"field-" + field.index}
+                            field={field}
+                            value={value} />)}
 
                     {field.type === FieldType.DropDown && (
                         <DcReferenceField
@@ -54,6 +74,12 @@ export default function InputField({
                             field={field}
                             value={value}
                             references={references} />)}
+                            
+                    {field.type === FieldType.UrlField && (
+                        <DcUrlField
+                            key={"field-" + field.index}
+                            field={field}
+                            value={value} />)}
                             
                     <Form.Control.Feedback>ok</Form.Control.Feedback>
                 </Form.Group>

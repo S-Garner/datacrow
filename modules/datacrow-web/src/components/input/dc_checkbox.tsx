@@ -1,12 +1,15 @@
 import { Form, InputGroup } from "react-bootstrap";
-import type { Field } from "../.././services/datacrow_api";
+import type { InputFieldProperties } from "./dc_input_field";
 
-export default function DcCheckBox(field : Field, value : Object) {
+export default function DcCheckBox({
+    field,
+    value
+}: InputFieldProperties) {
 	return (
 		<InputGroup className="mb-3">
 			<Form.Check
-				id={"field-" + field.index}
-				key={"field-" + field.index}
+				id={"inputfield-" + field.index}
+				key={"inputfield-" + field.index}
 				defaultChecked={(value as boolean)}
 				placeholder={field.label}
 				aria-label={field.label}

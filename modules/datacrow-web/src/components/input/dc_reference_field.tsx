@@ -1,5 +1,4 @@
 import Select, { components, type ActionMeta, type ControlProps, type GroupBase, type MultiValue, type OptionProps, type SingleValue } from 'react-select'
-import { type Field, type References } from "../.././services/datacrow_api";
 import type { JSX } from 'react/jsx-runtime';
 import { useState } from 'react';
 import type { InputFieldProperties } from './dc_input_field';

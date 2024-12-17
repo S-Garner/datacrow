@@ -1,12 +1,16 @@
 import { Form } from "react-bootstrap";
 import type { Field } from "../.././services/datacrow_api";
+import type { InputFieldProperties } from "./dc_input_field";
 
-export function DcLongTextField(field : Field, value : Object) {
+export function DcLongTextField({
+    field,
+    value
+}: InputFieldProperties) {
 	return (
 		<>
 			<Form.Control
-				id={"field-" + field.index}
-				key={"field-" + field.index}
+				id={"inputfield-" + field.index}
+				key={"inputfield-" + field.index}
 				defaultValue={(value as string)}
 				placeholder={field.label}
 				aria-label={field.label}
