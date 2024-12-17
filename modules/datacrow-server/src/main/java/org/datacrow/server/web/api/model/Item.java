@@ -53,10 +53,8 @@ public class Item {
 		Field field;
 		
 		for (int fieldIdx : fields) {
-			if (src.isFilled(fieldIdx)) {
-				field = m.getField(fieldIdx);
-				this.fields.add(new FieldValue(field, toValidValue(src.getValue(fieldIdx))));
-			}
+			field = m.getField(fieldIdx);
+			this.fields.add(new FieldValue(field, toValidValue(src.getValue(fieldIdx))));
 		}
 	}
 	

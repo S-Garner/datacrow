@@ -9,7 +9,18 @@ import InputField from "../../components/input/dc_input_field";
 
 export function ItemPage() {
 
+    const [item, setItem] = useState<Item>();
+    const [references, setReferences] = useState<References[]>();
+    const [validated, setValidated] = useState(false);
     const currentModule = useModule();
+    const navigate = useNavigate();
+    const { state } = useLocation();
+
+    useEffect(() => {
+        if (!state) {
+            navigate('/');
+        }
+    }, []);
 
     useEffect(() => {
         currentModule.selectedModule && fetchItem(currentModule.selectedModule.index, state.itemID).then((data) => setItem(data));
@@ -18,22 +29,6 @@ export function ItemPage() {
     useEffect(() => {
         currentModule.selectedModule && fetchReferences(currentModule.selectedModule.index).then((data) => setReferences(data));
     }, [currentModule.selectedModule]);
-
-	
-	const navigate = useNavigate();
-	const { state } = useLocation();
-
-    const [item, setItem] = useState<Item>();
-    const [references, setReferences] = useState<References[]>();
-
-	useEffect(() => {
-		if (!state) {
-			navigate('/');
-		}
-	}, []);
-	
-	
-	const [validated, setValidated] = useState(false);
 	
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
