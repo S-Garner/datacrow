@@ -17,7 +17,6 @@ export function ModuleProvider({ children }: { children: React.ReactNode }) {
 	let [selectedModule, setSelectedModule] = useState<any>(null);
 	let [mainModule, setMainModule] = useState<any>(null);
 	
-	
 	let switchModule = (newSelectedModule: Module, newMainModule: Module) => {
 		{	
 			setSelectedModule(newSelectedModule);

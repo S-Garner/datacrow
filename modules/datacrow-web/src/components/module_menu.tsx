@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type JSX } from 'react';
 import { fetchModules, type Module } from '../services/datacrow_api';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useModule } from '../context/module_context';

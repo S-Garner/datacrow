@@ -2,6 +2,7 @@ import Select, { components, type ActionMeta, type ControlProps, type GroupBase,
 import { type Field, type References } from "../.././services/datacrow_api";
 import type { JSX } from 'react/jsx-runtime';
 import { useState } from 'react';
+import type { InputFieldProperties } from './dc_input_field';
 
 export interface IconSelectOption {
     value: string;
@@ -13,22 +14,23 @@ const { Option } = components;
 
 const IconOption = (props: JSX.IntrinsicAttributes & OptionProps<IconSelectOption, boolean, GroupBase<IconSelectOption>>) => (
     <Option {...props}>
-        <img
-            src={props.data.iconUrl}
-            style={{ width: "24px", paddingRight: "8px" }}
-        />
+    
+        {props.data.iconUrl && (
+            <img
+                src={props.data.iconUrl}
+                style={{ width: "24px", paddingRight: "8px" }}
+            />
+        )}
 
         {props.data.label}
     </Option>
 );
 
 export default function DcReferenceField({
+    field,
     value,
     references
-}: {
-    value: Object,
-    references?: References
-}) {
+}: InputFieldProperties) {
 
     const [selectedValue, setSelectedValue] = useState<IconSelectOption>();
 
@@ -44,7 +46,7 @@ export default function DcReferenceField({
                 selectedIdx = idx;
             idx++;
         });
-
+        
         return options[selectedIdx];
     }
 
@@ -63,10 +65,12 @@ export default function DcReferenceField({
 
     const Control = ({ children, ...props }: ControlProps<IconSelectOption, boolean, GroupBase<IconSelectOption>>) => (
         <components.Control {...props}>
-            <img 
-                src={selectedValue ? selectedValue.iconUrl : currentValue?.iconUrl}
-                style={{ width: "24px", paddingLeft: "8px" }} />
-                
+            {(  (selectedValue && selectedValue.iconUrl) || 
+                (!selectedValue && currentValue && currentValue.iconUrl)) && (
+                <img
+                    src={selectedValue ? selectedValue.iconUrl : currentValue?.iconUrl}
+                    style={{ width: "24px", paddingLeft: "8px" }} />
+            )}
             {children}
         </components.Control>
     );
@@ -80,6 +84,7 @@ export default function DcReferenceField({
         <Select
             className="basic-single"
             classNamePrefix="select"
+            key={"inputfield-" + field.index}
             options={options}
             defaultValue={currentValue}
             onChange={selectionChanged}

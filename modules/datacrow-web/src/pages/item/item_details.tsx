@@ -57,7 +57,7 @@ export function ItemPage() {
 
 	return (
 		<RequireAuth>
-			<div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="item-details">
+			<div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="div-item-details">
 				<Form key="form-item-detail" noValidate validated={validated} onSubmit={handleSubmit} >
 					{references && item?.fields.map((fieldValue) => (
                         <InputField

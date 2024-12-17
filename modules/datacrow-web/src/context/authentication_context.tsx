@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, type JSX } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { fakeAuthProvider } from "../security/authentication_provider";
 

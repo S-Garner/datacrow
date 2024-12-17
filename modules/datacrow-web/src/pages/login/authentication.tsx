@@ -2,7 +2,6 @@ import { Button } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authentication_context';
 
-
 export function LoginPage() {
 	let navigate = useNavigate();
 	let location = useLocation();
