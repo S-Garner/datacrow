@@ -1,7 +1,7 @@
 import { Form, InputGroup } from "react-bootstrap";
 import type { Field } from "../.././services/datacrow_api";
 
-export function DcCheckBox(field : Field, value : Object) {
+export default function DcCheckBox(field : Field, value : Object) {
 	return (
 		<InputGroup className="mb-3">
 			<Form.Check
