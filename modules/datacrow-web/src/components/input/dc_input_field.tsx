@@ -8,6 +8,7 @@ import { DcUrlField } from "./dc_url_field";
 import { DcDateField } from "./dc_date_field";
 import { DcNumberField } from "./dc_number_field";
 import { DcDecimalField } from "./dc_decimal_field";
+import DcMultiReferenceField from "./dc_multi_reference_field";
 
 export interface InputFieldProperties {
     field: Field,
@@ -76,6 +77,13 @@ export default function InputField({
 
                     {field.type === FieldType.DropDown && (
                         <DcReferenceField
+                            key={"field-" + field.index}
+                            field={field}
+                            value={value}
+                            references={references} />)}
+                            
+                    {field.type === FieldType.ReferencesField && (
+                        <DcMultiReferenceField
                             key={"field-" + field.index}
                             field={field}
                             value={value}
