@@ -1,10 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState, type ChangeEvent, type BaseSyntheticEvent } from "react";
+import { useEffect, useState } from "react";
 import { fetchItem, fetchReferences, type Field, type Item, type References } from "../../services/datacrow_api";
 import { RequireAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
 import { Button } from "react-bootstrap";
-import { FormProvider, useForm, type FieldValues } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
 
@@ -16,7 +16,7 @@ export function ItemPage() {
     const currentModule = useModule();
     const navigate = useNavigate();
     const { state } = useLocation();
-    const { handleSubmit } = useForm();
+    const { handleSubmit, getValues } = useForm();
     const methods = useForm();
 
     useEffect(() => {
@@ -43,15 +43,16 @@ export function ItemPage() {
         return undefined;
     }
     
-    const onSubmit = (data: any) => console.log(data);
+    const onSubmit = (data: any, e: any) => console.log("Okay", data);
+    const onError = (errors: any, e: any) => console.log("Error", errors);
 
     return (
         <RequireAuth>
             <div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="div-item-details">
             
-                <FormProvider {...methods} >
+                <FormProvider {...methods}>
             
-                    <Form key="form-item-detail" noValidate validated={validated} onSubmit={handleSubmit(onSubmit)}>
+                    <Form key="form-item-detail" noValidate validated={validated} onSubmit={methods.handleSubmit(onSubmit)}>
                         {references && item?.fields.map((fieldValue) => (
                             <InputField
                                 field={fieldValue.field}

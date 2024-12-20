@@ -9,6 +9,8 @@ export function DcTextField({
     
     const { register } = useFormContext();
     
+    console.log("inputfield-" + field.index);
+    
 	return (
 		<Form.Control
 			id={"inputfield-" + field.index}

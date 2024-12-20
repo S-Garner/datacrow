@@ -1,6 +1,7 @@
 import Select, { components, type GroupBase, type OptionProps} from 'react-select'
 import type { JSX } from 'react/jsx-runtime';
 import type { InputFieldProps } from './dc_input_field';
+import { Controller, useFormContext } from 'react-hook-form';
 
 export interface IconSelectOption {
     value: string;
@@ -30,6 +31,7 @@ export default function DcMultiReferenceField({
     references
 }: InputFieldProps) {
 
+    const { register } = useFormContext();
     const options = Options();
     const currentValue = CurrentValue();
 
@@ -60,16 +62,30 @@ export default function DcMultiReferenceField({
     }
 
     return (
-        <Select
-            className="basic-single"
-            classNamePrefix="select"
-            key={"inputfield-" + field.index}
-            options={options}
-            defaultValue={currentValue}
-            isClearable
-            isMulti
-            isSearchable
-            placeholder="..."
-            components={{ Option: IconOption }} />
+        <Controller
+            name={"inputfield-" + field.index}
+            rules={{ required: true }}
+            render={renderProps => {
+                return (
+                    <Select
+                        className="basic-single"
+                        classNamePrefix="select"
+                        key={"inputfield-" + field.index}
+                        options={options}
+                        defaultValue={currentValue}
+                        isClearable
+                        isMulti
+                        isSearchable
+                        placeholder="..."
+                        components={{ Option: IconOption }}
+                        {...register("inputfield-" + field.index)}
+                        {...renderProps.field}
+                        onChange={e => {
+                            renderProps.field.onChange(e);
+                        }}
+                    />
+                );
+            }}
+        />            
     );
 }

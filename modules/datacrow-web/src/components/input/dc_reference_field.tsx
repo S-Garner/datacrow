@@ -78,11 +78,9 @@ export default function DcReferenceField({
 
     return (
         <Controller
-            name="firstName"
+            name={"inputfield-" + field.index}
             rules={{ required: true }}
             render={renderProps => {
-                const { ref, ...rest } = renderProps.field;
-
                 return (
                     <Select
                         className="basic-single"
