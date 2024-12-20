@@ -1,13 +1,10 @@
 import { Form } from "react-bootstrap";
-import type { InputFieldProperties } from "./dc_input_field";
+import type { InputFieldProps } from "./dc_input_field";
 
 export function DcUrlField({
     field,
     value
-}: InputFieldProperties) {
-	/*function redirect(url: string) {
-		window.location.href = url;
-	} */
+}: InputFieldProps) {
 	return (
 		<Form.Control
 			id={"inputfield-" + field.index}

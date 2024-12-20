@@ -1,11 +1,10 @@
 import { Form } from "react-bootstrap";
-import type { Field } from "../.././services/datacrow_api";
-import type { InputFieldProperties } from "./dc_input_field";
+import type { InputFieldProps } from "./dc_input_field";
 
 export function DcLongTextField({
     field,
     value
-}: InputFieldProperties) {
+}: InputFieldProps) {
 	return (
 		<Form.Control
 			id={"inputfield-" + field.index}

@@ -1,6 +1,6 @@
 import Select, { components, type GroupBase, type OptionProps} from 'react-select'
 import type { JSX } from 'react/jsx-runtime';
-import type { InputFieldProperties } from './dc_input_field';
+import type { InputFieldProps } from './dc_input_field';
 
 export interface IconSelectOption {
     value: string;
@@ -28,7 +28,7 @@ export default function DcMultiReferenceField({
     field,
     value,
     references
-}: InputFieldProperties) {
+}: InputFieldProps) {
 
     const options = Options();
     const currentValue = CurrentValue();

@@ -1,7 +1,8 @@
 import Select, { components, type ActionMeta, type ControlProps, type GroupBase, type MultiValue, type OptionProps, type SingleValue } from 'react-select'
 import type { JSX } from 'react/jsx-runtime';
 import { useState } from 'react';
-import type { InputFieldProperties } from './dc_input_field';
+import type { InputFieldProps } from './dc_input_field';
+import { useFormContext, Controller } from 'react-hook-form';
 
 export interface IconSelectOption {
     value: string;
@@ -29,10 +30,11 @@ export default function DcReferenceField({
     field,
     value,
     references
-}: InputFieldProperties) {
+}: InputFieldProps) {
 
     const [selectedValue, setSelectedValue] = useState<IconSelectOption>();
-
+    
+    const { register } = useFormContext();
     const options = Options();
     const currentValue = CurrentValue();
 
@@ -74,22 +76,33 @@ export default function DcReferenceField({
         </components.Control>
     );
 
-    function selectionChanged(newValue: SingleValue<IconSelectOption> | MultiValue<IconSelectOption>, actionMeta: ActionMeta<IconSelectOption>): void {
-        if (!Array.isArray(newValue))
-            setSelectedValue(newValue as IconSelectOption);
-    }
-
     return (
-        <Select
-            className="basic-single"
-            classNamePrefix="select"
-            key={"inputfield-" + field.index}
-            options={options}
-            defaultValue={currentValue}
-            onChange={selectionChanged}
-            isClearable
-            isSearchable
-            placeholder="..."
-            components={{ Option: IconOption, Control }} />
-    );
+        <Controller
+            name="firstName"
+            rules={{ required: true }}
+            render={renderProps => {
+                const { ref, ...rest } = renderProps.field;
+
+                return (
+                    <Select
+                        className="basic-single"
+                        classNamePrefix="select"
+                        key={"inputfield-" + field.index}
+                        options={options}
+                        defaultValue={currentValue}
+                        isClearable
+                        isSearchable
+                        placeholder="..."
+                        components={{ Option: IconOption, Control }}
+                        {...register("inputfield-" + field.index)}
+                        {...renderProps.field}
+                        onChange={e => {
+                            setSelectedValue(e as IconSelectOption);
+                            renderProps.field.onChange(e);
+                        }}
+                    />
+                );
+            }}
+        />
+    )
 }

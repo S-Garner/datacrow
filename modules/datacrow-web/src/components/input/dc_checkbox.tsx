@@ -1,10 +1,14 @@
 import { Form, InputGroup } from "react-bootstrap";
-import type { InputFieldProperties } from "./dc_input_field";
+import type { InputFieldProps } from "./dc_input_field";
+import { useFormContext } from "react-hook-form";
 
 export default function DcCheckBox({
     field,
     value
-}: InputFieldProperties) {
+}: InputFieldProps) {
+    
+    const { register } = useFormContext();
+    
 	return (
 		<InputGroup className="mb-3">
 			<Form.Check
@@ -14,7 +18,8 @@ export default function DcCheckBox({
 				placeholder={field.label}
 				aria-label={field.label}
 				label={field.label}
-				readOnly={field.readOnly} />
+				readOnly={field.readOnly}
+                {...register("inputfield-" + field.index)} />
 		</InputGroup>
 	);
 }

@@ -1,10 +1,13 @@
 import { Form } from "react-bootstrap";
-import type { InputFieldProperties } from "./dc_input_field";
+import type { InputFieldProps } from "./dc_input_field";
+import { useFormContext } from "react-hook-form";
 
 export function DcDecimalField({
     field,
     value
-}: InputFieldProperties) {
+}: InputFieldProps) {
+	
+	const { register } = useFormContext();
 	
 	return (
 		<Form.Control
@@ -20,15 +23,16 @@ export function DcDecimalField({
 					event.preventDefault();
 				}
 			}}
-			onChange={(e) => {
+			/*onChange={(e) => {
 				const amount = e.target.value;
 				if (!amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
   					e.preventDefault();
 				}
-			}}
+			}} */
 			defaultValue={(value as string)}
 			placeholder={field.label}
 			aria-label={field.label}
-			readOnly={field.readOnly} />
+			readOnly={field.readOnly} 
+			{...register("inputfield-" + field.index)} />
 	);
 }

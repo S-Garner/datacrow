@@ -1,10 +1,14 @@
 import { Form } from "react-bootstrap";
-import type { InputFieldProperties } from "./dc_input_field";
+import type { InputFieldProps } from "./dc_input_field";
+import { useFormContext } from "react-hook-form";
 
 export function DcTextField({
     field,
     value
-}: InputFieldProperties) {
+}: InputFieldProps) {
+    
+    const { register } = useFormContext();
+    
 	return (
 		<Form.Control
 			id={"inputfield-" + field.index}
@@ -12,6 +16,7 @@ export function DcTextField({
 			defaultValue={(value as string)}
 			placeholder={field.label}
 			aria-label={field.label}
+			{...register("inputfield-" + field.index)}
 			readOnly={field.readOnly} />
 	);
 }

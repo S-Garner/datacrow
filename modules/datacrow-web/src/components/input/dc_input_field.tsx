@@ -9,8 +9,9 @@ import { DcDateField } from "./dc_date_field";
 import { DcNumberField } from "./dc_number_field";
 import { DcDecimalField } from "./dc_decimal_field";
 import DcMultiReferenceField from "./dc_multi_reference_field";
+import { useState, type ChangeEvent } from "react";
 
-export interface InputFieldProperties {
+export interface InputFieldProps {
     field: Field,
     value: Object,
     references?: References
@@ -37,9 +38,9 @@ export default function InputField({
     field,
     value,
     references
-}: InputFieldProperties) {
+}: InputFieldProps) {
+
     return (
-        
         !field.readOnly &&
         
         <Col key={"detailsColField" + field.index}>
