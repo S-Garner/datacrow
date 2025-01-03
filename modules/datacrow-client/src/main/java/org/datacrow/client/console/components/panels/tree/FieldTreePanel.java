@@ -519,7 +519,7 @@ public class FieldTreePanel extends TreePanel {
                         } else { // exists
                             existingNe =(NodeElement) previous.getUserObject();
                             existingNe.addItem(id, module);
-//                            model.nodeChanged(previous);
+                            model.nodeChanged(previous);
                             parent = previous;    
                         }
                         

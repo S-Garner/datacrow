@@ -74,6 +74,9 @@ public class Conversion {
         setOldFieldType(Integer.parseInt(c.get(i++)));
         setNewFieldType(Integer.parseInt(c.get(i++)));
         setReferencingModuleIdx(Integer.parseInt(c.get(i++)));
+        
+        if (DcModules.get(getReferencingModuleIdx()) == null)
+        	setReferencingModuleIdx(getReferencingModuleIdx() + getModuleIdx());
     }
     
     public Conversion(int module) {
@@ -99,7 +102,7 @@ public class Conversion {
         if (DcModules.get(moduleIdx) == null)
             return false;
         
-        DcModule refMod = DcModules.get(moduleIdx + referencingModuleIdx) != null ? DcModules.get(moduleIdx + referencingModuleIdx) : DcModules.get(referencingModuleIdx);
+        DcModule refMod = DcModules.get(referencingModuleIdx);
         
         if (refMod == null)
         	return false;
@@ -223,7 +226,7 @@ public class Conversion {
     
     private boolean convertFromRefToMulti() {
         
-        DcModule refMod = DcModules.get(moduleIdx + referencingModuleIdx) != null ? DcModules.get(moduleIdx + referencingModuleIdx) : DcModules.get(referencingModuleIdx);
+        DcModule refMod = DcModules.get(referencingModuleIdx);
         
         logger.info("Starting to convert reference field [" + columnName + "] to a multi references field");
 
@@ -265,7 +268,7 @@ public class Conversion {
     
     private boolean convertToRef() {
         
-        DcModule refMod = DcModules.get(moduleIdx + referencingModuleIdx) != null ? DcModules.get(moduleIdx + referencingModuleIdx) : DcModules.get(referencingModuleIdx);
+        DcModule refMod = DcModules.get(referencingModuleIdx);
         
         logger.info("Starting to convert field [" + columnName + "] to a reference field");
         

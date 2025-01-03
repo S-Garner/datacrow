@@ -22,6 +22,9 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
   lblIncludeAttachments = Include Attachments
   lblCopyAttachments = Copy Attachments
   lblAfter = After
+  
+-- Cloning an item did not protect things such as changed field flags / new item flag.
+   I have updated this --- side-effects are bound to happen (!) -- needs to be tested.   
 
 
 --------------------------------------------------------------------

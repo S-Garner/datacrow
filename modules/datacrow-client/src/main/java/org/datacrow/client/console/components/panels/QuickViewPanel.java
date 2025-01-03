@@ -275,14 +275,27 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         }
     }
     
+    private boolean isBeingCleared = false;
+    
     public void clear() {
-        dco = null;
-        key = null;
-
-        descriptionPane.setHtml("<html><body " + 
-                Utilities.getHtmlStyle(DcSettings.getColor(DcRepository.Settings.stQuickViewBackgroundColor)) + ">\n</body> </html>");
-        
-    	reset();
+    	
+    	if (!isBeingCleared) {
+    		
+    		try {
+    		
+    			isBeingCleared = true;
+    			
+		        dco = null;
+		        key = null;
+		
+		        descriptionPane.setHtml("<html><body " + 
+		                Utilities.getHtmlStyle(DcSettings.getColor(DcRepository.Settings.stQuickViewBackgroundColor)) + ">\n</body> </html>");
+		        
+		    	reset();
+    		} finally {
+    			isBeingCleared = false;
+    		}
+    	}
     }
     
     private void removeTabs() {

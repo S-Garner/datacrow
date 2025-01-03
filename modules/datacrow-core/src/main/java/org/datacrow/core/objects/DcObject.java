@@ -1288,15 +1288,17 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         
         dco.copy(this, true, true);
         
-        if (hasPrimaryKey())
+        if (hasPrimaryKey()) {
         	dco.setValue(DcObject._ID, getID());
-        
-        dco.markAsUnchanged();
-        
+        	dco.setChanged(DcObject._ID, isChanged(_ID));
+        }
+
         if (children != null) {
             for (DcObject child : children)
                 dco.addChild(child.clone());
         }
+        
+        dco.setNew(isNew());
         
         return dco;
     }
