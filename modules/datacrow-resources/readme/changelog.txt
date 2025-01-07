@@ -5,15 +5,22 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
 [Changed]
 - Add from memory for pictures now also allowed URLs to be pasted.
 - Removed the memory usage message from the log; only shown now using the -debug option.
+- Edit as New; external references will no longer be copied as well as online service update information (as it would lead to incorrect source documentation).
 
 [Fixed]
 - Date format for date input fields was incorrect for long date formats (including name of the day/month).
+- Ticket 129: Alter module: conversion from single reference field to multi-reference field was not working (lost all information on conversion).
+- Ticket 129: Alter module: conversion from text/number/decimal field to multi-reference and reference field was not working (errors).
 
 [Beta fixes]
 - List view text not updated after updating item.
 - Add from memory for pictures had a memory leak.
 - All picture actions are now also immediately reflected on the quick view.
 - Memory leak for the backup process.
+- Resizing the quick view panel triggered and intentional reload / rebuild of the quick view. However, Java stubbornly resizes components at other times as well. Switched this off as this is hampering performance.
+- Ticket 122: Memory Leak while adding images to items.
+- Ticket 130: Tree not updated when item has been updated.   
+- Ticket 131: Sometimes the quick view is not updated when adding a new item. Data Crow then freezes completely.
 
 [TODO]:
 - Translate: 
@@ -22,9 +29,6 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
   lblIncludeAttachments = Include Attachments
   lblCopyAttachments = Copy Attachments
   lblAfter = After
-  
--- Cloning an item did not protect things such as changed field flags / new item flag.
-   I have updated this --- side-effects are bound to happen (!) -- needs to be tested.   
 
 
 --------------------------------------------------------------------

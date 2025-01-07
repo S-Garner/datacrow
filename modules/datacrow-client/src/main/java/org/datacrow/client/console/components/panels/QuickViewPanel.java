@@ -28,8 +28,6 @@ package org.datacrow.client.console.components.panels;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -77,7 +75,7 @@ import org.datacrow.core.utilities.StringUtils;
 import org.datacrow.core.utilities.definitions.QuickViewFieldDefinition;
 import org.datacrow.core.utilities.definitions.QuickViewFieldDefinitions;
 
-public class QuickViewPanel extends JPanel implements ChangeListener, MouseListener, ComponentListener {
+public class QuickViewPanel extends JPanel implements ChangeListener, MouseListener {
     
     private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(QuickViewPanel.class.getName());
     
@@ -117,9 +115,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         tabbedPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         buildPanel();
-        
-        addComponentListener(this);
-    }    
+    }
     
     public void reloadImage() {
         if (tabbedPane.getSelectedIndex() > 0)
@@ -155,9 +151,6 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     		refreshing = true;
     		
 	    	try {
-	    	
-		    	removeComponentListener(this);
-		    	
 		        int caret = descriptionPane.getCaretPosition();
 		        
 		        String key = this.key;
@@ -172,8 +165,6 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
 		        } catch (Exception e) {
 		            logger.debug("Error while setting the quick view caret position", e);
 		        }
-		        
-		        addComponentListener(this);
 	    	} finally {
 	    		refreshing = false;
 	    	}
@@ -567,7 +558,7 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
         }
         
         return table;
-    }    
+    }
     
     private void buildPanel() {
         // description panel
@@ -652,18 +643,4 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
             PluginHelper.add(this, "QuickViewSettings");
         }
     }
-
-	@Override
-	public void componentHidden(ComponentEvent e) {}
-
-	@Override
-	public void componentMoved(ComponentEvent e) {}
-
-	@Override
-	public void componentResized(ComponentEvent e) {
-		refresh();
-	}
-
-	@Override
-	public void componentShown(ComponentEvent e) {}   
 }

@@ -105,7 +105,7 @@ public class DatabaseManager {
         try {
             long start = logger.isDebugEnabled() ? new Date().getTime() : 0;
 
-            db.initiliaze();
+            db.initialize();
             
             if (logger.isDebugEnabled()) {
                 long end = new Date().getTime();
@@ -195,7 +195,7 @@ public class DatabaseManager {
      */
     @SuppressWarnings("resource")
 	public void applySettings() {
-        db.setDbProperies(getAdminConnection());
+        db.setProperties(getAdminConnection());
     }
     
     /**

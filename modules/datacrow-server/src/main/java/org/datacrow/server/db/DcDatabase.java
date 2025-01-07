@@ -41,6 +41,7 @@ import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
+import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
@@ -134,7 +135,7 @@ public class DcDatabase {
      * @throws Exception
      */
     @SuppressWarnings("resource")
-	protected void initiliaze() throws SystemUpgradeException, 
+	protected void initialize() throws SystemUpgradeException, 
     								   DatabaseInvalidException,
     								   DatabaseInitializationException,
     								   DatabaseVersionException	{
@@ -152,7 +153,8 @@ public class DcDatabase {
         
         startQueryQueue();
         initialize(connection);
-        setDbProperies(connection);
+        setProperties(connection);
+        checkIndexes(connection);
         
         if (!isNew())
             new SystemUpgrade(true).start();
@@ -274,7 +276,7 @@ public class DcDatabase {
      * Applies the default settings on the database.
      * @param connection
      */
-    protected void setDbProperies(Connection connection) {
+    protected void setProperties(Connection connection) {
         try {
             Statement stmt = connection.createStatement();
             stmt.execute("SET FILES SCRIPT FORMAT COMPRESSED");
@@ -332,6 +334,34 @@ public class DcDatabase {
                 logger.error("Could not create the version table!", se);
             }
         }
+    }
+    
+    private void checkIndexes(Connection conn) {
+        Statement stmt = null;
+        
+		try {
+			stmt = conn.createStatement();
+
+			for (DcModule m : DcModules.getAllModules()) {
+				if (m.getType() == DcModule._TYPE_MAPPING_MODULE) {
+	                stmt.execute("CREATE INDEX IF NOT EXISTS " + m.getTableName() + "_REFERENCEID_IDX ON " + m.getTableName() + " (" +
+	                        m.getField(DcMapping._B_REFERENCED_ID).getDatabaseFieldName() + ")");
+				}
+				
+				if (m.isChildModule() && !m.isAbstract()) {
+	                stmt.execute("CREATE INDEX IF NOT EXISTS " + m.getTableName() + "_PARENTID_IDX ON " + m.getTableName() + " (" +
+	                        m.getField(m.getParentReferenceFieldIndex()).getDatabaseFieldName() + ")");
+				}
+			}
+			
+		} catch (Exception e) {
+			logger.error("An error occured while checking the indexes.", e);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (Exception e) {};
+		}
     }
     
     @SuppressWarnings("resource")

@@ -25,6 +25,7 @@
 
 package org.datacrow.server.db;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Types;
@@ -43,6 +44,7 @@ import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.DcProperty;
 import org.datacrow.core.security.SecuredUser;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.server.security.SecurityCenter;
 
 /**
@@ -207,10 +209,14 @@ public class Conversion {
             getNewFieldType() == UIComponents._REFERENCESFIELD) {
             
             return convertFromRefToMulti();
-         
+
         // Converting any kind of field to a reference field
-        } else if (getNewFieldType() == UIComponents._REFERENCESFIELD ||
-                   getNewFieldType() == UIComponents._REFERENCEFIELD) {
+        } else if (getNewFieldType() == UIComponents._REFERENCESFIELD) {
+
+        	return convertToMultiRef();
+            
+        // Converting any kind of field to a reference field
+        } else if (getNewFieldType() == UIComponents._REFERENCEFIELD) {
             
             return convertToRef();
             
@@ -266,26 +272,36 @@ public class Conversion {
         return true;
     }
     
-    private boolean convertToRef() {
-        
+    @SuppressWarnings("resource")
+	private boolean convertToMultiRef() {
         DcModule refMod = DcModules.get(referencingModuleIdx);
         
         logger.info("Starting to convert field [" + columnName + "] to a reference field");
         
-        String sql = "select distinct " + columnName + " from " + DcModules.get(getModuleIdx()).getTableName() + " where " + columnName + " is not null";
+        PreparedStatement psReferences = null;
+        ResultSet rs = null;
+        ResultSet rs2 = null;
         
         try {
-            ResultSet rs = DatabaseManager.getInstance().executeSQL(getUser(), sql);
+            psReferences =
+            		DatabaseManager.getInstance().getAdminConnection().prepareStatement(
+            				"select item.ID, property.ID from " + refMod.getTableName() + " property " +
+                            "inner join " + DcModules.get(getModuleIdx()).getTableName() + " item " +
+                            "on CONVERT(property." + refMod.getField(refMod.getDisplayFieldIdx()).getDatabaseFieldName() + ",LONGVARCHAR) = " +
+                            "CONVERT(item." + columnName + ", LONGVARCHAR) and item." + columnName + " = ?");
+        	
+            String sql = "select distinct CONVERT(" + columnName + ", LONGVARCHAR) from " + DcModules.get(getModuleIdx()).getTableName() + " where " + columnName + " is not null";
+            rs = DatabaseManager.getInstance().executeSQL(getUser(), sql);
             
             SelectQuery selectQuery;
             InsertQuery insertQuery;
             
             while (rs.next()) {
-                String name = rs.getString(1);
+                String itemName = rs.getString(1);
                 
                 // check if the referenced item exists
                 DcObject reference = refMod.getItem();
-                reference.setValue(DcProperty._A_NAME, name);
+                reference.setValue(refMod.getDisplayFieldIdx(), itemName);
                 
                 selectQuery = 
                 		new SelectQuery(
@@ -301,37 +317,127 @@ public class Conversion {
                     insertQuery.run();
                 }
                 
-                String sql2 = "select item.ID, property.ID from " + refMod.getTableName() + " property " +
-                               "inner join " + DcModules.get(getModuleIdx()).getTableName() + " item " +
-                               "on CONVERT(property." + refMod.getField(DcProperty._A_NAME).getDatabaseFieldName() + ",LONGVARCHAR) =" +
-                               "CONVERT(item." + columnName + ",LONGVARCHAR) and item." + columnName + " = '" + name.replaceAll("'", "''") + "'";
-                ResultSet rs2 = DatabaseManager.getInstance().executeSQL(getUser(), sql2);
+                psReferences.setString(1, itemName);
+                rs2 = psReferences.executeQuery();
                 
                 while (rs2.next()) {
                     String itemID = rs2.getString(1);
                     String propertyID = rs2.getString(2);
                     
-                    if (getNewFieldType() == UIComponents._REFERENCESFIELD) {
-                        DcModule mappingMod = DcModules.get(DcModules.getMappingModIdx(
-                                moduleIdx, refMod.getIndex(), DcModules.get(moduleIdx).getField(columnName).getIndex()));
-                        
-                        DcObject mapping = mappingMod.getItem();
-                        mapping.setValue(DcMapping._A_PARENT_ID, itemID);
-                        mapping.setValue(DcMapping._B_REFERENCED_ID, propertyID);
-                        
-                        selectQuery = new SelectQuery(getUser(), mapping, null);
-                        items = selectQuery.run();
+                    DcModule mappingMod = DcModules.get(DcModules.getMappingModIdx(
+                            moduleIdx, refMod.getIndex(), DcModules.get(moduleIdx).getField(columnName).getIndex()));
+                    
+                    DcObject mapping = mappingMod.getItem();
+                    mapping.setValue(DcMapping._A_PARENT_ID, itemID);
+                    mapping.setValue(DcMapping._B_REFERENCED_ID, propertyID);
+                    
+                    selectQuery = new SelectQuery(getUser(), mapping, null);
+                    items = selectQuery.run();
 
-                        if (items.size() == 0) {
-                        	insertQuery = new InsertQuery(getUser(), mapping);
-                        	insertQuery.run();
-                        }
-                        
-                    } else {
-                        String sql3 = "update " + DcModules.get(getModuleIdx()).getTableName() +
-                                      " set " + columnName + "=" + propertyID;
-                        DatabaseManager.getInstance().execute(getUser(), sql3);
+                    if (items.size() == 0) {
+                    	insertQuery = new InsertQuery(getUser(), mapping);
+                    	insertQuery.run();
                     }
+                }
+                rs2.close();
+            }
+            rs.close();
+        } catch (Exception e) {
+            
+        	logger.error("Failed to create reference. Conversion has failed. Restart Data Crow to try again.", e);
+            return false;
+            
+        }  finally {
+        	try { psReferences.close(); } catch (Exception e) {}
+        	try { rs.close(); } catch (Exception e) {}
+        	try { rs2.close(); } catch (Exception e) {}
+        }
+        
+        return true;    	
+    }
+    
+    @SuppressWarnings("resource")
+	private boolean convertToRef() {
+        
+        DcModule refMod = DcModules.get(referencingModuleIdx);
+        
+        logger.info("Starting to convert field [" + columnName + "] to a reference field");
+        
+        String tmpColumn = "tmp_"  + CoreUtilities.getUniqueID().replaceAll("\\-", "");
+        String tableName = DcModules.get(getModuleIdx()).getTableName();
+        String colType = DcModules.get(getModuleIdx()).getField(columnName).getDataBaseFieldType();
+        String sql;
+        
+        
+        try {
+        	// Rename the column to a temporary name.
+        	sql = "ALTER TABLE " + tableName + " ALTER COLUMN " + columnName + " RENAME TO " + tmpColumn;
+        	DatabaseManager.getInstance().executeAsAdmin(sql);
+
+        	// And create the new column, of the correct type
+        	sql = "ALTER TABLE " + tableName + " ADD COLUMN " + columnName + " " + colType;
+	    	DatabaseManager.getInstance().executeAsAdmin(sql);
+        } catch (Exception e) {
+            logger.error("Failed to clean up after doing the field type conversion.", e);
+        }            
+
+        PreparedStatement psReferences = null;
+        PreparedStatement psUpdate = null;
+        ResultSet rs = null;
+        ResultSet rs2 = null;
+        
+        try {
+            // select all distinct values for the renamed column
+        	rs = DatabaseManager.getInstance().executeSQL(getUser(), 
+            		"select distinct CONVERT(" + tmpColumn + ", LONGVARCHAR) from " + DcModules.get(getModuleIdx()).getTableName() + " where " + tmpColumn + " is not null");
+            
+            psReferences =
+            		DatabaseManager.getInstance().getAdminConnection().prepareStatement(
+            				"select item.ID, property.ID from " + refMod.getTableName() + " property " +
+                            "inner join " + DcModules.get(getModuleIdx()).getTableName() + " item " +
+                            "on CONVERT(property." + refMod.getField(refMod.getDisplayFieldIdx()).getDatabaseFieldName() + ",LONGVARCHAR) = " +
+                            "CONVERT(item." + tmpColumn + ", LONGVARCHAR) and item." + tmpColumn + " = ?");
+            
+            psUpdate =
+            		DatabaseManager.getInstance().getAdminConnection().prepareStatement(
+            				"update " + DcModules.get(getModuleIdx()).getTableName() +
+                            " set " + columnName + " = ? where ID = ?");            
+            
+            SelectQuery selectQuery;
+            InsertQuery insertQuery;
+            
+            while (rs.next()) {
+                String itemName = rs.getString(1);
+                
+                // check if the referenced item exists
+                DcObject reference = refMod.getItem();
+                reference.setValue(refMod.getDisplayFieldIdx(), itemName);
+                
+                selectQuery = 
+                		new SelectQuery(
+	                		getUser(), 
+	                		new DataFilter(reference), 
+	                		new int[] {DcObject._ID});
+                
+                List<DcObject> items = selectQuery.run();
+                
+                if (items.size() == 0) {
+                    reference.setIDs();
+                    insertQuery = new InsertQuery(getUser(), reference);
+                    insertQuery.run();
+                }
+                
+                psReferences.setString(1, itemName);
+                rs2 = psReferences.executeQuery();
+                
+                while (rs2.next()) {
+                    String itemID = rs2.getString(1);
+                    String propertyID = rs2.getString(2);
+                    
+                    psUpdate.setString(1, propertyID);
+                    psUpdate.setString(2, itemID);
+                    
+                    psUpdate.execute();
                 }
 
                 rs2.close();
@@ -339,24 +445,18 @@ public class Conversion {
 
             rs.close();
             
+            DatabaseManager.getInstance().executeAsAdmin(
+            		"ALTER TABLE " + DcModules.get(getModuleIdx()).getTableName() + " DROP COLUMN " + tmpColumn);
+            
         } catch (Exception e) {
             logger.error("Failed to create reference. Conversion has failed. Restart Data Crow to try again.", e);
             return false;
-        }  
-        
-        try {
-            if (getNewFieldType() == UIComponents._REFERENCEFIELD) {
-            	DatabaseManager.getInstance().execute(
-                		getUser(),
-                        "alter table " + DcModules.get(getModuleIdx()).getTableName() + 
-                       " alter column " + columnName + " " + DcModules.get(getModuleIdx()).getField(columnName).getDataBaseFieldType());
-            } 
-            
-            // note that column removal is performed by the cleanup method of the database
-            
-        } catch (Exception e) {
-            logger.error("Failed to clean up after doing the field type conversion.", e);
-        }            
+        } finally {
+        	try { psReferences.close(); } catch (Exception e) {}
+        	try { psUpdate.close(); } catch (Exception e) {}
+        	try { rs.close(); } catch (Exception e) {}
+        	try { rs2.close(); } catch (Exception e) {}
+        }
         
         return true;
     }

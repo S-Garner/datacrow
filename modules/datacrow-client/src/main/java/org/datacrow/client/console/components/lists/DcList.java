@@ -340,9 +340,10 @@ public class DcList extends JList<Object> implements ComponentListener {
         	if (e != null)
         		e.clear();
         }
-        
+        setListenersEnabled(false);
     	getDcModel().clear();
         getSelectionModel().clearSelection();
+        setListenersEnabled(true);
     }
     
     @Override

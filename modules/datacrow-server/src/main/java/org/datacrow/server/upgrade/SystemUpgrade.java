@@ -115,8 +115,7 @@ public class SystemUpgrade {
             	
             	addIconFieldToPropertyForms();
             	removePersistencyColumns();
-            	addMissingIndexes();
-            	
+           	
             	correctFieldSettings();
             }
             
@@ -275,39 +274,6 @@ public class SystemUpgrade {
 	    	if (!file.delete())
 	    		file.deleteOnExit();
 	    }		
-    }
-    
-    private void addMissingIndexes() {
-        @SuppressWarnings("resource")
-		Connection conn = DatabaseManager.getInstance().getAdminConnection();
-        Connector connector = DcConfig.getInstance().getConnector();
-        Statement stmt = null;
-        
-		try {
-			stmt = conn.createStatement();
-
-			for (DcModule m : DcModules.getAllModules()) {
-				if (m.getType() == DcModule._TYPE_MAPPING_MODULE) {
-	                stmt.execute("CREATE INDEX IF NOT EXISTS " + m.getTableName() + "_REFERENCEID_IDX ON " + m.getTableName() + " (" +
-	                        m.getField(DcMapping._B_REFERENCED_ID).getDatabaseFieldName() + ")");
-				}
-				
-				if (m.isChildModule() && !m.isAbstract()) {
-	                stmt.execute("CREATE INDEX IF NOT EXISTS " + m.getTableName() + "_PARENTID_IDX ON " + m.getTableName() + " (" +
-	                        m.getField(m.getParentReferenceFieldIndex()).getDatabaseFieldName() + ")");
-				}
-			}
-			
-		} catch (Exception e) {
-			logger.error("Upgrade failed; could not add missing indexes.", e);
-			connector.displayError("Upgrade failed; could not add missing indexes.");
-			System.exit(0);
-		} finally {
-			try {
-				if (stmt != null)
-					stmt.close();
-			} catch (Exception e) {};
-		}
     }
     
     private void removePersistencyColumns() {

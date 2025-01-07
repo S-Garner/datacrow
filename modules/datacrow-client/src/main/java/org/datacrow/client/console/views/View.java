@@ -956,6 +956,9 @@ public class View extends DcPanel implements ListSelectionListener, IView {
     
     @Override
     public void valueChanged(ListSelectionEvent e) {
+    	if (!e.getValueIsAdjusting()) 
+    		return;
+    	
         if (vc.getSelectedIndex() == -1) {
         	if (statusBar != null)
         		statusBar.setMessage("");

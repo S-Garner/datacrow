@@ -76,6 +76,13 @@ public class EditAsNew extends Plugin {
         DcModule module = dco.getModule();
         DcObject dcoCopy = module.getItem();
         dcoCopy.copy(dco, true, true);
+        
+        // do not copy this
+        dcoCopy.setValueLowLevel(DcObject._SYS_EXTERNAL_REFERENCES, null);
+        dcoCopy.setValueLowLevel(DcObject._SYS_SERVICE, null);
+        dcoCopy.setValueLowLevel(DcObject._SYS_SERVICEURL, null);
+        
+        // and set a new ID
         dcoCopy.setIDs();
         
         if (dco.getChildren() != null) {
