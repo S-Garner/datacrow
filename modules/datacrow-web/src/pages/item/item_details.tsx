@@ -26,7 +26,7 @@ export function ItemPage() {
     }, []);
 
     useEffect(() => {
-        currentModule.selectedModule && fetchItem(currentModule.selectedModule.index, state.itemID).then((data) => setItem(data));
+        state && currentModule.selectedModule && fetchItem(currentModule.selectedModule.index, state.itemID).then((data) => setItem(data));
     }, [currentModule.selectedModule]);
 
     useEffect(() => {

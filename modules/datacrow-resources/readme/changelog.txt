@@ -5,7 +5,7 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
 [Changed]
 - Add from memory for pictures now also allowed URLs to be pasted.
 - Removed the memory usage message from the log; only shown now using the -debug option.
-- Edit as New; external references will no longer be copied as well as online service update information (as it would lead to incorrect source documentation).
+- Edit as New; external references will no longer be copied as well as online service update information (as it is incorrect source documentation).
 
 [Fixed]
 - Date format for date input fields was incorrect for long date formats (including name of the day/month).
