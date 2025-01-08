@@ -49,6 +49,7 @@ import org.datacrow.core.plugin.RegisteredPlugin;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.security.SecurityException;
+import org.datacrow.core.security.SecurityToken;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.server.data.DataManager;
 import org.datacrow.server.db.CreateQuery;
@@ -115,6 +116,19 @@ public class SecurityCenter {
         } catch (SecurityException se) {
             return false;
         }
+    }
+    
+    public boolean isLoggedIn(String token) {
+    	SecurityToken st;
+    	
+    	for (SecuredUser user : users.values()) {
+    		st = user.getSecurityToken();
+    		
+    		if (st.matches(token) && st.isValid())
+    			return true;
+    	}
+    	
+        return false;
     }
     
     public boolean isLoggedIn(SecuredUser su) {

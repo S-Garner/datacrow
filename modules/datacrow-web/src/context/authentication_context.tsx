@@ -3,8 +3,9 @@ import { Navigate, useLocation } from "react-router-dom";
 import { fakeAuthProvider } from "../security/authentication_provider";
 
 interface AuthContextType {
-	user: any;
-	signin: (user: string, callback: VoidFunction) => void;
+	token: string;
+	user: string;
+	signin: (user: string, password: string, callback: VoidFunction) => void;
 	signout: (callback: VoidFunction) => void;
 }
 
@@ -16,10 +17,12 @@ export function useAuth() {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	let [user, setUser] = useState<any>(null);
+	let [token, setToken] = useState<any>(null);
 
-	let signin = (newUser: string, callback: VoidFunction) => {
-		return fakeAuthProvider.signin(() => {
+	let signin = (newUser: string, newPassword: string, callback: VoidFunction) => {
+		return fakeAuthProvider.signin(newUser, newPassword, () => {
 			setUser(newUser);
+			setToken("44971974981");
 			callback();
 		});
 	};
@@ -27,11 +30,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	let signout = (callback: VoidFunction) => {
 		return fakeAuthProvider.signout(() => {
 			setUser(null);
+			setToken(null);
 			callback();
 		});
 	};
 
-	let value = { user, signin, signout };
+	let value = { token, user, signin, signout };
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
@@ -40,8 +44,11 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
 	let auth = useAuth();
 	let location = useLocation();
 
-	if (!auth.user) {
-		// Redirect the unknown user to the /login page, saving the location the use came from
+    console.log("current user: " + auth.user);
+    console.log("current token: " + auth.token);
+
+	if (!auth.token) {
+		// Redirect the unknown user to the /login page, saving the location the user came from
 		return <Navigate to="/login" state={{ from: location }} replace />;
 	}
 

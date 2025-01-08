@@ -5,20 +5,17 @@ import { useAuth } from '../../context/authentication_context';
 export function LoginPage() {
     
 	let navigate = useNavigate();
-	let location = useLocation();
 	let auth = useAuth();
-
-	let from = location.state?.from?.pathname || "/";
 	
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
 		let formData = new FormData(event.currentTarget);
 		let username = formData.get("username") as string;
+		let password = formData.get("password") as string;
 
-		auth.signin(username, () => {
-			// Navigate back to the page the user orinally came from
-			navigate(from, { replace: true });
+		auth.signin(username, password, () => {
+			navigate("/", { replace: true });
 		});
 	}
 

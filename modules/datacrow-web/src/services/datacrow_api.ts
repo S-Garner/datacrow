@@ -14,6 +14,11 @@ export interface References {
     items: Reference[];
 }
 
+export interface User {
+    username: string;
+    token: string;
+}
+
 export interface Item {
 	id: string;
 	moduleIdx: number;
@@ -42,6 +47,12 @@ export interface Reference {
     id: string;
     name: string;
     iconUrl: string;
+}
+
+export async function login(username: string, password: string): Promise<User> {
+    const response = await fetch(baseUrl + 'login/' + username + "/" + password);
+    const result = await response.json();
+    return result;
 }
 
 export async function fetchReferences(moduleIdx: number): Promise<References[]> {

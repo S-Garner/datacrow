@@ -58,8 +58,9 @@ public final class SecuredUser implements Serializable {
     private final Map<String, PluginPermission> pluginPermissions = new HashMap<String, PluginPermission>();
     
     private final User user;
-    
     private String password;
+    
+    private final SecurityToken token;
     
     /**
      * Creates a new instance
@@ -69,6 +70,7 @@ public final class SecuredUser implements Serializable {
     public SecuredUser(User user, String password) {
         this.user = user;
         this.password = password;
+        this.token = new SecurityToken();
     }
     
     /**
@@ -76,6 +78,10 @@ public final class SecuredUser implements Serializable {
      */
     public User getUser() {
         return user;
+    }
+    
+    public SecurityToken getSecurityToken() {
+    	return token;
     }
     
     /**
