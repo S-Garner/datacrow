@@ -1,6 +1,7 @@
 import { Button } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authentication_context';
+import type { LoginCallBack, User } from 'src/services/datacrow_api';
 
 export function LoginPage() {
     
@@ -14,11 +15,14 @@ export function LoginPage() {
 		let username = formData.get("username") as string;
 		let password = formData.get("password") as string;
 
-		auth.signin(username, password, () => {
-			navigate("/", { replace: true });
-		});
+		auth.signin(username, password, callback);
 	}
 
+    function callback(user : User) {
+        console.log("User has been passed " + user);
+        navigate("/", { replace: true });
+    }
+ 
 	return (
 		<div style={{position:"absolute", top:"50%", left:"50%", marginTop: "-50px", marginLeft: "-200px", width: "400px", height: "100px"}}>
 			<form onSubmit={handleSubmit}>
