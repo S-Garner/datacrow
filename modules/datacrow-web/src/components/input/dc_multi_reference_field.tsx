@@ -34,18 +34,17 @@ export default function DcMultiReferenceField({
     const currentValue = CurrentValue();
 
     function CurrentValue() {
-        let idx = 0;
-        let selectedIdx = -1;
+        let selection: IconSelectOption[] = [];
         
-        console.log(value);
-
-        options.forEach((option) => {
-            if (option.value === value)
-                selectedIdx = idx;
-            idx++;
+        options.forEach((option: IconSelectOption) => {
+            (value as Array<String>).forEach((v) => {
+                if (option.value === v) {
+                    selection.push(option);
+                }
+            });
         });
         
-        return options[selectedIdx];
+        return selection;
     }
 
     function Options() {
