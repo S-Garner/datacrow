@@ -17,7 +17,8 @@ export function DcDateField({
 			defaultValue={(value as string)}
 			placeholder={field.label}
 			aria-label={field.label}
-			readOnly={field.readOnly} 
+			readOnly={field.readOnly}
+			required={field.required}
 			{...register("inputfield-" + field.index)} />
 	);
 }

@@ -19,6 +19,7 @@ export function DcLongTextField({
 			readOnly={field.readOnly}
 			as="textarea" 
 			rows={5}
+			required={field.required}
 			{...register("inputfield-" + field.index)} />
 	);
 }

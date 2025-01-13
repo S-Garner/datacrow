@@ -43,6 +43,7 @@ export interface Field {
 	referencedModuleIdx: number;
 	maximumLength: number;
 	label: string;
+	required: boolean;
 }
 
 export interface Reference {

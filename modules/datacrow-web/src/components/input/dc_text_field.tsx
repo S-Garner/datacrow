@@ -17,6 +17,7 @@ export function DcTextField({
 			placeholder={field.label}
 			aria-label={field.label}
 			{...register("inputfield-" + field.index)}
-			readOnly={field.readOnly} />
+			readOnly={field.readOnly}
+			required={field.required} />
 	);
 }

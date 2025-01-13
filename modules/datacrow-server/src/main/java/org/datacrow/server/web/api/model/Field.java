@@ -38,7 +38,11 @@ public class Field {
     private final String label;
     @JsonProperty("readOnly")
     private final boolean readOnly;
-	
+    @JsonProperty("required")
+    private final boolean required;
+
+    
+    
 	public Field(DcField src) {
 		index = src.getIndex();
 		moduleIdx = src.getModule();
@@ -46,6 +50,7 @@ public class Field {
 		maximumLength = src.getMaximumLength();
 		label = src.getLabel();
 		readOnly = src.isReadOnly();
+		required  = src.isRequired();
 		setType(src);
 	}
 	
@@ -72,6 +77,10 @@ public class Field {
 	public boolean isReadOnly() {
 		return readOnly;
 	}
+	
+	public boolean isRequired() {
+		return required;
+	}	
 	
 	private void setType(DcField src) {
 		if (src.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {

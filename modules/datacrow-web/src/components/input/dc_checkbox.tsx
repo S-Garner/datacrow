@@ -19,6 +19,7 @@ export default function DcCheckBox({
 				aria-label={field.label}
 				label={field.label}
 				readOnly={field.readOnly}
+				required={field.required}
                 {...register("inputfield-" + field.index)} />
 		</InputGroup>
 	);

@@ -47,7 +47,7 @@ export default function DcReferenceField({
                 selectedIdx = idx;
             idx++;
         });
-        
+    
         return options[selectedIdx];
     }
 
@@ -80,7 +80,8 @@ export default function DcReferenceField({
         <Controller
             name={"controller-inputfield-" + field.index}
             key={"controller-inputfield-" + field.index}
-            rules={{ required: true }}
+            defaultValue={currentValue}
+            rules={{ required: field.required }}
             render={renderProps => {
                 return (
                     <Select
