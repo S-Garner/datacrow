@@ -1,6 +1,6 @@
 const baseUrl = 'http://192.168.178.244:8080/datacrow/api/';
 
-export interface LoginCallBack { (myArgument: User): void }
+export interface LoginCallBack { (myArgument: User | null): void }
 
 export interface Module {
 	index: number;

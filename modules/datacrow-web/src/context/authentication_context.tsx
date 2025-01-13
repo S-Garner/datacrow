@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             savedCallback.current = callback;
         }
 
-		return authenticationProvider.signin(newUser, newPassword, (user : User) => {
+		return authenticationProvider.signin(newUser, newPassword, (user : User | null) => {
             setUser(user);
             savedCallback.current && savedCallback.current(user);
         });

@@ -18,9 +18,13 @@ export function LoginPage() {
 		auth.signin(username, password, callback);
 	}
 
-    function callback(user : User) {
-        if (user)
-            navigate("/", { replace: true });            
+    function callback(user : User | null) {
+        if (user) {
+            navigate("/", { replace: true });
+        } else {
+            // todo:
+            console.log("User not authorized");
+        }
     }
  
 	return (
