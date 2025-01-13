@@ -19,8 +19,8 @@ export function LoginPage() {
 	}
 
     function callback(user : User) {
-        console.log("User has been passed " + user);
-        navigate("/", { replace: true });
+        if (user)
+            navigate("/", { replace: true });            
     }
  
 	return (

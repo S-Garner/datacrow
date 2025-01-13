@@ -13,14 +13,12 @@ const { Option } = components;
 
 const IconOption = (props: JSX.IntrinsicAttributes & OptionProps<IconSelectOption, true, GroupBase<IconSelectOption>>) => (
     <Option {...props}>
-    
         {props.data.iconUrl && (
             <img
                 src={props.data.iconUrl}
                 style={{ width: "24px", paddingRight: "8px" }}
             />
         )}
-
         {props.data.label}
     </Option>
 );

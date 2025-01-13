@@ -60,7 +60,7 @@ export function ItemPage() {
                                 references={ReferencesForField(fieldValue.field)}
                             />
                         ))}
-                        <Button type="submit">Save</Button>
+                        <Button type="submit" key="item-details-submit-button">Save</Button>
                     </Form>
                 </FormProvider>
             </div>

@@ -24,14 +24,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             savedCallback.current = callback;
         }
 
-		return authenticationProvider.signin(newUser, newPassword, myfunc);
+		return authenticationProvider.signin(newUser, newPassword, (user : User) => {
+            setUser(user);
+            savedCallback.current && savedCallback.current(user);
+        });
 	};
 	
-    let myfunc = function callback(user : User) {
-        setUser(user);
-        savedCallback.current && savedCallback.current(user);
-    }
-
 	let signout = (callback: VoidFunction) => {
 		return authenticationProvider.signout(() => {
 			setUser(null);
@@ -49,8 +47,6 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
 	let auth = useAuth();
 	let location = useLocation();
 
-    console.log("current user: " + auth.user);
-    
 	if (!auth.user) {
 		// Redirect the unknown user to the /login page, saving the location the user came from
 		return <Navigate to="/login" state={{ from: location }} replace />;
