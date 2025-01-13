@@ -1,4 +1,27 @@
+import axios from 'axios';
+
 const baseUrl = 'http://192.168.178.244:8080/datacrow/api/';
+
+const instance = axios.create({
+    baseURL: baseUrl
+});
+
+instance.interceptors.request.use(
+    function(config) {
+        const token = localStorage.getItem("token");
+        
+        console.log("Authorization has been set");
+        console.log(token);
+        
+        //config.headers["Access-Control-Allow-Origin"] = '*';
+        //config.headers["Content-type"] = 'application/json';
+        
+        //if (token)
+        config.headers["authorization"] = "blah";
+
+        return config;
+    },
+);
 
 export interface LoginCallBack { (myArgument: User | null): void }
 
@@ -53,10 +76,10 @@ export interface Reference {
 }
 
 export async function login(username: string, password: string): Promise<User | null> {
-    const response = await fetch(baseUrl + 'login/' + username + "/" + password);
+    const response = await axios.get(baseUrl + 'login/' + username + "/" + password);
     
     if (response.status === 200) {
-        const result = await response.json();
+        const result = await response.data;
         return result;
     } else {
         return null;
@@ -64,31 +87,31 @@ export async function login(username: string, password: string): Promise<User | 
 }
 
 export async function fetchReferences(moduleIdx: number): Promise<References[]> {
-    const response = await fetch(baseUrl + 'references/' + moduleIdx);
-    const result = await response.json();
+    const response = await axios.get(baseUrl + 'references/' + moduleIdx);
+    const result = await response.data;
     return result;
 }
 
 export async function fetchModules(): Promise<Module[]> {
-	const response = await fetch(baseUrl + 'modules/');
-	const result = await response.json();
+	const response = await instance.get('modules/');
+	const result = await response.data;
 	return result;
 }
 
 export async function fetchItem(moduleIdx: number, itemId: string): Promise<Item> {
-	const response = await fetch(baseUrl + 'item/' + moduleIdx + '/' + itemId);
-	const result = await response.json();
+	const response = await axios.get(baseUrl + 'item/' + moduleIdx + '/' + itemId);
+	const result = await response.data;
 	return result;
 }
 
 export async function fetchItems(moduleIdx: number): Promise<Item[]> {
-	const response = await fetch(baseUrl + 'items/' + moduleIdx);
-	const result = await response.json();
+	const response = await axios.get(baseUrl + 'items/' + moduleIdx);
+	const result = await response.data;
 	return result;
 }
 
 export async function searchItems(moduleIdx: number, searchTerm: String): Promise<Item[]> {
-	const response = await fetch(baseUrl + 'items/' + moduleIdx + '/' + searchTerm);
-	const result = await response.json();
+	const response = await axios.get(baseUrl + 'items/' + moduleIdx + '/' + searchTerm);
+	const result = await response.data;
 	return result;
 }

@@ -2,6 +2,7 @@ import { Button } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authentication_context';
 import type { LoginCallBack, User } from 'src/services/datacrow_api';
+import axios from 'axios';
 
 export function LoginPage() {
     
@@ -20,9 +21,11 @@ export function LoginPage() {
 
     function callback(user : User | null) {
         if (user) {
+            localStorage.setItem("token", user.token);
             navigate("/", { replace: true });
         } else {
             // todo: show message to user
+            localStorage.removeItem("token");
             console.log("User not authorized");
         }
     }

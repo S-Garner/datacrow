@@ -14,6 +14,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/references")
 public class ReferencesService {
@@ -21,7 +22,7 @@ public class ReferencesService {
     @GET
     @Path("/{moduleIdx}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<References> getItemsForModule(@PathParam("moduleIdx") Long moduleIdx) {
+    public Response getItemsForModule(@PathParam("moduleIdx") Long moduleIdx) {
         
     	org.datacrow.server.web.api.model.Module webModule = 
     			ModuleManager.getInstance().getModule(moduleIdx.intValue());
@@ -37,7 +38,11 @@ public class ReferencesService {
     			allReferences.add(new References(field.getReferencedModuleIdx(), references));
     		}
     	}
-
-    	return allReferences;
+    	
+		return Response.status(200).header("Access-Control-Allow-Origin", "*")
+				.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+				.header("Access-Control-Allow-Credentials", "true")
+				.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+				.header("Access-Control-Max-Age", "1209600").entity(allReferences).build();    	
     }
 }

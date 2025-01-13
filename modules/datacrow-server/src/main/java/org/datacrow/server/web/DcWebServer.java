@@ -69,6 +69,9 @@ public class DcWebServer {
         
         WebAppContext wac = new WebAppContext(contextDir.toString(), context);
         wac.setConfigurationDiscovered(true);
+        
+        
+        
         server.setHandler(wac);
 
         server.setStopAtShutdown(true);
