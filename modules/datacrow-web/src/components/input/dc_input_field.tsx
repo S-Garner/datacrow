@@ -57,7 +57,7 @@ export default function InputField({
                 )}
 
             <Row key={"detailsRowInputField" + field.index} className="mb-3">
-                <Form.Group>
+                <Form.Group key="form-group-item-details">
                     {field.type === FieldType.CheckBox && (
                         <DcCheckBox
                             key={"field-" + field.index}
