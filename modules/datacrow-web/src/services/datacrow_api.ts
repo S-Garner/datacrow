@@ -32,7 +32,7 @@ export interface Item {
 
 export interface FieldValue {
 	field: Field;
-	value: string;
+	value: Object;
 }
 
 export interface Field {

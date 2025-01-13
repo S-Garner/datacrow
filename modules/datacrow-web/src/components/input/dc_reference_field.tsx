@@ -1,4 +1,4 @@
-import Select, { components, type ActionMeta, type ControlProps, type GroupBase, type MultiValue, type OptionProps, type SingleValue } from 'react-select'
+import Select, { components, type ControlProps, type GroupBase, type OptionProps } from 'react-select'
 import type { JSX } from 'react/jsx-runtime';
 import { useState } from 'react';
 import type { InputFieldProps } from './dc_input_field';
@@ -78,7 +78,8 @@ export default function DcReferenceField({
 
     return (
         <Controller
-            name={"inputfield-" + field.index}
+            name={"controller-inputfield-" + field.index}
+            key={"controller-inputfield-" + field.index}
             rules={{ required: true }}
             render={renderProps => {
                 return (

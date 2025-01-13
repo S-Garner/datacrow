@@ -16,7 +16,6 @@ export function ItemPage() {
     const currentModule = useModule();
     const navigate = useNavigate();
     const { state } = useLocation();
-    const { handleSubmit, getValues } = useForm();
     const methods = useForm();
 
     useEffect(() => {

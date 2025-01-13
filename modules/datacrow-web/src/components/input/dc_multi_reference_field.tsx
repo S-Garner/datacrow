@@ -36,6 +36,8 @@ export default function DcMultiReferenceField({
     function CurrentValue() {
         let idx = 0;
         let selectedIdx = -1;
+        
+        console.log(value);
 
         options.forEach((option) => {
             if (option.value === value)
@@ -61,7 +63,8 @@ export default function DcMultiReferenceField({
 
     return (
         <Controller
-            name={"inputfield-" + field.index}
+            name={"controller-inputfield-" + field.index}
+            key={"controller-inputfield-" + field.index}
             rules={{ required: true }}
             render={renderProps => {
                 return (

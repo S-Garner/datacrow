@@ -9,7 +9,6 @@ import { DcDateField } from "./dc_date_field";
 import { DcNumberField } from "./dc_number_field";
 import { DcDecimalField } from "./dc_decimal_field";
 import DcMultiReferenceField from "./dc_multi_reference_field";
-import { useState, type ChangeEvent } from "react";
 
 export interface InputFieldProps {
     field: Field,

@@ -22,7 +22,7 @@ export function LoginPage() {
         if (user) {
             navigate("/", { replace: true });
         } else {
-            // todo:
+            // todo: show message to user
             console.log("User not authorized");
         }
     }

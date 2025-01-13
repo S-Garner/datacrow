@@ -1,6 +1,7 @@
 package org.datacrow.server.web.api.model;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
@@ -9,6 +10,7 @@ import java.util.List;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.server.web.api.manager.ModuleManager;
@@ -59,16 +61,27 @@ public class Item {
 			field = m.getField(fieldIdx);
 			
 			if (module.getField(fieldIdx).isEnabled())
-				this.fields.add(new FieldValue(field, toValidValue(src.getValue(fieldIdx))));
+				this.fields.add(new FieldValue(field, toValidValue(field, src.getValue(fieldIdx))));
 		}
 	}
 	
-	private Object toValidValue(Object o) {
+	@SuppressWarnings("unchecked")
+	private Object toValidValue(Field field, Object o) {
 		Object value = o;
 		
 		if (o instanceof DcObject)
 			value = ((DcObject) o).getID();
-		else if (o instanceof Collection<?> || o instanceof DcModule)
+		else if (field.getType() == Field._MULTIRELATE) {
+			Collection<String> c = new ArrayList<String>();
+			
+			if (o != null) {
+				for (DcMapping item : (Collection<DcMapping>) o)
+					c.add(item.getReferencedID());
+			}
+			
+			value = c;
+			
+		} else if (o instanceof DcModule || o instanceof Collection)
 			value = "";
 		else if (o instanceof Date)
 			value = o.toString();
