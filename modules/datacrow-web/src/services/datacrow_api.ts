@@ -1,6 +1,5 @@
 const baseUrl = 'http://192.168.178.244:8080/datacrow/api/';
 
-
 export interface LoginCallBack { (myArgument: User): void }
 
 export interface Module {
@@ -52,10 +51,15 @@ export interface Reference {
     iconUrl: string;
 }
 
-export async function login(username: string, password: string): Promise<User> {
+export async function login(username: string, password: string): Promise<User | null> {
     const response = await fetch(baseUrl + 'login/' + username + "/" + password);
-    const result = await response.json();
-    return result;
+    
+    if (response.status === 200) {
+        const result = await response.json();
+        return result;
+    } else {
+        return null;
+    }
 }
 
 export async function fetchReferences(moduleIdx: number): Promise<References[]> {

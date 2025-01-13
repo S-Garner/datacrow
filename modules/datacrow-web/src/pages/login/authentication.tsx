@@ -27,11 +27,11 @@ export function LoginPage() {
 		<div style={{position:"absolute", top:"50%", left:"50%", marginTop: "-50px", marginLeft: "-200px", width: "400px", height: "100px"}}>
 			<form onSubmit={handleSubmit}>
 				<div className="row mb-2">
-					<input name="username" type="text" placeholder="Username" className="form-control" id="input-username" />
+					<input name="username" type="text" placeholder="Username" className="form-control" id="input-username" required={true} />
 				</div>
 
 				<div className="row mb-2">
-					<input name="password" type="Password" placeholder="Password" className="form-control" id="input-password" />
+					<input name="password" type="Password" placeholder="Password" className="form-control" id="input-password" required={true} />
 				</div>
 
 				<div className="row mb-2">

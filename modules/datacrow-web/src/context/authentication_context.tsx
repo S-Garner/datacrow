@@ -42,7 +42,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-
 export function RequireAuth({ children }: { children: JSX.Element }) {
 	let auth = useAuth();
 	let location = useLocation();
