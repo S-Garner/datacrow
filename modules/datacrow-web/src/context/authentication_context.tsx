@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type JSX } from "react";
+import React, { createContext, useContext, useState, useEffect, useRef } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { authenticationProvider } from "../security/authentication_provider";
 import type { LoginCallBack, User } from "src/services/datacrow_api";
@@ -19,26 +19,21 @@ export function useAuth() {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	let [user, setUser] = useState<any>(null);
 	let [token, setToken] = useState<any>(null);
-
-    let [origCallBack, setOrigCallBack] = useState<any>(null);
-
+	
+    const savedCallback = useRef<LoginCallBack | null>(null);
+    
 	let signin = (newUser: string, newPassword: string, callback: LoginCallBack) => {
-        
-        setOrigCallBack(callback);
-        
-        // TODO : pass a specific call back here to the lower level auth provider as this one needs to pass the user onto here.
+        if (savedCallback.current === null) {
+            savedCallback.current = callback;
+        }
+
 		return authenticationProvider.signin(newUser, newPassword, myfunc);
 	};
 	
 	 let myfunc = function callback(user : User) {
-        
         setUser(user);
-         
-        if (user === undefined)
-            console.log("Empty user passed");
-         
-        console.log("User has been passed to highest level " + user);
-        () => origCallBack(user);
+        console.log("User has been passed to highest level " + savedCallback.current);
+        savedCallback.current && savedCallback.current(user);
     }
 
 	let signout = (callback: VoidFunction) => {
