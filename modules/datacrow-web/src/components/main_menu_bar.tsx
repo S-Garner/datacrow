@@ -7,7 +7,7 @@ export function UserStatus() {
 	let auth = useAuth();
 	let navigate = useNavigate();
 
-	if (!auth.user) {
+	if (!auth || !auth.user) {
 		return <div />;
 	}
 

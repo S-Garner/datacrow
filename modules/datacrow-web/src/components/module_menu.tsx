@@ -2,6 +2,7 @@ import { useEffect, useState, type JSX } from 'react';
 import { fetchModules, type Module } from '../services/datacrow_api';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useModule } from '../context/module_context';
+import { useNavigate } from 'react-router-dom';
 
 function ModuleMenu({ children }: { children: JSX.Element }) {
 
@@ -10,10 +11,17 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 	const [selectedModule, setSelectedModule] = useState<Module>();
 	
 	let currentModule = useModule();
+	let navigate = useNavigate();
 
 	useEffect(() => {
-		fetchModules().then((data) => setModuleData(data));
-	}, []);
+		fetchModules().then((data) => setModuleData(data)).catch(error => 
+		{
+            console.log(error);
+            if (error.status === 401) {
+                navigate("/login");    
+            }
+        });
+    }, []);
 
 	function setModuleData(modules: Module[]) {
 		setModules(modules);

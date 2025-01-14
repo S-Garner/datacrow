@@ -10,19 +10,24 @@ import org.datacrow.server.web.api.model.Reference;
 import org.datacrow.server.web.api.model.References;
 
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/references")
-public class ReferencesService {
+public class ReferencesService extends DataCrowApiService {
 
     @GET
     @Path("/{moduleIdx}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<References> getItemsForModule(@PathParam("moduleIdx") Long moduleIdx) {
+    public List<References> getItemsForModule(
+    		@HeaderParam("authorization") String token,
+    		@PathParam("moduleIdx") Long moduleIdx) {
         
+    	checkAuthorization(token);
+    	
     	org.datacrow.server.web.api.model.Module webModule = 
     			ModuleManager.getInstance().getModule(moduleIdx.intValue());
     	

@@ -7,20 +7,16 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-    function(config) {
+    function (config) {
         const token = localStorage.getItem("token");
         
         config.headers["Content-type"] = 'application/json';
         
-        if (token) {
-            console.log("Authorization has been set");
-            console.log(token);
-
-            config.headers["authorization"] = "token";
-        }
+        if (token)
+            config.headers["authorization"] = token;
 
         return config;
-    },
+    }
 );
 
 export interface LoginCallBack { (myArgument: User | null): void }
@@ -76,7 +72,7 @@ export interface Reference {
 }
 
 export async function login(username: string, password: string): Promise<User | null> {
-    const response = await axios.get(baseUrl + 'login/' + username + "/" + password);
+    const response = await instance.get(baseUrl + 'login/' + username + "/" + password);
     
     if (response.status === 200) {
         const result = await response.data;
@@ -87,31 +83,26 @@ export async function login(username: string, password: string): Promise<User | 
 }
 
 export async function fetchReferences(moduleIdx: number): Promise<References[]> {
-    const response = await axios.get(baseUrl + 'references/' + moduleIdx);
-    const result = await response.data;
-    return result;
+    const response = await instance.get(baseUrl + 'references/' + moduleIdx);
+    return response.data;
 }
 
 export async function fetchModules(): Promise<Module[]> {
-	const response = await instance.get('modules/');
-	const result = await response.data;
-	return result;
+    const response = await instance.get('modules/');
+    return response.data;
 }
 
 export async function fetchItem(moduleIdx: number, itemId: string): Promise<Item> {
-	const response = await axios.get(baseUrl + 'item/' + moduleIdx + '/' + itemId);
-	const result = await response.data;
-	return result;
+	const response = await instance.get(baseUrl + 'item/' + moduleIdx + '/' + itemId);
+	return response.data;
 }
 
 export async function fetchItems(moduleIdx: number): Promise<Item[]> {
-	const response = await axios.get(baseUrl + 'items/' + moduleIdx);
-	const result = await response.data;
-	return result;
+	const response = await instance.get(baseUrl + 'items/' + moduleIdx);
+	return response.data;
 }
 
 export async function searchItems(moduleIdx: number, searchTerm: String): Promise<Item[]> {
-	const response = await axios.get(baseUrl + 'items/' + moduleIdx + '/' + searchTerm);
-	const result = await response.data;
-	return result;
+	const response = await instance.get(baseUrl + 'items/' + moduleIdx + '/' + searchTerm);
+	return response.data;
 }

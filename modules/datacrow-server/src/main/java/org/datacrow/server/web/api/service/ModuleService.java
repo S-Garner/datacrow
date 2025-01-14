@@ -6,16 +6,18 @@ import org.datacrow.server.web.api.manager.ModuleManager;
 import org.datacrow.server.web.api.model.Module;
 
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
 @Path("/modules")
-public class ModuleService {
+public class ModuleService extends DataCrowApiService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Module> getMainModules() {
+    public List<Module> getMainModules(@HeaderParam("authorization") String token) {
+    	checkAuthorization(token);
     	return ModuleManager.getInstance().getMainModules();
     }
 }

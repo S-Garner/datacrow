@@ -12,9 +12,16 @@ export function ItemOverview() {
 	const navigate = useNavigate();
 	const [items, setItems] = useState<Item[]>([]);
 
-	useEffect(() => {
-		currentModule.selectedModule && fetchItems(currentModule.selectedModule.index).then((data) => setItems(data));
-	}, [currentModule.selectedModule]);
+    useEffect(() => {
+        currentModule.selectedModule && fetchItems(currentModule.selectedModule.index).
+            then((data) => setItems(data)).
+            catch(error => {
+                console.log(error);
+                if (error.status === 401) {
+                    navigate("/login");
+                }
+            });
+    }, [currentModule.selectedModule]);
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(30);

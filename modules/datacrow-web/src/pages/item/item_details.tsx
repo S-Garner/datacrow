@@ -25,11 +25,25 @@ export function ItemPage() {
     }, []);
 
     useEffect(() => {
-        state && currentModule.selectedModule && fetchItem(currentModule.selectedModule.index, state.itemID).then((data) => setItem(data));
+        state && currentModule.selectedModule && fetchItem(currentModule.selectedModule.index, state.itemID).
+        then((data) => setItem(data)).
+        catch(error => {
+            console.log(error);
+            if (error.status === 401) {
+                navigate("/login");
+            }
+        });
     }, [currentModule.selectedModule]);
 
     useEffect(() => {
-        currentModule.selectedModule && fetchReferences(currentModule.selectedModule.index).then((data) => setReferences(data));
+        currentModule.selectedModule && fetchReferences(currentModule.selectedModule.index).
+        then((data) => setReferences(data)).
+        catch(error => {
+            console.log(error);
+            if (error.status === 401) {
+                navigate("/login");
+            }
+        });
     }, [currentModule.selectedModule]);
 	
     function ReferencesForField(field: Field) {
