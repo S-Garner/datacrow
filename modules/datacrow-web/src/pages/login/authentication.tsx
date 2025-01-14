@@ -20,18 +20,18 @@ export function LoginPage() {
 		let password = formData.get("password") as string;
 
 		auth.signin(username, password, callback);
+		setSuccess(false);
 	}
 
     function callback(user : User | null) {
-        
         if (user) {
+            setSuccess(true);
             localStorage.setItem("token", user.token);
             navigate("/", { replace: true });
-            setSuccess(true);
         } else {
+            setSuccess(false);
             localStorage.removeItem("token");
             console.debug("The user not authorized");
-            setSuccess(false);
         }
     }
  
