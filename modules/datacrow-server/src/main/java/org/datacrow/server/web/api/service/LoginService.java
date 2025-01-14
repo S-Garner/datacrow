@@ -28,7 +28,7 @@ public class LoginService {
     			return new WebUser(username, user.getSecurityToken().getToken());
     		
     	} catch (Exception e) {
-    		logger.info(e, e);
+    		logger.debug(e, e);
     	}
     	
     	return null;

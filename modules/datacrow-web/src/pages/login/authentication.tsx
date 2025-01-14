@@ -1,10 +1,13 @@
 import { Button } from 'react-bootstrap';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authentication_context';
-import type { LoginCallBack, User } from 'src/services/datacrow_api';
-import axios from 'axios';
+import type { User } from '../../services/datacrow_api';
+import { MessageBox, MessageBoxType } from '../../components/message_box';
+import { useState } from 'react';
 
 export function LoginPage() {
+    
+    const [success, setSuccess] = useState(true);
     
 	let navigate = useNavigate();
 	let auth = useAuth();
@@ -20,18 +23,26 @@ export function LoginPage() {
 	}
 
     function callback(user : User | null) {
+        
         if (user) {
             localStorage.setItem("token", user.token);
             navigate("/", { replace: true });
+            setSuccess(true);
         } else {
-            // todo: show message to user
             localStorage.removeItem("token");
-            console.log("User not authorized");
+            console.debug("The user not authorized");
+            setSuccess(false);
         }
     }
  
 	return (
 		<div style={{position:"absolute", top:"50%", left:"50%", marginTop: "-50px", marginLeft: "-200px", width: "400px", height: "100px"}}>
+		    
+		    { !success && <MessageBox
+                    header="Login failed"
+                    message="Invalid credentials were provided. Please enter the correct username and password" 
+                    type={MessageBoxType.warning} /> }
+		
 			<form onSubmit={handleSubmit}>
 				<div className="row mb-2">
 					<input name="username" type="text" placeholder="Username" className="form-control" id="input-username" required={true} />
