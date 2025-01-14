@@ -29,6 +29,11 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
   lblIncludeAttachments = Include Attachments
   lblCopyAttachments = Copy Attachments
   lblAfter = After
+- options for references - make array of correct size (saves time)
+
+[Later]
+- Web; token expiry
+- Web; auto logoff user (after z minutes) 
 
 
 --------------------------------------------------------------------
