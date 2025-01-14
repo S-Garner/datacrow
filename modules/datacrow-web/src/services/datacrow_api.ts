@@ -10,14 +10,14 @@ instance.interceptors.request.use(
     function(config) {
         const token = localStorage.getItem("token");
         
-        console.log("Authorization has been set");
-        console.log(token);
+        config.headers["Content-type"] = 'application/json';
         
-        //config.headers["Access-Control-Allow-Origin"] = '*';
-        //config.headers["Content-type"] = 'application/json';
-        
-        //if (token)
-        config.headers["authorization"] = "blah";
+        if (token) {
+            console.log("Authorization has been set");
+            console.log(token);
+
+            config.headers["authorization"] = "token";
+        }
 
         return config;
     },
