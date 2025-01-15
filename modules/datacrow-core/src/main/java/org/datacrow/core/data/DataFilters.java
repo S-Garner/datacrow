@@ -86,6 +86,12 @@ public class DataFilters {
         for (DcFieldDefinition fd : DcModules.get(moduleIdx).getFieldDefinitions().getDefinitions()) {
             
             field = module.getField(fd.getIndex());
+            
+            if (field == null) {
+            	logger.debug("Field does not exists, skipping for filter all, index: " + fd.getIndex());
+            	continue;
+            }
+            
             int vt = field.getValueType();
             
             fieldNumeric = 

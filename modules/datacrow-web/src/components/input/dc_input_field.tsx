@@ -9,6 +9,7 @@ import { DcDateField } from "./dc_date_field";
 import { DcNumberField } from "./dc_number_field";
 import { DcDecimalField } from "./dc_decimal_field";
 import DcMultiReferenceField from "./dc_multi_reference_field";
+import DcTagField from "./dc_tag_field";
 
 export interface InputFieldProps {
     field: Field,
@@ -100,6 +101,13 @@ export default function InputField({
                             key={"field-" + field.index}
                             field={field}
                             value={value} />)}
+
+                    {field.type === FieldType.TagField && (
+                        <DcTagField
+                            key={"field-" + field.index}
+                            field={field}
+                            value={value}
+                            references={references} />)}
                             
                     {field.type === FieldType.NumberField && (
                         <DcNumberField

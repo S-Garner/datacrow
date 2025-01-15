@@ -20,7 +20,10 @@ export function LoginPage() {
 		let password = formData.get("password") as string;
 
 		auth.signin(username, password, callback);
-		setSuccess(false);
+		
+        setTimeout(function() {
+            setSuccess(false);
+        }, 1000);
 	}
 
     function callback(user : User | null) {

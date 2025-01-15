@@ -71,7 +71,8 @@ public class Item {
 		
 		if (o instanceof DcObject)
 			value = ((DcObject) o).getID();
-		else if (field.getType() == Field._MULTIRELATE) {
+		else if (field.getType() == Field._MULTIRELATE ||
+				field.getType() == Field._TAGFIELD) {
 			Collection<String> c = new ArrayList<String>();
 			
 			if (o != null) {

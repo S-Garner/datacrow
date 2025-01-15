@@ -35,7 +35,8 @@ public class ReferencesService extends DataCrowApiService {
     	List<Reference> references;
 
     	for (Field field : webModule.getFields()) {
-    		if (	field.getType() == Field._DROPDOWN || 
+    		if (	field.getType() == Field._TAGFIELD || 
+    				field.getType() == Field._DROPDOWN || 
     				field.getType() == Field._MULTIRELATE) {
     			
     			references = ReferenceManager.getInstance().getReferences(field.getReferencedModuleIdx());
