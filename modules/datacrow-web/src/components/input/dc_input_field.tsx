@@ -11,6 +11,7 @@ import { DcDecimalField } from "./dc_decimal_field";
 import DcMultiReferenceField from "./dc_multi_reference_field";
 import DcTagField from "./dc_tag_field";
 import DcRatingField from "./dc_rating_field";
+import Input from "./dc_rating_field";
 
 export interface InputFieldProps {
     field: Field,
@@ -109,13 +110,11 @@ export default function InputField({
                             field={field}
                             value={value}
                             references={references} />)}
-                            
                     {field.type === FieldType.RatingField && (
-                        <DcRatingField
-                            key={"field-" + field.index}
-                            field={field}
-                            value={value as number} />)}
-                            
+                        <DcRatingField 
+                            currentValue={value} 
+                            field={field} />)
+                    }
                     {field.type === FieldType.NumberField && (
                         <DcNumberField
                             key={"field-" + field.index}
