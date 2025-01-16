@@ -4,14 +4,12 @@ import DcReferenceField from "./dc_reference_field";
 import { DcLongTextField } from "./dc_long_text_field";
 import { DcTextField } from "./dc_text_field";
 import DcCheckBox from "./dc_checkbox";
-import { DcUrlField } from "./dc_url_field";
 import { DcDateField } from "./dc_date_field";
 import { DcNumberField } from "./dc_number_field";
 import { DcDecimalField } from "./dc_decimal_field";
 import DcMultiReferenceField from "./dc_multi_reference_field";
 import DcTagField from "./dc_tag_field";
 import DcRatingField from "./dc_rating_field";
-import Input from "./dc_rating_field";
 
 export interface InputFieldProps {
     field: Field,
@@ -33,7 +31,7 @@ enum FieldType {
     IconField = 10,
     NumberField = 11,
     DecimalField = 12,
-    DurationField = 13
+    DurationField = 13 // TODO
 }
 
 export default function InputField({
@@ -93,7 +91,7 @@ export default function InputField({
                             references={references} />)}
                             
                     {field.type === FieldType.UrlField && (
-                        <DcUrlField
+                        <DcTextField
                             key={"field-" + field.index}
                             field={field}
                             value={value} />)}
@@ -110,11 +108,19 @@ export default function InputField({
                             field={field}
                             value={value}
                             references={references} />)}
+                            
+                    {field.type === FieldType.FileField && (
+                        <DcTextField
+                            key={"field-" + field.index}
+                            field={field}
+                            value={value} />)}
+                            
                     {field.type === FieldType.RatingField && (
                         <DcRatingField 
                             currentValue={value} 
                             field={field} />)
                     }
+                    
                     {field.type === FieldType.NumberField && (
                         <DcNumberField
                             key={"field-" + field.index}

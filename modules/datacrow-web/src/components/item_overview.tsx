@@ -4,7 +4,7 @@ import { useModule } from '../context/module_context';
 import { useEffect, useState } from 'react';
 import PagesDropdown from './pages_dropdown';
 import Pagination from './pagination';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export function ItemOverview() {
 
