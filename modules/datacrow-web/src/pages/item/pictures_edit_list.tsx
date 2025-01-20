@@ -25,13 +25,15 @@ export default function PictureEditList({itemID} : Props) {
     });
     
     return (
-        <>
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
             {pictures && pictures.map((picture) => (
                 <Card style={{ width: '18rem' }} key={"card-pic-" + picture.filename}>
+                    <Card.Header style={{ height: '112px' }}>
+                        {picture.filename}
+                    </Card.Header>
                     <Card.Img src={picture.thumbUrl}  />
                 </Card>
             ))}        
-        </>
+        </div>
     );
-    
 }
