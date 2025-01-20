@@ -21,6 +21,13 @@ instance.interceptors.request.use(
 
 export interface LoginCallBack { (myArgument: User | null): void }
 
+export interface Picture {
+    url: string;
+    thumbUrl: string;
+    objectID: string;
+    filename: string;
+}
+
 export interface Module {
 	index: number;
 	name: string;
@@ -80,6 +87,11 @@ export async function login(username: string, password: string): Promise<User | 
     } else {
         return null;
     }
+}
+
+export async function fetchPictures(itemID: string): Promise<Picture[]> {
+    const response = await instance.get(baseUrl + 'pictures/' + itemID);
+    return response.data;
 }
 
 export async function fetchReferences(moduleIdx: number): Promise<References[]> {

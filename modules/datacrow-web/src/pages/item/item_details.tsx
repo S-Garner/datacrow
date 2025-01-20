@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import { fetchItem, fetchReferences, type Field, type Item, type References } from "../../services/datacrow_api";
 import { RequireAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
-import { Button } from "react-bootstrap";
+import { Button, Tab, Tabs } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
+import PictureEditList from "./pictures_edit_list";
 
 export function ItemPage() {
 
+    const [selectedTab, setSelectedTab] = useState('details');
     const [item, setItem] = useState<Item>();
     const [references, setReferences] = useState<References[]>();
     const [validated, setValidated] = useState(false);
@@ -63,19 +65,33 @@ export function ItemPage() {
         <RequireAuth>
             <div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="div-item-details">
             
-                <FormProvider {...methods}>
-            
-                    <Form key="form-item-detail" noValidate validated={validated} onSubmit={methods.handleSubmit(onSubmit)}>
-                        {references && item?.fields.map((fieldValue) => (
-                            <InputField
-                                field={fieldValue.field}
-                                value={fieldValue.value}
-                                references={ReferencesForField(fieldValue.field)}
-                            />
-                        ))}
-                        <Button type="submit" key="item-details-submit-button">Save</Button>
-                    </Form>
-                </FormProvider>
+                <Tabs
+                    defaultActiveKey="profile"
+                    id="uncontrolled-tab-example"
+                    activeKey={selectedTab}
+                    onSelect={(k) => k && setSelectedTab(k)}
+                    className="mb-3">
+
+                    <Tab eventKey="details" title="Details">
+                        <FormProvider {...methods}>
+                            <Form key="form-item-detail" noValidate validated={validated} onSubmit={methods.handleSubmit(onSubmit)}>
+                                {references && item?.fields.map((fieldValue) => (
+                                    <InputField
+                                        field={fieldValue.field}
+                                        value={fieldValue.value}
+                                        references={ReferencesForField(fieldValue.field)}
+                                    />
+                                ))}
+                                <Button type="submit" key="item-details-submit-button">Save</Button>
+                            </Form>
+                        </FormProvider>
+                    </Tab>
+    
+                    <Tab eventKey="images" title="Pictures">
+                        <PictureEditList itemID={state.itemID} />
+                    </Tab>
+
+                </Tabs>
             </div>
         </RequireAuth>
     );
