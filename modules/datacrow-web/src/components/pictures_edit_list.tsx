@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { fetchPictures, type Picture } from "../../services/datacrow_api";
+import { fetchPictures, type Picture } from "../services/datacrow_api";
 import { useNavigate } from "react-router-dom";
 import { Card } from "react-bootstrap";
-
 
 type Props = {
   itemID: string;

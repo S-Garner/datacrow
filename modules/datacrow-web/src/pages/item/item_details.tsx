@@ -7,7 +7,7 @@ import { Button, Tab, Tabs } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
-import PictureEditList from "./pictures_edit_list";
+import PictureEditList from "../../components/pictures_edit_list";
 
 export function ItemPage() {
 
