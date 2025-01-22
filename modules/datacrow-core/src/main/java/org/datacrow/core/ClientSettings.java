@@ -31,7 +31,6 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 import java.util.UUID;
 
-import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
 
 /**
@@ -43,12 +42,14 @@ import org.datacrow.core.utilities.CoreUtilities;
  */
 public class ClientSettings {
     
-    private static final String _USERDIR = "user.home";
-    private static final String _CLIENTID = "user.clientid";
+	private static final String _USERDIR = "user.home";
+	private static final String _CLIENTID = "user.clientid";
     private static final String _SERVER_ADDRESS = "server.address";
     private static final String _SERVER_PORT = "server.port";
     private static final String _IMAGE_SERVER_ADDRESS = "imageserver.address";
     private static final String _IMAGE_SERVER_PORT = "imageserver.port";
+    
+    public static final String _CLIENT_UI_SCALING = "ui_scaling";
 
     private final File file = new File(System.getProperty("user.home"), "datacrow.properties");
     private final Properties properties = new Properties();
@@ -94,6 +95,11 @@ public class ClientSettings {
         }  
     }
     
+    public long getUIScaling() {
+    	Object o = properties.get(_CLIENT_UI_SCALING);
+    	return CoreUtilities.isEmpty(o) ? 100 : Long.valueOf(o.toString());
+    }
+    
     public int getServerPort() {
     	Object o = properties.get(_SERVER_PORT);
     	return CoreUtilities.isEmpty(o) ? 9000 : Integer.valueOf(o.toString());
@@ -126,10 +132,8 @@ public class ClientSettings {
     	properties.setProperty(_IMAGE_SERVER_PORT, String.valueOf(imageServerPort));
     }    
     
-    public void setUiScaling() {
-        properties.setProperty(
-        		DcRepository.Settings.stUIScaling, 
-        		String.valueOf(DcSettings.getLong(DcRepository.Settings.stUIScaling)));
+    public void setUiScaling(Long value) {
+    	properties.setProperty(_CLIENT_UI_SCALING, value.toString());
     }
     
     /**

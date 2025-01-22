@@ -197,9 +197,8 @@ public class DirectConnector extends LocalServerConnector {
 
     @Override
     public void shutdown(boolean checkForChanges) {
-        DcConfig dcc = DcConfig.getInstance();
-        dcc.getClientSettings().setUiScaling();
-        dcc.getClientSettings().save();
+    	DcConfig dcc = DcConfig.getInstance();
+    	dcc.getClientSettings().save();
 
         DriveManager.getInstance().stopScanners();
         DriveManager.getInstance().stopDrivePoller();

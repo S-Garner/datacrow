@@ -67,6 +67,7 @@ import org.datacrow.client.synchronizers.MusicAlbumSynchronizer;
 import org.datacrow.client.synchronizers.SoftwareSynchronizer;
 import org.datacrow.client.tabs.Tabs;
 import org.datacrow.client.util.Utilities;
+import org.datacrow.core.ClientSettings;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.DcStarter;
@@ -105,8 +106,6 @@ public class DataCrow implements IStarterClient {
 
     private static String[] args;
     
-    private static String scaling;
-
     public static void main(String[] args) {
     	
         DataCrow.args = args;
@@ -251,10 +250,6 @@ public class DataCrow implements IStarterClient {
         starter = new DcStarter(dc);
 
         if (starter.initialize()) {
-            
-        	if (scaling != null)
-        		DcSettings.set(DcRepository.Settings.stUIScaling, Long.valueOf(scaling));
-        	
             GUI.getInstance().showSplashScreen();
             
             dc.initializeConnector(serverAddress, applicationServerPort, imageServerAddress, imageServerPort, username, password);
@@ -263,31 +258,26 @@ public class DataCrow implements IStarterClient {
     }
     
     private static void applySystemProperties() {
-    	
     	// set UI scaling
-    	
         try {
         	File file = new File(System.getProperty("user.home"), "datacrow.properties");
         	Properties p = new Properties();
-        	
-        	
         	FileInputStream fis = new FileInputStream(file);
-        	
         	p.load(fis);
-        	String value = (String) p.get(DcRepository.Settings.stUIScaling);
+
+        	String value = (String) p.get(ClientSettings._CLIENT_UI_SCALING);
         	
         	if (value != null && value.length() > 0) {
         		
-        		scaling = value;
-        		
-	        	if (value.length() == 3) {
+	        	if (value.length() == 3)
 	        		value = value.substring(0, 1) + "." + value.substring(1, 3);
-	        	} else {
+	        	else
 	        		value = "0." + value;
-	        	}
 	        	
-	        	if (!value.equals("1.00"))
+	        	if (!value.equals("1.00")) {
+	        		System.setProperty("sun.java2d.uiScale.enabled", "true");
 	        		System.setProperty("sun.java2d.uiScale", value);
+	        	}
         	}
         	
         	fis.close();

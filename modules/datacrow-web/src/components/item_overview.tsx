@@ -5,12 +5,16 @@ import { useEffect, useState } from 'react';
 import PagesDropdown from './pages_dropdown';
 import Pagination from './pagination';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from '../context/translation_context';
 
 export function ItemOverview() {
 
 	const currentModule = useModule();
 	const navigate = useNavigate();
 	const [items, setItems] = useState<Item[]>([]);
+
+    const { setLanguage, t, language } = useTranslation();
+
 
     useEffect(() => {
         currentModule.selectedModule && fetchItems(currentModule.selectedModule.index).
@@ -82,6 +86,8 @@ export function ItemOverview() {
 				{currentItems!.map((item) => (
 					<Card style={{ width: '18rem' }} key={"card" + item.id} onClick={() =>  openItem(item.id)}>
 						<Card.Body>
+						     {t('lblHelp')}
+						
 						    {item.imageUrl ? <Card.Img src={item.scaledImageUrl} /> : <div style={{ height: '300px' }} />}
 						</Card.Body>
 						<Card.Header style={{ height: '112px' }}>

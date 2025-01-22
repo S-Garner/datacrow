@@ -42,6 +42,7 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.windows.DcDialog;
+import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
@@ -146,7 +147,7 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
         cbTreeNodeHeight.setSelectedItem(Long.valueOf(DcSettings.getInt(DcRepository.Settings.stTreeNodeHeight)));
         cbTableRowHeight.setSelectedItem(Long.valueOf(DcSettings.getInt(DcRepository.Settings.stTableRowHeight)));
         cbIconSize.setValue(DcSettings.getLong(DcRepository.Settings.stIconSize));
-        cbUIScale.setValue(DcSettings.getLong(DcRepository.Settings.stUIScaling));
+        cbUIScale.setValue(DcConfig.getInstance().getClientSettings().getUIScaling());
         
         applyModus = true;
     }
@@ -353,11 +354,12 @@ public class DcLookAndFeelSelector extends JComponent implements IComponent, Act
             if (value != null) DcSettings.set(DcRepository.Settings.stTableRowHeight, value);
         } else if (ae.getActionCommand().equals("applyScale")) {            
             Long value = (Long) cbUIScale.getValue();
-            if (value != null && !value.equals(DcSettings.getLong(DcRepository.Settings.stUIScaling))) {
-            	DcSettings.set(DcRepository.Settings.stUIScaling, value);
+            if (value != null && !value.equals(DcConfig.getInstance().getClientSettings().getUIScaling())) {
+            	DcConfig dcc = DcConfig.getInstance();
+	            dcc.getClientSettings().setUiScaling(value);
+	            dcc.getClientSettings().save();
             	
-            	if (applyModus)
-            		restartRequired = true;
+            	if (applyModus) restartRequired = true;
             }
         } else if (ae.getActionCommand().equals("applyIconSize")) {
             Long value = (Long) cbIconSize.getValue();
