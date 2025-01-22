@@ -1,4 +1,5 @@
 import axios from 'axios';
+import type { Translation } from 'src/context/translation_context';
 
 const baseUrl = 'http://192.168.178.244:8080/datacrow/api/';
 
@@ -87,6 +88,15 @@ export async function login(username: string, password: string): Promise<User | 
     } else {
         return null;
     }
+}
+
+export async function fetchResources(lang: string | undefined): Promise<Translation[]> {
+    
+    if (lang === undefined)
+        lang = "English";
+    
+    const response = await instance.get(baseUrl + 'resources/' + lang);
+    return response.data;
 }
 
 export async function fetchPictures(itemID: string): Promise<Picture[]> {

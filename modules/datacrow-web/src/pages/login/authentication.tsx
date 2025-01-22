@@ -1,9 +1,10 @@
 import { Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authentication_context';
-import type { User } from '../../services/datacrow_api';
+import { fetchResources, type User } from '../../services/datacrow_api';
 import { MessageBox, MessageBoxType } from '../../components/message_box';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useTranslation, type Translation } from '../../context/translation_context';
 
 export function LoginPage() {
     
@@ -11,6 +12,23 @@ export function LoginPage() {
     
 	let navigate = useNavigate();
 	let auth = useAuth();
+	
+	const { setTranslations, t, language } = useTranslation();
+
+    useEffect(() => {
+        fetchResources(language).then((data) => setTranslationData(data)).catch(error => 
+        {
+            console.log(error);
+            if (error.status === 401) {
+                navigate("/login");    
+            }
+        });
+    }, []);
+
+    function setTranslationData(translation : Translation[]) {
+        console.log(translation);
+        setTranslations(translation);
+    }
 	
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();

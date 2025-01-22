@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, type JSX, useState, useMemo } from 'react';
+import { createContext, useCallback, useContext, type JSX, useState, useMemo } from 'react';
 
 export const languages = {
     dutch: 'Dutch',
@@ -22,9 +22,9 @@ export type Language = (typeof languages)[keyof typeof languages];
 
 // Define the type for your context value
 export type TranslationContextValue = {
-    translations: Translation | undefined;
+    translations: Translation[] | undefined;
     setTranslations: React.Dispatch<
-        React.SetStateAction<Translation | undefined>
+        React.SetStateAction<Translation[] | undefined>
     >;
     language: Language;
     setLanguage: React.Dispatch<React.SetStateAction<Language>>;
@@ -40,7 +40,19 @@ export function TranslationProvider({
 }: TranslationProviderProps): JSX.Element {
     
     const [language, setLanguage] = useState<Language>(languages.english);
-    const [translations, setTranslations] = useState<Translation | undefined>();
+    
+    const [translations, setTranslations] = useState<Translation[] | undefined>();
+
+    /*useEffect(() => {
+        const prepareTranslation = async () => {
+            setTranslations(undefined);
+            console.log("transalations loaded");
+        };
+
+        prepareTranslation();
+
+    }, [language]); */
+
 
     const value: TranslationContextValue = useMemo(
         () => ({
@@ -65,41 +77,28 @@ export function useTranslation(
     t: TFunction;
     setLanguage: React.Dispatch<React.SetStateAction<Language>>;
     language: Language;
+    setTranslations: React.Dispatch<React.SetStateAction<Translation[] | undefined>>;
 } {
     const context = useContext(TranslationContext);
 
-    if (!context) {
+    if (!context)
         throw new Error('useTranslation must be used within a TranslationProvider');
-    }
 
     const { translations, language, setLanguage, setTranslations } = context;
 
-    useEffect(() => {
-        const prepareTranslation = async () => {
-/*            if (language === languages.tr) {
-                setTranslations(tr);
-            }
-
-            if (language === languages.en) {
-                setTranslations(en);
-            } */
-        };
-
-        prepareTranslation();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [language]);
-
     const t = useCallback<TFunction>(
-        (key, param?: string): string | undefined => {
+        (key): string => {
+
+            console.log(key);
 
             if (!translations) {
                 return String("missing!");
             }
 
-            return String("");
+            return "something!";
         },
         [translations]
     );
 
-    return { t, setLanguage, language };
+    return { t, setLanguage, language, setTranslations };
 }

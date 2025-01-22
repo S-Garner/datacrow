@@ -11,10 +11,9 @@ export function ItemOverview() {
 
 	const currentModule = useModule();
 	const navigate = useNavigate();
+	const {t} = useTranslation();
+	
 	const [items, setItems] = useState<Item[]>([]);
-
-    const { setLanguage, t, language } = useTranslation();
-
 
     useEffect(() => {
         currentModule.selectedModule && fetchItems(currentModule.selectedModule.index).
@@ -86,7 +85,7 @@ export function ItemOverview() {
 				{currentItems!.map((item) => (
 					<Card style={{ width: '18rem' }} key={"card" + item.id} onClick={() =>  openItem(item.id)}>
 						<Card.Body>
-						     {t('lblHelp')}
+						    {t("lblXmlExport")}
 						
 						    {item.imageUrl ? <Card.Img src={item.scaledImageUrl} /> : <div style={{ height: '300px' }} />}
 						</Card.Body>
