@@ -1,14 +1,18 @@
 .react-select-container {
-  .react-select__control {
-    background-color: var(--bg-secondary);
-    transition: none;
+    .react-select__control {
+        background-color: var(--bg-secondary);
+    }
 
-  }
+    .react-select__menu {
+        background-color: var(--bs-secondary-bg);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+    }
 
-  .react-select__placeholder,
-  .react-select__single-value {
-    color: var(--text-primary);
-  }
+    .react-select__placeholder,
+    .react-select__single-value {
+        color: var(--text-primary);
+    }
 }
 
 /*
