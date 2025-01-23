@@ -70,8 +70,8 @@ export default function DcTagField({
             render={renderProps => {
                 return (
                     <CreatableSelect
-                        className="basic-single"
-                        classNamePrefix="select"
+                        className="react-select-container"
+                        classNamePrefix="react-select"
                         key={"inputfield-" + field.index}
                         options={options}
                         defaultValue={currentValue}

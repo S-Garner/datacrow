@@ -69,8 +69,8 @@ export default function DcMultiReferenceField({
             render={renderProps => {
                 return (
                     <Select
-                        className="basic-single"
-                        classNamePrefix="select"
+                        className="react-select-container"
+                        classNamePrefix="react-select"
                         key={"inputfield-" + field.index}
                         options={options}
                         defaultValue={currentValue}
