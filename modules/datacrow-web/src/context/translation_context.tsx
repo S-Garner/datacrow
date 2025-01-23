@@ -76,9 +76,8 @@ export function useTranslation(
 
             console.log(key);
 
-            if (!translations) {
-                return String("missing!");
-            }
+            if (!translations)
+                return key;
 
             return String(translations.get(key));
         },

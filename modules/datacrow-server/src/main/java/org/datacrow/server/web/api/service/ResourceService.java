@@ -3,8 +3,12 @@ package org.datacrow.server.web.api.service;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.datacrow.core.modules.DcModule;
+import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcField;
 import org.datacrow.core.resources.DcLanguageResource;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.utilities.CoreUtilities;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -21,19 +25,44 @@ public class ResourceService extends DataCrowApiService {
     public Map<String, String> getResources(@PathParam("lang") String lang) {
 		DcLanguageResource resources = DcResources.getLanguageResource(lang);
 		
-		
 		if (resources != null) {
 			Map<String, String> currentResources = resources.getResourcesMap();
 			
 			Map<String, String> filteredResources = currentResources.entrySet()
 			            .stream()
-			            .filter(entry -> entry.getKey().startsWith("lbl") || entry.getKey().startsWith("msg"))
+			            .filter(entry -> entry.getKey().startsWith("lbl") || entry.getKey().startsWith("msg") || entry.getKey().startsWith("sys"))
 			            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 			
+			// add system resources where needed
+			for (DcModule module : DcModules.getAllModules()) {
+				
+				if (module.isTopModule() || 
+                    module.isChildModule() || 
+                    module.getType() == DcModule._TYPE_PROPERTY_MODULE || 
+                    module.isAbstract()) {
+                    
+					if (!CoreUtilities.isEmpty(module.getLabel()) && CoreUtilities.isEmpty(resources.get( module.getModuleResourceKey())))
+                    	filteredResources.put(module.getModuleResourceKey(), module.getLabel());
+
+                    if (!CoreUtilities.isEmpty(module.getObjectName()) && CoreUtilities.isEmpty(resources.get(module.getItemResourceKey())))
+                    	filteredResources.put(module.getItemResourceKey(), module.getObjectName());
+
+                    if (!CoreUtilities.isEmpty(module.getObjectNamePlural()) && CoreUtilities.isEmpty(resources.get(module.getItemPluralResourceKey())))
+                    	filteredResources.put(module.getItemPluralResourceKey(), module.getObjectNamePlural());
+
+                    for (DcField field : module.getFields()) {
+                        if (!CoreUtilities.isEmpty(field.getLabel()) && CoreUtilities.isEmpty(resources.get(field.getResourceKey())))
+                        	filteredResources.put(field.getResourceKey(), field.getLabel());
+                    }
+				}
+			}
+		
 			return filteredResources;
 			
 		} else {
+			
 			return null;
+			
 		}
     }
 }

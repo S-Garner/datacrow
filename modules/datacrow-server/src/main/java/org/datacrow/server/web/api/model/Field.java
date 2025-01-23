@@ -40,15 +40,13 @@ public class Field {
     private final boolean readOnly;
     @JsonProperty("required")
     private final boolean required;
-
-    
     
 	public Field(DcField src) {
 		index = src.getIndex();
 		moduleIdx = src.getModule();
 		referencedModuleIdx = src.getReferenceIdx();
 		maximumLength = src.getMaximumLength();
-		label = src.getLabel();
+		label = src.getResourceKey();
 		readOnly = src.isReadOnly();
 		required  = src.isRequired();
 		setType(src);

@@ -1,6 +1,7 @@
 import { Form } from "react-bootstrap";
 import type { InputFieldProps } from "./dc_input_field";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "../../context/translation_context";
 
 export function DcNumberField({
     field,
@@ -8,6 +9,7 @@ export function DcNumberField({
 }: InputFieldProps) {
     
     const { register } = useFormContext();
+    const { t } = useTranslation();
     
 	return (
 		<Form.Control
@@ -25,7 +27,7 @@ export function DcNumberField({
 				}
 			}}
 			defaultValue={(value as string)}
-			placeholder={field.label}
+			placeholder={t(field.label)}
 			aria-label={field.label}
 			readOnly={field.readOnly}
 			required={field.required}

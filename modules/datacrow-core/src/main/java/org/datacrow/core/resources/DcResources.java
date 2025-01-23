@@ -42,8 +42,7 @@ import org.datacrow.core.utilities.CoreUtilities;
 
 /**
  * This class gives access to all labels, messages and tooltips for all languages.
- * The default language is English. Custom languages inherit from the default English 
- * language.  
+ * The default language is English. Custom languages inherit from the default English language.  
  * 
  * @author Robert Jan van der Waals
  */

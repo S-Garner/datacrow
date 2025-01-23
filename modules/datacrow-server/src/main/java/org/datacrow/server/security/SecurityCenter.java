@@ -118,17 +118,21 @@ public class SecurityCenter {
         }
     }
     
-    public boolean isLoggedIn(String token) {
+    public SecuredUser getUser(String token) {
     	SecurityToken st;
     	
     	for (SecuredUser user : users.values()) {
     		st = user.getSecurityToken();
     		
     		if (st.matches(token) && st.isValid())
-    			return true;
+    			return user;
     	}
     	
-        return false;
+    	return null;
+    }
+    
+    public boolean isLoggedIn(String token) {
+        return getUser(token) != null;
     }
     
     public boolean isLoggedIn(SecuredUser su) {

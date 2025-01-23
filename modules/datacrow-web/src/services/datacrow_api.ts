@@ -96,7 +96,14 @@ export async function fetchResources(lang: string | undefined): Promise<Translat
         lang = "English";
     
     const response = await instance.get(baseUrl + 'resources/' + lang);
-    return response.data;
+
+    // contruct a valid Map for easy object    
+    let resources = new Map<string, string>();
+    Object.keys(response.data).map((res) => {
+        resources.set(res, response.data[res]);
+    });
+    
+    return resources;
 }
 
 export async function fetchPictures(itemID: string): Promise<Picture[]> {

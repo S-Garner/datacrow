@@ -10,6 +10,7 @@ import { DcDecimalField } from "./dc_decimal_field";
 import DcMultiReferenceField from "./dc_multi_reference_field";
 import DcTagField from "./dc_tag_field";
 import DcRatingField from "./dc_rating_field";
+import { useTranslation } from "../../context/translation_context";
 
 export interface InputFieldProps {
     field: Field,
@@ -40,6 +41,8 @@ export default function InputField({
     references
 }: InputFieldProps) {
 
+    const {t} = useTranslation();
+
     return (
         !field.readOnly &&
         
@@ -51,7 +54,7 @@ export default function InputField({
                         className="text-secondary"
                         key={"label-" + field.index}
                         htmlFor={"field-" + field.index}>
-                        {field.label}
+                        {t(field.label)}
                     </Form.Label>
                 </Row>
                 )}
