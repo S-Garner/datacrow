@@ -74,8 +74,6 @@ export function useTranslation(
     const t = useCallback<TFunction>(
         (key): string => {
 
-            console.log(key);
-
             if (!translations)
                 return key;
 

@@ -16,7 +16,7 @@ export function LoginPage() {
 	const { setTranslations, t, language } = useTranslation();
 
     useEffect(() => {
-        fetchResources(language).then((data) => setTranslationData(data)).catch(error => 
+        fetchResources(language).then((data) => setTranslations(data)).catch(error => 
         {
             console.log(error);
             if (error.status === 401) {
@@ -25,11 +25,6 @@ export function LoginPage() {
         });
     }, []);
 
-    function setTranslationData(translation : Translation) {
-        console.log(translation);
-        setTranslations(translation);
-    }
-	
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 

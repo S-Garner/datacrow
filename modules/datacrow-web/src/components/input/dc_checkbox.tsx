@@ -1,6 +1,7 @@
 import { Form, InputGroup } from "react-bootstrap";
 import type { InputFieldProps } from "./dc_input_field";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "../../context/translation_context";
 
 export default function DcCheckBox({
     field,
@@ -8,6 +9,7 @@ export default function DcCheckBox({
 }: InputFieldProps) {
     
     const { register } = useFormContext();
+    const { t } = useTranslation();
     
 	return (
 		<InputGroup className="mb-3">
@@ -15,9 +17,9 @@ export default function DcCheckBox({
 				id={"inputfield-" + field.index}
 				key={"inputfield-" + field.index}
 				defaultChecked={(value as boolean)}
-				placeholder={field.label}
-				aria-label={field.label}
-				label={field.label}
+				placeholder={t(field.label)}
+				aria-label={t(field.label)}
+				label={t(field.label)}
 				readOnly={field.readOnly}
 				required={field.required}
                 {...register("inputfield-" + field.index)} />

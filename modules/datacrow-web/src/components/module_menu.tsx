@@ -3,12 +3,14 @@ import { fetchModules, type Module } from '../services/datacrow_api';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useModule } from '../context/module_context';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from "../context/translation_context";
 
 function ModuleMenu({ children }: { children: JSX.Element }) {
 
 	const [modules, setModules] = useState<Module[]>([]);
 	const [mainModule, setMainModule] = useState<Module>();
 	const [selectedModule, setSelectedModule] = useState<Module>();
+	const { t } = useTranslation();
 	
 	let currentModule = useModule();
 	let navigate = useNavigate();
@@ -56,7 +58,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 			<Dropdown as={ButtonGroup}>
 				<Button onClick={() => mainModule && switchModule(mainModule)} key="button-selected-module">
 					<img src={"data:image/png;base64, " + mainModule?.icon} />
-					&nbsp;{mainModule?.name}
+					&nbsp;{mainModule && t(mainModule.name)}
 				</Button>
 
 				<Dropdown.Toggle split id="module-select-dropdown" />
@@ -65,7 +67,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 					{modules.map((module) => (
 						<Dropdown.Item onClick={() => switchMainModule(module)} key={"moduleMenu" + module.index}>
 							<img src={"data:image/png;base64, " + module.icon} />
-							&nbsp;{module.name}
+							&nbsp;{t(module.name)}
 						</Dropdown.Item>
 					))}
 				</Dropdown.Menu>
@@ -84,7 +86,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 
 						<img src={"data:image/png;base64, " + child.icon} />
 						&nbsp;
-						{child.name}
+						{t(child.name)}
 					</Button>
 				))}
 			</div>

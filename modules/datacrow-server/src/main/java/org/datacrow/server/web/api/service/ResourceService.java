@@ -42,17 +42,30 @@ public class ResourceService extends DataCrowApiService {
                     module.isAbstract()) {
                     
 					if (!CoreUtilities.isEmpty(module.getLabel()) && CoreUtilities.isEmpty(resources.get( module.getModuleResourceKey())))
-                    	filteredResources.put(module.getModuleResourceKey(), module.getLabel());
+                    	filteredResources.put(module.getModuleResourceKey(), module.getSystemLabel());
 
                     if (!CoreUtilities.isEmpty(module.getObjectName()) && CoreUtilities.isEmpty(resources.get(module.getItemResourceKey())))
-                    	filteredResources.put(module.getItemResourceKey(), module.getObjectName());
+                    	filteredResources.put(module.getItemResourceKey(), module.getSystemObjectName());
 
                     if (!CoreUtilities.isEmpty(module.getObjectNamePlural()) && CoreUtilities.isEmpty(resources.get(module.getItemPluralResourceKey())))
-                    	filteredResources.put(module.getItemPluralResourceKey(), module.getObjectNamePlural());
+                    	filteredResources.put(module.getItemPluralResourceKey(), module.getSystemObjectNamePlural());
 
                     for (DcField field : module.getFields()) {
-                        if (!CoreUtilities.isEmpty(field.getLabel()) && CoreUtilities.isEmpty(resources.get(field.getResourceKey())))
-                        	filteredResources.put(field.getResourceKey(), field.getLabel());
+                    	
+                    	String label = "";
+                    	
+                    	if (!CoreUtilities.isEmpty(field.getDefinition().getLabel())) {
+                    		// protect user overwritten values from the global configuration
+                    		label = field.getDefinition().getLabel();
+                    	} else if (!CoreUtilities.isEmpty(field.getLabel()) && CoreUtilities.isEmpty(resources.get(field.getResourceKey()))) {
+                    		label = field.getOriginalLabel();
+                        }
+                    	
+                    	// catch all - just in case
+                    	if (label.startsWith("sys") || CoreUtilities.isEmpty(label))
+                    		label = field.getLabel();
+                    	
+                    	filteredResources.put(field.getResourceKey(), label);
                     }
 				}
 			}

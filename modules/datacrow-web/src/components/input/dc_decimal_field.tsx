@@ -1,6 +1,7 @@
 import { Form } from "react-bootstrap";
 import type { InputFieldProps } from "./dc_input_field";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "../../context/translation_context";
 
 export function DcDecimalField({
     field,
@@ -8,6 +9,7 @@ export function DcDecimalField({
 }: InputFieldProps) {
 	
 	const { register } = useFormContext();
+	const { t } = useTranslation();
 	
 	return (
 		<Form.Control
@@ -30,8 +32,8 @@ export function DcDecimalField({
 				}
 			}} */
 			defaultValue={(value as string)}
-			placeholder={field.label}
-			aria-label={field.label}
+			placeholder={t(field.label)}
+			aria-label={t(field.label)}
 			readOnly={field.readOnly}
 			required={field.required}
 			{...register("inputfield-" + field.index)} />

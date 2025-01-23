@@ -1348,6 +1348,10 @@ public class DcModule implements Comparable<DcModule>, Serializable {
         this.xmlModule = xmlModule;
     }    
     
+    public String getSystemLabel() {
+    	return label;
+    }
+    
     public String getLabel() {
         if (DcResources.getText(moduleResourceKey) != null)
             return DcResources.getText(moduleResourceKey);

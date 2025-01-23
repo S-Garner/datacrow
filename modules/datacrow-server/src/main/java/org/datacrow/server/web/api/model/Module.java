@@ -47,7 +47,7 @@ public class Module {
 			    child.getIndex() != DcModules._TAG &&
 				child.getIndex() != DcModules._CONTAINER) {
 
-				childModule = new Module(child.getIndex(), child.getLabel(), child.getIcon32(), false);
+				childModule = new Module(child.getIndex(), child.getModuleResourceKey(), child.getIcon32(), false);
 				children.add(childModule);
 			}
 		}
