@@ -4,7 +4,7 @@ import { useAuth } from '../../context/authentication_context';
 import { fetchResources, type User } from '../../services/datacrow_api';
 import { MessageBox, MessageBoxType } from '../../components/message_box';
 import { useEffect, useState } from 'react';
-import { useTranslation, type Translation } from '../../context/translation_context';
+import { useTranslation } from '../../context/translation_context';
 
 export function LoginPage() {
     
@@ -38,6 +38,19 @@ export function LoginPage() {
             setSuccess(false);
         }, 1000);
 	}
+	
+	/**
+     * Purely used to make sure we can display labels when the resources have not yet been retrieved, 
+     * or if there was an error in retrieving the resources.
+     */
+	function translateOrDefault(tag : string, fallback : string) {
+        let s = t(tag);
+        
+        if (s === tag || s === "undefined")
+            s = fallback;
+        
+        return String(s);
+    }
 
     function callback(user : User | null) {
         if (user) {
@@ -55,21 +68,21 @@ export function LoginPage() {
 		<div style={{position:"absolute", top:"50%", left:"50%", marginTop: "-50px", marginLeft: "-200px", width: "400px", height: "100px"}}>
 		    
 		    { !success && <MessageBox
-                    header="Login failed"
-                    message="Invalid credentials were provided. Please enter the correct username and password" 
+                    header={translateOrDefault("msgLoginFailed", "Login Failed")}
+                    message={translateOrDefault("msgLoginFailedDetails", "Invalid credentials were provided. Please enter the correct username and password.")}
                     type={MessageBoxType.warning} /> }
 		
 			<form onSubmit={handleSubmit}>
 				<div className="row mb-2">
-					<input name="username" type="text" placeholder="Username" className="form-control" id="input-username" required={true} />
+					<input name="username" type="text" placeholder={translateOrDefault("lblUsername", "Username")} className="form-control" id="input-username" required={true} />
 				</div>
 
 				<div className="row mb-2">
-					<input name="password" type="Password" placeholder="Password" className="form-control" id="input-password" required={true} />
+					<input name="password" type="Password" placeholder={translateOrDefault("lblPassword", "Password")} className="form-control" id="input-password" required={true} />
 				</div>
 
 				<div className="row mb-2">
-					<Button type="submit">Login</Button>
+					<Button type="submit">{translateOrDefault("lblLogin", "Login")}</Button>
 				</div>
 			</form>
 		</div>

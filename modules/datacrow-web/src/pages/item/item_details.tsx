@@ -5,6 +5,7 @@ import { RequireAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
 import { Button, Tab, Tabs } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
+import { useTranslation } from "../../context/translation_context";
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
 import PictureEditList from "../../components/pictures_edit_list";
@@ -19,6 +20,7 @@ export function ItemPage() {
     const navigate = useNavigate();
     const { state } = useLocation();
     const methods = useForm();
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (!state) {
@@ -72,7 +74,7 @@ export function ItemPage() {
                     onSelect={(k) => k && setSelectedTab(k)}
                     className="mb-3">
 
-                    <Tab eventKey="details" title="Details">
+                    <Tab eventKey="details" title={t("lblDetails")}>
                         <FormProvider {...methods}>
                             <Form key="form-item-detail" noValidate validated={validated} onSubmit={methods.handleSubmit(onSubmit)}>
                                 {references && item?.fields.map((fieldValue) => (
@@ -82,13 +84,20 @@ export function ItemPage() {
                                         references={ReferencesForField(fieldValue.field)}
                                     />
                                 ))}
-                                <Button type="submit" key="item-details-submit-button">Save</Button>
+                                <Button type="submit" key="item-details-submit-button">
+                                    {t("lblSave")}
+                                </Button>
                             </Form>
                         </FormProvider>
                     </Tab>
     
-                    <Tab eventKey="images" title="Pictures">
+                    <Tab eventKey="images" title={t("lblPictures")}>
                         <PictureEditList itemID={state.itemID} />
+                    </Tab>
+                    
+                    <Tab eventKey="attachments" title={t("lblAttachments")}>
+                        <div>
+                        </div>
                     </Tab>
 
                 </Tabs>

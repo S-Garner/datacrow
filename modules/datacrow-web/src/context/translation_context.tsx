@@ -36,7 +36,7 @@ export function TranslationProvider({
     children,
 }: TranslationProviderProps): JSX.Element {
     
-    const [language, setLanguage] = useState<Language>(languages.english);
+    const [language, setLanguage] = useState<Language>(languages.dutch);
     const [translations, setTranslations] = useState<Translation | undefined>();
 
     const value: TranslationContextValue = useMemo(

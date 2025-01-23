@@ -12,6 +12,7 @@ export function ItemOverview() {
 	const currentModule = useModule();
 	const navigate = useNavigate();
 	const [items, setItems] = useState<Item[]>([]);
+	const { t } = useTranslation();
 
     useEffect(() => {
         currentModule.selectedModule && fetchItems(currentModule.selectedModule.index).
@@ -60,13 +61,13 @@ export function ItemOverview() {
 			<form onSubmit={handleSubmit} style={{width: "20em"}}>
 				<InputGroup className="mb-3">
 					<input type="text" name="searchFor" className="form-control" />
-					<Button className="search-button" type="submit">search</Button>
+					<Button className="search-button" type="submit">{t("lblSearch")?.toLowerCase()}</Button>
 				</InputGroup>
 			</form>
 			
 			<div style={{ right: "0px" }}>
 				{currentModule && <PagesDropdown
-					title={`Items per page: ${itemsPerPage}`}
+					title={t("lblItemsPerPage")  + ` ${itemsPerPage}`}
 					options={itemsPerPageOptions}
 					handleSelectOption={(option: string) => setItemsPerPage(+option)}
 				/>}
