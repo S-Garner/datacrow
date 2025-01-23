@@ -9,10 +9,7 @@ export const TranslationContext = createContext<
     TranslationContextValue | undefined
 >(undefined);
 
-export type Translation = {
-    key: string,
-    value: string
-}
+export type Translation = Map<String, String>
 
 export type TFunction = (
     params: string
@@ -22,9 +19,9 @@ export type Language = (typeof languages)[keyof typeof languages];
 
 // Define the type for your context value
 export type TranslationContextValue = {
-    translations: Translation[] | undefined;
+    translations: Translation | undefined;
     setTranslations: React.Dispatch<
-        React.SetStateAction<Translation[] | undefined>
+        React.SetStateAction<Translation | undefined>
     >;
     language: Language;
     setLanguage: React.Dispatch<React.SetStateAction<Language>>;
@@ -40,26 +37,14 @@ export function TranslationProvider({
 }: TranslationProviderProps): JSX.Element {
     
     const [language, setLanguage] = useState<Language>(languages.english);
-    
-    const [translations, setTranslations] = useState<Translation[] | undefined>();
-
-    /*useEffect(() => {
-        const prepareTranslation = async () => {
-            setTranslations(undefined);
-            console.log("transalations loaded");
-        };
-
-        prepareTranslation();
-
-    }, [language]); */
-
+    const [translations, setTranslations] = useState<Translation | undefined>();
 
     const value: TranslationContextValue = useMemo(
         () => ({
+            translations,
             language,
             setLanguage,
             setTranslations,
-            translations,
         }),
         [language, translations]
     );
@@ -77,7 +62,7 @@ export function useTranslation(
     t: TFunction;
     setLanguage: React.Dispatch<React.SetStateAction<Language>>;
     language: Language;
-    setTranslations: React.Dispatch<React.SetStateAction<Translation[] | undefined>>;
+    setTranslations: React.Dispatch<React.SetStateAction<Translation | undefined>>;
 } {
     const context = useContext(TranslationContext);
 
@@ -95,7 +80,7 @@ export function useTranslation(
                 return String("missing!");
             }
 
-            return "something!";
+            return String(translations.get(key));
         },
         [translations]
     );

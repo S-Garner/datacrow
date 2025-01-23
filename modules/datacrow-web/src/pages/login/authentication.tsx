@@ -25,7 +25,7 @@ export function LoginPage() {
         });
     }, []);
 
-    function setTranslationData(translation : Translation[]) {
+    function setTranslationData(translation : Translation) {
         console.log(translation);
         setTranslations(translation);
     }

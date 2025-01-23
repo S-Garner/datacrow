@@ -90,7 +90,7 @@ export async function login(username: string, password: string): Promise<User | 
     }
 }
 
-export async function fetchResources(lang: string | undefined): Promise<Translation[]> {
+export async function fetchResources(lang: string | undefined): Promise<Translation> {
     
     if (lang === undefined)
         lang = "English";
