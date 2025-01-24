@@ -4,7 +4,7 @@ import { useAuth } from '../../context/authentication_context';
 import { fetchResources, type User } from '../../services/datacrow_api';
 import { MessageBox, MessageBoxType } from '../../components/message_box';
 import { useEffect, useState } from 'react';
-import { languages, useTranslation } from '../../context/translation_context';
+import { languages, useTranslation, type Language } from '../../context/translation_context';
 
 export function LoginPage() {
     
@@ -13,16 +13,43 @@ export function LoginPage() {
 	let navigate = useNavigate();
 	let auth = useAuth();
 	
-	const { setTranslations, t, language } = useTranslation();
-    const [selectedLanguage, setSelectedLanguge] = useState(language);
+	const { setTranslations, t, language, setLanguage } = useTranslation();
+    const [ selectedLanguage, setSelectedLanguge ] = useState(language);
+    
+    let uiLanguages: { key: string, label: string, language: Language}[] = [
+        {key: "English", label: "English", language: languages.english},
+        {key: "German", label: "Deutsch", language: languages.german},
+        {key: "French", label: "Francais", language: languages.french},
+        {key: "Italian", label: "Italiano", language: languages.italien},
+        {key: "Dutch", label: "Nederlands", language: languages.dutch},
+        {key: "Polski", label: "Polski", language: languages.polski},
+        {key: "Portuguese", label: "Português", language: languages.portuguese},
+        {key: "Spanish", label: "Español", language: languages.spanish},
+        {key: "Russian", label: "Русский", language: languages.russian}
+    ]
     
     const handleLanguageSelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-        
         if (event.target.value === "Dutch")
             setSelectedLanguge(languages.dutch);
-        
         if (event.target.value === "English")
             setSelectedLanguge(languages.english);
+        if (event.target.value === "French")
+            setSelectedLanguge(languages.french);
+        if (event.target.value === "German")
+            setSelectedLanguge(languages.german);
+        if (event.target.value === "Italian")
+            setSelectedLanguge(languages.italien);            
+        if (event.target.value === "Polski")
+            setSelectedLanguge(languages.polski);
+        if (event.target.value === "Portuguese")
+            setSelectedLanguge(languages.portuguese);
+        if (event.target.value === "Russian")
+            setSelectedLanguge(languages.russian);
+        if (event.target.value === "Spanish")
+            setSelectedLanguge(languages.spanish);
+            
+        localStorage.setItem("language", selectedLanguage);
+        setLanguage(selectedLanguage);
     };
     
     useEffect(() => {
@@ -85,8 +112,15 @@ export function LoginPage() {
             <form onSubmit={handleSubmit}>
                 <div className="row mb-2" >
                     <Form.Select onChange={(event) => handleLanguageSelect(event)} key="language-menu">
-                        <option value="Dutch">Nederlands</option>
                         <option value="English">English</option>
+                        <option value="German">Deutsch</option>
+                        <option value="French">Francais</option>
+                        <option value="Italian">Italiano</option>
+                        <option value="Dutch">Nederlands</option>
+                        <option value="Polski">Polski</option>
+                        <option value="Portuguese">Português</option>
+                        <option value="Spanish">Español</option>
+                        <option value="Russian">Русский</option>
                     </Form.Select>
                 </div>
 			

@@ -1,8 +1,22 @@
+/**
+ * Translation Context:
+ * Responsible for delivering all messages and labels within the application. Theu are based directly on 
+ * the standard Data Crow resources. This context also contains the useTranslation hook and the provider.
+ * The default language is set to English.
+ * 
+ */
 import { createContext, useCallback, useContext, type JSX, useState, useMemo } from 'react';
 
 export const languages = {
     dutch: 'Dutch',
     english: 'English',
+    french: 'French',
+    german: 'German',
+    italien: 'Italian',
+    polski: 'Polski',
+    portuguese: 'Portuguese',
+    russian: 'Russian',
+    spanish: 'Spanish',
 } as const;
 
 export const TranslationContext = createContext<
@@ -36,7 +50,7 @@ export function TranslationProvider({
     children,
 }: TranslationProviderProps): JSX.Element {
     
-    const [language, setLanguage] = useState<Language>(languages.dutch);
+    const [language, setLanguage] = useState<Language>(languages.english);
     const [translations, setTranslations] = useState<Translation | undefined>();
 
     const value: TranslationContextValue = useMemo(

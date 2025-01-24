@@ -51,14 +51,16 @@ public class ResourceService extends DataCrowApiService {
                     	filteredResources.put(module.getItemPluralResourceKey(), module.getSystemObjectNamePlural());
 
                     for (DcField field : module.getFields()) {
-                    	
+
                     	String label = "";
                     	
                     	if (!CoreUtilities.isEmpty(field.getDefinition().getLabel())) {
-                    		// protect user overwritten values from the global configuration
+                    		// protect user overwritten values from the global configuration - they are not language bound
                     		label = field.getDefinition().getLabel();
                     	} else if (!CoreUtilities.isEmpty(field.getLabel()) && CoreUtilities.isEmpty(resources.get(field.getResourceKey()))) {
                     		label = field.getOriginalLabel();
+                        } else if (!CoreUtilities.isEmpty(resources.get(field.getResourceKey()))) {
+                        	label = resources.get(field.getResourceKey());
                         }
                     	
                     	// catch all - just in case
