@@ -22,12 +22,12 @@ export const languages = {
 export const languageArray: { key: string, label: string, language: Language }[] = [
     { key: "English", label: "English", language: languages.english },
     { key: "German", label: "Deutsch", language: languages.german },
+    { key: "Spanish", label: "Español", language: languages.spanish },
     { key: "French", label: "Francais", language: languages.french },
     { key: "Italian", label: "Italiano", language: languages.italien },
     { key: "Dutch", label: "Nederlands", language: languages.dutch },
     { key: "Polski", label: "Polski", language: languages.polski },
     { key: "Portuguese", label: "Português", language: languages.portuguese },
-    { key: "Spanish", label: "Español", language: languages.spanish },
     { key: "Russian", label: "Русский", language: languages.russian }
 ]
 

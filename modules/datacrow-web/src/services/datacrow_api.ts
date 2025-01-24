@@ -126,8 +126,13 @@ export async function fetchItem(moduleIdx: number, itemId: string): Promise<Item
 	return response.data;
 }
 
-export async function fetchItems(moduleIdx: number): Promise<Item[]> {
-	const response = await instance.get(baseUrl + 'items/' + moduleIdx);
+export async function fetchItems(moduleIdx: number, searchTerm: String | undefined): Promise<Item[]> {
+    let url = baseUrl + 'items/' + moduleIdx;
+    
+    if (searchTerm)
+        url += "/" + searchTerm;
+    
+	const response = await instance.get(url);
 	return response.data;
 }
 

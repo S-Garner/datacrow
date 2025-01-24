@@ -16,7 +16,7 @@ export function ItemOverview() {
 	const { t } = useTranslation();
 
     useEffect(() => {
-        currentModule.selectedModule && fetchItems(currentModule.selectedModule.index).
+        currentModule.selectedModule && fetchItems(currentModule.selectedModule.index, currentModule.filter).
             then((data) => setItems(data)).
             catch(error => {
                 console.log(error);
@@ -43,14 +43,20 @@ export function ItemOverview() {
 	if (currentItems.length === 0 && totalItems > 0) {
 		setCurrentPage(1);
 	};
-
+	
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		let formData = new FormData(event.currentTarget);
-		let searchFor = formData.get("searchFor") as string;
-		
-		searchItems(currentModule!.selectedModule.index, searchFor).then((data) => setItems(data));
+        let searchFor = formData.get("searchFor") as string;
+        
+        currentModule.setFilter(searchFor);
+        
+        filterItems(searchFor);
 	}
+	
+	function filterItems(filter: string) {
+        searchItems(currentModule!.selectedModule.index, filter).then((data) => setItems(data));
+    }
 	
 	function openItem(itemID : string) {
 		navigate('/item', { state: { itemID }});
@@ -61,7 +67,7 @@ export function ItemOverview() {
 			
 			<form onSubmit={handleSubmit} style={{width: "20em"}}>
 				<InputGroup className="mb-3">
-					<input type="text" name="searchFor" className="form-control" />
+					<input type="text" name="searchFor" className="form-control" defaultValue={currentModule.filter} />
 					<Button className="search-button" type="submit">{t("lblSearch")?.toLowerCase()}</Button>
 				</InputGroup>
 			</form>

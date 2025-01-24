@@ -89,9 +89,9 @@ export function LoginPage() {
 		
             <form onSubmit={handleSubmit}>
                 <div className="row mb-2" >
-                    <Form.Select onChange={(event) => handleLanguageSelect(event)} key="language-menu">
+                    <Form.Select onChange={(event) => handleLanguageSelect(event)} key="language-menu" defaultValue={language}>
                         {languageArray.map((lang) => (
-                            <option value={lang.key} selected={lang.language === language}>
+                            <option value={lang.key} key={lang.key}>
                                 {lang.label}
                             </option>
                         ))}

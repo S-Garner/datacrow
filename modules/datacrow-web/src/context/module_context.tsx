@@ -5,6 +5,10 @@ export interface ModuleType {
 	selectedModule: Module;
 	mainModule: Module;
 	switchModule: (newSelectedModule: Module, newMainModule: Module) => void;
+	filter: string | undefined;
+	setFilter: React.Dispatch<
+        React.SetStateAction<string | undefined>
+    >;
 }
 
 export const ModuleContext = createContext<ModuleType>(null!);
@@ -16,6 +20,7 @@ export function useModule() {
 export function ModuleProvider({ children }: { children: React.ReactNode }) {
 	let [selectedModule, setSelectedModule] = useState<any>(null);
 	let [mainModule, setMainModule] = useState<any>(null);
+	let [filter, setFilter] = useState<string | undefined>(undefined);
 	
 	let switchModule = (newSelectedModule: Module, newMainModule: Module) => {
 		{	
@@ -24,7 +29,7 @@ export function ModuleProvider({ children }: { children: React.ReactNode }) {
 		}
 	};
 	
-	let value = { selectedModule, mainModule, switchModule};
+	let value = { selectedModule, mainModule, switchModule, filter, setFilter};
 	
 	return <ModuleContext.Provider value={value}>{children}</ModuleContext.Provider>;
 }
