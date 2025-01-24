@@ -1,10 +1,10 @@
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { data, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authentication_context';
 import { fetchResources, type User } from '../../services/datacrow_api';
 import { MessageBox, MessageBoxType } from '../../components/message_box';
 import { useEffect, useState } from 'react';
-import { useTranslation } from '../../context/translation_context';
+import { languages, useTranslation } from '../../context/translation_context';
 
 export function LoginPage() {
     
@@ -14,16 +14,26 @@ export function LoginPage() {
 	let auth = useAuth();
 	
 	const { setTranslations, t, language } = useTranslation();
-
+    const [selectedLanguage, setSelectedLanguge] = useState(language);
+    
+    const handleLanguageSelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+        
+        if (event.target.value === "Dutch")
+            setSelectedLanguge(languages.dutch);
+        
+        if (event.target.value === "English")
+            setSelectedLanguge(languages.english);
+    };
+    
     useEffect(() => {
-        fetchResources(language).then((data) => setTranslations(data)).catch(error => 
+        fetchResources(selectedLanguage).then((data) => setTranslations(data)).catch(error => 
         {
             console.log(error);
             if (error.status === 401) {
                 navigate("/login");    
             }
         });
-    }, []);
+    }, [selectedLanguage]);
 
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -72,7 +82,14 @@ export function LoginPage() {
                     message={translateOrDefault("msgLoginFailedDetails", "Invalid credentials were provided. Please enter the correct username and password.")}
                     type={MessageBoxType.warning} /> }
 		
-			<form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
+                <div className="row mb-2" >
+                    <Form.Select onChange={(event) => handleLanguageSelect(event)} key="language-menu">
+                        <option value="Dutch">Nederlands</option>
+                        <option value="English">English</option>
+                    </Form.Select>
+                </div>
+			
 				<div className="row mb-2">
 					<input name="username" type="text" placeholder={translateOrDefault("lblUsername", "Username")} className="form-control" id="input-username" required={true} />
 				</div>
