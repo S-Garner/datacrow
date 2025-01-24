@@ -78,15 +78,15 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 	function DisplayReferenceModules() {
 		return (
 			<div style={{ display: "flex", flexWrap: "wrap" }} id="referencedModules">
-				{mainModule && mainModule.children.map((child) => (
+				{mainModule && mainModule.references.map((reference) => (
 					<Button
-						onClick={() => switchModule(child)}
-							className={`${child.index === selectedModule?.index ? "sub-module-button-selected" : "sub-module-button"}`}
-						key={"moduleSubMenu" + child.index}>
+						onClick={() => switchModule(reference)}
+							className={`${reference.index === selectedModule?.index ? "sub-module-button-selected" : "sub-module-button"}`}
+						key={"moduleSubMenu" + reference.index}>
 
-						<img src={"data:image/png;base64, " + child.icon} />
+						<img src={"data:image/png;base64, " + reference.icon} />
 						&nbsp;
-						{t(child.name)}
+						{t(reference.name)}
 					</Button>
 				))}
 			</div>

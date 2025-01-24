@@ -33,9 +33,10 @@ export interface Module {
 	index: number;
 	name: string;
 	icon: string;
-	children: Module[];
+	references: Module[];
 	fields: Field[];
 	isTop: boolean;
+	hasChild: boolean;
 }
 
 export interface References {

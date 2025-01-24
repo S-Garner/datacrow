@@ -24,6 +24,7 @@ export function ModuleProvider({ children }: { children: React.ReactNode }) {
 	
 	let switchModule = (newSelectedModule: Module, newMainModule: Module) => {
 		{	
+            setFilter("");
 			setSelectedModule(newSelectedModule);
 		 	setMainModule(newMainModule);
 		}

@@ -31,11 +31,10 @@ public class Item {
 	private final String imageUrl;
 	@JsonProperty("icon")
 	private String icon;
-	
 	@JsonProperty("fields")
 	private final List<FieldValue> fields = new LinkedList<FieldValue>();
 	
-	public Item(DcObject src, int[] fields) {
+	public Item(DcObject src, int[] fields, boolean loadChildren) {
 
 		id = src.getID();
 		name = src.toString();

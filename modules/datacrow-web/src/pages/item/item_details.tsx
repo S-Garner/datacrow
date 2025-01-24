@@ -9,6 +9,7 @@ import { useTranslation } from "../../context/translation_context";
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
 import PictureEditList from "../../components/pictures_edit_list";
+import ChildrenOverview from "../../components/item_overview_children";
 
 export function ItemPage() {
 
@@ -89,6 +90,13 @@ export function ItemPage() {
                                 </Button>
                             </Form>
                         </FormProvider>
+                        
+                        {(item?.id && currentModule.selectedModule.hasChild) && 
+                            (
+                                <ChildrenOverview itemID={String(item.id)} />   
+                            )
+                        }
+                        
                     </Tab>
     
                     <Tab eventKey="images" title={t("lblPictures")}>

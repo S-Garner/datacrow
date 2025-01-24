@@ -21,15 +21,19 @@ public class Module {
 	private final String icon;
 	@JsonProperty("isTop")
 	private final boolean isTop;
-	@JsonProperty("children")
-	private Collection<Module> children = new ArrayList<Module>();
+	@JsonProperty("references")
+	private final Collection<Module> references = new ArrayList<Module>();
 	@JsonProperty("fields")
-	private Collection<Field> fields = new ArrayList<Field>();
-
-	public Module(int index, String name, DcImageIcon icon, boolean top) {
+	private final Collection<Field> fields = new ArrayList<Field>();
+	@JsonProperty("hasChild")
+	private boolean hasChild;
+	
+	public Module(int index, String name, DcImageIcon icon, boolean top, boolean hasChild) {
 		this.index = index;
 		this.name = name;
 		this.isTop = top;
+		this.hasChild = hasChild;
+		
 		this.icon = icon == null ? null : String.valueOf(Base64.encode(icon.getBytes()));
 
 		for (DcField field : DcModules.get(index).getFields())
@@ -47,8 +51,13 @@ public class Module {
 			    child.getIndex() != DcModules._TAG &&
 				child.getIndex() != DcModules._CONTAINER) {
 
-				childModule = new Module(child.getIndex(), child.getModuleResourceKey(), child.getIcon32(), false);
-				children.add(childModule);
+				childModule = new Module(
+						child.getIndex(), 
+						child.getModuleResourceKey(), 
+						child.getIcon32(),
+						false, false);
+				
+				references.add(childModule);
 			}
 		}
 	}
@@ -82,9 +91,9 @@ public class Module {
 		return isTop;
 	}	
 
-	public Module[] getChildren() {
-		Module[] moduleArray = new Module[children.size()];
-		moduleArray = children.toArray(moduleArray);
+	public Module[] getReferences() {
+		Module[] moduleArray = new Module[references.size()];
+		moduleArray = references.toArray(moduleArray);
 		return moduleArray;
 	}
 }

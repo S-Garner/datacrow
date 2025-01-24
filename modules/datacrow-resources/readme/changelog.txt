@@ -34,12 +34,15 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
   msgLoginFailedDetails=Invalid credentials were provided. Please enter the correct username and password.
   lblItemsPerPage = Items per page:
 - Web; options for references - make array of correct size (saves time)
-- Web; use translation
 - Web; saving items
 - Web; viewing of an item
 - Web; attachments
 - Web; add/delete pictures
-
+- Web; security - field permissions
+- Web; child items / children
+- Web; references
+- Web; bread-crump bar
+- Web; run-time field (play length)
 
 --------------------------------------------------------------------
 Data Crow version 5.0  BETA IV                Released on 2024-11-20

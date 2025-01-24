@@ -12,6 +12,7 @@ export default function PagesDropdown({
 	options,
 	handleSelectOption,
 }: DropdownProps) {
+    
 	const [isOpen, setIsOpen] = useState(false);
 
 	const toggleDropdown = () => {

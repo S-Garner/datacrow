@@ -2,6 +2,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import { useState } from "react";
 import React, { type InputHTMLAttributes } from "react";
 import type { Field } from '../../services/datacrow_api';
+import { InputGroup } from "react-bootstrap";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     currentValue: Object;
@@ -11,33 +12,30 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input: React.FC<InputProps> = ({ currentValue, field, ...rest }) => {
 
     const [rating, setRating] = useState<number>(currentValue as number);
-    const { register, setValue } = useFormContext();
+    const { register, setValue, getValues } = useFormContext();
     
-    const StarRating: React.FC = () => {
-        const stars = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    let hrs = 1;
+    let min = 2;
+    let sec = 2;
+    
+    
+    const RuntimeInput: React.FC = () => {
         return (
             <div>
-                {stars.map((star) => (
-                    <span
-                        key={star}
-                        onClick={() => changeRating(star)}
-                        style={{
-                            cursor: 'pointer',
-                            color: star <= rating ? 'gold' : 'gray',
-                            fontSize: '24px',
-                        }}
-                    >
-                        ★
-                    </span>
-                ))}
+                <InputGroup className="mb-3">
+                    <input type="text" name="fld-hours" className="form-control" defaultValue={hrs} 
+                        onChange={e => {runtimeValueChange(e)}} />
+                    <input type="text" name="fld-minutes" className="form-control" defaultValue={min} />
+                    <input type="text" name="fld-seconds" className="form-control" defaultValue={sec} />
+                </InputGroup>
             </div>
         );
     };
 
-    function changeRating(star: number) {
-        setRating(star);
+    function runtimeValueChange(e: React.ChangeEvent<HTMLInputElement>) {
+        
         // update the hidden input field
-        setValue("controller-inputfield-" + field.index, star)
+        setValue("controller-inputfield-" + field.index, "CHANGED");
     }
 
     return (
@@ -49,7 +47,7 @@ const Input: React.FC<InputProps> = ({ currentValue, field, ...rest }) => {
             render={renderProps => {
                 return (
                     <>
-                        <StarRating />
+                        <RuntimeInput />
                         <input
                             type="text"
                             key={"controller-inputfield-" + field.index}

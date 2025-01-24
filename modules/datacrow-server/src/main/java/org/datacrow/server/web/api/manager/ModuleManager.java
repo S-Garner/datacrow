@@ -23,11 +23,22 @@ public class ModuleManager {
     private ModuleManager() {
     	for (DcModule m : DcModules.getAllModules())
     		allModules.add(
-    				new Module(m.getIndex(), m.getModuleResourceKey(), m.getIcon32(), m.isSelectableInUI() && m.isEnabled()));
+    				new Module(
+    						m.getIndex(), 
+    						m.getModuleResourceKey(),
+    						m.getIcon32(),
+    						m.isSelectableInUI() && m.isEnabled(),
+    						m.isParentModule()));
     	
     	for (DcModule m : DcModules.getAllModules()) {
     		if (m.isSelectableInUI() && m.isEnabled())
-    			mainModules.add(new Module(m.getIndex(), m.getModuleResourceKey(), m.getIcon32(), true));
+    			mainModules.add(
+    					new Module(
+    							m.getIndex(), 
+    							m.getModuleResourceKey(),
+    							m.getIcon32(),
+    							true,
+    							m.isParentModule()));
     	}
     }
     

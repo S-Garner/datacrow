@@ -24,7 +24,7 @@ public class ItemManager {
 		DcObject dco = DcConfig.getInstance().getConnector().getItem(moduleIdx, id);
 		
 		if (dco != null)
-			return new Item(dco, module.getFieldIndices());
+			return new Item(dco, module.getFieldIndices(), true);
 		
 		return null;
 	}
@@ -38,7 +38,7 @@ public class ItemManager {
 		List<DcObject> objects = DcConfig.getInstance().getConnector().getItems(new DataFilter(moduleIdx), fields);
 		
 		for (DcObject dco : objects)
-			items.add(new Item(dco, fields));
+			items.add(new Item(dco, fields, false));
 		
 		return items;
 	}
@@ -52,7 +52,7 @@ public class ItemManager {
 		List<DcObject> objects = DcConfig.getInstance().getConnector().getItems(df, fields);
 
 		for (DcObject dco : objects)
-			items.add(new Item(dco, fields));
+			items.add(new Item(dco, fields, false));
 		
 		return items;
 	}	
