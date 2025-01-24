@@ -19,6 +19,18 @@ export const languages = {
     spanish: 'Spanish',
 } as const;
 
+export const languageArray: { key: string, label: string, language: Language }[] = [
+    { key: "English", label: "English", language: languages.english },
+    { key: "German", label: "Deutsch", language: languages.german },
+    { key: "French", label: "Francais", language: languages.french },
+    { key: "Italian", label: "Italiano", language: languages.italien },
+    { key: "Dutch", label: "Nederlands", language: languages.dutch },
+    { key: "Polski", label: "Polski", language: languages.polski },
+    { key: "Portuguese", label: "Português", language: languages.portuguese },
+    { key: "Spanish", label: "Español", language: languages.spanish },
+    { key: "Russian", label: "Русский", language: languages.russian }
+]
+
 export const TranslationContext = createContext<
     TranslationContextValue | undefined
 >(undefined);
@@ -52,6 +64,17 @@ export function TranslationProvider({
     
     const [language, setLanguage] = useState<Language>(languages.english);
     const [translations, setTranslations] = useState<Translation | undefined>();
+
+    // get the stored value from the local storage (previous selection)
+    if (localStorage.getItem("language")) {
+        let key = String(localStorage.getItem("language"));
+        
+        for (const lang of languageArray) {
+            // only apply if the local storage value is different from the currently applied language
+            if (lang.key === key && lang.language != language)
+                setLanguage(lang.language);
+        }
+    }
 
     const value: TranslationContextValue = useMemo(
         () => ({
