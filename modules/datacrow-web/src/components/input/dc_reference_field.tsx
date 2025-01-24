@@ -18,6 +18,7 @@ const IconOption = (props: JSX.IntrinsicAttributes & OptionProps<IconSelectOptio
         {props.data.iconUrl && (
             <img
                 src={props.data.iconUrl}
+                key={props.data.iconUrl}
                 style={{ width: "24px", paddingRight: "8px" }}
             />
         )}
