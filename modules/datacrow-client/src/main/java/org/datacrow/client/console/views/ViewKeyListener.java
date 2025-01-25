@@ -53,8 +53,10 @@ public class ViewKeyListener implements KeyListener {
             
             IViewComponent vc = view.getViewComponent();
             rowTo = vc.getSelectedIndex();
-            if (rowFrom != rowTo)
-                view.setSelected(vc.getSelectedIndex());
+            if (rowFrom != rowTo) {
+                view.setSelected(rowTo);
+//                view.afterSelect(rowTo);
+            }
         }
     }
 

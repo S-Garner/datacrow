@@ -753,13 +753,10 @@ public class View extends DcPanel implements ListSelectionListener, IView {
     
     @Override
     public void setSelected(int index) {
-        if (vc.getSelectedIndex() == index) {
-            if (quickView != null) 
-                quickView.refresh();
-        } else if (vc.getItemCount() > 0 && index > -1) { 
-	        vc.setSelected(index);
-	        afterSelect(index);
-    	}
+    	if (vc.getSelectedIndex() != index)
+    		vc.setSelected(index);
+    	
+    	afterSelect(index);
     }
     
     @Override

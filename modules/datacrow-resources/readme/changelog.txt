@@ -22,6 +22,7 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
 - Ticket 130: tree not updated when item has been updated.   
 - Ticket 131: sometimes the quick view is not updated when adding a new item. Data Crow then freezes completely.
 - Ticket 134: UI scaling is not saved per client. Sharing a data folder on multiple machines causes the value to be overwritten for all based on the settings of one of the clients.
+- Ticket 135: Quick view not updated when navigating in the card view with the arrow keys
 
 [TODO]:
 - Translate: 
