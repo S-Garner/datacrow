@@ -6,6 +6,7 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
 - Add from memory for pictures now also allowed URLs to be pasted.
 - Removed the memory usage message from the log; only shown now using the -debug option.
 - Edit as New; external references will no longer be copied as well as online service update information (as it is incorrect source documentation).
+- Create item; when the item form is accidentally closed Data Crow does not warn the user - it just closes the item form and all changes are lost.
 
 [Fixed]
 - Ticket 121: date format for date input fields was incorrect for long date formats (including name of the day/month).

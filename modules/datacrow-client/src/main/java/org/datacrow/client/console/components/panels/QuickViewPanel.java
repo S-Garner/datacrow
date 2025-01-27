@@ -173,7 +173,11 @@ public class QuickViewPanel extends JPanel implements ChangeListener, MouseListe
     
     public void setObject(String key, int moduleIdx) {
     	
-    	if (key == null || key.equals(this.key)) return;
+    	if (key == null) 
+    		return;
+    	
+    	if (key.equals(this.key))
+    		refresh();
     	
         Collection<Integer> fields = new ArrayList<Integer>();
         QuickViewFieldDefinitions definitions = 

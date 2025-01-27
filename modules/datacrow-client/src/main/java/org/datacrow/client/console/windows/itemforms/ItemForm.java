@@ -330,12 +330,17 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
      * Closes this form by setting the visibility to false
      */
     public void close(boolean aftersave) {
-        if (!aftersave && update && dco != null && (!readonly && isChanged())) {
+    	
+        if (	!aftersave && 
+        		!readonly &&
+        		dco != null &&
+        		((update && isChanged()) || !update)) {
+        	
         	int result = GUI.getInstance().displayCancelableQuestion("msgNotSaved");
         	
             if (result == CancelableQuestionBox._RESULT_YES) {
-                saveValues();
-                return;
+                if (!saveValues())  
+                	return;
             } else if (result == CancelableQuestionBox._RESULT_CANCEL) {
             	// do nothing
             	return;
@@ -570,8 +575,8 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     }
     
     protected boolean isChanged() {
-        
-        if (dcoOrig.isDestroyed()) 
+
+    	if (dcoOrig.isDestroyed()) 
             return false;
         
         boolean changed = dcoOrig.isChanged() || dco.getNewPictures().size() > 0;
@@ -677,7 +682,10 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     	GUI.getInstance().getOnlineSearchForm(os, dco, this, true).setVisible(true);
     }
     
-    protected void saveValues() {
+    protected boolean saveValues() {
+    	
+    	boolean success = true;
+    	
         apply();
 
         if (task != null)
@@ -699,11 +707,14 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
 	            connector.executeTask(task);
         	} catch (ValidationException ve) {
         		GUI.getInstance().displayWarningMessage(ve.getMessage());
+        		success = false;
         	}
         	
         } else {
             close();
         }
+        
+        return success;
     }
 
     private void initializeComponents() {

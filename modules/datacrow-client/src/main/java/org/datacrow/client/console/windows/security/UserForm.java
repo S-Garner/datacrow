@@ -93,13 +93,13 @@ public class UserForm extends ItemForm {
     protected void addChildrenPanel() {}
     
     @Override
-    protected void saveValues() {
+    protected boolean saveValues() {
         for (Permission permission : modulePermissionPanel.getPermissions())
             dco.addChild(permission);
         
         for (Permission permission : pluginPermissionPanel.getPermissions())
             dco.addChild(permission);
     
-        super.saveValues();
+        return super.saveValues();
     }
 }
