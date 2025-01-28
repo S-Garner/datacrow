@@ -38,7 +38,6 @@ import javax.swing.JWindow;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcPicturePane;
-import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.resources.DcResources;
@@ -95,7 +94,8 @@ public final class SplashScreen extends JWindow {
         		                            ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
 											 new Insets( 2, 0, 0, 0), 0, 0));
         pack();
-        setLocation(Utilities.getCenteredWindowLocation(getSize(), true));
+        
+        setLocationRelativeTo(null);
     }
 }
 

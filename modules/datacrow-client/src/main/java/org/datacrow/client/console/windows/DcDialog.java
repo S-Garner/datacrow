@@ -43,7 +43,6 @@ import javax.swing.WindowConstants;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.plugins.PluginHelper;
-import org.datacrow.client.util.Utilities;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.settings.objects.DcDimension;
@@ -162,7 +161,9 @@ public class DcDialog extends JDialog implements IDialog {
     }
 
     public void setCenteredLocation() {
-        setLocation(Utilities.getCenteredWindowLocation(getSize(), false));
+    	setLocationRelativeTo(
+    			GUI.getInstance().getMainFrame() != null && GUI.getInstance().getMainFrame().isVisible() ? 
+    					GUI.getInstance().getMainFrame() : null);
     }
     
     @Override

@@ -38,7 +38,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import org.datacrow.client.console.Layout;
-import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.settings.DcSettings;
@@ -54,7 +53,7 @@ public class SelectLanguageDialog extends NativeDialog implements ActionListener
         setTitle("Select the preferred language");
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         setModal(true);
-        setLocation(Utilities.getCenteredWindowLocation(getSize(), true));
+        setCenteredLocation();
     }
     
     @Override

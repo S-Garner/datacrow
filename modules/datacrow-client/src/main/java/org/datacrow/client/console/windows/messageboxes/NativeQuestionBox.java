@@ -42,7 +42,6 @@ import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.windows.NativeDialog;
-import org.datacrow.client.util.Utilities;
 import org.datacrow.core.IconLibrary;
 
 public class NativeQuestionBox extends NativeDialog implements ActionListener {
@@ -79,8 +78,8 @@ public class NativeQuestionBox extends NativeDialog implements ActionListener {
 
         this.pack();
         this.setModal(true);
-
-        setLocation(Utilities.getCenteredWindowLocation(getSize(), true));
+        
+        setCenteredLocation();
 
         buttonYes.requestFocus();
     }

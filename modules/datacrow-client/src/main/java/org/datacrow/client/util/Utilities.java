@@ -28,12 +28,8 @@
 package org.datacrow.client.util;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -62,8 +58,6 @@ import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 
 import org.datacrow.client.console.ComponentFactory;
-import org.datacrow.client.console.GUI;
-import org.datacrow.client.console.MainFrame;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
@@ -135,46 +129,6 @@ public class Utilities {
             result += "<img src=\"file:///" + path + "rating_nok.png\" />";
         
         return result; 
-    }
-    
-    /**
-     * Returns a centered location for a window / form / dialog 
-     * @param windowSize size of the window
-     * @return centered location
-     */
-    public static Point getCenteredWindowLocation(Dimension windowSize, boolean main) {
-        MainFrame mf = GUI.getInstance().getMainFrame();
-        main = main || mf == null;
-        
-        Dimension dim;
-        
-        if (main) {
-        	
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            int totalWidth = 0;
-            int mainWidth = 0;
-            int mainHeight = 0;
-
-            for (GraphicsDevice screen : ge.getScreenDevices())
-        	    totalWidth += screen.getDefaultConfiguration().getBounds().width;
-
-            mainWidth = ge.getDefaultScreenDevice().getDefaultConfiguration().getBounds().width;
-            mainHeight = ge.getDefaultScreenDevice().getDefaultConfiguration().getBounds().height;
-            
-            dim = new Dimension();
-            dim.height = (mainHeight - windowSize.height) / 2;
-            dim.width = mainWidth == totalWidth ? 
-            		((mainWidth - windowSize.width) / 2) :
-            		((mainWidth - windowSize.width) / 2) + (totalWidth - mainWidth);
-        } else {
-            // relative to the mainframe
-        	dim = new Dimension();
-            Point p = mf.getLocation();
-            dim.height = (p.y) + ((mf.getSize().height - windowSize.height )  / 2);
-            dim.width = (p.x) + ((mf.getSize().width - windowSize.width ) / 2);
-        }
-
-        return new Point(dim.width, dim.height);
     }
     
     /**

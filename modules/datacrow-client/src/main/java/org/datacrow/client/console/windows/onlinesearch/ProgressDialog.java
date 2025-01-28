@@ -36,7 +36,6 @@ import javax.swing.JProgressBar;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.windows.DcDialog;
-import org.datacrow.client.util.Utilities;
 
 public class ProgressDialog extends DcDialog {
     
@@ -67,11 +66,7 @@ public class ProgressDialog extends DcDialog {
         
         setSize(new Dimension(500, 100));
         
-        if (     GUI.getInstance().getMainFrame() == null || 
-                !GUI.getInstance().getMainFrame().isVisible())
-            setLocation(Utilities.getCenteredWindowLocation(getSize(), true));
-        else 
-            setCenteredLocation();
+        setCenteredLocation();
         
         setResizable(false);
 

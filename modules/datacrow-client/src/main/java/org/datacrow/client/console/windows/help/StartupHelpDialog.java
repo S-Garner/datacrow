@@ -37,7 +37,6 @@ import javax.swing.JScrollPane;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcHtmlEditorPane;
 import org.datacrow.client.console.windows.NativeDialog;
-import org.datacrow.client.util.Utilities;
 
 public class StartupHelpDialog extends NativeDialog implements ActionListener {
 
@@ -47,7 +46,8 @@ public class StartupHelpDialog extends NativeDialog implements ActionListener {
         build();
         setSize(400, 300);
         setModal(true);
-        setLocation(Utilities.getCenteredWindowLocation(getSize(), true));
+        
+        setCenteredLocation();
     }
     
     private void build() {

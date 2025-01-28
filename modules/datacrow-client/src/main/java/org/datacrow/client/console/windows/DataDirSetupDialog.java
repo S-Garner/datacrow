@@ -47,7 +47,6 @@ import org.datacrow.client.console.components.DcLongTextField;
 import org.datacrow.client.console.components.DcProgressBar;
 import org.datacrow.client.console.windows.messageboxes.NativeMessageBox;
 import org.datacrow.client.console.windows.messageboxes.NativeQuestionBox;
-import org.datacrow.client.util.Utilities;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.clients.IClient;
 import org.datacrow.core.objects.DcImageIcon;
@@ -100,7 +99,9 @@ public class DataDirSetupDialog extends NativeDialog implements ActionListener, 
         buildDialog();
         pack();
         setSize(new Dimension(450, 300));
-        setLocation(Utilities.getCenteredWindowLocation(getSize(), true));
+        
+        setCenteredLocation();
+
         enableActions(true);
     }
     

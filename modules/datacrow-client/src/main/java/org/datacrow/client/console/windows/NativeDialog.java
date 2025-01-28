@@ -30,6 +30,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JDialog;
 
+import org.datacrow.client.console.GUI;
+
 public class NativeDialog extends JDialog implements IDialog {
 
 	private AtomicBoolean active;
@@ -48,6 +50,12 @@ public class NativeDialog extends JDialog implements IDialog {
     
     public void close() {
         dispose();
+    }
+    
+    public void setCenteredLocation() {
+    	setLocationRelativeTo(
+    			GUI.getInstance().getMainFrame() != null && GUI.getInstance().getMainFrame().isVisible() ? 
+    					GUI.getInstance().getMainFrame() : null);
     }
  
     @Override

@@ -66,7 +66,6 @@ import org.datacrow.client.synchronizers.MovieSynchronizer;
 import org.datacrow.client.synchronizers.MusicAlbumSynchronizer;
 import org.datacrow.client.synchronizers.SoftwareSynchronizer;
 import org.datacrow.client.tabs.Tabs;
-import org.datacrow.client.util.Utilities;
 import org.datacrow.core.ClientSettings;
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
@@ -457,9 +456,9 @@ public class DataCrow implements IStarterClient {
         GUI.getInstance().showSplashScreen(false);
 
         ChangeUserFolderQuestionBox qb = new ChangeUserFolderQuestionBox();
-        qb.setLocation(Utilities.getCenteredWindowLocation(qb.getSize(), true));
-        
+        qb.setCenteredLocation();
         GUI.getInstance().openDialogNativeModal(qb);
+
         boolean answer = qb.isAffirmative();
 
         if (!answer) {

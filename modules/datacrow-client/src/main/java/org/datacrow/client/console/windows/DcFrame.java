@@ -44,7 +44,6 @@ import javax.swing.WindowConstants;
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.plugins.PluginHelper;
-import org.datacrow.client.util.Utilities;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.console.IWindow;
 import org.datacrow.core.objects.DcImageIcon;
@@ -170,8 +169,10 @@ public class DcFrame extends JFrame implements WindowFocusListener, IWindow {
         return helpIndex;
     }
 
-    protected void setCenteredLocation() {
-        setLocation(Utilities.getCenteredWindowLocation(getSize(), false));
+    public void setCenteredLocation() {
+    	setLocationRelativeTo(
+    			GUI.getInstance().getMainFrame() != null && GUI.getInstance().getMainFrame().isVisible() ? 
+    					GUI.getInstance().getMainFrame() : null);
     }
     
     public void setSize(DcDimension d) {
