@@ -34,7 +34,7 @@ public class Item {
 	@JsonProperty("fields")
 	private final List<FieldValue> fields = new LinkedList<FieldValue>();
 	
-	public Item(DcObject src, int[] fields, boolean loadChildren) {
+	public Item(DcObject src, int[] fields) {
 
 		id = src.getID();
 		name = src.toString();

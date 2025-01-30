@@ -183,6 +183,9 @@ public class DataFilterConverter {
             
             field = entryModule.getField(entry.getField());
             
+            if (field == null)
+            	continue;
+            
             if (field.isUiOnly() && 
                 field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION) 
                 continue;

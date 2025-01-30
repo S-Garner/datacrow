@@ -9,6 +9,7 @@ import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.server.Connector;
 import org.datacrow.server.web.api.model.Item;
 
 public class ItemManager {
@@ -24,9 +25,24 @@ public class ItemManager {
 		DcObject dco = DcConfig.getInstance().getConnector().getItem(moduleIdx, id);
 		
 		if (dco != null)
-			return new Item(dco, module.getFieldIndices(), true);
+			return new Item(dco, module.getFieldIndices());
 		
 		return null;
+	}
+	
+	public List<Item> getChildren(int childModuleIdx, String id) {
+		
+		List<Item> children = new ArrayList<Item>(); 
+		
+		DcModule cm = DcModules.get(childModuleIdx);
+		Connector conn = DcConfig.getInstance().getConnector();
+		
+		//DcModule module = DcModules.get(moduleIdx);
+		for (DcObject child : conn.getChildren(id, childModuleIdx, cm.getMinimalFields(null))) {
+			children.add(new Item(child, cm.getFieldIndices()));
+		}
+	
+		return children;
 	}
     
 	public List<Item> getItems(int moduleIdx) {
@@ -38,7 +54,7 @@ public class ItemManager {
 		List<DcObject> objects = DcConfig.getInstance().getConnector().getItems(new DataFilter(moduleIdx), fields);
 		
 		for (DcObject dco : objects)
-			items.add(new Item(dco, fields, false));
+			items.add(new Item(dco, fields));
 		
 		return items;
 	}
@@ -52,7 +68,7 @@ public class ItemManager {
 		List<DcObject> objects = DcConfig.getInstance().getConnector().getItems(df, fields);
 
 		for (DcObject dco : objects)
-			items.add(new Item(dco, fields, false));
+			items.add(new Item(dco, fields));
 		
 		return items;
 	}	

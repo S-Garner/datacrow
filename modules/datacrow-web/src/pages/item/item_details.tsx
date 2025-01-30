@@ -41,7 +41,7 @@ export function ItemPage() {
     }, [currentModule.selectedModule]);
 
     useEffect(() => {
-        currentModule.selectedModule && fetchReferences(currentModule.selectedModule.index).
+        state && currentModule.selectedModule && fetchReferences(currentModule.selectedModule.index).
         then((data) => setReferences(data)).
         catch(error => {
             console.log(error);
@@ -90,13 +90,6 @@ export function ItemPage() {
                                 </Button>
                             </Form>
                         </FormProvider>
-                        
-                        {(item?.id && currentModule.selectedModule.hasChild) && 
-                            (
-                                <ChildrenOverview itemID={String(item.id)} />   
-                            )
-                        }
-                        
                     </Tab>
     
                     <Tab eventKey="images" title={t("lblPictures")}>
@@ -107,6 +100,14 @@ export function ItemPage() {
                         <div>
                         </div>
                     </Tab>
+                    
+                    {(item?.id && currentModule.selectedModule.hasChild) &&
+                        (
+                            <Tab eventKey="children" title={t(currentModule.selectedModule.child.name)}>
+                                <ChildrenOverview itemID={item?.id} />
+                            </Tab>
+                        )
+                    }
 
                 </Tabs>
             </div>

@@ -27,37 +27,40 @@ public class Module {
 	private final Collection<Field> fields = new ArrayList<Field>();
 	@JsonProperty("hasChild")
 	private boolean hasChild;
+	@JsonProperty("child")
+	private Module child;
 	
-	public Module(int index, String name, DcImageIcon icon, boolean top, boolean hasChild) {
-		this.index = index;
-		this.name = name;
-		this.isTop = top;
-		this.hasChild = hasChild;
+	public Module(DcModule module) {
+		this.index = module.getIndex();
+		this.name = module.getModuleResourceKey();
+		this.isTop = module.isTopModule();
+		this.hasChild = module.isParentModule();
+		
+		if (hasChild)
+			this.child = new Module(module.getChild());
+		
+		DcImageIcon icon = module.getIcon32();
 		
 		this.icon = icon == null ? null : String.valueOf(Base64.encode(icon.getBytes()));
 
 		for (DcField field : DcModules.get(index).getFields())
 			fields.add(new Field(field));
 		
-		Module childModule;
-		for (DcModule child : DcModules.getReferencedModules(index)) {
+		Module reference;
+		for (DcModule m : DcModules.getReferencedModules(index)) {
 
-			if (child.isEnabled() && 
-		       !child.isSelectableInUI() && // if this is set, it is already added as a main module
-				child.getIndex() != index && 
-				child.getType() != DcModule._TYPE_PROPERTY_MODULE &&
-				child.getType() != DcModule._TYPE_EXTERNALREFERENCE_MODULE &&
-				child.getIndex() != DcModules._CONTACTPERSON &&
-			    child.getIndex() != DcModules._TAG &&
-				child.getIndex() != DcModules._CONTAINER) {
+			if (m.isEnabled() && 
+		       !m.isSelectableInUI() && // if this is set, it is already added as a main module
+				m.getIndex() != index && 
+				m.getType() != DcModule._TYPE_PROPERTY_MODULE &&
+				m.getType() != DcModule._TYPE_EXTERNALREFERENCE_MODULE &&
+				m.getIndex() != DcModules._CONTACTPERSON &&
+			    m.getIndex() != DcModules._TAG &&
+				m.getIndex() != DcModules._CONTAINER) {
 
-				childModule = new Module(
-						child.getIndex(), 
-						child.getModuleResourceKey(), 
-						child.getIcon32(),
-						false, false);
+				reference = new Module(m);
 				
-				references.add(childModule);
+				references.add(reference);
 			}
 		}
 	}

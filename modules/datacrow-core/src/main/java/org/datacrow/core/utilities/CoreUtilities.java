@@ -289,6 +289,9 @@ public class CoreUtilities {
     public static Object getQueryValue(Object o, DcField field) {
         Object value = o;
         
+        if (field == null)
+        	return null;
+        
         // This first check does not make much sense but I honestly do not dare to remove it.. for now..
         if (isEmpty(value) && (field.getModule() != DcModules._PERMISSION && field.getIndex() == Permission._B_FIELD))
             value = null;

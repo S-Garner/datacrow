@@ -37,6 +37,7 @@ export interface Module {
 	fields: Field[];
 	isTop: boolean;
 	hasChild: boolean;
+	child: Module;
 }
 
 export interface References {
@@ -125,6 +126,11 @@ export async function fetchModules(): Promise<Module[]> {
 export async function fetchItem(moduleIdx: number, itemId: string): Promise<Item> {
 	const response = await instance.get(baseUrl + 'item/' + moduleIdx + '/' + itemId);
 	return response.data;
+}
+
+export async function fetchChildren(moduleIdx: number, itemId: string): Promise<Item[]> {
+    const response = await instance.get(baseUrl + 'children/' + moduleIdx + '/' +  itemId);
+    return response.data;
 }
 
 export async function fetchItems(moduleIdx: number, searchTerm: String | undefined): Promise<Item[]> {
