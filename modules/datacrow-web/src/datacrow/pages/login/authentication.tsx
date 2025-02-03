@@ -29,13 +29,13 @@ export function LoginPage() {
             }
         }
     }
-    
+
     useEffect(() => {
         fetchResources(selectedLanguage).then((data) => setTranslations(data)).catch(error => 
         {
             console.log(error);
             if (error.status === 401) {
-                navigate("/login");    
+                navigate("/datacrow/login");    
             }
         });
     }, [selectedLanguage]);
@@ -71,7 +71,7 @@ export function LoginPage() {
         if (user) {
             setSuccess(true);
             localStorage.setItem("token", user.token);
-            navigate("/", { replace: true });
+            navigate("/datacrow", { replace: true });
         } else {
             setSuccess(false);
             localStorage.removeItem("token");

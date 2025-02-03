@@ -1,7 +1,7 @@
 import axios from 'axios';
-import type { Translation } from 'src/context/translation_context';
+import type { Translation } from '../context/translation_context';
 
-const baseUrl = 'http://192.168.178.244:8080/datacrow/api/';
+const baseUrl = 'http://192.168.178.244:8081/datacrow-api/api/';
 
 const instance = axios.create({
     baseURL: baseUrl

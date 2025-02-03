@@ -37,7 +37,6 @@ public class ItemManager {
 		DcModule cm = DcModules.get(childModuleIdx);
 		Connector conn = DcConfig.getInstance().getConnector();
 		
-		//DcModule module = DcModules.get(moduleIdx);
 		for (DcObject child : conn.getChildren(id, childModuleIdx, cm.getMinimalFields(null))) {
 			children.add(new Item(child, cm.getFieldIndices()));
 		}

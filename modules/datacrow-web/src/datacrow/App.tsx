@@ -15,9 +15,9 @@ export default function App() {
                 <ModuleProvider>
                     <Routes>
                         <Route element={<Layout />}>
-                            <Route path="/" element={<OverviewPage />} />
-                            <Route path="/item" element={<ItemPage />} />
-                            <Route path="/login" element={<LoginPage />} />
+                            <Route path="/datacrow" element={<OverviewPage />} />
+                            <Route path="/datacrow/item" element={<ItemPage />} />
+                            <Route path="/datacrow/login" element={<LoginPage />} />
                         </Route>
                     </Routes>
                 </ModuleProvider>

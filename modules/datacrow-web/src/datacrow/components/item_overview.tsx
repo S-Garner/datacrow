@@ -21,7 +21,7 @@ export function ItemOverview() {
             catch(error => {
                 console.log(error);
                 if (error.status === 401) {
-                    navigate("/login");
+                    navigate("/datacrow/login");
                 }
             });
     }, [currentModule.selectedModule]);
@@ -59,14 +59,14 @@ export function ItemOverview() {
     }
 	
 	function openItem(itemID : string) {
-		navigate('/item', { state: { itemID }});
+		navigate('/datacrow/item', { state: { itemID }});
 	}
 	
 	return (
 		<div className="py-20 bg-slate-900 h-full" style={{width: "100%"}}>
 			
 			<form onSubmit={handleSubmit} style={{width: "20em"}}>
-				<InputGroup className="mb-3">
+				<InputGroup className="mb-3" style={{marginTop: "10px"}}>
 					<input type="text" name="searchFor" className="form-control" defaultValue={currentModule.filter} />
 					<Button className="search-button" type="submit">{t("lblSearch")?.toLowerCase()}</Button>
 				</InputGroup>

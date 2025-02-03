@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useRef, type JSX } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { authenticationProvider } from "../security/authentication_provider";
-import type { LoginCallBack, User } from "src/services/datacrow_api";
+import type { LoginCallBack, User } from "../services/datacrow_api";
 
 interface AuthContextType {
 	user: User;
@@ -48,7 +48,7 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
 
 	if (!auth.user) {
 		// Redirect the unknown user to the /login page, saving the location the user came from
-		return <Navigate to="/login" state={{ from: location }} replace />;
+		return <Navigate to="/datacrow/login" state={{ from: location }} replace />;
 	}
 
 	return children;

@@ -25,7 +25,7 @@ export function ItemPage() {
 
     useEffect(() => {
         if (!state) {
-            navigate('/');
+            navigate('/datacrow');
         }
     }, []);
 
@@ -35,7 +35,7 @@ export function ItemPage() {
         catch(error => {
             console.log(error);
             if (error.status === 401) {
-                navigate("/login");
+                navigate("/datacrow/login");
             }
         });
     }, [currentModule.selectedModule]);
@@ -46,7 +46,7 @@ export function ItemPage() {
         catch(error => {
             console.log(error);
             if (error.status === 401) {
-                navigate("/login");
+                navigate("/datacrow/login");
             }
         });
     }, [currentModule.selectedModule]);
@@ -91,6 +91,14 @@ export function ItemPage() {
                             </Form>
                         </FormProvider>
                     </Tab>
+
+                    {(item?.id && currentModule.selectedModule.hasChild) &&
+                        (
+                            <Tab eventKey="children" title={t(currentModule.selectedModule.child.name)}>
+                                <ChildrenOverview itemID={item?.id} />
+                            </Tab>
+                        )
+                    }
     
                     <Tab eventKey="images" title={t("lblPictures")}>
                         <PictureEditList itemID={state.itemID} />
@@ -100,14 +108,6 @@ export function ItemPage() {
                         <div>
                         </div>
                     </Tab>
-                    
-                    {(item?.id && currentModule.selectedModule.hasChild) &&
-                        (
-                            <Tab eventKey="children" title={t(currentModule.selectedModule.child.name)}>
-                                <ChildrenOverview itemID={item?.id} />
-                            </Tab>
-                        )
-                    }
 
                 </Tabs>
             </div>

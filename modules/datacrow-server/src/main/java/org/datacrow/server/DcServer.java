@@ -58,6 +58,7 @@ import org.datacrow.server.db.DatabaseManager;
 import org.datacrow.server.security.SecurityCenter;
 import org.datacrow.server.web.DcImageWebServer;
 import org.datacrow.server.web.DcWebServer;
+import org.datacrow.server.web.DcApiServer;
 
 public class DcServer implements Runnable, IStarterClient, IClient {
 	
@@ -73,8 +74,10 @@ public class DcServer implements Runnable, IStarterClient, IClient {
     
     private static DcServer server;
     private static DcImageWebServer imgServer;
+    private static DcApiServer apiServer;
     private static DcWebServer webServer;
     
+    private static boolean enableApiServer = false;
     private static boolean enableWebServer = false;
 	
 	public DcServer(int port) {
@@ -104,6 +107,7 @@ public class DcServer implements Runnable, IStarterClient, IClient {
         int port = 9000;
         int webServerPort = -1;
         int imageServerPort = 9001;
+        int apiServerPort = 9002;
         
         String username = "sa";
         String password = null;
@@ -128,6 +132,14 @@ public class DcServer implements Runnable, IStarterClient, IClient {
                 dataDir = arg.substring("-userdir:".length(), arg.length());
                 determiningUserDir = true;
                 determiningInstallDir = false;
+                
+            } else if (arg.toLowerCase().startsWith("-apiserverport:")) {
+                String s = arg.substring("-apiserverport:".length());
+                try {
+                	apiServerPort = Integer.parseInt(s);
+                } catch (NumberFormatException nfe) {
+                    logger.error("Incorrect image port number " + port, nfe);
+                }  
             } else if (arg.toLowerCase().startsWith("-imageserverport:")) {
                 String s = arg.substring("-imageserverport:".length());
                 try {
@@ -192,7 +204,8 @@ public class DcServer implements Runnable, IStarterClient, IClient {
             }
         }
         
-        enableWebServer = webServerPort > -1;
+        enableApiServer = apiServerPort > -1;
+        enableWebServer = webServerPort > -1 && apiServerPort > -1;
 	    
         if (CoreUtilities.isEmpty(serverIP)) {
             System.out.println("The IP address (-ip:<IP address>) is a required parameters. "
@@ -224,6 +237,15 @@ public class DcServer implements Runnable, IStarterClient, IClient {
                 }
                 
                 imgServer = new DcImageWebServer(imageServerPort, imageIP);
+                
+                if (enableApiServer) {
+                    try {
+                        apiServer = new DcApiServer(apiServerPort, serverIP);
+                        apiServer.setup();
+                    } catch (Exception e) {
+                        logger.error("Web server could not be started", e);
+                    }
+                }
                 
                 if (enableWebServer) {
                     try {
@@ -264,6 +286,14 @@ public class DcServer implements Runnable, IStarterClient, IClient {
 	private void startServer() {
         Thread st = new Thread(server);
         st.start();
+
+        if (enableApiServer) {
+            try {
+                apiServer.start();
+            } catch (Exception e) {
+                logger.error(e, e);
+            }
+        }        
 
         if (enableWebServer) {
             try {

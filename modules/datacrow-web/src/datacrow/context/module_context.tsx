@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import type { Module } from "src/services/datacrow_api";
+import type { Module } from "../services/datacrow_api";
 
 export interface ModuleType {
 	selectedModule: Module;

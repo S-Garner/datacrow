@@ -15,7 +15,7 @@ export function UserStatus() {
 		<div style={{ float: "right", top: "0", right: "0"}}>
 			&nbsp;&nbsp;<Button  className="main-menu-button"
 				onClick={() => {
-					auth.signout(() => navigate("/"));
+					auth.signout(() => navigate("/datacrow"));
 				}}
 			> 
 			<i className="bi bi-person-fill"></i>
