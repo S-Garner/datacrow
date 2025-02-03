@@ -56,14 +56,21 @@ public class Item {
 		DcModule module = DcModules.get(m.getIndex());
 		
 		Field field;
-		
+		Field fieldCpy;
 		for (int fieldIdx : fields) {
 			field = m.getField(fieldIdx);
 			
-			if (	module.getField(fieldIdx).isEnabled() &&
-					su.isAuthorized(m.getIndex(), field.getIndex())) {
+			if (module.getField(fieldIdx).isEnabled() &&
+				su.isAuthorized(m.getIndex(), field.getIndex())) {
 				
-				this.fields.add(new FieldValue(field, toValidValue(field, src.getValue(fieldIdx))));
+				fieldCpy = new Field(field);
+				
+				if (!field.isReadOnly()) 
+					fieldCpy.setReadOnly(!su.isEditingAllowed(m.getIndex(), field.getIndex()));
+				
+				this.fields.add(new FieldValue(
+						fieldCpy, 
+						toValidValue(fieldCpy, src.getValue(fieldIdx))));
 			}
 		}
 	}
