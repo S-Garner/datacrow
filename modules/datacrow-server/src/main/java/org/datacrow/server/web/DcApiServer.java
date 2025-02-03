@@ -38,8 +38,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 public class DcApiServer {
     
-    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcApiServer.class.getName());
-    
     private static final String context = "/datacrow-api";
     
 	private final Server server;
@@ -60,7 +58,7 @@ public class DcApiServer {
         
         server.addConnector(connector);
         
-        String baseDir = DcConfig.getInstance().getWebDir();
+        String baseDir = DcConfig.getInstance().getWebApiDir();
         File contextDir = new File(baseDir, context);
         
         WebAppContext wac = new WebAppContext(contextDir.toString(), context);
@@ -76,117 +74,7 @@ public class DcApiServer {
         return isRunning;
     }
 	
-	public void setup() {
-        logger.info("Starting to set up the web root");
-        
-	    File webDir = new File(DcConfig.getInstance().getWebDir(), "datacrow-api/");
-        webDir.mkdirs();
-        
-        File file;
-        File targetDir;
-        int idx;
-        Directory dir = new Directory(new File(DcConfig.getInstance().getInstallationDir(), "webapp/datacrow-api").toString(), true, null);
-        for (String s : dir.read()) {
-            try {
-                file = new File(s);
-                idx = s.indexOf("webapp/datacrow-api/") > -1 ? s.indexOf("webapp/datacrow-api/") : s.indexOf("webapp\\datacrow-api\\");
-                
-                if (idx == -1) continue;
-                
-                targetDir = (new File(webDir, s.substring(idx + "webapp/datacrow-api/".length())).getParentFile());
-                targetDir.mkdirs();
-                CoreUtilities.copy(file, new File(targetDir, file.getName()), true);
-            } catch (Exception e) {
-                logger.error("An error occured while copying file " + s, e);
-            }
-        }
-        
-//        createIcons();
-//        createStyleSheet();
-        
-        logger.info("Web root has been set up");
-	}
-	
-/*	private void createIcons() {
-	    File webDir = new File(DcConfig.getInstance().getWebDir(), "datacrow-api/");
-	    File dir = new File(webDir, "/resources/default/images/");
-	    dir.mkdirs();
-	    
-	    int idx;
-	    for (DcModule m : DcModules.getModules()) {
-	        idx = m.getIndex();
-    	    createIcon(new File(dir, idx + "_16.png").toString(), m.getIcon16());
-    	    createIcon(new File(dir, idx + "_32.png").toString(), m.getIcon32());
-	    }
-	} */
-	
-	/*private void createStyleSheet() {
-	    StringBuffer sb = new StringBuffer();
-	    
-        File webDir = new File(DcConfig.getInstance().getWebDir(), "datacrow-api/");
-        File dir = new File(webDir, "resources/default/stylesheets/");
-	    File editableStyleFile = new File(dir, "editable_style.css");
-
-	    if (editableStyleFile.exists()) {
-	        try {
-    	        sb.append(new String(CoreUtilities.readFile(editableStyleFile)));
-    	        sb.append("\n");
-	        } catch (IOException ioe) {
-	            logger.warn("Could not load the editable CSS file", ioe);
-	        }
-	    }
-        
-        int idx;
-        for (DcModule m : DcModules.getModules()) {
-            
-            if (m.getXmlModule() == null || !m.isTopModule()) continue;
-            
-            idx = m.getIndex();
-            sb.append(".moduleicon" + m.getIndex() + "_16 {\n");
-            sb.append("\tbackground: url(\"#{resource['default:images/" + idx + "_16.png']}\")  no-repeat !important;\n");
-            sb.append("\twidth:16px;\n");
-            sb.append("\theight:16px;\n");
-            sb.append("}\n");
-            sb.append(".moduleicon" + m.getIndex() + "_32 {\n");
-            sb.append("\tbackground: url(\"#{resource['default:images/" + idx + "_32.png']}\")  no-repeat !important;\n");
-            sb.append("\twidth:32px;\n");
-            sb.append("\theight:32px;\n");
-            sb.append("}\n");
-        }
-        
-        try {
-            dir.mkdirs();
-            File css = new File(dir, "style.css");
-            css.delete();
-            
-            CoreUtilities.writeToFile(sb.toString().getBytes(), css);
-        } catch (Exception e) {
-            logger.error("Could not create Stylesheet. Style is reset to the default.");
-        }
-	} */
-	
-    /*private void createIcon(String filename, DcImageIcon icon) {
-        
-        if (icon == null)
-            return;
-        
-        File file = new File(filename);
-        
-        if (file.exists()) {
-            file.delete();
-            file = new File(filename);
-        }
-            
-        file.deleteOnExit();
-        
-        try {
-            byte[] b = icon.getBytes();
-            if (b != null)
-                CoreUtilities.writeToFile(b, filename);
-        } catch (Exception e) {
-            logger.error("Could not write icon to disk: " + filename, e);
-        }
-    } */
+	public void setup() {}
     
     /**
      * Stops the server.

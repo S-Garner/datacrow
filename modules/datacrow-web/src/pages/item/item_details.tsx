@@ -25,7 +25,7 @@ export function ItemPage() {
 
     useEffect(() => {
         if (!state) {
-            navigate('/datacrow');
+            navigate('/');
         }
     }, []);
 
@@ -35,7 +35,7 @@ export function ItemPage() {
         catch(error => {
             console.log(error);
             if (error.status === 401) {
-                navigate("/datacrow/login");
+                navigate("/login");
             }
         });
     }, [currentModule.selectedModule]);
@@ -46,7 +46,7 @@ export function ItemPage() {
         catch(error => {
             console.log(error);
             if (error.status === 401) {
-                navigate("/datacrow/login");
+                navigate("/login");
             }
         });
     }, [currentModule.selectedModule]);

@@ -20,7 +20,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 		{
             console.log(error);
             if (error.status === 401) {
-                navigate("/datacrow/login");    
+                navigate("/login");    
             }
         });
     }, []);

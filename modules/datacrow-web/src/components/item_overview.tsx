@@ -21,7 +21,7 @@ export function ItemOverview() {
             catch(error => {
                 console.log(error);
                 if (error.status === 401) {
-                    navigate("/datacrow/login");
+                    navigate("/login");
                 }
             });
     }, [currentModule.selectedModule]);
@@ -59,7 +59,7 @@ export function ItemOverview() {
     }
 	
 	function openItem(itemID : string) {
-		navigate('/datacrow/item', { state: { itemID }});
+		navigate('/item', { state: { itemID }});
 	}
 	
 	return (

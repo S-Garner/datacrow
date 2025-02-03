@@ -18,7 +18,7 @@ export default function PictureEditList({itemID} : Props) {
         catch(error => {
             console.log(error);
             if (error.status === 401) {
-                navigate("/datacrow/login");
+                navigate("/login");
             }
         });
     });

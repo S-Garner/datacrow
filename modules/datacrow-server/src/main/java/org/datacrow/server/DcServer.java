@@ -264,8 +264,8 @@ public class DcServer implements Runnable, IStarterClient, IClient {
                             connector.getImageServerPort());
 
                     if (enableWebServer) {
-                        logger.info("Web clients can connect via the following URL: https://" + connector.getServerAddress() + 
-                                ":" + webServerPort + "/datacrow");
+                        logger.info("Web clients can connect via the following URL: http://" + connector.getServerAddress() + 
+                                ":" + webServerPort + "");
                     } else {
                         logger.info("The web module has not been started.");
                     }

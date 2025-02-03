@@ -28,19 +28,13 @@ package org.datacrow.server.web;
 import java.io.File;
 
 import org.datacrow.core.DcConfig;
-import org.datacrow.core.log.DcLogManager;
-import org.datacrow.core.log.DcLogger;
-import org.datacrow.core.utilities.CoreUtilities;
-import org.datacrow.core.utilities.Directory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class DcWebServer {
     
-    private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(DcWebServer.class.getName());
-    
-    private static final String context = "/datacrow";
+    private static final String context = "/";
     
 	private final Server server;
 	
@@ -78,33 +72,7 @@ public class DcWebServer {
         return isRunning;
     }
 	
-	public void setup() {
-        logger.info("Starting to set up the web root");
-        
-	    File webDir = new File(DcConfig.getInstance().getWebDir(), "datacrow/");
-        webDir.mkdirs();
-        
-        File file;
-        File targetDir;
-        int idx;
-        Directory dir = new Directory(new File(DcConfig.getInstance().getInstallationDir(), "webapp/datacrow").toString(), true, null);
-        for (String s : dir.read()) {
-            try {
-                file = new File(s);
-                idx = s.indexOf("webapp/datacrow/") > -1 ? s.indexOf("webapp/datacrow/") : s.indexOf("webapp\\datacrow\\");
-                
-                if (idx == -1) continue;
-                
-                targetDir = (new File(webDir, s.substring(idx + "webapp/datacrow/".length())).getParentFile());
-                targetDir.mkdirs();
-                CoreUtilities.copy(file, new File(targetDir, file.getName()), true);
-            } catch (Exception e) {
-                logger.error("An error occured while copying file " + s, e);
-            }
-        }
-        
-        logger.info("Web root has been set up");
-	}
+	public void setup() {}
 	
     /**
      * Stops the server.

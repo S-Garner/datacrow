@@ -59,6 +59,7 @@ public class DcConfig {
     private String resourcesDir;
     private String upgradeDir;
     private String webDir;
+    private String webApiDir;
     private String attachmentDir;
     
     private int operatingMode;
@@ -308,6 +309,14 @@ public class DcConfig {
 	public String getWebDir() {
         return webDir;
     }
+	
+	public void setWebApiDir(String apiDir) {
+        this.webApiDir = apiDir;
+    }		
+	
+	public String getWebApiDir() {
+        return webApiDir;
+    }	
 
     public void setWebDir(String webDir) {
         this.webDir = webDir;

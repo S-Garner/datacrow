@@ -35,7 +35,7 @@ export function LoginPage() {
         {
             console.log(error);
             if (error.status === 401) {
-                navigate("/datacrow/login");    
+                navigate("/login");    
             }
         });
     }, [selectedLanguage]);
@@ -71,7 +71,7 @@ export function LoginPage() {
         if (user) {
             setSuccess(true);
             localStorage.setItem("token", user.token);
-            navigate("/datacrow", { replace: true });
+            navigate("/", { replace: true });
         } else {
             setSuccess(false);
             localStorage.removeItem("token");

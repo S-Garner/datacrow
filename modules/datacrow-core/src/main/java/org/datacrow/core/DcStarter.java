@@ -283,8 +283,10 @@ public class DcStarter {
         String userDir = dcc.getDataDir();
         String installDir = dcc.getInstallationDir();
         
-        if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER)
-        	dcc.setWebDir(installDir + "webapp/");
+        if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_SERVER) {
+        	dcc.setWebDir(installDir + "webapp-main/");
+        	dcc.setWebApiDir(installDir + "webapp-api/");
+        }
         
         dcc.setImageDir(userDir + "images/");
         dcc.setIconsDir(userDir + "images/icons/");

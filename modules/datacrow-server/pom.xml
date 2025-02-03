@@ -218,22 +218,39 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>copy-webapp</id>
+						<id>copy-webapp-api</id>
 						<phase>validate</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
 							<outputDirectory>
-								${project.parent.basedir}/datacrow-build/staging/dc-server/webapp</outputDirectory>
+								${project.parent.basedir}/datacrow-build/staging/dc-server/webapp-api</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${basedir}/webapp</directory>
+									<directory>${basedir}/webapp-api</directory>
 									<filtering>false</filtering>
 								</resource>
 							</resources>
 						</configuration>
 					</execution>
+                    <execution>
+                        <id>copy-webapp-main</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.parent.basedir}/datacrow-build/staging/dc-server/webapp-main</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/webapp-main</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
 					<execution>
 						<id>copy-resources-translations</id>
 						<phase>validate</phase>

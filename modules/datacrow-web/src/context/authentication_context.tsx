@@ -48,7 +48,7 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
 
 	if (!auth.user) {
 		// Redirect the unknown user to the /login page, saving the location the user came from
-		return <Navigate to="/datacrow/login" state={{ from: location }} replace />;
+		return <Navigate to="/login" state={{ from: location }} replace />;
 	}
 
 	return children;
