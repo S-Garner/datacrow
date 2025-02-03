@@ -34,7 +34,6 @@ export interface Module {
 	name: string;
 	icon: string;
 	references: Module[];
-	fields: Field[];
 	isTop: boolean;
 	hasChild: boolean;
 	child: Module;

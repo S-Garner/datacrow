@@ -85,9 +85,13 @@ public final class ModulePermission implements Serializable {
      * @param field
      */
     public final boolean isAuthorized(DcField field) {
-        Permission permission = fields.get(Integer.valueOf(field.getIndex()));
-        return permission != null ? permission.isViewingAllowed() : true;
+    	return isAuthorized(field.getIndex());
     }
+    
+    public final boolean isAuthorized(int fieldIdx) {
+        Permission permission = fields.get(Integer.valueOf(fieldIdx));
+        return permission != null ? permission.isViewingAllowed() : true;
+    }    
     
     /**
      * Checks if the user is allowed to see the module.

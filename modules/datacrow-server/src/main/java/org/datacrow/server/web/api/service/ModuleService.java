@@ -2,6 +2,8 @@ package org.datacrow.server.web.api.service;
 
 import java.util.List;
 
+import org.datacrow.core.security.SecuredUser;
+import org.datacrow.server.security.SecurityCenter;
 import org.datacrow.server.web.api.manager.ModuleManager;
 import org.datacrow.server.web.api.model.Module;
 
@@ -18,6 +20,8 @@ public class ModuleService extends DataCrowApiService {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Module> getMainModules(@HeaderParam("authorization") String token) {
     	checkAuthorization(token);
-    	return ModuleManager.getInstance().getMainModules();
+    	
+    	SecuredUser su = SecurityCenter.getInstance().getUser(token);
+    	return ModuleManager.getInstance().getMainModules(su);
     }
 }

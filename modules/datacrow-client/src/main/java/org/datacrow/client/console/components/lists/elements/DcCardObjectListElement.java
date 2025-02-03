@@ -189,10 +189,10 @@ public class DcCardObjectListElement extends DcObjectListElement {
         	fldPicture.setImageIcon(null);
         }
 
-        // TODO: might be needed to get rid off the memory bug
-        if (dco != null)
+        if (dco != null) {
         	dco.clearNewPictures();
-//        dco.cleanup();
+        	dco.clearNewAttachments();
+        }
         
         dco = null;
         build = false;

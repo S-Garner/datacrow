@@ -78,6 +78,8 @@ public class TabDesignPanel extends JPanel implements IFieldSelectionListener {
     
     private boolean isAllowed(int fieldIdx) {
         DcField field = module.getField(fieldIdx);
+        
+        if (field == null) return false;
 
         return  field.isEnabled() && 
                !field.isSystemField() &&

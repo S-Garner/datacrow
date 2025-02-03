@@ -1,5 +1,7 @@
 package org.datacrow.server.web.api.service;
 
+import org.datacrow.core.security.SecuredUser;
+import org.datacrow.server.security.SecurityCenter;
 import org.datacrow.server.web.api.manager.ItemManager;
 import org.datacrow.server.web.api.model.Item;
 
@@ -22,6 +24,8 @@ public class ItemService extends DataCrowApiService {
     		@PathParam("itemID") String ID) {
 
     	checkAuthorization(token);
-    	return ItemManager.getInstance().getItem(id.intValue(), ID);
+    	
+    	SecuredUser su = SecurityCenter.getInstance().getUser(token);
+    	return ItemManager.getInstance().getItem(su, id.intValue(), ID);
     }
 }

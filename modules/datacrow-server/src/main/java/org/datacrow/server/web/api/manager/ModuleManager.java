@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.security.SecuredUser;
 import org.datacrow.server.web.api.model.Module;
 
 public class ModuleManager {
@@ -39,8 +40,10 @@ public class ModuleManager {
     	return null;
     }
     
-    public List<Module> getMainModules() {
-        return mainModules.stream().collect(Collectors.toList());
+    public List<Module> getMainModules(SecuredUser su) {
+        return mainModules.stream()
+        		.filter(module -> su.isAuthorized(module.getIndex()))
+        		.collect(Collectors.toList());
     }
     
     public List<Module> getAll() {

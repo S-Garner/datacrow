@@ -182,6 +182,10 @@ public class DcObject implements Comparable<DcObject>, Serializable {
     	newPictures.clear();
     }
     
+    public void clearNewAttachments() {
+    	newAttachments.clear();
+    }
+    
     public void addNewPicture(Picture picture) {
     	if (!this.newPictures.contains(picture))
     		newPictures.add(picture);

@@ -12,6 +12,7 @@ import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.server.web.api.manager.ModuleManager;
 
@@ -34,7 +35,7 @@ public class Item {
 	@JsonProperty("fields")
 	private final List<FieldValue> fields = new LinkedList<FieldValue>();
 	
-	public Item(DcObject src, int[] fields) {
+	public Item(SecuredUser su, DcObject src, int[] fields) {
 
 		id = src.getID();
 		name = src.toString();
@@ -59,8 +60,11 @@ public class Item {
 		for (int fieldIdx : fields) {
 			field = m.getField(fieldIdx);
 			
-			if (module.getField(fieldIdx).isEnabled())
+			if (	module.getField(fieldIdx).isEnabled() &&
+					su.isAuthorized(m.getIndex(), field.getIndex())) {
+				
 				this.fields.add(new FieldValue(field, toValidValue(field, src.getValue(fieldIdx))));
+			}
 		}
 	}
 	

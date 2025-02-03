@@ -9,6 +9,7 @@ import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
 import org.datacrow.server.web.api.model.Item;
 
@@ -20,17 +21,17 @@ public class ItemManager {
         return instance;
     }
 
-	public Item getItem(int moduleIdx, String id) {
+	public Item getItem(SecuredUser su, int moduleIdx, String id) {
 		DcModule module = DcModules.get(moduleIdx);
 		DcObject dco = DcConfig.getInstance().getConnector().getItem(moduleIdx, id);
 		
 		if (dco != null)
-			return new Item(dco, module.getFieldIndices());
+			return new Item(su, dco, module.getFieldIndices());
 		
 		return null;
 	}
 	
-	public List<Item> getChildren(int childModuleIdx, String id) {
+	public List<Item> getChildren(SecuredUser su, int childModuleIdx, String id) {
 		
 		List<Item> children = new ArrayList<Item>(); 
 		
@@ -38,13 +39,13 @@ public class ItemManager {
 		Connector conn = DcConfig.getInstance().getConnector();
 		
 		for (DcObject child : conn.getChildren(id, childModuleIdx, cm.getMinimalFields(null))) {
-			children.add(new Item(child, cm.getFieldIndices()));
+			children.add(new Item(su, child, cm.getFieldIndices()));
 		}
 	
 		return children;
 	}
     
-	public List<Item> getItems(int moduleIdx) {
+	public List<Item> getItems(SecuredUser su, int moduleIdx) {
 		List<Item> items = new ArrayList<Item>();
 		
 		DcModule module = DcModules.get(moduleIdx);
@@ -53,12 +54,12 @@ public class ItemManager {
 		List<DcObject> objects = DcConfig.getInstance().getConnector().getItems(new DataFilter(moduleIdx), fields);
 		
 		for (DcObject dco : objects)
-			items.add(new Item(dco, fields));
+			items.add(new Item(su, dco, fields));
 		
 		return items;
 	}
 	
-	public List<Item> getItems(int moduleIdx, String search) {
+	public List<Item> getItems(SecuredUser su, int moduleIdx, String search) {
 		List<Item> items = new ArrayList<Item>();
 		
 		DcModule module = DcModules.get(moduleIdx);
@@ -67,7 +68,7 @@ public class ItemManager {
 		List<DcObject> objects = DcConfig.getInstance().getConnector().getItems(df, fields);
 
 		for (DcObject dco : objects)
-			items.add(new Item(dco, fields));
+			items.add(new Item(su, dco, fields));
 		
 		return items;
 	}	

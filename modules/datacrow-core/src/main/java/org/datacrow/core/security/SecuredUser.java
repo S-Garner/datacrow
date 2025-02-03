@@ -110,9 +110,14 @@ public final class SecuredUser implements Serializable {
      * @param field The to be checked field 
      */
     public boolean isAuthorized(DcField field) {
+        return isAuthorized(field.getModule(), field.getIndex());
+    }
+    
+    public boolean isAuthorized(int moduleIdx, int fieldIdx) {
         if (isAdmin()) return true;
-        ModulePermission mp = modulePermissions.get(Integer.valueOf(field.getModule()));
-        return mp == null ? false : mp.isAuthorized(field);
+        
+        ModulePermission mp = modulePermissions.get(Integer.valueOf(moduleIdx));
+        return mp == null ? false : mp.isAuthorized(fieldIdx);
     }
     
     /**
@@ -120,9 +125,13 @@ public final class SecuredUser implements Serializable {
      * @param module The to be checked module
      */
     public boolean isAuthorized(DcModule module) {
+    	return isAuthorized(module.getIndex());
+    }
+    
+    public boolean isAuthorized(int moduleIdx) {
     	if (isAdmin()) return true;
         
-    	return modulePermissions.get(Integer.valueOf(module.getIndex())).isAuthorized();
+    	return modulePermissions.get(Integer.valueOf(moduleIdx)).isAuthorized();
     }
     
     /**
@@ -130,22 +139,30 @@ public final class SecuredUser implements Serializable {
      * @param module The to be checked module
      */
     public boolean isEditingAllowed(DcModule module) {
+    	return isEditingAllowed(module.getIndex());
+    }
+    
+    public boolean isEditingAllowed(int moduleIdx) {
     	if (isAdmin()) return true;
         
-        return modulePermissions.get(Integer.valueOf(module.getIndex())).isEditingAllowed();
-    }
+        return modulePermissions.get(Integer.valueOf(moduleIdx)).isEditingAllowed();
+    }    
 
     /**
      * Indicates if the user is allowed to edit the specified field.
      * @param field The to be checked field
      */
     public boolean isEditingAllowed(DcField field) {
-    	if (isAdmin()) return true;
-    	
-        ModulePermission mp = modulePermissions.get(Integer.valueOf(field.getModule()));
-        Permission permission = mp != null ? mp.getPermision(field.getIndex()) : null;
-        return permission == null ? false : permission.isEditingAllowed();
+    	return isEditingAllowed(field.getModule(), field.getIndex());
     }
+    
+    public boolean isEditingAllowed(int moduleIdx, int fieldIdx) {
+    	if (isAdmin()) return true;
+        
+    	ModulePermission mp = modulePermissions.get(Integer.valueOf(moduleIdx));
+        Permission permission = mp != null ? mp.getPermision(fieldIdx) : null;
+        return permission == null ? false : permission.isEditingAllowed();
+    }    
     
     /**
      * Checks if the user is allowed to use the plugin.
