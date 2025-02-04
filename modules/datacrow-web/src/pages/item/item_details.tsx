@@ -87,7 +87,7 @@ export function ItemPage() {
 
                     <Tab eventKey="details" title={t("lblDetails")}>
                         <FormProvider {...methods}>
-                            <Form key="form-item-detail" noValidate validated={validated} onSubmit={methods.handleSubmit(onSubmit)}>
+                            <Form key="form-item-detail" validated={validated} onSubmit={methods.handleSubmit(onSubmit)}>
                                 
                                 {references && item?.fields.map((fieldValue) => (
                                     <InputField
