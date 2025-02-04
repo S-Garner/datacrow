@@ -132,7 +132,7 @@ public class ItemManager {
 		
 		// handle all to empty here
 		if (CoreUtilities.isEmpty(newValue)) {
-			dco.setValue(fieldIdx, "");
+			dco.setValueLowLevel(fieldIdx, null);
 			
 		// apply all others, here
 		} else {
@@ -159,9 +159,6 @@ public class ItemManager {
 				if (!CoreUtilities.getComparableString(oldValue).
 						equals(CoreUtilities.getComparableString(newValue))) {
 					
-					logger.debug(field.getLabel() + 
-							" has been changed. Old [" + (oldValue == null ? "" : oldValue) + "] new value [" + newValue + "]");
-					
 					dco.setValue(fieldIdx, newValue);
 				}
 			}
@@ -185,49 +182,94 @@ public class ItemManager {
 		}
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void applyMultiReferences(DcObject dco, int fieldIdx, Object oldValue, Object newValue) {
+		removeMultiReferences(dco, fieldIdx, oldValue, newValue);
+		addMultiReferences(dco, fieldIdx, oldValue, newValue);
+	}	
+	
+	private void removeMultiReferences(DcObject dco, int fieldIdx, Object oldValue, Object newValue) {
+		int moduleIdx = DcModules.getReferencedModule(dco.getField(fieldIdx)).getIndex();
 		
+		@SuppressWarnings("unchecked")
+		Collection<DcMapping> mappings = (Collection<DcMapping>) dco.getValue(fieldIdx);
+		
+		// if there are no mappings we do not have to do anything
+		if (mappings == null || mappings.size() == 0)
+			return;
+
+		// create a list of the new ids for easy reference
+		Collection<String> newIds = new ArrayList<String>();
+		
+		String id;
+		Map<?, ?> values;
+		
+		for (Object e : (Collection<?>) newValue) {
+			values = (Map<?, ?>) e;
+			id = (String) values.get("value");
+			newIds.add(id);
+		}
+
+		// check if the existing mappings are part of the new ids list
+		Collection<DcMapping> remove = new ArrayList<DcMapping>();
+		for (DcMapping mapping : mappings) {
+			id = (String) mapping.getValue(DcMapping._B_REFERENCED_ID);
+
+			if (!newIds.contains(id))
+				remove.add(mapping);
+		}
+		
+		if (remove.size() > 0) {
+			mappings.removeAll(remove);
+			dco.setValueLowLevel(fieldIdx, mappings);
+		}
+	}
+	
+	private void addMultiReferences(DcObject dco, int fieldIdx, Object oldValue, Object newValue) {
 		Connector conn = DcConfig.getInstance().getConnector();
 		int moduleIdx = DcModules.getReferencedModule(dco.getField(fieldIdx)).getIndex();
 		
 		String id;
 		String name;
-		Map values;
+		Map<?, ?> values;
 		
 		DcObject ref;
 		
-		Collection<DcMapping> mappings;
+		@SuppressWarnings("unchecked")
+		Collection<DcMapping> mappings = (Collection<DcMapping>) dco.getValue(fieldIdx);
 		boolean create;
 		
-		for (Object e : (Collection) newValue) {
+		for (Object e : (Collection<?>) newValue) {
 			
 			create = false;
 			
-			values = (Map) e;
+			values = (Map<?, ?>) e;
 			id = (String) values.get("value");
 			name = (String) values.get("label");
 			
-			mappings = (Collection<DcMapping>) dco.getValue(fieldIdx);
-			
-			create = CoreUtilities.isEmpty(id) || mappings == null || mappings.size() == 0;
+			create = CoreUtilities.isEmpty(id) || id.equals(name) || mappings == null || mappings.size() == 0;
 			
 			if (!create) {
+				
+				// next phase; check if the value exists - if not found, create is set to true
+				create = true;
+				
 				for (DcMapping mapping : mappings) {
-					if (mapping.getID().equals(id)) {
+					if (mapping.getValue(DcMapping._B_REFERENCED_ID).equals(id)) {
 						create = false;
 						break;
 					}
 				}
 			}
 			
-			// check if id is set, else create by label - this is used for create list fields & tags
-			if (CoreUtilities.isEmpty(id)) {
-				dco.createReference(fieldIdx, name);
-			} else {
-				ref = conn.getItem(moduleIdx, id);
-				dco.createReference(fieldIdx, ref);
+			if (create) {
+				// check if id is set, else create by label - this is used for create list fields & tags
+				if (CoreUtilities.isEmpty(id) || id.equals(name)) {
+					dco.createReference(fieldIdx, name);
+				} else {
+					ref = conn.getItem(moduleIdx, id);
+					dco.createReference(fieldIdx, ref);
+				}
 			}
-		}
+		}		
 	}
 }
