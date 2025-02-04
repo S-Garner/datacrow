@@ -44,10 +44,8 @@ export default function InputField({
     const {t} = useTranslation();
 
     return (
-        !field.readOnly &&
-        
         <Col key={"detailsColField" + field.index}>
-            {field.type != FieldType.CheckBox && (
+            {(field.type != FieldType.CheckBox && !field.hidden) && (
                 <Row key={"detailsRowLabelField" + field.index}>
                     <Form.Label
                         style={{ textAlign: "left" }}

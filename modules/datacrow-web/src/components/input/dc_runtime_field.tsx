@@ -35,13 +35,13 @@ const Input: React.FC<InputProps> = ({ currentValue, field, ...rest }) => {
     function runtimeValueChange(e: React.ChangeEvent<HTMLInputElement>) {
         
         // update the hidden input field
-        setValue("controller-inputfield-" + field.index, "CHANGED");
+        setValue("inputfield-" + field.index, "CHANGED");
     }
 
     return (
         <Controller
-            name={"controller-inputfield-" + field.index}
-            key={"controller-inputfield-" + field.index}
+            name={"inputfield-" + field.index}
+            key={"inputfield-" + field.index}
             defaultValue={rating}
             rules={{ required: field.required }}
             render={renderProps => {
@@ -50,8 +50,7 @@ const Input: React.FC<InputProps> = ({ currentValue, field, ...rest }) => {
                         <RuntimeInput />
                         <input
                             type="text"
-                            key={"controller-inputfield-" + field.index}
-                            {...register("controller-inputfield-" + field.index)}
+                            {...register("inputfield-" + field.index)}
                             {...renderProps.field}
                             {...rest}
                             hidden={true}

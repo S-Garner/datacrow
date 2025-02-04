@@ -56,6 +56,7 @@ public class Module {
 				m.getType() != DcModule._TYPE_EXTERNALREFERENCE_MODULE &&
 				m.getIndex() != DcModules._CONTACTPERSON &&
 			    m.getIndex() != DcModules._TAG &&
+			    m.getIndex() != DcModules._PERMISSION &&
 				m.getIndex() != DcModules._CONTAINER) {
 
 				reference = new Module(m);

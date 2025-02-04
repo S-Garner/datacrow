@@ -20,6 +20,7 @@ export default function DcCheckBox({
 				placeholder={t(field.label)}
 				aria-label={t(field.label)}
 				label={t(field.label)}
+				hidden={field.hidden}
 				readOnly={field.readOnly}
 				required={field.required}
                 {...register("inputfield-" + field.index)} />

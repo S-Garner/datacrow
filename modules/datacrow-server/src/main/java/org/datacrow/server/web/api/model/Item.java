@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcMapping;
@@ -60,13 +61,16 @@ public class Item {
 		for (int fieldIdx : fields) {
 			field = m.getField(fieldIdx);
 			
-			if (module.getField(fieldIdx).isEnabled() &&
-				su.isAuthorized(m.getIndex(), field.getIndex())) {
+			if (	(module.getField(fieldIdx).isEnabled() || fieldIdx == DcObject._ID)  && // enable - unless it's the ID field
+					module.getField(fieldIdx).getValueType() != DcRepository.ValueTypes._PICTURE && // prevent the picture x..z fields from appearing
+					su.isAuthorized(m.getIndex(), field.getIndex())) { // and the user needs to be authorized to see the field
 				
 				fieldCpy = new Field(field);
 				
-				if (!field.isReadOnly()) 
+				if (!field.isReadOnly()) {
+					// set editable based on permissions
 					fieldCpy.setReadOnly(!su.isEditingAllowed(m.getIndex(), field.getIndex()));
+				}
 				
 				this.fields.add(new FieldValue(
 						fieldCpy, 

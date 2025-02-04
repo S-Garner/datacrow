@@ -79,8 +79,8 @@ export default function DcReferenceField({
 
     return (
         <Controller
-            name={"controller-inputfield-" + field.index}
-            key={"controller-inputfield-" + field.index}
+            name={"inputfield-" + field.index}
+            key={"inputfield-" + field.index}
             defaultValue={currentValue}
             rules={{ required: field.required }}
             render={renderProps => {
@@ -88,11 +88,11 @@ export default function DcReferenceField({
                     <Select
                         className="react-select-container"
                         classNamePrefix="react-select"
-                        key={"inputfield-" + field.index}
                         options={options}
                         defaultValue={currentValue}
                         isClearable
                         isSearchable
+                        isDisabled={field.readOnly}
                         placeholder="..."
                         components={{ Option: IconOption, Control }}
                         {...register("inputfield-" + field.index)}

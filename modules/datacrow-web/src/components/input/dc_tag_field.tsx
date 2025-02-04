@@ -63,8 +63,8 @@ export default function DcTagField({
 
     return (
         <Controller
-            name={"controller-inputfield-" + field.index}
-            key={"controller-inputfield-" + field.index}
+            name={"inputfield-" + field.index}
+            key={"inputfield-" + field.index}
             defaultValue={currentValue}
             rules={{ required: field.required }}
             render={renderProps => {
@@ -72,7 +72,7 @@ export default function DcTagField({
                     <CreatableSelect
                         className="react-select-container"
                         classNamePrefix="react-select"
-                        key={"inputfield-" + field.index}
+                        isDisabled={field.readOnly}
                         options={options}
                         defaultValue={currentValue}
                         isClearable

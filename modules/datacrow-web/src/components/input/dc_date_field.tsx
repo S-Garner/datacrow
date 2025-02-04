@@ -17,6 +17,7 @@ export function DcDateField({
 			defaultValue={(value as string)}
 			placeholder={field.label}
 			aria-label={field.label}
+			hidden={field.hidden}
 			readOnly={field.readOnly}
 			required={field.required}
 			{...register("inputfield-" + field.index)} />

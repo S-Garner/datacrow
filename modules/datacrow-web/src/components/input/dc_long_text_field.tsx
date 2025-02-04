@@ -19,6 +19,7 @@ export function DcLongTextField({
 			placeholder={t(field.label)}
 			aria-label={field.label}
 			readOnly={field.readOnly}
+			hidden={field.hidden}
 			as="textarea" 
 			rows={5}
 			required={field.required}

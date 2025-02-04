@@ -37,14 +37,15 @@ const Input: React.FC<InputProps> = ({ currentValue, field, ...rest }) => {
     function changeRating(star: number) {
         setRating(star);
         // update the hidden input field
-        setValue("controller-inputfield-" + field.index, star)
+        setValue("inputfield-" + field.index, star)
     }
 
     return (
         <Controller
-            name={"controller-inputfield-" + field.index}
-            key={"controller-inputfield-" + field.index}
+            name={"inputfield-" + field.index}
+            key={"inputfield-" + field.index}
             defaultValue={rating}
+            disabled={field.readOnly}
             rules={{ required: field.required }}
             render={renderProps => {
                 return (
@@ -52,8 +53,8 @@ const Input: React.FC<InputProps> = ({ currentValue, field, ...rest }) => {
                         <StarRating />
                         <input
                             type="text"
-                            key={"controller-inputfield-" + field.index}
-                            {...register("controller-inputfield-" + field.index)}
+                            key={"inputfield-" + field.index}
+                            {...register("inputfield-" + field.index)}
                             {...renderProps.field}
                             {...rest}
                             hidden={true}

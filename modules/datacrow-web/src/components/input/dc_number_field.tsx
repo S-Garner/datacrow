@@ -30,6 +30,7 @@ export function DcNumberField({
 			placeholder={t(field.label)}
 			aria-label={field.label}
 			readOnly={field.readOnly}
+			hidden={field.hidden}
 			required={field.required}
 			{...register("inputfield-" + field.index)} />
 	);

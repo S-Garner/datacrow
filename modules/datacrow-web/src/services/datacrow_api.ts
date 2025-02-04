@@ -72,12 +72,18 @@ export interface Field {
 	maximumLength: number;
 	label: string;
 	required: boolean;
+	hidden: boolean;
 }
 
 export interface Reference {
     id: string;
     name: string;
     iconUrl: string;
+}
+
+
+export async function saveItem(moduleIdx: number, data: Map<string, Object>): Promise<void> {
+    const response = await instance.post(baseUrl + 'item', {payload: data, module: moduleIdx});
 }
 
 export async function login(username: string, password: string): Promise<User | null> {

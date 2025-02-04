@@ -40,6 +40,8 @@ public class Field {
     private boolean readOnly;
     @JsonProperty("required")
     private final boolean required;
+    @JsonProperty("hidden")
+    private final boolean hidden;    
     
 	public Field(DcField src) {
 		index = src.getIndex();
@@ -49,6 +51,7 @@ public class Field {
 		label = src.getResourceKey();
 		readOnly = src.isReadOnly();
 		required  = src.isRequired();
+		hidden = !src.isEnabled();
 		setType(src);
 	}
 	
@@ -61,6 +64,7 @@ public class Field {
 		readOnly = src.isReadOnly();
 		required  = src.isRequired();
 		type = src.getType();
+		hidden = src.isHidden();
 	}
 	
 	public int getIndex() {
@@ -86,6 +90,10 @@ public class Field {
 	public boolean isReadOnly() {
 		return readOnly;
 	}
+	
+	public boolean isHidden() {
+		return hidden;
+	}	
 	
 	public void setReadOnly(boolean b) {
 		this.readOnly = b;

@@ -2,6 +2,7 @@ package org.datacrow.server.web.api.manager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.data.DataFilter;
@@ -9,6 +10,7 @@ import org.datacrow.core.data.DataFilters;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
+import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
 import org.datacrow.server.web.api.model.Item;
@@ -71,6 +73,22 @@ public class ItemManager {
 			items.add(new Item(su, dco, fields));
 		
 		return items;
-	}	
+	}
+	
+	public void saveItem(Map<Object, Object> data, DcObject dco) throws ValidationException {
+		Object value;
+		String key;
+		int fieldIdx;
+		
+    	for (Object o : data.keySet()) {
+    		key = (String) o; 
+    		value = data.get(key);
+    		fieldIdx = Integer.parseInt(
+    				key.substring(key.lastIndexOf("-") + 1));
+    		
+    		System.out.println("field found: " + fieldIdx + ", value: " + value);
+    	}
+
+	}
 	
 }

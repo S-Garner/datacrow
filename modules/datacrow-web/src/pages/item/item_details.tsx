@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchItem, fetchReferences, type Field, type Item, type References } from "../../services/datacrow_api";
+import { fetchItem, fetchReferences, saveItem, type Field, type Item, type References } from "../../services/datacrow_api";
 import { RequireAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
 import { Button, Tab, Tabs } from "react-bootstrap";
@@ -61,8 +61,18 @@ export function ItemPage() {
         return undefined;
     }
     
-    const onSubmit = (data: any, e: any) => console.log("Okay", data);
-    const onError = (errors: any, e: any) => console.log("Error", errors);
+    const onSubmit = (data: any, e: any) => {
+        e.preventDefault();
+        
+        saveItem(currentModule.selectedModule.index, data);
+        
+        console.log("Okay", data);
+    }
+        
+        
+    const onError = (errors: any, e: any) => {
+        console.log("Error", errors);
+    }
 
     return (
         <RequireAuth>
@@ -85,6 +95,14 @@ export function ItemPage() {
                                         references={ReferencesForField(fieldValue.field)}
                                     />
                                 ))}
+                                
+                                <input
+                                    type="text"
+                                    value={currentModule.selectedModule && currentModule.selectedModule.index}
+                                    key={"moduleIdx"}
+                                    hidden={true}
+                                />
+                                
                                 <Button type="submit" key="item-details-submit-button">
                                     {t("lblSave")}
                                 </Button>
@@ -100,14 +118,18 @@ export function ItemPage() {
                         )
                     }
     
+                    {state &&
                     <Tab eventKey="images" title={t("lblPictures")}>
                         <PictureEditList itemID={state.itemID} />
                     </Tab>
+                    }
                     
+                    {state &&
                     <Tab eventKey="attachments" title={t("lblAttachments")}>
                         <div>
                         </div>
                     </Tab>
+                    }
 
                 </Tabs>
             </div>

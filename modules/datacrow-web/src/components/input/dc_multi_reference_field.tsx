@@ -62,8 +62,8 @@ export default function DcMultiReferenceField({
 
     return (
         <Controller
-            name={"controller-inputfield-" + field.index}
-            key={"controller-inputfield-" + field.index}
+            name={"inputfield-" + field.index}
+            key={"inputfield-" + field.index}
             defaultValue={currentValue}
             rules={{ required: field.required }}
             render={renderProps => {
@@ -71,11 +71,11 @@ export default function DcMultiReferenceField({
                     <Select
                         className="react-select-container"
                         classNamePrefix="react-select"
-                        key={"inputfield-" + field.index}
                         options={options}
                         defaultValue={currentValue}
                         isClearable
                         isMulti
+                        isDisabled={field.readOnly}
                         isSearchable
                         placeholder="..."
                         components={{ Option: IconOption }}
