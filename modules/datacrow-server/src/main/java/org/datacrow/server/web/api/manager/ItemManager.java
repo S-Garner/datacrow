@@ -5,17 +5,24 @@ import java.util.List;
 import java.util.Map;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.data.DataFilters;
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.server.web.api.model.Item;
 
 public class ItemManager {
+	
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(ItemManager.class.getName());
 	
 	private static ItemManager instance = new ItemManager();
 	 
@@ -76,19 +83,90 @@ public class ItemManager {
 	}
 	
 	public void saveItem(Map<Object, Object> data, DcObject dco) throws ValidationException {
-		Object value;
+		
+		Connector conn = DcConfig.getInstance().getConnector();
+		
+		Object newValue;
+		Object oldValue;
 		String key;
 		int fieldIdx;
 		
+		// use a shadow copy as this allows setting strings as values, etc.		
+		DcObject cpy = dco.clone();
+		cpy.markAsUnchanged();
+		
     	for (Object o : data.keySet()) {
     		key = (String) o; 
-    		value = data.get(key);
+    		newValue = data.get(key);
     		fieldIdx = Integer.parseInt(
     				key.substring(key.lastIndexOf("-") + 1));
-    		
-    		System.out.println("field found: " + fieldIdx + ", value: " + value);
+    	
+    		oldValue = dco.getValue(fieldIdx);
+    		applyValue(dco, cpy, fieldIdx, oldValue, newValue);
     	}
 
+    	if (dco.isChanged())
+    		conn.saveItem(dco);
+    	
+    	cpy.cleanup();
 	}
 	
+	private void applyValue(DcObject dco, DcObject cpy, int fieldIdx, Object oldValue, Object newValue) {
+		
+		// skip these fields as they will be different regardless
+		if (	fieldIdx == DcObject._SYS_AVAILABLE || 
+				fieldIdx == DcObject._SYS_CREATED || 
+				fieldIdx == DcObject._SYS_MODIFIED || 
+				fieldIdx == DcObject._SYS_EXTERNAL_REFERENCES)
+			return;
+		
+		// both are empty - skip
+		if ((CoreUtilities.isEmpty(newValue) && CoreUtilities.isEmpty(oldValue)) ||
+			(CoreUtilities.isEmpty(oldValue) && (newValue instanceof Boolean && newValue.equals(Boolean.FALSE))))
+			return;
+		
+		DcField field = dco.getField(fieldIdx);
+		
+		// handle all to empty here
+		if (CoreUtilities.isEmpty(newValue)) {
+			dco.setValue(fieldIdx, "");
+			
+		// apply all others, here
+		} else {
+			
+			if (field.getValueType() == DcRepository.ValueTypes._DATE) {
+				
+				try {
+					newValue = CoreUtilities.toDate((String) newValue, "yyyy-dd-MM");
+				} catch (Exception e) {
+					logger.error("Could not set value for field [" + fieldIdx + "]", e);
+				}
+				
+			}
+			
+			if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
+				
+				System.out.println();
+				
+			} else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
+				
+				System.out.println();
+				
+			} else {
+				
+				cpy.setValue(fieldIdx, newValue);
+				
+				newValue = cpy.getValue(fieldIdx);
+				
+				if (!CoreUtilities.getComparableString(oldValue).
+						equals(CoreUtilities.getComparableString(newValue))) {
+					
+					logger.debug(field.getLabel() + 
+							" has been changed. Old [" + (oldValue == null ? "" : oldValue) + "] new value [" + newValue + "]");
+					
+					dco.setValue(fieldIdx, newValue);
+				}
+			}
+		}
+	}
 }

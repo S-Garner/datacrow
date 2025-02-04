@@ -52,6 +52,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -854,6 +855,11 @@ public class CoreUtilities {
         timestamp = dfm.format(cal.getTime());
         return timestamp;
     }
+
+    public static Date toDate(String s, String pattern) throws ParseException {
+    	DateFormat format = new SimpleDateFormat(pattern, Locale.ENGLISH);
+    	return format.parse(s);
+    }        
     
     public static Date toDate(String s) {
     	LocalDateTime dt = LocalDateTime.parse(s);

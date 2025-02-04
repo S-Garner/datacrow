@@ -88,6 +88,7 @@ export function ItemPage() {
                     <Tab eventKey="details" title={t("lblDetails")}>
                         <FormProvider {...methods}>
                             <Form key="form-item-detail" noValidate validated={validated} onSubmit={methods.handleSubmit(onSubmit)}>
+                                
                                 {references && item?.fields.map((fieldValue) => (
                                     <InputField
                                         field={fieldValue.field}
@@ -96,16 +97,10 @@ export function ItemPage() {
                                     />
                                 ))}
                                 
-                                <input
-                                    type="text"
-                                    value={currentModule.selectedModule && currentModule.selectedModule.index}
-                                    key={"moduleIdx"}
-                                    hidden={true}
-                                />
-                                
                                 <Button type="submit" key="item-details-submit-button">
                                     {t("lblSave")}
                                 </Button>
+                                
                             </Form>
                         </FormProvider>
                     </Tab>
