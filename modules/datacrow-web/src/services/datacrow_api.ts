@@ -82,8 +82,9 @@ export interface Reference {
     iconUrl: string;
 }
 
-export async function deletePicture(itemID: string, number: string): Promise<Response> {
-    return await instance.delete(baseUrl + 'pictures/' + itemID + '/' + number);
+export async function deletePicture(itemID: string, number: string): Promise<Picture[]> {
+    const response = await instance.delete(baseUrl + 'pictures/' + itemID + '/' + number);
+    return response.data;
 }
 
 export async function saveItem(moduleIdx: number, data: Map<string, Object>): Promise<Response> {

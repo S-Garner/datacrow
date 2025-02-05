@@ -25,12 +25,12 @@ public class PictureService extends DataCrowApiService {
     		@HeaderParam("authorization") String token,
     		@PathParam("itemID") String ID) {
 
-		Collection<Picture> pictures = new LinkedList<Picture>();
 		
-    	checkAuthorization(token);
-    	for (org.datacrow.core.pictures.Picture p : PictureManager.getInstance().getPictures(ID)) {
+		checkAuthorization(token);
+		
+		Collection<Picture> pictures = new LinkedList<Picture>();
+    	for (org.datacrow.core.pictures.Picture p : PictureManager.getInstance().getPictures(ID))
     		pictures.add(new Picture(p.getObjectID(), p.getUrl(), p.getThumbnailUrl(), p.getFilename()));
-    	}
     	
     	return pictures;
     }
@@ -38,7 +38,12 @@ public class PictureService extends DataCrowApiService {
 	@Path("/{itemID}/{number}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("itemID") String itemID, @PathParam("number") String number) {
+    public Response delete(
+    		@HeaderParam("authorization") String token, 
+    		@PathParam("itemID") String itemID, 
+    		@PathParam("number") String number) {
+		
+		checkAuthorization(token);
 		
 		PictureManager pm = PictureManager.getInstance();
 		
@@ -46,8 +51,12 @@ public class PictureService extends DataCrowApiService {
 			if (pic.getFilename().endsWith(number + ".jpg"))
 				pm.deletePicture(pic);
 		}
+		
+		
+		Collection<Picture> pictures = new LinkedList<Picture>();
+    	for (org.datacrow.core.pictures.Picture p : PictureManager.getInstance().getPictures(itemID))
+    		pictures.add(new Picture(p.getObjectID(), p.getUrl(), p.getThumbnailUrl(), p.getFilename()));
 
-		// TODO: translate / use?
-		return Response.ok().entity("Picture has been deleted successfully.").build();
+		return Response.ok().entity(pictures).build();
     }
 }

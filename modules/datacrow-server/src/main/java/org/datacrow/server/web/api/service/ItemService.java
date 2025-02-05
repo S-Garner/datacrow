@@ -40,7 +40,10 @@ public class ItemService extends DataCrowApiService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response update(Map<Object, Object> data) {
+    public Response update(@HeaderParam("authorization") String token, Map<Object, Object> data) {
+    	
+    	checkAuthorization(token);
+    	
     	@SuppressWarnings("unchecked")
 		Map<Object, Object> payload = (Map<Object, Object>) data.get("payload");
     	

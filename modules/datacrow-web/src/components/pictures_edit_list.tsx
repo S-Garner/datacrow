@@ -44,7 +44,19 @@ export default function PictureEditList({itemID} : Props) {
     }
     
     function handleDeleteAfterConfirm() {
-        picture && deletePicture(picture.objectID, picture.order);
+        
+        setShowDeleteConfirm(false);
+        
+        if (picture) {
+            deletePicture(picture.objectID, picture.order).
+                then((data) => setPictures(data)).
+                catch(error => {
+                    console.log(error);
+                    if (error.status === 401) {
+                        navigate("/login");
+                    }
+                });
+        } 
     }
     
     return (
