@@ -60,7 +60,7 @@ export default function PictureEditList({itemID} : Props) {
     }
     
     return (
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
+        <div >
         
             <Modal show={showDeleteConfirm} onHide={() => setShowDeleteConfirm(false)}>
                 <Modal.Body>{t("msgDeletePictureConfirmation")}</Modal.Body>
@@ -81,8 +81,15 @@ export default function PictureEditList({itemID} : Props) {
                         {t("lblPicture")}&nbsp;#{picture.order}
                         
                         <div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0" }} >
-                            <i className="bi bi-arrow-down" onClick={() => movePictureDown(picture)}></i>
-                            <i className="bi bi-arrow-up" onClick={() => movePictureUp(picture)}></i>
+                            
+                            {(picture.order < pictures.length) &&
+                                (<i className="bi bi-arrow-down" onClick={() => movePictureDown(picture)}></i>)
+                            }
+
+                            {(picture.order > 1) &&
+                                (<i className="bi bi-arrow-up" onClick={() => movePictureUp(picture)}></i>)
+                            }
+                            
                             <i className="bi bi-eraser" onClick={() => handleDelete(picture)}></i>
                         </div>            
                         
