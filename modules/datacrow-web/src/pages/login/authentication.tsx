@@ -51,7 +51,7 @@ export function LoginPage() {
 		
         setTimeout(function() {
             setSuccess(false);
-        }, 1000);
+        }, 1500);
 	}
 	
 	/**

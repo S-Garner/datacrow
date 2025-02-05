@@ -32,6 +32,7 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
   lblIncludeAttachments = Include Attachments
   lblCopyAttachments = Copy Attachments
   lblAfter = After
+  lblPicture = Picture
   msgLoginFailed=You could not be logged in
   msgLoginFailedDetails=Invalid credentials were provided. Please enter the correct username and password.
   lblItemsPerPage = Items per page:
