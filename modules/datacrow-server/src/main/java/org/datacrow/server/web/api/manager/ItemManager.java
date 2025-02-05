@@ -188,8 +188,6 @@ public class ItemManager {
 	}	
 	
 	private void removeMultiReferences(DcObject dco, int fieldIdx, Object oldValue, Object newValue) {
-		int moduleIdx = DcModules.getReferencedModule(dco.getField(fieldIdx)).getIndex();
-		
 		@SuppressWarnings("unchecked")
 		Collection<DcMapping> mappings = (Collection<DcMapping>) dco.getValue(fieldIdx);
 		

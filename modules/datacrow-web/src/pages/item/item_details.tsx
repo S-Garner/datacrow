@@ -63,15 +63,7 @@ export function ItemPage() {
     
     const onSubmit = (data: any, e: any) => {
         e.preventDefault();
-        
         saveItem(currentModule.selectedModule.index, data);
-        
-        console.log("Okay", data);
-    }
-        
-        
-    const onError = (errors: any, e: any) => {
-        console.log("Error", errors);
     }
 
     return (
@@ -113,10 +105,12 @@ export function ItemPage() {
                         )
                     }
     
-                    {state &&
-                    <Tab eventKey="images" title={t("lblPictures")}>
-                        <PictureEditList itemID={state.itemID} />
-                    </Tab>
+                    {item?.id &&
+                        (
+                            <Tab eventKey="plaatjes" title={t("lblPictures")}>
+                                <PictureEditList itemID={item?.id} />
+                            </Tab>
+                        )
                     }
                     
                     {state &&

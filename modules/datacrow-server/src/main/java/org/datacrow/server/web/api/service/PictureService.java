@@ -19,7 +19,7 @@ public class PictureService extends DataCrowApiService {
 	@GET
     @Path("/{itemID}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Picture> getItem(
+    public Collection<Picture> getPictures(
     		@HeaderParam("authorization") String token,
     		@PathParam("itemID") String ID) {
 

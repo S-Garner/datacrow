@@ -27,6 +27,7 @@ export interface Picture {
     thumbUrl: string;
     objectID: string;
     filename: string;
+    order: string;
 }
 
 export interface Module {

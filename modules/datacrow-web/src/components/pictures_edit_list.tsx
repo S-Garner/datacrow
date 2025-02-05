@@ -13,22 +13,22 @@ export default function PictureEditList({itemID} : Props) {
     const navigate = useNavigate();
     
     useEffect(() => {
-        fetchPictures(itemID).
-        then((data) => setPictures(data)).
-        catch(error => {
-            console.log(error);
-            if (error.status === 401) {
-                navigate("/login");
-            }
-        });
-    });
+        itemID && fetchPictures(itemID).
+            then((data) => setPictures(data)).
+            catch(error => {
+                console.log(error);
+                if (error.status === 401) {
+                    navigate("/login");
+                }
+            });
+    }, [itemID]);
     
     return (
         <div style={{ display: "flex", flexWrap: "wrap" }}>
             {pictures && pictures.map((picture) => (
                 <Card style={{ width: '18rem' }} key={"card-pic-" + picture.filename}>
-                    <Card.Header style={{ height: '112px' }}>
-                        {picture.filename}
+                    <Card.Header style={{ height: '2.5em' }}>
+                        {picture.order}
                     </Card.Header>
                     <Card.Img src={picture.thumbUrl}  />
                 </Card>
