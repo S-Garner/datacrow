@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchPictures, type Picture } from "../services/datacrow_api";
+import { deletePicture, fetchPictures, type Picture } from "../services/datacrow_api";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Modal } from "react-bootstrap";
 import { useTranslation } from "../context/translation_context";
@@ -38,13 +38,13 @@ export default function PictureEditList({itemID} : Props) {
         console.log("moving it up");
     }
     
-    function deletePicture(picture: Picture) {
+    function handleDelete(picture: Picture) {
         setPicture(picture);
         setShowDeleteConfirm(true);
     }
     
-    function deletePictureAfterConfirm() {
-        console.log("deleting the selected picture");
+    function handleDeleteAfterConfirm() {
+        picture && deletePicture(picture.objectID, picture.order);
     }
     
     return (
@@ -56,7 +56,7 @@ export default function PictureEditList({itemID} : Props) {
                     <Button variant="secondary" onClick={() => setShowDeleteConfirm(false)}>
                         {t("lblClose")}
                     </Button>
-                    <Button variant="primary" onClick={() => deletePictureAfterConfirm()}>
+                    <Button variant="primary" onClick={() => handleDeleteAfterConfirm()}>
                         {t("lblOK")}
                     </Button>
                 </Modal.Footer>
@@ -71,7 +71,7 @@ export default function PictureEditList({itemID} : Props) {
                         <div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0" }} >
                             <i className="bi bi-arrow-down" onClick={() => movePictureDown(picture)}></i>
                             <i className="bi bi-arrow-up" onClick={() => movePictureUp(picture)}></i>
-                            <i className="bi bi-eraser" onClick={() => deletePicture(picture)}></i>
+                            <i className="bi bi-eraser" onClick={() => handleDelete(picture)}></i>
                         </div>            
                         
                     </Card.Header>

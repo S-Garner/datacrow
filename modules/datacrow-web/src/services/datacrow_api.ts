@@ -82,9 +82,12 @@ export interface Reference {
     iconUrl: string;
 }
 
+export async function deletePicture(itemID: string, number: string): Promise<Response> {
+    return await instance.delete(baseUrl + 'pictures/' + itemID + '/' + number);
+}
 
-export async function saveItem(moduleIdx: number, data: Map<string, Object>): Promise<void> {
-    const response = await instance.post(baseUrl + 'item', {payload: data, module: moduleIdx});
+export async function saveItem(moduleIdx: number, data: Map<string, Object>): Promise<Response> {
+    return await instance.post(baseUrl + 'item', {payload: data, module: moduleIdx});
 }
 
 export async function login(username: string, password: string): Promise<User | null> {
