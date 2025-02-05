@@ -66,7 +66,7 @@ export default function PictureEditList({itemID} : Props) {
                 <Card style={{ width: '18rem' }} key={"card-pic-" + picture.filename}>
                     <Card.Img src={picture.thumbUrl}  />
                     <Card.Header style={{ height: '2.5em' }}>
-                        {t("lblPicture")} {picture.order}
+                        {t("lblPicture")}&nbsp;#{picture.order}
                         
                         <div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0" }} >
                             <i className="bi bi-arrow-down" onClick={() => movePictureDown(picture)}></i>
