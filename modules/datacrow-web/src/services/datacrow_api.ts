@@ -82,8 +82,18 @@ export interface Reference {
     iconUrl: string;
 }
 
-export async function deletePicture(itemID: string, number: string): Promise<Picture[]> {
+export async function deletePicture(itemID: string, number: number): Promise<Picture[]> {
     const response = await instance.delete(baseUrl + 'pictures/' + itemID + '/' + number);
+    return response.data;
+}
+
+export async function movePictureUp(itemID: string, number: number): Promise<Picture[]> {
+    const response = await instance.get(baseUrl + 'pictures/moveup/' + itemID + '/' + number);
+    return response.data;
+}
+
+export async function movePictureDown(itemID: string, number: number): Promise<Picture[]> {
+    const response = await instance.get(baseUrl + 'pictures/movedown/' + itemID + '/' + number);
     return response.data;
 }
 

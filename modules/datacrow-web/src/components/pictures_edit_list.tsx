@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deletePicture, fetchPictures, type Picture } from "../services/datacrow_api";
+import { deletePicture, fetchPictures, movePictureDown, movePictureUp, type Picture } from "../services/datacrow_api";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Modal } from "react-bootstrap";
 import { useTranslation } from "../context/translation_context";
@@ -30,12 +30,26 @@ export default function PictureEditList({itemID} : Props) {
             });
     }, [itemID]);
     
-    function movePictureDown(picture: Picture) {
-        console.log("moving it down");
+    function handlePictureDown(picture: Picture) {
+        movePictureDown(picture.objectID, picture.order).
+                then((data) => setPictures(data)).
+                catch(error => {
+                    console.log(error);
+                    if (error.status === 401) {
+                        navigate("/login");
+                    }
+                });
     }
     
-    function movePictureUp(picture: Picture) {
-        console.log("moving it up");
+    function handleMovePictureUp(picture: Picture) {
+        movePictureUp(picture.objectID, picture.order).
+                then((data) => setPictures(data)).
+                catch(error => {
+                    console.log(error);
+                    if (error.status === 401) {
+                        navigate("/login");
+                    }
+                });
     }
     
     function handleDelete(picture: Picture) {
@@ -76,18 +90,18 @@ export default function PictureEditList({itemID} : Props) {
         
             {pictures && pictures.map((picture) => (
                 <Card style={{ width: '18rem' }} key={"card-pic-" + picture.filename}>
-                    <Card.Img src={picture.thumbUrl}  />
+                    <Card.Img src={picture.thumbUrl + "?" + Date.now()}  />
                     <Card.Header style={{ height: '2.5em' }}>
                         {t("lblPicture")}&nbsp;#{picture.order}
                         
                         <div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0" }} >
                             
                             {(picture.order < pictures.length) &&
-                                (<i className="bi bi-arrow-down" onClick={() => movePictureDown(picture)}></i>)
+                                (<i className="bi bi-arrow-down" onClick={() => handlePictureDown(picture)}></i>)
                             }
 
                             {(picture.order > 1) &&
-                                (<i className="bi bi-arrow-up" onClick={() => movePictureUp(picture)}></i>)
+                                (<i className="bi bi-arrow-up" onClick={() => handleMovePictureUp(picture)}></i>)
                             }
                             
                             <i className="bi bi-eraser" onClick={() => handleDelete(picture)}></i>

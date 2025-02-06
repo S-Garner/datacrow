@@ -15,7 +15,7 @@ public class Picture {
 	@JsonProperty("filename")
 	private final String filename;	
 	@JsonProperty("order")
-	private final String order;	
+	private final int order;	
 	
 	
 	public Picture(String objectID, String url, String thumbUrl, String filename) {
@@ -25,7 +25,7 @@ public class Picture {
 		this.filename = filename;
 		
 		String name = new File(filename).getName();
-		this.order = name.substring(7, name.lastIndexOf("."));
+		this.order = Integer.parseInt(name.substring(7, name.lastIndexOf(".")));
 	}
 	
 	public String getFilename() {
@@ -40,7 +40,7 @@ public class Picture {
 		return thumbUrl;
 	}	
 	
-	public String getOrder() {
+	public int getOrder() {
 		return order;
 	}	
 	

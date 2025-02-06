@@ -50,7 +50,6 @@ export function ItemOverview() {
         let searchFor = formData.get("searchFor") as string;
         
         currentModule.setFilter(searchFor);
-        
         filterItems(searchFor);
 	}
 	
@@ -91,7 +90,7 @@ export function ItemOverview() {
 				{currentItems!.map((item) => (
 					<Card style={{ width: '18rem' }} key={"card" + item.id} onClick={() =>  openItem(item.id)}>
 						<Card.Body>
-						    {item.imageUrl ? <Card.Img src={item.scaledImageUrl} /> : <div style={{ height: '300px' }} />}
+						    {item.imageUrl ? <Card.Img src={item.scaledImageUrl + "?" + Date.now()} /> : <div style={{ height: '300px' }} />}
 						</Card.Body>
 						<Card.Header style={{ height: '112px' }}>
 							{item.name}
