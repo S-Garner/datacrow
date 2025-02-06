@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchItem, fetchReferences, saveItem, type Field, type Item, type References } from "../../services/datacrow_api";
 import { RequireAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
-import { Button, Tab, Tabs } from "react-bootstrap";
+import { Button, Modal, Tab, Tabs } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from "../../context/translation_context";
 import Form from 'react-bootstrap/Form';
@@ -22,6 +22,9 @@ export function ItemPage() {
     const { state } = useLocation();
     const methods = useForm();
     const { t } = useTranslation();
+    
+    const [showError, setShowError] = useState(false);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         if (!state) {
@@ -63,12 +66,30 @@ export function ItemPage() {
     
     const onSubmit = (data: any, e: any) => {
         e.preventDefault();
-        saveItem(currentModule.selectedModule.index, data);
+        saveItem(currentModule.selectedModule.index, data).
+        catch(error => {
+            if (error.status === 401) {
+                navigate("/login");
+            } else {
+                setError(error.response.data);
+                setShowError(true);
+            }
+        });
     }
 
     return (
         <RequireAuth>
+        
             <div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="div-item-details">
+
+                <Modal show={showError} onHide={() => setShowError(false)}>
+                    <Modal.Body>{error}</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={() => setShowError(false)}>
+                            {t("lblOK")}
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             
                 <Tabs
                     defaultActiveKey="profile"
