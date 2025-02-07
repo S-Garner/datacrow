@@ -69,19 +69,17 @@ export default function PictureEditList({itemID} : Props) {
 
                 if (imageItem) {
                     const blob = await clipboardItem.getType(imageItem);
-                    const formData = new FormData();
-                    
-                    const file = new File([blob], 'image.file', { type: blob.type });
-                    formData.append('image', file); 
 
-                    savePicture(blob).catch(error => {
-                        console.log(error);
-                        if (error.status === 401) {
-                            navigate("/login");
-                        } else {
-                            message.showError(t(error.response.data));
-                        }
-                    });
+                    savePicture(blob, itemID).
+                        then((data) => setPictures(data)).
+                        catch(error => {
+                            console.log(error);
+                            if (error.status === 401) {
+                                navigate("/login");
+                            } else {
+                                message.showError(t(error.response.data));
+                            }
+                        });
                 }
             }
         } catch (error) {

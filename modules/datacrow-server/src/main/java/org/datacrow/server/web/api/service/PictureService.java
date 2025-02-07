@@ -10,6 +10,8 @@ import java.util.LinkedList;
 
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.server.data.PictureManager;
 import org.datacrow.server.web.api.model.Picture;
 
@@ -72,15 +74,22 @@ public class PictureService extends DataCrowApiService {
 	
 	@POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadPicture(InputStream fileInputStream) {
+    public Response uploadPicture(
+    		@HeaderParam("itemID") String itemID,
+    		InputStream fileInputStream) {
         try {
-            // Save the file to the server
-            File file = new File("/home/rwaals/Documents/test.png");
+
+        	File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + ".file");
             try (FileOutputStream out = new FileOutputStream(file)) {
                 Files.copy(fileInputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
 
-            return Response.ok("Image uploaded successfully: " + file.getAbsolutePath()).build();
+            org.datacrow.core.pictures.Picture pic = new org.datacrow.core.pictures.Picture(
+            		itemID, new DcImageIcon(file));
+            
+            PictureManager.getInstance().savePicture(pic);
+            
+            return Response.ok().entity(getPictures(itemID)).build();
         } catch (Exception e) {
             logger.error("There was an error in uploading image", e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("msgErrorUploadingImage").build();

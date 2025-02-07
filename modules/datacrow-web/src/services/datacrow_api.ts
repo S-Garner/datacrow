@@ -11,9 +11,6 @@ instance.interceptors.request.use(
     function (config) {
         const token = localStorage.getItem("token");
         
-        //if (config.headers["Content-type"] != 'multipart/form-data')
-          //  config.headers["Content-type"] = 'application/json';
-        
         if (token)
             config.headers["authorization"] = token;
 
@@ -98,12 +95,14 @@ export async function movePictureDown(itemID: string, number: number): Promise<P
     return response.data;
 }
 
-export async function savePicture(data: Object): Promise<Response> {
-    return await instance.post(baseUrl + 'pictures', data, {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-            });
+export async function savePicture(data: Object, itemID: string): Promise<Picture[]> {
+    const response = await instance.post(baseUrl + 'pictures', data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'itemID': itemID
+        },
+    });
+    return response.data;
 }
 
 export async function saveItem(moduleIdx: number, data: Map<string, Object>): Promise<Response> {
