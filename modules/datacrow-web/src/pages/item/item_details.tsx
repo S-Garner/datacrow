@@ -10,21 +10,19 @@ import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
 import PictureEditList from "../../components/pictures_edit_list";
 import ChildrenOverview from "../../components/item_overview_children";
+import { useMessage } from "../../context/message_context";
 
 export function ItemPage() {
 
     const [selectedTab, setSelectedTab] = useState('details');
     const [item, setItem] = useState<Item>();
     const [references, setReferences] = useState<References[]>();
-    const [validated, setValidated] = useState(false);
     const currentModule = useModule();
+    const message = useMessage();
     const navigate = useNavigate();
     const { state } = useLocation();
     const methods = useForm();
     const { t } = useTranslation();
-    
-    const [showError, setShowError] = useState(false);
-    const [error, setError] = useState(false);
 
     useEffect(() => {
         if (!state) {
@@ -71,8 +69,7 @@ export function ItemPage() {
             if (error.status === 401) {
                 navigate("/login");
             } else {
-                setError(error.response.data);
-                setShowError(true);
+                message.showError(error.response.data);
             }
         });
     }
@@ -81,15 +78,6 @@ export function ItemPage() {
         <RequireAuth>
         
             <div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="div-item-details">
-
-                <Modal show={showError} onHide={() => setShowError(false)}>
-                    <Modal.Body>{error}</Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={() => setShowError(false)}>
-                            {t("lblOK")}
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
             
                 <Tabs
                     defaultActiveKey="profile"
@@ -100,7 +88,7 @@ export function ItemPage() {
 
                     <Tab eventKey="details" title={t("lblDetails")}>
                         <FormProvider {...methods}>
-                            <Form key="form-item-detail" validated={validated} onSubmit={methods.handleSubmit(onSubmit)}>
+                            <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
                                 
                                 {references && item?.fields.map((fieldValue) => (
                                     <InputField

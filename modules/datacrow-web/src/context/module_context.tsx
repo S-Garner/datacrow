@@ -32,5 +32,8 @@ export function ModuleProvider({ children }: { children: React.ReactNode }) {
 	
 	let value = { selectedModule, mainModule, switchModule, filter, setFilter};
 	
-	return <ModuleContext.Provider value={value}>{children}</ModuleContext.Provider>;
+	return (
+	   <ModuleContext.Provider value={value}>
+	       {children}
+	   </ModuleContext.Provider>);
 }

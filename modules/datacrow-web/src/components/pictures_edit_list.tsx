@@ -3,6 +3,7 @@ import { deletePicture, fetchPictures, movePictureDown, movePictureUp, savePictu
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Modal } from "react-bootstrap";
 import { useTranslation } from "../context/translation_context";
+import { useMessage } from "../context/message_context";
 
 type Props = {
   itemID: string;
@@ -15,11 +16,9 @@ export default function PictureEditList({itemID} : Props) {
     const [imageSrc, setImageSrc] = useState('');
     
     const navigate = useNavigate();
+    const message = useMessage();
     const { t } = useTranslation();
-    
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-    const [showError, setShowError] = useState(false);
-    const [error, setError] = useState<String | undefined>("");
     
     useEffect(() => {
         itemID && fetchPictures(itemID).
@@ -59,30 +58,28 @@ export default function PictureEditList({itemID} : Props) {
         setShowDeleteConfirm(true);
     }
     
-    
-    const handleClick = async () => {
+    const handleUploadFromClipboard = async () => {
         try {
-            // Read the clipboard data
+
             const clipboardItems = await navigator.clipboard.read();
+
             for (const clipboardItem of clipboardItems) {
+
                 const imageItem = clipboardItem.types.find(type => type.startsWith('image/'));
+
                 if (imageItem) {
                     const blob = await clipboardItem.getType(imageItem);
                     const formData = new FormData();
                     
-                    const file = new File([blob], 'hello.txt', { type: blob.type });
-                    
-                    
-                    formData.append('image', file, 'clipboard-image.png'); // You can change the filename as needed
+                    const file = new File([blob], 'image.file', { type: blob.type });
+                    formData.append('image', file); 
 
-                    // Send the image to your server
                     savePicture(blob).catch(error => {
                         console.log(error);
                         if (error.status === 401) {
                             navigate("/login");
                         } else {
-                            t(error.response.data) && setError(t(error.response.data));
-                            setShowError(true);
+                            message.showError(t(error.response.data));
                         }
                     });
                 }
@@ -112,11 +109,11 @@ export default function PictureEditList({itemID} : Props) {
         <div>
 
             <div className="bd-theme" style={{top: "0", marginBottom: "10px" }} >
-                <i className="bi bi-clipboard-plus lg" style={{fontSize:"1.5rem"}} onClick={handleClick}></i>
+                <i className="bi bi-clipboard-plus lg" style={{fontSize:"1.5rem"}} onClick={handleUploadFromClipboard}></i>
             </div>
         
             <Modal show={showDeleteConfirm} onHide={() => setShowDeleteConfirm(false)}>
-                <Modal.Body>{t("msgDeletePictureConfirmation")}</Modal.Body>
+                <Modal.Body></Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowDeleteConfirm(false)}>
                         {t("lblClose")}
@@ -127,15 +124,6 @@ export default function PictureEditList({itemID} : Props) {
                 </Modal.Footer>
             </Modal>
             
-            <Modal show={showError} onHide={() => setShowDeleteConfirm(false)}>
-                <Modal.Body>{error}</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={() => setShowError(false)}>
-                        {t("lblOK")}
-                    </Button>
-                </Modal.Footer>
-            </Modal>            
-        
             {imageSrc && <img src={imageSrc} alt="Pasted" />}
         
             {pictures && pictures.map((picture) => (
