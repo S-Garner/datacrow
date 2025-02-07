@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { deletePicture, fetchPictures, movePictureDown, movePictureUp, savePicture, type Picture } from "../services/datacrow_api";
 import { useNavigate } from "react-router-dom";
-import { Button, Card, Modal } from "react-bootstrap";
+import { Button, Card, Modal, ProgressBar } from "react-bootstrap";
 import { useTranslation } from "../context/translation_context";
 import { useMessage } from "../context/message_context";
 
@@ -14,6 +14,7 @@ export default function PictureEditList({itemID} : Props) {
     const [pictures, setPictures] = useState<Picture[]>();
     const [picture, setPicture] = useState<Picture>();
     const [imageSrc, setImageSrc] = useState('');
+    const [uploading, setUploading] = useState(false);
     
     const navigate = useNavigate();
     const message = useMessage();
@@ -60,19 +61,23 @@ export default function PictureEditList({itemID} : Props) {
     
     const handleUploadFromClipboard = async () => {
         try {
-
             const clipboardItems = await navigator.clipboard.read();
-
             for (const clipboardItem of clipboardItems) {
-
+                
                 const imageItem = clipboardItem.types.find(type => type.startsWith('image/'));
-
+                
                 if (imageItem) {
+                    
+                    setUploading(true);
+                    
                     const blob = await clipboardItem.getType(imageItem);
 
                     savePicture(blob, itemID).
                         then((data) => setPictures(data)).
+                        then(() => setUploading(false)).
                         catch(error => {
+                            setUploading(true);
+                            
                             console.log(error);
                             if (error.status === 401) {
                                 navigate("/login");
@@ -105,13 +110,19 @@ export default function PictureEditList({itemID} : Props) {
     
     return (
         <div>
-
             <div className="bd-theme" style={{top: "0", marginBottom: "10px" }} >
                 <i className="bi bi-clipboard-plus lg" style={{fontSize:"1.5rem"}} onClick={handleUploadFromClipboard}></i>
             </div>
-        
-            <Modal show={showDeleteConfirm} onHide={() => setShowDeleteConfirm(false)}>
-                <Modal.Body></Modal.Body>
+            
+            <Modal centered show={uploading}>
+                <Modal.Body>
+                    Uploading picture
+                    <ProgressBar animated={true} />
+                </Modal.Body>
+            </Modal>
+            
+            <Modal centered show={showDeleteConfirm} onHide={() => setShowDeleteConfirm(false)}>
+                <Modal.Body>{t('msgDeletePictureConfirmation')}</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowDeleteConfirm(false)}>
                         {t("lblClose")}
