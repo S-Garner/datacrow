@@ -1,23 +1,34 @@
 package org.datacrow.server.web.api.service;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 import org.datacrow.server.data.PictureManager;
 import org.datacrow.server.web.api.model.Picture;
 
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/pictures")
 public class PictureService extends DataCrowApiService {
 
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(PictureService.class.getName());
+	
 	private static final int _DIRECTION_UP = 0;
 	private static final int _DIRECTION_DOWN = 1;
 	
@@ -57,6 +68,23 @@ public class PictureService extends DataCrowApiService {
 		checkAuthorization(token);
 		movePictures(itemID, number, _DIRECTION_UP);
     	return getPictures(itemID);
+    }
+	
+	@POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadPicture(InputStream fileInputStream) {
+        try {
+            // Save the file to the server
+            File file = new File("/home/rwaals/Documents/test.png");
+            try (FileOutputStream out = new FileOutputStream(file)) {
+                Files.copy(fileInputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            return Response.ok("Image uploaded successfully: " + file.getAbsolutePath()).build();
+        } catch (Exception e) {
+            logger.error("There was an error in uploading image", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("msgErrorUploadingImage").build();
+        }
     }
 	
 	private void movePictures(String itemID, int number, int direction) {

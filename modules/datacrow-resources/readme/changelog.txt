@@ -36,6 +36,7 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
   msgLoginFailed=You could not be logged in
   msgLoginFailedDetails=Invalid credentials were provided. Please enter the correct username and password.
   lblItemsPerPage = Items per page:
+  msgErrorUploadingImage
 - Web; options for references - make array of correct size (saves time)
 - Web; saving items
 - Web; viewing of an item
