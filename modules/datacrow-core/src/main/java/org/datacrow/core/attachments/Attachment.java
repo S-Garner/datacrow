@@ -31,10 +31,14 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.attribute.FileTime;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
+import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.utilities.CoreUtilities;
 
 public class Attachment implements Serializable {
 
@@ -55,7 +59,6 @@ public class Attachment implements Serializable {
 		this.objectID = objectID;
 		this.name = name;
 	}
-
 	
 	public Attachment(String objectID, File file) throws IOException {
 		this.objectID = objectID;
@@ -67,7 +70,7 @@ public class Attachment implements Serializable {
 		Instant instant = creationTime.toInstant();
 		setCreated(Date.from(instant));
 		setSize(file.length());
-	}	
+	}
 	
 	public void setData(byte[] data) {
 		this.data = data;
@@ -134,11 +137,6 @@ public class Attachment implements Serializable {
     }	
 	
 	@Override
-	public String toString() {
-		return name;
-	}
-	
-	@Override
 	public int hashCode() {
 		return toString().hashCode();
 	}
@@ -147,4 +145,15 @@ public class Attachment implements Serializable {
 	public boolean equals(Object o) {
 		return o != null ? o.hashCode() == hashCode() : false;
 	}
+	
+	@Override
+	public String toString() {
+		String s = getName();
+        s += " (" + CoreUtilities.toFileSizeString(Long.valueOf(getSize() / 1000));
+        s += ", " + new SimpleDateFormat(
+                DcSettings.getString(DcRepository.Settings.stDateFormat)).format(getCreated());
+        s += ")";
+        
+        return s;
+	}	
 }

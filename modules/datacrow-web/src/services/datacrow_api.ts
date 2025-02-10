@@ -20,6 +20,15 @@ instance.interceptors.request.use(
 
 export interface LoginCallBack { (myArgument: User | null): void }
 
+export interface Attachment {
+    objectID: string;
+    url: string;
+    name: string;
+    size: bigint;
+    created: Date;
+    displayName: string;
+}
+
 export interface Picture {
     url: string;
     thumbUrl: string;
@@ -80,6 +89,11 @@ export interface Reference {
     iconUrl: string;
 }
 
+export async function deleteAttachment(itemID: string, name: string): Promise<Attachment[]> {
+    const response = await instance.delete(baseUrl + 'attachments/' + itemID + '/' + name);
+    return response.data;
+}
+
 export async function deletePicture(itemID: string, number: number): Promise<Picture[]> {
     const response = await instance.delete(baseUrl + 'pictures/' + itemID + '/' + number);
     return response.data;
@@ -134,6 +148,11 @@ export async function fetchResources(lang: string | undefined): Promise<Translat
     });
     
     return resources;
+}
+
+export async function fetchAttachments(itemID: string): Promise<Attachment[]> {
+    const response = await instance.get(baseUrl + 'attachments/' + itemID);
+    return response.data;
 }
 
 export async function fetchPictures(itemID: string): Promise<Picture[]> {

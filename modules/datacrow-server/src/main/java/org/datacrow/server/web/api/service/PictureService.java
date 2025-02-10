@@ -90,6 +90,7 @@ public class PictureService extends DataCrowApiService {
             PictureManager.getInstance().savePicture(pic);
             
             return Response.ok().entity(getPictures(itemID)).build();
+            
         } catch (Exception e) {
             logger.error("There was an error in uploading image", e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("msgErrorUploadingImage").build();
@@ -141,10 +142,6 @@ public class PictureService extends DataCrowApiService {
 		if (pic != null)
 			pm.deletePicture(pic);
 		
-		Collection<Picture> pictures = new LinkedList<Picture>();
-    	for (org.datacrow.core.pictures.Picture p : PictureManager.getInstance().getPictures(itemID))
-    		pictures.add(new Picture(p.getObjectID(), p.getUrl(), p.getThumbnailUrl(), p.getFilename()));
-
 		return getPictures(itemID);
     }
 	

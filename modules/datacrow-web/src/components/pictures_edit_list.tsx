@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { deletePicture, fetchPictures, movePictureDown, movePictureUp, savePicture, type Picture } from "../services/datacrow_api";
 import { useNavigate } from "react-router-dom";
-import { Button, Card, Modal, ProgressBar } from "react-bootstrap";
+import { Button, Card, Modal, Spinner } from "react-bootstrap";
 import { useTranslation } from "../context/translation_context";
 import { useMessage } from "../context/message_context";
 
@@ -13,7 +13,6 @@ export default function PictureEditList({itemID} : Props) {
     
     const [pictures, setPictures] = useState<Picture[]>();
     const [picture, setPicture] = useState<Picture>();
-    const [imageSrc, setImageSrc] = useState('');
     const [uploading, setUploading] = useState(false);
     
     const navigate = useNavigate();
@@ -62,14 +61,12 @@ export default function PictureEditList({itemID} : Props) {
     const handleUploadFromClipboard = async () => {
         try {
             const clipboardItems = await navigator.clipboard.read();
+            
             for (const clipboardItem of clipboardItems) {
-                
                 const imageItem = clipboardItem.types.find(type => type.startsWith('image/'));
                 
                 if (imageItem) {
-                    
                     setUploading(true);
-                    
                     const blob = await clipboardItem.getType(imageItem);
 
                     savePicture(blob, itemID).
@@ -115,9 +112,16 @@ export default function PictureEditList({itemID} : Props) {
             </div>
             
             <Modal centered show={uploading}>
+                <Modal.Header>
+                    {t("msgBusyUploadingImage")}<br />
+                </Modal.Header>
+            
                 <Modal.Body>
-                    Uploading picture
-                    <ProgressBar animated={true} />
+                    <div style={{ textAlign: "center" }}>
+                        <Spinner animation="border" role="status" variant="primary">
+                            <span className="visually-hidden">...</span>
+                        </Spinner>
+                    </div>
                 </Modal.Body>
             </Modal>
             
@@ -133,8 +137,6 @@ export default function PictureEditList({itemID} : Props) {
                 </Modal.Footer>
             </Modal>
             
-            {imageSrc && <img src={imageSrc} alt="Pasted" />}
-        
             {pictures && pictures.map((picture) => (
                 <Card style={{ width: '18rem' }} key={"card-pic-" + picture.filename}>
                     <Card.Img src={picture.thumbUrl + "?" + Date.now()}  />

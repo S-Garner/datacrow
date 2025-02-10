@@ -11,6 +11,7 @@ import InputField from "../../components/input/dc_input_field";
 import PictureEditList from "../../components/pictures_edit_list";
 import ChildrenOverview from "../../components/item_overview_children";
 import { useMessage } from "../../context/message_context";
+import AttachmentEditList from "../../components/attachment_edit_list";
 
 export function ItemPage() {
 
@@ -116,17 +117,18 @@ export function ItemPage() {
     
                     {item?.id &&
                         (
-                            <Tab eventKey="plaatjes" title={t("lblPictures")}>
+                            <Tab eventKey="pictures" title={t("lblPictures")}>
                                 <PictureEditList itemID={item?.id} />
                             </Tab>
                         )
                     }
                     
-                    {state &&
-                    <Tab eventKey="attachments" title={t("lblAttachments")}>
-                        <div>
-                        </div>
-                    </Tab>
+                    {item?.id &&
+                        (
+                            <Tab eventKey="attachments" title={t("lblAttachments")}>
+                                <AttachmentEditList itemID={item?.id} />
+                            </Tab>
+                        )
                     }
 
                 </Tabs>
