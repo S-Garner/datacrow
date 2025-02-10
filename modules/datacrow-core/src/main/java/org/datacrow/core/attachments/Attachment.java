@@ -134,7 +134,19 @@ public class Attachment implements Serializable {
     	attachment.setLocalFile(getLocalFile());
     	
     	return attachment;
-    }	
+    }
+    
+    public void storeLocally() throws Exception {
+		DcConfig.getInstance().getConnector().loadAttachment(this);
+		String tmpdir = CoreUtilities.getTempFolder();
+		File file = new File(tmpdir, getObjectID() + "_" + getName());
+		
+		CoreUtilities.writeToFile(getData(), file);
+		setLocalFile(file);
+		file.deleteOnExit();
+    	
+        clear();
+    }
 	
 	@Override
 	public int hashCode() {

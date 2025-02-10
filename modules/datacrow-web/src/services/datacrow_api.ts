@@ -89,6 +89,11 @@ export interface Reference {
     iconUrl: string;
 }
 
+export async function downloadAttachment(itemID: string, name: string): Promise<Blob> {
+    const response = await instance.get(baseUrl + 'attachments/download/' + itemID + '/' + name, {responseType: 'blob'});
+    return await response.data;
+}
+
 export async function deleteAttachment(itemID: string, name: string): Promise<Attachment[]> {
     const response = await instance.delete(baseUrl + 'attachments/' + itemID + '/' + name);
     return response.data;

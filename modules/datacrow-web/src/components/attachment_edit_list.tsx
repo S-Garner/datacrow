@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Card, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../context/translation_context";
-import { deleteAttachment, type Attachment, fetchAttachments } from "../services/datacrow_api";
+import { deleteAttachment, type Attachment, fetchAttachments, downloadAttachment } from "../services/datacrow_api";
 
 type Props = {
   itemID: string;
@@ -34,8 +34,16 @@ export default function AttachmentEditList({itemID} : Props) {
     }
     
     function handleDownload(attachment: Attachment) {
-        //setAttachment(attachment);
-        //setShowDeleteConfirm(true);
+        downloadAttachment(attachment.objectID, attachment.name).
+            then((blob) => {
+                const url = window.URL.createObjectURL(new Blob([blob]));
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", attachment.name);
+                document.body.appendChild(link);
+                link.click();
+                link.parentNode?.removeChild(link);
+        });
     }
     
     function handleDeleteAfterConfirm() {

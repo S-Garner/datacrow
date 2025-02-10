@@ -199,21 +199,8 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     public void openAttachment() {
     	try {
 	    	Attachment attachment = list.getSelectedAttachment();
-	    	
-    		DcConfig.getInstance().getConnector().loadAttachment(attachment);
-    		
-    		String tmpdir = CoreUtilities.getTempFolder();
-    		File file = new File(tmpdir, attachment.getObjectID() + "_" + attachment.getName());
-    		
-    		CoreUtilities.writeToFile(attachment.getData(), file);
-    		attachment.setLocalFile(file);
-    		
-    		file.deleteOnExit();
-	    	
+	    	attachment.storeLocally();
 	        new FileLauncher(attachment.getLocalFile()).launch();
-	        
-	        attachment.clear();
-	        
     	} catch (Exception e) {
     		GUI.getInstance().displayErrorMessage(e.getMessage());
     		logger.error(e, e);
