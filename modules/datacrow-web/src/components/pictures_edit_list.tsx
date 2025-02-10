@@ -146,14 +146,14 @@ export default function PictureEditList({itemID} : Props) {
                         <div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0" }} >
                             
                             {(picture.order < pictures.length) &&
-                                (<i className="bi bi-arrow-down" onClick={() => handlePictureDown(picture)} style={{fontSize:"1.2rem"}}></i>)
+                                (<i className="bi bi-arrow-down" onClick={() => handlePictureDown(picture)} style={{fontSize:"1.2rem", marginLeft: "10px"}}></i>)
                             }
 
                             {(picture.order > 1) &&
-                                (<i className="bi bi-arrow-up" onClick={() => handleMovePictureUp(picture)} style={{fontSize:"1.2rem"}}></i>)
+                                (<i className="bi bi-arrow-up" onClick={() => handleMovePictureUp(picture)} style={{fontSize:"1.2rem", marginLeft: "10px"}}></i>)
                             }
                             
-                            <i className="bi bi-eraser" onClick={() => handleDelete(picture)} style={{fontSize:"1.2rem"}}></i>
+                            <i className="bi bi-eraser" onClick={() => handleDelete(picture)} style={{fontSize:"1.2rem", marginLeft: "10px"}}></i>
                         </div>            
                         
                     </Card.Header>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Card, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../context/translation_context";
 import { deleteAttachment, type Attachment, fetchAttachments } from "../services/datacrow_api";
@@ -33,6 +33,11 @@ export default function AttachmentEditList({itemID} : Props) {
         setShowDeleteConfirm(true);
     }
     
+    function handleDownload(attachment: Attachment) {
+        //setAttachment(attachment);
+        //setShowDeleteConfirm(true);
+    }
+    
     function handleDeleteAfterConfirm() {
         
         setShowDeleteConfirm(false);
@@ -64,18 +69,22 @@ export default function AttachmentEditList({itemID} : Props) {
                 </Modal.Footer>
             </Modal>
             
-            <div style={{width: "100%", display: "table"}}>
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {attachments && attachments.map((attachment) => (
-                    <div className="row mb-3" style={{display: "table-row"}}>
-                    
-                        <div style={{width: "95%", display: "table-cell"}}>
-                            {String(attachment.displayName)}
-                        </div>
 
-                        <div style={{width: "5%", display: "table-cell"}}>
-                            <Button />
+                <Card style={{ width: '24rem' }} key={"card-pic-" + attachment.name}>
+                    <Card.Body>
+                        {attachment.displayName}
+                    </Card.Body>
+                    <Card.Header style={{ height: '2.5em' }}>
+                        <div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0" }} >
+                            <i className="bi bi-eraser" onClick={() => handleDelete(attachment)} style={{fontSize:"1.2rem"}}></i>
                         </div>
-                    </div>
+                        <div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0", marginRight: "10px" }} >
+                            <i className="bi bi-download" onClick={() => handleDownload(attachment)} style={{fontSize:"1.2rem"}}></i>
+                        </div>                        
+                    </Card.Header>
+                </Card>
                 ))} 
             </div>    
         </div>
