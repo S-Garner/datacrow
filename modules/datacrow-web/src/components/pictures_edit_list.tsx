@@ -15,6 +15,7 @@ export default function PictureEditList({itemID} : Props) {
     const [pictures, setPictures] = useState<Picture[]>();
     const [picture, setPicture] = useState<Picture>();
     const [uploading, setUploading] = useState(false);
+    const [showUpload, setShowUpload] = useState(false);
     
     const navigate = useNavigate();
     const message = useMessage();
@@ -119,7 +120,8 @@ export default function PictureEditList({itemID} : Props) {
     return (
         <div>
             <div className="bd-theme" style={{top: "0", marginBottom: "10px" }} >
-                <i className="bi bi-clipboard-plus lg" style={{fontSize:"1.5rem"}} onClick={handleUploadFromClipboard}></i>
+                <i className="bi bi-clipboard-plus" style={{fontSize:"1.7rem", marginRight:"15px"}} onClick={handleUploadFromClipboard}></i>
+                <i className="bi bi-image" style={{fontSize:"1.7rem"}} onClick={() => setShowUpload(!showUpload)}></i>
             </div>
             
             <Modal centered show={uploading}>
@@ -148,7 +150,9 @@ export default function PictureEditList({itemID} : Props) {
                 </Modal.Footer>
             </Modal>
             
-            <ImageUploadField handleImageFileSelect={handleImageFileSelect} />
+            {
+                showUpload && <ImageUploadField handleImageFileSelect={handleImageFileSelect} />    
+            }
             
             {pictures && pictures.map((picture) => (
                 <Card style={{ width: '18rem' }} key={"card-pic-" + picture.filename}>
