@@ -1,14 +1,10 @@
 import React, { useRef, useState, type ChangeEvent } from "react";
+import { useTranslation } from "../../context/translation_context";
 
-
-export function ImageUploadField(
-    { 
-        accept = "image/*", 
-        handleImageFileSelect = (file: File) => { } 
-    }) 
-      
+export function ImageUploadField({accept = "image/*", handleImageFileSelect = (file: File) => {}}) 
 {
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const { t } = useTranslation();
 
     const handleImageUploadClick = () => {
         fileInputRef.current?.click();
@@ -36,14 +32,13 @@ export function ImageUploadField(
     };
 
     return (
-        <div className={"container"}>
             <div
                 onDragOver={handleDragOver}
                 onDrop={handleFileDrop}
                 className="dropZone"
                 onClick={handleImageUploadClick}>
 
-                <span>Choose file or drag it here</span>
+                <span>{t("msgDragOrSelectImageFile")}</span>
 
                 <input
                     ref={fileInputRef}
@@ -53,6 +48,5 @@ export function ImageUploadField(
                     onChange={updateImage}
                 />
             </div>
-        </div>
     );
 }

@@ -112,7 +112,7 @@ export default function PictureEditList({itemID} : Props) {
         } 
     }
     
-    function  handleImageFileSelect(file : File) {
+    function handleImageFileSelect(file : File) {
         uploadImage(file);
     }
     
