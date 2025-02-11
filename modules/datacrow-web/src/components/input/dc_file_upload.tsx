@@ -1,8 +1,17 @@
-import React, { useRef, useState, type ChangeEvent } from "react";
+import React, { useRef, type ChangeEvent } from "react";
 import { useTranslation } from "../../context/translation_context";
 
-export function ImageUploadField({accept = "image/*", handleImageFileSelect = (file: File) => {}}) 
-{
+export interface FieldProps {
+    accept: string,
+    handleFileSelect: (file: File) => void
+}
+
+
+export default function FileUploadField({
+    accept,
+    handleFileSelect
+}: FieldProps) {
+
     const fileInputRef = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
 
@@ -14,7 +23,7 @@ export function ImageUploadField({accept = "image/*", handleImageFileSelect = (f
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
 
-            handleImageFileSelect(file);
+            handleFileSelect(file);
         }
     };
 
@@ -27,7 +36,7 @@ export function ImageUploadField({accept = "image/*", handleImageFileSelect = (f
         if (event.dataTransfer.files && event.dataTransfer.files[0]) {
             const file = event.dataTransfer.files[0];
             
-            handleImageFileSelect(file);
+            handleFileSelect(file);
         }
     };
 

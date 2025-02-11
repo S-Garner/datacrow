@@ -35,25 +35,8 @@ export default function AttachmentEditList({itemID} : Props) {
         setShowDeleteConfirm(true);
     }
     
-    function handleUpload() {
-        /*downloadAttachment(attachment.objectID, attachment.name).
-            then((blob) => {
-                const url = window.URL.createObjectURL(new Blob([blob]));
-                const link = document.createElement("a");
-                link.href = url;
-                link.setAttribute("download", attachment.name);
-                document.body.appendChild(link);
-                link.click();
-                link.parentNode?.removeChild(link)
-            }).
-            catch(error => {
-                console.log(error);
-                if (error.status === 401) {
-                    navigate("/login");
-                } else {
-                    message.showError(error.response.data);
-                }
-            });*/
+    function handleUpload(file: File) {
+
     }
     
     function handleDownload(attachment: Attachment) {

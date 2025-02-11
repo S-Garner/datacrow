@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Card, Modal, Spinner } from "react-bootstrap";
 import { useTranslation } from "../context/translation_context";
 import { useMessage } from "../context/message_context";
-import { ImageUploadField } from "./input/dc_image_upload";
+import FileUploadField from "./input/dc_file_upload";
 
 type Props = {
   itemID: string;
@@ -151,7 +151,7 @@ export default function PictureEditList({itemID} : Props) {
             </Modal>
             
             {
-                showUpload && <ImageUploadField handleImageFileSelect={handleImageFileSelect} />    
+                showUpload && <FileUploadField handleFileSelect={handleImageFileSelect} accept="image/*" />    
             }
             
             {pictures && pictures.map((picture) => (
