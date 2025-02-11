@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Card, Modal, Spinner } from "react-bootstrap";
 import { useTranslation } from "../context/translation_context";
 import { useMessage } from "../context/message_context";
+import { ImageUploadField } from "./input/dc_image_upload";
 
 type Props = {
   itemID: string;
@@ -58,6 +59,25 @@ export default function PictureEditList({itemID} : Props) {
         setShowDeleteConfirm(true);
     }
     
+    function uploadImage(blob: any) {
+        
+        setUploading(true);
+        
+        savePicture(blob, itemID).
+            then((data) => setPictures(data)).
+            then(() => setUploading(false)).
+            catch(error => {
+                setUploading(true);
+                
+                console.log(error);
+                if (error.status === 401) {
+                    navigate("/login");
+                } else {
+                    message.showError(t(error.response.data));
+                }
+            });
+    }
+    
     const handleUploadFromClipboard = async () => {
         try {
             const clipboardItems = await navigator.clipboard.read();
@@ -66,22 +86,9 @@ export default function PictureEditList({itemID} : Props) {
                 const imageItem = clipboardItem.types.find(type => type.startsWith('image/'));
                 
                 if (imageItem) {
-                    setUploading(true);
+                    
                     const blob = await clipboardItem.getType(imageItem);
-
-                    savePicture(blob, itemID).
-                        then((data) => setPictures(data)).
-                        then(() => setUploading(false)).
-                        catch(error => {
-                            setUploading(true);
-                            
-                            console.log(error);
-                            if (error.status === 401) {
-                                navigate("/login");
-                            } else {
-                                message.showError(t(error.response.data));
-                            }
-                        });
+                    uploadImage(blob);
                 }
             }
         } catch (error) {
@@ -103,6 +110,10 @@ export default function PictureEditList({itemID} : Props) {
                     }
                 });
         } 
+    }
+    
+    function  handleImageFileSelect(file : File) {
+        uploadImage(file);
     }
     
     return (
@@ -136,6 +147,8 @@ export default function PictureEditList({itemID} : Props) {
                     </Button>
                 </Modal.Footer>
             </Modal>
+            
+            <ImageUploadField handleImageFileSelect={handleImageFileSelect} />
             
             {pictures && pictures.map((picture) => (
                 <Card style={{ width: '18rem' }} key={"card-pic-" + picture.filename}>

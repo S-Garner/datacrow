@@ -46,6 +46,8 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
 	let auth = useAuth();
 	let location = useLocation();
 
+    // TODO - needs a handle to re-auth based on the stored token.
+
 	if (!auth.user) {
 		// Redirect the unknown user to the /login page, saving the location the user came from
 		return <Navigate to="/login" state={{ from: location }} replace />;

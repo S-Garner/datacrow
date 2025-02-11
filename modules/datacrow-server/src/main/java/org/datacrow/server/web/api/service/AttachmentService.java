@@ -60,7 +60,13 @@ public class AttachmentService extends DataCrowApiService {
 	@GET
 	@Path("/download/{itemID}/{name}")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	public Response download(@PathParam("itemID") String itemID, @PathParam("name") String name) {
+	public Response download(
+			@HeaderParam("authorization") String token,
+			@PathParam("itemID") String itemID,
+			@PathParam("name") String name) {
+		
+		checkAuthorization(token);
+		
 		org.datacrow.core.attachments.Attachment attachment = getAttachment(itemID, name);
 		
 		Response response;

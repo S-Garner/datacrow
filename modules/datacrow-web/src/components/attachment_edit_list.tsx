@@ -3,6 +3,7 @@ import { Button, Card, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../context/translation_context";
 import { deleteAttachment, type Attachment, fetchAttachments, downloadAttachment } from "../services/datacrow_api";
+import { useMessage } from "../context/message_context";
 
 type Props = {
   itemID: string;
@@ -13,6 +14,7 @@ export default function AttachmentEditList({itemID} : Props) {
     const [attachments, setAttachments] = useState<Attachment[]>();
     const [attachment, setAttachment] = useState<Attachment>();
 
+    const message = useMessage();
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -33,6 +35,27 @@ export default function AttachmentEditList({itemID} : Props) {
         setShowDeleteConfirm(true);
     }
     
+    function handleUpload() {
+        /*downloadAttachment(attachment.objectID, attachment.name).
+            then((blob) => {
+                const url = window.URL.createObjectURL(new Blob([blob]));
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", attachment.name);
+                document.body.appendChild(link);
+                link.click();
+                link.parentNode?.removeChild(link)
+            }).
+            catch(error => {
+                console.log(error);
+                if (error.status === 401) {
+                    navigate("/login");
+                } else {
+                    message.showError(error.response.data);
+                }
+            });*/
+    }
+    
     function handleDownload(attachment: Attachment) {
         downloadAttachment(attachment.objectID, attachment.name).
             then((blob) => {
@@ -42,8 +65,16 @@ export default function AttachmentEditList({itemID} : Props) {
                 link.setAttribute("download", attachment.name);
                 document.body.appendChild(link);
                 link.click();
-                link.parentNode?.removeChild(link);
-        });
+                link.parentNode?.removeChild(link)
+            }).
+            catch(error => {
+                console.log(error);
+                if (error.status === 401) {
+                    navigate("/login");
+                } else {
+                    message.showError(error.response.data);
+                }
+            });
     }
     
     function handleDeleteAfterConfirm() {
@@ -57,6 +88,8 @@ export default function AttachmentEditList({itemID} : Props) {
                     console.log(error);
                     if (error.status === 401) {
                         navigate("/login");
+                    } else {
+                        message.showError(error.response.data);
                     }
                 });
         } 
