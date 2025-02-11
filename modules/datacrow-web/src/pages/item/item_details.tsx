@@ -82,12 +82,12 @@ export function ItemPage() {
             
                 <Tabs
                     defaultActiveKey="profile"
-                    id="uncontrolled-tab-example"
+                    key="item-details-tabs"
                     activeKey={selectedTab}
                     onSelect={(k) => k && setSelectedTab(k)}
                     className="mb-3">
 
-                    <Tab eventKey="details" title={t("lblDetails")}>
+                    <Tab eventKey="details" title={t("lblDetails")} key="details-tab">
                         <FormProvider {...methods}>
                             <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
                                 
@@ -109,7 +109,7 @@ export function ItemPage() {
 
                     {(item?.id && currentModule.selectedModule.hasChild) &&
                         (
-                            <Tab eventKey="children" title={t(currentModule.selectedModule.child.name)}>
+                            <Tab eventKey="children" title={t(currentModule.selectedModule.child.name)} key="children-tab">
                                 <ChildrenOverview itemID={item?.id} />
                             </Tab>
                         )
@@ -117,7 +117,7 @@ export function ItemPage() {
     
                     {item?.id &&
                         (
-                            <Tab eventKey="pictures" title={t("lblPictures")}>
+                            <Tab eventKey="pictures" title={t("lblPictures")} key="pictures-tab">
                                 <PictureEditList itemID={item?.id} />
                             </Tab>
                         )

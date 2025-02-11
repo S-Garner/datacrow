@@ -117,7 +117,8 @@ export default function InputField({
                             value={value} />)}
                             
                     {field.type === FieldType.RatingField && (
-                        <DcRatingField 
+                        <DcRatingField
+                            key={"field-" + field.index}
                             currentValue={value} 
                             field={field} />)
                     }

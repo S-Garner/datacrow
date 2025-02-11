@@ -99,6 +99,17 @@ export async function deleteAttachment(itemID: string, name: string): Promise<At
     return response.data;
 }
 
+export async function saveAttachment(data: Object, itemID: string, fileName: string): Promise<Attachment[]> {
+    const response = await instance.post(baseUrl + 'attachments', data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'itemID': itemID,
+            'fileName': fileName
+        },
+    });
+    return response.data;
+}
+
 export async function deletePicture(itemID: string, number: number): Promise<Picture[]> {
     const response = await instance.delete(baseUrl + 'pictures/' + itemID + '/' + number);
     return response.data;

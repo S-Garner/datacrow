@@ -75,11 +75,17 @@ public class PictureService extends DataCrowApiService {
 	@POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadPicture(
+    		@HeaderParam("authorization") String token,
     		@HeaderParam("itemID") String itemID,
     		InputStream fileInputStream) {
-        try {
+
+		checkAuthorization(token);
+		
+		try {
 
         	File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + ".file");
+        	file.deleteOnExit();
+        	
             try (FileOutputStream out = new FileOutputStream(file)) {
                 Files.copy(fileInputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
@@ -88,6 +94,8 @@ public class PictureService extends DataCrowApiService {
             		itemID, new DcImageIcon(file));
             
             PictureManager.getInstance().savePicture(pic);
+            
+            file.delete();
             
             return Response.ok().entity(getPictures(itemID)).build();
             

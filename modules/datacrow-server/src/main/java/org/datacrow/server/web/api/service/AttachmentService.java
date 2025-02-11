@@ -1,16 +1,24 @@
 package org.datacrow.server.web.api.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.LinkedList;
 
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.server.data.AttachmentManager;
 import org.datacrow.server.web.api.model.Attachment;
 
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -34,6 +42,41 @@ public class AttachmentService extends DataCrowApiService {
     	checkAuthorization(token);
     	return getAttachments(itemID);
     }
+    
+	@POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadAttachment(
+    		@HeaderParam("itemID") String itemID,
+    		@HeaderParam("fileName") String fileName,
+    		@HeaderParam("authorization") String token,
+    		InputStream fileInputStream) {
+        
+		checkAuthorization(token);
+		
+		try {
+        	
+			File file = new File(CoreUtilities.getTempFolder(), fileName);
+			file.deleteOnExit();
+			
+            try (FileOutputStream out = new FileOutputStream(file)) {
+                Files.copy(fileInputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+            
+			org.datacrow.core.attachments.Attachment
+				attachment = new org.datacrow.core.attachments.Attachment(itemID, file);
+
+			attachment.setData(CoreUtilities.readFile(file));
+			AttachmentManager.getInstance().saveAttachment(attachment);
+            
+			file.delete();
+			
+            return Response.ok().entity(getAttachments(itemID)).build();
+            
+        } catch (Exception e) {
+            logger.error("There was an error in uploading the attachment", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("msgErrorUploadingAttachment").build();
+        }
+    }    
     
     
 	@Path("/{itemID}/{name}")

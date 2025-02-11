@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Modal } from "react-bootstrap";
+import { Button, Card, Modal, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../context/translation_context";
-import { deleteAttachment, type Attachment, fetchAttachments, downloadAttachment } from "../services/datacrow_api";
+import { deleteAttachment, type Attachment, fetchAttachments, downloadAttachment, saveAttachment } from "../services/datacrow_api";
 import { useMessage } from "../context/message_context";
+import FileUploadField from "./input/dc_file_upload";
+import BusyModal from "./busy_modal";
 
 type Props = {
   itemID: string;
@@ -13,6 +15,9 @@ export default function AttachmentEditList({itemID} : Props) {
 
     const [attachments, setAttachments] = useState<Attachment[]>();
     const [attachment, setAttachment] = useState<Attachment>();
+    
+    const [uploading, setUploading] = useState(false);
+    const [showUpload, setShowUpload] = useState(false);
 
     const message = useMessage();
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -36,7 +41,24 @@ export default function AttachmentEditList({itemID} : Props) {
     }
     
     function handleUpload(file: File) {
-
+        
+        // TODO: check file size!
+        
+        setUploading(true);
+        
+        saveAttachment(file, itemID, file.name).
+            then((data) => setAttachments(data)).
+            then(() => setUploading(false)).
+            catch(error => {
+                setUploading(true);
+                
+                console.log(error);
+                if (error.status === 401) {
+                    navigate("/login");
+                } else {
+                    message.showError(t(error.response.data));
+                }
+            });
     }
     
     function handleDownload(attachment: Attachment) {
@@ -80,7 +102,12 @@ export default function AttachmentEditList({itemID} : Props) {
 
     return (
         <div>
+            <div className="bd-theme" style={{top: "0", marginBottom: "10px" }} >
+                <i className="bi bi-folder" style={{fontSize:"1.7rem"}} onClick={() => setShowUpload(!showUpload)}></i>
+            </div>        
 
+            <BusyModal show={uploading} message={t("msgBusyUploadingAttachment")} />
+        
             <Modal centered show={showDeleteConfirm} onHide={() => setShowDeleteConfirm(false)}>
                 <Modal.Body>{t('msgDeleteAttachmentConfirmation')}</Modal.Body>
                 <Modal.Footer>
@@ -92,6 +119,8 @@ export default function AttachmentEditList({itemID} : Props) {
                     </Button>
                 </Modal.Footer>
             </Modal>
+            
+            {showUpload && <FileUploadField accept="*" handleFileSelect={handleUpload} />}
             
             <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {attachments && attachments.map((attachment) => (

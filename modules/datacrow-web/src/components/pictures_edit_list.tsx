@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { deletePicture, fetchPictures, movePictureDown, movePictureUp, savePicture, type Picture } from "../services/datacrow_api";
 import { useNavigate } from "react-router-dom";
-import { Button, Card, Modal, Spinner } from "react-bootstrap";
+import { Button, Card, Modal } from "react-bootstrap";
 import { useTranslation } from "../context/translation_context";
 import { useMessage } from "../context/message_context";
 import FileUploadField from "./input/dc_file_upload";
+import BusyModal from "./busy_modal";
 
 type Props = {
   itemID: string;
@@ -124,19 +125,7 @@ export default function PictureEditList({itemID} : Props) {
                 <i className="bi bi-image" style={{fontSize:"1.7rem"}} onClick={() => setShowUpload(!showUpload)}></i>
             </div>
             
-            <Modal centered show={uploading}>
-                <Modal.Header>
-                    {t("msgBusyUploadingImage")}<br />
-                </Modal.Header>
-            
-                <Modal.Body>
-                    <div style={{ textAlign: "center" }}>
-                        <Spinner animation="border" role="status" variant="primary">
-                            <span className="visually-hidden">...</span>
-                        </Spinner>
-                    </div>
-                </Modal.Body>
-            </Modal>
+            <BusyModal show={uploading} message={t("msgBusyUploadingImage")} />
             
             <Modal centered show={showDeleteConfirm} onHide={() => setShowDeleteConfirm(false)}>
                 <Modal.Body>{t('msgDeletePictureConfirmation')}</Modal.Body>
