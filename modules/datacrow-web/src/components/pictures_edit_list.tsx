@@ -170,7 +170,7 @@ export default function PictureEditList({itemID} : Props) {
                                 (<i className="bi bi-arrow-up" onClick={() => handleMovePictureUp(picture)} style={{fontSize:"1.2rem", marginLeft: "10px"}}></i>)
                             }
                             
-                            <i className="bi bi-eraser" onClick={() => handleDelete(picture)} style={{fontSize:"1.2rem", marginLeft: "10px"}}></i>
+                            <i className="bi bi-trash" onClick={() => handleDelete(picture)} style={{fontSize:"1.2rem", marginLeft: "10px"}}></i>
                         </div>            
                         
                     </Card.Header>

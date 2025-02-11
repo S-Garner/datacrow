@@ -119,7 +119,7 @@ export default function AttachmentEditList({itemID} : Props) {
                     </Card.Body>
                     <Card.Header style={{ height: '2.5em' }}>
                         <div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0" }} >
-                            <i className="bi bi-eraser" onClick={() => handleDelete(attachment)} style={{fontSize:"1.2rem"}}></i>
+                            <i className="bi bi-trash" onClick={() => handleDelete(attachment)} style={{fontSize:"1.2rem"}}></i>
                         </div>
                         <div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0", marginRight: "10px" }} >
                             <i className="bi bi-download" onClick={() => handleDownload(attachment)} style={{fontSize:"1.2rem"}}></i>
