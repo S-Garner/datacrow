@@ -121,7 +121,7 @@ export default function PictureEditList({itemID} : Props) {
     return (
         <div>
             <div className="bd-theme" style={{top: "0", marginBottom: "10px" }} >
-                <i className="bi bi-clipboard-plus" style={{fontSize:"1.7rem", marginRight:"15px"}} onClick={handleUploadFromClipboard}></i>
+                <i className="bi bi-clipboard" style={{fontSize:"1.7rem", marginRight:"15px"}} onClick={handleUploadFromClipboard}></i>
                 <i className="bi bi-image" style={{fontSize:"1.7rem"}} onClick={() => setShowUpload(!showUpload)}></i>
             </div>
             
