@@ -70,7 +70,7 @@ export function ItemPage() {
             if (error.status === 401) {
                 navigate("/login");
             } else {
-                message.showError(error.response.data);
+                message.showMessage(error.response.data);
             }
         });
     }

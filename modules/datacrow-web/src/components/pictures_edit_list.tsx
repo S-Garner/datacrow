@@ -75,7 +75,7 @@ export default function PictureEditList({itemID} : Props) {
                 if (error.status === 401) {
                     navigate("/login");
                 } else {
-                    message.showError(t(error.response.data));
+                    message.showMessage(t(error.response.data));
                 }
             });
     }

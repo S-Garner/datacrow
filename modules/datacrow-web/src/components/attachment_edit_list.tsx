@@ -6,6 +6,7 @@ import { deleteAttachment, type Attachment, fetchAttachments, downloadAttachment
 import { useMessage } from "../context/message_context";
 import FileUploadField from "./input/dc_file_upload";
 import BusyModal from "./busy_modal";
+import { useAuth } from "../context/authentication_context";
 
 type Props = {
   itemID: string;
@@ -18,11 +19,13 @@ export default function AttachmentEditList({itemID} : Props) {
     
     const [uploading, setUploading] = useState(false);
     const [showUpload, setShowUpload] = useState(false);
-
+    
     const message = useMessage();
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const { t } = useTranslation();
     const navigate = useNavigate();
+    
+    const auth = useAuth();
     
     useEffect(() => {
         itemID && fetchAttachments(itemID).
@@ -44,21 +47,28 @@ export default function AttachmentEditList({itemID} : Props) {
         
         // TODO: check file size!
         
-        setUploading(true);
+        if (file.size > (auth.user.settings.maxUploadAttachmentSize)) {
+            
+            message.showMessage(t("Too biug"));
+            
+        } else {
         
-        saveAttachment(file, itemID, file.name).
-            then((data) => setAttachments(data)).
-            then(() => setUploading(false)).
-            catch(error => {
-                setUploading(true);
-                
-                console.log(error);
-                if (error.status === 401) {
-                    navigate("/login");
-                } else {
-                    message.showError(t(error.response.data));
-                }
-            });
+            setUploading(true);
+            
+            saveAttachment(file, itemID, file.name).
+                then((data) => setAttachments(data)).
+                then(() => setUploading(false)).
+                catch(error => {
+                    setUploading(true);
+                    
+                    console.log(error);
+                    if (error.status === 401) {
+                        navigate("/login");
+                    } else {
+                        message.showMessage(t(error.response.data));
+                    }
+                });
+        }
     }
     
     function handleDownload(attachment: Attachment) {
@@ -77,7 +87,7 @@ export default function AttachmentEditList({itemID} : Props) {
                 if (error.status === 401) {
                     navigate("/login");
                 } else {
-                    message.showError(error.response.data);
+                    message.showMessage(error.response.data);
                 }
             });
     }
@@ -94,7 +104,7 @@ export default function AttachmentEditList({itemID} : Props) {
                     if (error.status === 401) {
                         navigate("/login");
                     } else {
-                        message.showError(error.response.data);
+                        message.showMessage(error.response.data);
                     }
                 });
         } 

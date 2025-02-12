@@ -7,6 +7,7 @@ import org.datacrow.server.security.SecurityCenter;
 import org.datacrow.server.web.api.model.WebUser;
 
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -18,9 +19,12 @@ public class LoginService {
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(LoginService.class.getName());
 
     @GET
-    @Path("/{username}/{password}")
+    @Path("/{username}")
     @Produces(MediaType.APPLICATION_JSON)
-    public WebUser login(@PathParam("username") String username, @PathParam("password") String password) {
+    public WebUser login(
+    		@HeaderParam("password") String password, 
+    		@PathParam("username") String username) {
+    	
     	try {
     		SecuredUser user = SecurityCenter.getInstance().login(username, password);
     		

@@ -47,6 +47,10 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
 	let location = useLocation();
 
     // TODO - needs a handle to re-auth based on the stored token.
+    // 1) store the token locally
+    // 2) try and re-auth with the token
+    // 3) make sure tokens expire on server side
+    // 4) make sure token is removed on logout (not timeout)
 
 	if (!auth.user) {
 		// Redirect the unknown user to the /login page, saving the location the user came from

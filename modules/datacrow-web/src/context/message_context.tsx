@@ -3,7 +3,7 @@ import { Button, Modal } from "react-bootstrap";
 import { useTranslation } from "./translation_context";
 
 export interface MessageType {
-	showError: (message: string | undefined) => void;
+	showMessage: (message: string | undefined) => void;
 	close: () => void;
 }
 
@@ -24,14 +24,14 @@ export function MessageProvider({ children }: { children: React.ReactNode }) {
         setShow(false);    
     }
     
-	let showError = (message: string | undefined) => {
+	let showMessage = (message: string | undefined) => {
 		{	
             setMessage(message);
             setShow(true);
 		}
 	};
 	
-	let value = { showError, close};
+	let value = { showMessage, close};
 	
 	return (
         <MessageContext.Provider value={value}>

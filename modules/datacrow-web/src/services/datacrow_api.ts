@@ -52,9 +52,14 @@ export interface References {
     items: Reference[];
 }
 
+export interface Settings {
+    maxUploadAttachmentSize: bigint;
+}
+
 export interface User {
     username: string;
     token: string;
+    settings: Settings;
 }
 
 export interface Item {
@@ -130,7 +135,7 @@ export async function savePicture(data: Object, itemID: string): Promise<Picture
         headers: {
             'Content-Type': 'multipart/form-data',
             'itemID': itemID
-        },
+        }
     });
     return response.data;
 }
@@ -140,7 +145,11 @@ export async function saveItem(moduleIdx: number, data: Map<string, Object>): Pr
 }
 
 export async function login(username: string, password: string): Promise<User | null> {
-    const response = await instance.get(baseUrl + 'login/' + username + "/" + password);
+    const response = await instance.get(baseUrl + 'login/' + username, {
+        headers: {
+            'password': password
+        }
+    });
     
     if (response.status === 200) {
         const result = await response.data;

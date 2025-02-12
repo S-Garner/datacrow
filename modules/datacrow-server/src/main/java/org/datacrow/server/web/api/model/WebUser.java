@@ -8,6 +8,8 @@ public class WebUser {
 	private final String username;
 	@JsonProperty("token")
 	private final String token;
+	@JsonProperty("settings")
+	private final Settings settings = new Settings();
 	
 	public WebUser(String username, String token) {
 		this.username = username;
@@ -20,5 +22,9 @@ public class WebUser {
 	
 	public String token() {
 		return token;
+	}
+	
+	public Settings getSettings() {
+		return settings;
 	}
 }
