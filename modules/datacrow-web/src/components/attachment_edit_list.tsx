@@ -45,8 +45,6 @@ export default function AttachmentEditList({itemID} : Props) {
     
     function handleUpload(file: File) {
         
-        // TODO: check file size!
-        
         if (file.size > (auth.user.settings.maxUploadAttachmentSize)) {
             
             let currentSize = String(file.size / 1000);
