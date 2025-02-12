@@ -3,9 +3,11 @@ package org.datacrow.server.web.api.service;
 import java.util.Map;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.security.SecuredUser;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.server.security.SecurityCenter;
 import org.datacrow.server.web.api.manager.ItemManager;
 import org.datacrow.server.web.api.model.Item;
@@ -40,7 +42,7 @@ public class ItemService extends DataCrowApiService {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response update(@HeaderParam("authorization") String token, Map<Object, Object> data) {
+    public Response save(@HeaderParam("authorization") String token, Map<Object, Object> data) {
     	
     	checkAuthorization(token);
     	
@@ -48,16 +50,21 @@ public class ItemService extends DataCrowApiService {
 		Map<Object, Object> payload = (Map<Object, Object>) data.get("payload");
     	
     	String id = (String) payload.get("inputfield-0");
+    	
+    	boolean isNew = CoreUtilities.isEmpty(id);
+    		
     	int moduleIdx = ((Integer) data.get("module")).intValue();
     	
-    	DcObject dco = DcConfig.getInstance().getConnector().getItem(moduleIdx, id);
+    	DcObject dco = isNew ? 
+    			DcModules.get(moduleIdx).getItem() : 
+    				DcConfig.getInstance().getConnector().getItem(moduleIdx, id);
 
     	try {
-    		ItemManager.getInstance().saveItem(payload, dco);
+    		ItemManager.getInstance().saveItem(payload, dco, isNew);
     	} catch (ValidationException ve) {
     		return Response.status(Response.Status.BAD_REQUEST).entity(ve.getMessage()).build();
     	}
     	
-        return Response.ok().build();
+        return Response.ok().entity(dco.getID()).build();
     }
 }

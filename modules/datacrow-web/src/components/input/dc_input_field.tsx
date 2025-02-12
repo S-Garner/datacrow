@@ -14,7 +14,7 @@ import { useTranslation } from "../../context/translation_context";
 
 export interface InputFieldProps {
     field: Field,
-    value: Object,
+    value: Object | undefined,
     references?: References
 }
 

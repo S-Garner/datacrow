@@ -53,6 +53,10 @@ export function ItemOverview() {
         filterItems(searchFor);
 	}
 	
+	function handleCreateNew() {
+        navigate('/create');
+    }
+	
 	function filterItems(filter: string) {
         searchItems(currentModule!.selectedModule.index, filter).then((data) => setItems(data));
     }
@@ -64,14 +68,23 @@ export function ItemOverview() {
 	return (
 		<div className="py-20 bg-slate-900 h-full" style={{width: "100%"}}>
 			
-			<form onSubmit={handleSubmit} style={{width: "20em"}}>
-				<InputGroup className="mb-3" style={{marginTop: "10px"}}>
-					<input type="text" name="searchFor" className="form-control" defaultValue={currentModule.filter} />
-					<Button className="search-button" type="submit">{t("lblSearch")?.toLowerCase()}</Button>
-				</InputGroup>
-			</form>
+			<div className="float-container" style={{marginTop: "20px"}}>
+                <div className="float-child">
+                    <form onSubmit={handleSubmit} >
+                        <InputGroup className="mb-3">
+                            <input type="text" name="searchFor" className="form-control" defaultValue={currentModule.filter} />
+                            <Button className="search-button" type="submit">{t("lblSearch")?.toLowerCase()}</Button>
+                        </InputGroup>
+                    </form>
+                </div>
+                
+                <div className="float-child" style={{marginLeft: "20px"}}>
+                    <i className="bi bi-plus-circle-fill menu-icon" style={{ fontSize: "1.7rem"}} onClick={() => handleCreateNew()} ></i>
+                </div>
+                
+			</div>
 			
-			<div style={{ right: "0px" }}>
+			<div style={{ float: "left", clear: "both", marginTop: "10px"}}>
 				{currentModule && <PagesDropdown
 					title={t("lblItemsPerPage")  + ` ${itemsPerPage}`}
 					options={itemsPerPageOptions}
@@ -79,14 +92,16 @@ export function ItemOverview() {
 				/>}
 			</div>
 
-			<Pagination
-				itemsPerPage={itemsPerPage}
-				totalItems={totalItems}
-				currentPage={currentPage}
-				paginate={paginate}
-			/>
+            <div style={{ float: "left", clear: "both" }}>
+    			<Pagination
+    				itemsPerPage={itemsPerPage}
+    				totalItems={totalItems}
+    				currentPage={currentPage}
+    				paginate={paginate}
+    			/>
+			</div>
 
-			<div style={{ display: "flex", flexWrap: "wrap" }}>
+			<div style={{ display: "flex", flexWrap: "wrap", float: "left", clear: "both" }}>
 				{currentItems!.map((item) => (
 					<Card style={{ width: '18rem' }} key={"card" + item.id} onClick={() =>  openItem(item.id)}>
 						<Card.Body>
@@ -99,12 +114,14 @@ export function ItemOverview() {
 				))}
 			</div>
 
-			<Pagination
-				itemsPerPage={itemsPerPage}
-				totalItems={totalItems}
-				currentPage={currentPage}
-				paginate={paginate}
-			/>
+            <div style={{ float: "left", clear: "both" }}>
+    			<Pagination
+    				itemsPerPage={itemsPerPage}
+    				totalItems={totalItems}
+    				currentPage={currentPage}
+    				paginate={paginate}
+    			/>
+			</div>
 
 		</div>
 	);

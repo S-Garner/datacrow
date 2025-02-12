@@ -8,6 +8,7 @@ import { AuthProvider } from './context/authentication_context';
 import { ModuleProvider } from './context/module_context';
 import { TranslationProvider } from './context/translation_context';
 import { MessageProvider } from './context/message_context';
+import { ItemCreatePage } from './pages/item/item_create';
 
 export default function App() {
     return (
@@ -19,6 +20,7 @@ export default function App() {
                             <Route element={<Layout />}>
                                 <Route path="/" element={<OverviewPage />} />
                                 <Route path="/item" element={<ItemPage />} />
+                                <Route path="/create" element={<ItemCreatePage />} />
                                 <Route path="/login" element={<LoginPage />} />
                             </Route>
                         </Routes>

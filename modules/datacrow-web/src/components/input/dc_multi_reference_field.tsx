@@ -37,12 +37,16 @@ export default function DcMultiReferenceField({
         let selection = new Array<IconSelectOption>(3);
         let idx = 0;
         
-        options.forEach((option: IconSelectOption) => {
-            (value as Array<String>).forEach((v) => {
-                if (option.value === v)
-                    selection[idx++] = option;
+        if (value != undefined) {
+        
+            options.forEach((option: IconSelectOption) => {
+                (value as Array<String>).forEach((v) => {
+                    if (option.value === v)
+                        selection[idx++] = option;
+                });
             });
-        });
+        
+        }
         
         return selection;
     }

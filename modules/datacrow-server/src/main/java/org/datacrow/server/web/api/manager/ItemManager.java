@@ -84,7 +84,7 @@ public class ItemManager {
 		return items;
 	}
 	
-	public void saveItem(Map<Object, Object> data, DcObject dco) throws ValidationException {
+	public void saveItem(Map<Object, Object> data, DcObject dco, boolean isNew) throws ValidationException {
 		
 		Connector conn = DcConfig.getInstance().getConnector();
 		
@@ -115,8 +115,10 @@ public class ItemManager {
     		}
     	}
 
-    	if (dco.isChanged())
+    	if (dco.isChanged() || isNew) {
+    		dco.setNew(isNew);
     		conn.saveItem(dco);
+    	}
     	
     	cpy.cleanup();
 	}

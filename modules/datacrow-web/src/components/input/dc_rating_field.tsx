@@ -10,7 +10,9 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input: React.FC<InputProps> = ({ currentValue, field, ...rest }) => {
 
-    const [rating, setRating] = useState<number>(currentValue as number);
+    let v = currentValue === undefined ? 0 : currentValue;
+
+    const [rating, setRating] = useState<number>(v as number);
     const { register, setValue } = useFormContext();
     
     const StarRating: React.FC = () => {
