@@ -66,6 +66,7 @@ export function ItemPage() {
     const onSubmit = (data: any, e: any) => {
         e.preventDefault();
         saveItem(currentModule.selectedModule.index, data).
+        then(() => message.showMessage(t("msgItemHasBeenSaved"))).
         catch(error => {
             if (error.status === 401) {
                 navigate("/login");

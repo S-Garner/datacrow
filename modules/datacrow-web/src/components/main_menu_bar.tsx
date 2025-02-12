@@ -12,7 +12,7 @@ export function UserStatus() {
 	}
 
 	return (
-		<div style={{ float: "right", top: "0", right: "0"}}>
+		<div style={{ float: "right", top: "0", right: "0" }}>
 			&nbsp;&nbsp;<Button  className="main-menu-button"
 				onClick={() => {
 					auth.signout(() => navigate("/"));
@@ -43,7 +43,7 @@ export function ColorStyleMenu() {
 
 export default function MainMenuBar() {
 	return (
-		<div style={{paddingBottom: "8px"}}>
+		<div style={{paddingBottom: "70px"}}>
 		
 			<div style={{float:"left", position: "relative", width:"50em", left: "50%", marginLeft: "-25em"}}>
 				<img src={logo} alt="Logo" width={"50em"} /><b>Data Crow Web</b>
