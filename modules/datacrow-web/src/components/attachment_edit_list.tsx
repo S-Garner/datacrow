@@ -49,7 +49,11 @@ export default function AttachmentEditList({itemID} : Props) {
         
         if (file.size > (auth.user.settings.maxUploadAttachmentSize)) {
             
-            message.showMessage(t("Too biug"));
+            let currentSize = String(file.size / 1000);
+            currentSize = currentSize.indexOf(".") > 0 ? currentSize.substring(0, currentSize.indexOf(".")) : currentSize;
+            
+            message.showMessage(t("msgFileIsTooLarge", 
+                [currentSize, String(auth.user.settings.maxUploadAttachmentSize / 1000) + " KB"]));
             
         } else {
         

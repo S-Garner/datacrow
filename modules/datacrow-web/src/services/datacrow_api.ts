@@ -53,7 +53,7 @@ export interface References {
 }
 
 export interface Settings {
-    maxUploadAttachmentSize: bigint;
+    maxUploadAttachmentSize: number;
 }
 
 export interface User {

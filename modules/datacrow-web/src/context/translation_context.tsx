@@ -38,12 +38,12 @@ export const TranslationContext = createContext<
 export type Translation = Map<String, String>
 
 export type TFunction = (
-    params: string
+    params: string,
+    replacements?: string[]
 ) => string | undefined;
 
 export type Language = (typeof languages)[keyof typeof languages];
 
-// Define the type for your context value
 export type TranslationContextValue = {
     translations: Translation | undefined;
     setTranslations: React.Dispatch<
@@ -53,7 +53,6 @@ export type TranslationContextValue = {
     setLanguage: React.Dispatch<React.SetStateAction<Language>>;
 };
 
-// Create the provider component
 type TranslationProviderProps = {
     children: React.ReactNode;
 };
@@ -109,12 +108,20 @@ export function useTranslation(
     const { translations, language, setLanguage, setTranslations } = context;
 
     const t = useCallback<TFunction>(
-        (key): string => {
+        (key, replacements): string => {
 
             if (!translations)
                 return key;
 
-            return String(translations.get(key));
+            let text = String(translations.get(key));
+
+            if (replacements) {
+                let counter = 1;
+                for (const replacement of replacements)
+                    text = text.replace("%" + counter++, replacement);
+            }
+
+            return text;
         },
         [translations]
     );
