@@ -9,6 +9,7 @@ import { ModuleProvider } from './context/module_context';
 import { TranslationProvider } from './context/translation_context';
 import { MessageProvider } from './context/message_context';
 import { ItemCreatePage } from './pages/item/item_create';
+import { SettingsPage } from './pages/settings/settings';
 
 export default function App() {
     return (
@@ -22,6 +23,7 @@ export default function App() {
                                 <Route path="/item" element={<ItemPage />} />
                                 <Route path="/create" element={<ItemCreatePage />} />
                                 <Route path="/login" element={<LoginPage />} />
+                                <Route path="/settings" element={<SettingsPage />} />
                             </Route>
                         </Routes>
                     </ModuleProvider>

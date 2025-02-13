@@ -65,6 +65,10 @@ export function ItemOverview() {
 		navigate('/item', { state: { itemID }});
 	}
 	
+	function handleShowSettings() {
+        navigate('/settings');
+    }
+	
 	return (
 		<div className="py-20 bg-slate-900 h-full" style={{width: "100%"}}>
 			
@@ -79,7 +83,8 @@ export function ItemOverview() {
                 </div>
                 
                 <div className="float-child" style={{marginLeft: "20px"}}>
-                    <i className="bi bi-plus-circle-fill menu-icon" style={{ fontSize: "1.7rem"}} onClick={() => handleCreateNew()} ></i>
+                    <i className="bi bi-plus-circle menu-icon" style={{ fontSize: "1.7rem"}} onClick={() => handleCreateNew()} ></i>
+                    <i className="bi bi-tools menu-icon" style={{ fontSize: "1.7rem"}} onClick={() => handleShowSettings()} ></i>
                 </div>
                 
 			</div>
