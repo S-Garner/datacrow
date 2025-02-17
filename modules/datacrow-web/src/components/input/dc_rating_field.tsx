@@ -4,7 +4,7 @@ import React, { type InputHTMLAttributes } from "react";
 import type { Field } from '../../services/datacrow_api';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    currentValue: Object;
+    currentValue: Object | undefined;
     field: Field;
 }
 

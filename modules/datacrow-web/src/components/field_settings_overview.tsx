@@ -32,10 +32,7 @@ export default function FieldSettingsOverview() {
             
             let index = clone.findIndex((fieldSetting) => fieldSetting === subject);
             let newIndex = index + steps;
-            
             let element = clone[index];
-            
-            console.log(element);
             
             clone.splice(index, 1);
             clone.splice(newIndex, 0, element);
@@ -96,7 +93,8 @@ export default function FieldSettingsOverview() {
                                         id={"field-index-" + fieldSetting.fieldIdx}
                                         key={"field-index-" + fieldSetting.fieldIdx} 
                                         onChange={() => handleToggle(fieldSetting)}
-                                        checked={(fieldSetting.enabled as boolean)}
+                                        disabled={fieldSetting.locked}
+                                        checked={fieldSetting.locked || (fieldSetting.enabled as boolean)}
                                     />
                                 </div>
                                 

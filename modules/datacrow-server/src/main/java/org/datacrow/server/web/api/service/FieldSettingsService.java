@@ -51,6 +51,9 @@ public class FieldSettingsService extends DataCrowApiService {
     	DcModules.get(moduleIndex).getSettings().set(
     			DcRepository.ModuleSettings.stWebFieldDefinitions, definitions);
     	
+    	// save changes to disk
+    	DcModules.get(moduleIndex).getSettings().save();
+    	
         return Response.ok().build();
     }
     

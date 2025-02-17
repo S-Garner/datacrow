@@ -83,6 +83,7 @@ export interface FieldSetting {
     labelKey: string;
     enabled: boolean;
     order: number;
+    locked: boolean;
 }
 
 export interface Field {

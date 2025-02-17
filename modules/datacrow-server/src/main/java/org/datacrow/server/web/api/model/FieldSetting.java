@@ -1,5 +1,6 @@
 package org.datacrow.server.web.api.model;
 
+import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.utilities.definitions.WebFieldDefinition;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,6 +15,8 @@ public class FieldSetting {
 	private String labelKey;
 	@JsonProperty("order")
 	private int order;
+	@JsonProperty("locked")
+	private boolean locked;
 	
 	public FieldSetting() {}
 	
@@ -22,6 +25,7 @@ public class FieldSetting {
 		this.labelKey = wf.getLabelKey();
 		this.enabled = wf.isEnabled();
 		this.order = order;
+		this.locked = DcModules.get(wf.getModuleIdx()).getField(fieldIdx).isRequired();
 	}
 
 	public int getFieldIdx() {
@@ -35,6 +39,10 @@ public class FieldSetting {
 	public boolean isEnabled() {
 		return enabled;
 	}
+	
+	public boolean isLocked() {
+		return locked;
+	}	
 	
 	public int getOrder() {
 		return order;
