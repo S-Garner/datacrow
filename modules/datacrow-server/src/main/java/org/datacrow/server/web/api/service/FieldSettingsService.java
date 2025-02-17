@@ -28,8 +28,9 @@ public class FieldSettingsService {
     			DcModules.get(moduleIndex).getSetting(
     					DcRepository.ModuleSettings.stWebFieldDefinitions);
 
+    	int order = 0;
     	for (WebFieldDefinition definition : definitions.getDefinitions())
-    		settings.add(new FieldSetting(definition));
+    		settings.add(new FieldSetting(definition, order++));
     	
     	return settings;
     }

@@ -12,11 +12,14 @@ public class FieldSetting {
 	private final int fieldIdx;
 	@JsonProperty("labelKey")
 	private final String labelKey;
+	@JsonProperty("order")
+	private final int order;
 	
-	public FieldSetting(WebFieldDefinition wf) {
+	public FieldSetting(WebFieldDefinition wf, int order) {
 		this.fieldIdx = wf.getFieldIdx();
 		this.labelKey = wf.getLabelKey();
 		this.enabled = wf.isEnabled();
+		this.order = order;
 	}
 
 	public int getFieldIdx() {
@@ -29,5 +32,9 @@ public class FieldSetting {
 	
 	public boolean isEnabled() {
 		return enabled;
+	}
+	
+	public int getOrder() {
+		return order;
 	}
 }

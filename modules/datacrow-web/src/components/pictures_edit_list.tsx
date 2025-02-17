@@ -34,8 +34,19 @@ export default function PictureEditList({itemID} : Props) {
             });
     }, [itemID]);
     
-    function handlePictureDown(picture: Picture) {
+    const handlePictureDown = (picture: Picture) => {
         movePictureDown(picture.objectID, picture.order).
+        then((data) => setPictures(data)).
+        catch(error => {
+            console.log(error);
+            if (error.status === 401) {
+                navigate("/login");
+            }
+        });
+    }
+    
+    const handleMovePictureUp = (picture: Picture) => {
+         movePictureUp(picture.objectID, picture.order).
                 then((data) => setPictures(data)).
                 catch(error => {
                     console.log(error);
@@ -45,18 +56,7 @@ export default function PictureEditList({itemID} : Props) {
                 });
     }
     
-    function handleMovePictureUp(picture: Picture) {
-        movePictureUp(picture.objectID, picture.order).
-                then((data) => setPictures(data)).
-                catch(error => {
-                    console.log(error);
-                    if (error.status === 401) {
-                        navigate("/login");
-                    }
-                });
-    }
-    
-    function handleDelete(picture: Picture) {
+    const handleDelete = (picture: Picture) => {
         setPicture(picture);
         setShowDeleteConfirm(true);
     }
@@ -98,9 +98,8 @@ export default function PictureEditList({itemID} : Props) {
         }
     };
 
-    function handleDeleteAfterConfirm() {
-        
-        setShowDeleteConfirm(false);
+    const handleDeleteAfterConfirm = () => {
+                setShowDeleteConfirm(false);
         
         if (picture) {
             deletePicture(picture.objectID, picture.order).
@@ -113,8 +112,8 @@ export default function PictureEditList({itemID} : Props) {
                 });
         } 
     }
-    
-    function handleImageFileSelect(file : File) {
+
+    const handleImageFileSelect = (file : File) => {
         uploadImage(file);
     }
     

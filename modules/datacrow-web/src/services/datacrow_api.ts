@@ -82,6 +82,7 @@ export interface FieldSetting {
     fieldIdx: number;
     labelKey: string;
     enabled: boolean;
+    order: number;
 }
 
 export interface Field {

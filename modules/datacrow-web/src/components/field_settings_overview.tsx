@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../context/translation_context";
 import { fetchFieldSettings, type FieldSetting } from "../services/datacrow_api";
 import { useModule } from "../context/module_context";
+import { Button, Card, InputGroup } from "react-bootstrap";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
+import Form from 'react-bootstrap/Form';
 
 export default function FieldSettingsOverview() {
     
@@ -10,6 +13,9 @@ export default function FieldSettingsOverview() {
     
     const currentModule = useModule();
     const navigate = useNavigate();
+    
+    const methods = useForm();
+    const { register, reset } = methods
     
     useEffect(() => {
         currentModule.selectedModule && fetchFieldSettings(currentModule.selectedModule.index).
@@ -21,18 +27,114 @@ export default function FieldSettingsOverview() {
             }
         });
     }, [currentModule.selectedModule]);
+
+    function arrayMove(subject: FieldSetting, steps: number) {
+        if (fieldSettings) {
+            
+            const clone = fieldSettings.slice(0);
+            
+            let index = clone.findIndex((fieldSetting) => fieldSetting === subject);
+            let newIndex = index + steps;
+            
+            let element = clone[index];
+            
+            console.log(element);
+            
+            clone.splice(index, 1);
+            clone.splice(newIndex, 0, element);
+            
+            for (let i = 0; i < clone.length; i++) {
+                clone[i].order = i;
+            }
+
+            setFieldSettings(clone);
+        }
+    }
     
+    const handleToggle = (subject: FieldSetting) => {
+        if (fieldSettings) {
+            
+            const clone = fieldSettings.slice(0);
+            
+            let index = clone.findIndex((fieldSetting) => fieldSetting === subject);
+            let element = clone[index];
+            element.enabled = !element.enabled;
+            
+            setFieldSettings(clone);
+        }
+    }
+    
+    const handleMoveDown = (fieldSetting: FieldSetting) => {
+        arrayMove(fieldSetting, 1);
+    }
+    
+    const handleMoveUp = (fieldSetting: FieldSetting) => {
+        arrayMove(fieldSetting, -1);
+    }
     
     const { t } = useTranslation();
     
+    const onSubmit = (data: any, e: any) => {
+        e.preventDefault();
+        
+        
+        
+        
+    }
+    
     return (
-        <div style={{width: "100%", display: "table"}}>
-            {fieldSettings && fieldSettings.map((fieldSetting) => (
-                <div className="row mb-3" style={{display: "table-row"}}>
-                    {t(fieldSetting.labelKey)}
-                </div>
-            ))
-            }
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
+
+            <form key="field-settings-form" onSubmit={methods.handleSubmit(onSubmit)}>
+
+                {fieldSettings && fieldSettings.map((fieldSetting, counter) => (
+
+                    <Card style={{ width: '100%' }} key={"card-field-setting-" + fieldSetting.fieldIdx}>
+                        <Card.Body style={{ width: '100%' }} key={""} >
+
+                            <div className="float-container" style={{ marginTop: "20px" }}>
+                                <div className="float-child">
+                                    <input 
+                                        type="checkbox"
+                                        id={"field-index-" + fieldSetting.fieldIdx}
+                                        key={"field-index-" + fieldSetting.fieldIdx} 
+                                        onChange={() => handleToggle(fieldSetting)}
+                                        checked={(fieldSetting.enabled as boolean)}
+                                    />
+                                </div>
+                                
+                                <div className="float-child">
+                                    <Form.Control
+                                        id={"field-pos-" + fieldSetting.fieldIdx}
+                                        key={"field-pos-" + fieldSetting.fieldIdx}
+                                        defaultValue={fieldSetting.order}
+                                        {...register("field-pos-" + fieldSetting.fieldIdx)}
+                                        hidden={true}
+                                    />
+                                </div>
+
+                                <div className="float-child" style={{ marginLeft: "20px", width: "60px", marginRight: "30px" }}>
+                                    {(counter < fieldSettings.length - 1) &&
+                                        (<i className="bi bi-arrow-down" style={{ fontSize: "1.2rem", marginRight: "10px" }} onClick={() => handleMoveDown(fieldSetting)}></i>)
+                                    }
+
+                                    {(counter++ != 0) &&
+                                        (<i className="bi bi-arrow-up" style={{ fontSize: "1.2rem", }} onClick={() => handleMoveUp(fieldSetting)}></i>)
+                                    }
+                                </div>
+
+                                <div className="float-child">
+                                    {t(fieldSetting.labelKey)}
+                                </div>
+                            </div>
+                        </Card.Body>
+                    </Card>
+                ))}
+
+                <Button type="submit" key="field-settings-submit-button">
+                    {t("lblSave")}
+                </Button>
+            </form>
         </div>
     );
     

@@ -12,9 +12,9 @@ export function SettingsPage() {
         
             <div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="div-settings-tabs">
             
-                <Tabs>
+                <Tabs className="mb-3">
 
-                    <Tab eventKey="details" title={t("lblDetails")} key="details-tab">
+                    <Tab eventKey="details" title={t("lblDetails")} key="details-tab" className="mb-3">
                         <FieldSettingsOverview />
                     </Tab>
 
