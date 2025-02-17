@@ -1,6 +1,6 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchItem, fetchReferences, saveItem, type Field, type Item, type References } from "../../services/datacrow_api";
+import { fetchReferences, saveItem, type Field, type Item, type References, fetchFieldSettings, type FieldSetting } from "../../services/datacrow_api";
 import { RequireAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
 import { Button, Modal, Tab, Tabs } from "react-bootstrap";
@@ -8,23 +8,33 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from "../../context/translation_context";
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
-import PictureEditList from "../../components/pictures_edit_list";
-import ChildrenOverview from "../../components/item_overview_children";
 import { useMessage } from "../../context/message_context";
-import AttachmentEditList from "../../components/attachment_edit_list";
 
 export function ItemCreatePage() {
 
+    const [fieldSettings, setFieldSettings] = useState<FieldSetting[]>();
     const [selectedTab, setSelectedTab] = useState('details');
     const [references, setReferences] = useState<References[]>();
-    const currentModule = useModule();
+    const moduleContext = useModule();
     const message = useMessage();
     const navigate = useNavigate();
     const methods = useForm();
     const { t } = useTranslation();
 
     useEffect(() => {
-        currentModule.selectedModule && fetchReferences(currentModule.selectedModule.index).
+        moduleContext.selectedModule && fetchFieldSettings(moduleContext.selectedModule.index).
+        then((data) => setFieldSettings(data)).
+        catch(error => {
+            console.log(error);
+            if (error.status === 401) {
+                navigate("/login");
+            }
+        });
+    }, [moduleContext.selectedModule]);
+
+
+    useEffect(() => {
+        moduleContext.selectedModule && fetchReferences(moduleContext.selectedModule.index).
         then((data) => setReferences(data)).
         catch(error => {
             console.log(error);
@@ -32,7 +42,7 @@ export function ItemCreatePage() {
                 navigate("/login");
             }
         });
-    }, [currentModule.selectedModule]);
+    }, [moduleContext.selectedModule]);
     
     function ReferencesForField(field: Field) {
         var i = 0;
@@ -46,7 +56,7 @@ export function ItemCreatePage() {
     
     const onSubmit = (data: any, e: any) => {
         e.preventDefault();
-        saveItem(currentModule.selectedModule.index, data).
+        saveItem(moduleContext.selectedModule.index, data).
         then((itemID) => navigate('/item', { state: { itemID }})).
         catch(error => {
             if (error.status === 401) {
@@ -74,12 +84,14 @@ export function ItemCreatePage() {
                         <FormProvider {...methods}>
                             <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
                                 
-                                {references && currentModule.mainModule.fields.map((field) => (
-                                    <InputField
-                                        field={field}
-                                        value={undefined}
-                                        references={ReferencesForField(field)}
-                                    />
+                                {references && fieldSettings &&  moduleContext.getFields(fieldSettings).map((field) => (
+                                    !field.readOnly && (
+                                        <InputField
+                                            field={field}
+                                            value={undefined}
+                                            references={ReferencesForField(field)}
+                                        />
+                                    )
                                 ))}
                                 
                                 <Button type="submit" key="item-details-submit-button">

@@ -5,7 +5,7 @@ import org.datacrow.core.utilities.definitions.WebFieldDefinition;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FieldSetting {
-
+	
 	@JsonProperty("enabled")
 	private boolean enabled;
 	@JsonProperty("fieldIdx")
