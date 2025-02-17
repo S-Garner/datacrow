@@ -15,6 +15,8 @@ import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.utilities.Base64;
+import org.datacrow.core.utilities.definitions.WebFieldDefinition;
+import org.datacrow.core.utilities.definitions.WebFieldDefinitions;
 import org.datacrow.server.web.api.manager.ModuleManager;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,11 +38,31 @@ public class Item {
 	@JsonProperty("fields")
 	private final List<FieldValue> fields = new LinkedList<FieldValue>();
 	
-	public Item(SecuredUser su, DcObject src, int[] fields) {
+	
+	public Item(SecuredUser su, DcObject src) {
+		this(su, src, null);
+	}
+	
+	public Item(SecuredUser su, DcObject src, int limitToFields[]) {
 
 		id = src.getID();
 		name = src.toString();
 		moduleIdx = src.getModuleIdx();
+
+		List<Integer> fields = new LinkedList<Integer>();
+
+		if (limitToFields != null) {
+			for (int i : limitToFields)
+				fields.add(Integer.valueOf(i));
+		} else {
+			WebFieldDefinitions definitions = (WebFieldDefinitions) 
+					DcModules.get(moduleIdx).getSettings().getDefinitions(DcRepository.ModuleSettings.stWebFieldDefinitions);
+			
+			for (WebFieldDefinition definition : definitions.getDefinitions()) {
+				if (definition.isEnabled())
+					fields.add(Integer.valueOf(definition.getFieldIdx()));
+			}
+		}
 		
 		if (new File(new File(DcConfig.getInstance().getImageDir(), id), "picture1.jpg").exists()) {
 			scaledImageUrl = src.getScaledImageUrl();

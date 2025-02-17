@@ -33,11 +33,10 @@ public class ItemManager {
     }
 
 	public Item getItem(SecuredUser su, int moduleIdx, String id) {
-		DcModule module = DcModules.get(moduleIdx);
 		DcObject dco = DcConfig.getInstance().getConnector().getItem(moduleIdx, id);
 		
 		if (dco != null)
-			return new Item(su, dco, module.getFieldIndices());
+			return new Item(su, dco);
 		
 		return null;
 	}
@@ -50,7 +49,7 @@ public class ItemManager {
 		Connector conn = DcConfig.getInstance().getConnector();
 		
 		for (DcObject child : conn.getChildren(id, childModuleIdx, cm.getMinimalFields(null))) {
-			children.add(new Item(su, child, cm.getFieldIndices()));
+			children.add(new Item(su, child));
 		}
 	
 		return children;

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "../context/translation_context";
-import { fetchFieldSettings, type FieldSetting } from "../services/datacrow_api";
+import { fetchFieldSettings, saveFieldSettings, type FieldSetting } from "../services/datacrow_api";
 import { useModule } from "../context/module_context";
-import { Button, Card, InputGroup } from "react-bootstrap";
-import { FormProvider, useForm, useFormContext } from "react-hook-form";
-import Form from 'react-bootstrap/Form';
+import { Button, Card } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 
 export default function FieldSettingsOverview() {
     
@@ -13,9 +12,7 @@ export default function FieldSettingsOverview() {
     
     const currentModule = useModule();
     const navigate = useNavigate();
-    
     const methods = useForm();
-    const { register, reset } = methods
     
     useEffect(() => {
         currentModule.selectedModule && fetchFieldSettings(currentModule.selectedModule.index).
@@ -74,12 +71,12 @@ export default function FieldSettingsOverview() {
     
     const { t } = useTranslation();
     
-    const onSubmit = (data: any, e: any) => {
+    const onSubmit = (_data: any, e: any) => {
         e.preventDefault();
         
-        
-        
-        
+        if (fieldSettings) {
+            saveFieldSettings(currentModule.selectedModule.index, fieldSettings);    
+        }
     }
     
     return (
@@ -103,16 +100,6 @@ export default function FieldSettingsOverview() {
                                     />
                                 </div>
                                 
-                                <div className="float-child">
-                                    <Form.Control
-                                        id={"field-pos-" + fieldSetting.fieldIdx}
-                                        key={"field-pos-" + fieldSetting.fieldIdx}
-                                        defaultValue={fieldSetting.order}
-                                        {...register("field-pos-" + fieldSetting.fieldIdx)}
-                                        hidden={true}
-                                    />
-                                </div>
-
                                 <div className="float-child" style={{ marginLeft: "20px", width: "60px", marginRight: "30px" }}>
                                     {(counter < fieldSettings.length - 1) &&
                                         (<i className="bi bi-arrow-down" style={{ fontSize: "1.2rem", marginRight: "10px" }} onClick={() => handleMoveDown(fieldSetting)}></i>)

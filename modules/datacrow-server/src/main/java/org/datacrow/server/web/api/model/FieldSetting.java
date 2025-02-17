@@ -7,13 +7,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class FieldSetting {
 
 	@JsonProperty("enabled")
-	private final boolean enabled;
+	private boolean enabled;
 	@JsonProperty("fieldIdx")
-	private final int fieldIdx;
+	private int fieldIdx;
 	@JsonProperty("labelKey")
-	private final String labelKey;
+	private String labelKey;
 	@JsonProperty("order")
-	private final int order;
+	private int order;
+	
+	public FieldSetting() {}
 	
 	public FieldSetting(WebFieldDefinition wf, int order) {
 		this.fieldIdx = wf.getFieldIdx();

@@ -169,6 +169,17 @@ export async function login(username: string, password: string): Promise<User | 
     }
 }
 
+export async function saveFieldSettings(moduleIdx: number, fieldSettings: FieldSetting[]): Promise<FieldSetting[]> {
+    const result = await instance.post(baseUrl + 'fieldsettings', fieldSettings, {
+        headers: {
+            'Content-Type': 'application/json',
+            'moduleIndex': moduleIdx
+        }
+    });
+    
+    return result.data;
+}
+
 export async function fetchFieldSettings(moduleIdx: number): Promise<FieldSetting[]> {
     const response = await instance.get(baseUrl + 'fieldsettings/' + moduleIdx);
     return response.data;
