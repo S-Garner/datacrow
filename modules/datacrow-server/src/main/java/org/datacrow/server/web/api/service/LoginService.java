@@ -29,7 +29,7 @@ public class LoginService {
     		SecuredUser user = SecurityCenter.getInstance().login(username, password);
     		
     		if (user != null)
-    			return new WebUser(username, user.getSecurityToken().getToken());
+    			return new WebUser(username, user.getSecurityToken().getToken(), user.isAdmin());
     		
     	} catch (Exception e) {
     		logger.debug(e, e);

@@ -7,6 +7,7 @@ import { useTranslation } from '../context/translation_context';
 
 import PagesDropdown from './pages_dropdown';
 import Pagination from './pagination';
+import { useAuth } from '../context/authentication_context';
 
 export function ItemOverview() {
 
@@ -14,6 +15,7 @@ export function ItemOverview() {
 	const navigate = useNavigate();
 	const [items, setItems] = useState<Item[]>([]);
 	const { t } = useTranslation();
+	const auth = useAuth();
 
     useEffect(() => {
         currentModule.selectedModule && fetchItems(currentModule.selectedModule.index, currentModule.filter).
@@ -84,7 +86,14 @@ export function ItemOverview() {
                 
                 <div className="float-child" style={{marginLeft: "20px"}}>
                     <i className="bi bi-plus-circle menu-icon" style={{ fontSize: "1.7rem"}} onClick={() => handleCreateNew()} ></i>
-                    <i className="bi bi-tools menu-icon" style={{ fontSize: "1.7rem"}} onClick={() => handleShowSettings()} ></i>
+                    
+                    {
+                        auth.user.admin && 
+                            (
+                                <i className="bi bi-tools menu-icon" style={{ fontSize: "1.7rem"}} onClick={() => handleShowSettings()} ></i>
+                            )    
+                    }
+                    
                 </div>
                 
 			</div>

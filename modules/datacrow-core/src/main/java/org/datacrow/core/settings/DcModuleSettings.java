@@ -47,6 +47,8 @@ import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 import org.datacrow.core.utilities.definitions.DcFieldDefinitions;
 import org.datacrow.core.utilities.definitions.QuickViewFieldDefinition;
 import org.datacrow.core.utilities.definitions.QuickViewFieldDefinitions;
+import org.datacrow.core.utilities.definitions.WebFieldDefinition;
+import org.datacrow.core.utilities.definitions.WebFieldDefinitions;
 
 /**
  * Module specific settings.
@@ -125,12 +127,28 @@ public class DcModuleSettings extends Settings {
     
     private void createDefinitions(DcModule module) {
         QuickViewFieldDefinitions qvDefinitions = new QuickViewFieldDefinitions(module.getIndex());
-        
         for (DcField field : module.getFields()) {
             boolean enabled = field.isSystemField() || field.getValueType() == ValueTypes._PICTURE ? false : true;
             qvDefinitions.add(new QuickViewFieldDefinition(field.getModule(), field.getIndex(), enabled, DcResources.getText("lblHorizontal"), 0));
         }
-        
+
+        WebFieldDefinitions wfDefinitions = new WebFieldDefinitions(module.getIndex());
+        for (DcField field : module.getFields()) {
+        	if (field.getValueType() != DcRepository.ValueTypes._PICTURE) {
+	            boolean enabled = field.isSystemField() ? false : true;
+	            wfDefinitions.add(new WebFieldDefinition(field.getModule(), field.getIndex(), enabled));
+        	}
+        }
+
+        addSetting(_General,
+			    new Setting(DcRepository.ValueTypes._DEFINITIONGROUP,
+		                    DcRepository.ModuleSettings.stWebFieldDefinitions,
+		                    wfDefinitions,
+		                    -1,
+		                    "",
+		                    "",
+		                    false,
+		                    false, module.getIndex()));
         addSetting(_General,
 			    new Setting(DcRepository.ValueTypes._DEFINITIONGROUP,
 		                    DcRepository.ModuleSettings.stQuickViewFieldDefinitions,

@@ -60,6 +60,7 @@ export interface Settings {
 export interface User {
     username: string;
     token: string;
+    admin: boolean;
     settings: Settings;
 }
 
@@ -75,6 +76,12 @@ export interface Item {
 export interface FieldValue {
 	field: Field;
 	value: Object;
+}
+
+export interface FieldSetting {
+    fieldIdx: number;
+    labelKey: string;
+    enabled: boolean;
 }
 
 export interface Field {
@@ -159,6 +166,11 @@ export async function login(username: string, password: string): Promise<User | 
     } else {
         return null;
     }
+}
+
+export async function fetchFieldSettings(moduleIdx: number): Promise<FieldSetting[]> {
+    const response = await instance.get(baseUrl + 'fieldsettings/' + moduleIdx);
+    return response.data;
 }
 
 export async function fetchResources(lang: string | undefined): Promise<Translation> {

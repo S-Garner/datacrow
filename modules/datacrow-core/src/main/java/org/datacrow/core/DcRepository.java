@@ -105,6 +105,7 @@ public abstract class DcRepository {
         public static final String stImportCDStorageMedium = "import_cd_storagemedium";
         public static final String stSynchronizerDialogSize = "synchronizer_dialog_size";
         public static final String stQuickViewFieldDefinitions = "quick_view_field_definitions";
+        public static final String stWebFieldDefinitions = "web_view_field_definitions";
         public static final String stTableSettings = "table_settings";
         public static final String stQuickViewSettingsDialogSize = "quick_view_settings_dialog_size";
         public static final String stTableViewSettingsDialogSize = "table_view_settings_dialog_size";
