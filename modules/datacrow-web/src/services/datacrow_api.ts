@@ -147,11 +147,18 @@ export async function savePicture(data: Object, itemID: string): Promise<Picture
             'itemID': itemID
         }
     });
+    
     return response.data;
 }
 
-export async function saveItem(moduleIdx: number, data: Map<string, Object>): Promise<string> {
-    const result = await instance.post(baseUrl + 'item', {payload: data, module: moduleIdx});
+export async function saveItem(moduleIdx: number, _itemID: string, data: Map<string, Object>): Promise<string> {
+    const result = await instance.post(baseUrl + 'item', data, {
+        headers: {
+            'itemID': _itemID,
+            'moduleIndex': moduleIdx
+        }
+    });
+    
     return result.data;
 }
 

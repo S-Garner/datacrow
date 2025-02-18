@@ -56,7 +56,7 @@ export function ItemCreatePage() {
     
     const onSubmit = (data: any, e: any) => {
         e.preventDefault();
-        saveItem(moduleContext.selectedModule.index, data).
+        saveItem(moduleContext.selectedModule.index, "", data).
         then((itemID) => navigate('/item', { state: { itemID }})).
         catch(error => {
             if (error.status === 401) {
@@ -85,7 +85,7 @@ export function ItemCreatePage() {
                             <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
                                 
                                 {references && fieldSettings &&  moduleContext.getFields(fieldSettings).map((field) => (
-                                    !field.readOnly && (
+                                    (!field.readOnly || field.hidden) && (
                                         <InputField
                                             field={field}
                                             value={undefined}

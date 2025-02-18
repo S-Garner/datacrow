@@ -65,15 +65,18 @@ export function ItemPage() {
     
     const onSubmit = (data: any, e: any) => {
         e.preventDefault();
-        saveItem(currentModule.selectedModule.index, data).
-        then(() => message.showMessage(t("msgItemHasBeenSaved"))).
-        catch(error => {
-            if (error.status === 401) {
-                navigate("/login");
-            } else {
-                message.showMessage(error.response.data);
-            }
-        });
+        
+        if (state) {
+            saveItem(currentModule.selectedModule.index, state.itemID, data).
+            then(() => message.showMessage(t("msgItemHasBeenSaved"))).
+            catch(error => {
+                if (error.status === 401) {
+                    navigate("/login");
+                } else {
+                    message.showMessage(error.response.data);
+                }
+            });
+        }
     }
 
     return (
@@ -93,11 +96,13 @@ export function ItemPage() {
                             <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
                                 
                                 {references && item?.fields.map((fieldValue) => (
-                                    <InputField
-                                        field={fieldValue.field}
-                                        value={fieldValue.value}
-                                        references={ReferencesForField(fieldValue.field)}
-                                    />
+                                    (!fieldValue.field.readOnly || fieldValue.field.hidden) && (
+                                        <InputField
+                                            field={fieldValue.field}
+                                            value={fieldValue.value}
+                                            references={ReferencesForField(fieldValue.field)}
+                                        />
+                                    )
                                 ))}
                                 
                                 <Button type="submit" key="item-details-submit-button">

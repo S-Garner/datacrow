@@ -30,37 +30,34 @@ public class ItemService extends DataCrowApiService {
     @Produces(MediaType.APPLICATION_JSON)
     public Item getItem(
     		@HeaderParam("authorization") String token,
-    		@PathParam("moduleIndex") Long id, 
+    		@PathParam("moduleIndex") int moduleIndex, 
     		@PathParam("itemID") String ID) {
 
     	checkAuthorization(token);
     	
     	SecuredUser su = SecurityCenter.getInstance().getUser(token);
-    	return ItemManager.getInstance().getItem(su, id.intValue(), ID);
+    	return ItemManager.getInstance().getItem(su, moduleIndex, ID);
     }
     
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response save(@HeaderParam("authorization") String token, Map<Object, Object> data) {
+    public Response save(
+    		@HeaderParam("authorization") String token, 
+    		@HeaderParam("moduleIndex") int moduleIndex, 
+    		@HeaderParam("itemID") String itemID,		
+    		Map<Object, Object> data) {
     	
     	checkAuthorization(token);
     	
-    	@SuppressWarnings("unchecked")
-		Map<Object, Object> payload = (Map<Object, Object>) data.get("payload");
-    	
-    	String id = (String) payload.get("inputfield-0");
-    	
-    	boolean isNew = CoreUtilities.isEmpty(id);
-    		
-    	int moduleIdx = ((Integer) data.get("module")).intValue();
+    	boolean isNew = CoreUtilities.isEmpty(itemID);
     	
     	DcObject dco = isNew ? 
-    			DcModules.get(moduleIdx).getItem() : 
-    				DcConfig.getInstance().getConnector().getItem(moduleIdx, id);
+    			DcModules.get(moduleIndex).getItem() : 
+    				DcConfig.getInstance().getConnector().getItem(moduleIndex, itemID);
 
     	try {
-    		ItemManager.getInstance().saveItem(payload, dco, isNew);
+    		ItemManager.getInstance().saveItem(data, dco, isNew);
     	} catch (ValidationException ve) {
     		return Response.status(Response.Status.BAD_REQUEST).entity(ve.getMessage()).build();
     	}
