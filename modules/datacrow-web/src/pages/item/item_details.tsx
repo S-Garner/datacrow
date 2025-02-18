@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchItem, fetchReferences, saveItem, type Field, type Item, type References } from "../../services/datacrow_api";
-import { RequireAuth } from "../../context/authentication_context";
+import { RequireAuth, useAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
 import { Button, Tab, Tabs } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
@@ -24,10 +24,17 @@ export function ItemPage() {
     const { state } = useLocation();
     const methods = useForm();
     const { t } = useTranslation();
+    const auth = useAuth();
 
     useEffect(() => {
         if (!state) {
             navigate('/');
+        }
+    }, []);
+    
+    useEffect(() => {
+        if (!auth.user) {
+            navigate('/login');
         }
     }, []);
 
@@ -78,6 +85,11 @@ export function ItemPage() {
             });
         }
     }
+    
+    function handleShowSettings() {
+        navigate('/fieldsettings', 
+            { state: { navFrom: "/item", itemID: state.itemID }});
+    }    
 
     return (
         <RequireAuth>
@@ -92,6 +104,14 @@ export function ItemPage() {
                     className="mb-3">
 
                     <Tab eventKey="details" title={t("lblDetails")} key="details-tab">
+                    
+                        <div className="float-container" style={{ float: "right", width: "100%", margin: "0px" }}>
+                            <div className="float-child" style={{ float: "right" }} >
+                                {auth.user && auth.user.admin &&
+                                    (<i className="bi bi-tools menu-icon" style={{ fontSize: "1.4rem" }} onClick={() => handleShowSettings()} ></i>)}
+                            </div>
+                        </div>
+                    
                         <FormProvider {...methods}>
                             <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
                                 

@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.utilities.definitions.WebFieldDefinition;
 import org.datacrow.core.utilities.definitions.WebFieldDefinitions;
@@ -61,13 +62,17 @@ public class FieldSettingsService extends DataCrowApiService {
     	
     	List<FieldSetting> settings = new LinkedList<FieldSetting>();
     
+    	DcModule module = DcModules.get(moduleIndex);
+    	
     	WebFieldDefinitions definitions = (WebFieldDefinitions)
-    			DcModules.get(moduleIndex).getSetting(
+    			module.getSetting(
     					DcRepository.ModuleSettings.stWebFieldDefinitions);
 
     	int order = 0;
-    	for (WebFieldDefinition definition : definitions.getDefinitions())
-    		settings.add(new FieldSetting(definition, order++));
+    	for (WebFieldDefinition definition : definitions.getDefinitions()) {
+    		if (module.getField(definition.getFieldIdx()).isEnabled())
+    			settings.add(new FieldSetting(definition, order++));
+    	}
     	
     	return settings;
     }

@@ -15,7 +15,6 @@ export function ItemOverview() {
 	const navigate = useNavigate();
 	const [items, setItems] = useState<Item[]>([]);
 	const { t } = useTranslation();
-	const auth = useAuth();
 
     useEffect(() => {
         currentModule.selectedModule && fetchItems(currentModule.selectedModule.index, currentModule.filter).
@@ -67,10 +66,6 @@ export function ItemOverview() {
 		navigate('/item', { state: { itemID }});
 	}
 	
-	function handleShowSettings() {
-        navigate('/settings');
-    }
-	
 	return (
 		<div className="py-20 bg-slate-900 h-full" style={{width: "100%"}}>
 			
@@ -86,14 +81,6 @@ export function ItemOverview() {
                 
                 <div className="float-child" style={{marginLeft: "20px"}}>
                     <i className="bi bi-plus-circle menu-icon" style={{ fontSize: "1.7rem"}} onClick={() => handleCreateNew()} ></i>
-                    
-                    {
-                        auth.user.admin && 
-                            (
-                                <i className="bi bi-tools menu-icon" style={{ fontSize: "1.7rem"}} onClick={() => handleShowSettings()} ></i>
-                            )    
-                    }
-                    
                 </div>
                 
 			</div>
