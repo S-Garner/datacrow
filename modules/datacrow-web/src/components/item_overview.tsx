@@ -7,7 +7,6 @@ import { useTranslation } from '../context/translation_context';
 
 import PagesDropdown from './pages_dropdown';
 import Pagination from './pagination';
-import { useAuth } from '../context/authentication_context';
 
 export function ItemOverview() {
 

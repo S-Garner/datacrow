@@ -6,25 +6,31 @@ import { useModule } from "../../context/module_context";
 import { Button, Tab, Tabs } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from "../../context/translation_context";
+import { useMessage } from "../../context/message_context";
+import { useItemNavigation } from "../../context/navigation_context";
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
 import PictureEditList from "../../components/pictures_edit_list";
 import ChildrenOverview from "../../components/item_overview_children";
-import { useMessage } from "../../context/message_context";
 import AttachmentEditList from "../../components/attachment_edit_list";
+import ItemDetailsMenu from "../../components/item_details_menu_bar";
 
 export function ItemPage() {
 
     const [selectedTab, setSelectedTab] = useState('details');
     const [item, setItem] = useState<Item>();
     const [references, setReferences] = useState<References[]>();
-    const currentModule = useModule();
+    const moduleContext = useModule();
     const message = useMessage();
     const navigate = useNavigate();
     const { state } = useLocation();
     const methods = useForm();
     const { t } = useTranslation();
+    const navigation = useItemNavigation();
     const auth = useAuth();
+
+    const itemID = state?.itemID;
+    
 
     useEffect(() => {
         if (!state) {
@@ -39,18 +45,21 @@ export function ItemPage() {
     }, []);
 
     useEffect(() => {
-        (state && currentModule.selectedModule && state.itemID) && fetchItem(currentModule.selectedModule.index, state.itemID).
-        then((data) => setItem(data)).
+        (moduleContext.selectedModule && itemID) && fetchItem(moduleContext.selectedModule.index, itemID).
+        then((data) => {
+            setItem(data);
+            navigation.addPage("/item", data.name, {state: {itemID}});
+        }).
         catch(error => {
             console.log(error);
             if (error.status === 401) {
                 navigate("/login");
             }
         });
-    }, [currentModule.selectedModule]);
+    }, [moduleContext.selectedModule]);
 
     useEffect(() => {
-        state && currentModule.selectedModule && fetchReferences(currentModule.selectedModule.index).
+        state && moduleContext.selectedModule && fetchReferences(moduleContext.selectedModule.index).
         then((data) => setReferences(data)).
         catch(error => {
             console.log(error);
@@ -58,7 +67,7 @@ export function ItemPage() {
                 navigate("/login");
             }
         });
-    }, [currentModule.selectedModule]);
+    }, [moduleContext.selectedModule]);
 	
     function ReferencesForField(field: Field) {
         var i = 0;
@@ -74,7 +83,7 @@ export function ItemPage() {
         e.preventDefault();
         
         if (state) {
-            saveItem(currentModule.selectedModule.index, state.itemID, data).
+            saveItem(moduleContext.selectedModule.index, state.itemID, data).
             then(() => message.showMessage(t("msgItemHasBeenSaved"))).
             catch(error => {
                 if (error.status === 401) {
@@ -86,11 +95,6 @@ export function ItemPage() {
         }
     }
     
-    function handleShowSettings() {
-        navigate('/fieldsettings', 
-            { state: { navFrom: "/item", itemID: state.itemID }});
-    }    
-
     return (
         <RequireAuth>
         
@@ -105,12 +109,7 @@ export function ItemPage() {
 
                     <Tab eventKey="details" title={t("lblDetails")} key="details-tab">
                     
-                        <div className="float-container" style={{ float: "right", width: "100%", margin: "0px" }}>
-                            <div className="float-child" style={{ float: "right" }} >
-                                {auth.user && auth.user.admin &&
-                                    (<i className="bi bi-tools menu-icon" style={{ fontSize: "1.4rem" }} onClick={() => handleShowSettings()} ></i>)}
-                            </div>
-                        </div>
+                        <ItemDetailsMenu itemID={itemID} allowNavigation={true} />
                     
                         <FormProvider {...methods}>
                             <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
@@ -133,9 +132,9 @@ export function ItemPage() {
                         </FormProvider>
                     </Tab>
 
-                    {(item?.id && currentModule.selectedModule.hasChild) &&
+                    {(item?.id && moduleContext.selectedModule.hasChild) &&
                         (
-                            <Tab eventKey="children" title={t(currentModule.selectedModule.child.name)} key="children-tab">
+                            <Tab eventKey="children" title={t(moduleContext.selectedModule.child.name)} key="children-tab">
                                 <ChildrenOverview itemID={item?.id} />
                             </Tab>
                         )

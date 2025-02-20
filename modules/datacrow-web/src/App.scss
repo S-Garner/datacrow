@@ -7,9 +7,12 @@
   text-align: center;
 }
 
-.float-container {
-    padding-right: 20px;
-}
 .float-child {
     float: left;
-} 
+}
+
+.menu-icon {
+    font-size: 1.4rem;
+    color: var(--bs-primary);
+    padding-right: 5px;
+}
