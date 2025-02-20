@@ -56,7 +56,7 @@ export function ItemCreatePage() {
     const onSubmit = (data: any, e: any) => {
         e.preventDefault();
         saveItem(moduleContext.selectedModule.index, "", data).
-        then((itemID) => navigate('/item', { replace: true, state: { itemID }})).
+        then((itemID) => navigate('/item_edit', { replace: true, state: { itemID }})).
         catch(error => {
             if (error.status === 401) {
                 navigate("/login");
