@@ -18,8 +18,12 @@ export function FieldSettingsPage() {
     const message = useMessage();
     const {state} = useLocation();
     
+    const module = currentModule.selectedModule;
+    
+    const itemID = state.itemID;
+    
     useEffect(() => {
-        currentModule.selectedModule && fetchFieldSettings(currentModule.selectedModule.index).
+        currentModule.selectedModule && fetchFieldSettings(module.index).
             then((data) => setFieldSettings(data)).
             catch(error => {
                 console.log(error);
@@ -27,7 +31,7 @@ export function FieldSettingsPage() {
                     navigate("/login");
                 }
             });
-    }, [currentModule.selectedModule]);
+    }, [module]);
 
     function arrayMove(subject: FieldSetting, steps: number) {
         if (fieldSettings) {
@@ -75,10 +79,8 @@ export function FieldSettingsPage() {
     const onSubmit = (_data: any, e: any) => {
         e.preventDefault();
 
-        if (fieldSettings && state) {
-            let itemID = state.itemID;
-            
-            saveFieldSettings(currentModule.selectedModule.index, fieldSettings).
+        if (fieldSettings && itemID && module) {
+            saveFieldSettings(module.index, fieldSettings).
             then(() => navigate('/item_edit', { replace: true, state: { itemID }})).
             catch(error => {
                 if (error.status === 401) {
