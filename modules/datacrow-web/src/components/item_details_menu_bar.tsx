@@ -17,14 +17,12 @@ export default function ItemDetailsMenu({itemID} : Props)  {
     
     return (
          <div style={{ float: "right", width: "100%", marginBottom: "20px" }}>
-        
             <div style={{float:"right"}} className="float-child">
                 
                 <i className="bi bi-house-fill menu-icon" onClick={() => {navigate('/')}} ></i>
                 
                 {auth.user && auth.user.admin &&
                     <i className="bi bi-tools menu-icon" style={{marginLeft: "10px"}} onClick={() => handleShowSettings()} ></i>}
-
             </div>
         </div>
     );

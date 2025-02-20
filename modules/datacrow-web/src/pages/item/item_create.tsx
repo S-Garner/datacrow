@@ -32,7 +32,6 @@ export function ItemCreatePage() {
         });
     }, [moduleContext.selectedModule]);
 
-
     useEffect(() => {
         moduleContext.selectedModule && fetchReferences(moduleContext.selectedModule.index).
         then((data) => setReferences(data)).
@@ -57,7 +56,7 @@ export function ItemCreatePage() {
     const onSubmit = (data: any, e: any) => {
         e.preventDefault();
         saveItem(moduleContext.selectedModule.index, "", data).
-        then((itemID) => navigate('/item', { state: { itemID }})).
+        then((itemID) => navigate('/item', { replace: true, state: { itemID }})).
         catch(error => {
             if (error.status === 401) {
                 navigate("/login");
@@ -97,11 +96,10 @@ export function ItemCreatePage() {
                                 <Button type="submit" key="item-details-submit-button">
                                     {t("lblSave")}
                                 </Button>
-                                
+
                             </Form>
                         </FormProvider>
                     </Tab>
-
                 </Tabs>
             </div>
         </RequireAuth>
