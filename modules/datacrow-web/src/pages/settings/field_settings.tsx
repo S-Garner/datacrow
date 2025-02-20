@@ -1,4 +1,4 @@
-import { RequireAuth } from "../../context/authentication_context";
+import { RequireAuth, useAuth } from "../../context/authentication_context";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "../../context/translation_context";
@@ -20,7 +20,13 @@ export function FieldSettingsPage() {
     
     const module = currentModule.selectedModule;
     
-    const itemID = state.itemID;
+    useEffect(() => {
+        if (!state) {
+            navigate('/login');
+        }
+    }, []);
+    
+    const itemID = state?.itemID;
     
     useEffect(() => {
         currentModule.selectedModule && fetchFieldSettings(module.index).

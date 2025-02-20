@@ -37,7 +37,7 @@ export function ItemPage() {
     }, []);
     
     useEffect(() => {
-        if (!auth.user || !state.itemID) {
+        if (!state) {
             navigate('/login');
         }
     }, []);
@@ -85,8 +85,8 @@ export function ItemPage() {
     const onSubmit = (data: any, e: any) => {
         e.preventDefault();
         
-        if (state) {
-            saveItem(module.index, state.itemID, data).
+        if (itemID) {
+            saveItem(module.index, itemID, data).
             then(() => message.showMessage(t("msgItemHasBeenSaved"))).
             catch(error => {
                 if (error.status === 401) {
