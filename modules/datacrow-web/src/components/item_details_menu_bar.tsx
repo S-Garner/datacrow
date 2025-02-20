@@ -1,37 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { useItemNavigation } from "../context/navigation_context";
 import { useAuth } from "../context/authentication_context";
 
 interface Props {
     itemID: string;
-    allowNavigation: boolean;
 }
 
-export default function ItemDetailsMenu({itemID, allowNavigation} : Props)  {
+export default function ItemDetailsMenu({itemID} : Props)  {
     
     const navigate = useNavigate();
-    const itemNavigation = useItemNavigation();
     const auth = useAuth();
     
-    const previousPage = allowNavigation && itemNavigation.previousPage();
-    
-    const back = () => {
-        console.log(previousPage);
-        
-        if (previousPage) {
-            let parameters = previousPage.parameters;
-            
-            console.log(parameters);
-            
-            if (parameters)
-                navigate(previousPage.address, parameters);
-            else
-                navigate(previousPage.address);
-        }
-    }
-    
     function handleShowSettings() {
-        navigate('/fieldsettings', 
+        navigate('/fieldsettings',
             { state: { navFrom: "/item", itemID }});
     }     
     
@@ -40,9 +20,6 @@ export default function ItemDetailsMenu({itemID, allowNavigation} : Props)  {
         
             <div style={{float:"right"}} className="float-child">
                 
-                {previousPage &&
-                    <i className="bi bi-arrow-left-circle-fill menu-icon" onClick={() => {back()}}></i>}
-                    
                 <i className="bi bi-house-fill menu-icon" onClick={() => {navigate('/')}} ></i>
                 
                 {auth.user && auth.user.admin &&

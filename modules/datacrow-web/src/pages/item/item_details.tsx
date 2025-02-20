@@ -7,7 +7,6 @@ import { Button, Tab, Tabs } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from "../../context/translation_context";
 import { useMessage } from "../../context/message_context";
-import { useItemNavigation } from "../../context/navigation_context";
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
 import PictureEditList from "../../components/pictures_edit_list";
@@ -19,6 +18,7 @@ export function ItemPage() {
 
     const [selectedTab, setSelectedTab] = useState('details');
     const [item, setItem] = useState<Item>();
+    const [itemID, setItemID] = useState<string>();
     const [references, setReferences] = useState<References[]>();
     const moduleContext = useModule();
     const message = useMessage();
@@ -26,11 +26,7 @@ export function ItemPage() {
     const { state } = useLocation();
     const methods = useForm();
     const { t } = useTranslation();
-    const navigation = useItemNavigation();
     const auth = useAuth();
-
-    const itemID = state?.itemID;
-    
 
     useEffect(() => {
         if (!state) {
@@ -39,16 +35,21 @@ export function ItemPage() {
     }, []);
     
     useEffect(() => {
-        if (!auth.user) {
+        if (!auth.user || !state.itemID) {
             navigate('/login');
         }
     }, []);
-
+    
+    useEffect(() => {
+        if (state.itemID) {
+            setItemID(state.itemID);
+        }
+    }, []);
+    
     useEffect(() => {
         (moduleContext.selectedModule && itemID) && fetchItem(moduleContext.selectedModule.index, itemID).
         then((data) => {
             setItem(data);
-            navigation.addPage("/item", data.name, {state: {itemID}});
         }).
         catch(error => {
             console.log(error);
@@ -56,7 +57,7 @@ export function ItemPage() {
                 navigate("/login");
             }
         });
-    }, [moduleContext.selectedModule]);
+    }, [moduleContext.selectedModule, itemID]);
 
     useEffect(() => {
         state && moduleContext.selectedModule && fetchReferences(moduleContext.selectedModule.index).
@@ -99,7 +100,7 @@ export function ItemPage() {
         <RequireAuth>
         
             <div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="div-item-details">
-            
+
                 <Tabs
                     defaultActiveKey="profile"
                     key="item-details-tabs"
@@ -109,7 +110,7 @@ export function ItemPage() {
 
                     <Tab eventKey="details" title={t("lblDetails")} key="details-tab">
                     
-                        <ItemDetailsMenu itemID={itemID} allowNavigation={true} />
+                        {itemID && <ItemDetailsMenu itemID={itemID} />}
                     
                         <FormProvider {...methods}>
                             <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
@@ -132,30 +133,29 @@ export function ItemPage() {
                         </FormProvider>
                     </Tab>
 
-                    {(item?.id && moduleContext.selectedModule.hasChild) &&
+                    {(itemID && moduleContext.selectedModule.hasChild) &&
                         (
                             <Tab eventKey="children" title={t(moduleContext.selectedModule.child.name)} key="children-tab">
-                                <ChildrenOverview itemID={item?.id} />
+                                <ChildrenOverview itemID={itemID} />
                             </Tab>
                         )
                     }
     
-                    {item?.id &&
+                    {itemID &&
                         (
                             <Tab eventKey="pictures" title={t("lblPictures")} key="pictures-tab">
-                                <PictureEditList itemID={item?.id} />
+                                <PictureEditList itemID={itemID} />
                             </Tab>
                         )
                     }
                     
-                    {item?.id &&
+                    {itemID &&
                         (
                             <Tab eventKey="attachments" title={t("lblAttachments")}>
-                                <AttachmentEditList itemID={item?.id} />
+                                <AttachmentEditList itemID={itemID} />
                             </Tab>
                         )
                     }
-
                 </Tabs>
             </div>
         </RequireAuth>
