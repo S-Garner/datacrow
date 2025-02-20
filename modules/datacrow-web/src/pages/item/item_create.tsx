@@ -12,6 +12,7 @@ import { useMessage } from "../../context/message_context";
 
 export function ItemCreatePage() {
 
+    const [fields, setFields] = useState<Field[]>();
     const [fieldSettings, setFieldSettings] = useState<FieldSetting[]>();
     const [selectedTab, setSelectedTab] = useState('details');
     const [references, setReferences] = useState<References[]>();
@@ -20,20 +21,26 @@ export function ItemCreatePage() {
     const navigate = useNavigate();
     const methods = useForm();
     const { t } = useTranslation();
+    
+    const module = moduleContext.selectedModule; 
 
     useEffect(() => {
-        moduleContext.selectedModule && fetchFieldSettings(moduleContext.selectedModule.index).
-        then((data) => setFieldSettings(data)).
+        module && fetchFieldSettings(module.index).
+        then((data) => {
+            setFieldSettings(data);
+            fieldSettings && 
+                setFields(moduleContext.getFields(module.index, fieldSettings));    
+        }).
         catch(error => {
             console.log(error);
             if (error.status === 401) {
                 navigate("/login");
             }
         });
-    }, [moduleContext.selectedModule]);
+    }, [module]);
 
     useEffect(() => {
-        moduleContext.selectedModule && fetchReferences(moduleContext.selectedModule.index).
+        module && fetchReferences(module.index).
         then((data) => setReferences(data)).
         catch(error => {
             console.log(error);
@@ -41,7 +48,7 @@ export function ItemCreatePage() {
                 navigate("/login");
             }
         });
-    }, [moduleContext.selectedModule]);
+    }, [module]);
     
     function ReferencesForField(field: Field) {
         var i = 0;
@@ -55,7 +62,7 @@ export function ItemCreatePage() {
     
     const onSubmit = (data: any, e: any) => {
         e.preventDefault();
-        saveItem(moduleContext.selectedModule.index, "", data).
+        saveItem(module.index, "", data).
         then((itemID) => navigate('/item_edit', { replace: true, state: { itemID }})).
         catch(error => {
             if (error.status === 401) {
@@ -83,7 +90,7 @@ export function ItemCreatePage() {
                         <FormProvider {...methods}>
                             <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
                                 
-                                {references && fieldSettings &&  moduleContext.getFields(fieldSettings).map((field) => (
+                                {(references && fieldSettings && fields) && fields.map((field) => (
                                     (!field.readOnly || field.hidden) && (
                                         <InputField
                                             field={field}

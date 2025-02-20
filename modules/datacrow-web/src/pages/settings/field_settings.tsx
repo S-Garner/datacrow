@@ -78,10 +78,8 @@ export function FieldSettingsPage() {
         if (fieldSettings && state) {
             let itemID = state.itemID;
             
-            console.log(itemID);
-            
             saveFieldSettings(currentModule.selectedModule.index, fieldSettings).
-            then(() => navigate('/item', { state: { itemID }})).
+            then(() => navigate('/item_edit', { replace: true, state: { itemID }})).
             catch(error => {
                 if (error.status === 401) {
                     navigate("/login");

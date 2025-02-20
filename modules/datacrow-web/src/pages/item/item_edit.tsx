@@ -27,6 +27,8 @@ export function ItemPage() {
     const methods = useForm();
     const { t } = useTranslation();
     const auth = useAuth();
+    
+    const module = moduleContext.selectedModule;
 
     useEffect(() => {
         if (!state) {
@@ -47,7 +49,7 @@ export function ItemPage() {
     }, []);
     
     useEffect(() => {
-        (moduleContext.selectedModule && itemID) && fetchItem(moduleContext.selectedModule.index, itemID).
+        (module && itemID) && fetchItem(module.index, itemID).
         then((data) => {
             setItem(data);
         }).
@@ -57,10 +59,10 @@ export function ItemPage() {
                 navigate("/login");
             }
         });
-    }, [moduleContext.selectedModule, itemID]);
+    }, [module, itemID]);
 
     useEffect(() => {
-        state && moduleContext.selectedModule && fetchReferences(moduleContext.selectedModule.index).
+        state && module && fetchReferences(module.index).
         then((data) => setReferences(data)).
         catch(error => {
             console.log(error);
@@ -68,7 +70,7 @@ export function ItemPage() {
                 navigate("/login");
             }
         });
-    }, [moduleContext.selectedModule]);
+    }, [module]);
 	
     function ReferencesForField(field: Field) {
         var i = 0;
@@ -84,7 +86,7 @@ export function ItemPage() {
         e.preventDefault();
         
         if (state) {
-            saveItem(moduleContext.selectedModule.index, state.itemID, data).
+            saveItem(module.index, state.itemID, data).
             then(() => message.showMessage(t("msgItemHasBeenSaved"))).
             catch(error => {
                 if (error.status === 401) {
@@ -133,9 +135,9 @@ export function ItemPage() {
                         </FormProvider>
                     </Tab>
 
-                    {(itemID && moduleContext.selectedModule.hasChild) &&
+                    {(itemID && module.hasChild) &&
                         (
-                            <Tab eventKey="children" title={t(moduleContext.selectedModule.child.name)} key="children-tab">
+                            <Tab eventKey="children" title={t(module.child.name)} key="children-tab">
                                 <ChildrenOverview itemID={itemID} />
                             </Tab>
                         )

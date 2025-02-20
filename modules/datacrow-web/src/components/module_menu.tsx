@@ -7,12 +7,11 @@ import { useTranslation } from "../context/translation_context";
 
 function ModuleMenu({ children }: { children: JSX.Element }) {
 
-	const [modules, setModules] = useState<Module[]>([]);
 	const [mainModule, setMainModule] = useState<Module>();
 	const [selectedModule, setSelectedModule] = useState<Module>();
 	const { t } = useTranslation();
 	
-	let currentModule = useModule();
+	let moduleContext = useModule();
 	let navigate = useNavigate();
 
 	useEffect(() => {
@@ -26,18 +25,19 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
     }, []);
 
 	function setModuleData(modules: Module[]) {
-		setModules(modules);
+        
+        moduleContext.setModules(modules);
 
 		// make sure there's always a selected module
 		if (modules.length > 0) {
-			if (currentModule.selectedModule === null) {
+			if (moduleContext.selectedModule === null) {
 				// set the first module as selected
 				switchMainModule(modules[0])
 			} else {
 				// force a reload as the item might have been edited
 				// switchMainModule(currentModule.module);
-				setMainModule(currentModule.mainModule);
-				setSelectedModule(currentModule.selectedModule);
+				setMainModule(moduleContext.mainModule);
+				setSelectedModule(moduleContext.selectedModule);
 			}
 		}
 	}
@@ -45,12 +45,12 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 	function switchMainModule(m: Module) {
 		setMainModule(m);
 		setSelectedModule(m);
-		currentModule.switchModule(m, m);
+		moduleContext.switchModule(m, m);
 	}
 	
 	function switchModule(m : Module) {
 		setSelectedModule(m);
-		currentModule.switchModule(m, mainModule!);
+		moduleContext.switchModule(m, mainModule!);
 	}
 
 	function DisplayMainModules() {
@@ -63,14 +63,18 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 
 				<Dropdown.Toggle split id="module-select-dropdown" />
 
-				<Dropdown.Menu>
-					{modules.map((module) => (
-						<Dropdown.Item onClick={() => switchMainModule(module)} key={"moduleMenu" + module.index}>
-							<img src={"data:image/png;base64, " + module.icon} />
-							&nbsp;{t(module.name)}
-						</Dropdown.Item>
-					))}
-				</Dropdown.Menu>
+                {
+                    moduleContext.modules && (
+                        <Dropdown.Menu>
+                            {moduleContext.modules.map((module) => (
+                                <Dropdown.Item onClick={() => switchMainModule(module)} key={"moduleMenu" + module.index}>
+                                    <img src={"data:image/png;base64, " + module.icon} />
+                                    &nbsp;{t(module.name)}
+                                </Dropdown.Item>
+                            ))}
+                        </Dropdown.Menu>
+                    )
+                }
 			</Dropdown>			
 		);
 	}
