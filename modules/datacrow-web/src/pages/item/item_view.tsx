@@ -14,19 +14,18 @@ import ChildrenOverview from "../../components/item_overview_children";
 import AttachmentEditList from "../../components/attachment_edit_list";
 import ItemDetailsMenu from "../../components/item_details_menu_bar";
 
-export function ItemPage() {
+export function ItemViewPage() {
 
     const [selectedTab, setSelectedTab] = useState('details');
     const [item, setItem] = useState<Item>();
     const [itemID, setItemID] = useState<string>();
-    const [references, setReferences] = useState<References[]>();
     const moduleContext = useModule();
-    const message = useMessage();
     const navigate = useNavigate();
     const { state } = useLocation();
-    const methods = useForm();
     const { t } = useTranslation();
     const auth = useAuth();
+
+    const module = moduleContext.selectedModule;
 
     useEffect(() => {
         if (!state) {
@@ -47,7 +46,7 @@ export function ItemPage() {
     }, []);
     
     useEffect(() => {
-        (moduleContext.selectedModule && itemID) && fetchItem(moduleContext.selectedModule.index, itemID).
+        (module && itemID) && fetchItem(module.index, itemID).
         then((data) => {
             setItem(data);
         }).
@@ -57,45 +56,8 @@ export function ItemPage() {
                 navigate("/login");
             }
         });
-    }, [moduleContext.selectedModule, itemID]);
-
-    useEffect(() => {
-        state && moduleContext.selectedModule && fetchReferences(moduleContext.selectedModule.index).
-        then((data) => setReferences(data)).
-        catch(error => {
-            console.log(error);
-            if (error.status === 401) {
-                navigate("/login");
-            }
-        });
-    }, [moduleContext.selectedModule]);
+    }, [module, itemID]);
 	
-    function ReferencesForField(field: Field) {
-        var i = 0;
-        while (i < references!.length) {
-            if (references![i].moduleIdx === field.referencedModuleIdx)
-                return references![i];
-            i++;
-        }
-        return undefined;
-    }
-    
-    const onSubmit = (data: any, e: any) => {
-        e.preventDefault();
-        
-        if (state) {
-            saveItem(moduleContext.selectedModule.index, state.itemID, data).
-            then(() => message.showMessage(t("msgItemHasBeenSaved"))).
-            catch(error => {
-                if (error.status === 401) {
-                    navigate("/login");
-                } else {
-                    message.showMessage(error.response.data);
-                }
-            });
-        }
-    }
-    
     return (
         <RequireAuth>
         
@@ -112,43 +74,14 @@ export function ItemPage() {
                     
                         {itemID && <ItemDetailsMenu itemID={itemID} navigateBackTo="/item_view" />}
                     
-                        <FormProvider {...methods}>
-                            <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
+                        {item?.fields.map((fieldValue) => (
+                            (
+                                fieldValue.field.label + " = " + fieldValue.value + <br />
+                            )
+                        ))}
                                 
-                                {references && item?.fields.map((fieldValue) => (
-                                    (!fieldValue.field.readOnly || fieldValue.field.hidden) && (
-                                        <InputField
-                                            field={fieldValue.field}
-                                            value={fieldValue.value}
-                                            references={ReferencesForField(fieldValue.field)}
-                                        />
-                                    )
-                                ))}
-                                
-                                <Button type="submit" key="item-details-submit-button">
-                                    {t("lblSave")}
-                                </Button>
-                                
-                            </Form>
-                        </FormProvider>
                     </Tab>
 
-                    {(itemID && moduleContext.selectedModule.hasChild) &&
-                        (
-                            <Tab eventKey="children" title={t(moduleContext.selectedModule.child.name)} key="children-tab">
-                                <ChildrenOverview itemID={itemID} />
-                            </Tab>
-                        )
-                    }
-    
-                    {itemID &&
-                        (
-                            <Tab eventKey="pictures" title={t("lblPictures")} key="pictures-tab">
-                                <PictureEditList itemID={itemID} />
-                            </Tab>
-                        )
-                    }
-                    
                     {itemID &&
                         (
                             <Tab eventKey="attachments" title={t("lblAttachments")}>

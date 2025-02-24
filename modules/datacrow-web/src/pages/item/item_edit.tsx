@@ -26,7 +26,6 @@ export function ItemPage() {
     const { state } = useLocation();
     const methods = useForm();
     const { t } = useTranslation();
-    const auth = useAuth();
     
     const module = moduleContext.selectedModule;
 

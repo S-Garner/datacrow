@@ -10,6 +10,7 @@ import { TranslationProvider } from './context/translation_context';
 import { MessageProvider } from './context/message_context';
 import { ItemCreatePage } from './pages/item/item_create';
 import { FieldSettingsPage } from './pages/settings/field_settings';
+import { ItemViewPage } from './pages/item/item_view';
 
 export default function App() {
     
@@ -23,6 +24,7 @@ export default function App() {
                                 <Route path="/" element={<OverviewPage />} />
                                 <Route path="/item_edit" element={<ItemPage />} />
                                 <Route path="/item_create" element={<ItemCreatePage />} />
+                                <Route path="/item_view" element={<ItemViewPage />} />
                                 <Route path="/login" element={<LoginPage />} />
                                 <Route path="/fieldsettings" element={<FieldSettingsPage />} />
                             </Route>

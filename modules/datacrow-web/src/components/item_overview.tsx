@@ -62,7 +62,7 @@ export function ItemOverview() {
     }
 	
 	function openEditItem(itemID : string) {
-		navigate('/item_edit', { state: { itemID }});
+		navigate('/item_view', { state: { itemID }});
 	}
 	
 	return (

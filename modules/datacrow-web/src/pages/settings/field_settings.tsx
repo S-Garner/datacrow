@@ -1,4 +1,4 @@
-import { RequireAuth, useAuth } from "../../context/authentication_context";
+import { RequireAuth } from "../../context/authentication_context";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "../../context/translation_context";
@@ -12,13 +12,14 @@ export function FieldSettingsPage() {
 
     const [fieldSettings, setFieldSettings] = useState<FieldSetting[]>();
 
-    const currentModule = useModule();
+    const moduleContext = useModule();
     const navigate = useNavigate();
     const methods = useForm();
     const message = useMessage();
     const {state} = useLocation();
     
-    const module = currentModule.selectedModule;
+    const navigateBackTo = state.navFrom;
+    const module = moduleContext.selectedModule;
     
     useEffect(() => {
         if (!state) {
@@ -29,7 +30,7 @@ export function FieldSettingsPage() {
     const itemID = state?.itemID;
     
     useEffect(() => {
-        currentModule.selectedModule && fetchFieldSettings(module.index).
+        module && fetchFieldSettings(module.index).
             then((data) => setFieldSettings(data)).
             catch(error => {
                 console.log(error);
@@ -87,7 +88,7 @@ export function FieldSettingsPage() {
 
         if (fieldSettings && itemID && module) {
             saveFieldSettings(module.index, fieldSettings).
-            then(() => navigate('/item_edit', { state: { itemID }})).
+            then(() => navigate(navigateBackTo, { state: { itemID }})).
             catch(error => {
                 if (error.status === 401) {
                     navigate("/login");
