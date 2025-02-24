@@ -3,16 +3,17 @@ import { useAuth } from "../context/authentication_context";
 
 interface Props {
     itemID: string;
+    navigateBackTo: string;
 }
 
-export default function ItemDetailsMenu({itemID} : Props)  {
+export default function ItemDetailsMenu({itemID, navigateBackTo} : Props)  {
     
     const navigate = useNavigate();
     const auth = useAuth();
     
     function handleShowSettings() {
         navigate('/fieldsettings',
-            { state: { navFrom: "/item", itemID }}); 
+            { state: { navFrom: navigateBackTo, itemID }}); 
     }     
     
     return (
