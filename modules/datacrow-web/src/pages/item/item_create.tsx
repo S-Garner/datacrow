@@ -22,14 +22,13 @@ export function ItemCreatePage() {
     const methods = useForm();
     const { t } = useTranslation();
     
-    const module = moduleContext.selectedModule; 
-
+    const module = moduleContext.selectedModule;
+    
     useEffect(() => {
         module && fetchFieldSettings(module.index).
         then((data) => {
             setFieldSettings(data);
-            fieldSettings && 
-                setFields(moduleContext.getFields(module.index, fieldSettings));    
+            setFields(moduleContext.getFields(module.index, data));    
         }).
         catch(error => {
             console.log(error);
