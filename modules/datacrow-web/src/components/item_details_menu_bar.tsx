@@ -12,9 +12,7 @@ export default function ItemDetailsMenu({itemID} : Props)  {
     
     function handleShowSettings() {
         navigate('/fieldsettings',
-            { replace: true, state: { navFrom: "/item", itemID }}); 
-            // Replace is needed here; the current page in history will be replaced by the settings.
-            // The settings will replace the settings url with the url that is navigate to - which will be the navFrom.
+            { state: { navFrom: "/item", itemID }}); 
     }     
     
     return (
