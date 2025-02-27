@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authentication_context";
-import { useState } from "react";
 
 interface Props {
     itemID: string;
@@ -15,7 +14,7 @@ export default function ItemDetailsMenu({itemID, formTitle, navigateBackTo, edit
     const auth = useAuth();
     
     function handleShowSettings() {
-        navigate('/fieldsettings', {state: { navFrom: navigateBackTo, itemID }}); 
+        navigate('/fieldsettings', { state: { navFrom: navigateBackTo, itemID }}); 
     }
     
     function handleToEditMode() {

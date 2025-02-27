@@ -12,6 +12,7 @@ import DcTagField from "./dc_tag_field";
 import DcRatingField from "./dc_rating_field";
 import { useTranslation } from "../../context/translation_context";
 import DcRuntimeField from "./dc_runtime_field";
+import { FieldType } from "../component_types";
 
 export interface InputFieldProps {
     field: Field,
@@ -24,23 +25,6 @@ export interface InputFieldComponentProps {
     field: Field,
     value: Object | undefined,
     references?: References
-}
-
-enum FieldType {
-    CheckBox = 0,
-    TextField = 1,
-    LongTextField = 2,
-    DropDown = 3,
-    UrlField = 4,
-    ReferencesField = 5,
-    DateField = 6,
-    FileField = 7,
-    TagField = 8,
-    RatingField = 9,
-    IconField = 10,
-    NumberField = 11,
-    DecimalField = 12,
-    DurationField = 13
 }
 
 export default function InputField({
