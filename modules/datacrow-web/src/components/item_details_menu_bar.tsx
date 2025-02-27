@@ -5,11 +5,11 @@ import { useState } from "react";
 interface Props {
     itemID: string;
     formTitle: string | undefined;
-    allowEditMode: boolean;
+    editMode: boolean;
     navigateBackTo: string;
 }
 
-export default function ItemDetailsMenu({itemID, formTitle, navigateBackTo, allowEditMode} : Props)  {
+export default function ItemDetailsMenu({itemID, formTitle, navigateBackTo, editMode} : Props)  {
     
     const navigate = useNavigate();
     const auth = useAuth();
@@ -22,16 +22,22 @@ export default function ItemDetailsMenu({itemID, formTitle, navigateBackTo, allo
         navigate('/item_edit', { replace: true, state: { itemID }}); 
     }
     
+    function handleToViewMode() {
+        navigate('/item_view', { replace: true, state: { itemID }}); 
+    }    
+    
     return (
          <div style={{ float: "right", width: "100%", marginBottom: "20px" }}>
             <div style={{float:"right"}} className="float-child">
                 
-                {allowEditMode && <i className="bi bi-house menu-icon" onClick={() => {handleToEditMode()}} ></i>}
+                {!editMode && <i className="bi bi-pen-fill menu-icon" onClick={() => {handleToEditMode()}} ></i>}
                 
-                <i className="bi bi-house-fill menu-icon" onClick={() => {navigate('/')}} ></i>
+                {editMode && <i className="bi bi-eye-fill menu-icon" onClick={() => {handleToViewMode()}} ></i>}
+                
+                <i className="bi bi-house-fill menu-icon" style={{marginLeft: "5px"}} onClick={() => {navigate('/')}} ></i>
                 
                 {auth.user && auth.user.admin &&
-                    <i className="bi bi-tools menu-icon" style={{marginLeft: "10px"}} onClick={() => handleShowSettings()} ></i>}
+                    <i className="bi bi-gear-fill menu-icon" style={{marginLeft: "5px"}} onClick={() => handleShowSettings()} ></i>}
             </div>
             
             <div style={{float:"left"}} className="float-child text-primary">

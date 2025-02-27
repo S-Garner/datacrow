@@ -18,7 +18,7 @@ export function UserStatus() {
 					auth.signout(() => navigate("/"));
 				}}
 			> 
-			<i className="bi bi-person-fill"></i>
+			<i className="bi bi-door-open"></i>
 			
 			</Button>
 		</div>

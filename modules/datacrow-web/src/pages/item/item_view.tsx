@@ -79,7 +79,7 @@ export function ItemViewPage() {
                     
                         {itemID && ( 
                             <ItemDetailsMenu 
-                                allowEditMode={true} 
+                                editMode={false} 
                                 itemID={itemID} 
                                 formTitle={item?.name} 
                                 navigateBackTo="/item_view" />)

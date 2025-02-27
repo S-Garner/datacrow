@@ -112,7 +112,7 @@ export function ItemPage() {
                     
                         {itemID && ( 
                             <ItemDetailsMenu 
-                                allowEditMode={false} 
+                                editMode={true} 
                                 itemID={itemID} 
                                 formTitle={t("lblEditItem",  [item ? item.name : ""])} 
                                 navigateBackTo="/item_edit" />)

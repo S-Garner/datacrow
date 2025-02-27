@@ -4,7 +4,7 @@ import React, { type InputHTMLAttributes } from "react";
 import type { Field } from '../../services/datacrow_api';
 import type { InputFieldComponentProps } from "./dc_input_field";
 
-const Input: React.FC<InputFieldComponentProps> = ({ field, value, ...rest }) => {
+const Input: React.FC<InputFieldComponentProps> = ({ field, value, viewOnly, ...rest }) => {
 
     let v = value === undefined ? 0 : value;
 
