@@ -1,7 +1,7 @@
 import Select, { components, type ControlProps, type GroupBase, type OptionProps } from 'react-select'
 import type { JSX } from 'react/jsx-runtime';
 import { useState } from 'react';
-import type { InputFieldProps } from './dc_input_field';
+import type { InputFieldComponentProps } from './dc_input_field';
 import { useFormContext, Controller } from 'react-hook-form';
 
 export interface IconSelectOption {
@@ -31,14 +31,14 @@ export default function DcReferenceField({
     field,
     value,
     references
-}: InputFieldProps) {
+}: InputFieldComponentProps) {
 
     const [selectedValue, setSelectedValue] = useState<IconSelectOption>();
     
     const { register } = useFormContext();
     const options = Options();
     const currentValue = CurrentValue();
-
+    
     function CurrentValue() {
         let idx = 0;
         let selectedIdx = -1;
@@ -92,8 +92,8 @@ export default function DcReferenceField({
                         defaultValue={currentValue}
                         isClearable
                         isSearchable
-                        isDisabled={field.readOnly}
                         placeholder="..."
+                        isDisabled={field.readOnly}
                         components={{ Option: IconOption, Control }}
                         {...register("inputfield-" + field.index)}
                         {...renderProps.field}

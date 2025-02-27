@@ -6,7 +6,6 @@ export interface FieldProps {
     handleFileSelect: (file: File) => void
 }
 
-
 export default function FileUploadField({
     accept,
     handleFileSelect

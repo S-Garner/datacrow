@@ -1,6 +1,6 @@
 import { components, type GroupBase, type OptionProps} from 'react-select'
 import type { JSX } from 'react/jsx-runtime';
-import type { InputFieldProps } from './dc_input_field';
+import type { InputFieldComponentProps } from './dc_input_field';
 import { Controller, useFormContext } from 'react-hook-form';
 import CreatableSelect from 'react-select/creatable';
 
@@ -28,12 +28,12 @@ export default function DcTagField({
     field,
     value,
     references
-}: InputFieldProps) {
+}: InputFieldComponentProps) {
 
     const { register } = useFormContext();
     const options = Options();
     const currentValue = CurrentValue();
-
+    
     function CurrentValue() {
         let selection = new Array<IconSelectOption>(3);
         let idx = 0;
@@ -62,7 +62,7 @@ export default function DcTagField({
 
         return options;
     }
-
+    
     return (
         <Controller
             name={"inputfield-" + field.index}

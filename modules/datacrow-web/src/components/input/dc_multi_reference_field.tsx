@@ -1,6 +1,6 @@
 import Select, { components, type GroupBase, type OptionProps} from 'react-select'
 import type { JSX } from 'react/jsx-runtime';
-import type { InputFieldProps } from './dc_input_field';
+import type { InputFieldComponentProps } from './dc_input_field';
 import { Controller, useFormContext } from 'react-hook-form';
 
 export interface IconSelectOption {
@@ -27,12 +27,12 @@ export default function DcMultiReferenceField({
     field,
     value,
     references
-}: InputFieldProps) {
+}: InputFieldComponentProps) {
 
     const { register } = useFormContext();
     const options = Options();
     const currentValue = CurrentValue();
-
+    
     function CurrentValue() {
         let selection = new Array<IconSelectOption>(3);
         let idx = 0;
@@ -63,7 +63,7 @@ export default function DcMultiReferenceField({
 
         return options;
     }
-
+    
     return (
         <Controller
             name={"inputfield-" + field.index}
@@ -79,8 +79,8 @@ export default function DcMultiReferenceField({
                         defaultValue={currentValue}
                         isClearable
                         isMulti
-                        isDisabled={field.readOnly}
                         isSearchable
+                        isDisabled={field.readOnly}
                         placeholder="..."
                         components={{ Option: IconOption }}
                         {...register("inputfield-" + field.index)}

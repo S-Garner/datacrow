@@ -2,15 +2,11 @@ import { Controller, useFormContext } from "react-hook-form";
 import { useState } from "react";
 import React, { type InputHTMLAttributes } from "react";
 import type { Field } from '../../services/datacrow_api';
+import type { InputFieldComponentProps } from "./dc_input_field";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    currentValue: Object | undefined;
-    field: Field;
-}
+const Input: React.FC<InputFieldComponentProps> = ({ field, value, ...rest }) => {
 
-const Input: React.FC<InputProps> = ({ currentValue, field, ...rest }) => {
-
-    let v = currentValue === undefined ? 0 : currentValue;
+    let v = value === undefined ? 0 : value;
 
     const [rating, setRating] = useState<number>(v as number);
     const { register, setValue } = useFormContext();

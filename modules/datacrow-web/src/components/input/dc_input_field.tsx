@@ -11,8 +11,16 @@ import DcMultiReferenceField from "./dc_multi_reference_field";
 import DcTagField from "./dc_tag_field";
 import DcRatingField from "./dc_rating_field";
 import { useTranslation } from "../../context/translation_context";
+import DcRuntimeField from "./dc_runtime_field";
 
 export interface InputFieldProps {
+    field: Field,
+    value: Object | undefined,
+    references?: References,
+    viewOnly : boolean
+}
+
+export interface InputFieldComponentProps {
     field: Field,
     value: Object | undefined,
     references?: References
@@ -32,20 +40,21 @@ enum FieldType {
     IconField = 10,
     NumberField = 11,
     DecimalField = 12,
-    DurationField = 13 // TODO
+    DurationField = 13
 }
 
 export default function InputField({
     field,
     value,
-    references
+    references,
+    viewOnly
 }: InputFieldProps) {
 
     const {t} = useTranslation();
 
     return (
         <Col key={"detailsColField" + field.index}>
-            {(field.type != FieldType.CheckBox && !field.hidden) && (
+            {((field.type != FieldType.CheckBox && !field.hidden) || viewOnly && value)  && (
                 <Row key={"detailsRowLabelField" + field.index}>
                     <Form.Label
                         style={{ textAlign: "left" }}
@@ -119,8 +128,8 @@ export default function InputField({
                     {field.type === FieldType.RatingField && (
                         <DcRatingField
                             key={"field-" + field.index}
-                            currentValue={value} 
-                            field={field} />)
+                            field={field}
+                            value={value} />)
                     }
                     
                     {field.type === FieldType.NumberField && (
@@ -131,6 +140,12 @@ export default function InputField({
                             
                     {field.type === FieldType.DecimalField && (
                         <DcDecimalField
+                            key={"field-" + field.index}
+                            field={field}
+                            value={value} />)}
+                            
+                    {field.type === FieldType.DurationField && (
+                        <DcRuntimeField
                             key={"field-" + field.index}
                             field={field}
                             value={value} />)}

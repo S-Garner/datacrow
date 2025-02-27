@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchItem, fetchReferences, saveItem, type Field, type Item, type References } from "../../services/datacrow_api";
 import { RequireAuth, useAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
-import { Button, Tab, Tabs } from "react-bootstrap";
+import { Button, Col, Container, Row, Tab, Tabs } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from "../../context/translation_context";
 import { useMessage } from "../../context/message_context";
@@ -101,7 +101,6 @@ export function ItemPage() {
         <RequireAuth>
         
             <div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="div-item-details">
-
                 <Tabs
                     defaultActiveKey="profile"
                     key="item-details-tabs"
@@ -111,7 +110,7 @@ export function ItemPage() {
 
                     <Tab eventKey="details" title={t("lblDetails")} key="details-tab">
                     
-                        {itemID && <ItemDetailsMenu itemID={itemID} navigateBackTo="/item_edit" />}
+                        {itemID && <ItemDetailsMenu itemID={itemID} formTitle={t("lblEditItem",  [item ? item.name : ""])} navigateBackTo="/item_edit" />}
                     
                         <FormProvider {...methods}>
                             <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
@@ -122,6 +121,7 @@ export function ItemPage() {
                                             field={fieldValue.field}
                                             value={fieldValue.value}
                                             references={ReferencesForField(fieldValue.field)}
+                                            viewOnly={false}
                                         />
                                     )
                                 ))}

@@ -1,12 +1,12 @@
-import { Form, InputGroup } from "react-bootstrap";
-import type { InputFieldProps } from "./dc_input_field";
+import { Form } from "react-bootstrap";
+import type { InputFieldComponentProps } from "./dc_input_field";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "../../context/translation_context";
 
 export default function DcCheckBox({
     field,
     value
-}: InputFieldProps) {
+}: InputFieldComponentProps) {
     
     const { register } = useFormContext();
     const { t } = useTranslation();

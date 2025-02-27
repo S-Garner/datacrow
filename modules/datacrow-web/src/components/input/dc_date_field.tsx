@@ -1,11 +1,11 @@
 import { Form } from "react-bootstrap";
-import type { InputFieldProps } from "./dc_input_field";
+import type { InputFieldComponentProps } from "./dc_input_field";
 import { useFormContext } from "react-hook-form";
 
 export function DcDateField({
     field,
     value
-}: InputFieldProps) {
+}: InputFieldComponentProps) {
 	
 	const { register } = useFormContext();
 	

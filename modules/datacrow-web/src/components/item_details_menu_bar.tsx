@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authentication_context";
+import { useState } from "react";
 
 interface Props {
     itemID: string;
+    formTitle: string | undefined;
     navigateBackTo: string;
 }
 
-export default function ItemDetailsMenu({itemID, navigateBackTo} : Props)  {
+export default function ItemDetailsMenu({itemID, formTitle, navigateBackTo} : Props)  {
     
     const navigate = useNavigate();
     const auth = useAuth();
@@ -25,6 +27,10 @@ export default function ItemDetailsMenu({itemID, navigateBackTo} : Props)  {
                 {auth.user && auth.user.admin &&
                     <i className="bi bi-tools menu-icon" style={{marginLeft: "10px"}} onClick={() => handleShowSettings()} ></i>}
             </div>
+            
+            <div style={{float:"left"}} className="float-child text-primary">
+                {formTitle}
+            </div>            
         </div>
     );
 }

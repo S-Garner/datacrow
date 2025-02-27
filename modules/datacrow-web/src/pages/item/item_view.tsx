@@ -24,6 +24,7 @@ export function ItemViewPage() {
     const { state } = useLocation();
     const { t } = useTranslation();
     const auth = useAuth();
+    const methods = useForm();
 
     const module = moduleContext.selectedModule;
 
@@ -57,6 +58,10 @@ export function ItemViewPage() {
             }
         });
     }, [module, itemID]);
+    
+    const onSubmit = (data: any, e: any) => {
+        e.preventDefault();
+    }
 	
     return (
         <RequireAuth>
@@ -73,13 +78,22 @@ export function ItemViewPage() {
                     <Tab eventKey="details" title={t("lblDetails")} key="details-tab">
                     
                         {itemID && <ItemDetailsMenu itemID={itemID} navigateBackTo="/item_view" />}
+                        
+                        <FormProvider {...methods}>
+                            <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
                     
-                        {item?.fields.map((fieldValue) => (
-                            (
-                                fieldValue.field.label + " = " + fieldValue.value + <br />
-                            )
-                        ))}
-                                
+                                { item?.fields.map((fieldValue) => (
+                                    (fieldValue.value) && (
+                                        <InputField
+                                            field={fieldValue.field}
+                                            value={fieldValue.value}
+                                            references={undefined}
+                                            viewOnly={true}
+                                        />
+                                    )
+                                ))}
+                            </Form>
+                        </FormProvider>
                     </Tab>
 
                     {itemID &&

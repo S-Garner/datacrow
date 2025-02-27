@@ -3,21 +3,17 @@ import { useState } from "react";
 import React, { type InputHTMLAttributes } from "react";
 import type { Field } from '../../services/datacrow_api';
 import { InputGroup } from "react-bootstrap";
+import type { InputFieldComponentProps } from "./dc_input_field";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    currentValue: Object;
-    field: Field;
-}
+const DcRuntimeField: React.FC<InputFieldComponentProps> = ({ field, value, ...rest }) => {
 
-const Input: React.FC<InputProps> = ({ currentValue, field, ...rest }) => {
-
-    const [rating, setRating] = useState<number>(currentValue as number);
-    const { register, setValue, getValues } = useFormContext();
+    const [rating, setRating] = useState<number>(value as number);
+    const { register, setValue } = useFormContext();
     
+    // TODO - base these on the total run time
     let hrs = 1;
     let min = 2;
     let sec = 2;
-    
     
     const RuntimeInput: React.FC = () => {
         return (
@@ -25,17 +21,19 @@ const Input: React.FC<InputProps> = ({ currentValue, field, ...rest }) => {
                 <InputGroup className="mb-3">
                     <input type="text" name="fld-hours" className="form-control" defaultValue={hrs} 
                         onChange={e => {runtimeValueChange(e)}} />
-                    <input type="text" name="fld-minutes" className="form-control" defaultValue={min} />
-                    <input type="text" name="fld-seconds" className="form-control" defaultValue={sec} />
+                    <input type="text" name="fld-minutes" className="form-control" defaultValue={min} 
+                        onChange={e => {runtimeValueChange(e)}} />
+                    <input type="text" name="fld-seconds" className="form-control" defaultValue={sec} 
+                        onChange={e => {runtimeValueChange(e)}} />
                 </InputGroup>
             </div>
         );
     };
 
     function runtimeValueChange(e: React.ChangeEvent<HTMLInputElement>) {
-        
-        // update the hidden input field
-        setValue("inputfield-" + field.index, "CHANGED");
+        // TODO - set the value of the hidden field (as controlled below)
+        setRating(122);
+        setValue("inputfield-" + field.index, 122);
     }
 
     return (
@@ -43,6 +41,7 @@ const Input: React.FC<InputProps> = ({ currentValue, field, ...rest }) => {
             name={"inputfield-" + field.index}
             key={"inputfield-" + field.index}
             defaultValue={rating}
+            disabled={field.readOnly}
             rules={{ required: field.required }}
             render={renderProps => {
                 return (
@@ -62,4 +61,4 @@ const Input: React.FC<InputProps> = ({ currentValue, field, ...rest }) => {
     );
 };
 
-export default Input;
+export default DcRuntimeField;
