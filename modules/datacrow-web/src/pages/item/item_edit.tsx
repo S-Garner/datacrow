@@ -110,7 +110,13 @@ export function ItemPage() {
 
                     <Tab eventKey="details" title={t("lblDetails")} key="details-tab">
                     
-                        {itemID && <ItemDetailsMenu itemID={itemID} formTitle={t("lblEditItem",  [item ? item.name : ""])} navigateBackTo="/item_edit" />}
+                        {itemID && ( 
+                            <ItemDetailsMenu 
+                                allowEditMode={false} 
+                                itemID={itemID} 
+                                formTitle={t("lblEditItem",  [item ? item.name : ""])} 
+                                navigateBackTo="/item_edit" />)
+                        }
                     
                         <FormProvider {...methods}>
                             <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>

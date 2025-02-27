@@ -18,7 +18,7 @@ instance.interceptors.request.use(
     }
 );
 
-export interface LoginCallBack { (myArgument: User | null): void }
+export interface LoginCallBack { (user: User | null): void }
 
 export interface Attachment {
     objectID: string;

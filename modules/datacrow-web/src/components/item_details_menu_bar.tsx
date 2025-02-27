@@ -5,22 +5,28 @@ import { useState } from "react";
 interface Props {
     itemID: string;
     formTitle: string | undefined;
+    allowEditMode: boolean;
     navigateBackTo: string;
 }
 
-export default function ItemDetailsMenu({itemID, formTitle, navigateBackTo} : Props)  {
+export default function ItemDetailsMenu({itemID, formTitle, navigateBackTo, allowEditMode} : Props)  {
     
     const navigate = useNavigate();
     const auth = useAuth();
     
     function handleShowSettings() {
-        navigate('/fieldsettings',
-            { state: { navFrom: navigateBackTo, itemID }}); 
-    }     
+        navigate('/fieldsettings', {state: { navFrom: navigateBackTo, itemID }}); 
+    }
+    
+    function handleToEditMode() {
+        navigate('/item_edit', { replace: true, state: { itemID }}); 
+    }
     
     return (
          <div style={{ float: "right", width: "100%", marginBottom: "20px" }}>
             <div style={{float:"right"}} className="float-child">
+                
+                {allowEditMode && <i className="bi bi-house menu-icon" onClick={() => {handleToEditMode()}} ></i>}
                 
                 <i className="bi bi-house-fill menu-icon" onClick={() => {navigate('/')}} ></i>
                 

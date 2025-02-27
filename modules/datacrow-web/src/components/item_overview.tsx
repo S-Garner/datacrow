@@ -61,8 +61,8 @@ export function ItemOverview() {
         searchItems(currentModule!.selectedModule.index, filter).then((data) => setItems(data));
     }
 	
-	function openEditItem(itemID : string) {
-		navigate('/item_edit', { state: { itemID }});
+	function openItem(itemID : string) {
+		navigate('/item_view', { state: { itemID }});
 	}
 	
 	return (
@@ -103,7 +103,7 @@ export function ItemOverview() {
 
 			<div style={{ display: "flex", flexWrap: "wrap", float: "left", clear: "both" }}>
 				{currentItems!.map((item) => (
-					<Card style={{ width: '18rem' }} key={"card" + item.id} onClick={() => openEditItem(item.id)}>
+					<Card style={{ width: '18rem' }} key={"card" + item.id} onClick={() => openItem(item.id)}>
 						<Card.Body>
 						    {item.imageUrl ? <Card.Img src={item.scaledImageUrl + "?" + Date.now()} /> : <div style={{ height: '300px' }} />}
 						</Card.Body>
