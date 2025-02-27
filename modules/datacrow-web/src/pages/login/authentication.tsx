@@ -2,7 +2,7 @@ import { Button, Form } from 'react-bootstrap';
 import { data, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authentication_context';
 import { fetchResources, type User } from '../../services/datacrow_api';
-import { MessageBox, MessageBoxType } from '../../components/message_box';
+import { MessageBox, MessageBoxType } from '../../components/message/message_box';
 import { useEffect, useState } from 'react';
 import { useTranslation, languageArray } from '../../context/translation_context';
 

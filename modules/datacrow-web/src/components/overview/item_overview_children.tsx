@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useModule } from "../context/module_context";
-import { fetchChildren, type Item } from "../services/datacrow_api";
+import { useModule } from "../../context/module_context";
+import { fetchChildren, type Item } from "../../services/datacrow_api";
 import { Button, ListGroup } from "react-bootstrap";
 
 type Props = {

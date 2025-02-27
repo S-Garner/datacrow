@@ -2,7 +2,7 @@ import './App.scss';
 import { Routes, Route, Outlet } from "react-router-dom";
 import { LoginPage } from "./pages/login/authentication";
 import { OverviewPage } from './pages/overview/overview';
-import MainMenuBar from './components/main_menu_bar';
+import MainMenuBar from './components/menu/main_menu_bar';
 import { ItemPage } from './pages/item/item_edit';
 import { AuthProvider } from './context/authentication_context';
 import { ModuleProvider } from './context/module_context';

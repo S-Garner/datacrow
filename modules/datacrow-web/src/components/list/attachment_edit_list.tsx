@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button, Card, Modal, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "../context/translation_context";
-import { deleteAttachment, type Attachment, fetchAttachments, downloadAttachment, saveAttachment } from "../services/datacrow_api";
-import { useMessage } from "../context/message_context";
-import FileUploadField from "./input/dc_file_upload";
-import BusyModal from "./busy_modal";
-import { useAuth } from "../context/authentication_context";
+import { useTranslation } from "../../context/translation_context";
+import { deleteAttachment, type Attachment, fetchAttachments, downloadAttachment, saveAttachment } from "../../services/datacrow_api";
+import { useMessage } from "../../context/message_context";
+import FileUploadField from "../input/dc_file_upload";
+import BusyModal from "../message/busy_modal";
+import { useAuth } from "../../context/authentication_context";
 
 type Props = {
   itemID: string;

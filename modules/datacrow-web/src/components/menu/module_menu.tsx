@@ -1,9 +1,9 @@
 import { useEffect, useState, type JSX } from 'react';
-import { fetchModules, type Module } from '../services/datacrow_api';
+import { fetchModules, type Module } from '../../services/datacrow_api';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
-import { useModule } from '../context/module_context';
+import { useModule } from '../../context/module_context';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from "../context/translation_context";
+import { useTranslation } from "../../context/translation_context";
 
 function ModuleMenu({ children }: { children: JSX.Element }) {
 

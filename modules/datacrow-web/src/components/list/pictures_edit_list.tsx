@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { deletePicture, fetchPictures, movePictureDown, movePictureUp, savePicture, type Picture } from "../services/datacrow_api";
+import { deletePicture, fetchPictures, movePictureDown, movePictureUp, savePicture, type Picture } from "../../services/datacrow_api";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Modal } from "react-bootstrap";
-import { useTranslation } from "../context/translation_context";
-import { useMessage } from "../context/message_context";
-import FileUploadField from "./input/dc_file_upload";
-import BusyModal from "./busy_modal";
+import { useTranslation } from "../../context/translation_context";
+import { useMessage } from "../../context/message_context";
+import FileUploadField from "../input/dc_file_upload";
+import BusyModal from "../message/busy_modal";
 
 type Props = {
   itemID: string;

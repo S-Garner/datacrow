@@ -9,10 +9,10 @@ import { useTranslation } from "../../context/translation_context";
 import { useMessage } from "../../context/message_context";
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
-import PictureEditList from "../../components/pictures_edit_list";
-import ChildrenOverview from "../../components/item_overview_children";
-import AttachmentEditList from "../../components/attachment_edit_list";
-import ItemDetailsMenu from "../../components/item_details_menu_bar";
+import PictureEditList from "../../components/list/pictures_edit_list";
+import ChildrenOverview from "../../components/overview/item_overview_children";
+import AttachmentEditList from "../../components/list/attachment_edit_list";
+import ItemDetailsMenu from "../../components/menu/item_details_menu_bar";
 
 export function ItemPage() {
 

@@ -1,5 +1,5 @@
-import ModuleMenu from "../../components/module_menu";
-import { ItemOverview } from "../../components/item_overview";
+import ModuleMenu from "../../components/menu/module_menu";
+import { ItemOverview } from "../../components/overview/item_overview";
 import { RequireAuth } from "../../context/authentication_context";
 
 export function OverviewPage() {

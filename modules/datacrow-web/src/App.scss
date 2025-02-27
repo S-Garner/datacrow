@@ -1,5 +1,6 @@
-@use 'components' as comp;
+@use 'components/menu/' as menu;
 @use 'components/input/' as input;
+@use 'components/overview/' as overview;
 
 #root {
   margin: 0 auto;

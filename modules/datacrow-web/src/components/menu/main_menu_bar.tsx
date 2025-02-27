@@ -1,7 +1,7 @@
-import { useAuth } from "../context/authentication_context";
+import { useAuth } from "../../context/authentication_context";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import logo from '../assets/datacrow.png';
+import logo from '../../assets/datacrow.png';
 
 export function UserStatus() {
 	let auth = useAuth();

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authentication_context";
+import { useAuth } from "../../context/authentication_context";
 
 interface Props {
     itemID: string;
