@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useTranslation } from "../../context/translation_context";
 import { deleteItem } from "../../services/datacrow_api";
 import { useMessage } from "../../context/message_context";
+import BusyModal from "../message/busy_modal";
 
 interface Props {
     moduleIdx: number;
@@ -17,6 +18,7 @@ interface Props {
 export default function ItemDetailsMenu({moduleIdx, itemID, formTitle, navigateBackTo, editMode} : Props)  {
     
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [deleting, setDeleting] = useState(false);
     
     const navigate = useNavigate();
     const message = useMessage();
@@ -42,11 +44,16 @@ export default function ItemDetailsMenu({moduleIdx, itemID, formTitle, navigateB
 
     function handleDeleteAfterConfirm() {
         setShowDeleteConfirm(false);
+        setDeleting(true);
         
         if (itemID) {
             deleteItem(itemID, moduleIdx).
-                then(() => navigate('/')).
+                then(() => {
+                    setDeleting(false);
+                    navigate('/');
+                }).
                 catch(error => {
+                    setDeleting(false);
                     if (error.status === 401) {
                         navigate("/login");
                     } else {
@@ -59,6 +66,7 @@ export default function ItemDetailsMenu({moduleIdx, itemID, formTitle, navigateB
     return (
          <div style={{ float: "right", width: "100%", marginBottom: "20px" }}>
          
+           <BusyModal show={deleting} message={t("msgBusyDeletingItem")} />
          
            <Modal centered show={showDeleteConfirm} onHide={() => setShowDeleteConfirm(false)}>
                 <Modal.Body>{t('msgDeleteAreYouSure')}</Modal.Body>
@@ -74,12 +82,12 @@ export default function ItemDetailsMenu({moduleIdx, itemID, formTitle, navigateB
          
          
             <div style={{float:"right"}} className="float-child">
+
+                {(itemID && editMode && auth.user.admin) && <i className="bi bi-trash-fill menu-icon" onClick={() => {handleDelete()}} ></i>}
                 
                 {(itemID && !editMode) && <i className="bi bi-pen-fill menu-icon" onClick={() => {handleToEditMode()}} ></i>}
                 
                 {(itemID && editMode) && <i className="bi bi-eye-fill menu-icon" onClick={() => {handleToViewMode()}} ></i>}
-                
-                {(itemID && editMode && auth.user.admin) && <i className="bi bi-trash-fill menu-icon" onClick={() => {handleDelete()}} ></i>}
                 
                 <i className="bi bi-house-fill menu-icon" style={{marginLeft: "5px"}} onClick={() => {navigate('/')}} ></i>
                 

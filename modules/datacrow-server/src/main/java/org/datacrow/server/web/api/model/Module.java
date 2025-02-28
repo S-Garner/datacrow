@@ -29,12 +29,18 @@ public class Module {
 	private boolean hasChild;
 	@JsonProperty("child")
 	private Module child;
+	@JsonProperty("itemName")
+	private final String itemName;
+	@JsonProperty("itemNamePlural")
+	private final String itemNamePlural;
 	
 	public Module(DcModule module) {
 		this.index = module.getIndex();
 		this.name = module.getModuleResourceKey();
 		this.isTop = module.isTopModule();
 		this.hasChild = module.isParentModule();
+		this.itemNamePlural = module.getItemPluralResourceKey();
+		this.itemName = module.getItemResourceKey();
 		
 		if (hasChild)
 			this.child = new Module(module.getChild());
@@ -93,8 +99,16 @@ public class Module {
 	
 	public boolean getIsTop() {
 		return isTop;
-	}	
+	}
+	
+	public String getItemName() {
+		return itemName;
+	}
 
+	public String getItemNamePlural() {
+		return itemNamePlural;
+	}
+	
 	public Module[] getReferences() {
 		Module[] moduleArray = new Module[references.size()];
 		moduleArray = references.toArray(moduleArray);

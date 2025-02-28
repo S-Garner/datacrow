@@ -3,16 +3,18 @@ import { useEffect, useState } from "react";
 import { fetchReferences, saveItem, type Field, type Item, type References, fetchFieldSettings, type FieldSetting } from "../../services/datacrow_api";
 import { RequireAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
-import { Button, Modal, Tab, Tabs } from "react-bootstrap";
+import { Button, Tab, Tabs } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from "../../context/translation_context";
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
 import { useMessage } from "../../context/message_context";
 import ItemDetailsMenu from "../../components/menu/item_details_menu_bar";
+import BusyModal from "../../components/message/busy_modal";
 
 export function ItemCreatePage() {
 
+    const [saving, setSaving] = useState(false);
     const [fields, setFields] = useState<Field[]>();
     const [fieldSettings, setFieldSettings] = useState<FieldSetting[]>();
     const [selectedTab, setSelectedTab] = useState('details');
@@ -24,6 +26,7 @@ export function ItemCreatePage() {
     const { t } = useTranslation();
     
     const module = moduleContext.selectedModule;
+    const itemName = t(module.itemName);
     
     useEffect(() => {
         module && fetchFieldSettings(module.index).
@@ -62,9 +65,16 @@ export function ItemCreatePage() {
     
     const onSubmit = (data: any, e: any) => {
         e.preventDefault();
+        
+        setSaving(true);
+        
         saveItem(module.index, "", data).
-        then((itemID) => navigate('/item_edit', { replace: true, state: { itemID }})).
+        then((itemID) => {
+            setSaving(false);
+            navigate('/item_edit', { replace: true, state: { itemID }});
+        }).
         catch(error => {
+            setSaving(false);
             if (error.status === 401) {
                 navigate("/login");
             } else {
@@ -88,11 +98,13 @@ export function ItemCreatePage() {
 
                     <Tab eventKey="details" title={t("lblDetails")} key="details-tab">
                     
+                        <BusyModal show={saving} message={t("msgBusySavingItem")} />
+                    
                         <ItemDetailsMenu
                             moduleIdx={module.index}
                             editMode={true} 
                             itemID={undefined} 
-                            formTitle=""                             
+                            formTitle={t("lblCreatingNewItem", [String(itemName)])}                             
                             navigateBackTo="/item_create" />
                     
                         <FormProvider {...methods}>

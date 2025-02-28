@@ -46,6 +46,8 @@ export interface Module {
 	hasChild: boolean;
 	child: Module;
 	fields: Field[];
+	itemName: string;
+	itemNamePlural: string;
 }
 
 export interface References {

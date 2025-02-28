@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchItem, fetchReferences, saveItem, type Field, type Item, type References } from "../../services/datacrow_api";
 import { RequireAuth, useAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
-import { Button, Col, Container, Row, Tab, Tabs } from "react-bootstrap";
+import { Button, Tab, Tabs } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from "../../context/translation_context";
 import { useMessage } from "../../context/message_context";
@@ -13,9 +13,11 @@ import PictureEditList from "../../components/list/pictures_edit_list";
 import ChildrenOverview from "../../components/overview/item_overview_children";
 import AttachmentEditList from "../../components/list/attachment_edit_list";
 import ItemDetailsMenu from "../../components/menu/item_details_menu_bar";
+import BusyModal from "../../components/message/busy_modal";
 
 export function ItemPage() {
 
+    const [saving, setSaving] = useState(false);
     const [selectedTab, setSelectedTab] = useState('details');
     const [item, setItem] = useState<Item>();
     const [itemID, setItemID] = useState<string>();
@@ -42,7 +44,7 @@ export function ItemPage() {
     }, []);
     
     useEffect(() => {
-        if (state.itemID) {
+        if (state && state.itemID) {
             setItemID(state.itemID);
         }
     }, []);
@@ -85,9 +87,15 @@ export function ItemPage() {
         e.preventDefault();
         
         if (itemID) {
+            setSaving(true);
+            
             saveItem(module.index, itemID, data).
-            then(() => message.showMessage(t("msgItemHasBeenSaved"))).
+            then(() => {
+                    setSaving(false);
+                    message.showMessage(t("msgItemHasBeenSaved"));
+                }).
             catch(error => {
+                setSaving(false);
                 if (error.status === 401) {
                     navigate("/login");
                 } else {
@@ -109,6 +117,8 @@ export function ItemPage() {
                     className="mb-3">
 
                     <Tab eventKey="details" title={t("lblDetails")} key="details-tab">
+                    
+                        <BusyModal show={saving} message={t("msgBusySavingItem")} />
                     
                         {itemID && ( 
                             <ItemDetailsMenu
