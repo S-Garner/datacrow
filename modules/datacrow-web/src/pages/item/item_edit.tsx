@@ -111,7 +111,8 @@ export function ItemPage() {
                     <Tab eventKey="details" title={t("lblDetails")} key="details-tab">
                     
                         {itemID && ( 
-                            <ItemDetailsMenu 
+                            <ItemDetailsMenu
+                                moduleIdx={module.index}
                                 editMode={true} 
                                 itemID={itemID} 
                                 formTitle={t("lblEditItem",  [item ? item.name : ""])} 

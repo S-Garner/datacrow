@@ -162,6 +162,11 @@ export async function saveItem(moduleIdx: number, _itemID: string, data: Map<str
     return result.data;
 }
 
+export async function deleteItem(itemID: string, moduleIdx: number): Promise<Picture[]> {
+    const response = await instance.delete(baseUrl + 'item/' + moduleIdx + '/' + itemID);
+    return response.data;
+}
+
 export async function login(username: string, password: string): Promise<User | null> {
     const response = await instance.get(baseUrl + 'login/' + username, {
         headers: {

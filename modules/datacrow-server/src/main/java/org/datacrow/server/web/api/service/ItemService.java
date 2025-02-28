@@ -13,6 +13,7 @@ import org.datacrow.server.web.api.manager.ItemManager;
 import org.datacrow.server.web.api.model.Item;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
@@ -64,4 +65,25 @@ public class ItemService extends DataCrowApiService {
     	
         return Response.ok().entity(dco.getID()).build();
     }
+    
+    @Path("/{moduleIdx}/{itemID}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response delete(
+    		@HeaderParam("authorization") String token,
+    		@PathParam("moduleIdx") int moduleIdx, 
+    		@PathParam("itemID") String itemID) {
+    	
+    	checkAuthorization(token);
+    	
+    	SecuredUser su = SecurityCenter.getInstance().getUser(token);
+    
+    	try {
+			ItemManager.getInstance().delete(su, moduleIdx, itemID);
+		} catch (ValidationException ve) {
+			return Response.status(Response.Status.BAD_REQUEST).entity(ve.getMessage()).build();
+		}
+	
+    	return Response.ok().build();
+    }    
 }

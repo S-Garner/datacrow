@@ -6,11 +6,8 @@ import { useModule } from "../../context/module_context";
 import { Button, Tab, Tabs } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from "../../context/translation_context";
-import { useMessage } from "../../context/message_context";
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
-import PictureEditList from "../../components/list/pictures_edit_list";
-import ChildrenOverview from "../../components/overview/item_overview_children";
 import AttachmentEditList from "../../components/list/attachment_edit_list";
 import ItemDetailsMenu from "../../components/menu/item_details_menu_bar";
 
@@ -79,6 +76,7 @@ export function ItemViewPage() {
                     
                         {itemID && ( 
                             <ItemDetailsMenu 
+                                moduleIdx={module.index}
                                 editMode={false} 
                                 itemID={itemID} 
                                 formTitle={item?.name} 

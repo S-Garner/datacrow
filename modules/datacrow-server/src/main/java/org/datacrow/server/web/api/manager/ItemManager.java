@@ -32,6 +32,14 @@ public class ItemManager {
         return instance;
     }
 
+    public void delete(SecuredUser su, int moduleIdx, String id) throws ValidationException {
+    	Connector conn = DcConfig.getInstance().getConnector();
+    	DcObject dco = DcConfig.getInstance().getConnector().getItem(moduleIdx, id);
+    	
+    	if (dco != null)
+    		conn.deleteItem(dco);
+    }
+    
 	public Item getItem(SecuredUser su, int moduleIdx, String id) {
 		DcObject dco = DcConfig.getInstance().getConnector().getItem(moduleIdx, id);
 		
