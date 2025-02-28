@@ -1,13 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchItem, fetchReferences, saveItem, type Field, type Item, type References } from "../../services/datacrow_api";
+import { fetchItem, type Item } from "../../services/datacrow_api";
 import { RequireAuth, useAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
-import { Button, Tab, Tabs } from "react-bootstrap";
-import { FormProvider, useForm } from 'react-hook-form';
+import { Tab, Tabs } from "react-bootstrap";
 import { useTranslation } from "../../context/translation_context";
-import Form from 'react-bootstrap/Form';
-import InputField from "../../components/input/dc_input_field";
 import AttachmentEditList from "../../components/list/attachment_edit_list";
 import ItemDetailsMenu from "../../components/menu/item_details_menu_bar";
 import ViewField from "../../components/view/dc_view_field";
@@ -22,10 +19,9 @@ export function ItemViewPage() {
     const { state } = useLocation();
     const { t } = useTranslation();
     const auth = useAuth();
-    const methods = useForm();
 
     const module = moduleContext.selectedModule;
-
+    
     useEffect(() => {
         if (!state) {
             navigate('/');
@@ -42,11 +38,12 @@ export function ItemViewPage() {
         if (state.itemID) {
             setItemID(state.itemID);
         }
-    }, []);
+    }, [state?.itemID]);
     
     useEffect(() => {
         (module && itemID) && fetchItem(module.index, itemID, true).
         then((data) => {
+            console.log("reloading");
             setItem(data);
         }).
         catch(error => {
@@ -55,16 +52,12 @@ export function ItemViewPage() {
                 navigate("/login");
             }
         });
-    }, [module, itemID]);
+    }, [module, itemID, state?.itemID]);
     
-    const onSubmit = (data: any, e: any) => {
-        e.preventDefault();
-    }
-	
     return (
-        <RequireAuth>
+        <RequireAuth key={"auth-" + itemID}>
         
-            <div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="div-item-details">
+            <div style={{ display: "inline-block", width: "100%", textAlign: "left" }}  key={itemID}>
 
                 <Tabs
                     defaultActiveKey="profile"
@@ -84,19 +77,15 @@ export function ItemViewPage() {
                                 navigateBackTo="/item_view" />)
                         }
                         
-                        <FormProvider {...methods}>
-                            <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
                     
-                                { item?.fields.map((fieldValue) => (
-                                    (fieldValue.value) && (
-                                        <ViewField
-                                            field={fieldValue.field}
-                                            value={fieldValue.value}
-                                        />
-                                    )
-                                ))}
-                            </Form>
-                        </FormProvider>
+                        { item?.fields && item?.fields.map((fieldValue) => (
+                            (fieldValue.value) && (
+                                <ViewField
+                                    field={fieldValue.field}
+                                    value={fieldValue.value}
+                                />
+                            )
+                        ))}
                     </Tab>
 
                     {itemID &&

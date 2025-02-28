@@ -142,9 +142,13 @@ public class Item {
 				value = c;
 			}
 		} else if (o instanceof DcModule || o instanceof Collection) {
+			
 			value = "";
+		
 		} else if (o instanceof Date) {
+		
 			value = viewMode ? formatted : o.toString();
+		
 		} else if (viewMode) {
 			// catch all for the view mode;
 			value = formatted;

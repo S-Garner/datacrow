@@ -2,6 +2,7 @@ import { Badge, Col, Row, Stack } from "react-bootstrap";
 import { useTranslation } from "../../context/translation_context";
 import type { Field, Reference } from "../../services/datacrow_api";
 import { FieldType } from "../component_types";
+import ViewReferenceField from "./dc_view_reference_field";
 
 export interface Props {
     field: Field,
@@ -14,7 +15,7 @@ export default function ViewField({
 }: Props) {
 
     const {t} = useTranslation();
-
+    
     return (
         <Col key={"detailsColField" + field.index}>
             <Row key={"detailsRowLabelField" + field.index} className="text-secondary">
@@ -23,7 +24,7 @@ export default function ViewField({
                 </div>
             </Row>
 
-            <Row key={"detailsRowInputField" + field.index} className="mb-3">
+            <Row key={"detailsRowViewField" + field.index} className="mb-3">
             
                {(field.type === FieldType.TextField ||
                  field.type === FieldType.LongTextField ||
@@ -32,7 +33,7 @@ export default function ViewField({
                  field.type === FieldType.DecimalField ||
                  field.type === FieldType.DurationField) && (
                     
-                    <div>
+                    <div key={"div-" + field.index}>
                         {String(value)}
                     </div>
                  )}
@@ -41,13 +42,7 @@ export default function ViewField({
                     value && (
 
                     <Stack direction="horizontal" gap={1} >
-                        <Badge bg="secondary" style={{ height: "2.5em", alignItems: "center", display: "flex" }}>
-                            {(value as Reference).iconUrl && (<img
-                                src={(value as Reference).iconUrl}
-                                style={{ width: "24px", paddingRight: "8px" }} />)}
-    
-                            {(value as Reference).name}
-                        </Badge>
+                        <ViewReferenceField field={field} reference={(value as Reference)} />
                     </Stack>)
                  )}
 
@@ -56,13 +51,7 @@ export default function ViewField({
 
                     <Stack direction="horizontal" gap={1} >
                         {value && (value as Array<Reference>).map((ref) => (
-                            <Badge bg="secondary" style={{ height: "2.5em", alignItems: "center", display: "flex" }}>
-                                {ref.iconUrl && (<img
-                                    src={ref.iconUrl}
-                                    style={{ width: "24px", paddingRight: "8px" }} />)}
-
-                                {ref.name}
-                            </Badge>
+                            <ViewReferenceField field={field} reference={ref} />
                         ))}
                     </Stack>
                  )}
@@ -70,19 +59,19 @@ export default function ViewField({
                  {(field.type === FieldType.UrlField ||
                    field.type === FieldType.FileField) && (
                     
-                    <div>
+                    <div key={"div-" + field.index}>
                         {String(value)}
                     </div>
                  )}
 
                  {field.type === FieldType.RatingField && (
-                    <div>
+                    <div key={"div-" + field.index}>
                         {String(value)}
                     </div>
                  )}
                  
                 {field.type === FieldType.CheckBox && (
-                    <div>
+                    <div key={"div-" + field.index}>
                         {String(value)}
                     </div>
                  )}
