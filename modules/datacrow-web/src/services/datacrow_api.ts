@@ -236,8 +236,12 @@ export async function fetchModules(): Promise<Module[]> {
     return response.data;
 }
 
-export async function fetchItem(moduleIdx: number, itemId: string): Promise<Item> {
-	const response = await instance.get(baseUrl + 'item/' + moduleIdx + '/' + itemId);
+export async function fetchItem(moduleIdx: number, itemId: string, full : boolean): Promise<Item> {
+	const response = await instance.get(baseUrl + 'item/' + moduleIdx + '/' + itemId, {
+        headers: {
+            'full': full
+        }
+    });
 	return response.data;
 }
 

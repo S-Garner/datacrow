@@ -50,7 +50,7 @@ export function ItemPage() {
     }, []);
     
     useEffect(() => {
-        (module && itemID) && fetchItem(module.index, itemID).
+        (module && itemID) && fetchItem(module.index, itemID, false).
         then((data) => {
             setItem(data);
         }).

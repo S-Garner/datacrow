@@ -38,13 +38,16 @@ public class Item {
 	@JsonProperty("fields")
 	private final List<FieldValue> fields = new LinkedList<FieldValue>();
 	
+	private final boolean full;
 	
-	public Item(SecuredUser su, DcObject src) {
-		this(su, src, null);
+	public Item(SecuredUser su, DcObject src, boolean full) {
+		this(su, src, null, full);
 	}
 	
-	public Item(SecuredUser su, DcObject src, int limitToFields[]) {
+	public Item(SecuredUser su, DcObject src, int limitToFields[], boolean full) {
 
+		this.full = full;
+		
 		id = src.getID();
 		name = src.toString();
 		moduleIdx = src.getModuleIdx();
@@ -105,27 +108,44 @@ public class Item {
 	private Object toValidValue(Field field, Object o) {
 		Object value = o;
 		
-		if (o instanceof DcObject)
-			value = ((DcObject) o).getID();
-		else if (field.getType() == Field._MULTIRELATE ||
-				field.getType() == Field._TAGFIELD) {
-			Collection<String> c = new ArrayList<String>();
+		if (o instanceof DcObject) {
+			DcObject dco = (DcObject) o;
 			
-			if (o != null) {
+			if (!full) {
+				value = dco.getID();
+			} else {
+				value = new Reference(dco);
+			}
+		
+		} else if (
+				field.getType() == Field._MULTIRELATE ||
+				field.getType() == Field._TAGFIELD) {
+
+			if (o == null) {
+				value = new ArrayList<Object>();
+			} else if (!full) {
+				Collection<String> c = new ArrayList<String>();
+
 				for (DcMapping item : (Collection<DcMapping>) o)
 					c.add(item.getReferencedID());
+				
+				value = c;
+			} else {
+				Collection<Reference> c = new ArrayList<Reference>();
+
+				for (DcMapping item : (Collection<DcMapping>) o)
+					c.add(new Reference(item.getReferencedObject()));
+				
+				value = c;
 			}
-			
-			value = c;
-			
-		} else if (o instanceof DcModule || o instanceof Collection)
+		} else if (o instanceof DcModule || o instanceof Collection) {
 			value = "";
-		else if (o instanceof Date)
+		} else if (o instanceof Date) {
 			value = o.toString();
+		}
 		
 		return value;
 	}
-	
 	
 	public String getImageUrl() {
 		return imageUrl;

@@ -10,6 +10,7 @@ import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
 import AttachmentEditList from "../../components/list/attachment_edit_list";
 import ItemDetailsMenu from "../../components/menu/item_details_menu_bar";
+import ViewField from "../../components/view/dc_view_field";
 
 export function ItemViewPage() {
 
@@ -44,7 +45,7 @@ export function ItemViewPage() {
     }, []);
     
     useEffect(() => {
-        (module && itemID) && fetchItem(module.index, itemID).
+        (module && itemID) && fetchItem(module.index, itemID, true).
         then((data) => {
             setItem(data);
         }).
@@ -88,11 +89,10 @@ export function ItemViewPage() {
                     
                                 { item?.fields.map((fieldValue) => (
                                     (fieldValue.value) && (
-                                        <InputField
+                                        <ViewField
                                             field={fieldValue.field}
                                             value={fieldValue.value}
                                             references={undefined}
-                                            viewOnly={true}
                                         />
                                     )
                                 ))}

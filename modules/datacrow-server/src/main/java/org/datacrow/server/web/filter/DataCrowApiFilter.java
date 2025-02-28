@@ -18,7 +18,7 @@ public class DataCrowApiFilter implements Filter {
 
 		HttpServletResponse resp = (HttpServletResponse) response;
 		resp.addHeader("Access-Control-Allow-Origin", "*");
-		resp.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, itemID, moduleIndex, fileName, password");
+		resp.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, itemID, moduleIndex, fileName, password, full");
 		resp.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
 		resp.addHeader("Access-Control-Allow-Credentials", "true");
 		resp.addHeader("Access-Control-Max-Age", "1209600");

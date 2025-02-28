@@ -7,7 +7,6 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.data.DataFilter;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
-import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.server.Connector;
 import org.datacrow.server.web.api.model.Reference;
@@ -31,19 +30,8 @@ public class ReferenceManager {
         Connector connector = DcConfig.getInstance().getConnector();
         List<DcObject> items = connector.getItems(df, module.getMinimalFields(null));
         
-        String address;
-        DcImageIcon icon;
-        for (DcObject dco : items) {
-        	address = null;
-        	
-        	icon = dco.getIcon();
-        	if (icon != null) {
-        		address = "http://" + connector.getImageServerAddress() + ":" + connector.getImageServerPort() + "/icons/" + icon.getFile().getName();
-        		icon.flush();
-        	}
-        	
-        	references.add(new Reference(dco.getID(), dco.toString(), address));
-        }
+        for (DcObject dco : items)
+        	references.add(new Reference(dco));
 		
         return references;
 	}

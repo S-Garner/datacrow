@@ -31,13 +31,14 @@ public class ItemService extends DataCrowApiService {
     @Produces(MediaType.APPLICATION_JSON)
     public Item getItem(
     		@HeaderParam("authorization") String token,
+    		@HeaderParam("full") boolean full,
     		@PathParam("moduleIndex") int moduleIndex, 
     		@PathParam("itemID") String ID) {
 
     	checkAuthorization(token);
     	
     	SecuredUser su = SecurityCenter.getInstance().getUser(token);
-    	return ItemManager.getInstance().getItem(su, moduleIndex, ID);
+    	return ItemManager.getInstance().getItem(su, moduleIndex, ID, full);
     }
     
     @POST

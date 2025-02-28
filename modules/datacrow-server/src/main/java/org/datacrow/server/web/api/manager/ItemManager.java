@@ -40,11 +40,11 @@ public class ItemManager {
     		conn.deleteItem(dco);
     }
     
-	public Item getItem(SecuredUser su, int moduleIdx, String id) {
+	public Item getItem(SecuredUser su, int moduleIdx, String id, boolean full) {
 		DcObject dco = DcConfig.getInstance().getConnector().getItem(moduleIdx, id);
 		
 		if (dco != null)
-			return new Item(su, dco);
+			return new Item(su, dco, full);
 		
 		return null;
 	}
@@ -57,7 +57,7 @@ public class ItemManager {
 		Connector conn = DcConfig.getInstance().getConnector();
 		
 		for (DcObject child : conn.getChildren(id, childModuleIdx, cm.getMinimalFields(null))) {
-			children.add(new Item(su, child));
+			children.add(new Item(su, child, false));
 		}
 	
 		return children;
@@ -72,7 +72,7 @@ public class ItemManager {
 		List<DcObject> objects = DcConfig.getInstance().getConnector().getItems(new DataFilter(moduleIdx), fields);
 		
 		for (DcObject dco : objects)
-			items.add(new Item(su, dco, fields));
+			items.add(new Item(su, dco, fields, false));
 		
 		return items;
 	}
@@ -86,7 +86,7 @@ public class ItemManager {
 		List<DcObject> objects = DcConfig.getInstance().getConnector().getItems(df, fields);
 
 		for (DcObject dco : objects)
-			items.add(new Item(su, dco, fields));
+			items.add(new Item(su, dco, fields, false));
 		
 		return items;
 	}
