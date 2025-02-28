@@ -8,7 +8,7 @@ import { useMessage } from "../../context/message_context";
 
 interface Props {
     moduleIdx: number;
-    itemID: string;
+    itemID: string | undefined;
     formTitle: string | undefined;
     editMode: boolean;
     navigateBackTo: string;
@@ -42,15 +42,18 @@ export default function ItemDetailsMenu({moduleIdx, itemID, formTitle, navigateB
 
     function handleDeleteAfterConfirm() {
         setShowDeleteConfirm(false);
-        deleteItem(itemID, moduleIdx).
-            then(() => navigate('/')).
-            catch(error => {
-                if (error.status === 401) {
-                    navigate("/login");
-                } else {
-                    message.showMessage(error.response.data);
-                }
-            });
+        
+        if (itemID) {
+            deleteItem(itemID, moduleIdx).
+                then(() => navigate('/')).
+                catch(error => {
+                    if (error.status === 401) {
+                        navigate("/login");
+                    } else {
+                        message.showMessage(error.response.data);
+                    }
+                });
+        }
     }
     
     return (
@@ -72,15 +75,15 @@ export default function ItemDetailsMenu({moduleIdx, itemID, formTitle, navigateB
          
             <div style={{float:"right"}} className="float-child">
                 
-                {!editMode && <i className="bi bi-pen-fill menu-icon" onClick={() => {handleToEditMode()}} ></i>}
+                {(itemID && !editMode) && <i className="bi bi-pen-fill menu-icon" onClick={() => {handleToEditMode()}} ></i>}
                 
-                {editMode && <i className="bi bi-eye-fill menu-icon" onClick={() => {handleToViewMode()}} ></i>}
+                {(itemID && editMode) && <i className="bi bi-eye-fill menu-icon" onClick={() => {handleToViewMode()}} ></i>}
                 
-                {(editMode && auth.user.admin) && <i className="bi bi-trash-fill menu-icon" onClick={() => {handleDelete()}} ></i>}
+                {(itemID && editMode && auth.user.admin) && <i className="bi bi-trash-fill menu-icon" onClick={() => {handleDelete()}} ></i>}
                 
                 <i className="bi bi-house-fill menu-icon" style={{marginLeft: "5px"}} onClick={() => {navigate('/')}} ></i>
                 
-                {auth.user && auth.user.admin &&
+                {itemID && auth.user && auth.user.admin &&
                     <i className="bi bi-gear-fill menu-icon" style={{marginLeft: "5px"}} onClick={() => handleShowSettings()} ></i>}
             </div>
             

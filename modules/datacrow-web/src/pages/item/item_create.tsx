@@ -9,6 +9,7 @@ import { useTranslation } from "../../context/translation_context";
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
 import { useMessage } from "../../context/message_context";
+import ItemDetailsMenu from "../../components/menu/item_details_menu_bar";
 
 export function ItemCreatePage() {
 
@@ -86,6 +87,14 @@ export function ItemCreatePage() {
                     className="mb-3">
 
                     <Tab eventKey="details" title={t("lblDetails")} key="details-tab">
+                    
+                        <ItemDetailsMenu
+                            moduleIdx={module.index}
+                            editMode={true} 
+                            itemID={undefined} 
+                            formTitle=""                             
+                            navigateBackTo="/item_create" />
+                    
                         <FormProvider {...methods}>
                             <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
                                 
@@ -95,6 +104,7 @@ export function ItemCreatePage() {
                                             field={field}
                                             value={undefined}
                                             references={ReferencesForField(field)}
+                                            viewOnly={false}
                                         />
                                     )
                                 ))}
