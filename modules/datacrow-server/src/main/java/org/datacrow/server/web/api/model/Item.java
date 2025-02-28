@@ -38,15 +38,15 @@ public class Item {
 	@JsonProperty("fields")
 	private final List<FieldValue> fields = new LinkedList<FieldValue>();
 	
-	private final boolean full;
+	private final boolean viewMode;
 	
-	public Item(SecuredUser su, DcObject src, boolean full) {
-		this(su, src, null, full);
+	public Item(SecuredUser su, DcObject src, boolean viewMode) {
+		this(su, src, null, viewMode);
 	}
 	
-	public Item(SecuredUser su, DcObject src, int limitToFields[], boolean full) {
+	public Item(SecuredUser su, DcObject src, int limitToFields[], boolean viewMode) {
 
-		this.full = full;
+		this.viewMode = viewMode;
 		
 		id = src.getID();
 		name = src.toString();
@@ -99,37 +99,40 @@ public class Item {
 				
 				this.fields.add(new FieldValue(
 						fieldCpy, 
-						toValidValue(fieldCpy, src.getValue(fieldIdx))));
+						toValidValue(fieldCpy, src.getValue(fieldIdx), src.getDisplayString(fieldIdx))));
 			}
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	private Object toValidValue(Field field, Object o) {
+	private Object toValidValue(Field field, Object o, String formatted) {
 		Object value = o;
 		
 		if (o instanceof DcObject) {
 			DcObject dco = (DcObject) o;
 			
-			if (!full) {
-				value = dco.getID();
-			} else {
+			if (viewMode) {
 				value = new Reference(dco);
+			} else {
+				value = dco.getID();
 			}
 		
 		} else if (
 				field.getType() == Field._MULTIRELATE ||
 				field.getType() == Field._TAGFIELD) {
 
-			if (o == null) {
-				value = new ArrayList<Object>();
-			} else if (!full) {
+			if (o == null || ((Collection<DcMapping>) o).size() == 0) {
+				
+				value = viewMode ? null : new ArrayList<Object>();
+
+			} else if (!viewMode) {
 				Collection<String> c = new ArrayList<String>();
 
 				for (DcMapping item : (Collection<DcMapping>) o)
 					c.add(item.getReferencedID());
 				
 				value = c;
+
 			} else {
 				Collection<Reference> c = new ArrayList<Reference>();
 
@@ -141,7 +144,10 @@ public class Item {
 		} else if (o instanceof DcModule || o instanceof Collection) {
 			value = "";
 		} else if (o instanceof Date) {
-			value = o.toString();
+			value = viewMode ? formatted : o.toString();
+		} else if (viewMode) {
+			// catch all for the view mode;
+			value = formatted;
 		}
 		
 		return value;

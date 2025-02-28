@@ -40,11 +40,11 @@ public class ItemManager {
     		conn.deleteItem(dco);
     }
     
-	public Item getItem(SecuredUser su, int moduleIdx, String id, boolean full) {
+	public Item getItem(SecuredUser su, int moduleIdx, String id, boolean viewMode) {
 		DcObject dco = DcConfig.getInstance().getConnector().getItem(moduleIdx, id);
 		
 		if (dco != null)
-			return new Item(su, dco, full);
+			return new Item(su, dco, viewMode);
 		
 		return null;
 	}

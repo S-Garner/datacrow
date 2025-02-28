@@ -92,7 +92,6 @@ export function ItemViewPage() {
                                         <ViewField
                                             field={fieldValue.field}
                                             value={fieldValue.value}
-                                            references={undefined}
                                         />
                                     )
                                 ))}
