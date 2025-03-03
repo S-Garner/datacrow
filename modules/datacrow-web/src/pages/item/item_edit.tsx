@@ -29,13 +29,14 @@ export function ItemPage() {
     const methods = useForm();
     const { t } = useTranslation();
     
-    const module = moduleContext.selectedModule;
-
     useEffect(() => {
         if (!state) {
             navigate('/');
         }
     }, []);
+
+    let moduleIdx = state?.moduleIdx;
+    let module = moduleIdx ? moduleContext.getModule(moduleIdx) : undefined;
     
     useEffect(() => {
         if (!state) {
@@ -50,7 +51,7 @@ export function ItemPage() {
     }, []);
     
     useEffect(() => {
-        (module && itemID) && fetchItem(module.index, itemID, false).
+        (module && itemID) && fetchItem(moduleIdx, itemID, false).
         then((data) => {
             setItem(data);
         }).
@@ -63,7 +64,7 @@ export function ItemPage() {
     }, [module, itemID]);
 
     useEffect(() => {
-        state && module && fetchReferences(module.index).
+        state && module && fetchReferences(moduleIdx).
         then((data) => setReferences(data)).
         catch(error => {
             console.log(error);
@@ -86,10 +87,10 @@ export function ItemPage() {
     const onSubmit = (data: any, e: any) => {
         e.preventDefault();
         
-        if (itemID) {
+        if (itemID && moduleIdx) {
             setSaving(true);
             
-            saveItem(module.index, itemID, data).
+            saveItem(moduleIdx, itemID, data).
             then(() => {
                     setSaving(false);
                     message.showMessage(t("msgItemHasBeenSaved"));
@@ -120,9 +121,9 @@ export function ItemPage() {
                     
                         <BusyModal show={saving} message={t("msgBusySavingItem")} />
                     
-                        {itemID && ( 
+                        {itemID && moduleIdx && ( 
                             <ItemDetailsMenu
-                                moduleIdx={module.index}
+                                moduleIdx={moduleIdx}
                                 editMode={true} 
                                 itemID={itemID} 
                                 formTitle={t("lblEditItem",  [item ? item.name : ""])} 
@@ -151,7 +152,7 @@ export function ItemPage() {
                         </FormProvider>
                     </Tab>
 
-                    {(itemID && module.hasChild) &&
+                    {(itemID && module && module.hasChild) &&
                         (
                             <Tab eventKey="children" title={t(module.child.name)} key="children-tab">
                                 <ChildrenOverview itemID={itemID} />

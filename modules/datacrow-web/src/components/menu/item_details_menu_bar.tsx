@@ -31,11 +31,11 @@ export default function ItemDetailsMenu({moduleIdx, itemID, formTitle, navigateB
     }
     
     function handleToEditMode() {
-        navigate('/item_edit', { replace: true, state: { itemID }}); 
+        navigate('/item_edit', { replace: true, state: { itemID, moduleIdx }}); 
     }
     
     function handleToViewMode() {
-        navigate('/item_view', { replace: true, state: { itemID }}); 
+        navigate('/item_view', { replace: true, state: { itemID, moduleIdx }}); 
     }
     
     function handleDelete() {

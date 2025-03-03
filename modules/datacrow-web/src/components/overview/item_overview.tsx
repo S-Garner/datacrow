@@ -10,13 +10,13 @@ import { useTranslation } from '../../context/translation_context';
 
 export function ItemOverview() {
 
-	const currentModule = useModule();
+	const moduleContext = useModule();
 	const navigate = useNavigate();
 	const [items, setItems] = useState<Item[]>([]);
 	const { t } = useTranslation();
 
     useEffect(() => {
-        currentModule.selectedModule && fetchItems(currentModule.selectedModule.index, currentModule.filter).
+        moduleContext.selectedModule && fetchItems(moduleContext.selectedModule.index, moduleContext.filter).
             then((data) => setItems(data)).
             catch(error => {
                 console.log(error);
@@ -24,7 +24,9 @@ export function ItemOverview() {
                     navigate("/login");
                 }
             });
-    }, [currentModule.selectedModule]);
+    }, [moduleContext.selectedModule]);
+    
+    const module = moduleContext!.selectedModule;
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [itemsPerPage, setItemsPerPage] = useState(30);
@@ -49,20 +51,22 @@ export function ItemOverview() {
 		let formData = new FormData(event.currentTarget);
         let searchFor = formData.get("searchFor") as string;
         
-        currentModule.setFilter(searchFor);
+        moduleContext.setFilter(searchFor);
         filterItems(searchFor);
 	}
 	
 	function handleCreateNew() {
-        navigate('/item_create');
+        let moduleIdx = module.index;
+        navigate('/item_create', {state: { moduleIdx }});
     }
 	
 	function filterItems(filter: string) {
-        searchItems(currentModule!.selectedModule.index, filter).then((data) => setItems(data));
+        searchItems(module!.index, filter).then((data) => setItems(data));
     }
 	
 	function openItem(itemID : string) {
-		navigate('/item_view', { state: { itemID }});
+        let moduleIdx = module.index;
+		navigate('/item_view', { state: { itemID, moduleIdx }});
 	}
 	
 	return (
@@ -72,7 +76,7 @@ export function ItemOverview() {
                 <div className="float-child">
                     <form onSubmit={handleSubmit} >
                         <InputGroup className="mb-3">
-                            <input type="text" name="searchFor" className="form-control" defaultValue={currentModule.filter} />
+                            <input type="text" name="searchFor" className="form-control" defaultValue={moduleContext.filter} />
                             <Button className="search-button" type="submit">{t("lblSearch")?.toLowerCase()}</Button>
                         </InputGroup>
                     </form>
@@ -85,7 +89,7 @@ export function ItemOverview() {
 			</div>
 			
 			<div style={{ float: "left", clear: "both", marginTop: "10px"}}>
-				{currentModule && <PagesDropdown
+				{module && <PagesDropdown
 					title={t("lblItemsPerPage")  + ` ${itemsPerPage}`}
 					options={itemsPerPageOptions}
 					handleSelectOption={(option: string) => setItemsPerPage(+option)}

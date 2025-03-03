@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchReferences, saveItem, type Field, type Item, type References, fetchFieldSettings, type FieldSetting } from "../../services/datacrow_api";
 import { RequireAuth } from "../../context/authentication_context";
@@ -24,15 +24,22 @@ export function ItemCreatePage() {
     const navigate = useNavigate();
     const methods = useForm();
     const { t } = useTranslation();
-    
-    const module = moduleContext.selectedModule;
-    const itemName = t(module.itemName);
+    const { state } = useLocation();
     
     useEffect(() => {
-        module && fetchFieldSettings(module.index).
+        if (!state) {
+            navigate('/');
+        }
+    }, []);
+    
+    let moduleIdx = state?.moduleIdx;
+    let module = moduleIdx ? moduleContext.getModule(moduleIdx) : undefined;
+    
+    useEffect(() => {
+        moduleIdx && fetchFieldSettings(moduleIdx).
         then((data) => {
             setFieldSettings(data);
-            setFields(moduleContext.getFields(module.index, data));    
+            setFields(moduleContext.getFields(moduleIdx, data));    
         }).
         catch(error => {
             console.log(error);
@@ -40,10 +47,10 @@ export function ItemCreatePage() {
                 navigate("/login");
             }
         });
-    }, [module]);
+    }, [moduleIdx]);
 
     useEffect(() => {
-        module && fetchReferences(module.index).
+        moduleIdx && fetchReferences(moduleIdx).
         then((data) => setReferences(data)).
         catch(error => {
             console.log(error);
@@ -51,7 +58,7 @@ export function ItemCreatePage() {
                 navigate("/login");
             }
         });
-    }, [module]);
+    }, [moduleIdx]);
     
     function ReferencesForField(field: Field) {
         var i = 0;
@@ -68,20 +75,22 @@ export function ItemCreatePage() {
         
         setSaving(true);
         
-        saveItem(module.index, "", data).
-        then((itemID) => {
-            setSaving(false);
-            navigate('/item_edit', { replace: true, state: { itemID }});
-        }).
-        catch(error => {
-            setSaving(false);
-            if (error.status === 401) {
-                navigate("/login");
-            } else {
-                console.log(error);
-                message.showMessage(error.response.data);
-            }
-        });
+        if (moduleIdx) {
+            saveItem(moduleIdx, "", data).
+            then((itemID) => {
+                setSaving(false);
+                navigate('/item_edit', { replace: true, state: { itemID, moduleIdx }});
+            }).
+            catch(error => {
+                setSaving(false);
+                if (error.status === 401) {
+                    navigate("/login");
+                } else {
+                    console.log(error);
+                    message.showMessage(error.response.data);
+                }
+            });
+        }
     }
 
     return (
@@ -100,33 +109,38 @@ export function ItemCreatePage() {
                     
                         <BusyModal show={saving} message={t("msgBusySavingItem")} />
                     
-                        <ItemDetailsMenu
-                            moduleIdx={module.index}
-                            editMode={true} 
-                            itemID={undefined} 
-                            formTitle={t("lblCreatingNewItem", [String(itemName)])}                             
-                            navigateBackTo="/item_create" />
                     
-                        <FormProvider {...methods}>
-                            <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
+                        {module && (
+                            <>
+                                <ItemDetailsMenu
+                                        moduleIdx={moduleIdx}
+                                        editMode={true} 
+                                        itemID={undefined} 
+                                        formTitle={t("lblCreatingNewItem", [String(t(module.itemName))])}                             
+                                        navigateBackTo="/item_create" />
                                 
-                                {(references && fieldSettings && fields) && fields.map((field) => (
-                                    (!field.readOnly || field.hidden) && (
-                                        <InputField
-                                            field={field}
-                                            value={undefined}
-                                            references={ReferencesForField(field)}
-                                            viewOnly={false}
-                                        />
-                                    )
-                                ))}
-                                
-                                <Button type="submit" key="item-details-submit-button">
-                                    {t("lblSave")}
-                                </Button>
-
-                            </Form>
-                        </FormProvider>
+                                    <FormProvider {...methods}>
+                                        <Form key="form-item-detail" validated={false} onSubmit={methods.handleSubmit(onSubmit)}>
+                                            
+                                            {(references && fieldSettings && fields) && fields.map((field) => (
+                                                (!field.readOnly || field.hidden) && (
+                                                    <InputField
+                                                        field={field}
+                                                        value={undefined}
+                                                        references={ReferencesForField(field)}
+                                                        viewOnly={false}
+                                                    />
+                                                )
+                                            ))}
+                                            
+                                            <Button type="submit" key="item-details-submit-button">
+                                                {t("lblSave")}
+                                            </Button>
+            
+                                        </Form>
+                                    </FormProvider>
+                                </>)
+                         }
                     </Tab>
                 </Tabs>
             </div>
