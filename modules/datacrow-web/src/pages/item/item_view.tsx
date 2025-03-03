@@ -19,8 +19,6 @@ export function ItemViewPage() {
     const { t } = useTranslation();
     const auth = useAuth();
     
-    let moduleIdx = state.moduleIdx;
-
     useEffect(() => {
         if (!state) {
             navigate('/');
@@ -36,14 +34,13 @@ export function ItemViewPage() {
     useEffect(() => {
         setItemID(state.itemID);
     }, [state.itemID]);
+
+    let moduleIdx = state.moduleIdx;
     
     useEffect(() => {
         (itemID) && fetchItem(state.moduleIdx, itemID, true).
         then((data) => {
-            console.log("reloading: " + itemID + " module " + moduleIdx);
             setItem(data);
-            
-            console.log("field: " + item?.fields);
         }).
         catch(error => {
             console.log(error);

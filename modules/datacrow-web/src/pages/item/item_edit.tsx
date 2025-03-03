@@ -35,23 +35,21 @@ export function ItemPage() {
         }
     }, []);
 
-    let moduleIdx = state?.moduleIdx;
-    let module = moduleIdx ? moduleContext.getModule(moduleIdx) : undefined;
-    
     useEffect(() => {
         if (!state) {
             navigate('/login');
         }
     }, []);
+
+    let moduleIdx = state.moduleIdx;
+    let module = moduleIdx ? moduleContext.getModule(moduleIdx) : undefined;
     
     useEffect(() => {
-        if (state && state.itemID) {
-            setItemID(state.itemID);
-        }
-    }, []);
+        setItemID(state.itemID);
+    }, [state.itemID]);
     
     useEffect(() => {
-        (module && itemID) && fetchItem(moduleIdx, itemID, false).
+        (itemID) && fetchItem(state.moduleIdx, itemID, true).
         then((data) => {
             setItem(data);
         }).
@@ -61,10 +59,10 @@ export function ItemPage() {
                 navigate("/login");
             }
         });
-    }, [module, itemID]);
+    }, [itemID]);
 
     useEffect(() => {
-        state && module && fetchReferences(moduleIdx).
+        state && moduleIdx && fetchReferences(moduleIdx).
         then((data) => setReferences(data)).
         catch(error => {
             console.log(error);
@@ -72,7 +70,7 @@ export function ItemPage() {
                 navigate("/login");
             }
         });
-    }, [module]);
+    }, [itemID, moduleIdx]);
 	
     function ReferencesForField(field: Field) {
         var i = 0;

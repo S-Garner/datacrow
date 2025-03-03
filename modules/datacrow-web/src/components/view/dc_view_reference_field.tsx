@@ -17,7 +17,6 @@ export default function ViewReferenceField({
     
     const handleOpen = () => {
         let moduleIdx = field.referencedModuleIdx; 
-        console.log("module index " + moduleIdx)
         navigate('/item_view', { state: { itemID, moduleIdx }});
     } 
     
