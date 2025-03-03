@@ -27,7 +27,7 @@ export default function ItemDetailsMenu({moduleIdx, itemID, formTitle, navigateB
     const { t } = useTranslation();
     
     function handleShowSettings() {
-        navigate('/fieldsettings', { state: { navFrom: navigateBackTo, itemID }}); 
+        navigate('/fieldsettings', { state: { navFrom: navigateBackTo, itemID, moduleIdx }}); 
     }
     
     function handleToEditMode() {

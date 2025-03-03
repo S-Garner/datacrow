@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "../../context/translation_context";
 import { fetchFieldSettings, saveFieldSettings, type FieldSetting } from "../../services/datacrow_api";
-import { useModule } from "../../context/module_context";
 import { Button, Card, Tab, Tabs } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useMessage } from "../../context/message_context";
@@ -12,14 +11,12 @@ export function FieldSettingsPage() {
 
     const [fieldSettings, setFieldSettings] = useState<FieldSetting[]>();
 
-    const moduleContext = useModule();
     const navigate = useNavigate();
     const methods = useForm();
     const message = useMessage();
     const {state} = useLocation();
     
     const navigateBackTo = state.navFrom;
-    const module = moduleContext.selectedModule;
     
     useEffect(() => {
         if (!state) {
@@ -27,10 +24,11 @@ export function FieldSettingsPage() {
         }
     }, []);
     
-    const itemID = state?.itemID;
+    let itemID = state?.itemID;
+    let moduleIdx = state?.moduleIdx;
     
     useEffect(() => {
-        module && fetchFieldSettings(module.index).
+        moduleIdx && fetchFieldSettings(moduleIdx).
             then((data) => setFieldSettings(data)).
             catch(error => {
                 console.log(error);
@@ -38,7 +36,7 @@ export function FieldSettingsPage() {
                     navigate("/login");
                 }
             });
-    }, [module]);
+    }, [moduleIdx]);
 
     function arrayMove(subject: FieldSetting, steps: number) {
         if (fieldSettings) {
@@ -86,9 +84,9 @@ export function FieldSettingsPage() {
     const onSubmit = (_data: any, e: any) => {
         e.preventDefault();
 
-        if (fieldSettings && itemID && module) {
-            saveFieldSettings(module.index, fieldSettings).
-            then(() => navigate(navigateBackTo, { state: { itemID }})).
+        if (fieldSettings && itemID && moduleIdx) {
+            saveFieldSettings(moduleIdx, fieldSettings).
+            then(() => navigate(navigateBackTo, { state: { itemID, moduleIdx }})).
             catch(error => {
                 if (error.status === 401) {
                     navigate("/login");
