@@ -57,6 +57,44 @@ export function FieldSettingsPage() {
             setFieldSettings(clone);
         }
     }
+    
+    function arrayMoveTop(subject: FieldSetting) {
+        if (fieldSettings) {
+
+            const clone = fieldSettings.slice(0);
+
+            let index = clone.findIndex((fieldSetting) => fieldSetting === subject);
+            let element = clone[index];
+
+            clone.splice(index, 1);
+            clone.unshift(element);
+
+            for (let i = 0; i < clone.length; i++) {
+                clone[i].order = i;
+            }
+
+            setFieldSettings(clone);
+        }
+    }
+    
+    function arrayMoveBottom(subject: FieldSetting) {
+        if (fieldSettings) {
+
+            const clone = fieldSettings.slice(0);
+
+            let index = clone.findIndex((fieldSetting) => fieldSetting === subject);
+            let element = clone[index];
+
+            clone.splice(index, 1);
+            clone.splice(clone.length, 0, element);
+
+            for (let i = 0; i < clone.length; i++) {
+                clone[i].order = i;
+            }
+
+            setFieldSettings(clone);
+        }
+    }       
 
     const handleToggle = (subject: FieldSetting) => {
         if (fieldSettings) {
@@ -77,6 +115,14 @@ export function FieldSettingsPage() {
 
     const handleMoveUp = (fieldSetting: FieldSetting) => {
         arrayMove(fieldSetting, -1);
+    }
+
+    const handleMoveBottom = (fieldSetting: FieldSetting) => {
+        arrayMoveBottom(fieldSetting);
+    }
+
+    const handleMoveTop = (fieldSetting: FieldSetting) => {
+        arrayMoveTop(fieldSetting);
     }
 
     const { t } = useTranslation();
@@ -125,14 +171,22 @@ export function FieldSettingsPage() {
                                                 />
                                             </div>
 
-                                            <div className="float-child" style={{ marginLeft: "20px", width: "60px", marginRight: "30px" }}>
+                                            <div className="float-child" style={{ marginLeft: "20px", width: "50px", marginRight: "10px" }}>
                                                 {(counter < fieldSettings.length - 1) &&
                                                     (<i className="bi bi-arrow-down" style={{ fontSize: "1.2rem", marginRight: "10px" }} onClick={() => handleMoveDown(fieldSetting)}></i>)
                                                 }
-
-                                                {(counter++ != 0) &&
-                                                    (<i className="bi bi-arrow-up" style={{ fontSize: "1.2rem", }} onClick={() => handleMoveUp(fieldSetting)}></i>)
+                                                {(counter != 0) &&
+                                                    (<i className="bi bi-arrow-up" style={{ fontSize: "1.2rem" }} onClick={() => handleMoveUp(fieldSetting)}></i>)
                                                 }
+                                             </div>
+                                             
+                                             <div className="float-child" style={{ marginLeft: "20px", width: "60px", marginRight: "20px" }}>
+                                                {(counter < fieldSettings.length - 1) &&
+                                                    (<i className="bi bi-arrow-bar-down" style={{ fontSize: "1.2rem", marginRight: "10px" }} onClick={() => handleMoveBottom(fieldSetting)}></i>)
+                                                }
+                                                {(counter++ != 0) &&
+                                                    (<i className="bi bi-arrow-bar-up" style={{ fontSize: "1.2rem", }} onClick={() => handleMoveTop(fieldSetting)}></i>)
+                                                }                                                
                                             </div>
 
                                             <div className="float-child">
