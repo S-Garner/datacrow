@@ -54,6 +54,13 @@ export function ItemViewPage() {
         <RequireAuth key={"auth-" + itemID}>
         
             <div style={{ display: "inline-block", width: "100%", textAlign: "left" }}  key={itemID}>
+            
+                {
+                    item?.pictures && (<div />)
+                    
+                }
+                
+            
 
                 <Tabs
                     defaultActiveKey="profile"

@@ -17,6 +17,7 @@ import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.definitions.WebFieldDefinition;
 import org.datacrow.core.utilities.definitions.WebFieldDefinitions;
+import org.datacrow.server.data.PictureManager;
 import org.datacrow.server.web.api.manager.ModuleManager;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -37,6 +38,8 @@ public class Item {
 	private String icon;
 	@JsonProperty("fields")
 	private final List<FieldValue> fields = new LinkedList<FieldValue>();
+	@JsonProperty("pictures")
+	private final List<Picture> pictures = new LinkedList<Picture>();
 	
 	private final boolean viewMode;
 	
@@ -78,6 +81,21 @@ public class Item {
 		if (src.getIcon() != null)
 			icon = String.valueOf(Base64.encode(src.getIcon().getBytes()));
 		
+		addFields(su, src, fields);
+		
+		if (viewMode)
+			addPictures(src.getID());
+	}
+	
+	private void addPictures(String id) {
+		for (org.datacrow.core.pictures.Picture p : 
+				PictureManager.getInstance().getPictures(id)) {
+			
+			pictures.add(new Picture(p));
+		}
+	}
+	
+	private void addFields(SecuredUser su, DcObject src, List<Integer> fields) {
 		Module m = ModuleManager.getInstance().getModule(src.getModuleIdx());
 		DcModule module = DcModules.get(m.getIndex());
 		
@@ -102,7 +120,7 @@ public class Item {
 						toValidValue(fieldCpy, src.getValue(fieldIdx), src.getDisplayString(fieldIdx))));
 			}
 		}
-	}
+	}	
 	
 	@SuppressWarnings("unchecked")
 	private Object toValidValue(Field field, Object o, String formatted) {
@@ -183,5 +201,9 @@ public class Item {
 
 	public List<FieldValue> getFields() {
 		return fields;
+	}
+	
+	public List<Picture> getPictures() {
+		return pictures;
 	}
 }

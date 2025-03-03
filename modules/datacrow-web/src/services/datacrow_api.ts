@@ -73,6 +73,7 @@ export interface Item {
 	scaledImageUrl: string;
 	imageUrl: string;
 	fields: FieldValue[];
+	pictures: Picture[];
 }
 
 export interface FieldValue {

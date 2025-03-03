@@ -156,7 +156,7 @@ public class PictureService extends DataCrowApiService {
 	private LinkedList<Picture> getPictures(String itemID) {
 		LinkedList<Picture> pictures = new LinkedList<Picture>();
     	for (org.datacrow.core.pictures.Picture p : PictureManager.getInstance().getPictures(itemID))
-    		pictures.add(new Picture(p.getObjectID(), p.getUrl(), p.getThumbnailUrl(), p.getFilename()));
+    		pictures.add(new Picture(p));
 		
     	return pictures;
 	}

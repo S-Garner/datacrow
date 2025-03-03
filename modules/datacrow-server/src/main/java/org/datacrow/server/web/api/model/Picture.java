@@ -17,12 +17,11 @@ public class Picture {
 	@JsonProperty("order")
 	private final int order;	
 	
-	
-	public Picture(String objectID, String url, String thumbUrl, String filename) {
-		this.objectID = objectID;
-		this.url = url;
-		this.thumbUrl = thumbUrl;
-		this.filename = filename;
+	public Picture(org.datacrow.core.pictures.Picture p) {
+		this.objectID = p.getObjectID();
+		this.url = p.getUrl();
+		this.thumbUrl = p.getThumbnailUrl();
+		this.filename = p.getFilename();
 		
 		String name = new File(filename).getName();
 		this.order = Integer.parseInt(name.substring(7, name.lastIndexOf(".")));
