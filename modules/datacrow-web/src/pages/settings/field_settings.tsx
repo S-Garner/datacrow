@@ -18,8 +18,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useMessage } from '../../context/message_context';
 import { fetchFieldSettings, saveFieldSettings, type FieldSetting } from '../../services/datacrow_api';
 import { useTranslation } from '../../context/translation_context';
-import { Tabs, Tab } from 'react-bootstrap';
-import { SortableItem } from './droppable';
+import { Tabs, Tab, Button } from 'react-bootstrap';
+import { SortableItem } from './droppable_field_setting';
+import { RequireAuth } from '../../context/authentication_context';
 
 export function FieldSettingsPage() {
 
@@ -114,22 +115,33 @@ export function FieldSettingsPage() {
     }
     
     return (
-        <div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="div-item-details">
-            <Tabs key="item-details-tabs" className="mb-3">
-                <Tab title="Field Settings" active={true}>
-                    {fieldSettings && ( <DndContext
-                        sensors={sensors}
-                        collisionDetection={closestCenter}
-                        onDragEnd={handleDragEnd}>
-                        <SortableContext
-                            items={fieldSettings}
-                            strategy={verticalListSortingStrategy}>
+        <RequireAuth>
+            <div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="div-item-details">
+                <Tabs key="item-details-tabs" className="mb-3">
+                    <Tab title="Field Settings" active={true}>
+                        <form key="field-settings-form" onSubmit={methods.handleSubmit(onSubmit)}>
+                        
+                            {fieldSettings && ( <DndContext
+                                sensors={sensors}
+                                collisionDetection={closestCenter}
+                                onDragEnd={handleDragEnd}>
+                                <SortableContext
+                                    items={fieldSettings}
+                                    strategy={verticalListSortingStrategy}>
+                                    
+                                    {fieldSettings && fieldSettings.map(fieldSetting => <SortableItem key={fieldSetting.fieldIdx} fieldSetting={fieldSetting} />)}
+                                </SortableContext>
+                            </DndContext>) }
                             
-                            {fieldSettings && fieldSettings.map(fieldSetting => <SortableItem key={fieldSetting.fieldIdx} id={fieldSetting.fieldIdx} />)}
-                        </SortableContext>
-                    </DndContext>) }
-                </Tab>
-            </Tabs>
-        </div>
+                            <div className="mb-3" style={{ marginTop: "10px"}}>
+                                <Button type="submit" key="field-settings-submit-button">
+                                    {t("lblSave")}
+                                </Button>
+                            </div>
+                        </form>
+                    </Tab>
+                </Tabs>
+            </div>
+        </RequireAuth>
     );
 }
