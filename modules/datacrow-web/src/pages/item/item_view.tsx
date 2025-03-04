@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchItem, type Item, type Module } from "../../services/datacrow_api";
 import { RequireAuth, useAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
-import { Tab, Tabs } from "react-bootstrap";
+import { Carousel, Tab, Tabs } from "react-bootstrap";
 import { useTranslation } from "../../context/translation_context";
 import AttachmentEditList from "../../components/list/attachment_edit_list";
 import ItemDetailsMenu from "../../components/menu/item_details_menu_bar";
@@ -55,13 +55,6 @@ export function ItemViewPage() {
         
             <div style={{ display: "inline-block", width: "100%", textAlign: "left" }}  key={itemID}>
             
-                {
-                    item?.pictures && (<div />)
-                    
-                }
-                
-            
-
                 <Tabs
                     defaultActiveKey="profile"
                     key="item-details-tabs"
@@ -70,16 +63,34 @@ export function ItemViewPage() {
                     className="mb-3">
 
                     <Tab eventKey="details" title={t("lblDetails")} key="details-tab">
-                    
-                        { moduleIdx && ( 
-                            <ItemDetailsMenu 
+                
+                        {moduleIdx && (
+                            <ItemDetailsMenu
                                 moduleIdx={moduleIdx}
-                                editMode={false} 
-                                itemID={itemID} 
-                                formTitle={item?.name} 
+                                editMode={false}
+                                itemID={itemID}
+                                formTitle={item?.name}
                                 navigateBackTo="/item_view" />)
                         }
-                        
+                        {
+                            item?.pictures && item?.pictures.length > 0 && (
+                                <div style={{ display: "inline-block", textAlign: "left" }}>
+                                    <Carousel>
+                                        {item.pictures && item.pictures.map((picture) => (
+                                            <Carousel.Item style={{height: "32em"}}>
+                                                <img
+                                                    style={{ height: "30em", width: "auto" }}
+                                                    src={picture.url}
+                                                    alt="First slide"
+                                                />
+                                            </Carousel.Item>
+
+                                        )
+                                        )}
+                                    </Carousel>
+                                </div>
+                            )
+                        }                
                     
                         { item?.fields && item?.fields.map((fieldValue) => (
                             (fieldValue.value) && (
