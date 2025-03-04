@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { Translation } from '../context/translation_context';
+import type { UniqueIdentifier } from '@dnd-kit/core';
 
 const baseUrl = 'http://192.168.178.244:8081/datacrow-api/api/';
 
@@ -82,6 +83,7 @@ export interface FieldValue {
 }
 
 export interface FieldSetting {
+    id: UniqueIdentifier;
     fieldIdx: number;
     labelKey: string;
     enabled: boolean;

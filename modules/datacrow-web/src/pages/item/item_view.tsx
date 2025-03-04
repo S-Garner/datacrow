@@ -81,10 +81,8 @@ export function ItemViewPage() {
                                                 <img
                                                     style={{ height: "30em", width: "auto" }}
                                                     src={picture.url}
-                                                    alt="First slide"
                                                 />
                                             </Carousel.Item>
-
                                         )
                                         )}
                                     </Carousel>

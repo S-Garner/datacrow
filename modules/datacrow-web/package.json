@@ -8,6 +8,9 @@
     "compile": "npm run build && cd build && jar -cvf web.war ."
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/modifiers": "^9.0.0",
+    "@dnd-kit/sortable": "^10.0.0",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "react": "^19.0.0",
@@ -27,6 +30,6 @@
     "sass": "^1.82.0",
     "sass-loader": "^16.0.4",
     "typescript": "^5",
-    "vite": "^5"
+    "vite": "^6.2.0"
   }
 }

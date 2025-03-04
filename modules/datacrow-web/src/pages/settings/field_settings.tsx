@@ -1,16 +1,29 @@
-import { RequireAuth } from "../../context/authentication_context";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useTranslation } from "../../context/translation_context";
-import { fetchFieldSettings, saveFieldSettings, type FieldSetting } from "../../services/datacrow_api";
-import { Button, Card, Tab, Tabs } from "react-bootstrap";
-import { useForm } from "react-hook-form";
-import { useMessage } from "../../context/message_context";
+import {
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useMessage } from '../../context/message_context';
+import { fetchFieldSettings, saveFieldSettings, type FieldSetting } from '../../services/datacrow_api';
+import { useTranslation } from '../../context/translation_context';
+import { Tabs, Tab } from 'react-bootstrap';
+import { SortableItem } from './droppable';
 
 export function FieldSettingsPage() {
 
     const [fieldSettings, setFieldSettings] = useState<FieldSetting[]>();
-
     const navigate = useNavigate();
     const methods = useForm();
     const message = useMessage();
@@ -38,64 +51,6 @@ export function FieldSettingsPage() {
             });
     }, [moduleIdx]);
 
-    function arrayMove(subject: FieldSetting, steps: number) {
-        if (fieldSettings) {
-
-            const clone = fieldSettings.slice(0);
-
-            let index = clone.findIndex((fieldSetting) => fieldSetting === subject);
-            let newIndex = index + steps;
-            let element = clone[index];
-
-            clone.splice(index, 1);
-            clone.splice(newIndex, 0, element);
-
-            for (let i = 0; i < clone.length; i++) {
-                clone[i].order = i;
-            }
-
-            setFieldSettings(clone);
-        }
-    }
-    
-    function arrayMoveTop(subject: FieldSetting) {
-        if (fieldSettings) {
-
-            const clone = fieldSettings.slice(0);
-
-            let index = clone.findIndex((fieldSetting) => fieldSetting === subject);
-            let element = clone[index];
-
-            clone.splice(index, 1);
-            clone.unshift(element);
-
-            for (let i = 0; i < clone.length; i++) {
-                clone[i].order = i;
-            }
-
-            setFieldSettings(clone);
-        }
-    }
-    
-    function arrayMoveBottom(subject: FieldSetting) {
-        if (fieldSettings) {
-
-            const clone = fieldSettings.slice(0);
-
-            let index = clone.findIndex((fieldSetting) => fieldSetting === subject);
-            let element = clone[index];
-
-            clone.splice(index, 1);
-            clone.splice(clone.length, 0, element);
-
-            for (let i = 0; i < clone.length; i++) {
-                clone[i].order = i;
-            }
-
-            setFieldSettings(clone);
-        }
-    }       
-
     const handleToggle = (subject: FieldSetting) => {
         if (fieldSettings) {
 
@@ -107,22 +62,6 @@ export function FieldSettingsPage() {
 
             setFieldSettings(clone);
         }
-    }
-
-    const handleMoveDown = (fieldSetting: FieldSetting) => {
-        arrayMove(fieldSetting, 1);
-    }
-
-    const handleMoveUp = (fieldSetting: FieldSetting) => {
-        arrayMove(fieldSetting, -1);
-    }
-
-    const handleMoveBottom = (fieldSetting: FieldSetting) => {
-        arrayMoveBottom(fieldSetting);
-    }
-
-    const handleMoveTop = (fieldSetting: FieldSetting) => {
-        arrayMoveTop(fieldSetting);
     }
 
     const { t } = useTranslation();
@@ -141,72 +80,56 @@ export function FieldSettingsPage() {
                 }
             });
         }
+
+
     }
 
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+  
+    function handleDragEnd(event: { active: any; over: any; }) {
+
+        const { active, over } = event;
+
+        if (fieldSettings && active.id !== over.id) {
+            setFieldSettings((fieldSettings) => {
+                
+                if (fieldSettings) {
+
+                const oldIndex = fieldSettings.findIndex((fieldSetting) => fieldSetting.fieldIdx === active.id);
+                const newIndex = fieldSettings.findIndex((fieldSetting) => fieldSetting.fieldIdx === over.id);
+
+                return arrayMove(fieldSettings, oldIndex, newIndex);
+                    
+                } else {
+                    console.log("Error");
+                    return fieldSettings;
+                }
+            });
+        }
+    }
+    
     return (
-        <RequireAuth>
-
-            <div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="div-item-details">
-
-                <Tabs key="item-details-tabs" className="mb-3">
-
-                    <Tab title="Field Settings" active={true}>
-
-                        <form key="field-settings-form" onSubmit={methods.handleSubmit(onSubmit)}>
-
-                            {fieldSettings && fieldSettings.map((fieldSetting, counter) => (
-
-                                <Card style={{ width: '80%', marginLeft: "10%", marginRight: "10%" }} key={"card-field-setting-" + fieldSetting.fieldIdx}>
-                                    <Card.Body key="card-field-settings-body">
-
-                                        <div className="float-container" style={{ marginTop: "20px" }}>
-                                            <div className="float-child">
-                                                <input
-                                                    type="checkbox"
-                                                    id={"field-index-" + fieldSetting.fieldIdx}
-                                                    key={"field-index-" + fieldSetting.fieldIdx}
-                                                    onChange={() => handleToggle(fieldSetting)}
-                                                    disabled={fieldSetting.locked}
-                                                    checked={fieldSetting.locked || (fieldSetting.enabled as boolean)}
-                                                />
-                                            </div>
-
-                                            <div className="float-child" style={{ marginLeft: "20px", width: "50px", marginRight: "10px" }}>
-                                                {(counter < fieldSettings.length - 1) &&
-                                                    (<i className="bi bi-arrow-down" style={{ fontSize: "1.2rem", marginRight: "10px" }} onClick={() => handleMoveDown(fieldSetting)}></i>)
-                                                }
-                                                {(counter != 0) &&
-                                                    (<i className="bi bi-arrow-up" style={{ fontSize: "1.2rem" }} onClick={() => handleMoveUp(fieldSetting)}></i>)
-                                                }
-                                             </div>
-                                             
-                                             <div className="float-child" style={{ marginLeft: "20px", width: "60px", marginRight: "20px" }}>
-                                                {(counter < fieldSettings.length - 1) &&
-                                                    (<i className="bi bi-arrow-bar-down" style={{ fontSize: "1.2rem", marginRight: "10px" }} onClick={() => handleMoveBottom(fieldSetting)}></i>)
-                                                }
-                                                {(counter++ != 0) &&
-                                                    (<i className="bi bi-arrow-bar-up" style={{ fontSize: "1.2rem", }} onClick={() => handleMoveTop(fieldSetting)}></i>)
-                                                }                                                
-                                            </div>
-
-                                            <div className="float-child">
-                                                {t(fieldSetting.labelKey)}
-                                            </div>
-                                        </div>
-                                    </Card.Body>
-                                </Card>
-                            ))}
-
-                            <div className="mb-3" style={{ marginLeft: "10%", marginTop: "10px"}}>
-                                <Button type="submit" key="field-settings-submit-button">
-                                    {t("lblSave")}
-                                </Button>
-                            </div>
-                        </form>
-                    </Tab>
-                </Tabs>
-
-            </div>
-        </RequireAuth>
+        <div style={{ display: "inline-block", width: "100%", textAlign: "left" }} key="div-item-details">
+            <Tabs key="item-details-tabs" className="mb-3">
+                <Tab title="Field Settings" active={true}>
+                    {fieldSettings && ( <DndContext
+                        sensors={sensors}
+                        collisionDetection={closestCenter}
+                        onDragEnd={handleDragEnd}>
+                        <SortableContext
+                            items={fieldSettings}
+                            strategy={verticalListSortingStrategy}>
+                            
+                            {fieldSettings && fieldSettings.map(fieldSetting => <SortableItem key={fieldSetting.fieldIdx} id={fieldSetting.fieldIdx} />)}
+                        </SortableContext>
+                    </DndContext>) }
+                </Tab>
+            </Tabs>
+        </div>
     );
 }

@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FieldSetting {
 	
+	@JsonProperty("id")
+	private int id;
 	@JsonProperty("enabled")
 	private boolean enabled;
 	@JsonProperty("fieldIdx")
@@ -21,6 +23,7 @@ public class FieldSetting {
 	public FieldSetting() {}
 	
 	public FieldSetting(WebFieldDefinition wf, int order) {
+		this.id = wf.getFieldIdx();
 		this.fieldIdx = wf.getFieldIdx();
 		this.labelKey = wf.getLabelKey();
 		this.enabled = wf.isEnabled();
@@ -28,6 +31,10 @@ public class FieldSetting {
 		this.locked = DcModules.get(wf.getModuleIdx()).getField(fieldIdx).isRequired();
 	}
 
+	public int getId() {
+		return id;
+	}
+	
 	public int getFieldIdx() {
 		return fieldIdx;
 	}
