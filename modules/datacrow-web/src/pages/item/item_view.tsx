@@ -113,10 +113,9 @@ export function ItemViewPage() {
                             )
                         ))}
                         
-                        
                         {(itemID && module && module.hasChild) && (
-                            <Tabs>
-                                <Tab title={t(module.child.name)} active={true}>
+                            <Tabs key="children-tabs">
+                                <Tab title={t(module.child.name)} active={true} key="children-tab">
                                     <ChildrenOverview 
                                         itemID={itemID}
                                         moduleIdx={module.child.index}

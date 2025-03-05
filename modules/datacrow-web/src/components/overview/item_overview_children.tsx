@@ -34,14 +34,10 @@ export default function ChildrenOverview({moduleIdx, parentModuleIdx, itemID, na
                 <div className="row mb-3" style={{display: "table-row"}}>
                 
                     {child.fields.map((fieldValue) => (
-                        <div style={{ width: "25%", display: "table-cell" }}>
-                            {String(fieldValue.value)}
+                        <div style={{ width: "5%", display: "table-cell" }}>
+                            {fieldValue.value && String(fieldValue.value)}
                         </div>
                     ))}
-
-                    <div style={{ width: "5%", display: "table-cell" }}>
-                        <Button />
-                    </div>
                 </div>
             ))
             }
