@@ -20,17 +20,15 @@ export default function ChildrenOverviewSettingsMenu({moduleIdx, itemID, navigat
     const auth = useAuth();
     
     function handleShowSettings() {
-        navigate('/fieldsettings', { state: { navFrom: navigateBackTo, moduleIdx }}); 
+        navigate('/fieldsettings', { state: { navFrom: navigateBackTo, moduleIdx, itemID }}); 
     }
     
     return (
         <div style={{ float: "right", width: "100%", marginBottom: "20px" }}>
-
             <div style={{ float: "right" }} className="float-child">
                 {auth.user && auth.user.admin &&
                     <i className="bi bi-gear-fill menu-icon" style={{ marginLeft: "5px" }} onClick={() => handleShowSettings()}></i>}
             </div>
-
         </div>
     );
 }
