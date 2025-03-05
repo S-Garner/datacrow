@@ -157,7 +157,7 @@ export function ItemPage() {
                                     itemID={itemID}
                                     moduleIdx={module.child.index}
                                     parentModuleIdx={module.index}
-                                    navigateBackTo="item_edit" />
+                                    navigateBackTo="/item_edit" />
                             </Tab>
                         )
                     }

@@ -72,7 +72,7 @@ public class ItemManager {
 			fields[i] = c.get(i).intValue();
 		
 		for (DcObject child : conn.getChildren(id, childModuleIdx, cm.getMinimalFields(null))) {
-			children.add(new Item(su, child, fields.length > 0 ? fields : null, false));
+			children.add(new Item(su, child, fields.length > 0 ? fields : null, true));
 		}
 	
 		return children;

@@ -80,7 +80,6 @@ export default function ItemDetailsMenu({moduleIdx, itemID, formTitle, navigateB
                 </Modal.Footer>
             </Modal>
          
-         
             <div style={{float:"right"}} className="float-child">
 
                 {(itemID && editMode && auth.user.admin) && <i className="bi bi-trash-fill menu-icon" onClick={() => {handleDelete()}} ></i>}
