@@ -153,7 +153,7 @@ export function ItemPage() {
                     {(itemID && module && module.hasChild) &&
                         (
                             <Tab eventKey="children" title={t(module.child.name)} key="children-tab">
-                                <ChildrenOverview itemID={itemID} />
+                                <ChildrenOverview itemID={itemID} moduleIdx={module.child.index} />
                             </Tab>
                         )
                     }

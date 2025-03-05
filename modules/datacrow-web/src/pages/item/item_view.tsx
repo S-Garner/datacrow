@@ -92,19 +92,17 @@ export function ItemViewPage() {
                                 </div>
                             )
                         }
-                        
                                                 {
                         item?.pictures && item?.pictures.length === 1 && (
-                                <div style={{ display: "inline-block", textAlign: "left" }}>
-                                    {item.pictures && item.pictures.map((picture) => (
-                                        <img
-                                            style={{ height: "30em", width: "auto", marginBottom: "2em" }}
-                                            src={picture.url}
-                                        />
-                                    ))}
-                                </div>
-                            )
-                        }           
+                            <div style={{ display: "inline-block", textAlign: "left" }}>
+                                {item.pictures && item.pictures.map((picture) => (
+                                    <img
+                                        style={{ height: "30em", width: "auto", marginBottom: "2em" }}
+                                        src={picture.url}
+                                    />
+                                ))}
+                            </div>
+                        )}           
                     
                         { item?.fields && item?.fields.map((fieldValue) => (
                             (fieldValue.value) && (
@@ -116,23 +114,21 @@ export function ItemViewPage() {
                         ))}
                         
                         
-                        {(itemID && module && module.hasChild) &&
-                            (
-                                <div style={{ display: "inline-block", textAlign: "left" }}>
-                                    <ChildrenOverview itemID={itemID} />
-                                </div>
-                            )
-                        }
+                        {(itemID && module && module.hasChild) && (
+                            <Tabs>
+                                <Tab title={t(module.child.name)} active={true}>
+                                    <ChildrenOverview itemID={itemID} moduleIdx={module.child.index} />
+                                </Tab>
+                            </Tabs>
+                        )}
                         
                     </Tab>
 
-                    {itemID &&
-                        (
-                            <Tab eventKey="attachments" title={t("lblAttachments")}>
-                                <AttachmentEditList itemID={itemID} />
-                            </Tab>
-                        )
-                    }
+                    {itemID && (
+                        <Tab eventKey="attachments" title={t("lblAttachments")}>
+                            <AttachmentEditList itemID={itemID} />
+                        </Tab>
+                    )}
                 </Tabs>
             </div>
         </RequireAuth>
