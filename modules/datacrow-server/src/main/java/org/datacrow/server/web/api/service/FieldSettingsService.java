@@ -47,7 +47,7 @@ public class FieldSettingsService extends DataCrowApiService {
     	WebFieldDefinitions definitions = new WebFieldDefinitions(moduleIndex);
     	
     	for (FieldSetting fs : fieldSettings)
-    		definitions.add(new WebFieldDefinition(moduleIndex, fs.getFieldIdx(), fs.isEnabled()));
+    		definitions.add(new WebFieldDefinition(moduleIndex, fs.getFieldIdx()));
     	
     	DcModules.get(moduleIndex).getSettings().set(
     			DcRepository.ModuleSettings.stWebFieldDefinitions, definitions);

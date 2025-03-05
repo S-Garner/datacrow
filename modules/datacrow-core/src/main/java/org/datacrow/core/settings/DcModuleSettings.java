@@ -134,10 +134,8 @@ public class DcModuleSettings extends Settings {
 
         WebFieldDefinitions wfDefinitions = new WebFieldDefinitions(module.getIndex());
         for (DcField field : module.getFields()) {
-        	if (field.getValueType() != DcRepository.ValueTypes._PICTURE) {
-	            boolean enabled = field.isSystemField() ? false : true;
-	            wfDefinitions.add(new WebFieldDefinition(field.getModule(), field.getIndex(), enabled));
-        	}
+        	if (field.getValueType() != DcRepository.ValueTypes._PICTURE)
+	            wfDefinitions.add(new WebFieldDefinition(field.getModule(), field.getIndex()));
         }
 
         addSetting(_General,

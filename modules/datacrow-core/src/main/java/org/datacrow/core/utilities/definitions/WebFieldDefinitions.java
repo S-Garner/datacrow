@@ -27,7 +27,6 @@ package org.datacrow.core.utilities.definitions;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.StringTokenizer;
 
 public class WebFieldDefinitions implements IDefinitions {
 
@@ -89,11 +88,8 @@ public class WebFieldDefinitions implements IDefinitions {
     
     @Override
     public void add(String s) {
-        StringTokenizer st = new StringTokenizer(s, "/&/");
-        int field = Integer.parseInt((String) st.nextElement());
-        boolean enabled = Boolean.valueOf((String) st.nextElement()).booleanValue();
-
+        int field = Integer.parseInt(s);
         removeDefinition(field);
-        add(new WebFieldDefinition(moduleIdx, field, enabled));
+        add(new WebFieldDefinition(moduleIdx, field));
     }
 }

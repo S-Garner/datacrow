@@ -64,12 +64,10 @@ export function ModuleProvider({ children }: { children: React.ReactNode }) {
         
         if (selectedModule) {
             for (let idx = 0; idx < settings.length; idx++) {
-                if (settings[idx].enabled) {
-                    let field = getField(moduleIdx, settings[idx].fieldIdx); // get the field based on the index
-                    
-                    if (field && !field.hidden) // check if the field is not hidden
-                        fields.push(field);
-                }
+                let field = getField(moduleIdx, settings[idx].fieldIdx); // get the field based on the index
+                
+                if (field) // check if the field is not hidden
+                    fields.push(field);
             }
         }
         

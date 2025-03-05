@@ -33,14 +33,12 @@ public class WebFieldDefinition extends Definition {
 
 	private final int moduleIdx;
     private final int fieldIdx;
-    private final boolean enabled;
     
-    public WebFieldDefinition(int moduleIdx, int fieldIdx, boolean enabled) {
+    public WebFieldDefinition(int moduleIdx, int fieldIdx) {
         super();
         
         this.moduleIdx = moduleIdx;
         this.fieldIdx = fieldIdx;
-        this.enabled = enabled;
     }
     
     public int getFieldIdx() {
@@ -50,10 +48,7 @@ public class WebFieldDefinition extends Definition {
     public int getModuleIdx() {
         return moduleIdx;
     }      
-    
-    public boolean isEnabled() {
-        return enabled;
-    }      
+     
     
     public String getLabelKey() {
         return DcModules.get(moduleIdx).getField(fieldIdx).getResourceKey();
@@ -61,7 +56,7 @@ public class WebFieldDefinition extends Definition {
 
     @Override
     public String toSettingValue() {
-        return fieldIdx + "/&/" + enabled;
+        return String.valueOf(fieldIdx);
     }    
     
     @Override

@@ -18,7 +18,7 @@ export default function ChildrenOverview({itemID} : Props) {
     }, [itemID]);
 
     return (
-        <div style={{width: "100%", display: "table"}}>
+        <div style={{ display: "table"}}>
             {children && children.map((child) => (
                 <div className="row mb-3" style={{display: "table-row"}}>
                 

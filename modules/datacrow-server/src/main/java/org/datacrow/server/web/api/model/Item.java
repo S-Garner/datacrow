@@ -65,8 +65,7 @@ public class Item {
 					DcModules.get(moduleIdx).getSettings().getDefinitions(DcRepository.ModuleSettings.stWebFieldDefinitions);
 			
 			for (WebFieldDefinition definition : definitions.getDefinitions()) {
-				if (definition.isEnabled())
-					fields.add(Integer.valueOf(definition.getFieldIdx()));
+				fields.add(Integer.valueOf(definition.getFieldIdx()));
 			}
 		}
 		

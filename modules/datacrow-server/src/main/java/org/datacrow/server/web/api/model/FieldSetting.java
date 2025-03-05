@@ -1,6 +1,5 @@
 package org.datacrow.server.web.api.model;
 
-import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.utilities.definitions.WebFieldDefinition;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,9 +25,7 @@ public class FieldSetting {
 		this.id = wf.getFieldIdx();
 		this.fieldIdx = wf.getFieldIdx();
 		this.labelKey = wf.getLabelKey();
-		this.enabled = wf.isEnabled();
 		this.order = order;
-		this.locked = DcModules.get(wf.getModuleIdx()).getField(fieldIdx).isRequired();
 	}
 
 	public int getId() {

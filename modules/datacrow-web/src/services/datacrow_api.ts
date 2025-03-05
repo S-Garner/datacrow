@@ -86,9 +86,7 @@ export interface FieldSetting {
     id: UniqueIdentifier;
     fieldIdx: number;
     labelKey: string;
-    enabled: boolean;
     order: number;
-    locked: boolean;
 }
 
 export interface Field {

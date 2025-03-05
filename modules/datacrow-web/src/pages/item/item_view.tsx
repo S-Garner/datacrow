@@ -8,6 +8,7 @@ import { useTranslation } from "../../context/translation_context";
 import AttachmentEditList from "../../components/list/attachment_edit_list";
 import ItemDetailsMenu from "../../components/menu/item_details_menu_bar";
 import ViewField from "../../components/view/dc_view_field";
+import ChildrenOverview from "../../components/overview/item_overview_children";
 
 export function ItemViewPage() {
 
@@ -18,6 +19,7 @@ export function ItemViewPage() {
     const { state } = useLocation();
     const { t } = useTranslation();
     const auth = useAuth();
+    const moduleContext = useModule();
     
     useEffect(() => {
         if (!state) {
@@ -36,6 +38,7 @@ export function ItemViewPage() {
     }, [state.itemID]);
 
     let moduleIdx = state.moduleIdx;
+    let module = moduleIdx ? moduleContext.getModule(moduleIdx) : undefined;
     
     useEffect(() => {
         (itemID) && fetchItem(state.moduleIdx, itemID, true).
@@ -111,6 +114,16 @@ export function ItemViewPage() {
                                 />
                             )
                         ))}
+                        
+                        
+                        {(itemID && module && module.hasChild) &&
+                            (
+                                <div style={{ display: "inline-block", textAlign: "left" }}>
+                                    <ChildrenOverview itemID={itemID} />
+                                </div>
+                            )
+                        }
+                        
                     </Tab>
 
                     {itemID &&
