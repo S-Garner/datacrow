@@ -5,6 +5,7 @@ import {
     PointerSensor,
     useSensor,
     useSensors,
+    TouchSensor,
 } from '@dnd-kit/core';
 import {
     arrayMove,
@@ -29,6 +30,7 @@ export function FieldSettingsPage() {
     const methods = useForm();
     const message = useMessage();
     const {state} = useLocation();
+    const { t } = useTranslation();
     
     const navigateBackTo = state.navFrom;
     
@@ -52,21 +54,6 @@ export function FieldSettingsPage() {
             });
     }, [moduleIdx]);
 
-    const handleToggle = (subject: FieldSetting) => {
-        if (fieldSettings) {
-
-            const clone = fieldSettings.slice(0);
-
-            let index = clone.findIndex((fieldSetting) => fieldSetting === subject);
-            let element = clone[index];
-            element.enabled = !element.enabled;
-
-            setFieldSettings(clone);
-        }
-    }
-
-    const { t } = useTranslation();
-
     const onSubmit = (_data: any, e: any) => {
         e.preventDefault();
 
@@ -81,11 +68,10 @@ export function FieldSettingsPage() {
                 }
             });
         }
-
-
     }
 
     const sensors = useSensors(
+        useSensor(TouchSensor),
         useSensor(PointerSensor),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
@@ -101,13 +87,13 @@ export function FieldSettingsPage() {
                 
                 if (fieldSettings) {
 
-                const oldIndex = fieldSettings.findIndex((fieldSetting) => fieldSetting.fieldIdx === active.id);
-                const newIndex = fieldSettings.findIndex((fieldSetting) => fieldSetting.fieldIdx === over.id);
-
-                return arrayMove(fieldSettings, oldIndex, newIndex);
+                    const oldIndex = fieldSettings.findIndex((fieldSetting) => fieldSetting.fieldIdx === active.id);
+                    const newIndex = fieldSettings.findIndex((fieldSetting) => fieldSetting.fieldIdx === over.id);
+    
+                    return arrayMove(fieldSettings, oldIndex, newIndex);
                     
                 } else {
-                    console.log("Error");
+                    console.log("Drag-end error: field settings is null");
                     return fieldSettings;
                 }
             });
@@ -121,17 +107,24 @@ export function FieldSettingsPage() {
                     <Tab title="Field Settings" active={true}>
                         <form key="field-settings-form" onSubmit={methods.handleSubmit(onSubmit)}>
                         
-                            {fieldSettings && ( <DndContext
-                                sensors={sensors}
-                                collisionDetection={closestCenter}
-                                onDragEnd={handleDragEnd}>
-                                <SortableContext
-                                    items={fieldSettings}
-                                    strategy={verticalListSortingStrategy}>
-                                    
-                                    {fieldSettings && fieldSettings.map(fieldSetting => <SortableItem key={fieldSetting.fieldIdx} fieldSetting={fieldSetting} />)}
-                                </SortableContext>
-                            </DndContext>) }
+                            {fieldSettings && ( 
+                                <div className='drag-and-drop'>
+                                    <DndContext
+                                        sensors={sensors}
+                                        collisionDetection={closestCenter}
+                                        onDragEnd={handleDragEnd}>
+                                        <SortableContext
+                                            items={fieldSettings}
+                                            strategy={verticalListSortingStrategy}>
+                                            
+                                            {fieldSettings && fieldSettings.map(fieldSetting => 
+                                                <SortableItem 
+                                                    key={fieldSetting.fieldIdx}
+                                                    fieldSetting={fieldSetting} />)}
+                                                    
+                                        </SortableContext>
+                                    </DndContext>
+                                </div>)}
                             
                             <div className="mb-3" style={{ marginTop: "10px"}}>
                                 <Button type="submit" key="field-settings-submit-button">

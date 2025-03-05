@@ -1,6 +1,7 @@
 @use 'components/menu/' as menu;
 @use 'components/input/' as input;
 @use 'components/overview/' as overview;
+@use 'pages/settings/' as fieldsettings;
 
 #root {
   margin: 0 auto;

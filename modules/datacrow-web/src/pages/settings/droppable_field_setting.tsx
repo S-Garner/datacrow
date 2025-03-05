@@ -21,25 +21,17 @@ export function SortableItem(props: { fieldSetting: FieldSetting }) {
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
+        touchAction: 'none'
     };
-
+    
     return (
         <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            <Card key={"card-field-setting-" + fieldSetting.fieldIdx}>
+            <Card key={"card-field-setting-" + fieldSetting.fieldIdx} className="droppable-field">
                 <Card.Body key="card-field-settings-body">
-
-                    <div className="float-container" style={{ marginTop: "20px" }}>
-                        <div className="float-child" style={{ marginRight: "10px" }}>
-                            <input
-                                type="checkbox"
-                                id={"field-index-" + fieldSetting.fieldIdx}
-                                key={"field-index-" + fieldSetting.fieldIdx}
-                                //onChange={() => handleToggle(fieldSetting)}
-                                disabled={fieldSetting.locked}
-                                checked={fieldSetting.locked || (fieldSetting.enabled as boolean)}
-                            />
+                    <div className="float-container" >
+                        <div className="float-child droppable-field-icon">
+                            <i className="bi bi-arrows-move"></i>
                         </div>
-
                         <div className="float-child">
                             {t(fieldSetting.labelKey)}
                         </div>
