@@ -73,7 +73,7 @@ export function ItemViewPage() {
                                 navigateBackTo="/item_view" />)
                         }
                         {
-                            item?.pictures && item?.pictures.length > 0 && (
+                            item?.pictures && item?.pictures.length > 1 && (
                                 <div style={{ display: "inline-block", textAlign: "left" }}>
                                     <Carousel>
                                         {item.pictures && item.pictures.map((picture) => (
@@ -88,7 +88,20 @@ export function ItemViewPage() {
                                     </Carousel>
                                 </div>
                             )
-                        }                
+                        }
+                        
+                                                {
+                        item?.pictures && item?.pictures.length === 1 && (
+                                <div style={{ display: "inline-block", textAlign: "left" }}>
+                                    {item.pictures && item.pictures.map((picture) => (
+                                        <img
+                                            style={{ height: "30em", width: "auto", marginBottom: "2em" }}
+                                            src={picture.url}
+                                        />
+                                    ))}
+                                </div>
+                            )
+                        }           
                     
                         { item?.fields && item?.fields.map((fieldValue) => (
                             (fieldValue.value) && (
