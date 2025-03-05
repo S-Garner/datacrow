@@ -1,8 +1,10 @@
-import { Badge, Col, Row, Stack } from "react-bootstrap";
+import { Col, Row, Stack } from "react-bootstrap";
 import { useTranslation } from "../../context/translation_context";
 import type { Field, Reference } from "../../services/datacrow_api";
 import { FieldType } from "../component_types";
 import ViewReferenceField from "./dc_view_reference_field";
+import { Link } from "react-router-dom";
+import StarRating from "./dc_view_rating";
 
 export interface Props {
     field: Field,
@@ -60,13 +62,13 @@ export default function ViewField({
                    field.type === FieldType.FileField) && (
                     
                     <div key={"div-" + field.index}>
-                        {String(value)}
+                        <Link to={String(value)} key={"url-" + field.index} target="_blank">{String(value)}</Link>
                     </div>
                  )}
 
                  {field.type === FieldType.RatingField && (
                     <div key={"div-" + field.index}>
-                        {String(value)}
+                        <StarRating rating={value as number} />
                     </div>
                  )}
                  

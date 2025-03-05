@@ -162,7 +162,11 @@ public class Item {
 		} else if (o instanceof DcModule || o instanceof Collection) {
 			
 			value = "";
+			
+		} else if (field.getType() == Field._RATING) {
 		
+			value = o;
+			
 		} else if (o instanceof Date) {
 		
 			value = viewMode ? formatted : o.toString();

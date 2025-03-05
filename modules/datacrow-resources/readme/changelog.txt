@@ -46,7 +46,6 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
   lblCreatingNewItem
   msgBusySavingItem
 - Web; options for references - make array of correct size (saves time)
-- Web; viewing of an item
 - Web; child items / children
 - Web; references
 
