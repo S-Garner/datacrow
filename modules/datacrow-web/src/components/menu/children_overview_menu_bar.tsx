@@ -12,15 +12,16 @@ interface Props {
     itemID: string | undefined;
     editMode: boolean;
     navigateBackTo: string;
+    parentModuleIdx: number;
 }
 
-export default function ChildrenOverviewSettingsMenu({moduleIdx, itemID, navigateBackTo} : Props)  {
+export default function ChildrenOverviewSettingsMenu({moduleIdx, itemID, navigateBackTo, parentModuleIdx} : Props)  {
     
     const navigate = useNavigate();
     const auth = useAuth();
     
     function handleShowSettings() {
-        navigate('/fieldsettings', { state: { navFrom: navigateBackTo, moduleIdx, itemID }}); 
+        navigate('/overviewfieldsettings', { state: { navFrom: navigateBackTo, moduleIdx, itemID, parentModuleIdx }}); 
     }
     
     return (

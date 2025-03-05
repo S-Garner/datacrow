@@ -7,9 +7,11 @@ import ChildrenOverviewSettingsMenu from "../menu/children_overview_menu_bar";
 type Props = {
     itemID: string;
     moduleIdx: number;
+    navigateBackTo: string;
+    parentModuleIdx: number;
 };
 
-export default function ChildrenOverview({moduleIdx, itemID} : Props) {
+export default function ChildrenOverview({moduleIdx, parentModuleIdx, itemID, navigateBackTo} : Props) {
 
     const [children, setChildren] = useState<Item[]>();
     const currentModule = useModule();
@@ -25,7 +27,8 @@ export default function ChildrenOverview({moduleIdx, itemID} : Props) {
                 moduleIdx={moduleIdx}
                 editMode={true} 
                 itemID={itemID} 
-                navigateBackTo="/item_edit" />        
+                navigateBackTo={navigateBackTo}
+                parentModuleIdx={parentModuleIdx} />        
         
             {children && children.map((child) => (
                 <div className="row mb-3" style={{display: "table-row"}}>

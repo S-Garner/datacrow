@@ -20,6 +20,8 @@ import org.datacrow.core.objects.ValidationException;
 import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.utilities.CoreUtilities;
+import org.datacrow.core.utilities.definitions.WebOverviewFieldDefinition;
+import org.datacrow.core.utilities.definitions.WebOverviewFieldDefinitions;
 import org.datacrow.server.web.api.model.Item;
 
 public class ItemManager {
@@ -56,8 +58,21 @@ public class ItemManager {
 		DcModule cm = DcModules.get(childModuleIdx);
 		Connector conn = DcConfig.getInstance().getConnector();
 		
+		List<Integer> c = new ArrayList<Integer>();
+		
+		WebOverviewFieldDefinitions definitions = 
+				(WebOverviewFieldDefinitions) cm.getSettings().getDefinitions(DcRepository.ModuleSettings.stWebOverviewFieldDefinitions); 
+		for (WebOverviewFieldDefinition wfd : definitions.getDefinitions()) {
+			if (wfd.isEnabled())
+				c.add(Integer.valueOf(wfd.getFieldIdx()));
+		}
+		
+		int[] fields = new int[c.size()];
+		for (int i = 0; i < c.size(); i++) 
+			fields[i] = c.get(i).intValue();
+		
 		for (DcObject child : conn.getChildren(id, childModuleIdx, cm.getMinimalFields(null))) {
-			children.add(new Item(su, child, false));
+			children.add(new Item(su, child, fields.length > 0 ? fields : null, false));
 		}
 	
 		return children;

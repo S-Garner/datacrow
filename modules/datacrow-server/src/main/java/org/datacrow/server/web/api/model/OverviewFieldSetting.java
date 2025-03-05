@@ -1,13 +1,15 @@
 package org.datacrow.server.web.api.model;
 
-import org.datacrow.core.utilities.definitions.WebFieldDefinition;
+import org.datacrow.core.utilities.definitions.WebOverviewFieldDefinition;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class FieldSetting {
+public class OverviewFieldSetting {
 	
 	@JsonProperty("id")
 	private int id;
+	@JsonProperty("enabled")
+	private boolean enabled;
 	@JsonProperty("fieldIdx")
 	private int fieldIdx;
 	@JsonProperty("labelKey")
@@ -15,12 +17,14 @@ public class FieldSetting {
 	@JsonProperty("order")
 	private int order;
 	
-	public FieldSetting() {}
+	public OverviewFieldSetting() {}
 	
-	public FieldSetting(WebFieldDefinition wf, int order) {
+	public OverviewFieldSetting(WebOverviewFieldDefinition wf, int order) {
 		this.id = wf.getFieldIdx();
 		this.fieldIdx = wf.getFieldIdx();
 		this.labelKey = wf.getLabelKey();
+		this.enabled = wf.isEnabled();
+		
 		this.order = order;
 	}
 
@@ -34,6 +38,10 @@ public class FieldSetting {
 	
 	public String getLabelKey() {
 		return labelKey;
+	}
+	
+	public boolean isEnabled() {
+		return enabled;
 	}
 	
 	public int getOrder() {

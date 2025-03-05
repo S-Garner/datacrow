@@ -11,6 +11,7 @@ import { MessageProvider } from './context/message_context';
 import { ItemCreatePage } from './pages/item/item_create';
 import { FieldSettingsPage } from './pages/settings/field_settings';
 import { ItemViewPage } from './pages/item/item_view';
+import { OverviewFieldSettingsPage } from './pages/settings/overview_field_settings';
 
 export default function App() {
     
@@ -27,6 +28,7 @@ export default function App() {
                                 <Route path="/item_view" element={<ItemViewPage />} />
                                 <Route path="/login" element={<LoginPage />} />
                                 <Route path="/fieldsettings" element={<FieldSettingsPage />} />
+                                <Route path="/overviewfieldsettings" element={<OverviewFieldSettingsPage />} />
                             </Route>
                         </Routes>
                     </ModuleProvider>

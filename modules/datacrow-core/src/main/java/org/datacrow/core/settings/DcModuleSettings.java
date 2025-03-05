@@ -49,6 +49,8 @@ import org.datacrow.core.utilities.definitions.QuickViewFieldDefinition;
 import org.datacrow.core.utilities.definitions.QuickViewFieldDefinitions;
 import org.datacrow.core.utilities.definitions.WebFieldDefinition;
 import org.datacrow.core.utilities.definitions.WebFieldDefinitions;
+import org.datacrow.core.utilities.definitions.WebOverviewFieldDefinition;
+import org.datacrow.core.utilities.definitions.WebOverviewFieldDefinitions;
 
 /**
  * Module specific settings.
@@ -138,10 +140,28 @@ public class DcModuleSettings extends Settings {
 	            wfDefinitions.add(new WebFieldDefinition(field.getModule(), field.getIndex()));
         }
 
+        WebOverviewFieldDefinitions wfOverviewDefinitions = new WebOverviewFieldDefinitions(module.getIndex());
+        for (DcField field : module.getFields()) {
+        	boolean enabled;
+        	if (field.getValueType() != DcRepository.ValueTypes._PICTURE) {
+        		enabled = field.isSystemField() ? false : true;
+        		wfOverviewDefinitions.add(new WebOverviewFieldDefinition(field.getModule(), field.getIndex(), enabled));
+        	}
+        }
+        
         addSetting(_General,
 			    new Setting(DcRepository.ValueTypes._DEFINITIONGROUP,
 		                    DcRepository.ModuleSettings.stWebFieldDefinitions,
 		                    wfDefinitions,
+		                    -1,
+		                    "",
+		                    "",
+		                    false,
+		                    false, module.getIndex()));
+        addSetting(_General,
+			    new Setting(DcRepository.ValueTypes._DEFINITIONGROUP,
+		                    DcRepository.ModuleSettings.stWebOverviewFieldDefinitions,
+		                    wfOverviewDefinitions,
 		                    -1,
 		                    "",
 		                    "",

@@ -117,7 +117,11 @@ export function ItemViewPage() {
                         {(itemID && module && module.hasChild) && (
                             <Tabs>
                                 <Tab title={t(module.child.name)} active={true}>
-                                    <ChildrenOverview itemID={itemID} moduleIdx={module.child.index} />
+                                    <ChildrenOverview 
+                                        itemID={itemID}
+                                        moduleIdx={module.child.index}
+                                        parentModuleIdx={module.index}
+                                        navigateBackTo="/item_view" />
                                 </Tab>
                             </Tabs>
                         )}

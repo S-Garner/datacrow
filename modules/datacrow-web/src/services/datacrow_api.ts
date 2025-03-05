@@ -89,6 +89,14 @@ export interface FieldSetting {
     order: number;
 }
 
+export interface OverviewFieldSetting {
+    id: UniqueIdentifier;
+    fieldIdx: number;
+    labelKey: string;
+    order: number;
+    enabled: boolean;
+}
+
 export interface Field {
 	type: number;
 	index: number;
@@ -198,6 +206,22 @@ export async function saveFieldSettings(moduleIdx: number, fieldSettings: FieldS
 
 export async function fetchFieldSettings(moduleIdx: number): Promise<FieldSetting[]> {
     const response = await instance.get(baseUrl + 'fieldsettings/' + moduleIdx);
+    return response.data;
+}
+
+export async function saveOverviewFieldSettings(moduleIdx: number, fieldSettings: OverviewFieldSetting[]): Promise<OverviewFieldSetting[]> {
+    const result = await instance.post(baseUrl + 'overviewfieldsettings', fieldSettings, {
+        headers: {
+            'Content-Type': 'application/json',
+            'moduleIndex': moduleIdx
+        }
+    });
+    
+    return result.data;
+}
+
+export async function fetchOverviewFieldSettings(moduleIdx: number): Promise<OverviewFieldSetting[]> {
+    const response = await instance.get(baseUrl + 'overviewfieldsettings/' + moduleIdx);
     return response.data;
 }
 

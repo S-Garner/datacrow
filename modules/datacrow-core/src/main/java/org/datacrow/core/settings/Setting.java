@@ -46,6 +46,7 @@ import org.datacrow.core.utilities.definitions.IDefinitions;
 import org.datacrow.core.utilities.definitions.ProgramDefinitions;
 import org.datacrow.core.utilities.definitions.QuickViewFieldDefinitions;
 import org.datacrow.core.utilities.definitions.WebFieldDefinitions;
+import org.datacrow.core.utilities.definitions.WebOverviewFieldDefinitions;
 
 /**
  * A Settings definition. The setting is always added to a file
@@ -244,6 +245,8 @@ public class Setting implements Serializable {
                             definitions = new QuickViewFieldDefinitions(module);
                         else if (key.equals(DcRepository.ModuleSettings.stWebFieldDefinitions))
                             definitions = new WebFieldDefinitions(module);
+                        else if (key.equals(DcRepository.ModuleSettings.stWebOverviewFieldDefinitions))
+                            definitions = new WebOverviewFieldDefinitions(module);
                         else 
                             definitions = new DcFieldDefinitions(module);
                     }
