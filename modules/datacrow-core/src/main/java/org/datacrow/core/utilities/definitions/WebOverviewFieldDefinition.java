@@ -61,7 +61,7 @@ public class WebOverviewFieldDefinition extends Definition {
 
     @Override
     public String toSettingValue() {
-        return String.valueOf(fieldIdx);
+        return String.valueOf(fieldIdx) + "/&/" + enabled;
     }    
     
     @Override
