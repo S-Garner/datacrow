@@ -83,7 +83,7 @@ export function ItemViewPage() {
                                             <Carousel.Item style={{height: "32em"}}>
                                                 <img
                                                     style={{ height: "30em", width: "auto" }}
-                                                    src={picture.url}
+                                                    src={picture.url + "?" + Date.now()}
                                                 />
                                             </Carousel.Item>
                                         )
