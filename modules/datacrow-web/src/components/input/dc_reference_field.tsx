@@ -78,40 +78,32 @@ export default function DcReferenceField({
     );
 
     return (
-        <div>
-            <div                 style={{ display: "flex", flexWrap: "wrap", float: "right" }}>
-                <Controller
-                    name={"inputfield-" + field.index}
-                    key={"inputfield-" + field.index}
-                    defaultValue={currentValue}
-                    rules={{ required: field.required }}
-                    render={renderProps => {
-                        return (
-                            <Select
-                                className="react-select-container"
-                                classNamePrefix="react-select"
-                                options={options}
-                                defaultValue={currentValue}
-                                isClearable
-                                isSearchable
-                                placeholder="..."
-                                isDisabled={field.readOnly}
-                                components={{ Option: IconOption, Control }}
-                                {...register("inputfield-" + field.index)}
-                                {...renderProps.field}
-                                onChange={e => {
-                                    setSelectedValue(e as IconSelectOption);
-                                    renderProps.field.onChange(e);
-                                }}
-                            />
-                        );
-                    }}
-               />
-               </div>
-               
-               <div>
-               <i className="bi bi-plus-circle menu-icon" style={{ fontSize: "1.7rem"}}></i>
-            </div>
-            </div>
+        <Controller
+            name={"inputfield-" + field.index}
+            key={"inputfield-" + field.index}
+            defaultValue={currentValue}
+            rules={{ required: field.required }}
+            render={renderProps => {
+                return (
+                    <Select
+                        className="react-select-container"
+                        classNamePrefix="react-select"
+                        options={options}
+                        defaultValue={currentValue}
+                        isClearable
+                        isSearchable
+                        placeholder="..."
+                        isDisabled={field.readOnly}
+                        components={{ Option: IconOption, Control }}
+                        {...register("inputfield-" + field.index)}
+                        {...renderProps.field}
+                        onChange={e => {
+                            setSelectedValue(e as IconSelectOption);
+                            renderProps.field.onChange(e);
+                        }}
+                    />
+                );
+            }}
+       />
     )
 }
