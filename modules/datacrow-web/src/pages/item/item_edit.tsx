@@ -91,7 +91,7 @@ export function ItemPage() {
             saveItem(moduleIdx, itemID, data).
             then(() => {
                     setSaving(false);
-                    message.showMessage(t("msgItemHasBeenSaved"));
+                    //message.showMessage(t("msgItemHasBeenSaved"));
                 }).
             catch(error => {
                 setSaving(false);
