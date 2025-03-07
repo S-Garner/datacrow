@@ -87,7 +87,7 @@ export function OverviewFieldSettingsPage() {
 
         if (fieldSettings && itemID && moduleIdx) {
             saveOverviewFieldSettings(moduleIdx, fieldSettings).
-            then(() => navigate(navigateBackTo + "#children", { state: { itemID, moduleIdx: parentModuleIdx }})).
+            then(() => navigate(navigateBackTo + "#children", { state: { itemID, moduleIdx: parentModuleIdx, tab: "children" }})).
             catch(error => {
                 if (error.status === 401) {
                     navigate("/login");

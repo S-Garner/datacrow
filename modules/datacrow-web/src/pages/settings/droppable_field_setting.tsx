@@ -30,7 +30,7 @@ export function SortableItem(props: { fieldSetting: FieldSetting }) {
                 <Card.Body key="card-field-settings-body">
                     <div className="float-container" >
                         <div className="float-child droppable-field-icon">
-                            <i className="bi bi-arrows-move"></i>
+                            <i className="bi bi-grip-vertical"></i>
                         </div>
                         <div className="float-child">
                             {t(fieldSetting.labelKey)}

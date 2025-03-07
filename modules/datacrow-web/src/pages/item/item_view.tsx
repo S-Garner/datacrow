@@ -12,11 +12,11 @@ import ChildrenOverview from "../../components/overview/item_overview_children";
 
 export function ItemViewPage() {
 
-    const [selectedTab, setSelectedTab] = useState('details');
     const [item, setItem] = useState<Item>();
     const [itemID, setItemID] = useState<string>();
     const navigate = useNavigate();
     const { state } = useLocation();
+    const [selectedTab, setSelectedTab] = useState(state?.tab ? state.tab : 'details');
     const { t } = useTranslation();
     const auth = useAuth();
     const moduleContext = useModule();
@@ -26,12 +26,17 @@ export function ItemViewPage() {
             navigate('/');
         }
     }, []);
-    
+
     useEffect(() => {
         if (!auth.user || !state.itemID) {
             navigate('/login');
         }
     }, []);
+
+    useEffect(() => {
+        if (state?.tab && state?.tab.length > 0)
+            setSelectedTab(state.tab);
+    }, [state?.tab]);
     
     useEffect(() => {
         setItemID(state.itemID);
@@ -112,15 +117,14 @@ export function ItemViewPage() {
                         ))}
                         
                         {(itemID && module && module.hasChild) && (
-                            <>
-                                <h3 style={{marginTop: "40px"}} id="children">{t(module.child.itemNamePlural)}</h3>
-                            
-                                <ChildrenOverview 
+                            <div id="children" style={{ marginTop: "40px" }}>
+                                <ChildrenOverview
+                                    title={String(t(module.child.itemNamePlural))}
                                     itemID={itemID}
                                     moduleIdx={module.child.index}
                                     parentModuleIdx={module.index}
                                     navigateBackTo="/item_view" />
-                            </>
+                            </div>
                         )}
                         
                     </Tab>

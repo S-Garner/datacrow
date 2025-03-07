@@ -10,16 +10,16 @@ type Props = {
     moduleIdx: number;
     navigateBackTo: string;
     parentModuleIdx: number;
+    title: string;
 };
 
-export default function ChildrenOverview({moduleIdx, parentModuleIdx, itemID, navigateBackTo} : Props) {
+export default function ChildrenOverview({moduleIdx, parentModuleIdx, itemID, navigateBackTo, title} : Props) {
 
     const [children, setChildren] = useState<Item[]>();
-    const currentModule = useModule();
     const { t } = useTranslation();
-
+    
     useEffect(() => {
-        itemID && fetchChildren(currentModule.selectedModule.child.index, itemID).
+        itemID && fetchChildren(moduleIdx, itemID).
             then((data) => setChildren(data))
     }, [itemID]);
 
@@ -28,7 +28,8 @@ export default function ChildrenOverview({moduleIdx, parentModuleIdx, itemID, na
             <ChildrenOverviewSettingsMenu
                 moduleIdx={moduleIdx}
                 editMode={true} 
-                itemID={itemID} 
+                itemID={itemID}
+                title={title}
                 navigateBackTo={navigateBackTo}
                 parentModuleIdx={parentModuleIdx} />        
         
@@ -37,7 +38,7 @@ export default function ChildrenOverview({moduleIdx, parentModuleIdx, itemID, na
                 <thead>
                     <tr>
                         {children?.at(0)?.fields.map((fieldValue) => (
-                            <th>
+                            <th className="text-secondary" style={{ textDecoration: 'none'}}>
                                 {t(String(fieldValue.field.label))}
                             </th>
                         ))}

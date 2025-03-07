@@ -18,7 +18,6 @@ import BusyModal from "../../components/message/busy_modal";
 export function ItemPage() {
 
     const [saving, setSaving] = useState(false);
-    const [selectedTab, setSelectedTab] = useState('details');
     const [item, setItem] = useState<Item>();
     const [itemID, setItemID] = useState<string>();
     const [references, setReferences] = useState<References[]>();
@@ -26,6 +25,7 @@ export function ItemPage() {
     const message = useMessage();
     const navigate = useNavigate();
     const { state } = useLocation();
+    const [selectedTab, setSelectedTab] = useState(state?.tab ? state.tab : 'details');
     const methods = useForm();
     const { t } = useTranslation();
     
@@ -40,7 +40,7 @@ export function ItemPage() {
             navigate('/login');
         }
     }, []);
-
+    
     let moduleIdx = state.moduleIdx;
     let module = moduleIdx ? moduleContext.getModule(moduleIdx) : undefined;
     
@@ -153,7 +153,8 @@ export function ItemPage() {
                     {(itemID && module && module.hasChild) &&
                         (
                             <Tab eventKey="children" title={t(module.child.name)} key="children-tab">
-                                <ChildrenOverview 
+                                <ChildrenOverview
+                                    title=""
                                     itemID={itemID}
                                     moduleIdx={module.child.index}
                                     parentModuleIdx={module.index}

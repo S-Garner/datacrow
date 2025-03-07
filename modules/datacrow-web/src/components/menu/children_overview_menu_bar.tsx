@@ -10,12 +10,13 @@ import BusyModal from "../message/busy_modal";
 interface Props {
     moduleIdx: number;
     itemID: string | undefined;
+    title: string;
     editMode: boolean;
     navigateBackTo: string;
     parentModuleIdx: number;
 }
 
-export default function ChildrenOverviewSettingsMenu({moduleIdx, itemID, navigateBackTo, parentModuleIdx} : Props)  {
+export default function ChildrenOverviewSettingsMenu({moduleIdx, itemID, navigateBackTo, parentModuleIdx, title} : Props)  {
     
     const navigate = useNavigate();
     const auth = useAuth();
@@ -30,6 +31,10 @@ export default function ChildrenOverviewSettingsMenu({moduleIdx, itemID, navigat
                 {auth.user && auth.user.admin &&
                     <i className="bi bi-gear-fill menu-icon" style={{ marginLeft: "5px" }} onClick={() => handleShowSettings()}></i>}
             </div>
+            
+            <div style={{float:"left"}} className="float-child text-primary">
+                {title}
+            </div>             
         </div>
     );
 }
