@@ -45,12 +45,11 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
   msgBusyDeletingItem
   lblCreatingNewItem
   msgBusySavingItem
-- Web; options for references - make array of correct size (saves time)
-- Web; child items / children
-- Web; references
+- Web; referenced items
+- Web; add / edit property items
 
 [Known Issues]
-- Validation messages for svaing of items will always be in the language of the Data Crow configuration.
+- Validation messages for saving of items will always be in the language of the Data Crow configuration.
 
 
 --------------------------------------------------------------------
