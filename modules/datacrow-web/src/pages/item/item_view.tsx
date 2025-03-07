@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchItem, type Item, type Module } from "../../services/datacrow_api";
+import { fetchItem, type Item } from "../../services/datacrow_api";
 import { RequireAuth, useAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
 import { Carousel, Tab, Tabs } from "react-bootstrap";
@@ -20,7 +20,7 @@ export function ItemViewPage() {
     const { t } = useTranslation();
     const auth = useAuth();
     const moduleContext = useModule();
-    
+
     useEffect(() => {
         if (!state) {
             navigate('/');
@@ -55,9 +55,7 @@ export function ItemViewPage() {
     
     return (
         <RequireAuth key={"auth-" + itemID}>
-        
             <div style={{ display: "inline-block", width: "100%", textAlign: "left" }}  key={itemID}>
-            
                 <Tabs
                     defaultActiveKey="profile"
                     key="item-details-tabs"
@@ -114,16 +112,15 @@ export function ItemViewPage() {
                         ))}
                         
                         {(itemID && module && module.hasChild) && (
-                            
                             <>
-                                <h3 style={{marginTop: "40px"}}>{t(module.child.itemNamePlural)}</h3>
+                                <h3 style={{marginTop: "40px"}} id="children">{t(module.child.itemNamePlural)}</h3>
                             
                                 <ChildrenOverview 
                                     itemID={itemID}
                                     moduleIdx={module.child.index}
                                     parentModuleIdx={module.index}
                                     navigateBackTo="/item_view" />
-                             </>
+                            </>
                         )}
                         
                     </Tab>

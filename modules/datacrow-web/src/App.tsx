@@ -12,11 +12,13 @@ import { ItemCreatePage } from './pages/item/item_create';
 import { FieldSettingsPage } from './pages/settings/field_settings';
 import { ItemViewPage } from './pages/item/item_view';
 import { OverviewFieldSettingsPage } from './pages/settings/overview_field_settings';
+import ScrollToHashElement from './hooks/scroll_to_hash_element';
 
 export default function App() {
     
     return (
         <TranslationProvider>
+            <ScrollToHashElement />
             <MessageProvider>
                 <AuthProvider>
                     <ModuleProvider>
@@ -39,6 +41,7 @@ export default function App() {
 }
 
 function Layout() {
+    
     return (
         <div>
             <MainMenuBar />
