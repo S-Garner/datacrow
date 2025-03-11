@@ -5,9 +5,10 @@ import { useModule } from "../../context/module_context";
 import { Button, Modal } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from "../../context/translation_context";
+import { useMessage } from "../../context/message_context";
+
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
-import { useMessage } from "../../context/message_context";
 
 type Props = {
     show: boolean;
@@ -83,7 +84,7 @@ export function ItemCreateModal({ moduleIdx, show }: Props) {
                 });
         }
     }
-
+    
     return (
         <Modal centered show={show}>
         

@@ -1,8 +1,10 @@
-import Select, { components, type ControlProps, type GroupBase, type OptionProps } from 'react-select'
+import { components, type ControlProps, type GroupBase, type OptionProps } from 'react-select'
+import CreatableSelect from 'react-select/creatable';
 import type { JSX } from 'react/jsx-runtime';
 import { useState } from 'react';
 import type { InputFieldComponentProps } from './dc_input_field';
 import { useFormContext, Controller } from 'react-hook-form';
+import { ItemCreateModal } from '../../pages/item/item_create_modal';
 
 export interface IconSelectOption {
     value: string;
@@ -33,6 +35,7 @@ export default function DcReferenceField({
     references
 }: InputFieldComponentProps) {
 
+    const [creatingItem,  setCreatingItem] = useState(false);
     const [selectedValue, setSelectedValue] = useState<IconSelectOption>();
     
     const { register } = useFormContext();
@@ -52,6 +55,10 @@ export default function DcReferenceField({
         return options[selectedIdx];
     }
 
+    const handleCreateOption = (value: string) => {
+        setCreatingItem(true);
+    }
+    
     function Options() {
 
         let options: IconSelectOption[] = [];
@@ -78,32 +85,37 @@ export default function DcReferenceField({
     );
 
     return (
-        <Controller
-            name={"inputfield-" + field.index}
-            key={"inputfield-" + field.index}
-            defaultValue={currentValue}
-            rules={{ required: field.required }}
-            render={renderProps => {
-                return (
-                    <Select
-                        className="react-select-container"
-                        classNamePrefix="react-select"
-                        options={options}
-                        defaultValue={currentValue}
-                        isClearable
-                        isSearchable
-                        placeholder="..."
-                        isDisabled={field.readOnly}
-                        components={{ Option: IconOption, Control }}
-                        {...register("inputfield-" + field.index)}
-                        {...renderProps.field}
-                        onChange={e => {
-                            setSelectedValue(e as IconSelectOption);
-                            renderProps.field.onChange(e);
-                        }}
-                    />
-                );
-            }}
-       />
+        <>
+            <ItemCreateModal show={creatingItem} moduleIdx={field.referencedModuleIdx} />
+
+            <Controller
+                name={"inputfield-" + field.index}
+                key={"inputfield-" + field.index}
+                defaultValue={currentValue}
+                rules={{ required: field.required }}
+                render={renderProps => {
+                    return (
+                        <CreatableSelect
+                            className="react-select-container"
+                            classNamePrefix="react-select"
+                            options={options}
+                            defaultValue={currentValue}
+                            isClearable
+                            isSearchable
+                            placeholder="..."
+                            isDisabled={field.readOnly}
+                            components={{ Option: IconOption, Control }}
+                            {...register("inputfield-" + field.index)}
+                            {...renderProps.field}
+                            onCreateOption={(value) => handleCreateOption(value)}
+                            onChange={e => {
+                                setSelectedValue(e as IconSelectOption);
+                                renderProps.field.onChange(e);
+                            }}
+                        />
+                    );
+                }}
+           />
+        </>
     )
 }
