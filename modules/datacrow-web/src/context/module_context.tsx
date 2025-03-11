@@ -29,9 +29,7 @@ export function ModuleProvider({ children }: { children: React.ReactNode }) {
 	let [filter, setFilter] = useState<string | undefined>(undefined);
 	
 	let getModule = (moduleIdx: number) => {
-        
         let module = undefined;
-        
         if (modules) {
             for (let i = 0; i < modules.length; i++) {
                 if (modules[i].index === moduleIdx)
@@ -61,6 +59,8 @@ export function ModuleProvider({ children }: { children: React.ReactNode }) {
     let getFields = (moduleIdx: number, settings: FieldSetting[]) => {
 
         let fields = new Array<Field>();
+        
+        console.log(settings);
         
         if (selectedModule) {
             for (let idx = 0; idx < settings.length; idx++) {

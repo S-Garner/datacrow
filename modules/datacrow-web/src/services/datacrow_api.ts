@@ -43,7 +43,7 @@ export interface Module {
 	name: string;
 	icon: string;
 	references: Module[];
-	isTop: boolean;
+	main: boolean;
 	hasChild: boolean;
 	child: Module;
 	fields: Field[];
@@ -257,7 +257,7 @@ export async function fetchReferences(moduleIdx: number): Promise<References[]> 
 }
 
 export async function fetchModules(): Promise<Module[]> {
-    const response = await instance.get('modules/');
+    const response = await instance.get('modules');
     return response.data;
 }
 

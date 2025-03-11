@@ -3,6 +3,8 @@ package org.datacrow.server.web.api.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.datacrow.core.security.SecuredUser;
+import org.datacrow.server.security.SecurityCenter;
 import org.datacrow.server.web.api.manager.ModuleManager;
 import org.datacrow.server.web.api.manager.ReferenceManager;
 import org.datacrow.server.web.api.model.Field;
@@ -28,8 +30,10 @@ public class ReferencesService extends DataCrowApiService {
         
     	checkAuthorization(token);
     	
+    	SecuredUser su = SecurityCenter.getInstance().getUser(token);
+
     	org.datacrow.server.web.api.model.Module webModule = 
-    			ModuleManager.getInstance().getModule(moduleIdx.intValue());
+    			ModuleManager.getInstance().getModule(su, moduleIdx.intValue());
     	
     	List<References> allReferences = new ArrayList<References>();
     	List<Reference> references;

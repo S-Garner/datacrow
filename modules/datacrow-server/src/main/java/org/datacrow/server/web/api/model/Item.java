@@ -95,7 +95,7 @@ public class Item {
 	}
 	
 	private void addFields(SecuredUser su, DcObject src, List<Integer> fields) {
-		Module m = ModuleManager.getInstance().getModule(src.getModuleIdx());
+		Module m = ModuleManager.getInstance().getModule(su, src.getModuleIdx());
 		DcModule module = DcModules.get(m.getIndex());
 		
 		Field field;

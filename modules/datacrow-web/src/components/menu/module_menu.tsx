@@ -31,8 +31,13 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 		// make sure there's always a selected module
 		if (modules.length > 0) {
 			if (moduleContext.selectedModule === null) {
-				// set the first module as selected
-				switchMainModule(modules[0])
+                for (var i = 0; i < modules.length; i++) {
+                    // set the first main module as selected
+                    if (modules[i].main) {
+                        switchMainModule(modules[i])
+                        break;
+                    }
+                }
 			} else {
 				// force a reload as the item might have been edited
 				// switchMainModule(currentModule.module);
@@ -67,6 +72,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
                     moduleContext.modules && (
                         <Dropdown.Menu>
                             {moduleContext.modules.map((module) => (
+                                module.main &&
                                 <Dropdown.Item onClick={() => switchMainModule(module)} key={"moduleMenu" + module.index}>
                                     <img src={"data:image/png;base64, " + module.icon} />
                                     &nbsp;{t(module.name)}

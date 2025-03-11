@@ -18,10 +18,10 @@ public class ModuleService extends DataCrowApiService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Module> getMainModules(@HeaderParam("authorization") String token) {
+    public List<Module> getModules(@HeaderParam("authorization") String token) {
     	checkAuthorization(token);
     	
     	SecuredUser su = SecurityCenter.getInstance().getUser(token);
-    	return ModuleManager.getInstance().getMainModules(su);
+    	return ModuleManager.getInstance().getModules(su);
     }
 }

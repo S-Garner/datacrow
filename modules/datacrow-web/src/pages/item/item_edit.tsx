@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchItem, fetchReferences, saveItem, type Field, type Item, type References } from "../../services/datacrow_api";
-import { RequireAuth, useAuth } from "../../context/authentication_context";
+import { RequireAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
 import { Button, Tab, Tabs } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
@@ -91,7 +91,6 @@ export function ItemPage() {
             saveItem(moduleIdx, itemID, data).
             then(() => {
                     setSaving(false);
-                    //message.showMessage(t("msgItemHasBeenSaved"));
                 }).
             catch(error => {
                 setSaving(false);

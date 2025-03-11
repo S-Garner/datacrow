@@ -19,8 +19,8 @@ public class Module {
 	private final String name;
 	@JsonProperty("icon")
 	private final String icon;
-	@JsonProperty("isTop")
-	private final boolean isTop;
+	@JsonProperty("main")
+	private final boolean main;
 	@JsonProperty("references")
 	private final Collection<Module> references = new ArrayList<Module>();
 	@JsonProperty("fields")
@@ -37,7 +37,7 @@ public class Module {
 	public Module(DcModule module) {
 		this.index = module.getIndex();
 		this.name = module.getModuleResourceKey();
-		this.isTop = module.isTopModule();
+		this.main = module.isSelectableInUI();
 		this.hasChild = module.isParentModule();
 		this.itemNamePlural = module.getItemPluralResourceKey();
 		this.itemName = module.getItemResourceKey();
@@ -97,8 +97,8 @@ public class Module {
 		return icon;
 	}
 	
-	public boolean getIsTop() {
-		return isTop;
+	public boolean isMain() {
+		return main;
 	}
 	
 	public String getItemName() {
