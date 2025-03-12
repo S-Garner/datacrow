@@ -18,3 +18,15 @@
     color: var(--bs-primary);
     padding-right: 5px;
 }
+
+.input-button {
+    display: inline-block;
+    width: 30px;
+    margin-right: "10px";
+}
+
+.input-dropdown {
+    display: inline-block;
+    width: calc(100% - 35px);
+    margin-right: 5px;
+}

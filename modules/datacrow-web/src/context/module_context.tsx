@@ -60,8 +60,6 @@ export function ModuleProvider({ children }: { children: React.ReactNode }) {
 
         let fields = new Array<Field>();
         
-        console.log(settings);
-        
         if (selectedModule) {
             for (let idx = 0; idx < settings.length; idx++) {
                 let field = getField(moduleIdx, settings[idx].fieldIdx); // get the field based on the index

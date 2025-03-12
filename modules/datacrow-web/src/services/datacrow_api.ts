@@ -256,6 +256,11 @@ export async function fetchReferences(moduleIdx: number): Promise<References[]> 
     return response.data;
 }
 
+export async function fetchReference(moduleIdx: number, itemID: string): Promise<Reference> {
+    const response = await instance.get(baseUrl + 'references/' + moduleIdx + '/' + itemID);
+    return response.data;
+}
+
 export async function fetchModules(): Promise<Module[]> {
     const response = await instance.get('modules');
     return response.data;

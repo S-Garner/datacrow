@@ -1,15 +1,16 @@
-import { components, type GroupBase, type OptionProps} from 'react-select'
-import CreatableSelect from 'react-select/creatable';
+import Select,{ components, type GroupBase, type OptionProps} from 'react-select'
 import type { JSX } from 'react/jsx-runtime';
 import type { InputFieldComponentProps } from './dc_input_field';
 import { Controller, useFormContext } from 'react-hook-form';
 import { ItemCreateModal } from '../../pages/item/item_create_modal';
 import { useState } from 'react';
+import { fetchReference, type Reference } from '../../services/datacrow_api';
 
 export interface IconSelectOption {
     value: string;
     label: string;
     iconUrl: string;
+    id: string;
 }
 
 const { Option } = components;
@@ -31,20 +32,20 @@ export default function DcMultiReferenceField({
     value,
     references
 }: InputFieldComponentProps) {
-
-    const [creatingItem,  setCreatingItem] = useState(false);
-    const { register } = useFormContext();
-    const options = Options();
-    const currentValue = CurrentValue();
     
-    function CurrentValue() {
-        let selection = new Array<IconSelectOption>(3);
+    const [creatingItem, setCreatingItem] = useState(false);
+    const { register } = useFormContext();
+    const [options, setOptions] = useState<IconSelectOption[]>(getOptions());
+    const [currentValue, setCurrentValue] = useState<IconSelectOption[]>(getCurrentValues());
+    
+    function getCurrentValues() {
+        let selection = new Array<IconSelectOption>();
         let idx = 0;
         
         if (value != undefined) {
             options.forEach((option: IconSelectOption) => {
-                (value as Array<String>).forEach((v) => {
-                    if (option.value === v)
+                (value as Array<Reference>).forEach((v) => {
+                    if (option.value === v.id)
                         selection[idx++] = option;
                 });
             });
@@ -52,56 +53,76 @@ export default function DcMultiReferenceField({
         
         return selection;
     }
-
-    function Options() {
+    
+    function getOptions() {
 
         let options: IconSelectOption[] = [];
 
         if (references && references.items) {
             references.items.map(reference =>
-                options.push({ value: reference.id, label: reference.name, iconUrl: reference.iconUrl }),
+                options.push({ value: reference.id, id: reference.id, label: reference.name, iconUrl: reference.iconUrl }),
             );
         }
 
         return options;
     }
     
-    const handleCreateOption = (value: string) => {
+    const handleCreateOption = () => {
         setCreatingItem(true);
     }
     
+    const onCreateItem = (itemID: string | undefined) => {
+        
+        setCreatingItem(false);
+
+        if (itemID) {
+            fetchReference(field.referencedModuleIdx, itemID).then((reference) => {
+                let option: IconSelectOption = {
+                    value: reference.id, id: reference.id, label: reference.name, iconUrl: reference.iconUrl
+                }
+
+                setOptions((options) => [...options, option]);
+                setCurrentValue((currentValue) => [...currentValue, option]);
+            });
+        }
+    }
+    
     return (
-        <>
-            <ItemCreateModal show={creatingItem} moduleIdx={field.referencedModuleIdx} />
-            
-            <Controller
-                name={"inputfield-" + field.index}
-                key={"inputfield-" + field.index}
-                defaultValue={currentValue}
-                rules={{ required: field.required }}
-                render={renderProps => {
-                    return (
-                        <CreatableSelect
-                            className="react-select-container"
-                            classNamePrefix="react-select"
-                            options={options}
-                            defaultValue={currentValue}
-                            isClearable
-                            isMulti
-                            isSearchable
-                            isDisabled={field.readOnly}
-                            onCreateOption={(value) => handleCreateOption(value)}
-                            placeholder="..."
-                            components={{ Option: IconOption }}
-                            {...register("inputfield-" + field.index)}
-                            {...renderProps.field}
-                            onChange={e => {
-                                renderProps.field.onChange(e);
-                            }}
-                        />
-                    );
-                }}
-            />
-        </>          
+        <div className="float-container" style={{ width: "100%"  }}>
+            <ItemCreateModal show={creatingItem} moduleIdx={field.referencedModuleIdx} onCreateItem={onCreateItem} />
+            <div className="float-child input-dropdown">
+                <Controller
+                    name={"inputfield-" + field.index}
+                    key={"inputfield-" + field.index}
+                    defaultValue={currentValue}
+                    rules={{ required: field.required }}
+                    render={renderProps => {
+                        return (
+                            <Select
+                                className="react-select-container"
+                                classNamePrefix="react-select"
+                                options={options}
+                                isClearable
+                                isMulti
+                                isSearchable
+                                isDisabled={field.readOnly}
+                                placeholder=""
+                                components={{ Option: IconOption }}
+                                {...register("inputfield-" + field.index)}
+                                {...renderProps.field}
+                                onChange={e => {
+                                    setCurrentValue(e as IconSelectOption[]);
+                                    renderProps.field.onChange(e);
+                                }}
+                            />
+                        );
+                    }}
+                />
+            </div>
+
+            <div className="float-child input-button" style={{  }}>
+                <i className="bi bi-plus-circle menu-icon" style={{ fontSize: "1.7rem" }} onClick={() => handleCreateOption()} ></i>
+            </div>
+        </div>
     );
 }

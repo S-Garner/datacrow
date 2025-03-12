@@ -24,16 +24,16 @@ public class ReferencesService extends DataCrowApiService {
     @GET
     @Path("/{moduleIdx}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<References> getItemsForModule(
+    public List<References> getReferences(
     		@HeaderParam("authorization") String token,
-    		@PathParam("moduleIdx") Long moduleIdx) {
+    		@PathParam("moduleIdx") int moduleIdx) {
         
     	checkAuthorization(token);
     	
     	SecuredUser su = SecurityCenter.getInstance().getUser(token);
 
     	org.datacrow.server.web.api.model.Module webModule = 
-    			ModuleManager.getInstance().getModule(su, moduleIdx.intValue());
+    			ModuleManager.getInstance().getModule(su, moduleIdx);
     	
     	List<References> allReferences = new ArrayList<References>();
     	List<Reference> references;
@@ -50,4 +50,16 @@ public class ReferencesService extends DataCrowApiService {
     	
 		return allReferences;    	
     }
+    
+    @GET
+    @Path("/{moduleIdx}/{itemID}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Reference getReference(
+    		@HeaderParam("authorization") String token,
+    		@PathParam("moduleIdx") int moduleIdx,
+    		@PathParam("itemID") String itemID) {
+        
+    	checkAuthorization(token);
+    	return ReferenceManager.getInstance().getReference(moduleIdx, itemID);
+    }    
 }

@@ -9,13 +9,15 @@ import { useMessage } from "../../context/message_context";
 
 import Form from 'react-bootstrap/Form';
 import InputField from "../../components/input/dc_input_field";
+import { FieldType } from "../../components/component_types";
 
 type Props = {
     show: boolean;
     moduleIdx: number;
+    onCreateItem: (itemID: string | undefined) => void;
 };
 
-export function ItemCreateModal({ moduleIdx, show }: Props) {
+export function ItemCreateModal({ moduleIdx, show, onCreateItem }: Props) {
 
     const [fields, setFields] = useState<Field[]>();
     const [fieldSettings, setFieldSettings] = useState<FieldSetting[]>();
@@ -25,7 +27,7 @@ export function ItemCreateModal({ moduleIdx, show }: Props) {
     const navigate = useNavigate();
     const methods = useForm();
     const { t } = useTranslation();
-    
+
     let module = moduleIdx ? moduleContext.getModule(moduleIdx) : undefined;
 
     useEffect(() => {
@@ -62,17 +64,18 @@ export function ItemCreateModal({ moduleIdx, show }: Props) {
         }
         return undefined;
     }
+    
+    const handleClose = () => {
+        onCreateItem(undefined);
+    }
 
     const onSubmit = (data: any, e: any) => {
         e.preventDefault();
-        
-        console.log("fields: " + fields);
-        console.log("field settings: " + fieldSettings);
 
         if (moduleIdx) {
             saveItem(moduleIdx, "", data).
                 then((itemID) => {
-
+                    onCreateItem(itemID);
                 }).
                 catch(error => {
                     if (error.status === 401) {
@@ -84,10 +87,10 @@ export function ItemCreateModal({ moduleIdx, show }: Props) {
                 });
         }
     }
-    
+
     return (
         <Modal centered show={show}>
-        
+
             <Modal.Header style={{ height: "3em", textAlign: "center" }}>
                 {t("lblCreatingNewItem", [String(t(String(module?.itemName)))])}<br />
             </Modal.Header>
@@ -107,9 +110,15 @@ export function ItemCreateModal({ moduleIdx, show }: Props) {
                             )
                         ))}
 
-                        <Button type="submit" key="item-details-submit-button">
-                            {t("lblSave")}
-                        </Button>
+                        <div className="float-container" style={{ float: "right" }}>
+                            <Button key="item-details-cancel-button" style={{ marginRight: "5px" }} onClick={() => handleClose()}>
+                                {t("lblCancel")}
+                            </Button>
+
+                            <Button type="submit" key="item-details-submit-button">
+                                {t("lblSave")}
+                            </Button>
+                        </div>
 
                     </Form>
                 </FormProvider>

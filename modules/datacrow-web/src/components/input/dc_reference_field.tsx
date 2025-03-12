@@ -1,15 +1,16 @@
-import { components, type ControlProps, type GroupBase, type OptionProps } from 'react-select'
-import CreatableSelect from 'react-select/creatable';
+import Select, { components, type ControlProps, type GroupBase, type OptionProps } from 'react-select'
 import type { JSX } from 'react/jsx-runtime';
 import { useState } from 'react';
 import type { InputFieldComponentProps } from './dc_input_field';
 import { useFormContext, Controller } from 'react-hook-form';
 import { ItemCreateModal } from '../../pages/item/item_create_modal';
+import { fetchReference, type Reference } from '../../services/datacrow_api';
 
 export interface IconSelectOption {
     value: string;
     label: string;
     iconUrl: string;
+    id: string;
 }
 
 const { Option } = components;
@@ -36,36 +37,52 @@ export default function DcReferenceField({
 }: InputFieldComponentProps) {
 
     const [creatingItem,  setCreatingItem] = useState(false);
-    const [selectedValue, setSelectedValue] = useState<IconSelectOption>();
-    
+    const [options, setOptions] = useState<IconSelectOption[]>(getOptions());
+    const [selectedValue, setSelectedValue] = useState<IconSelectOption>(getCurrentValue());
     const { register } = useFormContext();
-    const options = Options();
-    const currentValue = CurrentValue();
     
-    function CurrentValue() {
+    function getCurrentValue() {
         let idx = 0;
         let selectedIdx = -1;
 
         options.forEach((option) => {
-            if (option.value === value)
+            if (option.value === (value as Reference).id)
                 selectedIdx = idx;
+                
             idx++;
         });
     
         return options[selectedIdx];
     }
 
-    const handleCreateOption = (value: string) => {
+    const handleCreateOption = () => {
         setCreatingItem(true);
     }
     
-    function Options() {
+    const onCreateItem = (itemID: string | undefined) => {
+        setCreatingItem(false); // hide the modal
+
+        if (itemID) {
+            fetchReference(field.referencedModuleIdx, itemID).
+                then((reference) => {
+                    let option: IconSelectOption = {
+                        value: reference.id, id: reference.id, label: reference.name, iconUrl: reference.iconUrl
+                    }
+
+                    setOptions((options) => [...options, option]);
+                    setSelectedValue(option);
+                }
+            );
+        }
+    }  
+    
+    function getOptions() {
 
         let options: IconSelectOption[] = [];
 
         if (references && references.items) {
             references.items.map(reference =>
-                options.push({ value: reference.id, label: reference.name, iconUrl: reference.iconUrl }),
+                options.push({ id: reference.id, value: reference.id, label: reference.name, iconUrl: reference.iconUrl }),
             );
         }
 
@@ -74,10 +91,9 @@ export default function DcReferenceField({
 
     const Control = ({ children, ...props }: ControlProps<IconSelectOption, boolean, GroupBase<IconSelectOption>>) => (
         <components.Control {...props}>
-            {(  (selectedValue && selectedValue.iconUrl) || 
-                (!selectedValue && currentValue && currentValue.iconUrl)) && (
+            {(  (selectedValue && selectedValue.iconUrl)) && (
                 <img
-                    src={selectedValue ? selectedValue.iconUrl : currentValue?.iconUrl}
+                    src={selectedValue?.iconUrl}
                     style={{ width: "24px", paddingLeft: "8px" }} />
             )}
             {children}
@@ -85,37 +101,41 @@ export default function DcReferenceField({
     );
 
     return (
-        <>
-            <ItemCreateModal show={creatingItem} moduleIdx={field.referencedModuleIdx} />
+        <div className="float-container" style={{ width: "100%"  }}>
+            <ItemCreateModal show={creatingItem} moduleIdx={field.referencedModuleIdx} onCreateItem={onCreateItem} />
+            
+            <div className="float-child input-dropdown">
+                <Controller
+                    name={"inputfield-" + field.index}
+                    key={"inputfield-" + field.index}
+                    defaultValue={selectedValue}
+                    rules={{ required: field.required }}
+                    render={renderProps => {
+                        return (
+                            <Select
+                                className="react-select-container"
+                                classNamePrefix="react-select"
+                                options={options}
+                                isClearable
+                                isSearchable
+                                placeholder=""
+                                isDisabled={field.readOnly}
+                                components={{ Option: IconOption, Control }}
+                                {...register("inputfield-" + field.index)}
+                                {...renderProps.field}
+                                onChange={e => {
+                                    setSelectedValue(e as IconSelectOption);
+                                    renderProps.field.onChange(e);
+                                }}
+                            />
+                        );
+                    }}
+                />
+            </div>
 
-            <Controller
-                name={"inputfield-" + field.index}
-                key={"inputfield-" + field.index}
-                defaultValue={currentValue}
-                rules={{ required: field.required }}
-                render={renderProps => {
-                    return (
-                        <CreatableSelect
-                            className="react-select-container"
-                            classNamePrefix="react-select"
-                            options={options}
-                            defaultValue={currentValue}
-                            isClearable
-                            isSearchable
-                            placeholder="..."
-                            isDisabled={field.readOnly}
-                            components={{ Option: IconOption, Control }}
-                            {...register("inputfield-" + field.index)}
-                            {...renderProps.field}
-                            onCreateOption={(value) => handleCreateOption(value)}
-                            onChange={e => {
-                                setSelectedValue(e as IconSelectOption);
-                                renderProps.field.onChange(e);
-                            }}
-                        />
-                    );
-                }}
-           />
-        </>
+            <div className="float-child input-button" style={{  }}>
+                <i className="bi bi-plus-circle menu-icon" style={{ fontSize: "1.7rem" }} onClick={() => handleCreateOption()} ></i>
+            </div>
+        </div>
     )
 }
