@@ -13,6 +13,7 @@ import DcRatingField from "./dc_rating_field";
 import { useTranslation } from "../../context/translation_context";
 import DcRuntimeField from "./dc_runtime_field";
 import { FieldType } from "../component_types";
+import { DcIconField } from "./dc_icon_field";
 
 export interface InputFieldProps {
     field: Field,
@@ -133,6 +134,12 @@ export default function InputField({
                             key={"field-" + field.index}
                             field={field}
                             value={value} />)}
+                            
+                    {field.type === FieldType.IconField && (
+                        <DcIconField
+                            key={"field-" + field.index}
+                            field={field}
+                            value={value} />)}                            
                             
                     <Form.Control.Feedback>ok</Form.Control.Feedback>
                 </Form.Group>

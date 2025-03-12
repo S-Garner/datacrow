@@ -162,16 +162,17 @@ public class ItemManager {
 		} else {
 			
 			if (field.getValueType() == DcRepository.ValueTypes._DATE) {
-				
 				try {
 					newValue = CoreUtilities.toDate((String) newValue, "yyyy-dd-MM");
 				} catch (Exception e) {
 					logger.error("Could not set value for field [" + fieldIdx + "]", e);
 				}
-				
-			}
-
-			if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
+			} else if (field.getValueType() == DcRepository.ValueTypes._ICON) {
+				String base64 = (String) newValue;
+				if (base64 != null && base64.indexOf("base64,") > 0) {
+					cpy.setValue(fieldIdx, base64.substring(base64.indexOf("base64,") + 7));
+				}
+			} else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
 				applySingleReference(dco, fieldIdx, oldValue, newValue);
 			} else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
 				applyMultiReferences(dco, fieldIdx, oldValue, newValue);
