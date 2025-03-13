@@ -103,7 +103,7 @@ public class Item {
 		for (int fieldIdx : fields) {
 			field = m.getField(fieldIdx);
 			
-			if (   (module.getField(fieldIdx).isEnabled())  && // check on the master settings whether the field is enabled
+			if (   (module.getField(fieldIdx).isEnabled() || fieldIdx == DcObject._SYS_DISPLAYVALUE)  && // check on the master settings whether the field is enabled
 					module.getField(fieldIdx).getValueType() != DcRepository.ValueTypes._PICTURE && // prevent the picture x..z fields from appearing
 					su.isAuthorized(m.getIndex(), field.getIndex())) { // and the user needs to be authorized to see the field
 				
