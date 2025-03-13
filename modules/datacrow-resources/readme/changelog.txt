@@ -1,5 +1,5 @@
 --------------------------------------------------------------------
-Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
+Data Crow version 5.0 - Release Candidate 1 - Released on 2025-03-xx
 --------------------------------------------------------------------
 
 [Changed]
@@ -45,8 +45,6 @@ Data Crow version 5.0  BETA V                 Released on 2024-xx-xx
   msgBusyDeletingItem
   lblCreatingNewItem
   msgBusySavingItem
-- Web; referenced items
-- Web; add / edit property items
 
 [Known Issues]
 - Validation messages for saving of items will always be in the language of the Data Crow configuration.
