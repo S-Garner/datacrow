@@ -39,7 +39,7 @@ export default function DcReferenceField({
     const [creatingItem,  setCreatingItem] = useState(false);
     const [options, setOptions] = useState<IconSelectOption[]>(getOptions());
     const [selectedValue, setSelectedValue] = useState<IconSelectOption>(getCurrentValue());
-    const { register } = useFormContext();
+    const { register, setValue } = useFormContext();
     
     function getCurrentValue() {
         let idx = 0;
@@ -71,6 +71,7 @@ export default function DcReferenceField({
 
                     setOptions((options) => [...options, option]);
                     setSelectedValue(option);
+                    setValue("inputfield-" + field.index, option);
                 }
             );
         }

@@ -34,7 +34,7 @@ export default function DcMultiReferenceField({
 }: InputFieldComponentProps) {
     
     const [creatingItem, setCreatingItem] = useState(false);
-    const { register } = useFormContext();
+    const { register, setValue } = useFormContext();
     const [options, setOptions] = useState<IconSelectOption[]>(getOptions());
     const [currentValue, setCurrentValue] = useState<IconSelectOption[]>(getCurrentValues());
     
@@ -81,8 +81,12 @@ export default function DcMultiReferenceField({
                     value: reference.id, id: reference.id, label: reference.name, iconUrl: reference.iconUrl
                 }
 
+                let values = currentValue.slice(0);
+                values.push(option);
+
                 setOptions((options) => [...options, option]);
-                setCurrentValue((currentValue) => [...currentValue, option]);
+                setCurrentValue(values);
+                setValue("inputfield-" + field.index, values);
             });
         }
     }
