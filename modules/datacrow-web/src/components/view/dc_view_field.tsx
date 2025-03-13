@@ -5,6 +5,7 @@ import { FieldType } from "../component_types";
 import ViewReferenceField from "./dc_view_reference_field";
 import { Link } from "react-router-dom";
 import StarRating from "./dc_view_rating";
+import { Icon } from "../icon";
 
 export interface Props {
     field: Field,
@@ -68,10 +69,9 @@ export default function ViewField({
 
                  {field.type === FieldType.IconField && (
                     <div key={"div-" + field.index}>
-                        {value && <img src={(value as string).startsWith("data") ? (value as string) : `data:image/png;base64,${value}`} style={{ width: "auto", height: "64px" }} />}
+                        {value && <Icon value={value as string} />}
                     </div>
                  )}
-
 
                  {field.type === FieldType.RatingField && (
                     <div key={"div-" + field.index}>

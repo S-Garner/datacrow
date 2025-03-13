@@ -4,6 +4,7 @@ import FileUploadField from "./dc_file_upload";
 import { toBase64 } from "../../utils/utilities";
 import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { Icon } from "../icon";
 
 export function DcIconField({
     field,
@@ -31,7 +32,7 @@ export function DcIconField({
                 fileData && (
                     <Row >
                         <Col className="text-center" style={{ height: "100px" }}>
-                            <img src={fileData.startsWith("data") ? fileData : `data:image/png;base64,${fileData}`} style={{ width: "auto", height: "64px" }} />
+                            <Icon value={fileData} />
                         </Col>
                     </Row>
                 )
