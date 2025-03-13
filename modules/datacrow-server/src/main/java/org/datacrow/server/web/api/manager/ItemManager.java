@@ -169,10 +169,11 @@ public class ItemManager {
 				}
 			} else if (field.getValueType() == DcRepository.ValueTypes._ICON) {
 				String base64 = (String) newValue;
-				if (base64 != null && base64.indexOf("base64,") > 0) {
-					cpy.setValue(fieldIdx, base64.substring(base64.indexOf("base64,") + 7));
-				}
-			} else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
+				if (base64 != null && base64.indexOf("base64,") > 0)
+					newValue = base64.substring(base64.indexOf("base64,") + 7);
+			}
+				
+			if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
 				applySingleReference(dco, fieldIdx, oldValue, newValue);
 			} else if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION) {
 				applyMultiReferences(dco, fieldIdx, oldValue, newValue);

@@ -66,6 +66,13 @@ export default function ViewField({
                     </div>
                  )}
 
+                 {field.type === FieldType.IconField && (
+                    <div key={"div-" + field.index}>
+                        {value && <img src={(value as string).startsWith("data") ? (value as string) : `data:image/png;base64,${value}`} style={{ width: "auto", height: "64px" }} />}
+                    </div>
+                 )}
+
+
                  {field.type === FieldType.RatingField && (
                     <div key={"div-" + field.index}>
                         <StarRating rating={value as number} />

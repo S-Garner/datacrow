@@ -93,7 +93,7 @@ export default function DcReferenceField({
         <components.Control {...props}>
             {(  (selectedValue && selectedValue.iconUrl)) && (
                 <img
-                    src={selectedValue?.iconUrl}
+                    src={selectedValue?.iconUrl + '?' + Date.now()}
                     style={{ width: "24px", paddingLeft: "8px" }} />
             )}
             {children}

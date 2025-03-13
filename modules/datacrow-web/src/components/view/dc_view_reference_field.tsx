@@ -23,7 +23,7 @@ export default function ViewReferenceField({
     return (
         <Badge bg="secondary" style={{ height: "2.5em", alignItems: "center", display: "flex"}} onClick={handleOpen}>
             {reference.iconUrl && (<img
-                src={reference.iconUrl}
+                src={reference.iconUrl + '?' + Date.now()}
                 style={{ width: "24px", paddingRight: "8px" }} />)}
 
             {reference.name}

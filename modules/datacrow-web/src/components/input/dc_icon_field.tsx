@@ -1,7 +1,7 @@
 import type { InputFieldComponentProps } from "./dc_input_field";
 import { Controller, useFormContext } from "react-hook-form";
 import FileUploadField from "./dc_file_upload";
-import { fileToBase64 } from "../../utils/utilities";
+import { toBase64 } from "../../utils/utilities";
 import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
@@ -14,9 +14,11 @@ export function DcIconField({
     const [fileData, setFileData] = useState<string | undefined>(value as string);
     
     const handleImageFileSelect = async (file: File) => {
-        const data = await fileToBase64(file);
-        setFileData(String(data));
-        setValue("inputfield-" + field.index, String(data));
+        const data = await toBase64(file);
+        setFileData(data);
+        setValue("inputfield-" + field.index, data);
+        
+        console.log(data);
     }
 
     return (
