@@ -40,6 +40,10 @@ public class OverviewFieldSetting {
 		return labelKey;
 	}
 	
+	public void setEnabled(boolean b) {
+		this.enabled = b;
+	}	
+	
 	public boolean isEnabled() {
 		return enabled;
 	}

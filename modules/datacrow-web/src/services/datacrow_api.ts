@@ -49,6 +49,7 @@ export interface Module {
 	fields: Field[];
 	itemName: string;
 	itemNamePlural: string;
+	isAbstract: boolean;
 }
 
 export interface References {

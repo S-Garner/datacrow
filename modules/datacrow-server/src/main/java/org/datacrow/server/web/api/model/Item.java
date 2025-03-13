@@ -158,6 +158,11 @@ public class Item {
 				
 				value = c;
 			}
+		} else if (field.getType() == Field._DROPDOWN) {
+			
+			if (o == null)
+				value = "";
+			
 		} else if (o instanceof DcModule || o instanceof Collection) {
 			
 			value = "";

@@ -49,7 +49,7 @@ export function ItemPage() {
     }, [state.itemID]);
     
     useEffect(() => {
-        (itemID) && fetchItem(state.moduleIdx, itemID, true).
+        (itemID) && fetchItem(state.moduleIdx, itemID, false).
         then((data) => {
             setItem(data);
         }).

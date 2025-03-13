@@ -46,7 +46,7 @@ export default function DcReferenceField({
         let selectedIdx = -1;
 
         options.forEach((option) => {
-            if (option.value === (value as Reference).id)
+            if (option.value === value)
                 selectedIdx = idx;
                 
             idx++;

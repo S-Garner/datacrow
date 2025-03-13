@@ -6,6 +6,7 @@ import java.util.List;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.utilities.definitions.WebOverviewFieldDefinition;
 import org.datacrow.core.utilities.definitions.WebOverviewFieldDefinitions;
 import org.datacrow.server.web.api.model.OverviewFieldSetting;
@@ -59,20 +60,31 @@ public class OverviewFieldSettingsService extends DataCrowApiService {
         return Response.ok().build();
     }
     
-    private List<OverviewFieldSetting> getOverviewFieldSettings(int moduleIndex) {
+    private List<OverviewFieldSetting> getOverviewFieldSettings(int moduleIdx) {
     	
     	List<OverviewFieldSetting> settings = new LinkedList<OverviewFieldSetting>();
     
-    	DcModule module = DcModules.get(moduleIndex);
+    	DcModule module = DcModules.get(moduleIdx);
     	
     	WebOverviewFieldDefinitions definitions = (WebOverviewFieldDefinitions)
     			module.getSetting(
     					DcRepository.ModuleSettings.stWebOverviewFieldDefinitions);
 
     	int order = 0;
-    	for (WebOverviewFieldDefinition definition : definitions.getDefinitions()) {
-    		if (module.getField(definition.getFieldIdx()).isEnabled())
-    			settings.add(new OverviewFieldSetting(definition, order++));
+    	
+    	if (moduleIdx == DcModules._ITEM) {
+	    	for (WebOverviewFieldDefinition definition : definitions.getDefinitions()) {
+	    		if (definition.getFieldIdx() == DcObject._SYS_DISPLAYVALUE) {
+	    			OverviewFieldSetting setting = new OverviewFieldSetting(definition, order++);
+	    			setting.setEnabled(true);
+	    			settings.add(setting);
+	    		}
+	    	}
+    	} else {
+	    	for (WebOverviewFieldDefinition definition : definitions.getDefinitions()) {
+	    		if (module.getField(definition.getFieldIdx()).isEnabled())
+	    			settings.add(new OverviewFieldSetting(definition, order++));
+	    	}
     	}
     	
     	return settings;

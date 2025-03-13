@@ -33,6 +33,8 @@ public class Module {
 	private final String itemName;
 	@JsonProperty("itemNamePlural")
 	private final String itemNamePlural;
+	@JsonProperty("isAbstract")
+	private final boolean isAbstract;
 	
 	public Module(DcModule module) {
 		this.index = module.getIndex();
@@ -41,6 +43,7 @@ public class Module {
 		this.hasChild = module.isParentModule();
 		this.itemNamePlural = module.getItemPluralResourceKey();
 		this.itemName = module.getItemResourceKey();
+		this.isAbstract = module.isAbstract();
 		
 		if (hasChild)
 			this.child = new Module(module.getChild());
@@ -99,6 +102,10 @@ public class Module {
 	
 	public boolean isMain() {
 		return main;
+	}
+	
+	public boolean isAbstract() {
+		return isAbstract;
 	}
 	
 	public String getItemName() {
