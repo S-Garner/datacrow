@@ -33,6 +33,7 @@ import java.util.List;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.data.DcIconCache;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
@@ -223,6 +224,7 @@ public abstract class Query {
         if (!CoreUtilities.isEmpty(icon)) {
             try {
                 CoreUtilities.writeToFile(Base64.decode(icon.toCharArray()), file);
+                DcIconCache.getInstance().removeIcon(ID);
             } catch (Exception e) {
                 logger.warn("Could not save icon to disk", e);
             }
