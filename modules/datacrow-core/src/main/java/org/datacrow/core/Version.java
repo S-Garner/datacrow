@@ -34,7 +34,7 @@ import java.util.StringTokenizer;
  */
 public class Version implements Comparable<Version> {
 
-	private String edition = " BETA V";
+	private String edition = " Release Cadidate 1.0";
 	
     private int minor = 0;
     private int major = 0;

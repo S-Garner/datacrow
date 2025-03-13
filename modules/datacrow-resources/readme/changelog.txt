@@ -2,18 +2,71 @@
 Data Crow version 5.0 - Release Candidate 1 - Released on 2025-03-xx
 --------------------------------------------------------------------
 
+[New]
+- Picture management has been completed changed; Data Crow now allows for unlimited number of pictures to be added.
+- A new web version has been developed.
+
 [Changed]
 - Add from memory for pictures now also allowed URLs to be pasted.
 - Removed the memory usage message from the log; only shown now using the -debug option.
 - Edit as New; external references will no longer be copied as well as online service update information (as it is incorrect source documentation).
 - Create item; when the item form is accidentally closed Data Crow does not warn the user - it just closes the item form and all changes are lost.
+- Larger pictures in the quick view description panel (max 500x400).
+- Added image server address as a parameter (optional).
+- Every 12 hours a hard synch to disk is performed (by the database). The system will be a bit slower for a few seconds but operations will not be aborted. I chose to do this deliberately for long running systems - to avoid database corruption. Sessions and operations are NOT aborted when this activity is performed. 
+- Certain processes in Data Crow were too actively checking for things to do; lowered the polling frequency.
+- Improved the preview for the find and replace.
+- Improved the find and replace regular expression support.
+- Added failed login message if credentials are incorrect.
+- Added clear option to the update all form.
+- On startup the report versions (based on modification date) are checked against the systems reports. If the system reports are newer, the reports in the user folder are updated.
+- Also added the picture preview pane to the icon browser.
+- Create Multiple now adds items in top to bottom order.
+- Scrolling performance has been significantly improved for the card list.
+- Updated libraries as used by Data Crow to avoid exposure to vulnerabilities: Apache Maven plugins, IZ Pack, Metadata-extractor, Log4j, Bouncy Castle, twelvemonkeys.imageio, org.apache.tika, org.apache.pdfbox, org.jsoup, com.google.code.gson, Xalan, org.hsqldb, org.apache.xmlgraphics.
+- Jasper Reports libraries have been bumped up to version 7.0.
+- XML Export has been updated;
+  * empty values are no longer exported.
+  * a valid XSD is now generated for both individual modules as well as for the media module.
+  * IDs of items are now exported.
+  * attachments can now be exported.
+  * related references items are exported in full as well as the current summary for the item that references these.
+- XML Import has been updated:
+  * No longer need to select the module for which the items are imported. The items as part of the XML know to which module they need to imported for.
+  * IDs are respected  
+- Small layout improvements for the item form and the login dialog.
+- Extended the supported image types for the local art import for movies and music files. 
 
 [Fixed]
 - Ticket 121: date format for date input fields was incorrect for long date formats (including name of the day/month).
 - Ticket 129: alter module: conversion from single reference field to multi-reference field was not working (lost all information on conversion).
 - Ticket 129: alter module: conversion from text/number/decimal field to multi-reference and reference field was not working (errors).
+- Database: added missing index for music tracks (performance fix).
+- Port numbers were not remembered (login dialog).
+- Quick view in client-server mode sometimes did not load the pictures fully.
+- Database was not operating in logging mode - there was a fair chance information would be lost in case of a crash.
+- Database write to file delay has been set to zero meaning that Data Crow will write the information more often to disk.
+- IP address not remembered on next startup for the network client. Server details should be stored to the client settings instead.
+- Module settings are now correctly retrieved from the server. For existing clients, not much will change other than the fact that the field settings will be applied as configured on the server. New clients will have their settings based on the server configuration which can then be, in part, overwritten by the user. 
+- Performance on larger databases was very bad when grouping on multi-reference fields.
+- An issue has been fixed where Data Crow is not correctly positioning itself on the main monitor.
+- The open library book search showed a file not found exception if a book cannot be found by its ISBN.
+- The service information was incorrectly stored for the open library online book search. This fix only works for newly added items (after this fix).
+- Password could not be reset from the client (client - server mode)
+- Linux: resizing dialog/forms from the right hand side scrambles the dialog
+- Sorting on multi-reference fields was incorrect.
+- Backups created on Windows do not restore correctly on Linux.
+- Right-click menu on attachment: icon size too large.
+- Icons in main window were blurry.
+- View never updated the status bar when only 1 item has been selected.
+- Attachments menu was missing icons.
+- XML export: schema errors fixed.
 
-[Beta fixes]
+[Known Issues]
+- Validation messages for saving of items will always be in the language of the Data Crow configuration.
+
+[Beta Fixes]
+Below fixes are fixes for bugs introduced by one of the previous beta versions;
 - Resizing the quick view panel triggered and intentional reload / rebuild of the quick view. However, Java stubbornly resizes components at other times as well. Switched this off as this is hampering performance.
 - Ticket 115: list view text not updated after updating item.
 - Ticket 116: add from memory for pictures had a memory leak.
@@ -24,30 +77,6 @@ Data Crow version 5.0 - Release Candidate 1 - Released on 2025-03-xx
 - Ticket 131: sometimes the quick view is not updated when adding a new item. Data Crow then freezes completely.
 - Ticket 134: UI scaling is not saved per client. Sharing a data folder on multiple machines causes the value to be overwritten for all based on the settings of one of the clients.
 - Ticket 135: Quick view not updated when navigating in the card view with the arrow keys
-
-[TODO]:
-- Translate: 
-  lblImageServerAddress = Image Server Address
-  lblIncludeImage = Include Pictures
-  lblIncludeAttachments = Include Attachments
-  lblCopyAttachments = Copy Attachments
-  lblAfter = After
-  lblPicture = Picture
-  msgLoginFailed=You could not be logged in
-  msgLoginFailedDetails=Invalid credentials were provided. Please enter the correct username and password.
-  lblItemsPerPage = Items per page:
-  msgBusyUploadingImage
-  msgErrorUploadingImage
-  msgDragOrSelectImageFile
-  msgBusyUploadingAttachment
-  msgErrorUploadingAttachment
-  msgDeleteAreYouSure
-  msgBusyDeletingItem
-  lblCreatingNewItem
-  msgBusySavingItem
-
-[Known Issues]
-- Validation messages for saving of items will always be in the language of the Data Crow configuration.
 
 
 --------------------------------------------------------------------
