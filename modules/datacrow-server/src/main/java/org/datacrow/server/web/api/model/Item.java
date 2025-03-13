@@ -14,6 +14,7 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.security.SecuredUser;
+import org.datacrow.core.server.Connector;
 import org.datacrow.core.utilities.Base64;
 import org.datacrow.core.utilities.definitions.WebFieldDefinition;
 import org.datacrow.core.utilities.definitions.WebFieldDefinitions;
@@ -40,6 +41,8 @@ public class Item {
 	private final List<FieldValue> fields = new LinkedList<FieldValue>();
 	@JsonProperty("pictures")
 	private final List<Picture> pictures = new LinkedList<Picture>();
+	@JsonProperty("relatedItems")
+	private final List<RelatedItem> relatedItems = new LinkedList<RelatedItem>();
 	
 	private final boolean viewMode;
 	
@@ -82,8 +85,18 @@ public class Item {
 		
 		addFields(su, src, fields);
 		
-		if (viewMode)
+		if (viewMode) {
 			addPictures(src.getID());
+			addRelatedItems(src.getID());
+		}
+	}
+	
+	private void addRelatedItems(String id) {
+        Connector connector = DcConfig.getInstance().getConnector();
+        List<DcObject> references = connector.getReferencingItems(moduleIdx, id);
+        
+        for (DcObject reference : references)
+        	relatedItems.add(new RelatedItem(reference));
 	}
 	
 	private void addPictures(String id) {
@@ -205,6 +218,10 @@ public class Item {
 	
 	public int getModuleIdx() {
 		return moduleIdx;
+	}
+	
+	public List<RelatedItem> getRelatedItems() {
+		return relatedItems;
 	}	
 
 	public List<FieldValue> getFields() {

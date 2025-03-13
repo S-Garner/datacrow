@@ -9,6 +9,7 @@ import AttachmentEditList from "../../components/list/attachment_edit_list";
 import ItemDetailsMenu from "../../components/menu/item_details_menu_bar";
 import ViewField from "../../components/view/dc_view_field";
 import ChildrenOverview from "../../components/overview/item_overview_children";
+import RelatedItemList from "../../components/list/related_items_list";
 
 export function ItemViewPage() {
 
@@ -129,11 +130,18 @@ export function ItemViewPage() {
                         
                     </Tab>
 
+                    {item && item.relatedItems?.length > 0 && (
+                        <Tab eventKey="references" title={t("lblRelatedItems")}>
+                            <RelatedItemList relatedItems={item.relatedItems} />
+                        </Tab>
+                    )}
+
                     {itemID && (
                         <Tab eventKey="attachments" title={t("lblAttachments")}>
                             <AttachmentEditList itemID={itemID} />
                         </Tab>
                     )}
+                    
                 </Tabs>
             </div>
         </RequireAuth>

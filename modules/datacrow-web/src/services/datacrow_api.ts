@@ -30,6 +30,13 @@ export interface Attachment {
     displayName: string;
 }
 
+export interface RelatedItem {
+    id: string;
+    moduleIdx: number;
+    name: string;
+    scaledImageUrl: string;
+}
+
 export interface Picture {
     url: string;
     thumbUrl: string;
@@ -76,6 +83,7 @@ export interface Item {
 	imageUrl: string;
 	fields: FieldValue[];
 	pictures: Picture[];
+	relatedItems: RelatedItem[];
 }
 
 export interface FieldValue {
