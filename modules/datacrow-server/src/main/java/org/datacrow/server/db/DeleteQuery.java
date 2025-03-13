@@ -33,6 +33,7 @@ import java.util.List;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.data.DcIconCache;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
@@ -168,6 +169,9 @@ public class DeleteQuery extends Query {
         
         for (DcField field : dco.getFields()) {
             if (field.getValueType() == DcRepository.ValueTypes._ICON) {
+            	
+            	DcIconCache.getInstance().removeIcon(dco.getID());
+            	
                 file = new File(DcConfig.getInstance().getImageDir(), "icon_" + dco.getID() + ".jpg");
                 if (file.exists()) {
                     deleted = file.delete();

@@ -20,6 +20,11 @@ export function DcIconField({
         setValue("inputfield-" + field.index, data);
     }
 
+    function handleDelete() {
+        setFileData("");
+        setValue("inputfield-" + field.index, "");
+    }
+
     return (
         <div>
             <FileUploadField handleFileSelect={handleImageFileSelect} accept="image/*" />
@@ -29,6 +34,9 @@ export function DcIconField({
                     <Row>
                         <Col className="text-center" style={{ height: "100px"}}>
                             <Icon value={fileData} />
+                            <div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0"}} >
+                                <i className="bi bi-trash" onClick={() => handleDelete()} style={{fontSize:"1.2rem"}}></i>
+                            </div>
                         </Col>
                     </Row>
                 )

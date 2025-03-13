@@ -169,8 +169,12 @@ public class ItemManager {
 				}
 			} else if (field.getValueType() == DcRepository.ValueTypes._ICON) {
 				String base64 = (String) newValue;
-				if (base64 != null && base64.indexOf("base64,") > 0)
+				if (!CoreUtilities.isEmpty(oldValue) && base64.indexOf("base64,") > 0) // new values contain the text base64 in the data string
 					newValue = base64.substring(base64.indexOf("base64,") + 7);
+				else if (!CoreUtilities.isEmpty(oldValue)) // no new value has been submitted! the new value is basically the old value 
+					newValue = oldValue;
+				else
+					newValue = null; // else, the icon has been deleted
 			}
 				
 			if (field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {

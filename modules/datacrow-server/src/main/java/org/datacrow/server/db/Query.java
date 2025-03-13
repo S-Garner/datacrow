@@ -221,10 +221,11 @@ public abstract class Query {
     protected void saveIcon(String icon, DcField field, String ID) {
         File file = new File(DcConfig.getInstance().getImageDir(), "icon_" + ID + ".jpg");
         
+        DcIconCache.getInstance().removeIcon(ID);
+        
         if (!CoreUtilities.isEmpty(icon)) {
             try {
                 CoreUtilities.writeToFile(Base64.decode(icon.toCharArray()), file);
-                DcIconCache.getInstance().removeIcon(ID);
             } catch (Exception e) {
                 logger.warn("Could not save icon to disk", e);
             }
