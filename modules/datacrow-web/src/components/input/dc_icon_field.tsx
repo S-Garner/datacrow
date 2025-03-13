@@ -18,20 +18,16 @@ export function DcIconField({
         const data = await toBase64(file);
         setFileData(data);
         setValue("inputfield-" + field.index, data);
-        
-        console.log(data);
     }
 
     return (
-
-        <Container fluid>
-
+        <div>
             <FileUploadField handleFileSelect={handleImageFileSelect} accept="image/*" />
 
             {
                 fileData && (
-                    <Row >
-                        <Col className="text-center" style={{ height: "100px" }}>
+                    <Row>
+                        <Col className="text-center" style={{ height: "100px"}}>
                             <Icon value={fileData} />
                         </Col>
                     </Row>
@@ -58,7 +54,6 @@ export function DcIconField({
                     }}
                 />
             </Row>
-            
-        </Container>
+        </div>
     );
 }
