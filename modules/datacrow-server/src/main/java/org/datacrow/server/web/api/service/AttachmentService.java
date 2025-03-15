@@ -1,13 +1,11 @@
 package org.datacrow.server.web.api.service;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.apache.commons.io.FileUtils;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.utilities.CoreUtilities;
@@ -52,29 +50,26 @@ public class AttachmentService extends DataCrowApiService {
     		InputStream fileInputStream) {
         
 		checkAuthorization(token);
-		
+
+		File file = new File(CoreUtilities.getTempFolder(), fileName);
+
 		try {
-        	
-			File file = new File(CoreUtilities.getTempFolder(), fileName);
-			file.deleteOnExit();
-			
-            try (FileOutputStream out = new FileOutputStream(file)) {
-                Files.copy(fileInputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            }
+        	FileUtils.copyInputStreamToFile(fileInputStream, file);
             
 			org.datacrow.core.attachments.Attachment
 				attachment = new org.datacrow.core.attachments.Attachment(itemID, file);
 
 			attachment.setData(CoreUtilities.readFile(file));
 			AttachmentManager.getInstance().saveAttachment(attachment);
-            
-			file.delete();
-			
+
             return Response.ok().entity(getAttachments(itemID)).build();
             
         } catch (Exception e) {
             logger.error("There was an error in uploading the attachment", e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("msgErrorUploadingAttachment").build();
+        } finally {
+			if (!file.delete())
+	            file.deleteOnExit();
         }
     }    
     

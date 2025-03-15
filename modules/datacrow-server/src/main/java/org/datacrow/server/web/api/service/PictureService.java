@@ -1,13 +1,11 @@
 package org.datacrow.server.web.api.service;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.apache.commons.io.FileUtils;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
@@ -80,28 +78,25 @@ public class PictureService extends DataCrowApiService {
     		InputStream fileInputStream) {
 
 		checkAuthorization(token);
-		
-		try {
 
-        	File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + ".file");
-        	file.deleteOnExit();
-        	
-            try (FileOutputStream out = new FileOutputStream(file)) {
-                Files.copy(fileInputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            }
+    	File file = new File(CoreUtilities.getTempFolder(), CoreUtilities.getUniqueID() + ".file");
+
+		try {
+        	FileUtils.copyInputStreamToFile(fileInputStream, file);
 
             org.datacrow.core.pictures.Picture pic = new org.datacrow.core.pictures.Picture(
             		itemID, new DcImageIcon(file));
             
             PictureManager.getInstance().savePicture(pic);
             
-            file.delete();
-            
             return Response.ok().entity(getPictures(itemID)).build();
             
         } catch (Exception e) {
             logger.error("There was an error in uploading image", e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("msgErrorUploadingImage").build();
+        } finally {
+			if (!file.delete())
+	            file.deleteOnExit();
         }
     }
 	
