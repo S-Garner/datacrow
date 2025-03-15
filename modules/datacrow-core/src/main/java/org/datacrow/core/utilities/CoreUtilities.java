@@ -32,6 +32,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -939,5 +942,35 @@ public class CoreUtilities {
         }
         
         return null;    	
-    }    
+    }
+    
+    public static DcImageIcon rotateImage(DcImageIcon icon, int degrees) {
+	    BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(icon.getImage()), BufferedImage.TYPE_INT_ARGB);
+	    AffineTransform at = new AffineTransform();
+	    
+	    at.rotate(Math.toRadians(degrees), src.getWidth() / 2.0, src.getHeight() / 2.0);
+	    AffineTransform translationTransform = findTranslation (at, src);
+	    at.preConcatenate(translationTransform);
+	    BufferedImage destinationBI = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC).filter(src, null);
+	
+	    return new DcImageIcon(CoreUtilities.getBytes(new DcImageIcon(destinationBI)));
+    }
+    
+	/*
+	 * Find proper translations to keep rotated image correctly displayed
+	 */
+	private static AffineTransform findTranslation(AffineTransform at, BufferedImage bi) {
+		Point2D p2din = new Point2D.Double(0.0, 0.0);
+		Point2D p2dout = at.transform(p2din, null);
+		double ytrans = p2dout.getY();
+
+		p2din = new Point2D.Double(0, bi.getHeight());
+		p2dout = at.transform(p2din, null);
+		double xtrans = p2dout.getX();
+
+		AffineTransform tat = new AffineTransform();
+		tat.translate(-xtrans, -ytrans);
+
+		return tat;
+	}  
 }

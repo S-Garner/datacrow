@@ -31,9 +31,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.color.ColorSpace;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorConvertOp;
@@ -104,24 +101,6 @@ public class DcPicturePane extends JComponent {
 			imageIcon.getImage().flush();
 	}
     
-    /*
-     * Find proper translations to keep rotated image correctly displayed
-     */
-    public AffineTransform findTranslation(AffineTransform at, BufferedImage bi) {
-      Point2D p2din = new Point2D.Double (0.0, 0.0);
-      Point2D p2dout = at.transform (p2din, null);
-      double ytrans = p2dout.getY();
-
-      p2din = new Point2D.Double(0, bi.getHeight());
-      p2dout = at.transform(p2din, null);
-      double xtrans = p2dout.getX () ;
-
-      AffineTransform tat = new AffineTransform();
-      tat.translate(-xtrans, -ytrans);
-      
-      return tat;
-    }    
-    
     public void initialize() {
         
         repaint();
@@ -177,15 +156,8 @@ public class DcPicturePane extends JComponent {
     	
     	if (imageIcon == null) return;
     	
-        BufferedImage src = CoreUtilities.toBufferedImage(new DcImageIcon(imageIcon.getImage()), BufferedImage.TYPE_INT_ARGB);
-        AffineTransform at = new AffineTransform();
-        
-        at.rotate(Math.toRadians(degrees), src.getWidth() / 2.0, src.getHeight() / 2.0);
-        AffineTransform translationTransform = findTranslation (at, src);
-        at.preConcatenate(translationTransform);
-        BufferedImage destinationBI = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC).filter(src, null);
-
-        imageIcon = new DcImageIcon(CoreUtilities.getBytes(new DcImageIcon(destinationBI)));
+    	imageIcon = CoreUtilities.rotateImage(imageIcon, degrees);
+    	
         initialize();
         repaint();
         revalidate();

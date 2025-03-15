@@ -41,12 +41,12 @@ export function ItemPage() {
         }
     }, []);
     
-    let moduleIdx = state.moduleIdx;
+    let moduleIdx = state?.moduleIdx;
     let module = moduleIdx ? moduleContext.getModule(moduleIdx) : undefined;
     
     useEffect(() => {
-        setItemID(state.itemID);
-    }, [state.itemID]);
+        setItemID(state?.itemID);
+    }, [state?.itemID]);
     
     useEffect(() => {
         (itemID) && fetchItem(state.moduleIdx, itemID, false).

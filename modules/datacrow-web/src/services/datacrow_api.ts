@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { Translation } from '../context/translation_context';
 import type { UniqueIdentifier } from '@dnd-kit/core';
 
-const baseUrl = 'http://192.168.178.244:8081/datacrow-api/api/';
+const baseUrl = 'http://192.168.178.118:8081/datacrow-api/api/';
 
 const instance = axios.create({
     baseURL: baseUrl
@@ -152,6 +152,11 @@ export async function deletePicture(itemID: string, number: number): Promise<Pic
 
 export async function movePictureUp(itemID: string, number: number): Promise<Picture[]> {
     const response = await instance.get(baseUrl + 'pictures/moveup/' + itemID + '/' + number);
+    return response.data;
+}
+
+export async function rotatePictureRight(itemID: string, number: number): Promise<Picture[]> {
+    const response = await instance.get(baseUrl + 'pictures/rotateright/' + itemID + '/' + number);
     return response.data;
 }
 

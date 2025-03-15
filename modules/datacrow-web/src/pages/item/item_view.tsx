@@ -40,10 +40,10 @@ export function ItemViewPage() {
     }, [state?.tab]);
     
     useEffect(() => {
-        setItemID(state.itemID);
-    }, [state.itemID]);
+        setItemID(state?.itemID);
+    }, [state?.itemID]);
 
-    let moduleIdx = state.moduleIdx;
+    let moduleIdx = state?.moduleIdx;
     let module = moduleIdx ? moduleContext.getModule(moduleIdx) : undefined;
     
     useEffect(() => {

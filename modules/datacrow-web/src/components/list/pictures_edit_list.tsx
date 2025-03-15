@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deletePicture, fetchPictures, movePictureDown, movePictureUp, savePicture, type Picture } from "../../services/datacrow_api";
+import { deletePicture, fetchPictures, movePictureDown, movePictureUp, savePicture, type Picture, rotatePictureRight } from "../../services/datacrow_api";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Modal } from "react-bootstrap";
 import { useTranslation } from "../../context/translation_context";
@@ -59,6 +59,17 @@ export default function PictureEditList({itemID} : Props) {
     const handleDelete = (picture: Picture) => {
         setPicture(picture);
         setShowDeleteConfirm(true);
+    }
+    
+    const handleRotateRight = (picture: Picture) => {
+        rotatePictureRight(picture.objectID, picture.order).
+                then((data) => setPictures(data)).
+                catch(error => {
+                    console.log(error);
+                    if (error.status === 401) {
+                        navigate("/login");
+                    }
+                });
     }
     
     function uploadImage(blob: any) {
@@ -157,8 +168,11 @@ export default function PictureEditList({itemID} : Props) {
                             {(picture.order > 1) &&
                                 (<i className="bi bi-arrow-up" onClick={() => handleMovePictureUp(picture)} style={{fontSize:"1.2rem", marginLeft: "10px"}}></i>)
                             }
+
+                            <i className="bi bi-arrow-clockwise" onClick={() => handleRotateRight(picture)} style={{fontSize:"1.2rem", marginLeft: "10px"}}></i>
                             
                             <i className="bi bi-trash" onClick={() => handleDelete(picture)} style={{fontSize:"1.2rem", marginLeft: "10px"}}></i>
+
                         </div>            
                         
                     </Card.Header>

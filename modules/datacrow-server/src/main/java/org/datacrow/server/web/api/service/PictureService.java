@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import org.apache.commons.io.FileUtils;
+import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
@@ -69,6 +70,26 @@ public class PictureService extends DataCrowApiService {
 		movePictures(itemID, number, _DIRECTION_UP);
     	return getPictures(itemID);
     }
+	
+	
+	@GET
+    @Path("/rotateright/{itemID}/{number}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Picture> rotateRight(
+    		@HeaderParam("authorization") String token,
+    		@PathParam("itemID") String itemID,
+    		@PathParam("number") String number) {
+
+		checkAuthorization(token);
+
+		org.datacrow.core.pictures.Picture p = getPicture(itemID, number);
+		DcImageIcon rotated = CoreUtilities.rotateImage(p.getImageIcon(), 90);
+		p.setImageIcon(rotated);
+		
+		DcConfig.getInstance().getConnector().savePicture(p);
+		
+    	return getPictures(itemID);
+    }	
 	
 	@POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
