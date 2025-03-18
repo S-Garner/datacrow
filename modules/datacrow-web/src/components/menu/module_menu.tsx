@@ -23,9 +23,9 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
             }
         });
     }, []);
-
+    
 	function setModuleData(modules: Module[]) {
-        
+
         moduleContext.setModules(modules);
 
 		// make sure there's always a selected module
@@ -69,7 +69,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 				<Dropdown.Toggle split id="module-select-dropdown" />
 
                 {
-                    moduleContext.modules && (
+                    moduleContext.modules && moduleContext.modules instanceof Map && (
                         <Dropdown.Menu>
                             {moduleContext.modules.map((module) => (
                                 module.main &&

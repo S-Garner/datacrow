@@ -4,3 +4,5 @@
 /.metadata/
 Modules/datacrow-client/nulldc.properties
 Modules/datacrow-client/nulldc.script
+
+modules/datacrow-web/build/web.war

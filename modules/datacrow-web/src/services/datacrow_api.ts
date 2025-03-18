@@ -2,24 +2,36 @@ import axios from 'axios';
 import type { Translation } from '../context/translation_context';
 import type { UniqueIdentifier } from '@dnd-kit/core';
 
-const baseUrl = 'http://192.168.178.118:8081/datacrow-api/api/';
+let instance = axios.create({});
+let baseUrl = "";
 
-const instance = axios.create({
-    baseURL: baseUrl
-});
-
-instance.interceptors.request.use(
-    function (config) {
-        const token = localStorage.getItem("token");
+function checkInstance() {
+    if (instance.getUri() === undefined || baseUrl.length == 0) {
         
-        if (token)
-            config.headers["authorization"] = token;
+        baseUrl = (globalThis as any).apiUrl;
+        
+        instance = axios.create({
+            baseURL: (globalThis as any).apiUrl
+        });
 
-        return config;
+        instance.interceptors.request.use(
+            function(config) {
+                const token = localStorage.getItem("token");
+
+                if (token)
+                    config.headers["authorization"] = token;
+
+                return config;
+            }
+        );
     }
-);
+}
 
 export interface LoginCallBack { (user: User | null): void }
+
+export interface Config {
+    apiUrl: string;
+}
 
 export interface Attachment {
     objectID: string;
@@ -125,17 +137,20 @@ export interface Reference {
 }
 
 export async function downloadAttachment(itemID: string, name: string): Promise<Blob> {
-    const response = await instance.get(baseUrl + 'attachments/download/' + itemID + '/' + name, {responseType: 'blob'});
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'attachments/download/' + itemID + '/' + name, {responseType: 'blob'});
     return await response.data;
 }
 
 export async function deleteAttachment(itemID: string, name: string): Promise<Attachment[]> {
-    const response = await instance.delete(baseUrl + 'attachments/' + itemID + '/' + name);
+    checkInstance();
+    const response = await instance.delete((globalThis as any).apiUrl + 'attachments/' + itemID + '/' + name);
     return response.data;
 }
 
 export async function saveAttachment(data: Object, itemID: string, fileName: string): Promise<Attachment[]> {
-    const response = await instance.post(baseUrl + 'attachments', data, {
+    checkInstance();
+    const response = await instance.post((globalThis as any).apiUrl + 'attachments', data, {
         headers: {
             'Content-Type': 'multipart/form-data',
             'itemID': itemID,
@@ -146,27 +161,32 @@ export async function saveAttachment(data: Object, itemID: string, fileName: str
 }
 
 export async function deletePicture(itemID: string, number: number): Promise<Picture[]> {
-    const response = await instance.delete(baseUrl + 'pictures/' + itemID + '/' + number);
+    checkInstance();
+    const response = await instance.delete((globalThis as any).apiUrl + 'pictures/' + itemID + '/' + number);
     return response.data;
 }
 
 export async function movePictureUp(itemID: string, number: number): Promise<Picture[]> {
-    const response = await instance.get(baseUrl + 'pictures/moveup/' + itemID + '/' + number);
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'pictures/moveup/' + itemID + '/' + number);
     return response.data;
 }
 
 export async function rotatePictureRight(itemID: string, number: number): Promise<Picture[]> {
-    const response = await instance.get(baseUrl + 'pictures/rotateright/' + itemID + '/' + number);
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'pictures/rotateright/' + itemID + '/' + number);
     return response.data;
 }
 
 export async function movePictureDown(itemID: string, number: number): Promise<Picture[]> {
-    const response = await instance.get(baseUrl + 'pictures/movedown/' + itemID + '/' + number);
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'pictures/movedown/' + itemID + '/' + number);
     return response.data;
 }
 
 export async function savePicture(data: Object, itemID: string): Promise<Picture[]> {
-    const response = await instance.post(baseUrl + 'pictures', data, {
+    checkInstance();
+    const response = await instance.post((globalThis as any).apiUrl + 'pictures', data, {
         headers: {
             'Content-Type': 'multipart/form-data',
             'itemID': itemID
@@ -177,7 +197,8 @@ export async function savePicture(data: Object, itemID: string): Promise<Picture
 }
 
 export async function saveItem(moduleIdx: number, _itemID: string, data: Map<string, Object>): Promise<string> {
-    const result = await instance.post(baseUrl + 'item', data, {
+    checkInstance();
+    const result = await instance.post((globalThis as any).apiUrl + 'item', data, {
         headers: {
             'itemID': _itemID,
             'moduleIndex': moduleIdx
@@ -188,12 +209,14 @@ export async function saveItem(moduleIdx: number, _itemID: string, data: Map<str
 }
 
 export async function deleteItem(itemID: string, moduleIdx: number): Promise<Picture[]> {
-    const response = await instance.delete(baseUrl + 'item/' + moduleIdx + '/' + itemID);
+    checkInstance();
+    const response = await instance.delete((globalThis as any).apiUrl + 'item/' + moduleIdx + '/' + itemID);
     return response.data;
 }
 
 export async function login(username: string, password: string): Promise<User | null> {
-    const response = await instance.get(baseUrl + 'login/' + username, {
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'login/' + username, {
         headers: {
             'password': password
         }
@@ -208,7 +231,8 @@ export async function login(username: string, password: string): Promise<User | 
 }
 
 export async function saveFieldSettings(moduleIdx: number, fieldSettings: FieldSetting[]): Promise<FieldSetting[]> {
-    const result = await instance.post(baseUrl + 'fieldsettings', fieldSettings, {
+    checkInstance();
+    const result = await instance.post((globalThis as any).apiUrl + 'fieldsettings', fieldSettings, {
         headers: {
             'Content-Type': 'application/json',
             'moduleIndex': moduleIdx
@@ -219,12 +243,14 @@ export async function saveFieldSettings(moduleIdx: number, fieldSettings: FieldS
 }
 
 export async function fetchFieldSettings(moduleIdx: number): Promise<FieldSetting[]> {
-    const response = await instance.get(baseUrl + 'fieldsettings/' + moduleIdx);
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'fieldsettings/' + moduleIdx);
     return response.data;
 }
 
 export async function saveOverviewFieldSettings(moduleIdx: number, fieldSettings: OverviewFieldSetting[]): Promise<OverviewFieldSetting[]> {
-    const result = await instance.post(baseUrl + 'overviewfieldsettings', fieldSettings, {
+    checkInstance();
+    const result = await instance.post((globalThis as any).apiUrl + 'overviewfieldsettings', fieldSettings, {
         headers: {
             'Content-Type': 'application/json',
             'moduleIndex': moduleIdx
@@ -235,16 +261,18 @@ export async function saveOverviewFieldSettings(moduleIdx: number, fieldSettings
 }
 
 export async function fetchOverviewFieldSettings(moduleIdx: number): Promise<OverviewFieldSetting[]> {
-    const response = await instance.get(baseUrl + 'overviewfieldsettings/' + moduleIdx);
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'overviewfieldsettings/' + moduleIdx);
     return response.data;
 }
 
 export async function fetchResources(lang: string | undefined): Promise<Translation> {
+    checkInstance();
     
     if (lang === undefined)
         lang = "English";
     
-    const response = await instance.get(baseUrl + 'resources/' + lang);
+    const response = await instance.get((globalThis as any).apiUrl + 'resources/' + lang);
 
     // contruct a valid Map for easy object    
     let resources = new Map<string, string>();
@@ -256,32 +284,38 @@ export async function fetchResources(lang: string | undefined): Promise<Translat
 }
 
 export async function fetchAttachments(itemID: string): Promise<Attachment[]> {
-    const response = await instance.get(baseUrl + 'attachments/' + itemID);
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'attachments/' + itemID);
     return response.data;
 }
 
 export async function fetchPictures(itemID: string): Promise<Picture[]> {
-    const response = await instance.get(baseUrl + 'pictures/' + itemID);
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'pictures/' + itemID);
     return response.data;
 }
 
 export async function fetchReferences(moduleIdx: number): Promise<References[]> {
-    const response = await instance.get(baseUrl + 'references/' + moduleIdx);
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'references/' + moduleIdx);
     return response.data;
 }
 
 export async function fetchReference(moduleIdx: number, itemID: string): Promise<Reference> {
-    const response = await instance.get(baseUrl + 'references/' + moduleIdx + '/' + itemID);
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'references/' + moduleIdx + '/' + itemID);
     return response.data;
 }
 
 export async function fetchModules(): Promise<Module[]> {
+    checkInstance();
     const response = await instance.get('modules');
     return response.data;
 }
 
 export async function fetchItem(moduleIdx: number, itemId: string, viewMode: boolean): Promise<Item> {
-	const response = await instance.get(baseUrl + 'item/' + moduleIdx + '/' + itemId, {
+    checkInstance();
+	const response = await instance.get((globalThis as any).apiUrl + 'item/' + moduleIdx + '/' + itemId, {
         headers: {
             'viewMode': viewMode
         }
@@ -290,12 +324,14 @@ export async function fetchItem(moduleIdx: number, itemId: string, viewMode: boo
 }
 
 export async function fetchChildren(moduleIdx: number, itemId: string): Promise<Item[]> {
-    const response = await instance.get(baseUrl + 'children/' + moduleIdx + '/' +  itemId);
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'children/' + moduleIdx + '/' +  itemId);
     return response.data;
 }
 
 export async function fetchItems(moduleIdx: number, searchTerm: String | undefined): Promise<Item[]> {
-    let url = baseUrl + 'items/' + moduleIdx;
+    checkInstance();
+    let url = (globalThis as any).apiUrl + 'items/' + moduleIdx;
     
     if (searchTerm)
         url += "/" + searchTerm;
@@ -305,6 +341,7 @@ export async function fetchItems(moduleIdx: number, searchTerm: String | undefin
 }
 
 export async function searchItems(moduleIdx: number, searchTerm: String): Promise<Item[]> {
-	const response = await instance.get(baseUrl + 'items/' + moduleIdx + '/' + searchTerm);
+    checkInstance();
+	const response = await instance.get((globalThis as any).apiUrl + 'items/' + moduleIdx + '/' + searchTerm);
 	return response.data;
 }

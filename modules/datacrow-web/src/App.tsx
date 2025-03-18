@@ -15,10 +15,12 @@ import { OverviewFieldSettingsPage } from './pages/settings/overview_field_setti
 import ScrollToHashElement from './hooks/scroll_to_hash_element';
 
 export default function App() {
-    
+
     return (
         <TranslationProvider>
+
             <ScrollToHashElement />
+
             <MessageProvider>
                 <AuthProvider>
                     <ModuleProvider>
@@ -41,7 +43,7 @@ export default function App() {
 }
 
 function Layout() {
-    
+
     return (
         <div>
             <MainMenuBar />

@@ -9,6 +9,7 @@ import { useTranslation, languageArray } from '../../context/translation_context
 export function LoginPage() {
     
     const [success, setSuccess] = useState(true);
+    const [configLoaded, setConfigLoaded] = useState(false);
     
 	let navigate = useNavigate();
 	let auth = useAuth();
@@ -30,15 +31,35 @@ export function LoginPage() {
         }
     }
 
+    /**
+     * Fetch the cvonfiguration from /configuration/config.json. This file holds the URL to the API.
+     */
     useEffect(() => {
-        fetchResources(selectedLanguage).then((data) => setTranslations(data)).catch(error => 
-        {
+        fetch('/configuration/config.json')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Error in retrieving the file');
+                }
+                return response.json();
+            })
+            .then((jsonData) => {
+                (globalThis as any).apiUrl = jsonData.apiUrl;
+                setConfigLoaded(true);
+            })
+            .catch((error) => console.error('Error fetching configuration from /configuration/config.json:', error));
+    }, []);
+
+    useEffect(() => {
+        fetchResources(selectedLanguage).
+        then((data) => {
+            setTranslations(data);
+        }).catch(error => {
             console.log(error);
             if (error.status === 401) {
                 navigate("/login");    
             }
         });
-    }, [selectedLanguage]);
+    }, [selectedLanguage, configLoaded === true]);
 
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
