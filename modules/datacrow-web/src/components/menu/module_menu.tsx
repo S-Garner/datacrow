@@ -69,7 +69,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 				<Dropdown.Toggle split id="module-select-dropdown" />
 
                 {
-                    moduleContext.modules && moduleContext.modules instanceof Map && (
+                    moduleContext.modules && moduleContext.modules instanceof Array && (
                         <Dropdown.Menu>
                             {moduleContext.modules.map((module) => (
                                 module.main &&
