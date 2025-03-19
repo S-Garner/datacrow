@@ -29,7 +29,7 @@ export function ItemOverview() {
     const module = moduleContext!.selectedModule;
 
 	const [currentPage, setCurrentPage] = useState(1);
-	const [itemsPerPage, setItemsPerPage] = useState(30);
+	const [itemsPerPage, setItemsPerPage] = useState(getStoredItemsPerPages());
 
 	const itemsPerPageOptions = [30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
 
@@ -37,6 +37,16 @@ export function ItemOverview() {
 	const lastItemIndex = currentPage * itemsPerPage;
 	const firstItemIndex = lastItemIndex - itemsPerPage;
 	const currentItems = items.slice(firstItemIndex, lastItemIndex);
+
+    function getStoredItemsPerPages() {
+        let items = 30;
+        
+        if (localStorage.getItem("items_per_page")) {
+            items = Number(localStorage.getItem("items_per_page"));
+        }
+        
+        return items;
+    }
 
 	const paginate = (pageNumber: number) => {
 		setCurrentPage(pageNumber);
@@ -95,7 +105,11 @@ export function ItemOverview() {
 				{module && <PagesDropdown
 					title={t("lblItemsPerPage")  + ` ${itemsPerPage}`}
 					options={itemsPerPageOptions}
-					handleSelectOption={(option: string) => setItemsPerPage(+option)}
+					handleSelectOption={(option: string) => {
+                        localStorage.setItem("items_per_page", option);
+                        setItemsPerPage(+option);
+                    }
+                    }
 				/>}
 			</div>
 
