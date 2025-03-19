@@ -267,7 +267,11 @@ export async function fetchOverviewFieldSettings(moduleIdx: number): Promise<Ove
 }
 
 export async function fetchResources(lang: string | undefined): Promise<Translation> {
+    
     checkInstance();
+    
+    if (!instance.getUri())
+        throw new Error("Configuration not yet initialized");
     
     if (lang === undefined)
         lang = "English";
