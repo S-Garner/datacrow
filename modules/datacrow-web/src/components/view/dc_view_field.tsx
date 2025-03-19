@@ -6,6 +6,7 @@ import ViewReferenceField from "./dc_view_reference_field";
 import { Link } from "react-router-dom";
 import StarRating from "./dc_view_rating";
 import { Icon } from "../icon";
+import parse from 'html-react-parser';
 
 export interface Props {
     field: Field,
@@ -37,7 +38,7 @@ export default function ViewField({
                  field.type === FieldType.DurationField) && (
                     
                     <div key={"div-" + field.index}>
-                        {String(value)}
+                        {parse(String(value))}
                     </div>
                  )}
                  

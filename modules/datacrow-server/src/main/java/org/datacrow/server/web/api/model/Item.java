@@ -196,7 +196,14 @@ public class Item {
 		
 		} else if (viewMode) {
 			// catch all for the view mode;
-			value = formatted;
+			String s = formatted;
+
+			s = s.replaceAll("\r\n", "<br />");
+			s = s.replaceAll("\n", "<br />");
+			s = s.replaceAll("\r", "<br />");
+			s = s.replaceAll("\t", "    ");
+			
+			value = s;
 		}
 		
 		return value;
