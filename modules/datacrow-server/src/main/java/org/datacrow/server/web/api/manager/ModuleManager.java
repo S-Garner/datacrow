@@ -36,7 +36,7 @@ public class ModuleManager {
     
     public List<Module> getModules(SecuredUser su) {
         return modules.stream()
-        		.filter(module -> su.isAuthorized(module.getIndex()))
+        		.filter(module -> module.getIndex() != DcModules._USER && su.isAuthorized(module.getIndex()))
         		.collect(Collectors.toList());
     }
 }

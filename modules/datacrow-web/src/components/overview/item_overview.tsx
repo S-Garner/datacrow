@@ -82,10 +82,13 @@ export function ItemOverview() {
                     </form>
                 </div>
                 
-                <div className="float-child" style={{marginLeft: "20px"}}>
-                    <i className="bi bi-plus-circle menu-icon" style={{ fontSize: "1.7rem"}} onClick={() => handleCreateNew()} ></i>
-                </div>
-                
+                {
+                    !module?.isAbstract && (
+                        <div className="float-child" style={{marginLeft: "20px"}}>
+                            <i className="bi bi-plus-circle menu-icon" style={{ fontSize: "1.7rem"}} onClick={() => handleCreateNew()} ></i>
+                        </div>
+                    )
+                }
 			</div>
 			
 			<div style={{ float: "left", clear: "both", marginTop: "10px"}}>

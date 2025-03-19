@@ -11,6 +11,7 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.objects.DcField;
 import org.datacrow.core.objects.DcMapping;
 import org.datacrow.core.objects.DcObject;
 import org.datacrow.core.security.SecuredUser;
@@ -113,11 +114,16 @@ public class Item {
 		
 		Field field;
 		Field fieldCpy;
+		
+		DcField fld;
+		
 		for (int fieldIdx : fields) {
 			field = m.getField(fieldIdx);
 			
-			if (   (module.getField(fieldIdx).isEnabled() || fieldIdx == DcObject._SYS_DISPLAYVALUE)  && // check on the master settings whether the field is enabled
-					module.getField(fieldIdx).getValueType() != DcRepository.ValueTypes._PICTURE && // prevent the picture x..z fields from appearing
+			fld = module.getField(fieldIdx);
+			
+			if (   (fld.isEnabled() && fld.getIndex() != DcObject._ID)  && // check on the master settings whether the field is enabled
+					fld.getValueType() != DcRepository.ValueTypes._PICTURE && // prevent the picture x..z fields from appearing
 					su.isAuthorized(m.getIndex(), field.getIndex())) { // and the user needs to be authorized to see the field
 				
 				fieldCpy = new Field(field);

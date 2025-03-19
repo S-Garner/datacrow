@@ -117,7 +117,7 @@ export function ItemViewPage() {
                             )
                         ))}
                         
-                        {(itemID && module && module.hasChild) && (
+                        {(itemID && module && module.hasChild && !module.child.isAbstract) && (
                             <div id="children" style={{ marginTop: "40px" }}>
                                 <ChildrenOverview
                                     title={String(t(module.child.itemNamePlural))}

@@ -50,15 +50,17 @@ export function LoginPage() {
     }, []);
 
     useEffect(() => {
-        fetchResources(selectedLanguage).
-        then((data) => {
-            setTranslations(data);
-        }).catch(error => {
-            console.log(error);
-            if (error.status === 401) {
-                navigate("/login");    
-            }
-        });
+        if (configLoaded) {
+            fetchResources(selectedLanguage).
+            then((data) => {
+                setTranslations(data);
+            }).catch(error => {
+                console.log(error);
+                if (error.status === 401) {
+                    navigate("/login");    
+                }
+            });
+        }
     }, [selectedLanguage, configLoaded]);
 
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {

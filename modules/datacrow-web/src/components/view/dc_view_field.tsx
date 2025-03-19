@@ -81,7 +81,7 @@ export default function ViewField({
                  
                 {field.type === FieldType.CheckBox && (
                     <div key={"div-" + field.index}>
-                        {String(value)}
+                        {t(value === "true" ? "lblYes" : "lblNo")}
                     </div>
                  )}
                  
