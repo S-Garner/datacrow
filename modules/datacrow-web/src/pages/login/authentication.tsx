@@ -9,7 +9,7 @@ import { useTranslation, languageArray } from '../../context/translation_context
 export function LoginPage() {
     
     const [success, setSuccess] = useState(true);
-    const [configLoaded, setConfigLoaded] = useState(false);
+    const [configLoaded, setConfigLoaded] = useState<boolean>();
     
 	let navigate = useNavigate();
 	let auth = useAuth();
@@ -59,7 +59,7 @@ export function LoginPage() {
                 navigate("/login");    
             }
         });
-    }, [selectedLanguage, configLoaded === true]);
+    }, [selectedLanguage, configLoaded]);
 
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
