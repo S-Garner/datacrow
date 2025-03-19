@@ -63,6 +63,7 @@ Data Crow version 5.0 - Release Candidate 1 - Released on 2025-03-xx
 
 [Known Issues]
 - Validation messages for saving of items will always be in the language of the Data Crow configuration.
+- Server executable could no longer be provided due to issue with start up parameters. Any existing server executable should be removed prior to starting the server (java -jar option).
 
 [Beta Fixes]
 Below fixes are fixes for bugs introduced by one of the previous beta versions;

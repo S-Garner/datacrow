@@ -127,7 +127,7 @@
                             </versionInfo>
                         </configuration>
                     </execution>					
-                    <execution>
+                    <!-- execution>
                         <id>generate-server-executable</id>
                         <phase>validate</phase>
                         <goals>
@@ -159,7 +159,7 @@
                                 <originalFilename>datacrow.exe</originalFilename>
                             </versionInfo>
                         </configuration>
-                    </execution>
+                    </execution -->
                 </executions>
             </plugin>
             <plugin>
@@ -182,7 +182,7 @@
                             <keypass>{xV7vXjxwmSMHOd66QmsdUfHANfD5+J46Gn7n5mD82vHgAHHBAKC8+Cx2b04R8tY4}</keypass>
                         </configuration>
                     </execution>
-                    <execution>
+                    <!-- execution>
 						<id>sign-server-executable</id>
 						<phase>initialize</phase>
                         <goals>
@@ -196,7 +196,7 @@
                             <keyfile>U:/certificates/CSR/PRIVATEKEY.pem</keyfile>
                             <keypass>{xV7vXjxwmSMHOd66QmsdUfHANfD5+J46Gn7n5mD82vHgAHHBAKC8+Cx2b04R8tY4}</keypass>
                         </configuration>
-                    </execution>
+                    </execution -->
                     <execution>
 						<id>sign-installer-executable</id>
                         <goals>
