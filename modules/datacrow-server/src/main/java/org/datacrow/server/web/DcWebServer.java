@@ -31,6 +31,7 @@ import org.datacrow.core.DcConfig;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class DcWebServer {
@@ -63,6 +64,10 @@ public class DcWebServer {
         wac.setResourceBase(contextDir.toString());
         wac.setConfigurationDiscovered(true);
         wac.setParentLoaderPriority(true);
+        
+        ErrorPageErrorHandler errorHandler = new ErrorPageErrorHandler();
+        errorHandler.addErrorPage(404, "/index.html");
+        wac.setErrorHandler(errorHandler);
         
         server.setHandler(wac);
         server.setStopAtShutdown(true);
