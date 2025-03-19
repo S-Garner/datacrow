@@ -249,7 +249,7 @@ public class DcServer implements Runnable, IStarterClient, IClient {
                 
                 if (enableWebServer) {
                     try {
-                        webServer = new DcWebServer(webServerPort, serverIP);
+                        webServer = new DcWebServer(webServerPort, serverIP, apiServerPort);
                         webServer.setup();
                     } catch (Exception e) {
                         logger.error("Web server could not be started", e);

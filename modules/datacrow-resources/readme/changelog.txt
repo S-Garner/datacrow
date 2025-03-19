@@ -13,7 +13,6 @@ Data Crow version 5.0 - Release Candidate 1 - Released on 2025-03-xx
 - Create item; when the item form is accidentally closed Data Crow does not warn the user - it just closes the item form and all changes are lost.
 - Larger pictures in the quick view description panel (max 500x400).
 - Added image server address as a parameter (optional).
-- Every 12 hours a hard synch to disk is performed (by the database). The system will be a bit slower for a few seconds but operations will not be aborted. I chose to do this deliberately for long running systems - to avoid database corruption. Sessions and operations are NOT aborted when this activity is performed. 
 - Certain processes in Data Crow were too actively checking for things to do; lowered the polling frequency.
 - Improved the preview for the find and replace.
 - Improved the find and replace regular expression support.

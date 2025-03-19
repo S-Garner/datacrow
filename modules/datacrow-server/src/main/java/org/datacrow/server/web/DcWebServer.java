@@ -28,6 +28,7 @@ package org.datacrow.server.web;
 import java.io.File;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.utilities.CoreUtilities;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -43,8 +44,10 @@ public class DcWebServer {
 	/**
 	 * Creates a new instance.
 	 */
-	public DcWebServer(int port, String ip) throws Exception {
+	public DcWebServer(int port, String ip, int apiServerPort) throws Exception {
         this.server = new Server();
+        
+        createConfiguration(ip, apiServerPort);
         
         @SuppressWarnings("resource")
 		ServerConnector connector = new ServerConnector(server);
@@ -63,6 +66,26 @@ public class DcWebServer {
         
         server.setHandler(wac);
         server.setStopAtShutdown(true);
+	}
+	
+	private void createConfiguration(String ip, int apiServerPort) {
+		File file = new File(DcConfig.getInstance().getWebDir(), "configuration");
+		
+		file.mkdirs();
+		file = new File(file, "config.json");
+		
+		String text = "{\n"
+				+ "  \"apiUrl\": \"http://" + ip + ":" + apiServerPort + "/datacrow-api/api/\"\n"
+				+ "}";
+		
+		try {
+			CoreUtilities.writeToFile(text.getBytes(), file);
+		} catch (Exception e) {
+			System.out.println("Could not write configuration to: " + file);
+			System.out.println("Please check whether the file contains a valid configuration. It requires to at least contain the API server address, like so (replace 192.168.178.100 with the correct IP address and 8081 with the correct port for the API):\n {\n"
+					+ "  \"apiUrl\": \"http://192.168.178.100:8081/datacrow-api/api/\"\n"
+					+ "}");
+		}
 	}
 	
 	/**

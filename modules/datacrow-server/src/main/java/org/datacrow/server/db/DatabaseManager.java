@@ -79,7 +79,7 @@ public class DatabaseManager {
 
     private boolean initialized = false;
     
-    private final DatabaseCheckpointCreator checker;
+    private DatabaseCheckpointCreator checker;
     
     /**
      * Retrieves the sole instance of this class
@@ -92,10 +92,9 @@ public class DatabaseManager {
         return initialized;
     }
     
-    private DatabaseManager() {
-    	checker = new DatabaseCheckpointCreator();
-    }
-    
+    // checker = new DatabaseCheckpointCreator();
+    private DatabaseManager() {}
+
     /**
      * Initializes the database. A connection with the HSQL database engine is established
      * and the if needed the databases are upgraded.
@@ -137,7 +136,7 @@ public class DatabaseManager {
             initialized = true;
             
             // start the database monitoring
-            if (!checker.isAlive())
+            if (checker != null && !checker.isAlive())
             	checker.start();
             
         } catch (SQLException se) {
