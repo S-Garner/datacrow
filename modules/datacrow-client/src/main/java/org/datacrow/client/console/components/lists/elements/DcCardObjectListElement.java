@@ -157,7 +157,7 @@ public class DcCardObjectListElement extends DcObjectListElement {
 	    	}
 	
 	        add(fldPicture);
-
+	        
         } catch (Exception e) {
         	build = false;
         }

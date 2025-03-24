@@ -70,11 +70,7 @@ public class DcPicturePane extends JComponent {
     
     public void setImageIcon(DcImageIcon imageIcon) {
     	this.imageIcon = imageIcon;
-    	
-        clear();
         initialize();
-        revalidate();
-        repaint();    	
     }
     
     public boolean hasImage() {
@@ -103,8 +99,6 @@ public class DcPicturePane extends JComponent {
     
     public void initialize() {
         
-        repaint();
-        
         if (imageIcon != null) {
             imageWidth = imageIcon.getIconWidth();
             imageHeight = imageIcon.getIconHeight();
@@ -112,6 +106,9 @@ public class DcPicturePane extends JComponent {
             imageWidth = -1;
             imageHeight = -1;
         }
+        
+    	revalidate();
+        repaint();
     }   	
     
     public void grayscale() {
@@ -186,7 +183,7 @@ public class DcPicturePane extends JComponent {
     }    
     
     private void paintImage(Graphics g) {
-        
+    	
         if (g == null || imageIcon == null) return;
         
         Graphics2D g2d = (Graphics2D) g;

@@ -80,8 +80,10 @@ public class Picture implements Serializable {
     	this.filename = filename;
     }
     
-    public void prepareForTransfer() {
-    	this.bytes = getImageIcon().getBytes();
+    public void prepareForTransfer(boolean loadBytes) {
+    	if (loadBytes)
+    		this.bytes = getImageIcon().getBytes();
+    	
     	this.imageIcon = null;
     }
     

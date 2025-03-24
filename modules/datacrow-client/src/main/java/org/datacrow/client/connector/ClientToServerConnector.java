@@ -564,7 +564,8 @@ public class ClientToServerConnector extends Connector {
 		ClientRequestPictureAction cr = new ClientRequestPictureAction(
 				su, 
 				ClientRequestPictureAction._ACTION_DELETE_PICTURE,
-				picture);
+				picture,
+				false);
 		processClientRequest(cr);
 	}
 
@@ -579,7 +580,8 @@ public class ClientToServerConnector extends Connector {
 		ClientRequestPictureAction cr = new ClientRequestPictureAction(
 				su, 
 				ClientRequestPictureAction._ACTION_SAVE_PICTURE,
-				picture);
+				picture,
+				true);
 		
 		ServerPictureSaveActionResponse response = (ServerPictureSaveActionResponse) processClientRequest(cr);
 		return response.isSaved();

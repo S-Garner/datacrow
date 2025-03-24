@@ -41,7 +41,7 @@ public class ServerPicturesListResponse extends ServerResponse {
 	    this.pictures = pictures;
 	    
 	    for (Picture pic : pictures)
-	    	pic.prepareForTransfer();
+	    	pic.prepareForTransfer(false);
 	}
 	
 	public Collection<Picture> getPictures() {

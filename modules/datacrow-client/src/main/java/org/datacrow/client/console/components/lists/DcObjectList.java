@@ -416,7 +416,9 @@ public class DcObjectList extends DcList implements IViewComponent {
         renderer.start();
         
         setModel(model);
+        
         revalidate();
+        repaint();
     }
     
     @Override

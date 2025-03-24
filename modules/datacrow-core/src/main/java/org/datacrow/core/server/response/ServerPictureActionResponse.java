@@ -36,7 +36,7 @@ public class ServerPictureActionResponse extends ServerResponse {
 	public ServerPictureActionResponse(Picture picture) {
 	    super(_RESPONSE_PICTURE_ACTION);
 	    this.picture = picture;
-	    this.picture.prepareForTransfer();
+	    this.picture.prepareForTransfer(false);
 	}
 	
 	public Picture getPicture() {

@@ -38,11 +38,11 @@ public class ClientRequestPictureAction extends ClientRequest {
 	private final Picture picture;
 	private final int actionType;
 	
-    public ClientRequestPictureAction(SecuredUser su, int actionType, Picture picture) {
+    public ClientRequestPictureAction(SecuredUser su, int actionType, Picture picture, boolean loadBytes) {
         super(_REQUEST_PICTURE_ACTION, su);
         
         this.picture = picture;
-        this.picture.prepareForTransfer();
+        this.picture.prepareForTransfer(loadBytes);
         this.actionType = actionType;
     }
 
