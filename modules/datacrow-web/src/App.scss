@@ -30,3 +30,37 @@
     width: calc(100% - 35px);
     margin-right: 5px;
 }
+
+.react-select-container {
+
+    .react-select__control {
+        background-color: var(--bg-secondary);
+        border: var(--bs-border-width) solid var(--bs-border-color);
+        border-radius: var(--bs-border-radius);
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .react-select__control--is-focused {
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    .react-select__control:hover {
+        background-color: var(--bg-secondary);
+        border: var(--bs-border-width) solid var(--bs-border-color);
+        border-radius: var(--bs-border-radius);
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .react-select__menu {
+        background-color: var(--bs-secondary-bg);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+    }
+
+    .react-select__placeholder,
+    .react-select__single-value {
+        color: var(--text-primary);
+    }
+}
