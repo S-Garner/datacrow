@@ -16,7 +16,6 @@ export function DcLongTextField({
 			id={"inputfield-" + field.index}
 			key={"inputfield-" + field.index}
 			defaultValue={(value as string)}
-			placeholder={t(field.label)}
 			aria-label={field.label}
 			readOnly={field.readOnly}
 			hidden={field.hidden}

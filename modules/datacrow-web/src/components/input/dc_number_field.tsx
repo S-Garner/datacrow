@@ -27,7 +27,6 @@ export function DcNumberField({
 				}
 			}}
 			defaultValue={(value as string)}
-			placeholder={t(field.label)}
 			aria-label={field.label}
 			readOnly={field.readOnly}
 			hidden={field.hidden}

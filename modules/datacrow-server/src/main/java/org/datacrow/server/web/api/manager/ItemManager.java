@@ -166,7 +166,7 @@ public class ItemManager {
 			
 			if (field.getValueType() == DcRepository.ValueTypes._DATE) {
 				try {
-					newValue = CoreUtilities.toDate((String) newValue, "yyyy-dd-MM");
+					newValue = CoreUtilities.toDate((String) newValue, "yyyy-MM-dd");
 				} catch (Exception e) {
 					logger.error("Could not set value for field [" + fieldIdx + "]", e);
 				}

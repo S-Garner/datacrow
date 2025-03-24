@@ -32,7 +32,6 @@ export function DcDecimalField({
 				}
 			}} */
 			defaultValue={(value as string)}
-			placeholder={t(field.label)}
 			aria-label={t(field.label)}
 			hidden={field.hidden}
 			readOnly={field.readOnly}

@@ -103,8 +103,8 @@ export default function DcMultiReferenceField({
                     render={renderProps => {
                         return (
                             <Select
-                                className="react-select-container"
-                                classNamePrefix="react-select"
+                                className="react-select-container react-select"
+                                classNamePrefix="react-select "
                                 options={options}
                                 isClearable
                                 isMulti
