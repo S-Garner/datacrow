@@ -170,7 +170,10 @@ public class MusicAlbumImporter extends FileImporter {
             mt.setValue(MusicTrack._K_QUALITY, musicFile.getBitrate() <= 0 ? null : Long.valueOf(musicFile.getBitrate()));
             mt.setValue(MusicTrack._J_PLAYLENGTH, musicFile.getLength() <= 0 ? null : Long.valueOf(musicFile.getLength()));
             mt.setValue(MusicTrack._L_ENCODING, musicFile.getEncodingType());
-            mt.setValue(MusicTrack._A_TITLE, musicFile.getTitle());
+            
+            if (!CoreUtilities.isEmpty(musicFile.getTitle()))
+            	mt.setValue(MusicTrack._A_TITLE, musicFile.getTitle());
+            
             mt.setValue(MusicTrack._C_YEAR, year);
             mt.setValue(MusicTrack._F_TRACKNUMBER, track <= 0 ? null : Long.valueOf(track));
             

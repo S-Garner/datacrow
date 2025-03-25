@@ -138,7 +138,9 @@ public class MusicAlbumSynchronizer extends DefaultSynchronizer {
             artists2 = artists2 == null ? new ArrayList<DcMapping>() : artists2;
             for (DcObject person1 : artists1) {
                 for (DcObject person2 : artists2) {
-                    matches = StringUtils.equals(person1.toString(), person2.toString()); 
+                    matches = 
+                    		StringUtils.equals(person1.toString(), person2.toString()) || 
+                    		person2.toString().toLowerCase().startsWith(person1.toString().toLowerCase()); 
                     if (matches) break;
                 }
             }

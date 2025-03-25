@@ -28,15 +28,14 @@ package org.datacrow.client.console.windows.fileimport;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.datacrow.client.console.ComponentFactory;
 import org.datacrow.client.console.GUI;
 import org.datacrow.client.console.Layout;
 import org.datacrow.client.console.components.DcCheckBox;
 import org.datacrow.client.console.components.DcLongTextField;
-import org.datacrow.client.console.components.DcShortTextField;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.resources.DcResources;
@@ -49,7 +48,7 @@ public class LocalArtSettingsPanel extends JPanel {
     private final DcCheckBox cbRecurse = ComponentFactory.getCheckBox(DcResources.getText("lblRecursiveDir"));
     private final DcCheckBox cbEnabled = ComponentFactory.getCheckBox(DcResources.getText("lblEnabled"));
     
-    private final DcShortTextField txtFront = ComponentFactory.getShortTextField(255);
+    private final DcLongTextField txtWords = ComponentFactory.getLongTextField();
     
     public LocalArtSettingsPanel(int module) {
         this.module = module;
@@ -60,11 +59,11 @@ public class LocalArtSettingsPanel extends JPanel {
         Settings settings = DcModules.get(module).getSettings();
         settings.set(DcRepository.ModuleSettings.stImportLocalArt, cbEnabled.isSelected());
         settings.set(DcRepository.ModuleSettings.stImportLocalArtRecurse, cbRecurse.isSelected());
-        settings.set(DcRepository.ModuleSettings.stImportLocalArtFrontKeywords, txtFront.getText());
+        settings.set(DcRepository.ModuleSettings.stImportLocalArtKeywords, txtWords.getText());
     }
     
     public void clear() {
-        if (txtFront.getText().length() == 0) {
+        if (txtWords.getText().length() == 0) {
             GUI.getInstance().displayWarningMessage("msgPleaseEnterKeywords");
             return;
         } else {
@@ -88,22 +87,11 @@ public class LocalArtSettingsPanel extends JPanel {
         pnlPatterns.setLayout(Layout.getGBL());
         pnlPatterns.setBorder(ComponentFactory.getTitleBorder(""));
 
-        JLabel lblFront = ComponentFactory.getLabel(DcResources.getText("lblPictureFront"));
-        JLabel lblBack = ComponentFactory.getLabel(DcResources.getText("lblPictureBack"));
-        JLabel lblMedia = ComponentFactory.getLabel(DcResources.getText("lblPictureMedia"));
-
-        pnlPatterns.add(  lblFront,  Layout.getGBC( 0, 0, 1, 1, 1.0, 1.0
-                ,GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE,
-                 new Insets(5, 5, 5, 5), 0, 0));
-        pnlPatterns.add(  txtFront,  Layout.getGBC( 1, 0, 1, 1, 1.0, 1.0
-                ,GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL,
+        JScrollPane spWords = new JScrollPane(txtWords);
+        
+        pnlPatterns.add(spWords, Layout.getGBC( 1, 0, 1, 1, 1.0, 1.0
+                ,GridBagConstraints.SOUTHWEST, GridBagConstraints.BOTH,
                 new Insets(5, 5, 5, 5), 0, 0));
-        pnlPatterns.add(  lblBack,  Layout.getGBC( 0, 1, 1, 1, 1.0, 1.0
-                ,GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE,
-                 new Insets(5, 5, 5, 5), 0, 0));
-        pnlPatterns.add(  lblMedia,  Layout.getGBC( 0, 2, 1, 1, 1.0, 1.0
-                ,GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE,
-                 new Insets(5, 5, 5, 5), 0, 0));
         
         pnlPatterns.setBorder(ComponentFactory.getTitleBorder(DcResources.getText("lblArtKeywords")));
         
@@ -122,12 +110,12 @@ public class LocalArtSettingsPanel extends JPanel {
         add(    cbRecurse,     Layout.getGBC( 0, 3, 1, 1, 1.0, 1.0
                ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                 new Insets( 5, 5, 5, 5), 0, 0));
-        add(    pnlPatterns,  Layout.getGBC( 0, 4, 1, 1, 1.0, 1.0
-               ,GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+        add(    pnlPatterns,  Layout.getGBC( 0, 4, 1, 1, 1.0, 20.0
+               ,GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
                 new Insets( 5, 5, 5, 5), 0, 0));
         
         Settings settings = DcModules.get(module).getSettings();
-        txtFront.setText(settings.getString(DcRepository.ModuleSettings.stImportLocalArtFrontKeywords));
+        txtWords.setText(settings.getString(DcRepository.ModuleSettings.stImportLocalArtKeywords));
         cbEnabled.setSelected(settings.getBoolean(DcRepository.ModuleSettings.stImportLocalArt));
         cbRecurse.setSelected(settings.getBoolean(DcRepository.ModuleSettings.stImportLocalArtRecurse));
     }

@@ -1,10 +1,11 @@
 --------------------------------------------------------------------
-Data Crow version 5.0 - Release Candidate 1 - Released on 2025-03-xx
+Data Crow version 5.0 - Release Candidate 1 - Released on 2025-03-25
 --------------------------------------------------------------------
 
 [New]
 - Picture management has been completed changed; Data Crow now allows for unlimited number of pictures to be added.
-- A new web version has been developed.
+- A completely new web version has been created. Start the server using the startup parameters and navigate to:
+  http://<web server IP address>:<web server port>
 
 [Changed]
 - Add from memory for pictures now also allowed URLs to be pasted.
@@ -22,6 +23,7 @@ Data Crow version 5.0 - Release Candidate 1 - Released on 2025-03-xx
 - Also added the picture preview pane to the icon browser.
 - Create Multiple now adds items in top to bottom order.
 - Scrolling performance has been significantly improved for the card list.
+- Performance improvements for client-server mode have been made.
 - Updated libraries as used by Data Crow to avoid exposure to vulnerabilities: Apache Maven plugins, IZ Pack, Metadata-extractor, Log4j, Bouncy Castle, twelvemonkeys.imageio, org.apache.tika, org.apache.pdfbox, org.jsoup, com.google.code.gson, Xalan, org.hsqldb, org.apache.xmlgraphics.
 - Jasper Reports libraries have been bumped up to version 7.0.
 - XML Export has been updated;
@@ -37,9 +39,9 @@ Data Crow version 5.0 - Release Candidate 1 - Released on 2025-03-xx
 - Extended the supported image types for the local art import for movies and music files. 
 
 [Fixed]
-- Ticket 121: date format for date input fields was incorrect for long date formats (including name of the day/month).
 - Ticket 129: alter module: conversion from single reference field to multi-reference field was not working (lost all information on conversion).
 - Ticket 129: alter module: conversion from text/number/decimal field to multi-reference and reference field was not working (errors).
+- Ticket 136: Book; cannot search for ISBN. Updated the book module, allowing ISBN, pages, volume name, edition comment and original year of release to be searched.
 - Database: added missing index for music tracks (performance fix).
 - Port numbers were not remembered (login dialog).
 - Quick view in client-server mode sometimes did not load the pictures fully.
@@ -72,6 +74,9 @@ Below fixes are fixes for bugs introduced by one of the previous beta versions;
 - Ticket 116: add from memory for pictures had a memory leak.
 - Ticket 117: quick view is not reflecting picture /​ image changes
 - Ticket 118: memory leak for the backup process.
+- Ticket 119: date format for date input fields was incorrect for long date formats (including name of the day/month).
+- Ticket 121: date format for date input fields was incorrect for long date formats (including name of the day/month).
+
 - Ticket 122: Memory Leak while adding images to items.
 - Ticket 130: tree not updated when item has been updated.   
 - Ticket 131: sometimes the quick view is not updated when adding a new item. Data Crow then freezes completely.

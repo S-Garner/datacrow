@@ -453,7 +453,7 @@ public class DcModuleSettings extends Settings {
                             false, module.getIndex()));
         addSetting(_General,
                 new Setting(DcRepository.ValueTypes._STRING,
-                            DcRepository.ModuleSettings.stImportLocalArtFrontKeywords,
+                            DcRepository.ModuleSettings.stImportLocalArtKeywords,
                             "front,cover,case",
                             -1,
                             "",

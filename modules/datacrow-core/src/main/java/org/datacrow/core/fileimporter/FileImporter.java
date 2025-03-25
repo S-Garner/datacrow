@@ -370,11 +370,12 @@ public abstract class FileImporter {
                 name1 = name1.substring(0, name1.lastIndexOf(".") > 0 ? name1.lastIndexOf(".") : name1.length());
                 name2 = name2.substring(0, name2.lastIndexOf(".") > 0 ? name2.lastIndexOf(".") : name2.length());
                 
-                if (StringUtils.equals(name1, name2)) {
+                if (	StringUtils.equals(name1, name2) ||
+                		client.getDirectoryUsage() > 0) {
                 	
                 	picture = new Picture(dco.getID(), file);
                 	
-                	if (match(DcRepository.ModuleSettings.stImportLocalArtFrontKeywords, file)) {
+                	if (match(DcRepository.ModuleSettings.stImportLocalArtKeywords, file)) {
                 		pictures.addFirst(picture);
                         break;
                 	} else {

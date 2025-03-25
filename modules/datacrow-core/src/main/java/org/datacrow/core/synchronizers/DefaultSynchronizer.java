@@ -135,7 +135,7 @@ public abstract class DefaultSynchronizer extends Synchronizer {
             }
         }
             
-        if (!updated) {
+        if (!updated && !StringUtils.normalize(searchString).equals(searchString)) {
             searchString = StringUtils.normalize(searchString);
             client.notify(DcResources.getText("msgSearchingOnlineFor", searchString));
             results.clear();

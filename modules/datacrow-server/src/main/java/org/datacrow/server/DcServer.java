@@ -106,8 +106,8 @@ public class DcServer implements Runnable, IStarterClient, IClient {
         
         int port = 9000;
         int webServerPort = -1;
-        int imageServerPort = 9001;
-        int apiServerPort = 9002;
+        int imageServerPort = 8081;
+        int apiServerPort = 8082;
         
         String username = "sa";
         String password = null;
@@ -348,13 +348,19 @@ public class DcServer implements Runnable, IStarterClient, IClient {
         System.out.println("Specifies the port to be used by the application server.");
         System.out.println("Example: java -jar datacrow-server.jar -port:9000");
         System.out.println("");
-        System.out.println("-imageserverport:<port number>");
-        System.out.println("Specifies the port to be used by the image server.");
-        System.out.println("Example: java -jar datacrow-server.jar -imageserverport:9001");
-        System.out.println("");
         System.out.println("-webserverport:<port number>");
-        System.out.println("OPTIONAL: specifies the port to use for the web server. If not supplied, the web server module will not be started.");
+        System.out.println("OPTIONAL: specifies the port to use for the web server. If not supplied, the web server module will NOT be started.");
         System.out.println("Example: -webserverport:8080");
+        System.out.println("");
+        System.out.println("-imageserverport:<port number>");
+        System.out.println("DEFAULT: 8081 - if not specified");
+        System.out.println("OPTIONAL: Specifies the port to be used by the image server.");
+        System.out.println("Example: java -jar datacrow-server.jar -imageserverport:8081");
+        System.out.println("");
+        System.out.println("-apiserverport:<port number>");
+        System.out.println("DEFAULT: 8082 - if not specified");
+        System.out.println("OPTIONAL: Specifies the port to be used by the API server. The API is required for the web version to be operational.");
+        System.out.println("Example: java -jar datacrow-server.jar -apiserverport:8082");
         System.out.println("");
         System.out.println("-debug");
         System.out.println("OPTIONAL: Debug mode for additional system event information.");
