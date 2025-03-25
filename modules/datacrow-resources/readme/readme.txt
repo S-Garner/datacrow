@@ -134,7 +134,7 @@ If you use multiple Data Crow installations you have several choices to make:
 The various parameters you can use are listed below:
     
     -client
-     This has to be used in case you want to connect to a client.
+     This has to be used in case you want to connect to a server.
     
     -db:<database name> 
      Forces Data Crow to use another database.
