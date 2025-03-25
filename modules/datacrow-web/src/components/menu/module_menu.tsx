@@ -31,10 +31,17 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 		// make sure there's always a selected module
 		if (modules.length > 0) {
 			if (moduleContext.selectedModule === null) {
+                
+                var storedModuleIdx =  localStorage.getItem("module-index");
+                
                 for (var i = 0; i < modules.length; i++) {
                     // set the first main module as selected
-                    if (modules[i].main) {
+                    if (modules[i].main && !storedModuleIdx) {
                         switchMainModule(modules[i])
+                        break;
+                    // or, we use the stored module index
+                    } else if (storedModuleIdx && modules[i].main && String(modules[i].index) === String(storedModuleIdx)) {
+                        switchMainModule(modules[i]);
                         break;
                     }
                 }
@@ -51,6 +58,7 @@ function ModuleMenu({ children }: { children: JSX.Element }) {
 		setMainModule(m);
 		setSelectedModule(m);
 		moduleContext.switchModule(m, m);
+		localStorage.setItem("module-index", String(m.index));
 	}
 	
 	function switchModule(m : Module) {

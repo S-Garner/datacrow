@@ -42,10 +42,13 @@ export function ColorStyleMenu() {
 }
 
 export default function MainMenuBar() {
+    
+    let navigate = useNavigate();
+    
 	return (
 		<div style={{paddingBottom: "70px"}}>
 		
-			<div style={{float:"left", position: "relative", width:"50em", left: "50%", marginLeft: "-25em"}}>
+			<div style={{float:"left", position: "relative", width:"50em", left: "50%", marginLeft: "-25em"}} onClick={() => navigate("/")}>
 				<img src={logo} alt="Logo" width={"50em"} /><b>Data Crow Web</b>
 			</div>
 			
