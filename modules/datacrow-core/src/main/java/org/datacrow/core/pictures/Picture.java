@@ -25,9 +25,12 @@
 
 package org.datacrow.core.pictures;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
@@ -199,10 +202,18 @@ public class Picture implements Serializable {
     
     public DcImageIcon getImageIcon() {
     	if (imageIcon == null) {
-    		if (bytes != null)
+    		if (bytes != null) {
     			imageIcon = new DcImageIcon(bytes);
-    		else
+    		} else if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
+    			try {
+    				Image image = ImageIO.read(new URL(url));
+    				imageIcon = new DcImageIcon(image);
+    			} catch (Exception ioe) {
+    				logger.error("Could not read image from URL: " + url, ioe);
+    			}
+    		} else {  
     			imageIcon = new DcImageIcon(filename);
+    		}
     	}
     	
     	return imageIcon;

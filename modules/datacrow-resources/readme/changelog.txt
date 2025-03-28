@@ -1,4 +1,13 @@
 --------------------------------------------------------------------
+Data Crow version 5.0                         Released on 2025-04-xx
+--------------------------------------------------------------------
+
+[Fixed]
+- Pictures not shown in picture list for client-server mode.
+- Log on error after the first attempt has failed.
+
+
+--------------------------------------------------------------------
 Data Crow version 5.0 - Release Candidate 1 - Released on 2025-03-25
 --------------------------------------------------------------------
 
