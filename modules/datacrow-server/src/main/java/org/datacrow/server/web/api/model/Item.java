@@ -38,6 +38,8 @@ public class Item {
 	private final String imageUrl;
 	@JsonProperty("icon")
 	private String icon;
+	@JsonProperty("parentID")
+	private String parentID;
 	@JsonProperty("fields")
 	private final List<FieldValue> fields = new LinkedList<FieldValue>();
 	@JsonProperty("pictures")
@@ -58,6 +60,7 @@ public class Item {
 		id = src.getID();
 		name = src.toString();
 		moduleIdx = src.getModuleIdx();
+		parentID = src.getParentID();
 
 		List<Integer> fields = new LinkedList<Integer>();
 
@@ -207,6 +210,10 @@ public class Item {
 		}
 		
 		return value;
+	}
+	
+	public String getParentID() {
+		return parentID;
 	}
 	
 	public String getImageUrl() {

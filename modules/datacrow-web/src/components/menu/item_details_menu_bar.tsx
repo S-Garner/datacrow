@@ -6,16 +6,18 @@ import { useTranslation } from "../../context/translation_context";
 import { deleteItem } from "../../services/datacrow_api";
 import { useMessage } from "../../context/message_context";
 import BusyModal from "../message/busy_modal";
+import { useModule } from "../../context/module_context";
 
 interface Props {
     moduleIdx: number;
     itemID: string | undefined;
+    parentID: string | undefined;
     formTitle: string | undefined;
     editMode: boolean;
     navigateBackTo: string;
 }
 
-export default function ItemDetailsMenu({moduleIdx, itemID, formTitle, navigateBackTo, editMode} : Props)  {
+export default function ItemDetailsMenu({moduleIdx, itemID, parentID, formTitle, navigateBackTo, editMode} : Props)  {
     
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deleting, setDeleting] = useState(false);
@@ -23,6 +25,8 @@ export default function ItemDetailsMenu({moduleIdx, itemID, formTitle, navigateB
     const navigate = useNavigate();
     const message = useMessage();
     const auth = useAuth();
+    
+    const moduleContext = useModule();
     
     const { t } = useTranslation();
     
@@ -50,7 +54,13 @@ export default function ItemDetailsMenu({moduleIdx, itemID, formTitle, navigateB
             deleteItem(itemID, moduleIdx).
                 then(() => {
                     setDeleting(false);
-                    navigate('/');
+                    
+                    if (parentID) {
+                        let parentModuleIdx = moduleContext.selectedModule.index; 
+                        navigate('/item_view', { state: { itemID: parentID, moduleIdx: parentModuleIdx }});
+                    } else {
+                        navigate('/');
+                    }
                 }).
                 catch(error => {
                     setDeleting(false);

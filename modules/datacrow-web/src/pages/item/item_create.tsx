@@ -116,6 +116,7 @@ export function ItemCreatePage() {
                                 <ItemDetailsMenu
                                         moduleIdx={moduleIdx}
                                         editMode={true} 
+                                        parentID={parentID}
                                         itemID={undefined} 
                                         formTitle={t("lblCreatingNewItem", [String(t(module.itemName))])}                             
                                         navigateBackTo="/item_create" />

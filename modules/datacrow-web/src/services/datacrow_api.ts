@@ -96,6 +96,7 @@ export interface Item {
 	fields: FieldValue[];
 	pictures: Picture[];
 	relatedItems: RelatedItem[];
+	parentID: string;
 }
 
 export interface FieldValue {

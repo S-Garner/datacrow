@@ -76,6 +76,7 @@ export function ItemViewPage() {
                                 moduleIdx={moduleIdx}
                                 editMode={false}
                                 itemID={itemID}
+                                parentID={item?.parentID}
                                 formTitle={item?.name}
                                 navigateBackTo="/item_view" />)
                         }
