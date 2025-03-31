@@ -87,7 +87,7 @@ export function ItemPage() {
         
         if (itemID && moduleIdx) {
             setSaving(true);
-            saveItem(moduleIdx, itemID, data).
+            saveItem(moduleIdx, itemID, "", data).
             then(() => {
                     setSaving(false);
                 }).
