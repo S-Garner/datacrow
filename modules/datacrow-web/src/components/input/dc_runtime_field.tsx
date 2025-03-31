@@ -12,9 +12,9 @@ const DcRuntimeField: React.FC<InputFieldComponentProps> = ({ field, value, ...r
 
     const [runtime, setRuntime] = useState<number>(value as number);
     
-    const [hours, setHours] = useState<number>();
-    const [minutes, setMinutes] = useState<number>();
-    const [seconds, setSeconds] = useState<number>();
+    const [hours, setHours] = useState<number>(0);
+    const [minutes, setMinutes] = useState<number>(0);
+    const [seconds, setSeconds] = useState<number>(0);
     
     const { register, setValue } = useFormContext();
 
