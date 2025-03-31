@@ -153,6 +153,7 @@ export function ItemPage() {
                             <Tab eventKey="children" title={t(module.child.name)} key="children-tab">
                                 <ChildrenOverview
                                     title=""
+                                    editMode={true}
                                     itemID={itemID}
                                     moduleIdx={module.child.index}
                                     parentModuleIdx={module.index}

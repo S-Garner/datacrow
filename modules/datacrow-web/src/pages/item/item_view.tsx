@@ -122,6 +122,7 @@ export function ItemViewPage() {
                                 <ChildrenOverview
                                     title={String(t(module.child.itemNamePlural))}
                                     itemID={itemID}
+                                    editMode={false}
                                     moduleIdx={module.child.index}
                                     parentModuleIdx={module.index}
                                     navigateBackTo="/item_view" />

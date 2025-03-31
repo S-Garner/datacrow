@@ -8,13 +8,14 @@ import { useNavigate } from "react-router-dom";
 
 type Props = {
     itemID: string;
+    editMode: boolean;
     moduleIdx: number;
     navigateBackTo: string;
     parentModuleIdx: number;
     title: string;
 };
 
-export default function ChildrenOverview({moduleIdx, parentModuleIdx, itemID, navigateBackTo, title} : Props) {
+export default function ChildrenOverview({moduleIdx, parentModuleIdx, itemID, editMode, navigateBackTo, title} : Props) {
 
     const moduleContext = useModule();
     const [children, setChildren] = useState<Item[]>();
@@ -30,18 +31,19 @@ export default function ChildrenOverview({moduleIdx, parentModuleIdx, itemID, na
     
     const handleOpen = (moduleIdx: number, itemID: string) => {
         navigate('/item_view', { state: { itemID, moduleIdx }});
-    } 
+    }
     
     return (
         <>
-            {!module?.isAbstract && (<ChildrenOverviewSettingsMenu
-                moduleIdx={moduleIdx}
-                editMode={true} 
-                itemID={itemID}
-                title={title}
-                navigateBackTo={navigateBackTo}
-                parentModuleIdx={parentModuleIdx} /> 
-            )}        
+            {!module?.isAbstract && 
+                (<ChildrenOverviewSettingsMenu
+                    moduleIdx={moduleIdx}
+                    editMode={editMode} 
+                    itemID={itemID}
+                    title={title}
+                    navigateBackTo={navigateBackTo}
+                    parentModuleIdx={parentModuleIdx} /> 
+                )}        
         
             <Table bordered hover>
             
@@ -63,9 +65,9 @@ export default function ChildrenOverview({moduleIdx, parentModuleIdx, itemID, na
             
                 {children && children.map((child) => (
                     <tbody>
-                        <tr onClick={ () => handleOpen(child.moduleIdx, child.id) }>
+                        <tr>
                             {child.fields.map((fieldValue) => (
-                                <td>
+                                <td onClick={ () => handleOpen(child.moduleIdx, child.id) }>
                                     {fieldValue.value && String(fieldValue.value)}
                                 </td>
                             ))}

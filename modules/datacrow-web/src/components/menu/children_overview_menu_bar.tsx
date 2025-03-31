@@ -17,7 +17,7 @@ interface Props {
     parentModuleIdx: number;
 }
 
-export default function ChildrenOverviewSettingsMenu({moduleIdx, itemID, navigateBackTo, parentModuleIdx, title} : Props)  {
+export default function ChildrenOverviewSettingsMenu({moduleIdx, itemID, editMode, navigateBackTo, parentModuleIdx, title} : Props)  {
     
     const navigate = useNavigate();
     const auth = useAuth();
@@ -38,7 +38,7 @@ export default function ChildrenOverviewSettingsMenu({moduleIdx, itemID, navigat
         <div style={{ float: "right", width: "100%", marginBottom: "5px" }}>
             <div style={{ float: "right" }} className="float-child">
 
-                {!module?.isAbstract && 
+                {!module?.isAbstract && editMode &&
                     <i className="bi bi-plus-circle menu-icon" style={{ fontSize: "1.7rem"}} onClick={() => handleCreateNew()} ></i>}
 
                 {auth.user && auth.user.admin &&
