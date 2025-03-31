@@ -80,7 +80,7 @@ export function ItemCreatePage() {
             saveItem(moduleIdx, "", parentID, data).
             then((itemID) => {
                 setSaving(false);
-                navigate('/item_edit', { replace: true, state: { itemID, moduleIdx, parentID }});
+                navigate('/item_edit', { replace: true, state: { itemID, moduleIdx }});
             }).
             catch(error => {
                 setSaving(false);
