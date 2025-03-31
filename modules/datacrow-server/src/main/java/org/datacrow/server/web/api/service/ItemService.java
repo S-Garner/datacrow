@@ -47,7 +47,8 @@ public class ItemService extends DataCrowApiService {
     public Response save(
     		@HeaderParam("authorization") String token, 
     		@HeaderParam("moduleIndex") int moduleIndex, 
-    		@HeaderParam("itemID") String itemID,		
+    		@HeaderParam("itemID") String itemID,
+    		@HeaderParam("parentID") String parentID,
     		Map<Object, Object> data) {
     	
     	checkAuthorization(token);
@@ -58,6 +59,9 @@ public class ItemService extends DataCrowApiService {
     			DcModules.get(moduleIndex).getItem() : 
     				DcConfig.getInstance().getConnector().getItem(moduleIndex, itemID);
 
+    	if (!CoreUtilities.isEmpty(parentID))
+    		dco.setValue(dco.getParentReferenceFieldIndex(), parentID);
+    	
     	try {
     		ItemManager.getInstance().saveItem(data, dco, isNew);
     	} catch (ValidationException ve) {

@@ -196,11 +196,12 @@ export async function savePicture(data: Object, itemID: string): Promise<Picture
     return response.data;
 }
 
-export async function saveItem(moduleIdx: number, _itemID: string, data: Map<string, Object>): Promise<string> {
+export async function saveItem(moduleIdx: number, _itemID: string, _parentID: string, data: Map<string, Object>): Promise<string> {
     checkInstance();
     const result = await instance.post((globalThis as any).apiUrl + 'item', data, {
         headers: {
             'itemID': _itemID,
+            'parentID': _parentID,
             'moduleIndex': moduleIdx
         }
     });

@@ -34,6 +34,7 @@ export function ItemCreatePage() {
     
     let moduleIdx = state?.moduleIdx;
     let module = moduleIdx ? moduleContext.getModule(moduleIdx) : undefined;
+    let parentID = state?.parentID;
     
     useEffect(() => {
         moduleIdx && fetchFieldSettings(moduleIdx).
@@ -76,10 +77,10 @@ export function ItemCreatePage() {
         setSaving(true);
         
         if (moduleIdx) {
-            saveItem(moduleIdx, "", data).
+            saveItem(moduleIdx, "", parentID, data).
             then((itemID) => {
                 setSaving(false);
-                navigate('/item_edit', { replace: true, state: { itemID, moduleIdx }});
+                navigate('/item_edit', { replace: true, state: { itemID, moduleIdx, parentID }});
             }).
             catch(error => {
                 setSaving(false);
