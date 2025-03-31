@@ -22,7 +22,7 @@ public class ModuleManager {
 	
     private ModuleManager() {
     	for (DcModule m : DcModules.getAllModules())
-    		modules.add(new Module(m));
+    		modules.add(new Module(m, true));
     }
     
     public Module getModule(SecuredUser su, int index) {

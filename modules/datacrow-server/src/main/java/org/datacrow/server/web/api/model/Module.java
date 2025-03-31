@@ -36,7 +36,7 @@ public class Module {
 	@JsonProperty("isAbstract")
 	private final boolean isAbstract;
 	
-	public Module(DcModule module) {
+	public Module(DcModule module, boolean addReferences) {
 		this.index = module.getIndex();
 		this.name = module.getModuleResourceKey();
 		this.main = module.isSelectableInUI();
@@ -46,7 +46,7 @@ public class Module {
 		this.isAbstract = module.isAbstract();
 		
 		if (hasChild)
-			this.child = new Module(module.getChild());
+			this.child = new Module(module.getChild(), false);
 		
 		DcImageIcon icon = module.getIcon32();
 		
@@ -55,22 +55,24 @@ public class Module {
 		for (DcField field : DcModules.get(index).getFields())
 			fields.add(new Field(field));
 		
-		Module reference;
-		for (DcModule m : DcModules.getReferencedModules(index)) {
-
-			if (m.isEnabled() && 
-		       !m.isSelectableInUI() && // if this is set, it is already added as a main module
-				m.getIndex() != index && 
-				m.getType() != DcModule._TYPE_PROPERTY_MODULE &&
-				m.getType() != DcModule._TYPE_EXTERNALREFERENCE_MODULE &&
-				m.getIndex() != DcModules._CONTACTPERSON &&
-			    m.getIndex() != DcModules._TAG &&
-			    m.getIndex() != DcModules._PERMISSION &&
-				m.getIndex() != DcModules._CONTAINER) {
-
-				reference = new Module(m);
-				
-				references.add(reference);
+		if (addReferences) {
+			Module reference;
+			for (DcModule m : DcModules.getReferencedModules(index)) {
+		
+				if (m.isEnabled() && 
+			       !m.isSelectableInUI() && // if this is set, it is already added as a main module
+					m.getIndex() != index && 
+					m.getType() != DcModule._TYPE_PROPERTY_MODULE &&
+					m.getType() != DcModule._TYPE_EXTERNALREFERENCE_MODULE &&
+					m.getIndex() != DcModules._CONTACTPERSON &&
+				    m.getIndex() != DcModules._TAG &&
+				    m.getIndex() != DcModules._PERMISSION &&
+					m.getIndex() != DcModules._CONTAINER) {
+		
+					reference = new Module(m, false);
+					
+					references.add(reference);
+				}
 			}
 		}
 	}

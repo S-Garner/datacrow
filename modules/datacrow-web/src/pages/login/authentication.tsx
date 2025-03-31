@@ -126,7 +126,7 @@ export function LoginPage() {
 				</div>
 
 				<div className="row mb-2">
-					<input name="password" type="Password" placeholder={translateOrDefault("lblPassword", "Password")} className="form-control" id="input-password" required={true} />
+					<input name="password" type="Password" placeholder={translateOrDefault("lblPassword", "Password")} className="form-control" id="input-password" required={false} />
 				</div>
 
 				<div className="row mb-2">
