@@ -74,7 +74,9 @@ export function ModuleProvider({ children }: { children: React.ReactNode }) {
 	
 	let switchModule = (newSelectedModule: Module, newMainModule: Module) => {
 		{	
+            localStorage.setItem("main_pagenumber_reset", "true");
             setFilter("");
+            
 			setSelectedModule(newSelectedModule);
 		 	setMainModule(newMainModule);
 		}

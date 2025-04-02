@@ -30,8 +30,17 @@ export function ItemOverview() {
     
     let startingPageNumber = Number(localStorage.getItem("main_pagenumber"));
     startingPageNumber = startingPageNumber <= 0 ? 1 : startingPageNumber;
-
+    
 	const [currentPage, setCurrentPage] = useState(startingPageNumber);
+
+    if (localStorage.getItem("main_pagenumber_reset") === "true") {
+        localStorage.setItem("main_pagenumber_reset", "false");
+        startingPageNumber = 1;
+        
+        if (currentPage != startingPageNumber)
+            setCurrentPage(startingPageNumber);
+    }
+
 	const [itemsPerPage, setItemsPerPage] = useState(getStoredItemsPerPages());
 
 	const itemsPerPageOptions = [30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
