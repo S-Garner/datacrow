@@ -50,6 +50,9 @@ export function ItemViewPage() {
         (itemID) && fetchItem(state.moduleIdx, itemID, true).
         then((data) => {
             setItem(data);
+            
+            if (data.relatedItems.length === 0 && selectedTab === "references")
+                setSelectedTab("details");
         }).
         catch(error => {
             console.log(error);

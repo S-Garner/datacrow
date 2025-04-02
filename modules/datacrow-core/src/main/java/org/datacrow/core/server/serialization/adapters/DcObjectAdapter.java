@@ -62,7 +62,7 @@ public class DcObjectAdapter implements JsonDeserializer<DcObject>, JsonSerializ
         
         JsonArray arrNewPictures = new JsonArray();
         for (Picture pic : src.getNewPictures()) {
-        	pic.prepareForTransfer(false);
+        	pic.prepareForTransfer(true);
         	arrNewPictures.add(context.serialize(pic, Picture.class));
         }
         

@@ -27,8 +27,11 @@ export function ItemOverview() {
     }, [moduleContext.selectedModule]);
     
     const module = moduleContext!.selectedModule;
+    
+    let startingPageNumber = Number(localStorage.getItem("main_pagenumber"));
+    startingPageNumber = startingPageNumber <= 0 ? 1 : startingPageNumber;
 
-	const [currentPage, setCurrentPage] = useState(1);
+	const [currentPage, setCurrentPage] = useState(startingPageNumber);
 	const [itemsPerPage, setItemsPerPage] = useState(getStoredItemsPerPages());
 
 	const itemsPerPageOptions = [30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
@@ -60,12 +63,14 @@ export function ItemOverview() {
 		event.preventDefault();
 		let formData = new FormData(event.currentTarget);
         let searchFor = formData.get("searchFor") as string;
-        
+
+        resetPageNumber();
         moduleContext.setFilter(searchFor);
         filterItems(searchFor);
 	}
 	
 	function handleCreateNew() {
+        savePageNumber();
         let moduleIdx = module.index;
         navigate('/item_create', {state: { moduleIdx }});
     }
@@ -76,8 +81,19 @@ export function ItemOverview() {
 	
 	function openItem(itemID : string) {
         let moduleIdx = module.index;
+        
+        savePageNumber();
 		navigate('/item_view', { state: { itemID, moduleIdx }});
 	}
+	
+	function resetPageNumber() {
+        localStorage.setItem("main_pagenumber", "1");
+        setCurrentPage(1);
+    }
+	
+	function savePageNumber() {
+        localStorage.setItem("main_pagenumber", String(currentPage));
+    }
 	
 	return (
 		<div className="py-20 bg-slate-900 h-full" style={{width: "100%"}}>
