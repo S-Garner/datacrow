@@ -125,5 +125,9 @@ public class TaskPanel extends JPanel {
     
     public void updateProgressTask() {
         if (pb != null) pb.setValue(pb.getValue() + 1);
-    }    
+    }
+    
+    public void updateProgressToFinished() {
+        if (pb != null) pb.setValue(pb.getMaximum());
+    }     
 }

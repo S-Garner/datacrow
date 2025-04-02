@@ -155,6 +155,8 @@ public class ItemImporterTaskPanel extends ItemImporterWizardPanel implements II
         notify(DcResources.getText("msgItemsImported", String.valueOf(updated + created)));
         notify("\n");
         notify(DcResources.getText("msgImportFinished"));
+        
+        if (tp != null) tp.updateProgressToFinished();
     }
 
     @Override
@@ -176,6 +178,9 @@ public class ItemImporterTaskPanel extends ItemImporterWizardPanel implements II
             // is of no importance (!).
             other = other == null ? conn.getItemByUniqueFields(item) : other;
             other = other == null ? conn.getItemByKeyword(item.getModule().getIndex(), item.toString()) : other;
+        } else {
+        	// we work with IDs - to avoid violations;
+        	other = conn.getItem(item.getModule().getIndex(), ID);
         }
 
         try {

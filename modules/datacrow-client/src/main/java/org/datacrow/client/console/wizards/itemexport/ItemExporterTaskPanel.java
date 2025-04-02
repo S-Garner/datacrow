@@ -142,7 +142,9 @@ public class ItemExporterTaskPanel extends ItemExporterWizardPanel implements II
     }
 
     @Override
-    public void notifyTaskCompleted(boolean success, String taskID) {}
+    public void notifyTaskCompleted(boolean success, String taskID) {
+    	if (tp != null) tp.updateProgressToFinished();
+    }
 
     @Override
     public boolean isCancelled() {

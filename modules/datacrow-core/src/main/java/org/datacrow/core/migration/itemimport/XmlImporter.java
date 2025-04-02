@@ -316,7 +316,7 @@ public class XmlImporter extends ItemImporter {
                     		
                     		try {
                     			
-                            	if(nlItems.item(j).getNodeType() != Node.ELEMENT_NODE)
+                            	if (nlItems.item(j).getNodeType() != Node.ELEMENT_NODE)
                             		continue;
                     			
 	                    		eItem = (Element) nlItems.item(j);
