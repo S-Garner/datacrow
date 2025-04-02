@@ -73,7 +73,7 @@ export function ItemCreateModal({ moduleIdx, show, onCreateItem }: Props) {
         e.preventDefault();
 
         if (moduleIdx) {
-            saveItem(moduleIdx, "", data).
+            saveItem(moduleIdx, "", "", data).
                 then((itemID) => {
                     onCreateItem(itemID);
                 }).

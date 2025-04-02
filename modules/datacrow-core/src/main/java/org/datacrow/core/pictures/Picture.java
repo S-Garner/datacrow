@@ -205,11 +205,20 @@ public class Picture implements Serializable {
     		if (bytes != null) {
     			imageIcon = new DcImageIcon(bytes);
     		} else if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
-    			try {
-    				Image image = ImageIO.read(new URL(url));
-    				imageIcon = new DcImageIcon(image);
-    			} catch (Exception ioe) {
-    				logger.error("Could not read image from URL: " + url, ioe);
+    			
+    			if (url != null) {
+        			try {
+	    				Image image = ImageIO.read(new URL(url));
+	    				imageIcon = new DcImageIcon(image);
+	    			} catch (Exception ioe) {
+	    				logger.error("Could not read image from URL: " + url, ioe);
+	    			}
+    			} else {
+        			try {
+	    				imageIcon = new DcImageIcon(filename);
+	    			} catch (Exception ioe) {
+	    				logger.error("Could not read image from file: " + filename, ioe);
+	    			}
     			}
     		} else {  
     			imageIcon = new DcImageIcon(filename);

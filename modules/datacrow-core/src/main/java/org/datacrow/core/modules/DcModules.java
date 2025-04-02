@@ -716,7 +716,10 @@ public class DcModules implements Serializable {
      * @param field
      */
     public static DcModule getReferencedModule(DcField field) {
-        int parentModule = DcModules.get(field.getModule()).getType() == DcModule._TYPE_TEMPLATE_MODULE ?
+    	
+    	if (field == null) return null;
+    	
+    	int parentModule = DcModules.get(field.getModule()).getType() == DcModule._TYPE_TEMPLATE_MODULE ?
                            ((TemplateModule) DcModules.get(field.getModule())).getTemplatedModule().getIndex() : 
                            field.getModule();
         
