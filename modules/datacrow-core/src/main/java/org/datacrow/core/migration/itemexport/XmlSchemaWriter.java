@@ -107,7 +107,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
         for (DcModule m : modules) {
             writeLine(
         		"<xsd:element" +
-        		" name=\"" + XmlUtilities.getElementTagForList(m) + "\"" + 
+        		" name=\"" + XmlUtilities.getElementNameForModule(m) + "\"" + 
         		" type =\"" + XmlUtilities.getElementTagTypeForList(m) + "\"/>", 3);
         }
         
@@ -205,10 +205,9 @@ public class XmlSchemaWriter extends XmlBaseWriter {
             	writeField(field);
         }
         
-        // TODO: incorrect!
         if (detailed && m.getChild() != null) {
             String name = getValidTag(m.getChild().getSystemObjectName() + "-children");
-            writeLine("<xsd:element name=\"" + name + "\" nillable=\"true\"/>", 3);
+            writeLine("<xsd:element name=\"" + name + "\" nillable=\"true\" minOccurs=\"0\" />", 3);
         }
 
         // only export images and attachments for top level items or its children

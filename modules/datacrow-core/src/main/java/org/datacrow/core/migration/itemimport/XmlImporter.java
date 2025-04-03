@@ -257,7 +257,7 @@ public class XmlImporter extends ItemImporter {
         
         private DcModule getModule(String holderTag) {
         	for (DcModule module : DcModules.getAllModules()) {
-        		if (XmlUtilities.getElementTagForList(module).equals(holderTag))
+        		if (XmlUtilities.getElementNameForModule(module).equals(holderTag))
         			return module;
         	}
         	
@@ -267,7 +267,6 @@ public class XmlImporter extends ItemImporter {
         @Override
         public void run() {
             InputSource input = null;
-            @SuppressWarnings("resource")
 			InputStreamReader in = null;
             BufferedReader reader = null;
             
@@ -306,10 +305,10 @@ public class XmlImporter extends ItemImporter {
                     	eItemHolder = (Element) nlItemHolders.item(i);
                     	module = getModule(eItemHolder.getNodeName());
                     	
-                    	// skip if not found
-                    	// TODO: log this as an issue
-                    	if (module == null || module.isAbstract())
+                    	if (module == null || module.isAbstract()) {
+                    		logger.warn("Module could not be found or is abstract, skipping this entry. Node name: " + eItemHolder.getNodeName());
                     		continue;
+                    	}
                     	
                     	nlItems = eItemHolder.getChildNodes();
                     	for (int j = 0; j < nlItems.getLength() && !isCanceled(); j++) {

@@ -45,7 +45,7 @@ public class Converter {
         tag = tag.toLowerCase();
         
         try {
-        	tag = Character.isDigit(tag.charAt(0)) ? "fld-" + tag : tag;
+        	tag = tag.length() > 0 && Character.isDigit(tag.charAt(0)) ? "fld-" + tag : tag;
         } catch (Exception e) {
         	logger.error(e, e);
         }

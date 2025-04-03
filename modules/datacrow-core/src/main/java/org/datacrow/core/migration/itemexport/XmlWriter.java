@@ -98,13 +98,13 @@ public class XmlWriter extends XmlBaseWriter {
 
     public void startModule(DcModule m) throws IOException {
 		ident(tagIdent);
-		writeTag("<" + XmlUtilities.getElementTagForList(m) + ">");
+		writeTag("<" + XmlUtilities.getElementNameForModule(m) + ">");
 		newLine();
     }
 
     public void endModule(DcModule m) throws IOException {
 		ident(tagIdent);
-		writeTag("</" + XmlUtilities.getElementTagForList(m) + ">");
+		writeTag("</" + XmlUtilities.getElementNameForModule(m) + ">");
 		newLine();
     }        
 

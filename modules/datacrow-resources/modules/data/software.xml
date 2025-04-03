@@ -2,7 +2,7 @@
 <data-crow-objects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="software.xsd">
     <software-items>
             <software>
-                <picture-01>./software_images/129225663996473/picture1.jpg</picture-01>
+                <picture-01>file:////home/rwaals/Documents/Export/software_images/129225663996473/picture1.jpg</picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
                 <picture-04></picture-04>
@@ -12,28 +12,35 @@
                 <picture-08></picture-08>
                 <picture-09></picture-09>
                 <picture-10></picture-10>
-                <loan-status>Available</loan-status>
+                <loan-status>Beschikbaar</loan-status>
+                <license-items>
+                    <license>
+                        <id>2cd3876b-6fc6-4df9-a3ca-4f64ba858626</id>
+                        <name>GNU General Public License</name>
+                    </license>
+                </license-items>
+                <license-items-list>GNU General Public License</license-items-list>
                 <title>Data Crow</title>
                 <description>Data Crow is the ultimate media cataloger and media organiser. Always wanted to manage all your collections in one product? You want a product you can customize to your needs? Your search ends here! Using Data Crow allows you to create a huge database containing all your collected items. You can use the excellent online services to retrieve the information instead of typing all the information yourself.</description>
                 <year>2009</year>
                 <rating>8</rating>
-                <platform>
+                <platform-items>
                     <software-platform>
                         <id>9d5c3ae7-da7b-4ac3-9d4f-7113dd33c156</id>
                         <name>OS Independent</name>
                     </software-platform>
-                </platform>
-                <software-platform-items>OS Independent</software-platform-items>
-                <modified>2024-10-01</modified>
-                <created>2024-10-01</created>
-                <country-items>
+                </platform-items>
+                <platform-items-list>OS Independent</platform-items-list>
+                <modified>2025-04-03</modified>
+                <created>2025-04-03</created>
+                <countries-items>
                     <country>
                         <id>101711389864777</id>
                         <name>Netherlands</name>
                     </country>
-                </country-items>
-                <country-items-list>Netherlands</country-items-list>
-                <language-items>
+                </countries-items>
+                <countries-items-list>Netherlands</countries-items-list>
+                <languages-items>
                     <language>
                         <id>101760829946470</id>
                         <name>Dutch</name>
@@ -59,19 +66,289 @@
                         <name>Polish</name>
                     </language>
                     <language>
+                        <id>101728581710427</id>
+                        <name>Portuguese</name>
+                    </language>
+                    <language>
+                        <id>101723677931020</id>
+                        <name>Russian</name>
+                    </language>
+                    <language>
                         <id>101752296754327</id>
                         <name>Spanish</name>
                     </language>
-                </language-items>
-                <language-items-list>Dutch, English, French, German, Italian, Polish, Spanish</language-items-list>
+                </languages-items>
+                <languages-items-list>Dutch, English, French, German, Italian, Polish, Portuguese, Russian, Spanish</languages-items-list>
+                <developers-items>
+                    <developers>
+                        <id>3b06a6ab-8333-4c4a-b7eb-536edc3473a8</id>
+                        <name>Robert Jan van der Waals</name>
+                    </developers>
+                </developers-items>
+                <developers-items-list>Robert Jan van der Waals</developers-items-list>
+                <webpage>https://datacrow.org</webpage>
                 <id>129225663996473</id>
                 <label>Data Crow</label>
                 <available>true</available>
-            <pictures>
-                <picture>
-                    <link>./software_images/129225663996473/picture1.jpg</link>
-                </picture>
-            </pictures>
+        <pictures>
+            <picture>
+                <link>./software_images/129225663996473/picture1.jpg</link>
+            </picture>
+        </pictures>
         </software>
-    </software-items>
+        </software-items>
+    <license-items>
+        <license>
+        <name>GNU General Public License</name>
+        <modified>2025-04-03</modified>
+        <created>2025-04-03</created>
+        <picture-01></picture-01>
+        <picture-02></picture-02>
+        <picture-03></picture-03>
+        <picture-04></picture-04>
+        <picture-05></picture-05>
+        <picture-06></picture-06>
+        <picture-07></picture-07>
+        <picture-08></picture-08>
+        <picture-09></picture-09>
+        <picture-10></picture-10>
+        <item>Licenses</item>
+        <label>GNU General Public License</label>
+        <id>2cd3876b-6fc6-4df9-a3ca-4f64ba858626</id>
+        </license>
+    </license-items>
+    <software-platform-items>
+        <software-platform>
+        <name>OS Independent</name>
+        <modified>2025-04-03</modified>
+        <created>2025-04-03</created>
+        <picture-01></picture-01>
+        <picture-02></picture-02>
+        <picture-03></picture-03>
+        <picture-04></picture-04>
+        <picture-05></picture-05>
+        <picture-06></picture-06>
+        <picture-07></picture-07>
+        <picture-08></picture-08>
+        <picture-09></picture-09>
+        <picture-10></picture-10>
+        <item>Platforms</item>
+        <label>OS Independent</label>
+        <id>9d5c3ae7-da7b-4ac3-9d4f-7113dd33c156</id>
+        </software-platform>
+    </software-platform-items>
+    <country-items>
+        <country>
+        <name>Netherlands</name>
+        <icon>iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAIAAAD5gJpuAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAFXSURBVHjaYvzPgAD/UNlYEUAAkuTgCAAIBgJggq5VoAs1qM0vdzmMz362vezjokxPGimkEQ5WoAQEKuK71zwCCKyB4c//J8+BShn+/vv/+w/D399AEox+//8FJH/9/wUU+cUoKw20ASCAWBhEDf/LyDOw84BU//kDtgGI/oARmAHRDJQSFwVqAAggxo8fP/Ly8oKc9P8/AxjiAoyMjA8ePAAIIJZ///5BVIM0MOBWDpRlZPzz5w9AALH8gyvCbz7QBrCJAAHEyKDYX15r/+j1199//v35++/Xn7+///77DST/wMl/f4Dk378K4jx7O2cABBALw7NP77/+ev3xB0gOpOHfr99AdX9/gTVASKCGP//+8XCyMjC8AwggFoZfIHWSwpwQk4CW/AYjsKlA8u+ff////v33998/YPgBnQQQQIzAaGNg+AVGf5AYf5BE/oCjGEIyAQQYAGvKZ4C6+xXRAAAAAElFTkSuQmCC</icon>
+        <alternative-names>;Holland;The Netherlands;Netherlands, The;</alternative-names>
+        <modified>2025-04-03</modified>
+        <created>2025-04-03</created>
+        <picture-01></picture-01>
+        <picture-02></picture-02>
+        <picture-03></picture-03>
+        <picture-04></picture-04>
+        <picture-05></picture-05>
+        <picture-06></picture-06>
+        <picture-07></picture-07>
+        <picture-08></picture-08>
+        <picture-09></picture-09>
+        <picture-10></picture-10>
+        <item>Landen</item>
+        <label>Netherlands</label>
+        <id>101711389864777</id>
+        </country>
+    </country-items>
+    <language-items>
+        <language>
+        <name>Dutch</name>
+        <modified>2025-04-03</modified>
+        <created>2025-04-03</created>
+        <picture-01></picture-01>
+        <picture-02></picture-02>
+        <picture-03></picture-03>
+        <picture-04></picture-04>
+        <picture-05></picture-05>
+        <picture-06></picture-06>
+        <picture-07></picture-07>
+        <picture-08></picture-08>
+        <picture-09></picture-09>
+        <picture-10></picture-10>
+        <item>Talen</item>
+        <label>Dutch</label>
+        <id>101760829946470</id>
+        </language>
+        <language>
+        <name>English</name>
+        <modified>2025-04-03</modified>
+        <created>2025-04-03</created>
+        <picture-01></picture-01>
+        <picture-02></picture-02>
+        <picture-03></picture-03>
+        <picture-04></picture-04>
+        <picture-05></picture-05>
+        <picture-06></picture-06>
+        <picture-07></picture-07>
+        <picture-08></picture-08>
+        <picture-09></picture-09>
+        <picture-10></picture-10>
+        <item>Talen</item>
+        <label>English</label>
+        <id>101744247437899</id>
+        </language>
+        <language>
+        <name>French</name>
+        <modified>2025-04-03</modified>
+        <created>2025-04-03</created>
+        <picture-01></picture-01>
+        <picture-02></picture-02>
+        <picture-03></picture-03>
+        <picture-04></picture-04>
+        <picture-05></picture-05>
+        <picture-06></picture-06>
+        <picture-07></picture-07>
+        <picture-08></picture-08>
+        <picture-09></picture-09>
+        <picture-10></picture-10>
+        <item>Talen</item>
+        <label>French</label>
+        <id>101766020412018</id>
+        </language>
+        <language>
+        <name>German</name>
+        <modified>2025-04-03</modified>
+        <created>2025-04-03</created>
+        <picture-01></picture-01>
+        <picture-02></picture-02>
+        <picture-03></picture-03>
+        <picture-04></picture-04>
+        <picture-05></picture-05>
+        <picture-06></picture-06>
+        <picture-07></picture-07>
+        <picture-08></picture-08>
+        <picture-09></picture-09>
+        <picture-10></picture-10>
+        <item>Talen</item>
+        <label>German</label>
+        <id>101749645482518</id>
+        </language>
+        <language>
+        <name>Italian</name>
+        <modified>2025-04-03</modified>
+        <created>2025-04-03</created>
+        <picture-01></picture-01>
+        <picture-02></picture-02>
+        <picture-03></picture-03>
+        <picture-04></picture-04>
+        <picture-05></picture-05>
+        <picture-06></picture-06>
+        <picture-07></picture-07>
+        <picture-08></picture-08>
+        <picture-09></picture-09>
+        <picture-10></picture-10>
+        <item>Talen</item>
+        <label>Italian</label>
+        <id>101755066525653</id>
+        </language>
+        <language>
+        <name>Polish</name>
+        <modified>2025-04-03</modified>
+        <created>2025-04-03</created>
+        <picture-01></picture-01>
+        <picture-02></picture-02>
+        <picture-03></picture-03>
+        <picture-04></picture-04>
+        <picture-05></picture-05>
+        <picture-06></picture-06>
+        <picture-07></picture-07>
+        <picture-08></picture-08>
+        <picture-09></picture-09>
+        <picture-10></picture-10>
+        <item>Talen</item>
+        <label>Polish</label>
+        <id>e0160ef8-2781-426e-b9ff-0b9aba642237</id>
+        </language>
+        <language>
+        <name>Portuguese</name>
+        <modified>2025-04-03</modified>
+        <created>2025-04-03</created>
+        <picture-01></picture-01>
+        <picture-02></picture-02>
+        <picture-03></picture-03>
+        <picture-04></picture-04>
+        <picture-05></picture-05>
+        <picture-06></picture-06>
+        <picture-07></picture-07>
+        <picture-08></picture-08>
+        <picture-09></picture-09>
+        <picture-10></picture-10>
+        <item>Talen</item>
+        <label>Portuguese</label>
+        <id>101728581710427</id>
+        </language>
+        <language>
+        <name>Russian</name>
+        <modified>2025-04-03</modified>
+        <created>2025-04-03</created>
+        <picture-01></picture-01>
+        <picture-02></picture-02>
+        <picture-03></picture-03>
+        <picture-04></picture-04>
+        <picture-05></picture-05>
+        <picture-06></picture-06>
+        <picture-07></picture-07>
+        <picture-08></picture-08>
+        <picture-09></picture-09>
+        <picture-10></picture-10>
+        <item>Talen</item>
+        <label>Russian</label>
+        <id>101723677931020</id>
+        </language>
+        <language>
+        <name>Spanish</name>
+        <modified>2025-04-03</modified>
+        <created>2025-04-03</created>
+        <picture-01></picture-01>
+        <picture-02></picture-02>
+        <picture-03></picture-03>
+        <picture-04></picture-04>
+        <picture-05></picture-05>
+        <picture-06></picture-06>
+        <picture-07></picture-07>
+        <picture-08></picture-08>
+        <picture-09></picture-09>
+        <picture-10></picture-10>
+        <item>Talen</item>
+        <label>Spanish</label>
+        <id>101752296754327</id>
+        </language>
+    </language-items>
+    <developers-items>
+        <developers>
+        <picture-01></picture-01>
+        <picture-02></picture-02>
+        <picture-03></picture-03>
+        <picture-04></picture-04>
+        <picture-05></picture-05>
+        <picture-06></picture-06>
+        <picture-07></picture-07>
+        <picture-08></picture-08>
+        <picture-09></picture-09>
+        <picture-10></picture-10>
+        <name>Robert Jan van der Waals</name>
+        <firstname>Robert Jan</firstname>
+        <lastname>van der Waals</lastname>
+        <external-references-items>
+                <developer-external-reference>
+                <id>610d3ce4-3c04-42d4-836b-0a567d1f7d2b</id>
+                </developer-external-reference>
+        </external-references-items>
+        <external-references-items-list>PDCR: Robert Jan</external-references-items-list>
+        <created>2025-04-03</created>
+        <modified>2025-04-03</modified>
+        <id>3b06a6ab-8333-4c4a-b7eb-536edc3473a8</id>
+        <label>Robert Jan van der Waals</label>
+        <item>Ontwikkelaars</item>
+        </developers>
+    </developers-items>
 </data-crow-objects>

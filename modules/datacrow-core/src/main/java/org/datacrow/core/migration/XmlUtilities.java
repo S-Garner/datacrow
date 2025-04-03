@@ -9,16 +9,16 @@ import org.datacrow.core.utilities.Converter;
 public final class XmlUtilities {
 
 	public static String getFieldTag(DcField field) {
-		String tag = field.getSystemName();
+		String tag = field.getOriginalLabel();
 
-		if (field.getValueType() == ValueTypes._DCOBJECTCOLLECTION)
+		if (field.getValueType() == ValueTypes._DCOBJECTCOLLECTION || field.getValueType() == ValueTypes._DCOBJECTREFERENCE)
 			tag = getElementTagForList(field);
 
 		return Converter.getValidXmlTag(tag);
 	}
 	
 	public static String getElementTagForList(DcField field) {
-		return getElementTagForList(DcModules.getReferencedModule(field));
+		return  field.getOriginalLabel() + "-items";
 	}
 
 	public static String getElementTagTypeForList(DcField field) {
@@ -33,7 +33,7 @@ public final class XmlUtilities {
 		return getElementTagType(DcModules.getReferencedModule(field));
 	}
 	
-	public static String getElementTagForList(DcModule m) {
+	public static String getElementNameForModule(DcModule m) {
 		return Converter.getValidXmlTag(getName(m) + "-items");
 	}
 
@@ -50,6 +50,6 @@ public final class XmlUtilities {
 	}
 	
 	private static String getName(DcModule m) {
-		return m.isAbstract() ? m.getSystemObjectName().replaceAll("\\_", "-") : m.getTableName().replaceAll("\\_", "-");
+		return Converter.getValidXmlTag(m.getSystemLabel());
 	}
 }
