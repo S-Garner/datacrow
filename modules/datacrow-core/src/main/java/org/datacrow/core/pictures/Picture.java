@@ -26,6 +26,7 @@
 package org.datacrow.core.pictures;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
@@ -33,9 +34,12 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 import org.datacrow.core.DcConfig;
+import org.datacrow.core.DcRepository;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.objects.DcImageIcon;
+import org.datacrow.core.settings.DcSettings;
+import org.datacrow.core.settings.objects.DcDimension;
 import org.datacrow.core.utilities.CoreUtilities;
 
 /**
@@ -84,8 +88,22 @@ public class Picture implements Serializable {
     }
     
     public void prepareForTransfer(boolean loadBytes) {
-    	if (loadBytes)
-    		this.bytes = getImageIcon().getBytes();
+    	if (loadBytes) {
+    		// scale the image before sending
+    		if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
+    			DcDimension dimMax = DcSettings.getDimension(DcRepository.Settings.stMaximumImageResolution);
+	    		DcImageIcon icon = getImageIcon(); 
+	    		BufferedImage bi = CoreUtilities.getScaledImage(icon, dimMax.getWidth(), dimMax.getHeight());
+	    		this.bytes = new DcImageIcon(bi).getBytes();
+	    		
+	    		bi.flush();
+    		} else {
+    			this.bytes = getImageIcon().getBytes();
+    		}
+    	}
+    	
+    	if (this.imageIcon != null)
+    		this.imageIcon.flush();
     	
     	this.imageIcon = null;
     }
@@ -117,8 +135,7 @@ public class Picture implements Serializable {
     }
     
     /**
-     * Gets the scaled image. If it does not exist it will create a scaled image in the
-     * temp folder of the client.
+     * Gets the scaled image. If it does not exist it will create a scaled image in the temp folder of the client.
      * @return
      */
     public DcImageIcon getScaledPicture() {

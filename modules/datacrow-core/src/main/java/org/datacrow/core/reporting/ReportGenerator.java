@@ -115,10 +115,6 @@ public class ReportGenerator {
         if (rt != null) rt.cancel();
     }    
     
-    private void translate() {
-    	// future implementation
-    }
-
     @SuppressWarnings({ "incomplete-switch", "unchecked" })
 	private void createReport() throws Exception {
     	
@@ -129,13 +125,10 @@ public class ReportGenerator {
         	success = false;
         	
             Map<String, Object> params = new HashMap<String, Object>();
-            Document document;
-
-            translate();
            
             logger.debug("Reporting: start reading XML document");
             is = JRLoader.getLocationInputStream(source.toString());
-            document = JRXmlUtils.parse(is);
+            Document document = JRXmlUtils.parse(is);
             logger.debug("Reporting: XML document has been read successfully");
             
             params.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, document);

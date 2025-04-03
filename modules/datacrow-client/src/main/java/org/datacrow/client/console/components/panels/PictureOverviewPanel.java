@@ -263,11 +263,11 @@ public class PictureOverviewPanel extends DcPanel {
 					filename1 = p1.getTargetFile().getName();
 					filename2 = p2.getTargetFile().getName();
 					
-					filename1 = filename1.substring(7, filename1.lastIndexOf("."));
-					filename2 = filename2.substring(7, filename2.lastIndexOf("."));
+					filename1 = filename1.substring(0, filename1.lastIndexOf("."));
+					filename2 = filename2.substring(0, filename2.lastIndexOf("."));
 					
-					i1 = Integer.valueOf(Integer.parseInt(filename1));
-					i2 = Integer.valueOf(Integer.parseInt(filename2));
+					i1 = Integer.valueOf(Integer.parseInt(filename1.substring(filename1.lastIndexOf("picture") + 7)));
+					i2 = Integer.valueOf(Integer.parseInt(filename2.substring(filename2.lastIndexOf("picture") + 7)));
 					
 					return i2.compareTo(i1);
 				}

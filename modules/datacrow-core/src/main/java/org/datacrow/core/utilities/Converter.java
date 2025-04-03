@@ -25,8 +25,12 @@
 
 package org.datacrow.core.utilities;
 
+import org.datacrow.core.log.DcLogManager;
+import org.datacrow.core.log.DcLogger;
 
 public class Converter {
+	
+	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Converter.class.getName());
 
     public static String getValidXmlTag(String s) {
         String tag = s == null ? "" : s;
@@ -37,12 +41,13 @@ public class Converter {
         tag = tag.replaceAll(";", "_");
         tag = tag.replaceAll("[()]", "");
         tag = tag.replaceAll("[?]", "");
+        tag = tag.replaceAll("\\_", "-");
         tag = tag.toLowerCase();
         
         try {
         	tag = Character.isDigit(tag.charAt(0)) ? "fld-" + tag : tag;
         } catch (Exception e) {
-        	e.printStackTrace();
+        	logger.error(e, e);
         }
         	
         return tag;        
