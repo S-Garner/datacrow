@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data-crow-objects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="editiontype.xsd">
-    <editiontype-items>
-            <editiontype>
+    <edition-type-items>
+            <edition-type>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -17,6 +17,6 @@
                 <created>2024-10-01</created>
                 <label>First Edition</label>
                 <id>101744746097306</id>
-            </editiontype>
-        </editiontype-items>
+            </edition-type>
+        </edition-type-items>
 </data-crow-objects>

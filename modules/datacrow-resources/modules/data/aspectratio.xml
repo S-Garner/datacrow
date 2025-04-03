@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data-crow-objects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="aspectratio.xsd">
-    <aspectratio-items>
-            <aspectratio>
+    <aspect-ratio-items>
+            <aspect-ratio>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -17,8 +17,8 @@
                 <created>2024-10-01</created>
                 <label>14:9</label>
                 <id>101755416704005</id>
-            </aspectratio>
-            <aspectratio>
+            </aspect-ratio>
+            <aspect-ratio>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -34,8 +34,8 @@
                 <created>2024-10-01</created>
                 <label>16:9</label>
                 <id>101719137846695</id>
-            </aspectratio>
-            <aspectratio>
+            </aspect-ratio>
+            <aspect-ratio>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -51,6 +51,6 @@
                 <created>2024-10-01</created>
                 <label>4:3</label>
                 <id>101717914238435</id>
-            </aspectratio>
-        </aspectratio-items>
+            </aspect-ratio>
+        </aspect-ratio-items>
 </data-crow-objects>

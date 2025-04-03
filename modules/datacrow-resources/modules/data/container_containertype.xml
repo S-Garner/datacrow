@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data-crow-objects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="container_containertype.xsd">
-    <container-containertype-items>
-            <container-containertype>
+    <container-container-type-items>
+            <container-container-type>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -17,8 +17,8 @@
                 <created>2024-10-01</created>
                 <label>CD Case</label>
                 <id>101764361908965</id>
-            </container-containertype>
-            <container-containertype>
+            </container-container-type>
+            <container-container-type>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -34,8 +34,8 @@
                 <created>2024-10-01</created>
                 <label>CD Storage</label>
                 <id>101774834547455</id>
-            </container-containertype>
-            <container-containertype>
+            </container-container-type>
+            <container-container-type>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -51,6 +51,6 @@
                 <created>2024-10-01</created>
                 <label>CD Suitcase</label>
                 <id>101730979785773</id>
-            </container-containertype>
-        </container-containertype-items>
+            </container-container-type>
+        </container-container-type-items>
 </data-crow-objects>

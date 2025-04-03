@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data-crow-objects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="music_album_storagemedium.xsd">
-    <music-album-storagemedium-items>
-            <music-album-storagemedium>
+    <music-album-storage-medium-items>
+            <music-album-storage-medium>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -19,8 +19,8 @@
                 <label>Blue-Ray Disc</label>
                 <modified>2024-10-01</modified>
                 <name>Blue-Ray Disc</name>
-            </music-album-storagemedium>
-            <music-album-storagemedium>
+            </music-album-storage-medium>
+            <music-album-storage-medium>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -38,8 +38,8 @@
                 <label>CD-ROM</label>
                 <modified>2024-10-01</modified>
                 <name>CD-ROM</name>
-            </music-album-storagemedium>
-            <music-album-storagemedium>
+            </music-album-storage-medium>
+            <music-album-storage-medium>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -57,8 +57,8 @@
                 <label>DVD-ROM</label>
                 <modified>2024-10-01</modified>
                 <name>DVD-ROM</name>
-            </music-album-storagemedium>
-            <music-album-storagemedium>
+            </music-album-storage-medium>
+            <music-album-storage-medium>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -76,8 +76,8 @@
                 <label>Floppy</label>
                 <modified>2024-10-01</modified>
                 <name>Floppy</name>
-            </music-album-storagemedium>
-            <music-album-storagemedium>
+            </music-album-storage-medium>
+            <music-album-storage-medium>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -95,8 +95,8 @@
                 <label>HD</label>
                 <modified>2024-10-01</modified>
                 <name>HD</name>
-            </music-album-storagemedium>
-            <music-album-storagemedium>
+            </music-album-storage-medium>
+            <music-album-storage-medium>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -114,6 +114,6 @@
                 <label>USB Stick</label>
                 <modified>2024-10-01</modified>
                 <name>USB Stick</name>
-            </music-album-storagemedium>
-        </music-album-storagemedium-items>
+            </music-album-storage-medium>
+        </music-album-storage-medium-items>
 </data-crow-objects>

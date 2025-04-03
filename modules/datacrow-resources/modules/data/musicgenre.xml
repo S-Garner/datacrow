@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <data-crow-objects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="musicgenre.xsd">
-    <musicgenre-items>
-            <musicgenre>
+    <music-genre-items>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -17,8 +17,8 @@
                 <created>2024-10-01</created>
                 <label>A Capela</label>
                 <id>101723903934072</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -34,8 +34,8 @@
                 <created>2024-10-01</created>
                 <label>Acid</label>
                 <id>101728262429076</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -51,8 +51,8 @@
                 <created>2024-10-01</created>
                 <label>Acid Jazz</label>
                 <id>101778475788487</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -68,8 +68,8 @@
                 <created>2024-10-01</created>
                 <label>Acid Punk</label>
                 <id>101713376478389</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -85,8 +85,8 @@
                 <created>2024-10-01</created>
                 <label>Acoustic</label>
                 <id>101743994883529</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -102,8 +102,8 @@
                 <created>2024-10-01</created>
                 <label>Alternative</label>
                 <id>101773891498800</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -119,8 +119,8 @@
                 <created>2024-10-01</created>
                 <label>AlternRock</label>
                 <id>101776160412753</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -136,8 +136,8 @@
                 <created>2024-10-01</created>
                 <label>Ambient</label>
                 <id>101722131370036</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -153,8 +153,8 @@
                 <created>2024-10-01</created>
                 <label>Anime</label>
                 <id>101732702623164</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -170,8 +170,8 @@
                 <created>2024-10-01</created>
                 <label>Avantgarde</label>
                 <id>101732184107863</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -187,8 +187,8 @@
                 <created>2024-10-01</created>
                 <label>Ballad</label>
                 <id>101745071272428</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -204,8 +204,8 @@
                 <created>2024-10-01</created>
                 <label>Bass</label>
                 <id>101775701098512</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -221,8 +221,8 @@
                 <created>2024-10-01</created>
                 <label>Beat</label>
                 <id>101767834846398</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -238,8 +238,8 @@
                 <created>2024-10-01</created>
                 <label>Bebob</label>
                 <id>101728977275090</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -255,8 +255,8 @@
                 <created>2024-10-01</created>
                 <label>Big Band</label>
                 <id>101751189786572</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -272,8 +272,8 @@
                 <created>2024-10-01</created>
                 <label>Black Metal</label>
                 <id>101749602965894</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -289,8 +289,8 @@
                 <created>2024-10-01</created>
                 <label>Bluegrass</label>
                 <id>101713184731919</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -306,8 +306,8 @@
                 <created>2024-10-01</created>
                 <label>Blues</label>
                 <id>101776751704872</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -323,8 +323,8 @@
                 <created>2024-10-01</created>
                 <label>Booty Brass</label>
                 <id>101754795082640</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -340,8 +340,8 @@
                 <created>2024-10-01</created>
                 <label>BritPop</label>
                 <id>101773743653769</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -357,8 +357,8 @@
                 <created>2024-10-01</created>
                 <label>Cabaret</label>
                 <id>101743250139040</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -374,8 +374,8 @@
                 <created>2024-10-01</created>
                 <label>Celtic</label>
                 <id>101728461845756</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -391,8 +391,8 @@
                 <created>2024-10-01</created>
                 <label>Chamber Music</label>
                 <id>101755154130419</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -408,8 +408,8 @@
                 <created>2024-10-01</created>
                 <label>Chanson</label>
                 <id>101746228295998</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -425,8 +425,8 @@
                 <created>2024-10-01</created>
                 <label>Chorus</label>
                 <id>101730325519643</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -442,8 +442,8 @@
                 <created>2024-10-01</created>
                 <label>Christian Gangsta Rap</label>
                 <id>101796792788833</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -459,8 +459,8 @@
                 <created>2024-10-01</created>
                 <label>Christian Rap</label>
                 <id>101731009712400</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -476,8 +476,8 @@
                 <created>2024-10-01</created>
                 <label>Christian Rock</label>
                 <id>101784012203021</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -493,8 +493,8 @@
                 <created>2024-10-01</created>
                 <label>Classical</label>
                 <id>101748534146192</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -510,8 +510,8 @@
                 <created>2024-10-01</created>
                 <label>Classic Rock</label>
                 <id>101764957959042</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -527,8 +527,8 @@
                 <created>2024-10-01</created>
                 <label>Club</label>
                 <id>101710367897548</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -544,8 +544,8 @@
                 <created>2024-10-01</created>
                 <label>Club-House</label>
                 <id>101789584752773</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -561,8 +561,8 @@
                 <created>2024-10-01</created>
                 <label>Comedy</label>
                 <id>101733922974392</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -578,8 +578,8 @@
                 <created>2024-10-01</created>
                 <label>Contemporary Christian</label>
                 <id>101750576791132</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -595,8 +595,8 @@
                 <created>2024-10-01</created>
                 <label>Country</label>
                 <id>101756651967331</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -612,8 +612,8 @@
                 <created>2024-10-01</created>
                 <label>Crossover</label>
                 <id>101766644209636</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -629,8 +629,8 @@
                 <created>2024-10-01</created>
                 <label>Cult</label>
                 <id>101720243024738</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -646,8 +646,8 @@
                 <created>2024-10-01</created>
                 <label>Dance</label>
                 <id>101732099050932</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -663,8 +663,8 @@
                 <created>2024-10-01</created>
                 <label>Dance Hall</label>
                 <id>101751567776095</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -680,8 +680,8 @@
                 <created>2024-10-01</created>
                 <label>Darkwave</label>
                 <id>101752344847100</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -697,8 +697,8 @@
                 <created>2024-10-01</created>
                 <label>Death Metal</label>
                 <id>101713222011464</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -714,8 +714,8 @@
                 <created>2024-10-01</created>
                 <label>Disco</label>
                 <id>101771270108158</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -731,8 +731,8 @@
                 <created>2024-10-01</created>
                 <label>Dream</label>
                 <id>101757413217752</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -748,8 +748,8 @@
                 <created>2024-10-01</created>
                 <label>Drum &amp; Bass</label>
                 <id>101754743623382</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -765,8 +765,8 @@
                 <created>2024-10-01</created>
                 <label>Drum Solo</label>
                 <id>101779721307545</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -782,8 +782,8 @@
                 <created>2024-10-01</created>
                 <label>Duet</label>
                 <id>101786625275344</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -799,8 +799,8 @@
                 <created>2024-10-01</created>
                 <label>Easy Listening</label>
                 <id>101786210970642</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -816,8 +816,8 @@
                 <created>2024-10-01</created>
                 <label>Electronic</label>
                 <id>101773821708193</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -833,8 +833,8 @@
                 <created>2024-10-01</created>
                 <label>Ethnic</label>
                 <id>101724261410107</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -850,8 +850,8 @@
                 <created>2024-10-01</created>
                 <label>Eurodance</label>
                 <id>101727671942741</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -867,8 +867,8 @@
                 <created>2024-10-01</created>
                 <label>Euro-House</label>
                 <id>101741481964620</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -884,8 +884,8 @@
                 <created>2024-10-01</created>
                 <label>Euro-Techno</label>
                 <id>101778551088311</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -901,8 +901,8 @@
                 <created>2024-10-01</created>
                 <label>Fast Fusion</label>
                 <id>101754298573853</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -918,8 +918,8 @@
                 <created>2024-10-01</created>
                 <label>Folk</label>
                 <id>101768031859678</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -935,8 +935,8 @@
                 <created>2024-10-01</created>
                 <label>Folklore</label>
                 <id>101740005637879</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -952,8 +952,8 @@
                 <created>2024-10-01</created>
                 <label>Folk-Rock</label>
                 <id>101716782712486</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -969,8 +969,8 @@
                 <created>2024-10-01</created>
                 <label>Freestyle</label>
                 <id>101791484499995</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -986,8 +986,8 @@
                 <created>2024-10-01</created>
                 <label>Funk</label>
                 <id>101767248674101</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1003,8 +1003,8 @@
                 <created>2024-10-01</created>
                 <label>Fusion</label>
                 <id>101730080057695</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1020,8 +1020,8 @@
                 <created>2024-10-01</created>
                 <label>Game</label>
                 <id>101777542610085</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1037,8 +1037,8 @@
                 <created>2024-10-01</created>
                 <label>Gangsta</label>
                 <id>101760525555992</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1054,8 +1054,8 @@
                 <created>2024-10-01</created>
                 <label>Goa</label>
                 <id>101721303042712</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1071,8 +1071,8 @@
                 <created>2024-10-01</created>
                 <label>Gospel</label>
                 <id>101760696849217</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1088,8 +1088,8 @@
                 <created>2024-10-01</created>
                 <label>Gothic</label>
                 <id>101768132705599</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1105,8 +1105,8 @@
                 <created>2024-10-01</created>
                 <label>Gothic Rock</label>
                 <id>101725725214715</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1122,8 +1122,8 @@
                 <created>2024-10-01</created>
                 <label>Grunge</label>
                 <id>101727658438959</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1139,8 +1139,8 @@
                 <created>2024-10-01</created>
                 <label>Hardcore</label>
                 <id>101775471887432</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1156,8 +1156,8 @@
                 <created>2024-10-01</created>
                 <label>Hard Rock</label>
                 <id>101740200381278</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1173,8 +1173,8 @@
                 <created>2024-10-01</created>
                 <label>Heavy Metal</label>
                 <id>101724201772076</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1190,8 +1190,8 @@
                 <created>2024-10-01</created>
                 <label>Hip-Hop</label>
                 <id>101728734175137</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1207,8 +1207,8 @@
                 <created>2024-10-01</created>
                 <label>House</label>
                 <id>101759031687818</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1224,8 +1224,8 @@
                 <created>2024-10-01</created>
                 <label>Humour</label>
                 <id>101783567910043</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1241,8 +1241,8 @@
                 <created>2024-10-01</created>
                 <label>Indie</label>
                 <id>101738450289799</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1258,8 +1258,8 @@
                 <created>2024-10-01</created>
                 <label>Industrial</label>
                 <id>101729408293224</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1275,8 +1275,8 @@
                 <created>2024-10-01</created>
                 <label>Instrumental</label>
                 <id>101735620216915</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1292,8 +1292,8 @@
                 <created>2024-10-01</created>
                 <label>Instrumental Pop</label>
                 <id>101755545238937</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1309,8 +1309,8 @@
                 <created>2024-10-01</created>
                 <label>Instrumental Rock</label>
                 <id>101752075119735</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1326,8 +1326,8 @@
                 <created>2024-10-01</created>
                 <label>Jazz</label>
                 <id>101767227099103</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1343,8 +1343,8 @@
                 <created>2024-10-01</created>
                 <label>Jazz+Funk</label>
                 <id>101731038906154</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1360,8 +1360,8 @@
                 <created>2024-10-01</created>
                 <label>JPop</label>
                 <id>101766318075048</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1377,8 +1377,8 @@
                 <created>2024-10-01</created>
                 <label>Jungle</label>
                 <id>101790066206130</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1394,8 +1394,8 @@
                 <created>2024-10-01</created>
                 <label>Latin</label>
                 <id>101758361711950</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1411,8 +1411,8 @@
                 <created>2024-10-01</created>
                 <label>Lo-Fi</label>
                 <id>101736768162135</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1428,8 +1428,8 @@
                 <created>2024-10-01</created>
                 <label>Meditative</label>
                 <id>101789223652496</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1445,8 +1445,8 @@
                 <created>2024-10-01</created>
                 <label>Merengue</label>
                 <id>101747691055948</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1462,8 +1462,8 @@
                 <created>2024-10-01</created>
                 <label>Metal</label>
                 <id>101768390496183</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1479,8 +1479,8 @@
                 <created>2024-10-01</created>
                 <label>Musical</label>
                 <id>101761119051045</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1496,8 +1496,8 @@
                 <created>2024-10-01</created>
                 <label>National Folk</label>
                 <id>101727176518514</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1513,8 +1513,8 @@
                 <created>2024-10-01</created>
                 <label>Native American</label>
                 <id>101739799407687</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1530,8 +1530,8 @@
                 <created>2024-10-01</created>
                 <label>Negerpunk</label>
                 <id>101751543306060</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1547,8 +1547,8 @@
                 <created>2024-10-01</created>
                 <label>New Age</label>
                 <id>101711415956433</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1564,8 +1564,8 @@
                 <created>2024-10-01</created>
                 <label>New Wave</label>
                 <id>101720857247291</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1581,8 +1581,8 @@
                 <created>2024-10-01</created>
                 <label>Noise</label>
                 <id>101739823306260</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1598,8 +1598,8 @@
                 <created>2024-10-01</created>
                 <label>Oldies</label>
                 <id>101746075386282</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1615,8 +1615,8 @@
                 <created>2024-10-01</created>
                 <label>Opera</label>
                 <id>101712345210318</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1632,8 +1632,8 @@
                 <created>2024-10-01</created>
                 <label>Other</label>
                 <id>101783399249455</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1649,8 +1649,8 @@
                 <created>2024-10-01</created>
                 <label>Polka</label>
                 <id>101731996050263</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1666,8 +1666,8 @@
                 <created>2024-10-01</created>
                 <label>Polsk Punk</label>
                 <id>101738412960638</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1683,8 +1683,8 @@
                 <created>2024-10-01</created>
                 <label>Pop</label>
                 <id>101734842654619</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1700,8 +1700,8 @@
                 <created>2024-10-01</created>
                 <label>Pop/Funk</label>
                 <id>101747787783274</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1717,8 +1717,8 @@
                 <created>2024-10-01</created>
                 <label>Pop-Folk</label>
                 <id>101779686635502</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1734,8 +1734,8 @@
                 <created>2024-10-01</created>
                 <label>Porn Groove</label>
                 <id>101757343738973</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1751,8 +1751,8 @@
                 <created>2024-10-01</created>
                 <label>Power Ballad</label>
                 <id>101763411960563</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1768,8 +1768,8 @@
                 <created>2024-10-01</created>
                 <label>Pranks</label>
                 <id>101740157703656</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1785,8 +1785,8 @@
                 <created>2024-10-01</created>
                 <label>Primus</label>
                 <id>101764255576560</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1802,8 +1802,8 @@
                 <created>2024-10-01</created>
                 <label>Progressive Rock</label>
                 <id>101797432616300</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1819,8 +1819,8 @@
                 <created>2024-10-01</created>
                 <label>Psychadelic</label>
                 <id>101725718396152</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1836,8 +1836,8 @@
                 <created>2024-10-01</created>
                 <label>Psychedelic Rock</label>
                 <id>101751788456144</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1853,8 +1853,8 @@
                 <created>2024-10-01</created>
                 <label>Punk</label>
                 <id>101781349396405</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1870,8 +1870,8 @@
                 <created>2024-10-01</created>
                 <label>Punk Rock</label>
                 <id>101785847720209</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1887,8 +1887,8 @@
                 <created>2024-10-01</created>
                 <label>R&amp;B</label>
                 <id>101733344291219</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1904,8 +1904,8 @@
                 <created>2024-10-01</created>
                 <label>Rap</label>
                 <id>101735945581406</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1921,8 +1921,8 @@
                 <created>2024-10-01</created>
                 <label>Rave</label>
                 <id>101724822246140</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1938,8 +1938,8 @@
                 <created>2024-10-01</created>
                 <label>Reggae</label>
                 <id>101780313024224</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1955,8 +1955,8 @@
                 <created>2024-10-01</created>
                 <label>Retro</label>
                 <id>101758608164627</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1972,8 +1972,8 @@
                 <created>2024-10-01</created>
                 <label>Revival</label>
                 <id>101779368605810</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -1989,8 +1989,8 @@
                 <created>2024-10-01</created>
                 <label>Rhythmic Soul</label>
                 <id>101755678778463</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2006,8 +2006,8 @@
                 <created>2024-10-01</created>
                 <label>Rock</label>
                 <id>101758576861537</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2023,8 +2023,8 @@
                 <created>2024-10-01</created>
                 <label>Rock &amp; Roll</label>
                 <id>101770910083290</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2040,8 +2040,8 @@
                 <created>2024-10-01</created>
                 <label>Salsa</label>
                 <id>101769519647336</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2057,8 +2057,8 @@
                 <created>2024-10-01</created>
                 <label>Samba</label>
                 <id>101743140772631</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2074,8 +2074,8 @@
                 <created>2024-10-01</created>
                 <label>Satire</label>
                 <id>101764457337727</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2091,8 +2091,8 @@
                 <created>2024-10-01</created>
                 <label>Showtunes</label>
                 <id>101756517269842</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2108,8 +2108,8 @@
                 <created>2024-10-01</created>
                 <label>Ska</label>
                 <id>101731097134986</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2125,8 +2125,8 @@
                 <created>2024-10-01</created>
                 <label>Slow Jam</label>
                 <id>101758903524677</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2142,8 +2142,8 @@
                 <created>2024-10-01</created>
                 <label>Slow Rock</label>
                 <id>101715595935516</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2159,8 +2159,8 @@
                 <created>2024-10-01</created>
                 <label>Sonata</label>
                 <id>101716610064702</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2176,8 +2176,8 @@
                 <created>2024-10-01</created>
                 <label>Soul</label>
                 <id>101712492381245</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2193,8 +2193,8 @@
                 <created>2024-10-01</created>
                 <label>Sound Clip</label>
                 <id>101762691424175</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2210,8 +2210,8 @@
                 <created>2024-10-01</created>
                 <label>Soundtrack</label>
                 <id>101720456235197</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2227,8 +2227,8 @@
                 <created>2024-10-01</created>
                 <label>Southern Rock</label>
                 <id>101715180901042</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2244,8 +2244,8 @@
                 <created>2024-10-01</created>
                 <label>Space</label>
                 <id>101762218245647</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2261,8 +2261,8 @@
                 <created>2024-10-01</created>
                 <label>Speech</label>
                 <id>101764611268877</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2278,8 +2278,8 @@
                 <created>2024-10-01</created>
                 <label>Swing</label>
                 <id>101773876695816</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2295,8 +2295,8 @@
                 <created>2024-10-01</created>
                 <label>Symphonic Rock</label>
                 <id>101762351091791</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2312,8 +2312,8 @@
                 <created>2024-10-01</created>
                 <label>Symphony</label>
                 <id>101735675324254</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2329,8 +2329,8 @@
                 <created>2024-10-01</created>
                 <label>SynthPop</label>
                 <id>101769378603107</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2346,8 +2346,8 @@
                 <created>2024-10-01</created>
                 <label>Tango</label>
                 <id>101761395640112</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2363,8 +2363,8 @@
                 <created>2024-10-01</created>
                 <label>Techno</label>
                 <id>101746756755574</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2380,8 +2380,8 @@
                 <created>2024-10-01</created>
                 <label>Techno-Industrial</label>
                 <id>101740675802736</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2397,8 +2397,8 @@
                 <created>2024-10-01</created>
                 <label>Terror</label>
                 <id>101728605381435</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2414,8 +2414,8 @@
                 <created>2024-10-01</created>
                 <label>Thrash Metal</label>
                 <id>101790588108511</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2431,8 +2431,8 @@
                 <created>2024-10-01</created>
                 <label>Top 40</label>
                 <id>101711804153342</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2448,8 +2448,8 @@
                 <created>2024-10-01</created>
                 <label>Trailer</label>
                 <id>101750244683750</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2465,8 +2465,8 @@
                 <created>2024-10-01</created>
                 <label>Trance</label>
                 <id>101736337705439</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2482,8 +2482,8 @@
                 <created>2024-10-01</created>
                 <label>Tribal</label>
                 <id>101749574844877</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2499,8 +2499,8 @@
                 <created>2024-10-01</created>
                 <label>Trip-Hop</label>
                 <id>101713822446820</id>
-            </musicgenre>
-            <musicgenre>
+            </music-genre>
+            <music-genre>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -2516,6 +2516,6 @@
                 <created>2024-10-01</created>
                 <label>Vocal</label>
                 <id>101789014480407</id>
-            </musicgenre>
-        </musicgenre-items>
+            </music-genre>
+        </music-genre-items>
 </data-crow-objects>
