@@ -73,6 +73,9 @@ import java.util.TimeZone;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -107,6 +110,39 @@ public class CoreUtilities {
         Pattern.compile("('|~|\\!|@|#|\\$|%|\\^|\\*|_|\\[|\\{|\\]|\\}|\\||\\\\|;|:|`|\"|<|,|>|\\.|\\?|/|&|_|-)"),
         Pattern.compile("[(,)]")};
     
+    
+    public static byte[] zip(byte[] bytes) {
+        Deflater deflater = new Deflater();
+        deflater.setLevel(9);
+        
+        deflater.setInput(bytes);
+        deflater.finish();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+
+        while (!deflater.finished()) {
+            int compressedSize = deflater.deflate(buffer);
+            outputStream.write(buffer, 0, compressedSize);
+        }
+
+        return outputStream.toByteArray();    	
+    }
+
+    public static byte[] unzip(byte[] bytes) throws DataFormatException {
+    	Inflater inflater = new Inflater();
+        inflater.setInput(bytes);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+
+        while (!inflater.finished()) {
+            int decompressedSize = inflater.inflate(buffer);
+            outputStream.write(buffer, 0, decompressedSize);
+        }
+
+        return outputStream.toByteArray(); 	
+    }
     
     public static List<DcObject> sort(List<DcObject> items) {
     	boolean mappings = false;

@@ -66,6 +66,8 @@ public class Picture implements Serializable {
     
     private byte[] bytes;
     
+    private byte[] zippedBytes;
+    
     public Picture(String objectID, DcImageIcon imageIcon) {
     	this.imageIcon = imageIcon;
     	this.objectID = objectID;
@@ -94,11 +96,15 @@ public class Picture implements Serializable {
     			DcDimension dimMax = DcSettings.getDimension(DcRepository.Settings.stMaximumImageResolution);
 	    		DcImageIcon icon = getImageIcon(); 
 	    		BufferedImage bi = CoreUtilities.getScaledImage(icon, dimMax.getWidth(), dimMax.getHeight());
+	    		
 	    		this.bytes = new DcImageIcon(bi).getBytes();
+	    		this.zippedBytes = CoreUtilities.zip(bytes); 	    		
+	    		this.bytes = null;
 	    		
 	    		bi.flush();
     		} else {
-    			this.bytes = getImageIcon().getBytes();
+	    		this.zippedBytes = CoreUtilities.zip(bytes); 	    		
+	    		this.bytes = null;
     		}
     	}
     	
@@ -219,6 +225,18 @@ public class Picture implements Serializable {
     
     public DcImageIcon getImageIcon() {
     	if (imageIcon == null) {
+    		
+    		try {
+    			
+    			if (zippedBytes != null) {
+    				bytes = CoreUtilities.unzip(zippedBytes);
+    				zippedBytes = null;
+    			}
+    				
+    		} catch (Exception e) {
+    			logger.error("Could not unzip the picture bytes", e);
+    		}	
+    		
     		if (bytes != null) {
     			imageIcon = new DcImageIcon(bytes);
     		} else if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
