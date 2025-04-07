@@ -30,6 +30,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import javax.imageio.ImageIO;
 
@@ -66,7 +67,7 @@ public class Picture implements Serializable {
     
     private byte[] bytes;
     
-    private byte[] zippedBytes;
+    private String forTransfer;
     
     public Picture(String objectID, DcImageIcon imageIcon) {
     	this.imageIcon = imageIcon;
@@ -100,12 +101,12 @@ public class Picture implements Serializable {
 	    		BufferedImage bi = CoreUtilities.getScaledImage(icon, dimMax.getWidth(), dimMax.getHeight());
 	    		
 	    		this.bytes = new DcImageIcon(bi).getBytes();
-	    		this.zippedBytes = CoreUtilities.zip(bytes); 	    		
+	    		this.forTransfer = new String(bytes, StandardCharsets.ISO_8859_1);//  Base64.getEncoder().encode(bytes); 	    		
 	    		this.bytes = null;
 	    		
 	    		bi.flush();
     		} else {
-	    		this.zippedBytes = CoreUtilities.zip(bytes); 	    		
+	    		this.forTransfer = new String(bytes, StandardCharsets.ISO_8859_1); 	    		
 	    		this.bytes = null;
     		}
     	}
@@ -230,9 +231,9 @@ public class Picture implements Serializable {
     		
     		try {
     			
-    			if (zippedBytes != null) {
-    				bytes = CoreUtilities.unzip(zippedBytes);
-    				zippedBytes = null;
+    			if (forTransfer != null) {
+    				bytes = forTransfer.getBytes(StandardCharsets.ISO_8859_1);
+    				forTransfer = null;
     			}
     				
     		} catch (Exception e) {
