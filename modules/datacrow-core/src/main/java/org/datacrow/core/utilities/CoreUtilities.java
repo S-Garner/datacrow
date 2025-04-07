@@ -118,14 +118,22 @@ public class CoreUtilities {
         deflater.finish();
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[8096];
 
         while (!deflater.finished()) {
             int compressedSize = deflater.deflate(buffer);
             outputStream.write(buffer, 0, compressedSize);
         }
 
-        return outputStream.toByteArray();    	
+        byte[] data = outputStream.toByteArray();
+        
+        try {
+        	outputStream.close();
+        } catch (Exception e) {
+        	logger.error("Error closing output stream", e);
+        }
+        
+        return data;
     }
 
     public static byte[] unzip(byte[] bytes) throws DataFormatException {
@@ -140,7 +148,15 @@ public class CoreUtilities {
             outputStream.write(buffer, 0, decompressedSize);
         }
 
-        return outputStream.toByteArray(); 	
+        byte[] data = outputStream.toByteArray();
+        
+        try {
+        	outputStream.close();
+        } catch (Exception e) {
+        	logger.error("Error closing output stream", e);
+        }
+        
+        return data;
     }
     
     public static List<DcObject> sort(List<DcObject> items) {

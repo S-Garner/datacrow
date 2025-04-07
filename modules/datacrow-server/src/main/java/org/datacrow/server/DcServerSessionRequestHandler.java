@@ -25,6 +25,7 @@
 
 package org.datacrow.server;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -118,12 +119,24 @@ public class DcServerSessionRequestHandler extends Thread {
         
 		this.socket = session.getSocket();
 		
-		ObjectInputStream is = null;
+		try {
+			socket.setReceiveBufferSize(128000);
+			socket.setSendBufferSize(128000);
+        
+	        // set a socket timeout
+	        // socket.setSoTimeout(2000);
+	        // ping every 2 hours
+	        socket.setKeepAlive(true);
+		} catch (Exception e) {
+			logger.warn("Failed to set socket properties", e);
+		}
+		
+        ObjectInputStream is = null;
 		ObjectOutputStream os = null;
 		
 		try {
 	        os = new ObjectOutputStream(socket.getOutputStream());
-	        is = new ObjectInputStream(socket.getInputStream());
+	        is = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
             context = new LocalServerConnector();
             
