@@ -468,8 +468,9 @@ public class PictureOverviewPanel extends DcPanel {
         	String name;
         	for (Picture p : pictures) {
         		name = p.getFilename();
-        		name = name.indexOf("/") > 0 ? name.substring(name.lastIndexOf("/") + 1) :
-        			name.substring(name.lastIndexOf("\\") + 1);
+        		name = name.indexOf("/") > -1 ? name.substring(name.lastIndexOf("/") + 1) :
+        			   name.substring(name.lastIndexOf("\\") + 1);
+        			
         		order.add(name);
         	}
         	
