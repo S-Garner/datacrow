@@ -55,6 +55,10 @@ public class DcServerConnection {
     public DcServerConnection(String address, int port) throws IOException, SocketException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException {
     	
         socket = new Socket(address, port);
+        
+        socket.setReceiveBufferSize(32000);
+        socket.setSendBufferSize(32000);
+        
         // set a socket timeout
         // socket.setSoTimeout(2000);
         // ping every 2 hours
