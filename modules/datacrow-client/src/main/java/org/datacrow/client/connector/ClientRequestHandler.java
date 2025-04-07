@@ -73,9 +73,12 @@ public class ClientRequestHandler {
             os = connection.getOutputStream();
             is = connection.getInputStream();
             
+            logger.debug("Start serialization of client request");
+            
             String json = SerializationHelper.getInstance().serialize(cr);
             os.writeObject(json);
             os.flush();
+            logger.debug("End of serialization of client request");
             
             response = SerializationHelper.getInstance().deserializeServerResponse(is);
             

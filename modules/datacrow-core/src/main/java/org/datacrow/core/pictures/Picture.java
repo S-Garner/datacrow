@@ -71,7 +71,9 @@ public class Picture implements Serializable {
     public Picture(String objectID, DcImageIcon imageIcon) {
     	this.imageIcon = imageIcon;
     	this.objectID = objectID;
-		this.filename = imageIcon.getFilename();
+    	
+    	if (imageIcon != null)
+    		this.filename = imageIcon.getFilename();
 		
 		setItemIsNew(true);
     }

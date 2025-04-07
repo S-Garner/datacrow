@@ -137,7 +137,7 @@ public class DcServerSessionRequestHandler extends Thread {
 		try {
 	        os = new ObjectOutputStream(socket.getOutputStream());
 	        is = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-
+	        
             context = new LocalServerConnector();
             
             while (!socket.isClosed()) {
