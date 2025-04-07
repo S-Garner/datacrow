@@ -56,7 +56,7 @@ public class DcServerConnection {
     	
         socket = new Socket(address, port);
         // set a socket timeout
-        socket.setSoTimeout(2000);
+        // socket.setSoTimeout(2000);
         // ping every 2 hours
         socket.setKeepAlive(true);
         
