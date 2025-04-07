@@ -25,6 +25,8 @@
 
 package org.datacrow.core.server;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -58,8 +60,8 @@ public class DcServerConnection {
         // ping every 2 hours
         socket.setKeepAlive(true);
         
-        is = new ObjectInputStream(socket.getInputStream());
-        os = new ObjectOutputStream(socket.getOutputStream());
+        is = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+        os = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
     }
     
     public ObjectInputStream getInputStream() {
