@@ -465,8 +465,12 @@ public class PictureOverviewPanel extends DcPanel {
         	
         	LinkedList<String> order = new LinkedList<String>();
         	
+        	String name;
         	for (Picture p : pictures) {
-        		order.add(new File(p.getFilename()).getName());
+        		name = p.getFilename();
+        		name = name.indexOf("/") > 0 ? name.substring(name.lastIndexOf("/") + 1) :
+        			name.substring(name.lastIndexOf("\\") + 1);
+        		order.add(name);
         	}
         	
         	SwingUtilities.invokeLater(new Runnable() {

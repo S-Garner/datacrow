@@ -51,7 +51,11 @@ public class DcServerConnection {
     private boolean isAvailable = true;
     
     public DcServerConnection(String address, int port) throws IOException, SocketException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException {
+    	
         socket = new Socket(address, port);
+        // set a socket timeout
+        socket.setSoTimeout(2000);
+        // ping every 2 hours
         socket.setKeepAlive(true);
         
         is = new ObjectInputStream(socket.getInputStream());

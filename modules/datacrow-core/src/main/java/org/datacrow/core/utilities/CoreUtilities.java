@@ -112,9 +112,8 @@ public class CoreUtilities {
     
     
     public static byte[] zip(byte[] bytes) {
-        Deflater deflater = new Deflater();
-        deflater.setLevel(9);
-        
+        Deflater deflater = new Deflater(9);
+        deflater.setLevel(Deflater.BEST_COMPRESSION);
         deflater.setInput(bytes);
         deflater.finish();
 
