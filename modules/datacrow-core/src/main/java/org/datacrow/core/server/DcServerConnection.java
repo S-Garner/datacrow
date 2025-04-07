@@ -56,8 +56,8 @@ public class DcServerConnection {
     	
         socket = new Socket(address, port);
         
-        socket.setReceiveBufferSize(32000);
-        socket.setSendBufferSize(32000);
+        socket.setReceiveBufferSize(128000);
+        socket.setSendBufferSize(128000);
         
         // set a socket timeout
         // socket.setSoTimeout(2000);
