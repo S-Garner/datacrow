@@ -8,35 +8,17 @@
 	<field name="item" class="java.lang.String">
 		<fieldDescription><![CDATA[item]]></fieldDescription>
 	</field>
-	<field name="artists" class="java.lang.String">
-		<fieldDescription><![CDATA[artists]]></fieldDescription>
-	</field>
-	<field name="musicartist-items-list" class="java.lang.String">
-		<fieldDescription><![CDATA[musicartist-items-list]]></fieldDescription>
-	</field>
-	<field name="artists_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[artists_persist]]></fieldDescription>
+	<field name="artists-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[artists-items-list]]></fieldDescription>
 	</field>
 	<field name="available" class="java.lang.String">
 		<fieldDescription><![CDATA[available]]></fieldDescription>
 	</field>
-	<field name="container" class="java.lang.String">
-		<fieldDescription><![CDATA[container]]></fieldDescription>
-	</field>
 	<field name="container-items-list" class="java.lang.String">
 		<fieldDescription><![CDATA[container-items-list]]></fieldDescription>
 	</field>
-	<field name="container_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[container_persist]]></fieldDescription>
-	</field>
-	<field name="countries" class="java.lang.String">
-		<fieldDescription><![CDATA[countries]]></fieldDescription>
-	</field>
-	<field name="countries-list" class="java.lang.String">
-		<fieldDescription><![CDATA[countries-list]]></fieldDescription>
-	</field>
-	<field name="countries_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[countries_persist]]></fieldDescription>
+	<field name="countries-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[countries-items-list]]></fieldDescription>
 	</field>
 	<field name="created" class="java.lang.String">
 		<fieldDescription><![CDATA[created]]></fieldDescription>
@@ -62,17 +44,8 @@
 	<field name="external-references-list" class="java.lang.String">
 		<fieldDescription><![CDATA[external-references-list]]></fieldDescription>
 	</field>
-	<field name="external-references_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[external-references_persist]]></fieldDescription>
-	</field>
-	<field name="genres" class="java.lang.String">
-		<fieldDescription><![CDATA[genres]]></fieldDescription>
-	</field>
-	<field name="musicgenre-items-list" class="java.lang.String">
-		<fieldDescription><![CDATA[musicgenre-items-list]]></fieldDescription>
-	</field>
-	<field name="genres_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[genres_persist]]></fieldDescription>
+	<field name="genres-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[genres-items-list]]></fieldDescription>
 	</field>
 	<field name="id" class="java.lang.String">
 		<fieldDescription><![CDATA[id]]></fieldDescription>
@@ -89,9 +62,6 @@
 	<field name="languages-list" class="java.lang.String">
 		<fieldDescription><![CDATA[languages-list]]></fieldDescription>
 	</field>
-	<field name="languages_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[languages_persist]]></fieldDescription>
-	</field>
 	<field name="lend-by" class="java.lang.String">
 		<fieldDescription><![CDATA[lend-by]]></fieldDescription>
 	</field>
@@ -107,20 +77,14 @@
 	<field name="modified" class="java.lang.String">
 		<fieldDescription><![CDATA[modified]]></fieldDescription>
 	</field>
-	<field name="picture-back" class="java.lang.String">
-		<fieldDescription><![CDATA[picture-back]]></fieldDescription>
-	</field>
-	<field name="picture-cd" class="java.lang.String">
-		<fieldDescription><![CDATA[picture-cd]]></fieldDescription>
-	</field>
 	<field name="picture-01" class="java.lang.String">
 		<fieldDescription><![CDATA[picture-01]]></fieldDescription>
 	</field>
 	<field name="rating" class="java.lang.String">
 		<fieldDescription><![CDATA[rating]]></fieldDescription>
 	</field>
-	<field name="record-label-list" class="java.lang.String">
-		<fieldDescription><![CDATA[record-label-list]]></fieldDescription>
+	<field name="record-label-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[record-label-items-list]]></fieldDescription>
 	</field>
 	<field name="service" class="java.lang.String">
 		<fieldDescription><![CDATA[service]]></fieldDescription>
@@ -131,17 +95,8 @@
 	<field name="state" class="java.lang.String">
 		<fieldDescription><![CDATA[state]]></fieldDescription>
 	</field>
-	<field name="storage-medium" class="java.lang.String">
-		<fieldDescription><![CDATA[storage-medium]]></fieldDescription>
-	</field>
-	<field name="tags" class="java.lang.String">
-		<fieldDescription><![CDATA[tags]]></fieldDescription>
-	</field>
-	<field name="tag-items-list" class="java.lang.String">
-		<fieldDescription><![CDATA[tag-items-list]]></fieldDescription>
-	</field>
-	<field name="tags_persist" class="java.lang.String">
-		<fieldDescription><![CDATA[tags_persist]]></fieldDescription>
+	<field name="tags-items-list" class="java.lang.String">
+		<fieldDescription><![CDATA[tags-items-list]]></fieldDescription>
 	</field>
 	<field name="title" class="java.lang.String">
 		<fieldDescription><![CDATA[title]]></fieldDescription>
@@ -166,9 +121,6 @@
 	</field>
 	<field name="year" class="java.lang.String">
 		<fieldDescription><![CDATA[year]]></fieldDescription>
-	</field>
-	<field name="music-tracks" class="java.lang.String">
-		<fieldDescription><![CDATA[music-tracks]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -213,7 +165,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="180" y="20" width="290" height="20" uuid="162b5d49-ac70-40b1-9de0-ed4df2fc765d"/>
-				<textFieldExpression><![CDATA[$F{musicgenre-items-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{genres-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="90" y="20" width="90" height="20" uuid="2f6a1c04-f0e4-466d-9a95-996cf6369055"/>
@@ -238,7 +190,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="180" y="40" width="290" height="20" uuid="d0156ec9-cc05-4255-8923-6fd8fd5c3e0f"/>
-				<textFieldExpression><![CDATA[$F{musicartist-items-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{artists-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="90" y="40" width="90" height="20" uuid="df246fcc-1561-4ac1-93d9-dafe135b30f5"/>
@@ -271,7 +223,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="180" y="60" width="200" height="20" uuid="0d65dd74-7a48-424a-9ead-0176f496d93b"/>
-				<textFieldExpression><![CDATA[$F{record-label-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{record-label-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="90" y="60" width="90" height="20" uuid="73aa9a6e-b854-4a4d-9da0-1fbb9cbf4619"/>
@@ -282,7 +234,7 @@
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="570" y="60" width="230" height="20" uuid="c79e525e-d06d-4a45-af8f-056459b1ab15"/>
-				<textFieldExpression><![CDATA[$F{tag-items-list}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tags-items-list}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="480" y="60" width="90" height="20" uuid="95ae2d49-2630-49d4-9ca0-8026427b8031"/>
