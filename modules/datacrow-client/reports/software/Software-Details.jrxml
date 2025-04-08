@@ -1,7 +1,7 @@
 <!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
 <jasperReport name="Software-Details" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1edb9de8-c4fa-4975-bced-b8ff4e8892d9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Software-XML"/>
-	<query language="xPath"><![CDATA[/data-crow-objects/software-items/software]]></query>
+	<query language="xPath"><![CDATA[/data-crow-objects/software-item-items/software-item]]></query>
 	<field name="item" class="java.lang.String">
 		<description><![CDATA[item]]></description>
 	</field>
@@ -11,11 +11,8 @@
 	<field name="categories" class="java.lang.String">
 		<description><![CDATA[categories]]></description>
 	</field>
-	<field name="software-category-items-list" class="java.lang.String">
-		<description><![CDATA[software-category-items-list]]></description>
-	</field>
-	<field name="categories_persist" class="java.lang.String">
-		<description><![CDATA[categories_persist]]></description>
+	<field name="categories-items-list" class="java.lang.String">
+		<description><![CDATA[categories-items-list]]></description>
 	</field>
 	<field name="container" class="java.lang.String">
 		<description><![CDATA[container]]></description>
@@ -23,17 +20,11 @@
 	<field name="container-items-list" class="java.lang.String">
 		<description><![CDATA[container-items-list]]></description>
 	</field>
-	<field name="container_persist" class="java.lang.String">
-		<description><![CDATA[container_persist]]></description>
-	</field>
 	<field name="countries" class="java.lang.String">
 		<description><![CDATA[countries]]></description>
 	</field>
-	<field name="country-items-list" class="java.lang.String">
-		<description><![CDATA[country-items-list]]></description>
-	</field>
-	<field name="countries_persist" class="java.lang.String">
-		<description><![CDATA[countries_persist]]></description>
+	<field name="countries-items-list" class="java.lang.String">
+		<description><![CDATA[countries-items-list]]></description>
 	</field>
 	<field name="created" class="java.lang.String">
 		<description><![CDATA[created]]></description>
@@ -53,29 +44,11 @@
 	<field name="developers-list" class="java.lang.String">
 		<description><![CDATA[developers-list]]></description>
 	</field>
-	<field name="developers_persist" class="java.lang.String">
-		<description><![CDATA[developers_persist]]></description>
-	</field>
 	<field name="due-date" class="java.lang.String">
 		<description><![CDATA[due-date]]></description>
 	</field>
 	<field name="ean" class="java.lang.String">
 		<description><![CDATA[ean]]></description>
-	</field>
-	<field name="external-references" class="java.lang.String">
-		<description><![CDATA[external-references]]></description>
-	</field>
-	<field name="external-references-list" class="java.lang.String">
-		<description><![CDATA[external-references-list]]></description>
-	</field>
-	<field name="external-references_persist" class="java.lang.String">
-		<description><![CDATA[external-references_persist]]></description>
-	</field>
-	<field name="filehash" class="java.lang.String">
-		<description><![CDATA[filehash]]></description>
-	</field>
-	<field name="filehash-type" class="java.lang.String">
-		<description><![CDATA[filehash-type]]></description>
 	</field>
 	<field name="filename" class="java.lang.String">
 		<description><![CDATA[filename]]></description>
@@ -92,14 +65,8 @@
 	<field name="label" class="java.lang.String">
 		<description><![CDATA[label]]></description>
 	</field>
-	<field name="languages" class="java.lang.String">
-		<description><![CDATA[languages]]></description>
-	</field>
 	<field name="languages-list" class="java.lang.String">
 		<description><![CDATA[languages-list]]></description>
-	</field>
-	<field name="languages_persist" class="java.lang.String">
-		<description><![CDATA[languages_persist]]></description>
 	</field>
 	<field name="lend-by" class="java.lang.String">
 		<description><![CDATA[lend-by]]></description>
@@ -119,20 +86,11 @@
 	<field name="modified" class="java.lang.String">
 		<description><![CDATA[modified]]></description>
 	</field>
-	<field name="multiplayer-" class="java.lang.String">
-		<description><![CDATA[multiplayer-]]></description>
-	</field>
-	<field name="picture-back" class="java.lang.String">
-		<description><![CDATA[picture-back]]></description>
-	</field>
-	<field name="picture-cd" class="java.lang.String">
-		<description><![CDATA[picture-cd]]></description>
-	</field>
 	<field name="picture-01" class="java.lang.String">
 		<description><![CDATA[picture-01]]></description>
 	</field>
-	<field name="platform-list" class="java.lang.String">
-		<description><![CDATA[platform-list]]></description>
+	<field name="platform-items-list" class="java.lang.String">
+		<description><![CDATA[platform-items-list]]></description>
 	</field>
 	<field name="publishers" class="java.lang.String">
 		<description><![CDATA[publishers]]></description>
@@ -158,15 +116,6 @@
 	<field name="serial-key" class="java.lang.String">
 		<description><![CDATA[serial-key]]></description>
 	</field>
-	<field name="service" class="java.lang.String">
-		<description><![CDATA[service]]></description>
-	</field>
-	<field name="service-url" class="java.lang.String">
-		<description><![CDATA[service-url]]></description>
-	</field>
-	<field name="state" class="java.lang.String">
-		<description><![CDATA[state]]></description>
-	</field>
 	<field name="state-list" class="java.lang.String">
 		<description><![CDATA[state-list]]></description>
 	</field>
@@ -179,8 +128,8 @@
 	<field name="tags" class="java.lang.String">
 		<description><![CDATA[tags]]></description>
 	</field>
-	<field name="tag-items-list" class="java.lang.String">
-		<description><![CDATA[tag-items-list]]></description>
+	<field name="tags-items-list" class="java.lang.String">
+		<description><![CDATA[tags-items-list]]></description>
 	</field>
 	<field name="tags_persist" class="java.lang.String">
 		<description><![CDATA[tags_persist]]></description>
@@ -232,13 +181,13 @@
 				<expression><![CDATA[$F{description}]]></expression>
 			</element>
 			<element kind="textField" uuid="fd4b8e60-99db-4fe3-8ab0-2125d52596a9" x="280" y="130" width="280" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{tag-items-list}]]></expression>
+				<expression><![CDATA[$F{tags-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="4c6e64a0-23e7-4d55-8bf9-f70126a64c61" key="" x="190" y="130" width="80" height="20" bold="true">
 				<text><![CDATA[Tags]]></text>
 			</element>
 			<element kind="textField" uuid="4023c752-d937-40a0-8b9c-2ec9bc50159d" x="280" y="50" width="280" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{software-category-items-list}]]></expression>
+				<expression><![CDATA[$F{categories-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="3f10bdeb-e334-4a90-9f39-89582fe9cf6d" key="" x="190" y="50" width="80" height="20" bold="true">
 				<text><![CDATA[Categories]]></text>
@@ -263,7 +212,7 @@
 				<property name="com.jaspersoft.studio.unit.width" value="px"/>
 			</element>
 			<element kind="textField" uuid="db44c1ea-7324-4eb1-b44e-dea0edbc76ef" positionType="Float" x="280" y="70" width="280" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{platform-list}]]></expression>
+				<expression><![CDATA[$F{platform-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="d235551a-0049-4e85-8717-46fcdc3a0a61" key="" positionType="Float" x="190" y="70" width="80" height="20" bold="true">
 				<text><![CDATA[Platform]]></text>
@@ -296,7 +245,7 @@
 				<text><![CDATA[Countries]]></text>
 			</element>
 			<element kind="textField" uuid="056136e8-646c-4c3a-85c8-1032397c5e0a" positionType="Float" x="280" y="190" width="279" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{country-items-list}]]></expression>
+				<expression><![CDATA[$F{countries-items-list}]]></expression>
 			</element>
 		</band>
 	</detail>
