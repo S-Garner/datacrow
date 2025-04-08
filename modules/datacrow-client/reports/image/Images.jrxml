@@ -11,8 +11,8 @@
 	<field name="camera" class="java.lang.String">
 		<description><![CDATA[camera]]></description>
 	</field>
-	<field name="category-list" class="java.lang.String">
-		<description><![CDATA[category-list]]></description>
+	<field name="category-items-list" class="java.lang.String">
+		<description><![CDATA[category-items-list]]></description>
 	</field>
 	<field name="compression-bits" class="java.lang.String">
 		<description><![CDATA[compression-bits]]></description>
@@ -156,7 +156,7 @@
 				<expression><![CDATA[$F{picture-01}]]></expression>
 			</element>
 			<element kind="textField" uuid="7d62f551-a5c2-4f0f-a79b-3821620abb0b" x="430" y="30" width="130" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{category-list}]]></expression>
+				<expression><![CDATA[$F{category-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="e0270461-e424-4d52-9bb2-60b5f8b255d6" x="360" y="30" width="60" height="20" bold="true">
 				<text><![CDATA[Category]]></text>

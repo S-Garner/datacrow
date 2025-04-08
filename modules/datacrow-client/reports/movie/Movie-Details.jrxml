@@ -8,11 +8,8 @@
 	<field name="actors" class="java.lang.String">
 		<description><![CDATA[actors]]></description>
 	</field>
-	<field name="actor-items-list" class="java.lang.String">
-		<description><![CDATA[actor-items-list]]></description>
-	</field>
-	<field name="actors_persist" class="java.lang.String">
-		<description><![CDATA[actors_persist]]></description>
+	<field name="actors-items-list" class="java.lang.String">
+		<description><![CDATA[actors-items-list]]></description>
 	</field>
 	<field name="aspect-ratio" class="java.lang.String">
 		<description><![CDATA[aspect-ratio]]></description>
@@ -32,9 +29,6 @@
 	<field name="audio-languages-list" class="java.lang.String">
 		<description><![CDATA[audio-languages-list]]></description>
 	</field>
-	<field name="audio-languages_persist" class="java.lang.String">
-		<description><![CDATA[audio-languages_persist]]></description>
-	</field>
 	<field name="audio-sample-rate" class="java.lang.String">
 		<description><![CDATA[audio-sample-rate]]></description>
 	</field>
@@ -53,17 +47,11 @@
 	<field name="container-list" class="java.lang.String">
 		<description><![CDATA[container-list]]></description>
 	</field>
-	<field name="container_persist" class="java.lang.String">
-		<description><![CDATA[container_persist]]></description>
-	</field>
 	<field name="countries" class="java.lang.String">
 		<description><![CDATA[countries]]></description>
 	</field>
 	<field name="countries-list" class="java.lang.String">
 		<description><![CDATA[countries-list]]></description>
-	</field>
-	<field name="countries_persist" class="java.lang.String">
-		<description><![CDATA[countries_persist]]></description>
 	</field>
 	<field name="created" class="java.lang.String">
 		<description><![CDATA[created]]></description>
@@ -77,14 +65,11 @@
 	<field name="description" class="java.lang.String">
 		<description><![CDATA[description]]></description>
 	</field>
-	<field name="director-items-list" class="java.lang.String">
-		<description><![CDATA[director-items-list]]></description>
+	<field name="directors-items-list" class="java.lang.String">
+		<description><![CDATA[directors-items-list]]></description>
 	</field>
-	<field name="director-items-list-list" class="java.lang.String">
-		<description><![CDATA[director-items-list-list]]></description>
-	</field>
-	<field name="director-items-list_persist" class="java.lang.String">
-		<description><![CDATA[director-items-list_persist]]></description>
+	<field name="directors-items-list-list" class="java.lang.String">
+		<description><![CDATA[directors-items-list-list]]></description>
 	</field>
 	<field name="due-date" class="java.lang.String">
 		<description><![CDATA[due-date]]></description>
@@ -103,9 +88,6 @@
 	</field>
 	<field name="external-references-list" class="java.lang.String">
 		<description><![CDATA[external-references-list]]></description>
-	</field>
-	<field name="external-references_persist" class="java.lang.String">
-		<description><![CDATA[external-references_persist]]></description>
 	</field>
 	<field name="filehash" class="java.lang.String">
 		<description><![CDATA[filehash]]></description>
@@ -128,11 +110,8 @@
 	<field name="genres" class="java.lang.String">
 		<description><![CDATA[genres]]></description>
 	</field>
-	<field name="movie-genre-items-list" class="java.lang.String">
-		<description><![CDATA[movie-genre-items-list]]></description>
-	</field>
-	<field name="genres_persist" class="java.lang.String">
-		<description><![CDATA[genres_persist]]></description>
+	<field name="genres-items-list" class="java.lang.String">
+		<description><![CDATA[genres-items-list]]></description>
 	</field>
 	<field name="height" class="java.lang.String">
 		<description><![CDATA[height]]></description>
@@ -151,9 +130,6 @@
 	</field>
 	<field name="languages-list" class="java.lang.String">
 		<description><![CDATA[languages-list]]></description>
-	</field>
-	<field name="languages_persist" class="java.lang.String">
-		<description><![CDATA[languages_persist]]></description>
 	</field>
 	<field name="lend-by" class="java.lang.String">
 		<description><![CDATA[lend-by]]></description>
@@ -209,17 +185,11 @@
 	<field name="subtitle-languages-list" class="java.lang.String">
 		<description><![CDATA[subtitle-languages-list]]></description>
 	</field>
-	<field name="subtitle-languages_persist" class="java.lang.String">
-		<description><![CDATA[subtitle-languages_persist]]></description>
-	</field>
 	<field name="tags" class="java.lang.String">
 		<description><![CDATA[tags]]></description>
 	</field>
-	<field name="tag-items-list" class="java.lang.String">
-		<description><![CDATA[tag-items-list]]></description>
-	</field>
-	<field name="tags_persist" class="java.lang.String">
-		<description><![CDATA[tags_persist]]></description>
+	<field name="tags-items-list" class="java.lang.String">
+		<description><![CDATA[tags-items-list]]></description>
 	</field>
 	<field name="title" class="java.lang.String">
 		<description><![CDATA[title]]></description>
@@ -274,13 +244,13 @@
 				<expression><![CDATA[$F{description}]]></expression>
 			</element>
 			<element kind="textField" uuid="fd4b8e60-99db-4fe3-8ab0-2125d52596a9" x="280" y="130" width="280" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{tag-items-list}]]></expression>
+				<expression><![CDATA[$F{tags-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="4c6e64a0-23e7-4d55-8bf9-f70126a64c61" key="" x="180" y="130" width="80" height="20" bold="true">
 				<text><![CDATA[Tags]]></text>
 			</element>
 			<element kind="textField" uuid="4023c752-d937-40a0-8b9c-2ec9bc50159d" x="280" y="70" width="280" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{movie-genre-items-list}]]></expression>
+				<expression><![CDATA[$F{genres-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="3f10bdeb-e334-4a90-9f39-89582fe9cf6d" key="" x="180" y="70" width="80" height="20" bold="true">
 				<text><![CDATA[Genres]]></text>
@@ -316,13 +286,13 @@
 				<text><![CDATA[Value]]></text>
 			</element>
 			<element kind="textField" uuid="273e64f4-ec3f-47a3-a02c-4ed523d5c7fc" x="0" y="213" width="559" height="17" textAdjust="StretchHeight" blankWhenNull="true">
-				<expression><![CDATA[$F{actor-items-list}]]></expression>
+				<expression><![CDATA[$F{actors-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="4e39f9a6-b4e5-439a-951c-160d5a135a54" x="1" y="200" width="100" height="13" bold="true">
 				<text><![CDATA[Actors]]></text>
 			</element>
 			<element kind="textField" uuid="0217d095-9e63-4660-8392-4fd5177d953d" positionType="Float" x="280" y="170" width="280" height="20" textAdjust="StretchHeight" blankWhenNull="true">
-				<expression><![CDATA[$F{director-items-list}]]></expression>
+				<expression><![CDATA[$F{directors-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="f6a5d819-7d34-470f-bf3f-15f4528a87e0" positionType="Float" x="180" y="170" width="80" height="20" bold="true">
 				<text><![CDATA[Directors]]></text>
