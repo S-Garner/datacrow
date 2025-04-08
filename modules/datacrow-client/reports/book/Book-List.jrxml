@@ -8,8 +8,8 @@
 	<field name="author-items" class="java.lang.String">
 		<description><![CDATA[author-items]]></description>
 	</field>
-	<field name="author-items-list" class="java.lang.String">
-		<description><![CDATA[author-items-list]]></description>
+	<field name="authors-items-list" class="java.lang.String">
+		<description><![CDATA[authors-items-list]]></description>
 	</field>
 	<field name="available" class="java.lang.String">
 		<description><![CDATA[available]]></description>
@@ -17,8 +17,8 @@
 	<field name="binding" class="java.lang.String">
 		<description><![CDATA[binding]]></description>
 	</field>
-	<field name="category-list" class="java.lang.String">
-		<description><![CDATA[category-list]]></description>
+	<field name="category-items-list" class="java.lang.String">
+		<description><![CDATA[category-items-list]]></description>
 	</field>
 	<field name="container-items" class="java.lang.String">
 		<description><![CDATA[container-items]]></description>
@@ -143,8 +143,8 @@
 	<field name="tag-items" class="java.lang.String">
 		<description><![CDATA[tag-items]]></description>
 	</field>
-	<field name="tag-items-list" class="java.lang.String">
-		<description><![CDATA[tag-items-list]]></description>
+	<field name="tags-items-list" class="java.lang.String">
+		<description><![CDATA[tags-items-list]]></description>
 	</field>
 	<field name="tags_persist" class="java.lang.String">
 		<description><![CDATA[tags_persist]]></description>
@@ -205,7 +205,7 @@
 				<text><![CDATA[Title]]></text>
 			</element>
 			<element kind="textField" uuid="162b5d49-ac70-40b1-9de0-ed4df2fc765d" positionType="Float" x="180" y="20" width="290" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{category-list}]]></expression>
+				<expression><![CDATA[$F{category-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="2f6a1c04-f0e4-466d-9a95-996cf6369055" positionType="Float" x="90" y="20" width="90" height="20" bold="true">
 				<text><![CDATA[Category]]></text>
@@ -218,7 +218,7 @@
 				<text><![CDATA[Containers]]></text>
 			</element>
 			<element kind="textField" uuid="d0156ec9-cc05-4255-8923-6fd8fd5c3e0f" x="180" y="40" width="290" height="20" textAdjust="StretchHeight" blankWhenNull="true">
-				<expression><![CDATA[$F{author-items-list}]]></expression>
+				<expression><![CDATA[$F{authors-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="df246fcc-1561-4ac1-93d9-dafe135b30f5" x="90" y="40" width="90" height="20" bold="true">
 				<text><![CDATA[Author]]></text>
@@ -242,7 +242,7 @@
 				<text><![CDATA[ISBN-13]]></text>
 			</element>
 			<element kind="textField" uuid="c79e525e-d06d-4a45-af8f-056459b1ab15" positionType="Float" x="570" y="60" width="230" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{tag-items-list}]]></expression>
+				<expression><![CDATA[$F{tags-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="95ae2d49-2630-49d4-9ca0-8026427b8031" positionType="Float" x="480" y="60" width="90" height="20" bold="true">
 				<text><![CDATA[Tags]]></text>

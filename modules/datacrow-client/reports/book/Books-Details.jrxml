@@ -1,4 +1,4 @@
-<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
 <jasperReport name="Books-Details" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="258619c2-bc08-43e3-8142-1da8eb11153f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Books-XML"/>
 	<query language="xPath"><![CDATA[/data-crow-objects/book-items/book]]></query>
@@ -8,8 +8,8 @@
 	<field name="authors" class="java.lang.String">
 		<description><![CDATA[authors]]></description>
 	</field>
-	<field name="author-items-list" class="java.lang.String">
-		<description><![CDATA[author-items-list]]></description>
+	<field name="authors-items-list" class="java.lang.String">
+		<description><![CDATA[authors-items-list]]></description>
 	</field>
 	<field name="authors_persist" class="java.lang.String">
 		<description><![CDATA[authors_persist]]></description>
@@ -20,8 +20,8 @@
 	<field name="binding" class="java.lang.String">
 		<description><![CDATA[binding]]></description>
 	</field>
-	<field name="category-list" class="java.lang.String">
-		<description><![CDATA[category-list]]></description>
+	<field name="category-items-list" class="java.lang.String">
+		<description><![CDATA[category-items-list]]></description>
 	</field>
 	<field name="container" class="java.lang.String">
 		<description><![CDATA[container]]></description>
@@ -35,8 +35,8 @@
 	<field name="countries" class="java.lang.String">
 		<description><![CDATA[countries]]></description>
 	</field>
-	<field name="country-items-list" class="java.lang.String">
-		<description><![CDATA[country-items-list]]></description>
+	<field name="countries-items-list" class="java.lang.String">
+		<description><![CDATA[countries-items-list]]></description>
 	</field>
 	<field name="countries_persist" class="java.lang.String">
 		<description><![CDATA[countries_persist]]></description>
@@ -158,8 +158,8 @@
 	<field name="tags" class="java.lang.String">
 		<description><![CDATA[tags]]></description>
 	</field>
-	<field name="tag-items-list" class="java.lang.String">
-		<description><![CDATA[tag-items-list]]></description>
+	<field name="tags-items-list" class="java.lang.String">
+		<description><![CDATA[tags-items-list]]></description>
 	</field>
 	<field name="tags_persist" class="java.lang.String">
 		<description><![CDATA[tags_persist]]></description>
@@ -215,16 +215,16 @@
 				<property name="local_mesure_unity" value="pixel"/>
 			</element>
 			<element kind="textField" uuid="fd4b8e60-99db-4fe3-8ab0-2125d52596a9" x="280" y="130" width="280" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{tag-items-list}]]></expression>
+				<expression><![CDATA[$F{tags-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="4c6e64a0-23e7-4d55-8bf9-f70126a64c61" key="" x="180" y="130" width="80" height="20" bold="true">
 				<text><![CDATA[Tags]]></text>
 			</element>
 			<element kind="textField" uuid="4023c752-d937-40a0-8b9c-2ec9bc50159d" x="280" y="50" width="280" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{category-list}]]></expression>
+				<expression><![CDATA[$F{category-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="3f10bdeb-e334-4a90-9f39-89582fe9cf6d" key="" x="180" y="50" width="80" height="20" bold="true">
-				<text><![CDATA[category-list]]></text>
+				<text><![CDATA[Categories]]></text>
 			</element>
 			<element kind="textField" uuid="da4f4cb0-fbba-4566-8628-f547421dc13c" x="280" y="90" width="280" height="20" blankWhenNull="true">
 				<expression><![CDATA[$F{rating}]]></expression>
@@ -251,10 +251,10 @@
 				<text><![CDATA[Value]]></text>
 			</element>
 			<element kind="textField" uuid="266a8aa1-19c2-4e1f-8c1f-108b55eaceb0" x="280" y="70" width="279" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{author-items-list}]]></expression>
+				<expression><![CDATA[$F{authors-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="fa0014b8-fef8-4628-9066-42b8fb493e42" x="180" y="70" width="80" height="20" bold="true">
-				<text><![CDATA[Author]]></text>
+				<text><![CDATA[Authors]]></text>
 			</element>
 			<element kind="textField" uuid="dc99d9ee-c53d-4605-b42b-ea33abf461b5" positionType="Float" x="280" y="170" width="279" height="20" blankWhenNull="true">
 				<expression><![CDATA[$F{container-items-list}]]></expression>
@@ -263,7 +263,7 @@
 				<text><![CDATA[Containers]]></text>
 			</element>
 			<element kind="textField" uuid="0a6bc1ce-1773-46ca-9a61-58af439bc142" positionType="Float" x="280" y="190" width="278" height="20" blankWhenNull="true">
-				<expression><![CDATA[$F{country-items-list}]]></expression>
+				<expression><![CDATA[$F{countries-items-list}]]></expression>
 			</element>
 			<element kind="staticText" uuid="a1ff5091-fa99-4193-8b9c-72583fb3a4d3" positionType="Float" x="180" y="190" width="80" height="20" bold="true">
 				<text><![CDATA[Countries]]></text>
