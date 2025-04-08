@@ -508,6 +508,11 @@ public class FieldTreePanel extends TreePanel {
                             if (key == null) {
                                 ne = new NodeElement(null, empty, null);
                             } else {
+                            	value = !CoreUtilities.isEmpty(value) && 
+                            			field.getValueType() == DcRepository.ValueTypes._LONG && 
+                            			value.endsWith(".0") ?
+                            					value.substring(0, value.lastIndexOf(".0")) : value;
+                            	
                                 ne = new NodeElement(key, value, icon);
                             }
                             
