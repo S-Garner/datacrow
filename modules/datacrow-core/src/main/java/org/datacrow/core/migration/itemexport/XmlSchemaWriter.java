@@ -81,7 +81,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
         if (settings.getBoolean(ItemExporterSettings._COPY_AND_INCLUDE_ATTACHMENTS)) {
         	writeLine("<xsd:complexType name=\"attachment-items-type\">", 1);
         	writeLine("<xsd:sequence>", 2);
-        	writeLine("<xsd:element name=\"attachment\" type=\"attachment-type\" />", 3);
+        	writeLine("<xsd:element name=\"attachment\" type=\"attachment-type\" minOccurs=\"0\" maxOccurs=\"unbounded\" />", 3);
         	writeLine("</xsd:sequence>", 2);
         	writeLine("</xsd:complexType>", 1);
         	newLine();
@@ -206,8 +206,8 @@ public class XmlSchemaWriter extends XmlBaseWriter {
         }
         
         if (detailed && m.getChild() != null) {
-            String name = getValidTag(m.getChild().getSystemObjectName() + "-children");
-            writeLine("<xsd:element name=\"" + name + "\" nillable=\"true\" minOccurs=\"0\" />", 3);
+            String name = XmlUtilities.getElementTag(m.getChild()) + "-children";
+            writeLine("<xsd:element name=\"" + name + "\" nillable=\"true\" minOccurs=\"0\" type=\""+ XmlUtilities.getElementTagTypeForList(m.getChild())  + "\" />", 3);
         }
 
         // only export images and attachments for top level items or its children

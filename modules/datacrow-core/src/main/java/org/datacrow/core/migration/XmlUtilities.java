@@ -50,6 +50,6 @@ public final class XmlUtilities {
 	}
 	
 	private static String getName(DcModule m) {
-		return Converter.getValidXmlTag(m.getSystemLabel());
+		return Converter.getValidXmlTag(m.getSystemObjectName());
 	}
 }

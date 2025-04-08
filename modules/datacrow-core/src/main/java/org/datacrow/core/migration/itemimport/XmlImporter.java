@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Collection;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -224,7 +225,7 @@ public class XmlImporter extends ItemImporter {
             NodeList nlAttachments = eItem.getElementsByTagName("attachment");
             Element eAttachment;
             Attachment attachment;
-            File file;
+            File attachmentFile;
             for (int i = 0; i < nlAttachments.getLength(); i++) {
             	
             	if (nlAttachments.item(i).getNodeType() != Node.ELEMENT_NODE)
@@ -237,12 +238,14 @@ public class XmlImporter extends ItemImporter {
             		
                 	if (eAttachment.getElementsByTagName("link").item(0).getNodeType() == Node.ELEMENT_NODE) {
 	                	link = eAttachment.getElementsByTagName("link").item(0).getTextContent();
-	                	
+	                	link = link.startsWith(".") ? 
+            					"file://" + new File(file.getParent(), link.substring(1)).toString() : link;
 	                	try {
-	    	            	file = new File(new URL(link).getFile());
-	    	            	
-	    	            	attachment = new Attachment(dco.getID(), file);
-	    	            	attachment.setData(CoreUtilities.readFile(file));
+	                		link = URLDecoder.decode(new URL(link).getFile(), "UTF8");
+	                		attachmentFile = new File(link);
+	                		
+	                		attachment = new Attachment(dco.getID(), attachmentFile);
+	    	            	attachment.setData(CoreUtilities.readFile(attachmentFile));
 	    	            	
 	    	            	dco.addNewAttachment(attachment);
 	                	} catch (Exception e) {

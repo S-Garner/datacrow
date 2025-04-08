@@ -34,15 +34,15 @@ public class Converter {
 
     public static String getValidXmlTag(String s) {
         String tag = s == null ? "" : s;
+        tag = tag.replaceAll("[()'\"`\\!@#$%^&*:;|\\_<>\\[\\]{}?/]", " ");
+        
+        while (tag.indexOf("  ") > -1)
+        	tag = tag.replaceAll("  ", " ");	
+        
         tag = tag.replaceAll(" ", "-");
-        tag = tag.replaceAll("'", "_");
-        tag = tag.replaceAll(":", "_");
-        tag = tag.replaceAll(";", "_");
-        tag = tag.replaceAll(";", "_");
-        tag = tag.replaceAll("[()]", "");
-        tag = tag.replaceAll("[?]", "");
-        tag = tag.replaceAll("\\_", "-");
         tag = tag.toLowerCase();
+
+        tag = tag.endsWith("-") ? tag.substring(0, tag.lastIndexOf("-")) : tag;
         
         try {
         	tag = tag.length() > 0 && Character.isDigit(tag.charAt(0)) ? "fld-" + tag : tag;
