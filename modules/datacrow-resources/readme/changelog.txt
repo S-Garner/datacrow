@@ -1,14 +1,14 @@
 --------------------------------------------------------------------
-Data Crow version 5.0 - Release Candidate 2 - Released on 2025-04-09
+Data Crow version 5.0 - Release Candidate 2 - Released on 2025-04-10
 --------------------------------------------------------------------
 
 Below are fixes on RC1.
 
 [Fixed]
+- Ticket 139: XML not created correctly
 - Pictures not shown in picture list for client-server mode
 - Log on error after the first attempt has failed
 - Web; cannot login with user with no password
-- XML issues for the XML export
 - XML's as created by the export are not valid according to the XSD 
 - In the tree panel, for client-server, numbers are shown as .0
 - Uploading images for client<>server is extremely slow
