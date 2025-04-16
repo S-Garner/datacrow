@@ -8,6 +8,9 @@ import { useTranslation, languageArray } from '../../context/translation_context
 
 export function LoginPage() {
     
+    
+    const [apiReachable, setApiReachable] = useState(false);
+    
     const [success, setSuccess] = useState(true);
     const [configLoaded, setConfigLoaded] = useState<boolean>();
     
@@ -53,6 +56,7 @@ export function LoginPage() {
         if (configLoaded) {
             fetchResources(selectedLanguage).
             then((data) => {
+                setApiReachable(true);
                 setTranslations(data);
             }).catch(error => {
                 console.log(error);
@@ -111,27 +115,39 @@ export function LoginPage() {
                     type={MessageBoxType.warning} /> }
 		
             <form onSubmit={handleSubmit}>
-                <div className="row mb-2" >
-                    <Form.Select onChange={(event) => handleLanguageSelect(event)} key="language-menu" defaultValue={language}>
-                        {languageArray.map((lang) => (
-                            <option value={lang.key} key={lang.key}>
-                                {lang.label}
-                            </option>
-                        ))}
-                    </Form.Select>
-                </div>
+                {apiReachable === true && (
+                    <div className="row mb-2" >
+                        <Form.Select onChange={(event) => handleLanguageSelect(event)} key="language-menu" defaultValue={language}>
+                            {languageArray.map((lang) => (
+                                <option value={lang.key} key={lang.key}>
+                                    {lang.label}
+                                </option>
+                            ))}
+                        </Form.Select>
+                    </div>)
+                }
+                
+                {apiReachable === false &&  
+                    <div className="row mb-2">
+                        The API server cannot be reached. Please check the API server port that is used (or contact your system administrator) on the server and make sure to allow traffic to and from this port on the server. The API is located here: {(globalThis as any).apiUrl}.  
+                        You can check whether this URL delivers valid output via this URL (it should give the English labels as a result): {<a href={(globalThis as any).apiUrl + 'resources/English'}>{(globalThis as any).apiUrl + 'resources/English'}</a>}   
+                    </div>} 
 			
-				<div className="row mb-2">
-					<input name="username" type="text" placeholder={translateOrDefault("lblUsername", "Username")} className="form-control" id="input-username" required={true} />
-				</div>
-
-				<div className="row mb-2">
-					<input name="password" type="Password" placeholder={translateOrDefault("lblPassword", "Password")} className="form-control" id="input-password" required={false} />
-				</div>
-
-				<div className="row mb-2">
-					<Button type="submit">{translateOrDefault("lblLogin", "Login")}</Button>
-				</div>
+			    {apiReachable === true && (
+                     <>
+        				<div className="row mb-2">
+        					<input name="username" type="text" placeholder={translateOrDefault("lblUsername", "Username")} className="form-control" id="input-username" required={true} />
+        				</div>
+        
+        				<div className="row mb-2">
+        					<input name="password" type="Password" placeholder={translateOrDefault("lblPassword", "Password")} className="form-control" id="input-password" required={false} />
+        				</div>
+        
+        				<div className="row mb-2">
+        					<Button type="submit">{translateOrDefault("lblLogin", "Login")}</Button>
+        				</div>
+    				</>)
+                }
 			</form>
 		</div>
 	);
