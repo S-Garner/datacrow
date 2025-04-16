@@ -9,7 +9,7 @@ import { useTranslation, languageArray } from '../../context/translation_context
 export function LoginPage() {
     
     
-    const [apiReachable, setApiReachable] = useState(false);
+    const [apiReachable, setApiReachable] = useState(0);
     
     const [success, setSuccess] = useState(true);
     const [configLoaded, setConfigLoaded] = useState<boolean>();
@@ -56,9 +56,10 @@ export function LoginPage() {
         if (configLoaded) {
             fetchResources(selectedLanguage).
             then((data) => {
-                setApiReachable(true);
+                setApiReachable(1);
                 setTranslations(data);
             }).catch(error => {
+                setApiReachable(-1);
                 console.log(error);
                 if (error.status === 401) {
                     navigate("/login");    
@@ -115,7 +116,7 @@ export function LoginPage() {
                     type={MessageBoxType.warning} /> }
 		
             <form onSubmit={handleSubmit}>
-                {apiReachable === true && (
+                {apiReachable === 1 && (
                     <div className="row mb-2" >
                         <Form.Select onChange={(event) => handleLanguageSelect(event)} key="language-menu" defaultValue={language}>
                             {languageArray.map((lang) => (
@@ -127,13 +128,13 @@ export function LoginPage() {
                     </div>)
                 }
                 
-                {apiReachable === false &&  
+                {apiReachable === -1 &&  
                     <div className="row mb-2">
                         The API server cannot be reached. Please check the API server port that is used (or contact your system administrator) on the server and make sure to allow traffic to and from this port on the server. The API is located here: {(globalThis as any).apiUrl}.  
                         You can check whether this URL delivers valid output via this URL (it should give the English labels as a result): {<a href={(globalThis as any).apiUrl + 'resources/English'}>{(globalThis as any).apiUrl + 'resources/English'}</a>}   
                     </div>} 
 			
-			    {apiReachable === true && (
+			    {apiReachable === 1 && (
                      <>
         				<div className="row mb-2">
         					<input name="username" type="text" placeholder={translateOrDefault("lblUsername", "Username")} className="form-control" id="input-username" required={true} />
