@@ -2,10 +2,6 @@
 Data Crow version 5.0                         Released on 2025-04-xx
 --------------------------------------------------------------------
 
-- Added a message in case the API cannot be reached.
-
-TODO: check translations; Spanish
-
 [New]
 - Picture management has been completed changed; Data Crow now allows for unlimited number of pictures to be added.
 - A completely new web version has been created. Start the server using the startup parameters and navigate to:
@@ -71,6 +67,7 @@ TODO: check translations; Spanish
 - Log on error after the first attempt has failed
 - Uploading images for client<>server is extremely slow
 - Performance issues in general for client<>server
+- Fixed an issue where the reports are not available in the stand alone client if the user folder was set up by the server.
 
 [Known Issues]
 - Validation messages for saving of items will always be in the language of the Data Crow configuration.

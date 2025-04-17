@@ -258,10 +258,25 @@ public class XmlImporter extends ItemImporter {
             return dco;
         }
         
-        private DcModule getModule(String holderTag) {
-        	for (DcModule module : DcModules.getAllModules()) {
-        		if (XmlUtilities.getElementNameForModule(module).equals(holderTag))
-        			return module;
+        private DcModule getModule(Element moduleElement) {
+        	
+        	NodeList list = (NodeList) moduleElement.getElementsByTagName("datacrow-module-index");
+        	
+        	// first check if the datacrow-module-index node is there
+        	if (list.getLength() > 0) {
+        		try {
+        			Node n = list.item(0);
+        			String tc = n.getTextContent();
+        			return DcModules.get(Integer.valueOf(tc));
+        		} catch (Exception e) {
+        			logger.error("Could not determine module for " + moduleElement.getTagName() + ", attribute [datacrow-module-index] could not be found.");
+        		}
+            // else, we'll just use the tag name element. This is less precise.
+        	} else {
+	        	for (DcModule module : DcModules.getAllModules()) {
+	        		if (XmlUtilities.getElementNameForModule(module).equals(moduleElement.getNodeName()))
+	        			return module;
+	        	}
         	}
         	
         	return null;
@@ -306,7 +321,7 @@ public class XmlImporter extends ItemImporter {
                     		continue;
                     	
                     	eItemHolder = (Element) nlItemHolders.item(i);
-                    	module = getModule(eItemHolder.getNodeName());
+                    	module = getModule((Element) eItemHolder);
                     	
                     	if (module == null || module.isAbstract()) {
                     		logger.warn("Module could not be found or is abstract, skipping this entry. Node name: " + eItemHolder.getNodeName());

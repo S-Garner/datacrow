@@ -2,6 +2,7 @@
 <data-crow-objects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="color.xsd">
     <color-items>
             <color>
+                <datacrow-module-index>1500000</datacrow-module-index>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -14,12 +15,13 @@
                 <picture-10></picture-10>
                 <name>Black and White</name>
                 <alternative-names>;BW;Black &amp; White;B&amp;W;Greyscale;</alternative-names>
-                <modified>2024-10-01</modified>
-                <created>2024-10-01</created>
+                <modified>2025-04-17</modified>
+                <created>2025-04-17</created>
                 <label>Black and White</label>
                 <id>101722445510084</id>
             </color>
             <color>
+                <datacrow-module-index>1500000</datacrow-module-index>
                 <picture-01></picture-01>
                 <picture-02></picture-02>
                 <picture-03></picture-03>
@@ -31,8 +33,8 @@
                 <picture-09></picture-09>
                 <picture-10></picture-10>
                 <name>Color</name>
-                <modified>2024-10-01</modified>
-                <created>2024-10-01</created>
+                <modified>2025-04-17</modified>
+                <created>2025-04-17</created>
                 <label>Color</label>
                 <id>101756062040470</id>
             </color>

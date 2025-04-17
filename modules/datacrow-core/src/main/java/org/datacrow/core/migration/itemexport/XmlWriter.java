@@ -111,6 +111,7 @@ public class XmlWriter extends XmlBaseWriter {
     public void startEntity(DcObject dco) throws IOException {
 		ident(tagIdent);
 		writeTag("<" + XmlUtilities.getElementTag(dco.getModule()) + ">");
+		writeModuleIdx(dco.getModuleIdx());
 		newLine();
     }
 
@@ -118,6 +119,14 @@ public class XmlWriter extends XmlBaseWriter {
         ident(tagIdent);
         writeTag("</" + XmlUtilities.getElementTag(dco.getModule()) + ">");
         newLine();
+    }
+    
+    private void writeModuleIdx(int moduleIdx) throws IOException {
+    	newLine();
+    	ident(valueIdent);
+    	writeTag("<datacrow-module-index>");
+        write(String.valueOf(moduleIdx));
+        writeTag("</datacrow-module-index>");
     }
     
     @SuppressWarnings("unchecked")

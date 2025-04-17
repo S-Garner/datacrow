@@ -133,6 +133,10 @@ public class XmlSchemaWriter extends XmlBaseWriter {
     }
     
     private void writeField(DcField field) throws IOException {
+    	writeField(field, 3);
+    }
+    
+    private void writeField(DcField field, int indent) throws IOException {
 
         if (	field.getValueType() == DcRepository.ValueTypes._DCOBJECTCOLLECTION ||
         		field.getValueType() == DcRepository.ValueTypes._DCOBJECTREFERENCE) {
@@ -147,8 +151,11 @@ public class XmlSchemaWriter extends XmlBaseWriter {
             writeLine("<xsd:sequence>", 8);
 
             DcModule m = DcModules.getReferencedModule(field);
-            writeField(m.getField(DcObject._ID));
-            writeField(m.getField(m.getSystemDisplayFieldIdx()));
+            
+            writeLine("<xsd:element name=\"datacrow-module-index\" type=\"xsd:integer\" nillable=\"true\" minOccurs=\"0\" />" , 9);
+            
+            writeField(m.getField(DcObject._ID), 9);
+            writeField(m.getField(m.getSystemDisplayFieldIdx()), 9);
 
             writeLine("</xsd:sequence>", 8);
             writeLine("</xsd:complexType>", 7);
@@ -179,7 +186,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
                 type = "string";
             }
             
-            writeLine("<xsd:element name=\"" + XmlUtilities.getFieldTag(field) + "\" type=\"xsd:" + type + "\" nillable=\"true\" minOccurs=\"0\"/>" , 3);
+            writeLine("<xsd:element name=\"" + XmlUtilities.getFieldTag(field) + "\" type=\"xsd:" + type + "\" nillable=\"true\" minOccurs=\"0\"/>" , indent);
         }        
     }
     
@@ -196,6 +203,7 @@ public class XmlSchemaWriter extends XmlBaseWriter {
         
         writeLine("<xsd:complexType name=\"" + XmlUtilities.getElementTagType(m) + "\" >", 1);
         writeLine("<xsd:sequence>", 2);
+        writeLine("<xsd:element name=\"datacrow-module-index\" type=\"xsd:integer\" nillable=\"true\" minOccurs=\"0\" />" , 3);
 
         for (int fieldIdx : m.getFieldIndices()) {
             DcField field = m.getField(fieldIdx);

@@ -754,6 +754,9 @@ public class CoreUtilities {
         if (!overwrite && target.exists())
             return;
         
+        // create the folders if not present
+        target.getParentFile().mkdirs();
+        
         // native code failed to move the file; do it the custom way
         FileInputStream fis = new FileInputStream(source);
         BufferedInputStream bis = new BufferedInputStream(fis);

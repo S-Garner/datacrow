@@ -3,24 +3,23 @@
     <xsd:element name="data-crow-objects">
     <xsd:complexType>
         <xsd:sequence>
-            <xsd:element name="software-items" type ="software-items-type"/>
-            <xsd:element name="license-items" type ="license-items-type"/>
-            <xsd:element name="software-platform-items" type ="software-platform-items-type"/>
+            <xsd:element name="software-item-items" type ="software-item-items-type"/>
+            <xsd:element name="platform-items" type ="platform-items-type"/>
             <xsd:element name="country-items" type ="country-items-type"/>
             <xsd:element name="language-items" type ="language-items-type"/>
-            <xsd:element name="developers-items" type ="developers-items-type"/>
         </xsd:sequence>
     </xsd:complexType>
 </xsd:element>
 
-    <xsd:complexType name="software-items-type" >
+    <xsd:complexType name="software-item-items-type" >
         <xsd:sequence>
-            <xsd:element type="software-type" name="software" maxOccurs="unbounded"/>
+            <xsd:element type="software-item-type" name="software-item" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="software-type" >
+    <xsd:complexType name="software-item-type" >
         <xsd:sequence>
+            <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
             <xsd:element name="picture-01" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="picture-02" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="picture-03" type="xsd:string" nillable="true" minOccurs="0"/>
@@ -36,11 +35,12 @@
             <xsd:element name="tags-items" nillable="true" minOccurs="0">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="tags" maxOccurs="unbounded">
+                        <xsd:element name="tag" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+                                    <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
@@ -54,11 +54,12 @@
             <xsd:element name="external-references-items" nillable="true" minOccurs="0">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="software-external-reference" maxOccurs="unbounded">
+                        <xsd:element name="external-reference" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+                                    <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
@@ -72,8 +73,9 @@
                         <xsd:element name="license" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+                                    <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
@@ -89,11 +91,12 @@
             <xsd:element name="categories-items" nillable="true" minOccurs="0">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="software-category" maxOccurs="unbounded">
+                        <xsd:element name="category" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+                                    <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
@@ -104,11 +107,12 @@
             <xsd:element name="platform-items" nillable="true" minOccurs="0">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="software-platform" maxOccurs="unbounded">
+                        <xsd:element name="platform" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+                                    <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
@@ -129,8 +133,9 @@
                         <xsd:element name="country" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+                                    <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
@@ -145,8 +150,9 @@
                         <xsd:element name="language" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+                                    <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
@@ -157,11 +163,12 @@
             <xsd:element name="container-items" nillable="true" minOccurs="0">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="containers" maxOccurs="unbounded">
+                        <xsd:element name="container" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+                                    <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
@@ -172,11 +179,12 @@
             <xsd:element name="developers-items" nillable="true" minOccurs="0">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="developers" maxOccurs="unbounded">
+                        <xsd:element name="developer" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+                                    <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
@@ -189,11 +197,12 @@
             <xsd:element name="storage-medium-items" nillable="true" minOccurs="0">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="software-storage-medium" maxOccurs="unbounded">
+                        <xsd:element name="storage-medium" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+                                    <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
@@ -204,11 +213,12 @@
             <xsd:element name="state-items" nillable="true" minOccurs="0">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="software-state" maxOccurs="unbounded">
+                        <xsd:element name="state" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+                                    <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
@@ -219,11 +229,12 @@
             <xsd:element name="publishers-items" nillable="true" minOccurs="0">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="publishers" maxOccurs="unbounded">
+                        <xsd:element name="publisher" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+                                    <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
@@ -242,8 +253,9 @@
                         <xsd:element name="contact-person" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+                                    <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
+                                    <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
@@ -261,22 +273,19 @@
             <xsd:element name="label" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="available" type="xsd:boolean" nillable="true" minOccurs="0"/>
             <xsd:element name="pictures" minOccurs="0" maxOccurs="unbounded" type="picture-items-type" />
+            <xsd:element name="attachments" minOccurs="0" maxOccurs="unbounded" type="attachment-items-type" />
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="license-items-type" >
+    <xsd:complexType name="platform-items-type" >
         <xsd:sequence>
-            <xsd:element type="license-type" name="license" maxOccurs="unbounded"/>
+            <xsd:element type="platform-type" name="platform" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="license-type" >
+    <xsd:complexType name="platform-type" >
         <xsd:sequence>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="icon" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="alternative-names" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="modified" type="xsd:date" nillable="true" minOccurs="0"/>
-            <xsd:element name="created" type="xsd:date" nillable="true" minOccurs="0"/>
+            <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
             <xsd:element name="picture-01" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="picture-02" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="picture-03" type="xsd:string" nillable="true" minOccurs="0"/>
@@ -287,40 +296,16 @@
             <xsd:element name="picture-08" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="picture-09" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="picture-10" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="item" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="label" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="pictures" minOccurs="0" maxOccurs="unbounded" type="picture-items-type" />
-        </xsd:sequence>
-    </xsd:complexType>
-
-    <xsd:complexType name="software-platform-items-type" >
-        <xsd:sequence>
-            <xsd:element type="software-platform-type" name="software-platform" maxOccurs="unbounded"/>
-        </xsd:sequence>
-    </xsd:complexType>
-
-    <xsd:complexType name="software-platform-type" >
-        <xsd:sequence>
             <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="icon" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="alternative-names" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="modified" type="xsd:date" nillable="true" minOccurs="0"/>
             <xsd:element name="created" type="xsd:date" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-01" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-02" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-03" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-04" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-05" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-06" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-07" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-08" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-09" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-10" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="icon" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="item" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="label" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="pictures" minOccurs="0" maxOccurs="unbounded" type="picture-items-type" />
+            <xsd:element name="attachments" minOccurs="0" maxOccurs="unbounded" type="attachment-items-type" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -332,11 +317,7 @@
 
     <xsd:complexType name="country-type" >
         <xsd:sequence>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="icon" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="alternative-names" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="modified" type="xsd:date" nillable="true" minOccurs="0"/>
-            <xsd:element name="created" type="xsd:date" nillable="true" minOccurs="0"/>
+            <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
             <xsd:element name="picture-01" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="picture-02" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="picture-03" type="xsd:string" nillable="true" minOccurs="0"/>
@@ -347,10 +328,16 @@
             <xsd:element name="picture-08" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="picture-09" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="picture-10" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="alternative-names" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="modified" type="xsd:date" nillable="true" minOccurs="0"/>
+            <xsd:element name="created" type="xsd:date" nillable="true" minOccurs="0"/>
+            <xsd:element name="icon" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="item" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="label" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="pictures" minOccurs="0" maxOccurs="unbounded" type="picture-items-type" />
+            <xsd:element name="attachments" minOccurs="0" maxOccurs="unbounded" type="attachment-items-type" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -362,92 +349,27 @@
 
     <xsd:complexType name="language-type" >
         <xsd:sequence>
+            <xsd:element name="datacrow-module-index" type="xsd:integer" nillable="true" minOccurs="0" />
+            <xsd:element name="picture-01" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="picture-02" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="picture-03" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="picture-04" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="picture-05" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="picture-06" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="picture-07" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="picture-08" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="picture-09" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="picture-10" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="icon" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="alternative-names" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="modified" type="xsd:date" nillable="true" minOccurs="0"/>
             <xsd:element name="created" type="xsd:date" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-01" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-02" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-03" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-04" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-05" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-06" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-07" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-08" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-09" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-10" type="xsd:string" nillable="true" minOccurs="0"/>
+            <xsd:element name="icon" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="item" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="label" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
             <xsd:element name="pictures" minOccurs="0" maxOccurs="unbounded" type="picture-items-type" />
-        </xsd:sequence>
-    </xsd:complexType>
-
-    <xsd:complexType name="developers-items-type" >
-        <xsd:sequence>
-            <xsd:element type="developers-type" name="developers" maxOccurs="unbounded"/>
-        </xsd:sequence>
-    </xsd:complexType>
-
-    <xsd:complexType name="developers-type" >
-        <xsd:sequence>
-            <xsd:element name="picture-01" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-02" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-03" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-04" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-05" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-06" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-07" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-08" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-09" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="picture-10" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="firstname" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="lastname" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="description" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="webpage" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="tags-items" nillable="true" minOccurs="0">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="tags" maxOccurs="unbounded">
-                            <xsd:complexType>
-                                <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
-                                </xsd:sequence>
-                            </xsd:complexType>
-                        </xsd:element>
-                    </xsd:sequence>
-                </xsd:complexType>
-            </xsd:element>
-            <xsd:element name="tags-items-list" nillable="true" minOccurs="0"/>
-            <xsd:element name="external-references-items" nillable="true" minOccurs="0">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="developer-external-reference" maxOccurs="unbounded">
-                            <xsd:complexType>
-                                <xsd:sequence>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="name" type="xsd:string" nillable="true" minOccurs="0"/>
-                                </xsd:sequence>
-                            </xsd:complexType>
-                        </xsd:element>
-                    </xsd:sequence>
-                </xsd:complexType>
-            </xsd:element>
-            <xsd:element name="external-references-items-list" nillable="true" minOccurs="0"/>
-            <xsd:element name="created" type="xsd:date" nillable="true" minOccurs="0"/>
-            <xsd:element name="modified" type="xsd:date" nillable="true" minOccurs="0"/>
-            <xsd:element name="id" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="label" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="item" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="user-long-text-field" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="user-numeric-field-1" type="xsd:integer" nillable="true" minOccurs="0"/>
-            <xsd:element name="user-numeric-field-2" type="xsd:integer" nillable="true" minOccurs="0"/>
-            <xsd:element name="user-short-text-field-1" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="user-short-text-field-2" type="xsd:string" nillable="true" minOccurs="0"/>
-            <xsd:element name="pictures" minOccurs="0" maxOccurs="unbounded" type="picture-items-type" />
+            <xsd:element name="attachments" minOccurs="0" maxOccurs="unbounded" type="attachment-items-type" />
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="picture-items-type">
@@ -457,6 +379,18 @@
     </xsd:complexType>
 
     <xsd:complexType name="picture-type">
+        <xsd:sequence>
+            <xsd:element name="link" type="xsd:string" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="attachment-items-type">
+        <xsd:sequence>
+            <xsd:element name="attachment" type="attachment-type" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="attachment-type">
         <xsd:sequence>
             <xsd:element name="link" type="xsd:string" />
         </xsd:sequence>
