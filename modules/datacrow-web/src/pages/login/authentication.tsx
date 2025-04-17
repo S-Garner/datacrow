@@ -129,9 +129,10 @@ export function LoginPage() {
                 }
                 
                 {apiReachable === -1 &&  
+                
                     <div className="row mb-2">
-                        The API server cannot be reached. Please check the API server port that is used (or contact your system administrator) on the server and make sure to allow traffic to and from this port on the server. The API is located here: {(globalThis as any).apiUrl}.  
-                        You can check whether this URL delivers valid output via this URL (it should give the English labels as a result): {<a href={(globalThis as any).apiUrl + 'resources/English'}>{(globalThis as any).apiUrl + 'resources/English'}</a>}   
+                        <p>The API server cannot be reached. Please check the API server port that is used (or contact your system administrator) on the server and make sure to allow traffic to and from this port on the server.</p>  
+                        <p>You can check whether this API is reachable and functioning correctly via this link: <br /> {<a href={(globalThis as any).apiUrl + 'status'}>{(globalThis as any).apiUrl + 'status'}</a>}</p>   
                     </div>} 
 			
 			    {apiReachable === 1 && (
