@@ -1,5 +1,5 @@
 import { Button, Card, InputGroup } from 'react-bootstrap';
-import { fetchItems, searchItems, type Item } from '../../services/datacrow_api';
+import { fetchItems, searchItems, type Item, isEditingAllowed } from '../../services/datacrow_api';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,6 +9,8 @@ import { useModule } from '../../context/module_context';
 import { useTranslation } from '../../context/translation_context';
 
 export function ItemOverview() {
+
+    const [editingAllowed, setEditingAllowed] = useState(false);
 
 	const moduleContext = useModule();
 	const navigate = useNavigate();
@@ -25,6 +27,17 @@ export function ItemOverview() {
                 }
             });
     }, [moduleContext.selectedModule]);
+    
+    useEffect(() => {
+        moduleContext.selectedModule && isEditingAllowed(moduleContext.selectedModule.index).
+            then((data) => setEditingAllowed(data)).
+            catch(error => {
+                console.log(error);
+                if (error.status === 401) {
+                    navigate("/login");
+                }
+            });
+    }, [moduleContext.selectedModule]);    
     
     const module = moduleContext!.selectedModule;
     
@@ -118,7 +131,7 @@ export function ItemOverview() {
                 </div>
                 
                 {
-                    !module?.isAbstract && (
+                    !module?.isAbstract && editingAllowed && (
                         <div className="float-child" style={{marginLeft: "20px"}}>
                             <i className="bi bi-plus-circle menu-icon" style={{ fontSize: "1.7rem"}} onClick={() => handleCreateNew()} ></i>
                         </div>

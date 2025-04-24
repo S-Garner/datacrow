@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchReferences, saveItem, type Field, type Item, type References, fetchFieldSettings, type FieldSetting } from "../../services/datacrow_api";
+import { fetchReferences, saveItem, type Field, type Item, type References, fetchFieldSettings, type FieldSetting, fetchFieldSettingsForEditing } from "../../services/datacrow_api";
 import { RequireAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
 import { Button, Tab, Tabs } from "react-bootstrap";
@@ -37,7 +37,7 @@ export function ItemCreatePage() {
     let parentID = state?.parentID;
     
     useEffect(() => {
-        moduleIdx && fetchFieldSettings(moduleIdx).
+        moduleIdx && fetchFieldSettingsForEditing(moduleIdx).
         then((data) => {
             setFieldSettings(data);
             setFields(moduleContext.getFields(moduleIdx, data));    

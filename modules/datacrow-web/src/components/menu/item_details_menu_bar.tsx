@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authentication_context";
 import { Button, Modal } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "../../context/translation_context";
-import { deleteItem } from "../../services/datacrow_api";
+import { deleteItem, isEditingAllowed } from "../../services/datacrow_api";
 import { useMessage } from "../../context/message_context";
 import BusyModal from "../message/busy_modal";
 import { useModule } from "../../context/module_context";
@@ -19,8 +19,20 @@ interface Props {
 
 export default function ItemDetailsMenu({moduleIdx, itemID, parentID, formTitle, navigateBackTo, editMode} : Props)  {
     
+    const [editingAllowed, setEditingAllowed] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [deleting, setDeleting] = useState(false);
+    
+    useEffect(() => {
+        moduleIdx && isEditingAllowed(moduleIdx).
+            then((data) => setEditingAllowed(data)).
+            catch(error => {
+                console.log(error);
+                if (error.status === 401) {
+                    navigate("/login");
+                }
+            });
+    }, [moduleIdx]);        
     
     const navigate = useNavigate();
     const message = useMessage();
@@ -94,7 +106,7 @@ export default function ItemDetailsMenu({moduleIdx, itemID, parentID, formTitle,
 
                 {(itemID && editMode && auth.user.admin) && <i className="bi bi-trash-fill menu-icon" onClick={() => {handleDelete()}} ></i>}
                 
-                {(itemID && !editMode) && <i className="bi bi-pen-fill menu-icon" onClick={() => {handleToEditMode()}} ></i>}
+                {(itemID && !editMode && editingAllowed) && <i className="bi bi-pen-fill menu-icon" onClick={() => {handleToEditMode()}} ></i>}
                 
                 {(itemID && editMode) && <i className="bi bi-eye-fill menu-icon" onClick={() => {handleToViewMode()}} ></i>}
                 

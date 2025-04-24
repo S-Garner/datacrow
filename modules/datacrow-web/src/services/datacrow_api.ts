@@ -246,6 +246,12 @@ export async function saveFieldSettings(moduleIdx: number, fieldSettings: FieldS
     return result.data;
 }
 
+export async function fetchFieldSettingsForEditing(moduleIdx: number): Promise<FieldSetting[]> {
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'fieldsettings/editing/' + moduleIdx);
+    return response.data;
+}
+
 export async function fetchFieldSettings(moduleIdx: number): Promise<FieldSetting[]> {
     checkInstance();
     const response = await instance.get((globalThis as any).apiUrl + 'fieldsettings/' + moduleIdx);
@@ -262,6 +268,12 @@ export async function saveOverviewFieldSettings(moduleIdx: number, fieldSettings
     });
     
     return result.data;
+}
+
+export async function isEditingAllowed(moduleIdx: number): Promise<boolean> {
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'module/editing_allowed/' + moduleIdx);
+    return response.data;
 }
 
 export async function fetchOverviewFieldSettings(moduleIdx: number): Promise<OverviewFieldSetting[]> {

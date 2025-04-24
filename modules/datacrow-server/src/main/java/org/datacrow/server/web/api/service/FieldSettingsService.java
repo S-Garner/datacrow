@@ -6,8 +6,10 @@ import java.util.List;
 import org.datacrow.core.DcRepository;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
+import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.utilities.definitions.WebFieldDefinition;
 import org.datacrow.core.utilities.definitions.WebFieldDefinitions;
+import org.datacrow.server.security.SecurityCenter;
 import org.datacrow.server.web.api.model.FieldSetting;
 
 import jakarta.ws.rs.Consumes;
@@ -31,8 +33,25 @@ public class FieldSettingsService extends DataCrowApiService {
     		@PathParam("moduleIndex") int moduleIndex) {
     	
     	checkAuthorization(token);
-    	return getFieldSettings(moduleIndex);
+    	
+    	SecuredUser su = SecurityCenter.getInstance().getUser(token);
+    	
+    	return getFieldSettings(su, moduleIndex, false);
     }
+    
+    @GET
+    @Path("/editing/{moduleIndex}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<FieldSetting> getFieldSettingsForEditing(
+    		@HeaderParam("authorization") String token,
+    		@PathParam("moduleIndex") int moduleIndex) {
+    	
+    	checkAuthorization(token);
+    	
+    	SecuredUser su = SecurityCenter.getInstance().getUser(token);
+    	
+    	return getFieldSettings(su, moduleIndex, true);
+    }    
     
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -58,7 +77,7 @@ public class FieldSettingsService extends DataCrowApiService {
         return Response.ok().build();
     }
     
-    private List<FieldSetting> getFieldSettings(int moduleIndex) {
+    private List<FieldSetting> getFieldSettings(SecuredUser su, int moduleIndex, boolean edit) {
     	
     	List<FieldSetting> settings = new LinkedList<FieldSetting>();
     
@@ -70,7 +89,8 @@ public class FieldSettingsService extends DataCrowApiService {
 
     	int order = 0;
     	for (WebFieldDefinition definition : definitions.getDefinitions()) {
-    		if (module.getField(definition.getFieldIdx()).isEnabled())
+    		if (	module.getField(definition.getFieldIdx()).isEnabled() && 
+    				(!edit || su.isEditingAllowed(module.getField(definition.getFieldIdx()))))
     			settings.add(new FieldSetting(definition, order++));
     	}
     	

@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchItem, type Item } from "../../services/datacrow_api";
+import { fetchItem, isEditingAllowed, type Item } from "../../services/datacrow_api";
 import { RequireAuth, useAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
 import { Carousel, Tab, Tabs } from "react-bootstrap";
@@ -12,7 +12,7 @@ import ChildrenOverview from "../../components/overview/item_overview_children";
 import RelatedItemList from "../../components/list/related_items_list";
 
 export function ItemViewPage() {
-
+    
     const [item, setItem] = useState<Item>();
     const [itemID, setItemID] = useState<string>();
     const navigate = useNavigate();
