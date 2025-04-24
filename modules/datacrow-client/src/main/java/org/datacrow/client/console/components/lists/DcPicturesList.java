@@ -80,16 +80,20 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
     
     private boolean acceptDraggedFile = false;
     private boolean newItemMode = false;
-	
+    
+    private int mode;
+    
     public DcPicturesList(boolean newItemMode, int mode) {
         super(new DcListModel<Object>());
+        
+        this.mode = mode;
         
         setNewItemMode(newItemMode);
         
         setCellRenderer(new DcListRenderer<Object>(true));
         setLayoutOrientation(JList.VERTICAL_WRAP);
 
-        if (mode == _MODE_REORDER) {
+        if (this.mode == _MODE_REORDER) {
 	        setDragEnabled(false);
 	        setDropMode(DropMode.ON_OR_INSERT);
 	
@@ -97,9 +101,8 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
 	        new MyDragListener(this);
         }
         
-        if (mode == _MODE_EDIT) {
+        if (this.mode == _MODE_EDIT)
         	new DropTarget(this, DnDConstants.ACTION_COPY, this);
-        }
     }
     
     public void setNewItemMode(boolean newItemMode) {
@@ -202,9 +205,10 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void dragEnter(DropTargetDragEvent dtde) {
+		
         Transferable t = dtde.getTransferable();
         
-        if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+        if (mode != _MODE_READONLY && t.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
         	
         	acceptDraggedFile = true;
         	
@@ -257,7 +261,10 @@ public class DcPicturesList extends DcList implements ISortableComponent, DropTa
 	@Override
     public void drop(DropTargetDropEvent dtde) {
     	
-    	if (!acceptDraggedFile) return;
+    	if (!acceptDraggedFile) { 
+    		dtde.rejectDrop();
+    		return;
+    	}
     	
         Transferable transferable = dtde.getTransferable();
         if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {

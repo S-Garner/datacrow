@@ -75,7 +75,9 @@ import org.datacrow.core.IconLibrary;
 import org.datacrow.core.attachments.Attachment;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
+import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
 import org.datacrow.core.settings.DcSettings;
 import org.datacrow.core.utilities.CoreUtilities;
@@ -95,7 +97,9 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     public AttachmentsPanel(boolean readonly) {
         
         this.list.setModel(new DcListModel<Object>());
-        this.readonly = !DcConfig.getInstance().getConnector().getUser().isAuthorized("EditAttachments") || readonly;
+        
+		SecuredUser su = DcConfig.getInstance().getConnector().getUser();
+        this.readonly = !su.isAuthorized("EditAttachments") || !su.isEditingAllowed(DcModules.getCurrent()) || readonly;
         
         setTitle(DcResources.getText("lblAttachments"));
         
@@ -372,7 +376,7 @@ public class AttachmentsPanel extends DcPanel implements MouseListener, ActionLi
     }
 
     private void checkDragAction(DropTargetDragEvent dtde) {
-        if (dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+        if (!readonly && dtde.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
             dtde.acceptDrag(DnDConstants.ACTION_COPY);
         } else {
             dtde.rejectDrag();

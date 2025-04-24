@@ -71,6 +71,7 @@ import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcImageIcon;
 import org.datacrow.core.pictures.Picture;
 import org.datacrow.core.resources.DcResources;
+import org.datacrow.core.security.SecuredUser;
 import org.datacrow.core.server.Connector;
 
 public class PictureOverviewPanel extends DcPanel {
@@ -146,25 +147,26 @@ public class PictureOverviewPanel extends DcPanel {
     	
     	private PictureListPanel(boolean readonly, boolean newItemMode, int mode) {
     		
-    		this.mode = !DcConfig.getInstance().getConnector().getUser().isAuthorized("EditPictures") ? DcPicturesList._MODE_READONLY : mode;
+    		SecuredUser su = DcConfig.getInstance().getConnector().getUser();
+    		this.mode = !su.isAuthorized("EditPictures") || !su.isEditingAllowed(DcModules.getCurrent()) ? DcPicturesList._MODE_READONLY : mode;
     		
     		this.newItemMode = newItemMode;
-    		this.readonly = readonly;
+    		this.readonly = readonly || mode == DcPicturesList._MODE_READONLY;
     		
     		this.menuEdit = new PictureOverviewEditMenu(this, newItemMode);
     		this.menuReorder = new PictureOverviewReorderMenu(this);
     		
-    		this.pictureEditList = new DcPicturesList(newItemMode, mode);
+    		this.pictureEditList = new DcPicturesList(newItemMode, this.mode);
     		this.pictureEditList.setModel(new DcListModel<Object>());
     		
-    		this.pictureReorderList = new DcPicturesList(newItemMode, DcPicturesList._MODE_REORDER);
+    		this.pictureReorderList = new DcPicturesList(newItemMode, this.mode ==  DcPicturesList._MODE_READONLY ? DcPicturesList._MODE_READONLY : DcPicturesList._MODE_REORDER);
     		this.pictureReorderList.setModel(new DcListModel<Object>());
     		
     		addComponentListener(new ResizeListener());
     		
     		build();
 
-    		setMode(mode);
+    		setMode(this.mode);
     	}
     	
     	private void build() {
@@ -225,7 +227,7 @@ public class PictureOverviewPanel extends DcPanel {
                 
                 scrollerEdit.setVisible(true);
                 menuEdit.setVisible(true);
-            } else {
+            } else if (mode == DcPicturesList._MODE_REORDER) {
                 scrollerReorder.setVisible(true);
                 menuReorder.setVisible(true);
                 
@@ -233,6 +235,10 @@ public class PictureOverviewPanel extends DcPanel {
                 
                 scrollerEdit.setVisible(false);
                 menuEdit.setVisible(false);
+    		} else {
+    			scrollerEdit.setVisible(true);
+    			reload();
+    			
     		}
     		
     		invalidate();
@@ -388,7 +394,7 @@ public class PictureOverviewPanel extends DcPanel {
         	
         	setObjectID(objectID);
 
-        	this.readonly = !DcConfig.getInstance().getConnector().getUser().isEditingAllowed(DcModules.get(moduleIdx)) || readonly;
+        	this.readonly = this.mode == DcPicturesList._MODE_READONLY || readonly;
         	
             if (readonly) {
             	remove(menuEdit);
@@ -407,7 +413,7 @@ public class PictureOverviewPanel extends DcPanel {
                         	Connector conn = DcConfig.getInstance().getConnector();
                         	Collection<Picture> pictures = conn.getPictures(objectID);
                         	
-                        	if (mode == DcPicturesList._MODE_EDIT) {
+                        	if (mode != DcPicturesList._MODE_REORDER) {
                             	for (Picture picture : pictures)
                             		pictureEditList.add(picture);
                         	} else {

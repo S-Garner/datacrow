@@ -565,7 +565,10 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         if (child.getParentReferenceFieldIndex() == DcObject._SYS_CONTAINER) {
         	child.createReference(child.getParentReferenceFieldIndex(), this);
         } else {
-            child.setValue(child.getParentReferenceFieldIndex(), getID());
+        	boolean changed = child.isChanged(child.getParentReferenceFieldIndex());
+        	child.setValue(child.getParentReferenceFieldIndex(), getID());
+        	child.setChanged(child.getParentReferenceFieldIndex(), changed);
+            	
             children.add(child);
         }
     }
@@ -1305,8 +1308,11 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         
 
         if (children != null) {
-            for (DcObject child : children)
-                dco.addChild(child.clone());
+        	DcObject clone;
+            for (DcObject child : children) {
+            	clone = child.clone();
+                dco.addChild(clone);
+            }
         }
         
         // protect the is new flag
@@ -1397,7 +1403,8 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         	setIDs();
         }
 
-        setValue(_SYS_MODIFIED, getCurrentDate());
+        if (isChanged())
+        	setValue(_SYS_MODIFIED, getCurrentDate());
     }
     
     protected void saveIcon() {
