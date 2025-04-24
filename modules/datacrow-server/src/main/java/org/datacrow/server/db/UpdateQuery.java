@@ -107,6 +107,16 @@ public class UpdateQuery extends Query {
                 }
             }
     
+            if (dco.getModuleIdx() == DcModules._USER) {
+            	UpdateQuery query;
+            	for (DcObject child : dco.getCurrentChildren()) {
+            		if (child.isChanged()) {
+            			query = new UpdateQuery(getUser(), child);
+            			query.run();
+            		}
+            	}
+            }
+            
             s = sbValues.toString();
             if (dco.getModule().getType() != DcModule._TYPE_MAPPING_MODULE && !CoreUtilities.isEmpty(values)) {
                 ps = conn.prepareStatement("UPDATE " + dco.getTableName() + " SET " + s + "\r\n WHERE ID = '" + dco.getID() + "'");

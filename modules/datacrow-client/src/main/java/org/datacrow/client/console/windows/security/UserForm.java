@@ -25,6 +25,8 @@
 
 package org.datacrow.client.console.windows.security;
 
+import java.util.Collection;
+
 import org.datacrow.client.console.windows.itemforms.ItemForm;
 import org.datacrow.core.IconLibrary;
 import org.datacrow.core.objects.DcObject;
@@ -73,6 +75,7 @@ public class UserForm extends ItemForm {
             changed = changed ? changed : modulePermissionPanel.isChanged();
             changed = changed ? changed : pluginPermissionPanel.isChanged();
         }
+        
         return changed;
     }
     
@@ -94,12 +97,36 @@ public class UserForm extends ItemForm {
     
     @Override
     protected boolean saveValues() {
-        for (Permission permission : modulePermissionPanel.getPermissions())
-            dco.addChild(permission);
-        
-        for (Permission permission : pluginPermissionPanel.getPermissions())
-            dco.addChild(permission);
-    
+    	
+    	if (update) {
+    		
+			dco.loadChildren(null);
+    		
+    		Collection<Permission> permissions = modulePermissionPanel.getPermissions(true);
+    		permissions.addAll(pluginPermissionPanel.getPermissions(true));
+    		
+    		for (DcObject current : dco.getChildren()) {
+    			current.markAsUnchanged();
+    			
+    			for (DcObject adjusted : permissions) {
+    				if (adjusted.equals(current)) {
+    					current.setValue(Permission._D_VIEW, adjusted.getValue(Permission._D_VIEW));
+    					current.setValue(Permission._E_EDIT, adjusted.getValue(Permission._E_EDIT));
+    				}
+    			}
+    		}
+    		
+    	} else {
+    		
+    		dco.removeChildren();
+    		
+            for (Permission permission : modulePermissionPanel.getPermissions(false))
+                dco.addChild(permission);
+            
+            for (Permission permission : pluginPermissionPanel.getPermissions(false))
+                dco.addChild(permission);
+    	}
+    	
         return super.saveValues();
     }
 }

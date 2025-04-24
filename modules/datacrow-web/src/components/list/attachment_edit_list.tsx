@@ -114,9 +114,16 @@ export default function AttachmentEditList({itemID} : Props) {
 
     return (
         <div>
-            <div className="bd-theme" style={{top: "0", marginBottom: "10px" }} >
-                <i className="bi bi-folder" style={{fontSize:"1.7rem"}} onClick={() => setShowUpload(!showUpload)}></i>
-            </div>        
+        
+            {
+                auth.user.canEditAttachments &&
+                (
+                    <div className="bd-theme" style={{top: "0", marginBottom: "10px" }} >
+                        <i className="bi bi-folder" style={{fontSize:"1.7rem"}} onClick={() => setShowUpload(!showUpload)}></i>
+                    </div>        
+                )
+            }
+        
 
             <BusyModal show={uploading} message={t("msgBusyUploadingAttachment")} />
         
@@ -142,9 +149,15 @@ export default function AttachmentEditList({itemID} : Props) {
                         {attachment.displayName}
                     </Card.Body>
                     <Card.Header style={{ height: '2.5em' }}>
-                        <div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0" }} >
-                            <i className="bi bi-trash" onClick={() => handleDelete(attachment)} style={{fontSize:"1.2rem"}}></i>
-                        </div>
+                        {
+                           auth.user.canEditAttachments &&
+                            (
+                                <div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0" }} >
+                                    <i className="bi bi-trash" onClick={() => handleDelete(attachment)} style={{fontSize:"1.2rem"}}></i>
+                                </div>
+                            ) 
+                        }
+                    
                         <div className="bd-theme" style={{ display: "flex", flexWrap: "wrap", float: "right", top: "0", marginRight: "10px" }} >
                             <i className="bi bi-download" onClick={() => handleDownload(attachment)} style={{fontSize:"1.2rem"}}></i>
                         </div>                        

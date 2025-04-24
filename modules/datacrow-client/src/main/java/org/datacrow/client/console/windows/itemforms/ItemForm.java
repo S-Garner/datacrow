@@ -137,6 +137,11 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
     private LoanInformationPanel panelLoans;
     private DcTemplate template;
     
+    private JButton buttonClose;
+    private JButton buttonDelete;
+    private JButton buttonInternet;
+    private JButton buttonSave;
+    
     public ItemForm(
             boolean readonly,
             boolean update,
@@ -618,7 +623,7 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
 
     public void apply() {
     	
-    	if (!update) {
+    	if (!update && childView != null) {
 	        removeChildren();
 	        if (DcModules.get(moduleIdx).getChild() != null && childView != null) {
 	            for (DcObject child : childView.getItems()) {
@@ -694,6 +699,13 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         if (!update || isChanged()) {
         	
         	try {
+        		
+        		buttonSave.setEnabled(false);
+        		buttonClose.setEnabled(false);
+        		
+        		if (buttonDelete != null) buttonDelete.setEnabled(false);
+        		if (buttonInternet != null) buttonInternet.setEnabled(false);
+        		
         		// this is now a client side validation check. It will be performed again by the server (in server client mode),
         		// if the requests makes it through.
 	        	dco.checkIntegrity();
@@ -980,11 +992,11 @@ public class ItemForm extends DcFrame implements ActionListener, IClient {
         JPanel panel = new JPanel();
         panel.setLayout(Layout.getGBL());
 
-        JButton buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
-        JButton buttonDelete = ComponentFactory.getButton(DcResources.getText("lblDelete"));
-        JButton buttonInternet = null;
+        buttonClose = ComponentFactory.getButton(DcResources.getText("lblClose"));
+        buttonDelete = ComponentFactory.getButton(DcResources.getText("lblDelete"));
+        buttonInternet = null;
 
-        JButton buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
+        buttonSave = ComponentFactory.getButton(DcResources.getText("lblSave"));
         buttonSave.addActionListener(this);
         buttonSave.setActionCommand("save");
 

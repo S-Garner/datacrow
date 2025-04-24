@@ -65,8 +65,9 @@ public class User extends DcObject {
         if (getModule().getChild() != null && children.size() == 0) {
             children.clear();
             int childIdx = getModule().getChild().getIndex();
-            for (DcObject dco : DcConfig.getInstance().getConnector().getChildren(getID(), childIdx, fields))
+            for (DcObject dco : DcConfig.getInstance().getConnector().getChildren(getID(), childIdx, fields)) {
                 children.add(dco);
+            }
         }
     }      
     
@@ -93,9 +94,7 @@ public class User extends DcObject {
     		connector.updateUser(this);
     	}
     	
-    	
-    	if (isNew()) 
-    	{
+    	if (isNew()) {
     		Picture picture = new Picture(getID(), new File(DcConfig.getInstance().getInstallationDir(), "icons/user.png"));
     		DcConfig.getInstance().getConnector().savePicture(picture);
     	}

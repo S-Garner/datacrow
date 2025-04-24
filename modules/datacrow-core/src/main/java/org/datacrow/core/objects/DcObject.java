@@ -1132,14 +1132,18 @@ public class DcObject implements Comparable<DcObject>, Serializable {
             
             if (CoreUtilities.isEmpty(ID))
                 ID = CoreUtilities.getUniqueID();
-            
-            setValue(DcObject._ID, ID);
+
+            if (!ID.equals(getID()))
+            	setValue(DcObject._ID, ID);
             
             if (children != null) {
+            	
                 for (DcObject child : children) {
                     if (child.hasPrimaryKey()) {
                         child.setIDs();
-                        child.setValue(child.getParentReferenceFieldIndex(), ID);
+                        
+                        if (!ID.equals(child.getValue(child.getParentReferenceFieldIndex())))
+                        	child.setValue(child.getParentReferenceFieldIndex(), ID);
                     }
                 }
             }

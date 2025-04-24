@@ -12,11 +12,18 @@ public class WebUser {
 	private final Settings settings = new Settings();
 	@JsonProperty("admin")
 	private final boolean admin;
+	@JsonProperty("canEditAttachments")
+	private final boolean canEditAttachments;
+	@JsonProperty("canEditPictures")
+	private final boolean canEditPictures;
 	
-	public WebUser(String username, String token, boolean admin) {
+	public WebUser(String username, String token, boolean admin, boolean canEditAttachments, boolean canEditPictures) {
 		this.username = username;
 		this.token = token;
 		this.admin = admin;
+		
+		this.canEditAttachments = canEditAttachments || admin;
+		this.canEditPictures = canEditPictures || admin;;
 	}
 	
 	public String getUsername() {

@@ -90,6 +90,7 @@ public class PluginPermissionPanel extends JPanel implements ActionListener {
         user.loadChildren(null);
 
         DcObject permission = null;
+        
         Permission p;
         Connector connector = DcConfig.getInstance().getConnector();
         for (RegisteredPlugin plugin : Plugins.getInstance().getRegistered()) {
@@ -101,7 +102,7 @@ public class PluginPermissionPanel extends JPanel implements ActionListener {
                 for (DcObject child : user.getChildren()) {
                     p = (Permission) child;
                     if (p.getPlugin() != null &&  plugin.getKey().equals(p.getPlugin())) {
-                        permission = p;
+                        permission = p.clone();
                         break;
                     }
                 }
@@ -121,6 +122,8 @@ public class PluginPermissionPanel extends JPanel implements ActionListener {
                         logger.error(ve, ve);
                     }
                 } 
+                
+                permission = permission.clone();
             }
             
             Object[] row = new Object[] {plugin.getKey(),
@@ -175,17 +178,22 @@ public class PluginPermissionPanel extends JPanel implements ActionListener {
         }
     }
 
-    public Collection<Permission> getPermissions() {
-        Collection<Permission> permissions = new ArrayList<Permission>();
+    public Collection<Permission> getPermissions(boolean changedOnly) {
+        
+    	Collection<Permission> permissions = new ArrayList<Permission>();
         Permission permission;
+        
         for (int row = 0; row < table.getRowCount(); row++) {
             permission = (Permission) table.getValueAt(row, _COLUMN_PERMISSION, true);
 
-            if (!permission.isFilled(Permission._F_USER))
-                permission.setValue(Permission._F_USER, user.getID());
-            
-            permissions.add(permission);
-        }    
+            if (!changedOnly || permission.isChanged()) {
+                if (!permission.isFilled(Permission._F_USER))
+                    permission.setValue(Permission._F_USER, user.getID());
+                
+                permissions.add(permission);
+            }
+        }
+        
         return permissions;
     }
     

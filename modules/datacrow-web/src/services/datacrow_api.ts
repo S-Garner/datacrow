@@ -85,6 +85,8 @@ export interface User {
     token: string;
     admin: boolean;
     settings: Settings;
+    canEditAttachments: boolean;
+    canEditPictures: boolean;
 }
 
 export interface Item {

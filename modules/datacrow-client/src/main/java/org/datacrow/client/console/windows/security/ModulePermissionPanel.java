@@ -77,10 +77,10 @@ public class ModulePermissionPanel extends JPanel {
         }
     }
     
-    public Collection<Permission> getPermissions() {
+    public Collection<Permission> getPermissions(boolean changedOnly) {
     	Collection<Permission> permissions = new ArrayList<Permission>();
     	for (FieldPermissionPanel panel : modulePermissionPanels.values()) {
-    		permissions.addAll(panel.getPermissions());
+    		permissions.addAll(panel.getPermissions(changedOnly));
     	}
     	return permissions;
     }

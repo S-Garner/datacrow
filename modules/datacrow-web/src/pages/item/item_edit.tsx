@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchItem, fetchReferences, saveItem, type Field, type Item, type References } from "../../services/datacrow_api";
-import { RequireAuth } from "../../context/authentication_context";
+import { RequireAuth, useAuth } from "../../context/authentication_context";
 import { useModule } from "../../context/module_context";
 import { Button, Tab, Tabs } from "react-bootstrap";
 import { FormProvider, useForm } from 'react-hook-form';
@@ -16,6 +16,8 @@ import ItemDetailsMenu from "../../components/menu/item_details_menu_bar";
 import BusyModal from "../../components/message/busy_modal";
 
 export function ItemPage() {
+    
+    let auth = useAuth();
 
     const [saving, setSaving] = useState(false);
     const [item, setItem] = useState<Item>();
@@ -163,7 +165,7 @@ export function ItemPage() {
                         )
                     }
     
-                    {itemID &&
+                    {itemID && auth.user.canEditPictures &&
                         (
                             <Tab eventKey="pictures" title={t("lblPictures")} key="pictures-tab">
                                 <PictureEditList itemID={itemID} />
@@ -171,7 +173,7 @@ export function ItemPage() {
                         )
                     }
                     
-                    {itemID &&
+                    {itemID && auth.user.canEditAttachments &&
                         (
                             <Tab eventKey="attachments" title={t("lblAttachments")}>
                                 <AttachmentEditList itemID={itemID} />

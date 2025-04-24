@@ -146,7 +146,8 @@ public class PictureOverviewPanel extends DcPanel {
     	
     	private PictureListPanel(boolean readonly, boolean newItemMode, int mode) {
     		
-    		this.mode = mode;
+    		this.mode = !DcConfig.getInstance().getConnector().getUser().isAuthorized("EditPictures") ? DcPicturesList._MODE_READONLY : mode;
+    		
     		this.newItemMode = newItemMode;
     		this.readonly = readonly;
     		

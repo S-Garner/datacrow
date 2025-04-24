@@ -113,7 +113,7 @@ public class FieldPermissionPanel extends JPanel implements ActionListener {
                 for (DcObject child : user.getChildren()) {
                     p = (Permission) child;
                     if (p.getFieldIdx() == field.getIndex() && p.getPermittedModuleIdx() == module.getIndex()) {
-                        permission = p;
+                        permission = p.clone();
                         break;
                     }
                 }
@@ -135,7 +135,9 @@ public class FieldPermissionPanel extends JPanel implements ActionListener {
                     } catch (ValidationException ve) {
                         logger.error(ve, ve);
                     }
-                } 
+                }
+                
+                permission = permission.clone();
             }
             
             Object[] row = new Object[] {DcModules.get(field.getModule()), 
@@ -224,16 +226,18 @@ public class FieldPermissionPanel extends JPanel implements ActionListener {
         }
     }
 
-    public Collection<Permission> getPermissions() {
+    public Collection<Permission> getPermissions(boolean changedOnly) {
         Collection<Permission> permissions = new ArrayList<Permission>();
         Permission permission;
         for (int row = 0; row < table.getRowCount(); row++) {
             permission = (Permission) table.getValueAt(row, _COLUMN_PERMISSION, true);
             
-            if (!permission.isFilled(Permission._F_USER))
-            	permission.setValue(Permission._F_USER, user.getID());
-            	
-            permissions.add(permission);
+            if (!changedOnly || permission.isChanged()) {
+	            if (!permission.isFilled(Permission._F_USER))
+	            	permission.setValue(Permission._F_USER, user.getID());
+	            	
+	            permissions.add(permission);
+            }
         }    
         return permissions;
     }
