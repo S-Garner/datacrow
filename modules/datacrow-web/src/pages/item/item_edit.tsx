@@ -173,7 +173,7 @@ export function ItemPage() {
                         )
                     }
                     
-                    {itemID && auth.user.canEditAttachments &&
+                    {itemID &&
                         (
                             <Tab eventKey="attachments" title={t("lblAttachments")}>
                                 <AttachmentEditList itemID={itemID} />

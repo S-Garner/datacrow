@@ -568,7 +568,6 @@ public class DcObject implements Comparable<DcObject>, Serializable {
         	boolean changed = child.isChanged(child.getParentReferenceFieldIndex());
         	child.setValue(child.getParentReferenceFieldIndex(), getID());
         	child.setChanged(child.getParentReferenceFieldIndex(), changed);
-            	
             children.add(child);
         }
     }

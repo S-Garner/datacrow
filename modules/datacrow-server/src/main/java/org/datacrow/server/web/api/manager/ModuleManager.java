@@ -26,7 +26,9 @@ public class ModuleManager {
     }
     
     public Module getModule(SecuredUser su, int index) {
-    	for (Module module : modules) {
+    	Collection<Module> copy = new ArrayList<Module>(modules);
+    	
+    	for (Module module : copy) {
     		if (module.getIndex() == index && su.isAuthorized(module.getIndex()))
     			return module;
     	}
@@ -35,7 +37,9 @@ public class ModuleManager {
     }
     
     public List<Module> getModules(SecuredUser su) {
-        return modules.stream()
+    	Collection<Module> copy = new ArrayList<Module>(modules);
+    	
+        return copy.stream()
         		.filter(module -> module.getIndex() != DcModules._USER && su.isAuthorized(module.getIndex()))
         		.collect(Collectors.toList());
     }

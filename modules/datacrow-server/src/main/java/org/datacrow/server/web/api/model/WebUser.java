@@ -23,7 +23,7 @@ public class WebUser {
 		this.admin = admin;
 		
 		this.canEditAttachments = canEditAttachments || admin;
-		this.canEditPictures = canEditPictures || admin;;
+		this.canEditPictures = canEditPictures || admin;
 	}
 	
 	public String getUsername() {
