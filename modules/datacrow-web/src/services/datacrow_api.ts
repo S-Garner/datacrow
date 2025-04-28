@@ -139,6 +139,13 @@ export interface Reference {
     iconUrl: string;
 }
 
+export async function downloadFile(filename: string): Promise<Blob> {
+    checkInstance();
+    const response = await instance.get((globalThis as any).apiUrl + 'download/' + encodeURIComponent(filename), {responseType: 'blob'});
+    return await response.data;
+}
+
+
 export async function downloadAttachment(itemID: string, name: string): Promise<Blob> {
     checkInstance();
     const response = await instance.get((globalThis as any).apiUrl + 'attachments/download/' + itemID + '/' + name, {responseType: 'blob'});

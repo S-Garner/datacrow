@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import StarRating from "./dc_view_rating";
 import { Icon } from "../icon";
 import parse from 'html-react-parser';
+import ViewFileField from "./dc_view_file_field";
 
 export interface Props {
     field: Field,
@@ -60,8 +61,11 @@ export default function ViewField({
                     </Stack>
                  )}
 
-                 {(field.type === FieldType.UrlField ||
-                   field.type === FieldType.FileField) && (
+                 {(field.type === FieldType.FileField) && (
+                    <ViewFileField field={field} value={value} key={"file-" + field.index} />
+                 )}
+
+                 {(field.type === FieldType.UrlField) && (
                     
                     <div key={"div-" + field.index}>
                         <Link to={String(value)} key={"url-" + field.index} target="_blank">{String(value)}</Link>

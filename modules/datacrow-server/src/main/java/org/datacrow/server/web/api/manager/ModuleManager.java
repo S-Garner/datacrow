@@ -21,8 +21,9 @@ public class ModuleManager {
     }
 	
     private ModuleManager() {
-    	for (DcModule m : DcModules.getAllModules())
+    	for (DcModule m : DcModules.getAllModules()) {
     		modules.add(new Module(m, true));
+    	}
     }
     
     public Module getModule(SecuredUser su, int index) {
@@ -40,7 +41,7 @@ public class ModuleManager {
     	Collection<Module> copy = new ArrayList<Module>(modules);
     	
         return copy.stream()
-        		.filter(module -> module.getIndex() != DcModules._USER && su.isAuthorized(module.getIndex()))
+        		.filter(module -> DcModules.get(module.getIndex()).isEnabled() && module.getIndex() != DcModules._USER && su.isAuthorized(module.getIndex()))
         		.collect(Collectors.toList());
     }
 }

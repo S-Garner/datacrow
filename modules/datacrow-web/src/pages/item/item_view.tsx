@@ -29,7 +29,7 @@ export function ItemViewPage() {
     }, []);
 
     useEffect(() => {
-        if (!auth.user || !state.itemID) {
+        if (!auth.user || !state?.itemID) {
             navigate('/login');
         }
     }, []);
