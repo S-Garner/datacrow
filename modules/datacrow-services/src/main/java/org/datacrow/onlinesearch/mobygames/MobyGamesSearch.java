@@ -140,7 +140,7 @@ public class MobyGamesSearch extends SearchTask {
     private String getBaseUrl() throws OnlineSearchUserError {
         if (CoreUtilities.isEmpty(apiKey)) {
             String msg = DcResources.getText("msgMobyGamesNoApiKeyDefined");
-            msg = "<html>" + msg + "<br><u><a href=\"https://www.mobygames.com/info/api\">https://www.mobygames.com/info/api</a></u></html>";
+            msg = "<html>" + msg + "<br><u><a href=\"https://www.mobygames.com/mobyplus/\">https://www.mobygames.com/mobyplus/</a></u></html>";
             
             throw new OnlineSearchUserError(msg);
         } else {

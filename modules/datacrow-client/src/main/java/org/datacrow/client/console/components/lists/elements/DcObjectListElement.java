@@ -154,13 +154,17 @@ public abstract class DcObjectListElement extends DcListElement {
     }
     
     protected DcLabel getLabel(int field, boolean label, int width) {
+    	
         DcLabel lbl = new DcLabel();
-        if (label) {
-            lbl.setFont(ComponentFactory.getSystemFont());
-            lbl.setText(dco.getLabel(field));
-        } else {
-            lbl.setFont(ComponentFactory.getStandardFont());
-            lbl.setText(dco.getDisplayString(field));
+
+        if (dco != null) {
+	        if (label) {
+	            lbl.setFont(ComponentFactory.getSystemFont());
+	            lbl.setText(dco.getLabel(field));
+	        } else {
+	            lbl.setFont(ComponentFactory.getStandardFont());
+	            lbl.setText(dco.getDisplayString(field));
+	        }
         }
         
         lbl.setPreferredSize(new Dimension(width, fieldHeight));

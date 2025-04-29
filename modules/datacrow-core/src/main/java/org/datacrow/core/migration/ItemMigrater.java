@@ -101,6 +101,16 @@ public abstract class ItemMigrater {
         return DcModules.get(moduleIdx);
     }
     
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
+    
     public void start() throws Exception {
         if (task != null && task.isAlive())
             task.cancel();

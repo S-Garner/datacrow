@@ -151,7 +151,7 @@ public abstract class ItemImporter extends ItemMigrater {
 
         return file;
     }
-
+    
     protected void setValue(DcObject dco, int fieldIdx, String value, IItemImporterClient listener) {
         
         if (CoreUtilities.isEmpty(value)) return;

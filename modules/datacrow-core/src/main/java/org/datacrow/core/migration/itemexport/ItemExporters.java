@@ -25,9 +25,11 @@
 
 package org.datacrow.core.migration.itemexport;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.datacrow.core.log.DcLogManager;
@@ -54,7 +56,7 @@ public class ItemExporters {
     }
 
     public Collection<ItemExporter> getExporters(int moduleIdx) {
-    	Collection<ItemExporter> c = new ArrayList<ItemExporter>();
+    	LinkedList<ItemExporter> c = new LinkedList<ItemExporter>();
     	for (String key : exporters.keySet()) {
     		try {
     			c.add(getExporter(key, moduleIdx));
@@ -62,6 +64,14 @@ public class ItemExporters {
     			logger.error(e, e);
     		}
     	}
+    	
+    	Collections.sort(c, new Comparator<ItemExporter>() {
+            @Override
+            public int compare(ItemExporter o1, ItemExporter o2) {
+                return o1.hashCode() - o2.hashCode();
+            }
+        });
+    	
     	return c;
     }
     

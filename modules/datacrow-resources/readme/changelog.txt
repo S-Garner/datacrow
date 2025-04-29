@@ -1,5 +1,5 @@
 --------------------------------------------------------------------
-Data Crow version 5.0                         Released on 2025-04-xx
+Data Crow version 5.0                         Released on 2025-04-29
 --------------------------------------------------------------------
 
 [New]
@@ -64,9 +64,9 @@ Data Crow version 5.0                         Released on 2025-04-xx
 - XML export: schema errors fixed.
 - XML's as created by the export are not valid according to the XSD 
 - In the tree panel, for client-server, numbers are shown as .0
-- Log on error after the first attempt has failed
+- Log on errors after the first attempt has failed
 - Uploading images for client<>server is extremely slow
-- Performance issues in general for client<>server
+- Performance issues in general for client<>server setup
 - Fixed an issue where the reports are not available in the stand alone client if the user folder was set up by the server.
 
 [Known Issues]
