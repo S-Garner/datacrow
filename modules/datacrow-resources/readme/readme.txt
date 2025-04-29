@@ -69,15 +69,6 @@ OpenJDK) or higher installed.
 
 Data Crow needs Java;
 Java Second Edition 11 (or higher) from Oracle (https://java.com/)
-  
-Data Crow was tested on:
-Windows 11 and Ubuntu (latest version at the moment of testing).
-Systems used: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz / 8GB of RAM
-
-Minimum requirement: 
-An 1.0 Ghz system is perfectly capable of running Data Crow.
-Data Crow needs, for large collections, at least 256 MB of free memory.
-(a collection of 10,000 items or more is considered large).
 
 
 -----------------------------------------------------------------------------------------
