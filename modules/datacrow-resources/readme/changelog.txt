@@ -4,8 +4,7 @@ Data Crow version 5.0                         Released on 2025-04-29
 
 [New]
 - Picture management has been completed changed; Data Crow now allows for unlimited number of pictures to be added.
-- A completely new web version has been created. Start the server using the startup parameters and navigate to:
-  http://<web server IP address>:<web server port>
+- A completely new web version has been created. Start the server using the startup parameters and navigate to: http://<web server IP address>:<web server port>
 
 [Changed]
 - Add from memory for pictures now also allowed URLs to be pasted.
@@ -26,15 +25,8 @@ Data Crow version 5.0                         Released on 2025-04-29
 - Performance improvements for client-server mode have been made.
 - Updated libraries as used by Data Crow to avoid exposure to vulnerabilities: Apache Maven plugins, IZ Pack, Metadata-extractor, Log4j, Bouncy Castle, twelvemonkeys.imageio, org.apache.tika, org.apache.pdfbox, org.jsoup, com.google.code.gson, Xalan, org.hsqldb, org.apache.xmlgraphics.
 - Jasper Reports libraries have been bumped up to version 7.0.
-- XML Export has been updated;
-  * empty values are no longer exported.
-  * a valid XSD is now generated for both individual modules as well as for the media module.
-  * IDs of items are now exported.
-  * attachments can now be exported.
-  * related references items are exported in full as well as the current summary for the item that references these.
-- XML Import has been updated:
-  * No longer need to select the module for which the items are imported. The items as part of the XML know to which module they need to imported for.
-  * IDs are respected  
+- XML Export has been updated; empty values are no longer exported | a valid XSD is now generated for both individual modules as well as for the media module | IDs of items are now exported | attachments can now be exported | related references items are exported in full as well as the current summary for the item that references these.
+- XML Import has been updated: no longer need to select the module for which the items are imported. The items as part of the XML know to which module they need to imported for. | IDs are respected  
 - Small layout improvements for the item form and the login dialog.
 - Extended the supported image types for the local art import for movies and music files. 
 
