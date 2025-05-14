@@ -396,6 +396,9 @@ public class DcDatabase {
                         else if (dbSize < field.getMaximumLength() && 
                                (field.getValueType() == DcRepository.ValueTypes._STRING))
                             convert = true;
+                        else if ((dbType == Types.BIGINT || dbType == Types.INTEGER) &&
+                        		(field.getValueType() == DcRepository.ValueTypes._STRING))
+                        	convert = true;
                         
                         if (convert) {
                             logger.info(DcResources.getText("msgTableUpgradeIncorrectColumn", new String[] {tablename, field.getLabel()}));
