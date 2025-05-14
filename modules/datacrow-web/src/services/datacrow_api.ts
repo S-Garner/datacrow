@@ -131,6 +131,7 @@ export interface Field {
 	label: string;
 	required: boolean;
 	hidden: boolean;
+	searchable: boolean;
 }
 
 export interface Reference {
@@ -356,19 +357,16 @@ export async function fetchChildren(moduleIdx: number, itemId: string): Promise<
     return response.data;
 }
 
-export async function fetchItems(moduleIdx: number, searchTerm: String | undefined): Promise<Item[]> {
+export async function searchItems(moduleIdx: number, fieldIdx: String | undefined, searchTerm: String | undefined): Promise<Item[]> {
     checkInstance();
+    
     let url = (globalThis as any).apiUrl + 'items/' + moduleIdx;
+    let field = fieldIdx ? fieldIdx : 'all'; 
     
-    if (searchTerm)
-        url += "/" + searchTerm;
+    if (searchTerm) {
+        url += "/" + field + "/" + searchTerm;
+    }
     
-	const response = await instance.get(url);
-	return response.data;
-}
-
-export async function searchItems(moduleIdx: number, searchTerm: String): Promise<Item[]> {
-    checkInstance();
-	const response = await instance.get((globalThis as any).apiUrl + 'items/' + moduleIdx + '/' + searchTerm);
-	return response.data;
+    const response = await instance.get(url);
+    return response.data;
 }

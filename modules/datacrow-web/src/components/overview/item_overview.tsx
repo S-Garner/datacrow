@@ -1,24 +1,40 @@
 import { Button, Card, InputGroup } from 'react-bootstrap';
-import { fetchItems, searchItems, type Item, isEditingAllowed } from '../../services/datacrow_api';
+import { searchItems, type Item, isEditingAllowed } from '../../services/datacrow_api';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import PagesDropdown from './pages_dropdown';
 import Pagination from './pagination';
 import { useModule } from '../../context/module_context';
 import { useTranslation } from '../../context/translation_context';
+import Select from 'react-select';
+
+
+export interface FieldSelectOption {
+    value: string;
+    label: string;
+}
 
 export function ItemOverview() {
 
-    const [editingAllowed, setEditingAllowed] = useState(false);
+    const moduleContext = useModule();
+    const navigate = useNavigate();
+    const { t } = useTranslation();
 
-	const moduleContext = useModule();
-	const navigate = useNavigate();
-	const [items, setItems] = useState<Item[]>([]);
-	const { t } = useTranslation();
+    const [items, setItems] = useState<Item[]>([]);
+    const [editingAllowed, setEditingAllowed] = useState(false);
+    const [searchFields, setSearchFields] = useState<FieldSelectOption[]>();
+    const [searchField, setSearchField] = useState<FieldSelectOption>();
 
     useEffect(() => {
-        moduleContext.selectedModule && fetchItems(moduleContext.selectedModule.index, moduleContext.filter).
+        setSearchFields(getFieldOptions());
+     }, [moduleContext.selectedModule]);
+
+    useEffect(() => {
+        setSearchField(getStoredFieldOption());
+     }, [moduleContext.selectedModule]);
+
+    useEffect(() => {
+        moduleContext.selectedModule && searchItems(moduleContext.selectedModule.index, searchField?.value, moduleContext.filter).
             then((data) => setItems(data)).
             catch(error => {
                 console.log(error);
@@ -40,12 +56,45 @@ export function ItemOverview() {
     }, [moduleContext.selectedModule]);    
     
     const module = moduleContext!.selectedModule;
+
+    function getStoredFieldOption() : FieldSelectOption {
+        let result = {value: String(-1), label: String(t("lblAllFields"))};
+        let fieldIdx = localStorage.getItem("search_field_" + moduleContext.selectedModule.index);
+
+        getFieldOptions().forEach((field) => {
+            if (String(field.value) === String(fieldIdx))
+                result = field;
+        });
+
+        return result;
+    }
+
+    function  getFieldOptions() {
+        let options: FieldSelectOption[] = [];
+        
+        options.push({
+                    value: String(-1),
+                    label: String(t("lblAllFields"))
+                });
+        
+        if (moduleContext?.selectedModule?.fields) {
+            moduleContext?.selectedModule?.fields.map(field =>
+                field.searchable && options.push({
+                    value: String(field.index),
+                    label: String(t(field.label))
+                })
+            );
+        }
+
+        return options;        
+    }    
     
     let startingPageNumber = Number(localStorage.getItem("main_pagenumber"));
     startingPageNumber = startingPageNumber <= 0 ? 1 : startingPageNumber;
     
 	const [currentPage, setCurrentPage] = useState(startingPageNumber);
 
+    // check if the reset flag was set; for example when the selected module was changed
     if (localStorage.getItem("main_pagenumber_reset") === "true") {
         localStorage.setItem("main_pagenumber_reset", "false");
         startingPageNumber = 1;
@@ -98,7 +147,8 @@ export function ItemOverview() {
     }
 	
 	function filterItems(filter: string) {
-        searchItems(module!.index, filter).then((data) => setItems(data));
+        localStorage.setItem("search_field_" + moduleContext.selectedModule.index, String(searchField?.value));
+        searchItems(module!.index, searchField?.value, filter).then((data) => setItems(data));
     }
 	
 	function openItem(itemID : string) {
@@ -112,11 +162,15 @@ export function ItemOverview() {
         localStorage.setItem("main_pagenumber", "1");
         setCurrentPage(1);
     }
+    
+    function setCurrentValue(field : FieldSelectOption) {
+        setSearchField(field);
+    }
 	
 	function savePageNumber() {
         localStorage.setItem("main_pagenumber", String(currentPage));
     }
-	
+    
 	return (
 		<div className="py-20 bg-slate-900 h-full" style={{width: "100%"}}>
 			
@@ -124,8 +178,22 @@ export function ItemOverview() {
                 <div className="float-child">
                     <form onSubmit={handleSubmit} >
                         <InputGroup className="mb-3">
-                            <input type="text" name="searchFor" className="form-control" defaultValue={moduleContext.filter} />
+                            <input type="text" name="searchFor" className="form-control" defaultValue={moduleContext.filter} placeholder={t('lblSearchFor')} />
+                            
+                            <Select
+                                className="react-select-container"
+                                classNamePrefix="react-select"   
+                                options={searchFields}
+                                onChange={e => {
+                                    setCurrentValue(e as FieldSelectOption);
+                                }}
+                                isClearable
+                                placeholder={String(t("lblAllFields"))}
+                                value={searchField}
+                            />
+
                             <Button className="search-button" type="submit">{t("lblSearch")?.toLowerCase()}</Button>
+                            
                         </InputGroup>
                     </form>
                 </div>

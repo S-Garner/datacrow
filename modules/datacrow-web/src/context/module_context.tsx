@@ -74,6 +74,7 @@ export function ModuleProvider({ children }: { children: React.ReactNode }) {
 	
 	let switchModule = (newSelectedModule: Module, newMainModule: Module) => {
 		{	
+            // set this so we don't go to page x for a new module that was selected
             localStorage.setItem("main_pagenumber_reset", "true");
             setFilter("");
             

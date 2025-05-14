@@ -31,16 +31,21 @@ public class ItemsService extends DataCrowApiService {
     }
     
     @GET
-    @Path("/{moduleIndex}/{searchTerm}")
+    @Path("/{moduleIndex}/{field}/{searchTerm}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Item> getItemsForModule(
     		@HeaderParam("authorization") String token, 
     		@PathParam("moduleIndex") Long id, 
+    		@PathParam("field") String field,
     		@PathParam("searchTerm") String search) {
     	
     	checkAuthorization(token);
     	
     	SecuredUser su = SecurityCenter.getInstance().getUser(token);
-    	return ItemManager.getInstance().getItems(su, id.intValue(), search);    
+    	
+    	if (field.equals("all"))
+    		return ItemManager.getInstance().getItems(su, id.intValue(), search);
+    	else
+    		return ItemManager.getInstance().getItems(su, id.intValue(), Integer.valueOf(field), search);
     }
 }

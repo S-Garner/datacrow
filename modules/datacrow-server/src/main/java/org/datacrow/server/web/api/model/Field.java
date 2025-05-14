@@ -42,6 +42,8 @@ public class Field {
     private final boolean required;
     @JsonProperty("hidden")
     private final boolean hidden;    
+    @JsonProperty("searchable")
+    private final boolean searchable;    
     
 	public Field(DcField src) {
 		index = src.getIndex();
@@ -52,6 +54,7 @@ public class Field {
 		readOnly = src.isReadOnly();
 		required  = src.isRequired();
 		hidden = !src.isEnabled();
+		searchable = src.isSearchable();
 		setType(src);
 	}
 	
@@ -65,6 +68,7 @@ public class Field {
 		required  = src.isRequired();
 		type = src.getType();
 		hidden = src.isHidden();
+		searchable = src.isSearchable();
 	}
 	
 	public int getIndex() {
@@ -85,6 +89,10 @@ public class Field {
 	
 	public int getModuleIdx() {
 		return moduleIdx;
+	}
+
+	public boolean isSearchable() {
+		return searchable;
 	}
 	
 	public boolean isReadOnly() {

@@ -96,11 +96,15 @@ public class ItemManager {
 	}
 	
 	public List<Item> getItems(SecuredUser su, int moduleIdx, String search) {
+		return getItems(su, moduleIdx, -1, search);
+	}	
+	
+	public List<Item> getItems(SecuredUser su, int moduleIdx, int fieldIdx, String search) {
 		List<Item> items = new ArrayList<Item>();
 		
 		DcModule module = DcModules.get(moduleIdx);
 		int[] fields = module.getMinimalFields(null);
-		DataFilter df = DataFilters.createSearchAllFilter(moduleIdx, search);
+		DataFilter df = DataFilters.createSearchAllFilter(moduleIdx, fieldIdx, search);
 		List<DcObject> objects = DcConfig.getInstance().getConnector().getItems(df, fields);
 
 		for (DcObject dco : objects)

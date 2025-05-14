@@ -34,12 +34,14 @@ import java.util.Map;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.DcRepository;
+import org.datacrow.core.DcRepository.ValueTypes;
 import org.datacrow.core.console.UIComponents;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
 import org.datacrow.core.objects.DcField;
+import org.datacrow.core.resources.DcResources;
 import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.definitions.DcFieldDefinition;
 
@@ -66,6 +68,10 @@ public class DataFilters {
     private DataFilters() {}
     
     public static DataFilter createSearchAllFilter(int moduleIdx, String searchString) {
+    	return createSearchAllFilter(moduleIdx, -1, searchString);
+    }
+    
+    public static DataFilter createSearchAllFilter(int moduleIdx, int fieldIdx, String searchString) {
         if (CoreUtilities.isEmpty(searchString)) 
             return null;
         
@@ -83,37 +89,60 @@ public class DataFilters {
         
         DcField field;
         boolean fieldNumeric;
+        boolean fieldBoolean;
+        Object value;
         for (DcFieldDefinition fd : DcModules.get(moduleIdx).getFieldDefinitions().getDefinitions()) {
             
-            field = module.getField(fd.getIndex());
-            
-            if (field == null) {
-            	logger.debug("Field does not exists, skipping for filter all, index: " + fd.getIndex());
-            	continue;
-            }
-            
-            int vt = field.getValueType();
-            
-            fieldNumeric = 
-                    vt == DcRepository.ValueTypes._BIGINTEGER ||
-                    vt == DcRepository.ValueTypes._DOUBLE ||
-                    vt == DcRepository.ValueTypes._LONG ||
-                    field.getFieldType() == UIComponents._NUMBERFIELD;
-            
-            if (!field.isEnabled() || // field has to be enabled according to the security and settings
-                !field.isSearchable() || // field has to be search-able
-                (fieldNumeric && !valueNumeric) || // can't do a contain on a numeric value
-                (field.isUiOnly() && field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION)) 
-                    continue;
-            
-            DataFilterEntry dfe = new DataFilterEntry(DataFilterEntry._OR, 
-                                                      fd.getModule(), 
-                                                      fd.getIndex(), 
-                                                      fieldNumeric ? Operator.EQUAL_TO : Operator.CONTAINSVALUE,
-                                                      vt == DcRepository.ValueTypes._DOUBLE ? 
-                                                              Double.valueOf(searchString) :
-                                                              fieldNumeric ? Double.valueOf(searchString) : searchString);
-            df.addEntry(dfe);
+        	// skip the field if is not matching the specified field
+        	if (fd.getIndex() == fieldIdx || fieldIdx == -1) {
+        	
+	            field = module.getField(fd.getIndex());
+	            
+	            if (field == null) {
+	            	logger.debug("Field does not exists, skipping for filter all, index: " + fd.getIndex());
+	            	continue;
+	            }
+	            
+	            int vt = field.getValueType();
+	            
+	            fieldNumeric = 
+	                    vt == DcRepository.ValueTypes._BIGINTEGER ||
+	                    vt == DcRepository.ValueTypes._DOUBLE ||
+	                    vt == DcRepository.ValueTypes._LONG ||
+	                    field.getFieldType() == UIComponents._NUMBERFIELD;
+	            
+	            fieldBoolean = vt == DcRepository.ValueTypes._BOOLEAN;
+	            
+	            if (!field.isEnabled() || // field has to be enabled according to the security and settings
+	                !field.isSearchable() || // field has to be search-able
+	                (fieldNumeric && !valueNumeric) || // can't do a contain on a numeric value
+	                (field.isUiOnly() && field.getValueType() != DcRepository.ValueTypes._DCOBJECTCOLLECTION)) 
+	                    continue;
+	            
+	            switch (vt) {
+	            	case ValueTypes._DOUBLE:
+	            		value = Double.valueOf(searchString);
+	            		break;
+	            	case ValueTypes._BOOLEAN:
+	            		if (searchString.equalsIgnoreCase("true") ||
+	            			searchString.equalsIgnoreCase("1") ||
+	            			searchString.equalsIgnoreCase(DcResources.getText("lblYes")))
+	            			value = Boolean.TRUE;
+	            		else
+	            			continue;
+	            		break;
+	            	default:
+	            		value = searchString;
+	            		break;
+	            }
+	            
+	            DataFilterEntry dfe = new DataFilterEntry(DataFilterEntry._OR, 
+	                                                      fd.getModule(), 
+	                                                      fd.getIndex(), 
+	                                                      fieldNumeric || fieldBoolean ? Operator.EQUAL_TO : Operator.CONTAINSVALUE,
+	                                                      value);
+	            df.addEntry(dfe);
+        	}
         }
 
         return df;
