@@ -22,22 +22,15 @@ export function ItemOverview() {
 
     const [items, setItems] = useState<Item[]>([]);
     const [editingAllowed, setEditingAllowed] = useState(false);
-    
     const [searchText, setSearchText] = useState<string>('');
     const [searchFields, setSearchFields] = useState<FieldSelectOption[]>();
     const [searchField, setSearchField] = useState<FieldSelectOption>();
 
     useEffect(() => {
-        setSearchFields(getFieldOptions());
-     }, [moduleContext.selectedModule]);
-
-    useEffect(() => {
         setSearchField(getStoredFieldOption());
-     }, [moduleContext.selectedModule]);
-
-    useEffect(() => {
+        setSearchFields(getFieldOptions());
         setSearchText(getStoredSearchText());
-     }, [moduleContext.selectedModule]);
+     }, [moduleContext?.selectedModule]);
 
     useEffect(() => {
         moduleContext.selectedModule && searchItems(moduleContext.selectedModule.index, getStoredFieldOption().value, getStoredSearchText()).
@@ -48,7 +41,7 @@ export function ItemOverview() {
                     navigate("/login");
                 }
             });
-    }, [moduleContext.selectedModule]);
+    }, [moduleContext?.selectedModule]);
     
     useEffect(() => {
         moduleContext?.selectedModule && isEditingAllowed(moduleContext.selectedModule.index).
@@ -90,22 +83,19 @@ export function ItemOverview() {
 
     function  getFieldOptions() {
         let options: FieldSelectOption[] = [];
-        
-        options.push({
-                    value: String(-1),
-                    label: String(t("lblAllFields"))
-                });
+        let optionAll = { value: String(-1), label: String(t("lblAllFields"))};
         
         if (moduleContext?.selectedModule?.fields) {
-            moduleContext?.selectedModule?.fields.map(field =>
-                field.searchable && options.push({
-                    value: String(field.index),
-                    label: String(t(field.label))
+            moduleContext.selectedModule.fields.map(field =>
+                field.searchable && field.hidden === false && options.push({
+                    value: String(field.index), label: String(t(field.label))
                 })
             );
         }
-
-        return options;        
+        
+        options.sort((a, b) => a.label.localeCompare(b.label));
+        
+        return [optionAll].concat(options);
     }    
     
     let startingPageNumber = Number(localStorage.getItem("main_pagenumber"));
@@ -184,14 +174,6 @@ export function ItemOverview() {
         setCurrentPage(1);
     }
     
-    function setCurrentValue(field : FieldSelectOption) {
-        setSearchField(field);
-    }
-    
-    function setCurrentValue2(s : string) {
-        setSearchText(s);
-    }    
-	
 	function savePageNumber() {
         localStorage.setItem("main_pagenumber", String(currentPage));
     }
@@ -203,21 +185,21 @@ export function ItemOverview() {
                 <div className="float-child">
                     <form onSubmit={handleSubmit} >
                         <InputGroup className="mb-3">
-                            <input type="text" key="txt_filter" name="searchFor" className="form-control" value={searchText} placeholder={t('lblSearchFor')} onChange={e => {setCurrentValue2(e.target.value)}} />
+                            <input type="text" key="txt_filter" name="searchFor" className="form-control" value={searchText} placeholder={t('lblSearchFor')} onChange={e => {setSearchText(e.target.value)}} />
                             <Select
                                 key="select_field"
                                 className="react-select-container"
                                 classNamePrefix="react-select"   
                                 options={searchFields}
                                 onChange={e => {
-                                    setCurrentValue(e as FieldSelectOption);
+                                    setSearchField(e as FieldSelectOption);
                                 }}
                                 isClearable
                                 placeholder={String(t("lblAllFields"))}
                                 value={searchField}
                             />
 
-                            <Button className="search-button" type="submit">{t("lblSearch")?.toLowerCase()}</Button>
+                            <Button key="search_button" className="search-button" type="submit">{t("lblSearch")?.toLowerCase()}</Button>
                             
                         </InputGroup>
                     </form>
