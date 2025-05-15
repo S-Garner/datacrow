@@ -2,7 +2,10 @@ lblAllFields = in all fields
 
 [Changed]
 - Web; added field selection for the search
-- Quick search now correctl seatches on boolean values as well
+- Quick search now correctly searches on boolean values as well
+
+[Fixed]
+- Issues where some fields were numeric in the database but were expected to be of type varchar
 
 --------------------------------------------------------------------
 Data Crow version 5.0                         Released on 2025-04-29

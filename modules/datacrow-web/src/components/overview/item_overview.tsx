@@ -22,6 +22,8 @@ export function ItemOverview() {
 
     const [items, setItems] = useState<Item[]>([]);
     const [editingAllowed, setEditingAllowed] = useState(false);
+    
+    const [filter, setFilter] = useState<string | undefined>(moduleContext.filter);
     const [searchFields, setSearchFields] = useState<FieldSelectOption[]>();
     const [searchField, setSearchField] = useState<FieldSelectOption>();
 
@@ -34,7 +36,7 @@ export function ItemOverview() {
      }, [moduleContext.selectedModule]);
 
     useEffect(() => {
-        moduleContext.selectedModule && searchItems(moduleContext.selectedModule.index, searchField?.value, moduleContext.filter).
+        moduleContext.selectedModule && searchItems(moduleContext.selectedModule.index, getStoredFieldOption().value, filter).
             then((data) => setItems(data)).
             catch(error => {
                 console.log(error);
@@ -59,12 +61,16 @@ export function ItemOverview() {
 
     function getStoredFieldOption() : FieldSelectOption {
         let result = {value: String(-1), label: String(t("lblAllFields"))};
-        let fieldIdx = localStorage.getItem("search_field_" + moduleContext.selectedModule.index);
 
-        getFieldOptions().forEach((field) => {
-            if (String(field.value) === String(fieldIdx))
-                result = field;
-        });
+        if (moduleContext?.selectedModule) {
+
+            let fieldIdx = localStorage.getItem("search_field_" + moduleContext.selectedModule.index);
+    
+            getFieldOptions().forEach((field) => {
+                if (String(field.value) === String(fieldIdx))
+                    result = field;
+            });
+        }
 
         return result;
     }
@@ -136,6 +142,8 @@ export function ItemOverview() {
         let searchFor = formData.get("searchFor") as string;
 
         resetPageNumber();
+        
+        setFilter(searchFor);
         moduleContext.setFilter(searchFor);
         filterItems(searchFor);
 	}
@@ -178,7 +186,7 @@ export function ItemOverview() {
                 <div className="float-child">
                     <form onSubmit={handleSubmit} >
                         <InputGroup className="mb-3">
-                            <input type="text" name="searchFor" className="form-control" defaultValue={moduleContext.filter} placeholder={t('lblSearchFor')} />
+                            <input type="text" name="searchFor" className="form-control" defaultValue={filter} placeholder={t('lblSearchFor')} />
                             
                             <Select
                                 className="react-select-container"
