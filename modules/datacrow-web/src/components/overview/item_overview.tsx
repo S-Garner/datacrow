@@ -1,4 +1,4 @@
-import { Button, Card, InputGroup } from 'react-bootstrap';
+import { Button, Card, InputGroup, Table } from 'react-bootstrap';
 import { searchItems, type Item, isEditingAllowed } from '../../services/datacrow_api';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,6 @@ import Pagination from './pagination';
 import { useModule } from '../../context/module_context';
 import { useTranslation } from '../../context/translation_context';
 import Select from 'react-select';
-
 
 export interface FieldSelectOption {
     value: string;
@@ -221,8 +220,7 @@ export function ItemOverview() {
 					handleSelectOption={(option: string) => {
                         localStorage.setItem("items_per_page", option);
                         setItemsPerPage(+option);
-                    }
-                    }
+                    }}
 				/>}
 			</div>
 
@@ -246,6 +244,7 @@ export function ItemOverview() {
 						</Card.Header>
 					</Card>
 				))}
+				
 			</div>
 
             <div style={{ float: "left", clear: "both" }}>
@@ -256,7 +255,6 @@ export function ItemOverview() {
     				paginate={paginate}
     			/>
 			</div>
-
 		</div>
 	);
 }
