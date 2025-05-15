@@ -23,7 +23,7 @@ export function ItemOverview() {
     const [items, setItems] = useState<Item[]>([]);
     const [editingAllowed, setEditingAllowed] = useState(false);
     
-    const [filter, setFilter] = useState<string | undefined>(moduleContext.filter);
+    const [searchText, setSearchText] = useState<string>('');
     const [searchFields, setSearchFields] = useState<FieldSelectOption[]>();
     const [searchField, setSearchField] = useState<FieldSelectOption>();
 
@@ -36,7 +36,11 @@ export function ItemOverview() {
      }, [moduleContext.selectedModule]);
 
     useEffect(() => {
-        moduleContext.selectedModule && searchItems(moduleContext.selectedModule.index, getStoredFieldOption().value, filter).
+        setSearchText(getStoredSearchText());
+     }, [moduleContext.selectedModule]);
+
+    useEffect(() => {
+        moduleContext.selectedModule && searchItems(moduleContext.selectedModule.index, getStoredFieldOption().value, getStoredSearchText()).
             then((data) => setItems(data)).
             catch(error => {
                 console.log(error);
@@ -47,7 +51,7 @@ export function ItemOverview() {
     }, [moduleContext.selectedModule]);
     
     useEffect(() => {
-        moduleContext.selectedModule && isEditingAllowed(moduleContext.selectedModule.index).
+        moduleContext?.selectedModule && isEditingAllowed(moduleContext.selectedModule.index).
             then((data) => setEditingAllowed(data)).
             catch(error => {
                 console.log(error);
@@ -55,7 +59,7 @@ export function ItemOverview() {
                     navigate("/login");
                 }
             });
-    }, [moduleContext.selectedModule]);    
+    }, [moduleContext?.selectedModule]);    
     
     const module = moduleContext!.selectedModule;
 
@@ -73,6 +77,15 @@ export function ItemOverview() {
         }
 
         return result;
+    }
+
+    function getStoredSearchText() {
+        let result = undefined;
+        
+        if (moduleContext?.selectedModule)
+            result = localStorage.getItem("search_text_" + moduleContext.selectedModule.index);
+            
+        return result ? result : "";
     }
 
     function  getFieldOptions() {
@@ -143,8 +156,6 @@ export function ItemOverview() {
 
         resetPageNumber();
         
-        setFilter(searchFor);
-        moduleContext.setFilter(searchFor);
         filterItems(searchFor);
 	}
 	
@@ -156,6 +167,8 @@ export function ItemOverview() {
 	
 	function filterItems(filter: string) {
         localStorage.setItem("search_field_" + moduleContext.selectedModule.index, String(searchField?.value));
+        localStorage.setItem("search_text_" + moduleContext.selectedModule.index, filter);
+        setSearchText(filter);
         searchItems(module!.index, searchField?.value, filter).then((data) => setItems(data));
     }
 	
@@ -174,6 +187,10 @@ export function ItemOverview() {
     function setCurrentValue(field : FieldSelectOption) {
         setSearchField(field);
     }
+    
+    function setCurrentValue2(s : string) {
+        setSearchText(s);
+    }    
 	
 	function savePageNumber() {
         localStorage.setItem("main_pagenumber", String(currentPage));
@@ -186,9 +203,9 @@ export function ItemOverview() {
                 <div className="float-child">
                     <form onSubmit={handleSubmit} >
                         <InputGroup className="mb-3">
-                            <input type="text" name="searchFor" className="form-control" defaultValue={filter} placeholder={t('lblSearchFor')} />
-                            
+                            <input type="text" key="txt_filter" name="searchFor" className="form-control" value={searchText} placeholder={t('lblSearchFor')} onChange={e => {setCurrentValue2(e.target.value)}} />
                             <Select
+                                key="select_field"
                                 className="react-select-container"
                                 classNamePrefix="react-select"   
                                 options={searchFields}

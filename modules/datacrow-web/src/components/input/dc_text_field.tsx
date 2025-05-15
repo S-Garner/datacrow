@@ -9,7 +9,6 @@ export function DcTextField({
 }: InputFieldComponentProps) {
     
     const { register } = useFormContext();
-    const { t } = useTranslation();
     
 	return (
 		<Form.Control
