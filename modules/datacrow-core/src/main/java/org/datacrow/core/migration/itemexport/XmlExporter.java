@@ -173,7 +173,6 @@ public class XmlExporter extends ItemExporter {
             writer.setIdent(1);
             writer.endModule(getModule());
             
-            // TODO: reinit the progress bar for the references!
             for (DcModule module : references.keySet()) {
             	
             	writer.resetIdent();

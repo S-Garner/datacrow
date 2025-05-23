@@ -205,6 +205,9 @@ public class ReportGenerator {
         
         @Override
         public void run() {
+        	
+        	boolean success = true;
+        	
             try {
                 canceled = false;
                 
@@ -215,6 +218,7 @@ public class ReportGenerator {
                 settings.set(ItemExporterSettings._INCLUDE_IMAGES, Boolean.TRUE);
                 settings.set(ItemExporterSettings._COPY_IMAGES, Boolean.TRUE);
                 settings.set(ItemExporterSettings._SCALE_IMAGES, Boolean.TRUE);
+                settings.set(ItemExporterSettings._ALLOW_RELATIVE_FILE_PATHS, Boolean.FALSE);
                 settings.set(ItemExporterSettings._IMAGE_HEIGHT, Integer.valueOf(200));
                 settings.set(ItemExporterSettings._IMAGE_WIDTH, Integer.valueOf(200));
                 
@@ -246,6 +250,9 @@ public class ReportGenerator {
                 }
 
             } catch (Exception exp) {
+            	
+            	success = false;
+            	
                 logger.error(DcResources.getText("msgErrorWhileCreatingReport", exp.toString()), exp);
                 client.notify(DcResources.getText("msgErrorWhileCreatingReport", exp.toString()));
                 
@@ -254,7 +261,8 @@ public class ReportGenerator {
                 if (client != null) 
                 	client.notifyTaskCompleted(true, null);
                 
-                cleanup();
+                // leave the files in case debug is enabled or if there were any errors
+                if (success || logger.isDebugEnabled()) cleanup();
                 
                 source = null;
                 exporter = null;
