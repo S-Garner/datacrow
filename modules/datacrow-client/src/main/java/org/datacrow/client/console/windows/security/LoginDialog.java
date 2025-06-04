@@ -132,14 +132,14 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
                  GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                  new Insets(10, 5, 5, 5), 0, 0));
         getContentPane().add(fldLoginName, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
-                 GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                  new Insets(10, 5, 5, 5), 0, 0));
         getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblPassword")),   
                  Layout.getGBC(0, y, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
                  new Insets(10, 5, 5, 5), 0, 0));
         getContentPane().add(fldPassword, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
-                 GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
+                 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                  new Insets(10, 5, 5, 5), 0, 0));
          
         Connector connector = DcConfig.getInstance().getConnector();

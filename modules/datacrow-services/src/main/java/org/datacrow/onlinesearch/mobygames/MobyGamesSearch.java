@@ -25,11 +25,11 @@
 
 package org.datacrow.onlinesearch.mobygames;
 
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -73,21 +73,6 @@ public class MobyGamesSearch extends SearchTask {
         
         super(listener, server, null, mode, query, additionalFilters);
         
-        attributes.put("Minimum RAM Required", DcResources.getText("lblMobyGamesAttribRAM"));
-        attributes.put("Minimum CPU Class Required", DcResources.getText("lblMobyGamesAttribMinCPU"));
-        attributes.put("Minimum OS Class Required", DcResources.getText("lblMobyGamesAttribMinOS"));
-        attributes.put("Video Resolutions Supported", DcResources.getText("lblMobyGamesAttribVidRes"));
-        attributes.put("Video Modes Supported", DcResources.getText("lblMobyGamesAttribVidModes"));
-        attributes.put("Minimum DirectX Version Required", DcResources.getText("lblMobyGamesAttribMinDirectX"));
-        attributes.put("Input Devices Required", DcResources.getText("lblMobyGamesAttribInputDevices"));
-        attributes.put("Supported Systems/Models", DcResources.getText("lblMobyGamesAttribSupportedSystems"));
-        attributes.put("Minimum Video Memory Required", DcResources.getText("lblMobyGamesAttribMinVidMem"));
-        attributes.put("Multiplayer Options", DcResources.getText("lblMobyGamesAttribMultiplayerOptions"));
-        attributes.put("Number of Online Players", DcResources.getText("lblMobyGamesAttribNrOfOnlinePlayer"));
-        attributes.put("Number of Offline Players", DcResources.getText("lblMobyGamesAttribNrOfOfflinePlayer"));
-        attributes.put("Multiplayer Game Modes", DcResources.getText("lblMobyGamesAttribMultiplayerGameModes"));
-        attributes.put("Save Game Methods", DcResources.getText("lblMobyGamesAttribSaveGameMethods"));
-        
         apiKey = DcSettings.getString(DcRepository.Settings.stMobyGamesApiKey);
         
         if (apiKey != null)
@@ -96,28 +81,11 @@ public class MobyGamesSearch extends SearchTask {
 
     @Override
     protected DcObject getItem(Object key, boolean full) throws Exception {
-        
         MobyGamesResult mgr = (MobyGamesResult) key;
         DcObject item = mgr.getDco();
         
-        String serviceUrl = (String) item.getValue(Software._SYS_SERVICEURL);
-        
-        waitBetweenRequest();
-        
-        URL url = new URL(serviceUrl);
-        HttpConnection connection = HttpConnectionUtil.getConnection(url);
-        String result = connection.getString(StandardCharsets.UTF_8);
-        
-        Map<?, ?> game = gson.fromJson(result, Map.class);
-        
-        setAttributes(game, item);
-        setCompanies(game, item);
-        setCountries(game, item);
-        
         setPictures(mgr, item);
         setServiceInfo(item);
-        
-        extendDescription(game, item);
         
         return item; 
     }
@@ -144,7 +112,7 @@ public class MobyGamesSearch extends SearchTask {
             
             throw new OnlineSearchUserError(msg);
         } else {
-            return "https://api.mobygames.com/v1/games?api_key=" + apiKey;
+            return "https://api.mobygames.com/v2/games?api_key=" + apiKey;
         }
     }
     
@@ -153,7 +121,7 @@ public class MobyGamesSearch extends SearchTask {
         Collection<Object> keys = new ArrayList<Object>();
         
         String sUrl = getBaseUrl();
-        sUrl += "&title=" + getQuery();
+        sUrl += "&title=" + getQuery() + "&include=covers,description,developers,game_id,genres,moby_score,moby_url,official_url,platforms,publishers,release_date,screenshots,title";
         
         Map<String, Object> additionalFilters = getAdditionalFilters();
         
@@ -167,7 +135,7 @@ public class MobyGamesSearch extends SearchTask {
         
         waitBetweenRequest(); // prevent button smashing
         try {
-            URL url = new URL(sUrl);
+            URL url = new URI(sUrl).toURL();
             
             HttpConnection connection = HttpConnectionUtil.getConnection(url);
             String result = connection.getString(StandardCharsets.UTF_8);
@@ -179,6 +147,7 @@ public class MobyGamesSearch extends SearchTask {
             
             Software item;
             int mobygamesId;
+            int platformId;
             int count = 0;
     
             for (LinkedTreeMap game : games) {
@@ -193,13 +162,21 @@ public class MobyGamesSearch extends SearchTask {
                 setDescription(game, item);
                 setRating(game, item);
                 setCategories(game, item);
-                setPlatformDetails(game, item, mobygamesId);
                 
-                MobyGamesResult mgr = new MobyGamesResult(item);
-                setScreenshots(game, mgr);
-                setPictureFront(game, mgr);
+                platformId = setPlatformDetails(game, item, mobygamesId);
                 
-                keys.add(mgr);
+                if (platformId > -1) {
+                    MobyGamesResult mgr = new MobyGamesResult(item, platformId);
+                    
+                    setCovers(game, mgr);
+                    setScreenshots(game, mgr);
+                    setPublishers(game, item);
+                    setDevelopers(game, item);
+
+                    keys.add(mgr);
+                } else {
+                    listener.addError("No known platform found for [" + item + "], excluding this result from the search.");
+                }
                 
                 count++;
                 
@@ -212,212 +189,48 @@ public class MobyGamesSearch extends SearchTask {
         return keys;
     }
     
-    private void setAttributes(Map<?, ?> game, DcObject item) {
+    private void setDevelopers(Map<?, ?> game, DcObject item) {
+        List developers = (List) game.get("developers");
         
-        List attributes = (List) game.get("attributes");
+        if (developers == null) return;
         
-        if (attributes == null) return;
+        LinkedTreeMap developer;
         
-        LinkedTreeMap attribute;
-        for (Object o : attributes) {
-            attribute = (LinkedTreeMap) o;
-            
-            // multiplayer stuff
-            if (attribute.get("attribute_category_name").equals("Multiplayer Game Modes")) {
-                item.setValue(Software._AB_MULTI, Boolean.TRUE);
-
-                if (attribute.get("attribute_name").equals("Team"))
-                    item.setValue(Software._AA_COOP, Boolean.TRUE);
-            }
-
-            // storage medium
-            if (attribute.get("attribute_category_name").equals("Media Type")) {
-                item.createReference(Software._W_STORAGEMEDIUM, attribute.get("attribute_name"));
-            }
-        }
-    }
-    
-    private static final Map<String, String> attributes = new HashMap<>();
-    
-    private void extendDescription(Map<?, ?> game, DcObject item) {
-        
-        List attributes = (List) game.get("attributes");
-        
-        if (attributes == null) return;
-        
-        String attributeName;
-        String attributeValue;
-        
-        HashMap<String, List<String>> properties = new HashMap<>();
-        properties.put("Minimum RAM Required", new ArrayList<String>());
-        properties.put("Minimum CPU Class Required", new ArrayList<String>());
-        properties.put("Minimum OS Class Required", new ArrayList<String>());
-        properties.put("Video Resolutions Supported", new ArrayList<String>());
-        properties.put("Video Modes Supported", new ArrayList<String>());
-        properties.put("Minimum DirectX Version Required", new ArrayList<String>());
-        properties.put("Input Devices Required", new ArrayList<String>());
-        properties.put("Supported Systems/Models", new ArrayList<String>());
-        properties.put("Minimum Video Memory Required", new ArrayList<String>());
-        
-        properties.put("Multiplayer Options", new ArrayList<String>());
-        properties.put("Number of Online Players", new ArrayList<String>());
-        properties.put("Number of Offline Players", new ArrayList<String>());
-        properties.put("Multiplayer Game Modes", new ArrayList<String>());
-
-        properties.put("Save Game Methods", new ArrayList<String>());
-
-        LinkedTreeMap attribute;
-        for (Object o : attributes) {
-            attribute = (LinkedTreeMap) o;
-            
-            attributeName = (String) attribute.get("attribute_category_name");
-            attributeValue = (String) attribute.get("attribute_name");
-            
-            if (properties.containsKey(attributeName))
-                properties.get(attributeName).add(attributeValue);
-        }
-        
-        String description = (String) item.getValue(Software._B_DESCRIPTION);
-        
-        String part = createSection(
-                DcResources.getText("lblTechnicalInfo"), 
-                properties, new String[] {
-                        "Minimum RAM Required", 
-                        "Minimum CPU Class Required",
-                        "Minimum OS Class Required",
-                        "Video Resolutions Supported",
-                        "Video Modes Supported",
-                        "Minimum DirectX Version Required",
-                        "Input Devices Required",
-                        "Supported Systems/Models",
-                        "Minimum Video Memory Required"});
-        
-        if (part.trim().length() > 0)
-            description += "\r\n\r\n" + part;
-        
-        part = createSection(
-                DcResources.getText("lblMultiplayer"), 
-                properties, new String[] {
-                        "Multiplayer Options", 
-                        "Number of Online Players",
-                        "Number of Offline Players",
-                        "Multiplayer Game Modes"});
-        
-        if (part.trim().length() > 0)
-            description += "\r\n\r\n" + part;        
-        
-        item.setValue(Software._B_DESCRIPTION, description);
-    }
-    
-    private String createSection(String title, HashMap<String, List<String>> values, String[] selection) {
-        String section = "";
-        
-        int groupCount = 0;
-        int valueCount = 0;
-        for (String key : selection) {
-            
-            valueCount = 0;
-            
-            if (values.containsKey(key) && values.get(key).size() > 0) {
-            
-                if (groupCount == 0) {
-                    section += title + ":\r\n";
-                }
-                
-                if (groupCount > 0) section += " / ";
-                    
-                section += attributes.get(key) + ": ";
-                    
-                for (String value : values.get(key)) {
-                    if (valueCount > 0) section += ", ";
-                    section += value.replace(" / ", ", ");
-                    valueCount++;
-                }
-                
-                groupCount++;
-            }
-        }
-
-        return section;
-    }
-    
-    
-    private void setCountries(Map<?, ?> game, DcObject item) {
-        List releases = (List) game.get("releases");
-        
-        if (releases == null) return;
-        
-        LinkedTreeMap release;
-        
-        List<String> countries = new ArrayList<>();
-        
-        for (Object o : releases) {
-            release = (LinkedTreeMap) o;
-            @SuppressWarnings("unchecked")
-            List<String> c = (List<String>) release.get("countries");
-            
-            if (c != null) {
-                for (String s : c) {
-                    if (!countries.contains(s)) {
-                        countries.add(s);
-                    }
-                }
-            }
-        }
-
-        for (String country : countries) 
-            item.createReference(Software._F_COUNTRY, country);
-    }
-    
-    private void setCompanies(Map<?, ?> game, DcObject item) {
-        
-        List releases = (List) game.get("releases");
-        
-        if (releases == null) return;
-        
-        LinkedTreeMap release;
-        
-        String role;
         String companyName;
         
-        List<String> developers = new ArrayList<>();
-        List<String> publishers = new ArrayList<>();
-        
-        for (Object o : releases) {
-            release = (LinkedTreeMap) o;
-            
-            @SuppressWarnings("unchecked")
-            List<LinkedTreeMap> companies = (List<LinkedTreeMap>) release.get("companies");
-            
-            for (LinkedTreeMap company : companies) { 
-                role = (String) company.get("role");
-                companyName = (String) company.get("company_name");
-                
-                if (role.equals("Developed by") && !developers.contains(companyName))
-                    developers.add(companyName);
-
-                if (role.equals("Published by") && !publishers.contains(companyName))
-                    publishers.add(companyName);
-            }
+        for (Object o : developers) {
+            developer = (LinkedTreeMap) o;
+            companyName = (String) developer.get("name");
+            item.createReference(Software._F_DEVELOPER, companyName);
         }
+    }    
+    
+    private void setPublishers(Map<?, ?> game, DcObject item) {
+        List publishers = (List) game.get("publishers");
         
-        for (String developer : developers)
-            item.createReference(Software._F_DEVELOPER, developer);
+        if (publishers == null) return;
         
-        for (String publisher : publishers)
-            item.createReference(Software._G_PUBLISHER, publisher);
+        LinkedTreeMap publisher;
+        
+        String companyName;
+        
+        for (Object o : publishers) {
+            publisher = (LinkedTreeMap) o;
+            companyName = (String) publisher.get("name");
+            item.createReference(Software._G_PUBLISHER, companyName);
+        }
     }    
     
     private void setPictures(MobyGamesResult mgr, DcObject item) {
        DcImageIcon image;
-       if (!CoreUtilities.isEmpty(mgr.getCover())) {
-           image = CoreUtilities.downloadAndStoreImage(mgr.getCover());
-           
-	       if (image != null)
-	           item.addNewPicture(new Picture(item.getID(), image));
-        }
+       
+       for (String link : mgr.getCovers()) {
+           image = CoreUtilities.downloadAndStoreImage(link);
+           if (image != null)
+               item.addNewPicture(new Picture(item.getID(), image));
+       }
         
-        for (String link : mgr.getScreenshotLinks()) {
+        for (String link : mgr.getScreenshots()) {
             image = CoreUtilities.downloadAndStoreImage(link);
             if (image != null)
                 item.addNewPicture(new Picture(item.getID(), image));
@@ -440,24 +253,45 @@ public class MobyGamesSearch extends SearchTask {
 
     @SuppressWarnings("unchecked")
     private void setScreenshots(LinkedTreeMap game, MobyGamesResult result) {
-        List<LinkedTreeMap> screenshots = (List<LinkedTreeMap>) game.get("sample_screenshots");        
+        List<LinkedTreeMap> screenshots = (List<LinkedTreeMap>) game.get("screenshots");        
 
         if (screenshots == null) return;
         
+        List<LinkedTreeMap> images;
         for (LinkedTreeMap screenshot : screenshots) {
-            String link = (String) screenshot.get("image");
-            link = link.replace("http://", "https://");
-            result.addScreenshot(link);
+            images = (List<LinkedTreeMap>) screenshot.get("images");
+            int counter = 0;
+            for (LinkedTreeMap image : images) {
+                if (counter++ > 10) break;
+                
+                String link = (String) image.get("image_url");
+                link = link.replace("http://", "https://");
+                result.addScreenshot(link);
+            }
+            
+            break;
         }
     }
     
+    @SuppressWarnings("unchecked")
+    private void setCovers(LinkedTreeMap game, MobyGamesResult result) {
+        List<LinkedTreeMap> covers = (List<LinkedTreeMap>) game.get("covers");        
 
-    private void setPictureFront(LinkedTreeMap game, MobyGamesResult result) {
-        LinkedTreeMap pic = (LinkedTreeMap) game.get("sample_cover");
+        if (covers == null) return;
+        
+        List<LinkedTreeMap> images;
+        for (LinkedTreeMap cover : covers) {
+            images = (List<LinkedTreeMap>) cover.get("images");
+            int counter = 0;
+            for (LinkedTreeMap image : images) {
+                if (counter++ > 3) break;
                 
-        if (!CoreUtilities.isEmpty(pic)) {
-            String link = (String) pic.get("image");
-            result.addCover(link);
+                String link = (String) image.get("image_url");
+                link = link.replace("http://", "https://");
+                result.addCover(link);
+            }
+            
+            break;
         }
     }
     
@@ -467,8 +301,8 @@ public class MobyGamesSearch extends SearchTask {
 
         if (genres != null) {
             for (LinkedTreeMap genre : genres) {
-                if (genre.get("genre_category").equals("Basic Genres")) 
-                    item.createReference(Software._K_CATEGORIES, genre.get("genre_name"));
+                if (genre.get("category").equals("Basic Genres")) 
+                    item.createReference(Software._K_CATEGORIES, genre.get("name"));
             }
         }
     }
@@ -480,19 +314,18 @@ public class MobyGamesSearch extends SearchTask {
             item.setValue(Software._E_RATING, Integer.valueOf(rating));    
         }
     }
-
+    
     @SuppressWarnings("unchecked")
-    private void setPlatformDetails(LinkedTreeMap game, Software item, int mobygamesId) {
+    private int setPlatformDetails(LinkedTreeMap game, Software item, int mobygamesId) {
         List<LinkedTreeMap> platforms = (List<LinkedTreeMap>) game.get("platforms");
         
-        if (platforms == null)
-            return;
+        int platformId = 0;
         
         for (LinkedTreeMap platform : platforms) {
-            int platformId = ((Double) platform.get("platform_id")).intValue();
+            platformId = ((Double) platform.get("platform_id")).intValue();
 
-            String platformName = (String) platform.get("platform_name");
-            String releasedOn = (String) platform.get("first_release_date");
+            String platformName = (String) platform.get("name");
+            String releasedOn = (String) platform.get("release_date");
             
             // use the platform as selected from the drop down filter
             if (this.platform != null) {
@@ -501,7 +334,7 @@ public class MobyGamesSearch extends SearchTask {
 
             item.createReference(Software._H_PLATFORM, platformName);
             
-            String serviceUrl = "https://api.mobygames.com/v1/games/" + mobygamesId 
+            String serviceUrl = "https://api.mobygames.com/v2/games/" + mobygamesId 
                     + "/platforms/" + (this.platform != null ? this.platform.getId() : platformId) + "?api_key=" + apiKey;
             
             item.setValue(Software._SYS_SERVICEURL, serviceUrl);
@@ -511,6 +344,8 @@ public class MobyGamesSearch extends SearchTask {
             
             break;
         }
+        
+        return platformId;
     }
     
     private void setDescription(LinkedTreeMap game, Software item) {

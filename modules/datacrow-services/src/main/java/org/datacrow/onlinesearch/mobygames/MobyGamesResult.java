@@ -34,19 +34,25 @@ public class MobyGamesResult {
     
     private final DcObject dco;
     
+    private final int platformId;
+    
+    private final Collection<String> covers = new ArrayList<>();
     private final Collection<String> screenshots = new ArrayList<>();
 
-    private String cover;
-    
-    public MobyGamesResult(DcObject dco) {
+    public MobyGamesResult(DcObject dco, int platformId) {
         this.dco = dco;
+        this.platformId = platformId;
     }
     
     public DcObject getDco() {
         return dco;
     }
     
-    public Collection<String> getScreenshotLinks() {
+    public int getPlatformId() {
+        return platformId;
+    }
+    
+    public Collection<String> getScreenshots() {
         return screenshots;
     }
     
@@ -54,11 +60,11 @@ public class MobyGamesResult {
         screenshots.add(link);
     }
     
-    public String getCover() {
-    	return cover;
+    public Collection<String> getCovers() {
+    	return covers;
     }
     
     public void addCover(String link) {
-    	this.cover = link;
+        covers.add(link);
     }
 }
