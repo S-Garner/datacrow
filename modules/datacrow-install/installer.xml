@@ -12,7 +12,7 @@
             <author name="Robert Jan van der Waals" email="info@datacrow.org"/>
         </authors>
         <url>https://www.datacrow.org</url>
-        <javaversion>20</javaversion>
+        <javaversion>11</javaversion>
     </info>
     
     <variables>

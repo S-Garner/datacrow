@@ -3,7 +3,6 @@ Data Crow version 5.0.1                       Released on 2025-06-xx
 --------------------------------------------------------------------
 
 [Changed]
-- Minimal Java version required uplifted from 10 to 20.
 - Web; added field selection for the search
 - Quick search now correctly searches on boolean values as well
 - JasperReports has been upgraded to version 7.0.3. Data Crow now compiles the reports on startup (if needed).
