@@ -31,6 +31,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.datacrow.core.DcConfig;
@@ -115,7 +116,7 @@ public abstract class SearchTask extends Thread {
 		this.address = region != null ? region.getUrl() : server.getUrl();
 		this.query = query;
 		this.input = query;
-		this.additionalFilters = additionalFilters;
+		this.additionalFilters = additionalFilters == null ? new HashMap<String, Object>() : additionalFilters;
 	}
 
     /**

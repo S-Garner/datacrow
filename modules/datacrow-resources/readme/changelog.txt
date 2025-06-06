@@ -1,7 +1,9 @@
 --------------------------------------------------------------------
 Data Crow version 5.0.1                       Released on 2025-06-xx
 --------------------------------------------------------------------
+
 [Changed]
+- Minimal Java version required uplifted from 10 to 20.
 - Web; added field selection for the search
 - Quick search now correctly searches on boolean values as well
 - JasperReports has been upgraded to version 7.0.3. Data Crow now compiles the reports on startup (if needed).
@@ -9,11 +11,12 @@ Data Crow version 5.0.1                       Released on 2025-06-xx
 - Reporting: Data Crow now compiles the report templates from JasperReports on startup, if the template was changed. The functionality to deploy your own reports is still there and still the same. The main difference is that Data Crow no longer has deliver compiled reports. Data Crow tracks whether a (re)compile of the report is required.
 
 [Fixed]
-- Issues where some fields were numeric in the database but were expected to be of type varchar
+- Issues where some fields were numeric in the database but were expected to be of type varchar.
 - MobyGames online search was broken; uplifted the code to support v2 of their (now paid for...) API.
 
 [TODO]
 - lblAllFields = in all fields
+- FAQ for Java requirements
 
 
 --------------------------------------------------------------------

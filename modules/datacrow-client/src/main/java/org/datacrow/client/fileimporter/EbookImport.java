@@ -166,38 +166,28 @@ public class EbookImport extends FileImporter {
             }
             
             if (filename.toLowerCase().endsWith(".pdf")) {
-                PDDocument pdf = null;
                 PDFRenderer renderer;
                 
-                try {
-                    pdf = new PDDocument();
-                    try (PDDocument document = Loader.loadPDF(new RandomAccessReadBufferedFile(filename))) {
-                        for (PDPage page : document.getPages())
-                            pdf.addPage(page);
-                    }
+                try (PDDocument document = Loader.loadPDF(new RandomAccessReadBufferedFile(filename))) {
+                	book.setValue(Book._T_NROFPAGES, Long.valueOf(document.getNumberOfPages()));
                     
-                    book.setValue(Book._T_NROFPAGES, Long.valueOf(pdf.getNumberOfPages()));
-    
-                    renderer = new PDFRenderer(pdf);
+                    renderer = new PDFRenderer(document);
+                    renderer.setSubsamplingAllowed(true);
                     BufferedImage bi = renderer.renderImageWithDPI(0, 300f, ImageType.RGB);
                     book.addNewPicture(new Picture(book.getID(), new DcImageIcon(bi)));
                 
                     PDFTextStripper stripper = new PDFTextStripper();
                     stripper.setStartPage(0);
                     stripper.setEndPage(4);
-                    String text = stripper.getText(pdf);
+                    String text = stripper.getText(document);
                     
-                    stripper.setStartPage(pdf.getNumberOfPages() - 4);
-                    stripper.setEndPage(pdf.getNumberOfPages() - 1);
+                    stripper.setStartPage(document.getNumberOfPages() - 4);
+                    stripper.setEndPage(document.getNumberOfPages() - 1);
                     
-                    text += stripper.getText(pdf);
+                    text += stripper.getText(document);
     
                     findAndSetIsbn(book, text);
-                    
-                } finally {
-                    if (pdf != null) pdf.close();
                 }
-                
             }                
 
             Hash.getInstance().calculateHash(book);
