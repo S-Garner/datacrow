@@ -129,50 +129,50 @@ public class LoginDialog extends DcDialog implements ActionListener, KeyListener
         getContentPane().setLayout(Layout.getGBL());
         getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblLoginname")),   
                  Layout.getGBC(0, y, 1, 1, 1.0, 1.0,
-                 GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+                 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                  new Insets(10, 5, 5, 5), 0, 0));
-        getContentPane().add(fldLoginName, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
+        getContentPane().add(fldLoginName, Layout.getGBC(1, y++, 1, 1, 5.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
                  new Insets(10, 5, 5, 5), 0, 0));
         getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblPassword")),   
                  Layout.getGBC(0, y, 1, 1, 1.0, 1.0,
-                 GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                 new Insets(10, 5, 5, 5), 0, 0));
-        getContentPane().add(fldPassword, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
                  GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                 new Insets(10, 5, 5, 5), 0, 0));
+                 new Insets(5, 5, 5, 5), 0, 0));
+        getContentPane().add(fldPassword, Layout.getGBC(1, y++, 1, 1, 5.0, 1.0,
+                 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                 new Insets(5, 5, 5, 5), 0, 0));
          
         Connector connector = DcConfig.getInstance().getConnector();
         
         if (DcConfig.getInstance().getOperatingMode() == DcConfig._OPERATING_MODE_CLIENT) {
              getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblServerAddress")),   
                      Layout.getGBC(0, y, 1, 1, 1.0, 1.0,
-                     GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                     new Insets(10, 5, 5, 5), 0, 0));
-             getContentPane().add(fldServerAddress, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(10, 5, 5, 5), 0, 0));
+                     new Insets(5, 5, 5, 5), 0, 0));
+             getContentPane().add(fldServerAddress, Layout.getGBC(1, y++, 1, 1, 5.0, 1.0,
+                     GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                     new Insets(5, 5, 5, 5), 0, 0));
              getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblApplicationServerPort")),   
                      Layout.getGBC(0, y, 1, 1, 1.0, 1.0,
-                     GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                     new Insets(10, 5, 5, 5), 0, 0));
-             getContentPane().add(fldApplicationServerPort, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(10, 5, 5, 5), 0, 0));
+                     new Insets(5, 5, 5, 5), 0, 0));
+             getContentPane().add(fldApplicationServerPort, Layout.getGBC(1, y++, 1, 1, 5.0, 1.0,
+                     GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                     new Insets(5, 5, 5, 5), 0, 0));
              getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblImageServerAddress")),   
                      Layout.getGBC(0, y, 1, 1, 1.0, 1.0,
-                     GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                     new Insets(10, 5, 5, 5), 0, 0));
-             getContentPane().add(fldImageServerAddress, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(10, 5, 5, 5), 0, 0));
+                     new Insets(5, 5, 5, 5), 0, 0));
+             getContentPane().add(fldImageServerAddress, Layout.getGBC(1, y++, 1, 1, 5.0, 1.0,
+                     GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                     new Insets(5, 5, 5, 5), 0, 0));
              getContentPane().add(ComponentFactory.getLabel(DcResources.getText("lblImageServerPort")),   
                      Layout.getGBC(0, y, 1, 1, 1.0, 1.0,
-                     GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                     new Insets(10, 5, 5, 5), 0, 0));
-             getContentPane().add(fldImageServerPort, Layout.getGBC(1, y++, 1, 1, 1.0, 1.0,
                      GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
-                     new Insets(10, 5, 5, 5), 0, 0));
+                     new Insets(5, 5, 5, 5), 0, 0));
+             getContentPane().add(fldImageServerPort, Layout.getGBC(1, y++, 1, 1, 5.0, 1.0,
+                     GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL,
+                     new Insets(5, 5, 5, 5), 0, 0));
              
              ClientSettings cs = DcConfig.getInstance().getClientSettings();
              

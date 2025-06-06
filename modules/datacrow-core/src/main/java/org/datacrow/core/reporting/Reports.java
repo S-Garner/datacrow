@@ -26,28 +26,37 @@
 package org.datacrow.core.reporting;
 
 import java.io.File;
-import java.nio.file.Files;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.datacrow.core.DcConfig;
 import org.datacrow.core.log.DcLogManager;
 import org.datacrow.core.log.DcLogger;
 import org.datacrow.core.modules.DcModule;
 import org.datacrow.core.modules.DcModules;
-import org.datacrow.core.utilities.CoreUtilities;
 import org.datacrow.core.utilities.Directory;
+import org.datacrow.core.utilities.Hash;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRSaver;
 
 public class Reports {
 	
 	private transient static final DcLogger logger = DcLogManager.getInstance().getLogger(Reports.class.getName());
 
     private final Map<Integer, String> folders = new HashMap<Integer, String>();
+    private final Map<String, String> reportHashes = new HashMap<String, String>();
+    private final File reportsFile;
     
     private static Reports instance = new Reports();
     
@@ -56,6 +65,11 @@ public class Reports {
     }
     
     private Reports() {
+    	
+    	reportsFile = Paths.get(DcConfig.getInstance().getReportDir(), "reports.properties").toFile();
+    	
+    	// reads the reports file which holds hashes of the jrxml files.
+    	retrieveCompilationStatus();
     	
     	updateUserDir();
     	
@@ -72,12 +86,50 @@ public class Reports {
         }
     }
     
+    private void retrieveCompilationStatus() {
+    	
+    	if (reportsFile.exists()) {
+    		try {
+	            Properties p = new Properties();
+	            FileInputStream fis = new FileInputStream(reportsFile);
+                p.load(fis);
+                fis.close();	            
+            
+	            for (Object key : p.keySet()) {
+	            	reportHashes.put((String) key, p.getProperty((String) key));
+	            }
+    		} catch (IOException e) {
+    			logger.error("Error while trying to establish compilation status for the reports", e);
+    		}
+    	}    	
+    }
+    
+    private void saveReportHashes() {
+    	String value;
+    	
+    	Properties p = new Properties();
+    	
+    	for (String key : reportHashes.keySet()) {
+    		value = reportHashes.get(key);
+    		p.put(key, value);
+    	}
+    	
+    	try {
+    		FileOutputStream fos = new FileOutputStream(reportsFile);
+    		p.store(fos, "");
+    		fos.close();
+    	} catch (Exception e) {
+    		logger.error("Failed to save the reports.properties file", e);
+    	}
+    }
+
+	// TODO: download the JRXML files from the server in server-client mode
     private void updateUserDir() {
     	
     	Directory dir = new Directory(
     			 new File(DcConfig.getInstance().getInstallationDir(), "reports").toString(), 
     			 true,
-    			 new String[] {"jasper"});
+    			 new String[] {"jrxml"});
     	
     	logger.info("Checking for report file updates from the application folder.");
     	
@@ -85,46 +137,53 @@ public class Reports {
     	
     	Path applicationFile;
     	Path userFile;
+
     	String moduleName;
+    	String reportName;
+    	String key;
     	
-    	BasicFileAttributes bfaApp;
-    	BasicFileAttributes bfaUsr;
+    	String newHash;
+    	String oldHash;
     	
     	for (String applicationReport : applicationReports) {
     		applicationFile = Paths.get(applicationReport);
 
     		moduleName = applicationFile.getName(applicationFile.getNameCount() - 2).toString();
-    		userFile = Paths.get(DcConfig.getInstance().getReportDir(), moduleName, applicationFile.getFileName().toString());
-
-    		if (userFile.toFile().exists()) {
+    		reportName = applicationFile.getFileName().toString();
     		
+    		key = moduleName + "_" + reportName;
+    		
+    		Hash hash = Hash.getInstance();
+    		hash.setHashType("sha256");
+    		
+    		newHash = hash.calculateHash(applicationFile.toString());
+    		oldHash = reportHashes.get(key);
+    		
+			userFile = Paths.get(
+					DcConfig.getInstance().getReportDir(), 
+					moduleName, 
+					reportName.replaceAll("jrxml", "jasper"));
+    		
+    		if (!newHash.equals(oldHash) || !userFile.toFile().exists()) {
+    			InputStream is = null;
     			try {
-    				bfaApp = Files.readAttributes(applicationFile, BasicFileAttributes.class);
-    				bfaUsr = Files.readAttributes(userFile, BasicFileAttributes.class);
+    				is = new FileInputStream(applicationFile.toFile());
+    				JasperReport jasperReport = JasperCompileManager.compileReport(is);
+    				JRSaver.saveObject(jasperReport, userFile.toString());
     				
-    				if (bfaApp.lastModifiedTime().compareTo(bfaUsr.lastModifiedTime()) > 0) {
-    					CoreUtilities.copy(applicationFile.toFile(), userFile.toFile(), true);
-    					
-    					logger.info("Updated report " + applicationFile.getFileName() + " in user folder as the application report file is newer.");
-    				}
+    				logger.info("Successfully recompiled report " + reportName + " for module " + moduleName);
+    				
+    				reportHashes.put(key, newHash);
     				
     			} catch (Exception e) {
-    				logger.error(
-    						"An error occured whilst checking whether the report file [" +
-    						applicationFile + "] is newer than its counterpart in the user folder. SKipping the check on this file.", e);
+    				logger.error("Failed to compile report " + reportName, e);
+    			} finally {
+    				if (is != null) try {is.close(); } catch (Exception e) {logger.error("Could not close resource", e);}
     			}
-    		} else {
-    			try {
-    				CoreUtilities.copy(applicationFile.toFile(), userFile.toFile(), true);
-
-    				logger.info("Copied report " + applicationFile.getFileName() + " to the user folder as it didn't exist.");
-				} catch (Exception e) {
-					logger.error(
-							"An error occured whilst checking whether the report file [" +
-							applicationFile + "] is newer than its counterpart in the user folder. SKipping the check on this file.", e);
-				}    			
     		}
     	}
+    	
+    	saveReportHashes();
     	
     	logger.info("Finished checking for report file updates.");
     }

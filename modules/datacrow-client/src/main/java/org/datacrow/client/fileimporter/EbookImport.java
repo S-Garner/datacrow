@@ -30,7 +30,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.io.RandomAccessReadBufferedFile;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -167,7 +170,11 @@ public class EbookImport extends FileImporter {
                 PDFRenderer renderer;
                 
                 try {
-                    pdf = PDDocument.load(new File(filename));
+                    pdf = new PDDocument();
+                    try (PDDocument document = Loader.loadPDF(new RandomAccessReadBufferedFile(filename))) {
+                        for (PDPage page : document.getPages())
+                            pdf.addPage(page);
+                    }
                     
                     book.setValue(Book._T_NROFPAGES, Long.valueOf(pdf.getNumberOfPages()));
     

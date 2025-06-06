@@ -1,8 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.datacrow</groupId>
 	<artifactId>datacrow-main</artifactId>
-	<version>5.0.0</version>
+	<version>5.0.1</version>
 	<packaging>pom</packaging>
 	<organization>
 		<name>Van der Waals BV</name>
@@ -130,9 +132,9 @@
 			</dependency>
 			<!-- Bouncy castle -->
 			<dependency>
-			    <groupId>org.bouncycastle</groupId>
-			    <artifactId>bcprov-jdk18on</artifactId>
-			    <version>1.78.1</version>
+				<groupId>org.bouncycastle</groupId>
+				<artifactId>bcprov-jdk18on</artifactId>
+				<version>1.78.1</version>
 			</dependency>
 			<!-- Jacksum -->
 			<dependency>
@@ -147,20 +149,52 @@
 				<version>1.6.13</version>
 			</dependency>
 			<!-- Tika parser (PDF, etc) -->
+			<!-- exclusions are for the benefit of JasperReports which requires
+			a slightly older version of fasterxml -->
 			<dependency>
 				<groupId>org.apache.tika</groupId>
 				<artifactId>tika-core</artifactId>
-				<version>2.9.2</version>
+				<version>3.2.0</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.fasterxml.jackson.core</groupId>
+						<artifactId>jackson-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.fasterxml.jackson.core</groupId>
+						<artifactId>jackson-databind</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.tika</groupId>
 				<artifactId>tika-parsers-standard-package</artifactId>
-				<version>2.9.2</version>
+				<version>3.2.0</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.fasterxml.jackson.core</groupId>
+						<artifactId>jackson-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.fasterxml.jackson.core</groupId>
+						<artifactId>jackson-databind</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.pdfbox</groupId>
 				<artifactId>pdfbox</artifactId>
-				<version>2.0.32</version>
+				<version>3.0.5</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.fasterxml.jackson.core</groupId>
+						<artifactId>jackson-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.fasterxml.jackson.core</groupId>
+						<artifactId>jackson-databind</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<!-- HTML parser -->
 			<dependency>
@@ -178,27 +212,32 @@
 			<dependency>
 				<groupId>net.sf.jasperreports</groupId>
 				<artifactId>jasperreports</artifactId>
-				<version>7.0.0</version>
+				<version>7.0.3</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.jasperreports</groupId>
 				<artifactId>jasperreports-functions</artifactId>
-				<version>7.0.0</version>
+				<version>7.0.3</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.jasperreports</groupId>
 				<artifactId>jasperreports-fonts</artifactId>
-				<version>7.0.0</version>
+				<version>7.0.3</version>
 			</dependency>
 			<dependency>
-			    <groupId>net.sf.jasperreports</groupId>
-			    <artifactId>jasperreports-jaxen</artifactId>
-			    <version>7.0.0</version>
+				<groupId>net.sf.jasperreports</groupId>
+				<artifactId>jasperreports-jaxen</artifactId>
+				<version>7.0.3</version>
 			</dependency>
 			<dependency>
-			    <groupId>net.sf.jasperreports</groupId>
-			    <artifactId>jasperreports-pdf</artifactId>
-			    <version>7.0.0</version>
+				<groupId>net.sf.jasperreports</groupId>
+				<artifactId>jasperreports-pdf</artifactId>
+				<version>7.0.3</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.jasperreports</groupId>
+				<artifactId>jasperreports-jdt</artifactId>
+				<version>7.0.3</version>
 			</dependency>
 			<dependency>
 				<groupId>xalan</groupId>
@@ -215,7 +254,7 @@
 			<dependency>
 				<groupId>org.hsqldb</groupId>
 				<artifactId>hsqldb</artifactId>
-				<version>2.7.3</version>
+				<version>2.7.4</version>
 			</dependency>
 			<!-- Twelve Monkeys ImageIO -->
 			<dependency>

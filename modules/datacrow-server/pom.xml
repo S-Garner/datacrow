@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.datacrow</groupId>
 		<artifactId>datacrow-main</artifactId>
-		<version>5.0.0</version>
+		<version>5.0.1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -19,7 +19,7 @@
 	<properties>
 		<jetty.version>11.0.14</jetty.version>
 		<weld.version>5.1.0.Final</weld.version>
-		<jersey.version>3.1.2</jersey.version>
+		<jersey.version>3.1.10</jersey.version>
 	</properties>
 
 	<repositories>
@@ -134,23 +134,52 @@
 		</dependency>
 
 		<!-- Jersey -->
+		<!-- exclusions are for the benefit of JasperReports which requires a slightly older version of fasterxml -->
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>${jersey.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
 			<version>${jersey.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.inject</groupId>
 			<artifactId>jersey-hk2</artifactId>
 			<version>${jersey.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-
-
 	</dependencies>
 
 	<build>
@@ -234,23 +263,23 @@
 							</resources>
 						</configuration>
 					</execution>
-                    <execution>
-                        <id>copy-webapp-main</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>
-                                ${project.parent.basedir}/datacrow-build/staging/dc-server/webapp-main</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/webapp-main</directory>
-                                    <filtering>false</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
+					<execution>
+						<id>copy-webapp-main</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.parent.basedir}/datacrow-build/staging/dc-server/webapp-main</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/webapp-main</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
 					<execution>
 						<id>copy-resources-translations</id>
 						<phase>validate</phase>
