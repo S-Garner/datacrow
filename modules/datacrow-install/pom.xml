@@ -265,6 +265,23 @@
 			                    <argument>-tZip</argument>
 			                    <argument>${project.parent.basedir}/datacrow-build/staging/datacrow_${project.version}_client_zipped.zip</argument>
 			                    <argument>${project.parent.basedir}/datacrow-build/staging/dc-client</argument>
+			                    <argument>-x!dc-client/java</argument>
+			                </arguments>
+			            </configuration>
+			        </execution>
+			        <execution>
+			            <id>package-zipped-client+java</id>
+			            <goals>
+			                <goal>exec</goal>
+			            </goals>
+			            <phase>package</phase>
+			            <configuration>
+			                <executable>7z</executable>
+			                <arguments>
+			                	<argument>a</argument>
+			                    <argument>-tZip</argument>
+			                    <argument>${project.parent.basedir}/datacrow-build/staging/datacrow_${project.version}_client_zipped+java.zip</argument>
+			                    <argument>${project.parent.basedir}/datacrow-build/staging/dc-client</argument>
 			                </arguments>
 			            </configuration>
 			        </execution>
