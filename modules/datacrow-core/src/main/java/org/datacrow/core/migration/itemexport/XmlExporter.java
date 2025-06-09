@@ -225,7 +225,7 @@ public class XmlExporter extends ItemExporter {
 
             settings.set(
             		ItemExporterSettings._ALLOW_RELATIVE_FILE_PATHS, 
-            		settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES));
+            		settings.getBoolean(ItemExporterSettings._ALLOW_RELATIVE_FILE_PATHS));
             
             if (full && settings.getBoolean(ItemExporterSettings._INCLUDE_IMAGES))
             	writer.writePictures(exportItem.getPictures());
