@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>run</actionName>
+            <recursive>false</recursive>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:3.1.0:exec</goal>
+            </goals>
+            <properties>
+                <exec.vmArgs></exec.vmArgs>
+                <exec.args>-cp C:\\Root\\Projects\\Personal\\datacrow\\modules\\datacrow-client\\target\\datacrow-client-5.0.1.jar;C:\\Root\\Projects\\Personal\\datacrow\\modules\\datacrow-build\\staging\\dc-client\\lib\\* org.datacrow.client.DataCrow</exec.args>
+                <exec.appArgs></exec.appArgs>
+                
+                <exec.workingdir>C:\Root\Projects\Personal\datacrow\modules\datacrow-build\staging\dc-client</exec.workingdir>
+                <exec.executable>C:\Root\Projects\Personal\datacrow\modules\datacrow-build\staging\dc-client\java\bin\java.exe</exec.executable>
+                
+            </properties>
+        </action>
+    </actions>
